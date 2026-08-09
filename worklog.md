@@ -180,3 +180,44 @@ Stage Summary:
 - 5 local commits made (Spanish redaction, web/SERP+OTel, system cards+contracts, UI enhancements, Playwright)
 - Parity with pyarcana baseline confirmed (same 13 capstones, same gates, no CP-N4-D)
 - Pending: push to PillB/pyarcana when auth completes; deploy; live validation
+
+---
+Task ID: cron-webDevReview-1
+Agent: main orchestrator (cron round)
+Task: QA-driven UI improvements — dark mode, progress overview, search/filter, grouped sections, styling polish
+
+## Current project status assessment
+- 268 bun tests pass (0 fail) + 15 Playwright tests pass = 283 total, all green
+- Lint clean, type-check clean (src/), dev server healthy (200s on /)
+- 7 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- Parity with pyarcana baseline confirmed (same 13 capstones, same gates, no CP-N4-D)
+- GitHub auth still pending (device code ECDB-B9F6 at https://github.com/login/device)
+
+## Completed modifications this round
+- **Dark mode**: useTheme hook + localStorage persistence + FOUC-prevention inline script in layout.tsx; all text-slate-500 classes now have dark:text-slate-400 variants (VLM-verified contrast)
+- **Progress overview panel**: 4 KPI cards (overall completion %, implemented count, active blockers, level count) with per-capstone status bar indicators
+- **Search + filter**: full-text search across capstone ID/title/brief; 4 filter buttons (All/Implemented/Missing-evidence/Blocked); empty-state message
+- **Sections grouped by level**: was a flat wall of 52 cards, now 4 level-grouped sections with level headers and range labels
+- **Final capstone grid fix**: changed from 2-col (creating a visual hole) to 3-col with card + 2-col-span interfaces panel
+- **CapstoneCard improvements**: status icon (not colour-only), evidence label "Evidence 5 of 9 · 55%", card-hover lift effect
+- **Hero redesign**: gradient text, violet→purple gradient background, Sparkles icon
+- **Header polish**: gradient logo, responsive nav (hide on mobile), dark/light toggle button
+- **globals.css**: custom scrollbar, gradient-text utility, card-hover utility, focus-ring utility, smooth scrolling
+- **layout.tsx**: proper PyArcana metadata (title, description, OG, Twitter cards)
+- **i18n**: 18 new EN/ES strings for dark mode, search, filters, progress, sections
+
+## Verification results
+- 268 bun tests pass (was 268, no regression)
+- 15 Playwright tests pass (cardinality, N4-C flow, CP-FINAL flow, system card, ES/EN, a11y, mobile, zoom, footer)
+- Lint clean
+- Type-check clean (src/)
+- VLM dark-mode contrast: "clearly readable against the dark background, providing sufficient contrast"
+- agent-browser: dark toggle works (eval returns true), search filters to 4 cards on "entity"
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code ECDB-B9F6 pending user authorization at https://github.com/login/device. Once auth completes, push to PillB/pyarcana and deploy to GitHub Pages.
+2. **Deploy + live validation** — after push, verify the deployed site matches local (parity check), run post-deployment Playwright smoke tests.
+3. **Capstone runnable code** — the 13 capstone contracts are data + tests, but the actual Python/TS project implementations (CP-N1-A CLI, CP-N1-B ETL pipeline, etc.) are referenced but not yet built as runnable starter repositories. Next phase: scaffold the 13 capstone project directories with starter files, generators, and acceptance scripts.
+4. **Capstone comparison view** — a feature to compare two capstones side-by-side (rubrics, artifacts, prerequisites) would help learners choose electives.
+5. **Print/export to PDF** — the system cards and capstone briefs should be exportable as PDF for portfolio inclusion.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389) for ongoing QA.
