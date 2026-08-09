@@ -2,10 +2,12 @@
   "capstoneId": "CP-N4-B",
   "version": "1.2.0",
   "title": "Production Data and ML Platform",
+  "titleEs": "Plataforma de datos y ML de producción",
   "level": 4,
   "gateSection": "S47",
   "subGates": [],
   "problemStatement": "When Netflix's recommendation team published its MLOps practices, the headline was not the model but the rollback: every deploy could be reversed in minutes, and every model could be traced to its data. A platform without rollback is a gamble; a platform without lineage is a guess. In this capstone you will implement data and model lineage, reproducible experiments, dataset versioning, a registry, model or artifact signatures, train/serve consistency, CI/CD, staging, an approval gate, shadow or canary evaluation, service-level objectives, rollback, last-known-good recovery, and change and incident records. The project must prove rollback rather than merely documenting it.",
+  "problemStatementEs": "Cuando el equipo de recomendación de Netflix publicó sus prácticas MLOps, el titular no fue el modelo sino el rollback: cada despliegue podía revertirse en minutos, y cada modelo podía rastrearse hasta sus datos. Una plataforma sin rollback es una apuesta; una plataforma sin lineaje es una conjetura. En este capstone implementarás lineaje de datos y modelo, experimentos reproducibles, versionado de datasets, un registro, firmas de modelo o artefacto, consistencia train/serve, CI/CD, staging, una compuerta de aprobación, evaluación shadow o canary, objetivos de nivel de servicio, rollback, recuperación de último-bueno y registros de cambios e incidentes. El proyecto debe probar el rollback en lugar de simplemente documentarlo.",
   "intendedUsers": [
     "An ML engineer deploying models",
     "A platform operator running canaries",

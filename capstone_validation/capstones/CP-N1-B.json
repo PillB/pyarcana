@@ -2,10 +2,12 @@
   "capstoneId": "CP-N1-B",
   "version": "1.3.0",
   "title": "Reproducible Client and Transaction ETL Pipeline",
+  "titleEs": "Pipeline ETL reproducible de clientes y transacciones",
   "level": 1,
   "gateSection": "S08",
   "subGates": [],
   "problemStatement": "When the European Space Agency's Rosetta probe neared comet 67P, its science team relied on pipelines that had to produce identical outputs whether run in Darmstadt or Toulouse, weeks apart, by different engineers. A pipeline that is not deterministic is not a pipeline; it is a rumour. In this capstone you will build a local ETL pipeline that ingests CSV and JSON, validates explicit contracts, preserves provenance, separates accepted from quarantined rows, produces deterministic outputs, records hashes and manifests, supports safe reruns, handles encoding and malformed rows, includes backup and recovery instructions, and exposes no secrets. The deliverable is a pipeline you would trust to run unattended, because you have watched it fail and recover gracefully.",
+  "problemStatementEs": "Cuando la sonda Rosetta de la Agencia Espacial Europea se acercó al cometa 67P, su equipo científico dependía de pipelines que debían producir salidas idénticas tanto si se ejecutaban en Darmstadt como en Toulouse, con semanas de diferencia, por ingenieros distintos. Un pipeline que no es determinista no es un pipeline; es un rumor. En este capstone construirás un pipeline ETL local que ingiere CSV y JSON, valida contratos explícitos, preserva la proveniencia, separa las filas aceptadas de las cuarentenadas, produce salidas deterministas, registra hashes y manifiestos, soporta reejecuciones seguras, maneja codificación y filas malformadas, incluye instrucciones de respaldo y recuperación, y no expone secretos. El entregable es un pipeline que confiarías ejecutar sin supervisión, porque lo has visto fallar y recuperarse con elegancia.",
   "intendedUsers": [
     "A data engineer preparing synthetic client and transaction data for analysis",
     "A reviewer who must trace any output row back to its source"

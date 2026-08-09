@@ -2,10 +2,12 @@
   "capstoneId": "CP-N3-A",
   "version": "1.2.0",
   "title": "Testable Entity Resolution Engine",
+  "titleEs": "Motor evaluable de resolución de entidades",
   "level": 3,
   "gateSection": "S30",
   "subGates": [],
   "problemStatement": "When the United States Census Bureau deduplicated records for the 2020 count, it faced an old problem with new urgency: how do you decide that two records refer to the same person without ever claiming that they are related, kin, or conspiring? Entity resolution is the art of saying 'probably the same entity' and refusing to say anything more. In this capstone you will build an ER system with candidate generation, blocking, exact and fuzzy comparators, feature provenance, a labelled benchmark, train/dev/test separation where modelling is used, precision and recall, threshold selection, an ambiguous review queue, a deterministic baseline, error analysis, and no automatic relationship or fraud inference. Required tests include Unicode, aliases, missing data, conflicting identifiers, household sharing, common names, duplicate source records, false-positive controls and threshold boundaries.",
+  "problemStatementEs": "Cuando la Oficina del Censo de los Estados Unidos desduplicó registros para el censo de 2020, se enfrentó a un problema antiguo con nueva urgencia: ¿cómo decides que dos registros se refieren a la misma persona sin afirmar nunca que están relacionados, son parientes o conspiran? La resolución de entidades es el arte de decir 'probablemente la misma entidad' y negarse a decir nada más. En este capstone construirás un sistema de RE con generación de candidatos, blocking, comparadores exactos y difusos, proveniencia de características, un benchmark etiquetado, separación train/dev/test donde se usa modelado, precisión y recall, selección de umbral, una cola de revisión ambigua, un baseline determinista, análisis de errores y ninguna inferencia automática de relación o fraude. Las pruebas requeridas incluyen Unicode, alias, datos faltantes, identificadores conflictivos, hogares compartidos, nombres comunes, registros fuente duplicados, controles de falsos positivos y fronteras de umbral.",
   "intendedUsers": [
     "A data engineer resolving synthetic entities",
     "A reviewer auditing the ambiguous queue"

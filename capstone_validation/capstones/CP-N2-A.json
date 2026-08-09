@@ -2,10 +2,12 @@
   "capstoneId": "CP-N2-A",
   "version": "1.2.0",
   "title": "Executive Data Quality and EDA Portfolio",
+  "titleEs": "Portafolio ejecutivo de calidad de datos y EDA",
   "level": 2,
   "gateSection": "S17",
   "subGates": [],
   "problemStatement": "When the Reed College epidemiologists who famously reconstructed the 1918 influenza genome published their work, they accompanied every figure with an explicit statement of what the data could and could not say. The discipline of distinguishing observation from association, association from hypothesis, and hypothesis from recommendation is the difference between an analyst and a rumour-monger. In this capstone you will produce a reproducible analytical package containing a data dictionary, profiling, missingness analysis, reconciliation, distributions, segment comparisons, outlier rationale, assumptions, limitations, a notebook or script, an executive memo, a reproducible environment, and no unsupported causal interpretation. Your executive memo must distinguish observation, association, hypothesis, decision recommendation and evidence limitation — five registers of statement, each clearly labelled, never blurred.",
+  "problemStatementEs": "Cuando los epidemiólogos del Reed College que reconstruyeron el genoma de la gripe de 1918 publicaron su trabajo, acompañaron cada figura con una declaración explícita de lo que los datos podían y no podían decir. La disciplina de distinguir observación de asociación, asociación de hipótesis, e hipótesis de recomendación es la diferencia entre un analista y un propagador de rumores. En este capstone producirás un paquete analítico reproducible que contiene un diccionario de datos, perfilado, análisis de ausencia, reconciliación, distribuciones, comparaciones de segmentos, justificación de atípicos, supuestos, limitaciones, un notebook o script, un memo ejecutivo, un entorno reproducible y ninguna interpretación causal sin soporte. Tu memo ejecutivo debe distinguir observación, asociación, hipótesis, recomendación de decisión y limitación de evidencia — cinco registros de enunciado, cada uno claramente etiquetado, nunca difuminados.",
   "intendedUsers": [
     "A manager who must act on the analysis",
     "A peer analyst who must reproduce it"

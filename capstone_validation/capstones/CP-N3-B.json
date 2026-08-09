@@ -2,10 +2,12 @@
   "capstoneId": "CP-N3-B",
   "version": "1.2.0",
   "title": "Relationship Investigation Workbench",
+  "titleEs": "Mesa de trabajo de investigación de relaciones",
   "level": 3,
   "gateSection": "S34",
   "subGates": [],
   "problemStatement": "When the International Consortium of Investigative Journalists published the Panama Papers, its reporters built a graph workbench to trace shell companies through nominees, directors and addresses — but every edge carried a question: what is the source, what does this edge mean, what does it not mean, how old is it, who may see it, can it be corrected? An edge without those answers is not evidence; it is innuendo. In this capstone you will build a workbench that represents entities and evidence as an explainable graph, preserves source and timestamp, supports path search, distinguishes direct from inferred links, limits path depth, filters by authorisation, displays uncertainty, supports analyst notes and correction, avoids automatic fraud labels, and supports case reproducibility. Every visual edge must answer the six required questions.",
+  "problemStatementEs": "Cuando el Consorcio Internacional de Periodistas de Investigación publicó los Papeles de Panamá, sus reporteros construyeron una mesa de trabajo en grafo para rastrear empresas ficticias a través de nominatarios, directores y direcciones — pero cada arista llevaba una pregunta: ¿cuál es la fuente, qué significa esta arista, qué no significa, qué antigüedad tiene, quién puede verla, se puede corregir? Una arista sin esas respuestas no es evidencia; es insinuación. En este capstone construirás una mesa de trabajo que representa entidades y evidencia como un grafo explicable, preserva fuente y marca de tiempo, soporta búsqueda de caminos, distingue enlaces directos de inferidos, limita la profundidad del camino, filtra por autorización, muestra incertidumbre, soporta notas del analista y corrección, evita etiquetas automáticas de fraude y soporta reproducibilidad del caso. Cada arista visual debe responder las seis preguntas requeridas.",
   "intendedUsers": [
     "An analyst investigating synthetic relationships",
     "A reviewer auditing the evidence graph",

@@ -27,6 +27,7 @@ import { SECTIONS } from "@/data/sections";
 import { BADGES } from "@/data/badges";
 import { RUBRICS } from "@/data/rubrics";
 import { STRINGS, type Lang, type StringKey } from "@/data/i18n";
+import { SYSTEM_CARDS } from "@/data/system-cards";
 import { runCopilotHarness, type CopilotRunResult } from "@/lib/copilot-harness";
 
 // ─────────────────────────────── helpers ───────────────────────────────
@@ -186,14 +187,16 @@ function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: 
 
 // ─────────────────────────────── capstone detail dialog ───────────────────────────────
 
-function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal }: {
+function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, onViewSystemCard }: {
   capstoneId: string | null; lang: Lang; onClose: () => void;
   onRunCopilot: (id: string) => void; onRunFinal: (id: string) => void;
+  onViewSystemCard?: (id: string) => void;
 }) {
   const c = capstoneId ? getCapstone(capstoneId) : null;
   if (!c) return null;
   const sections = SECTIONS.filter((s) => s.capstoneId === c.capstoneId);
   const badge = BADGES.find((b) => b.capstoneId === c.capstoneId);
+  const hasSystemCard = !!SYSTEM_CARDS[c.capstoneId];
   const rubric = RUBRICS[c.capstoneId];
   const progress = DEFAULT_PROGRESS[c.capstoneId];
   const isFinal = c.capstoneId === "CP-FINAL";
@@ -427,6 +430,11 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal }:
               <Play className="mr-1 h-3.5 w-3.5" />{t(lang, "runFinal")}
             </Button>
           )}
+          {hasSystemCard && onViewSystemCard && (
+            <Button variant="outline" onClick={() => onViewSystemCard(c.capstoneId)}>
+              <FileText className="mr-1 h-3.5 w-3.5" />System card
+            </Button>
+          )}
           <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
         </DialogFooter>
       </DialogContent>
@@ -440,6 +448,7 @@ type ProviderMode = "no-key" | "local" | "commercial-test" | "commercial-approve
 
 function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; onClose: () => void }) {
   const [mode, setMode] = React.useState<ProviderMode>("no-key");
+  const [webSearch, setWebSearch] = React.useState(true);
   const [task, setTask] = React.useState("Summarise the synthetic compliance memo for client ACME-001 and propose a draft email to the allowlisted reviewer.");
   const [result, setResult] = React.useState<CopilotRunResult | null>(null);
   const [running, setRunning] = React.useState(false);
@@ -505,6 +514,16 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
                 {mode === "commercial-test" && "Commercial-model adapter in test mode. Sandbox credentials, never live."}
                 {mode === "commercial-approved" && "Commercial approved mode requires explicit operator sign-off (disabled in this demo)."}
               </p>
+            </section>
+
+            {/* Web search toggle */}
+            <section className="rounded-md border border-slate-200 p-3">
+              <label className="flex items-center gap-2 text-xs">
+                <input type="checkbox" checked={webSearch} onChange={(e) => setWebSearch(e.target.checked)} className="h-4 w-4" />
+                <Globe className="h-3.5 w-3.5 text-slate-500" />
+                <span className="font-medium">Web/SERP search</span>
+                <span className="text-slate-400">— provider-neutral, budget-bounded, untrusted-content-wrapped, injection-defended</span>
+              </label>
             </section>
 
             {/* Task */}
@@ -684,6 +703,56 @@ function FinalIntegration({ lang, open, onClose }: { lang: Lang; open: boolean; 
   );
 }
 
+// ─────────────────────────────── system card viewer ───────────────────────────────
+
+function SystemCardDialog({ capstoneId, lang, open, onClose }: { capstoneId: string | null; lang: Lang; open: boolean; onClose: () => void }) {
+  const card = capstoneId ? SYSTEM_CARDS[capstoneId] : null;
+  if (!card) return null;
+  const sections: [string, string][] = [
+    ["Summary", card.summary],
+    ["Intended use", card.intendedUse],
+    ["Out of scope", card.outOfScope],
+    ["Architecture & components", card.architecture],
+    ["Evaluation", card.evaluation],
+    ["Ethical considerations", card.ethicalConsiderations],
+    ["Threat model (OWASP LLM Top 10)", card.threatModel.overview + "\n" + card.threatModel.matrix.map((t) => `${t.id} ${t.threat}: ${t.controls.join("; ")}`).join("\n")],
+    ["Governance", card.governance.overview + "\nApproval gates: " + card.governance.approvalGates.join(", ") + "\nRACI: " + card.governance.raci.map((r) => `${r.role}: ${r.responsibilities.join("; ")}`).join("\n")],
+    ["Incident response", card.incidentResponse.overview + "\n" + card.incidentResponse.severityMatrix.map((s) => `${s.severity}: ${s.definition}`).join("\n") + "\nRunbook: " + card.incidentResponse.runbook.join("; ")],
+    ["Rollback & recovery", card.rollbackRecovery.overview + "\nLast known good: " + card.rollbackRecovery.lastKnownGood + "\nDrill cadence: " + card.rollbackRecovery.drillCadence + "\nRTO/RPO: " + card.rollbackRecovery.rtoRpo],
+    ["Audit history", card.auditHistory.overview + "\n" + card.auditHistory.entries.map((e) => `${e.timestamp}: ${e.action} by ${e.actor} (${e.artifactRef})`).join("\n")],
+    ["Correction & appeal", card.correctionAppeal.overview + "\nSLA: " + card.correctionAppeal.sla + "\nChannel: " + card.correctionAppeal.channel],
+    ["No-go conditions", card.noGoConditions.join("\n• ")],
+    ["Regulatory mapping (EU AI Act Annex IV)", card.regulatoryMapping.overview + "\n" + card.regulatoryMapping.entries.map((r) => `${r.annexIvSection} → ${r.systemCardSection}: ${r.evidence}`).join("\n")],
+  ];
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-h-[90vh] max-w-3xl overflow-hidden p-0">
+        <DialogHeader className="border-b p-4">
+          <div className="flex items-center gap-2">
+            <FileText className="h-5 w-5 text-violet-600" />
+            <DialogTitle className="text-lg">System Card — {capstoneId}</DialogTitle>
+            <Pill variant="warn">v{card.version}</Pill>
+          </div>
+          <DialogDescription className="text-xs">14 canonical sections (Annex IV + Anthropic + OWASP LLM Top 10 + NIST AI 600-1)</DialogDescription>
+        </DialogHeader>
+        <ScrollArea className="max-h-[calc(90vh-8rem)]">
+          <div className="space-y-3 p-4">
+            {sections.map(([title, body]) => (
+              <section key={title} className="rounded-md border p-3">
+                <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{title}</h4>
+                <p className="whitespace-pre-line text-xs leading-relaxed text-slate-700">• {body}</p>
+              </section>
+            ))}
+          </div>
+        </ScrollArea>
+        <DialogFooter className="border-t p-3">
+          <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─────────────────────────────── main page ───────────────────────────────
 
 export default function HomePage() {
@@ -691,6 +760,7 @@ export default function HomePage() {
   const [openId, setOpenId] = React.useState<string | null>(null);
   const [copilotOpen, setCopilotOpen] = React.useState(false);
   const [finalOpen, setFinalOpen] = React.useState(false);
+  const [sysCardId, setSysCardId] = React.useState<string | null>(null);
 
   const open = (id: string) => {
     if (id === "CP-N4-C") { setCopilotOpen(true); return; }
@@ -813,6 +883,9 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
+                <Button size="sm" variant="outline" className="mt-3 w-full" onClick={() => setSysCardId("CP-FINAL")}>
+                  <FileText className="mr-1 h-3.5 w-3.5" />View system card
+                </Button>
               </Card>
             </div>
           </div>
@@ -874,9 +947,11 @@ export default function HomePage() {
         onClose={() => setOpenId(null)}
         onRunCopilot={() => { setOpenId(null); setCopilotOpen(true); }}
         onRunFinal={() => { setOpenId(null); setFinalOpen(true); }}
+        onViewSystemCard={(id) => { setOpenId(null); setSysCardId(id); }}
       />
       <CopilotHarness lang={lang} open={copilotOpen} onClose={() => setCopilotOpen(false)} />
       <FinalIntegration lang={lang} open={finalOpen} onClose={() => setFinalOpen(false)} />
+      <SystemCardDialog capstoneId={sysCardId} lang={lang} open={!!sysCardId} onClose={() => setSysCardId(null)} />
     </div>
   );
 }

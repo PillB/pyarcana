@@ -2,10 +2,12 @@
   "capstoneId": "CP-N4-A",
   "version": "1.2.0",
   "title": "Governed Python Service Platform",
+  "titleEs": "Plataforma de servicio Python gobernada",
   "level": 4,
   "gateSection": "S43",
   "subGates": [],
   "problemStatement": "When the Knight Capital trading firm deployed a broken service to production in 2012, it lost four hundred and forty million dollars in forty-five minutes — not because the code was wrong, but because no one had governed the deployment, the rollback, or the environment. A service is not a script you ran once; it is a contract with operations. In this capstone you will turn prior logic into a production-style service with a versioned API, schema validation, authentication and authorisation, rate limits, secure configuration, dependency locks, a container image, non-root execution, health and readiness checks, resource limits, structured redacted logging, migrations, backup, recovery, security scanning, and contract and integration tests. A successful local demo is insufficient unless the service is reproducible in a clean environment.",
+  "problemStatementEs": "Cuando la firma de trading Knight Capital desplegó un servicio roto en producción en 2012, perdió cuatrocientos cuarenta millones de dólares en cuarenta y cinco minutos — no porque el código estuviera mal, sino porque nadie había gobernado el despliegue, el rollback ni el entorno. Un servicio no es un script que ejecutaste una vez; es un contrato con operaciones. En este capstone convertirás lógica previa en un servicio de estilo producción con una API versionada, validación de esquema, autenticación y autorización, límites de tasa, configuración segura, dependencias bloqueadas, una imagen de contenedor, ejecución non-root, verificaciones de salud y disponibilidad, límites de recursos, logging estructurado y redactado, migraciones, respaldo, recuperación, escaneo de seguridad y pruebas de contrato e integración. Una demostración local exitosa es insuficiente a menos que el servicio sea reproducible en un entorno limpio.",
   "intendedUsers": [
     "A platform operator deploying the service",
     "A security reviewer auditing the container",

@@ -2,10 +2,12 @@
   "capstoneId": "CP-N3-C",
   "version": "1.2.0",
   "title": "Responsible ML Case Triage",
+  "titleEs": "Triage responsable de casos con ML",
   "level": 3,
   "gateSection": "S39",
   "subGates": [],
   "problemStatement": "When the COMPAS recidivism score was audited by ProPublica in 2016, the question was not whether the model was accurate but whether it was fair, calibrated, and honest about its uncertainty — and whether a human ever saw the cases it was unsure about. In this capstone you will build a decision-support model that begins with a deterministic baseline, prevents data leakage, separates training and evaluation, reports calibration, chooses thresholds from stated costs, supports abstention, routes uncertain cases to human review, measures subgroup and temporal performance, produces a model card, monitors drift and quality, and does not make unreviewed adverse decisions. Required evidence includes the baseline, dataset version, split design, evaluation, calibration, threshold rationale, abstention policy, error analysis, model card and monitoring plan.",
+  "problemStatementEs": "Cuando la puntuación de reincidencia COMPAS fue auditada por ProPublica en 2016, la pregunta no era si el modelo era preciso sino si era justo, calibrado y honesto sobre su incertidumbre — y si un humano veía alguna vez los casos de los que no estaba seguro. En este capstone construirás un modelo de apoyo a la decisión que comienza con un baseline determinista, previene fuga de datos, separa entrenamiento y evaluación, reporta calibración, elige umbrales a partir de costos establecidos, soporta abstención, enruta casos inciertos a revisión humana, mide desempeño por subgrupo y temporal, produce una tarjeta de modelo, monitorea drift y calidad, y no toma decisiones adversas sin revisión. La evidencia requerida incluye el baseline, versión del dataset, diseño de partición, evaluación, calibración, justificación del umbral, política de abstención, análisis de errores, tarjeta de modelo y plan de monitoreo.",
   "intendedUsers": [
     "A case triage analyst",
     "A reviewer auditing calibration and subgroup performance",
