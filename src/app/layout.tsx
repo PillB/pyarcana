@@ -14,24 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "PyArcana — Capstones",
+  description: "Four curricular levels. Thirteen capstones. One defensible platform. An applied-project and capstone system with a governed multi-agent AI operations harness.",
+  keywords: ["PyArcana", "capstone", "curriculum", "multi-agent", "RAG", "responsible AI", "entity resolution"],
+  authors: [{ name: "PyArcana" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "PyArcana — Capstones",
+    description: "Four curricular levels. Thirteen capstones. One defensible platform.",
+    siteName: "PyArcana",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "PyArcana — Capstones",
+    description: "Four curricular levels. Thirteen capstones. One defensible platform.",
   },
 };
 
@@ -42,6 +41,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Apply persisted theme before paint to avoid FOUC */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          try {
+            var s = localStorage.getItem('pyarcana-theme');
+            if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              document.documentElement.classList.add('dark');
+            }
+          } catch (e) {}
+        `}} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >

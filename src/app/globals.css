@@ -119,4 +119,61 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom scrollbar for better aesthetics */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.8 0 0) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: oklch(0.8 0 0);
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: oklch(0.6 0 0);
+  }
+  .dark .scrollbar-thin {
+    scrollbar-color: oklch(0.4 0 0) transparent;
+  }
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: oklch(0.4 0 0);
+  }
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: oklch(0.5 0 0);
+  }
+  /* Gradient text for hero */
+  .gradient-text {
+    background: linear-gradient(135deg, oklch(0.55 0.25 295) 0%, oklch(0.5 0.2 295) 50%, oklch(0.45 0.22 320) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* Card hover lift */
+  .card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px oklch(0.2 0 0 / 0.15);
+  }
+  .dark .card-hover:hover {
+    box-shadow: 0 8px 24px -8px oklch(0 0 0 / 0.4);
+  }
+  /* Focus-visible ring for keyboard nav */
+  .focus-ring:focus-visible {
+    outline: 2px solid oklch(0.55 0.25 295);
+    outline-offset: 2px;
+  }
 }

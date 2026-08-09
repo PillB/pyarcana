@@ -20,6 +20,7 @@ import {
   Workflow, FileText, BarChart3, LayoutDashboard, GitBranch, Terminal,
   Lock, AlertTriangle, CheckCircle2, XCircle, Play, RotateCcw, FileCheck,
   ListChecks, BookOpen, GraduationCap, ArrowRight, Info, Scale,
+  Moon, Sun, Search, Filter, TrendingUp, Layers, Sparkles,
 } from "lucide-react";
 import { CAPSTONES, getCapstone, FINAL_INTERFACES } from "@/data/capstones";
 import { LEVELS, CARDINALITY } from "@/data/levels";
@@ -41,6 +42,27 @@ function useLang(): [Lang, () => void] {
   const [lang, setLang] = React.useState<Lang>("en");
   const toggle = React.useCallback(() => setLang((l) => (l === "en" ? "es" : "en")), []);
   return [lang, toggle];
+}
+
+function useTheme(): [boolean, () => void] {
+  const [dark, setDark] = React.useState(false);
+  React.useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
+  }, []);
+  const toggle = React.useCallback(() => {
+    setDark((d) => {
+      const next = !d;
+      if (next) {
+        document.documentElement.classList.add("dark");
+        try { localStorage.setItem("pyarcana-theme", "dark"); } catch {}
+      } else {
+        document.documentElement.classList.remove("dark");
+        try { localStorage.setItem("pyarcana-theme", "light"); } catch {}
+      }
+      return next;
+    });
+  }, []);
+  return [dark, toggle];
 }
 
 function t(lang: Lang, key: StringKey): string {
@@ -84,21 +106,28 @@ function blockerToLearner(lang: Lang, blocker: string): string {
 
 function statusColor(status: string): string {
   switch (status) {
-    case "deployed": return "bg-emerald-100 text-emerald-800 border-emerald-300";
-    case "verified": return "bg-emerald-100 text-emerald-800 border-emerald-300";
-    case "implemented": return "bg-amber-100 text-amber-800 border-amber-300";
-    case "partial": return "bg-orange-100 text-orange-800 border-orange-300";
-    default: return "bg-red-100 text-red-800 border-red-300";
+    case "deployed": return "bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800";
+    case "verified": return "bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800";
+    case "implemented": return "bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800";
+    case "partial": return "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/50 dark:text-orange-300 dark:border-orange-800";
+    default: return "bg-red-100 text-red-800 border-red-300 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800";
   }
+}
+
+function StatusIcon({ status }: { status: string }) {
+  if (status === "deployed" || status === "verified") return <CheckCircle2 className="h-3 w-3" />;
+  if (status === "implemented") return <Sparkles className="h-3 w-3" />;
+  if (status === "partial") return <AlertTriangle className="h-3 w-3" />;
+  return <XCircle className="h-3 w-3" />;
 }
 
 // ─────────────────────────────── small components ───────────────────────────────
 
 function Pill({ children, variant = "default" }: { children: React.ReactNode; variant?: "default" | "critical" | "ok" | "warn" }) {
-  const cls = variant === "critical" ? "border-red-300 bg-red-50 text-red-800"
-    : variant === "ok" ? "border-emerald-300 bg-emerald-50 text-emerald-800"
-    : variant === "warn" ? "border-amber-300 bg-amber-50 text-amber-800"
-    : "border-slate-300 bg-slate-50 text-slate-800";
+  const cls = variant === "critical" ? "border-red-300 bg-red-50 text-red-800 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800"
+    : variant === "ok" ? "border-emerald-300 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800"
+    : variant === "warn" ? "border-amber-300 bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800"
+    : "border-slate-300 bg-slate-50 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200";
   return <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-medium ${cls}`}>{children}</span>;
 }
 
@@ -107,7 +136,7 @@ function BulletList({ items, icon: Icon }: { items: string[]; icon?: React.Compo
     <ul className="space-y-1.5 text-sm leading-relaxed">
       {items.map((it, i) => (
         <li key={i} className="flex gap-2">
-          {Icon ? <Icon className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" /> : <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-slate-400" />}
+          {Icon ? <Icon className="mt-0.5 h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" /> : <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-slate-400" />}
           <span>{it}</span>
         </li>
       ))}
@@ -119,7 +148,6 @@ function BulletList({ items, icon: Icon }: { items: string[]; icon?: React.Compo
 
 function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void }) {
   const c = getCapstone(capstoneId);
-  const Icon = ICONS[c.badgeDependencies.length === 0 ? "Terminal" : ""] ?? GraduationCap;
   const badge = BADGES.find((b) => b.capstoneId === capstoneId);
   const IconBadge = badge ? (ICONS[badge.icon] ?? GraduationCap) : GraduationCap;
   const progress = DEFAULT_PROGRESS[capstoneId];
@@ -127,19 +155,22 @@ function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: 
   const done = progress.evidenceCompleted.length;
   const pct = Math.round((done / total) * 100);
   const isFinal = capstoneId === "CP-FINAL";
+  const hasBlockers = progress.blockers.length > 0;
 
   return (
-    <Card className={`flex h-full flex-col ${isFinal ? "border-violet-300 bg-violet-50/40" : ""}`}>
+    <Card className={`card-hover flex h-full flex-col ${isFinal ? "border-violet-300 bg-violet-50/40 dark:bg-violet-950/20 dark:border-violet-800" : ""}`}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
-            <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${isFinal ? "bg-violet-100 text-violet-700" : "bg-slate-100 text-slate-700"}`}>
+            <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${isFinal ? "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300" : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"}`}>
               <IconBadge className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-semibold text-slate-500">{c.capstoneId}</span>
-                <Pill variant={c.status === "implemented" ? "warn" : "ok"}>{c.status}</Pill>
+                <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400">{c.capstoneId}</span>
+                <span className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[10px] font-medium ${statusColor(c.status)}`}>
+                  <StatusIcon status={c.status} />{c.status}
+                </span>
               </div>
               <CardTitle className="text-base leading-tight">{lang === "es" ? c.titleEs : c.title}</CardTitle>
             </div>
@@ -154,29 +185,29 @@ function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: 
           {c.subGates.length > 0 && <Pill variant="warn">{c.subGates.length} {t(lang, "subGateLabel")}</Pill>}
         </div>
         <div>
-          <div className="mb-1 flex items-center justify-between text-xs text-slate-500">
-            <span>{t(lang, "progress")}</span>
-            <span>{done}/{total}</span>
+          <div className="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <span className="flex items-center gap-1"><TrendingUp className="h-3 w-3" />{t(lang, "evidenceLabel")}</span>
+            <span className="font-mono">{done} {t(lang, "of")} {total} · {pct}%</span>
           </div>
-          <Progress value={pct} className="h-1.5" />
+          <Progress value={pct} className="h-2" />
         </div>
-        {progress.blockers.length > 0 && (
-          <div className="rounded-md border border-amber-200 bg-amber-50 p-2">
-            <div className="mb-1 flex items-center gap-1 text-xs font-medium text-amber-800">
+        {hasBlockers && (
+          <div className="rounded-md border border-amber-200 bg-amber-50 p-2 dark:border-amber-800 dark:bg-amber-950/40">
+            <div className="mb-1 flex items-center gap-1 text-xs font-medium text-amber-800 dark:text-amber-300">
               <AlertTriangle className="h-3 w-3" />{t(lang, "criticalBlockers")}
             </div>
-            <ul className="space-y-0.5 text-xs text-amber-800">
+            <ul className="space-y-0.5 text-xs text-amber-800 dark:text-amber-300">
               {progress.blockers.map((b, i) => <li key={i}>• {blockerToLearner(lang, b)}</li>)}
             </ul>
           </div>
         )}
       </CardContent>
       <CardFooter className="gap-2 pt-0">
-        <Button size="sm" variant="default" className="flex-1" onClick={() => onOpen(capstoneId)}>
+        <Button size="sm" variant="default" className="flex-1 focus-ring" onClick={() => onOpen(capstoneId)}>
           <BookOpen className="mr-1 h-3.5 w-3.5" />{t(lang, "viewBrief")}
         </Button>
         {(capstoneId === "CP-N4-C" || isFinal) && (
-          <Button size="sm" variant="outline" onClick={() => onOpen(capstoneId)}>
+          <Button size="sm" variant="outline" className="focus-ring" onClick={() => onOpen(capstoneId)}>
             <Play className="mr-1 h-3.5 w-3.5" />{isFinal ? t(lang, "runFinal") : t(lang, "runCopilot")}
           </Button>
         )}
@@ -206,7 +237,7 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
       <DialogContent className="max-h-[90vh] max-w-4xl overflow-hidden p-0">
         <DialogHeader className="border-b p-4">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-semibold text-slate-500">{c.capstoneId}</span>
+            <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400">{c.capstoneId}</span>
             <Pill variant="default">v{c.version}</Pill>
             <Pill>{t(lang, "levelLabel")} {c.level}</Pill>
             <Pill><Flag className="h-3 w-3" />{t(lang, "gateLabel")}: {c.gateSection}</Pill>
@@ -221,46 +252,46 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
           <div className="space-y-4 p-4">
             {/* Brief — Stephen Fry register */}
             <section>
-              <h3 className="mb-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">{t(lang, "viewBrief")}</h3>
+              <h3 className="mb-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "viewBrief")}</h3>
               <p className="text-sm leading-relaxed text-slate-700">{lang === "es" ? c.problemStatementEs : c.problemStatement}</p>
             </section>
 
             <div className="grid gap-4 md:grid-cols-2">
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "intendedUsers")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "intendedUsers")}</h4>
                 <BulletList items={c.intendedUsers} icon={GraduationCap} />
               </section>
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "jobsToBeDone")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "jobsToBeDone")}</h4>
                 <BulletList items={c.jobsToBeDone} icon={ListChecks} />
               </section>
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "prerequisites")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "prerequisites")}</h4>
                 <BulletList items={c.prerequisites} icon={BookOpen} />
               </section>
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "learningOutcomes")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "learningOutcomes")}</h4>
                 <BulletList items={c.learningOutcomes} icon={GraduationCap} />
               </section>
             </div>
 
             {/* Section contributions */}
             <section>
-              <h3 className="mb-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">{t(lang, "sectionContributions")}</h3>
+              <h3 className="mb-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "sectionContributions")}</h3>
               <Accordion type="single" collapsible>
                 {sections.map((s) => (
                   <AccordionItem key={s.sectionId} value={s.sectionId}>
                     <AccordionTrigger className="text-sm">
-                      <span className="font-mono text-xs text-slate-500">{s.sectionId}</span> · {lang === "es" ? s.spanishTitle : s.title}
+                      <span className="font-mono text-xs text-slate-500 dark:text-slate-400">{s.sectionId}</span> · {lang === "es" ? s.spanishTitle : s.title}
                     </AccordionTrigger>
                     <AccordionContent className="grid gap-2 text-xs md:grid-cols-2">
-                      <div><strong className="text-slate-500">{t(lang, "requiredArtifacts")}:</strong> {s.artifactAdded}</div>
-                      <div><strong className="text-slate-500">{t(lang, "viewSections")}:</strong> {s.theory}</div>
-                      <div><strong className="text-slate-500">I Do:</strong> {s.iDo}</div>
-                      <div><strong className="text-slate-500">We Do:</strong> {s.weDo}</div>
-                      <div><strong className="text-slate-500">You Do:</strong> {s.youDo}</div>
-                      <div><strong className="text-slate-500">{t(lang, "rubric")}:</strong> {s.assessment}</div>
-                      <div className="md:col-span-2"><strong className="text-slate-500">{t(lang, "finalDependency")}:</strong> {s.finalInterfaceReuse}</div>
+                      <div><strong className="text-slate-500 dark:text-slate-400">{t(lang, "requiredArtifacts")}:</strong> {s.artifactAdded}</div>
+                      <div><strong className="text-slate-500 dark:text-slate-400">{t(lang, "viewSections")}:</strong> {s.theory}</div>
+                      <div><strong className="text-slate-500 dark:text-slate-400">I Do:</strong> {s.iDo}</div>
+                      <div><strong className="text-slate-500 dark:text-slate-400">We Do:</strong> {s.weDo}</div>
+                      <div><strong className="text-slate-500 dark:text-slate-400">You Do:</strong> {s.youDo}</div>
+                      <div><strong className="text-slate-500 dark:text-slate-400">{t(lang, "rubric")}:</strong> {s.assessment}</div>
+                      <div className="md:col-span-2"><strong className="text-slate-500 dark:text-slate-400">{t(lang, "finalDependency")}:</strong> {s.finalInterfaceReuse}</div>
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -269,33 +300,33 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
 
             <div className="grid gap-4 md:grid-cols-2">
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "requiredArtifacts")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "requiredArtifacts")}</h4>
                 <BulletList items={c.requiredArtifacts} icon={FileCheck} />
               </section>
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "requiredEvidence")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "requiredEvidence")}</h4>
                 <BulletList items={c.requiredEvidence} icon={CheckCircle2} />
               </section>
             </div>
 
             {/* Synthetic data */}
             <section className="rounded-md border border-slate-200 bg-slate-50 p-3">
-              <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 <Lock className="h-3 w-3" />{t(lang, "syntheticData")}
               </h4>
               <div className="grid gap-1 text-xs md:grid-cols-2">
-                <div><strong className="text-slate-500">Generator:</strong> {c.syntheticDataContract.generator}</div>
-                <div><strong className="text-slate-500">Size:</strong> {c.syntheticDataContract.size}</div>
-                <div><strong className="text-slate-500">License:</strong> {c.syntheticDataContract.license}</div>
-                <div className="md:col-span-2"><strong className="text-slate-500">PII risk:</strong> {c.syntheticDataContract.piiRisk}</div>
-                <div className="md:col-span-2"><strong className="text-slate-500">Schema:</strong> <code className="text-[11px]">{c.syntheticDataContract.schema}</code></div>
+                <div><strong className="text-slate-500 dark:text-slate-400">Generator:</strong> {c.syntheticDataContract.generator}</div>
+                <div><strong className="text-slate-500 dark:text-slate-400">Size:</strong> {c.syntheticDataContract.size}</div>
+                <div><strong className="text-slate-500 dark:text-slate-400">License:</strong> {c.syntheticDataContract.license}</div>
+                <div className="md:col-span-2"><strong className="text-slate-500 dark:text-slate-400">PII risk:</strong> {c.syntheticDataContract.piiRisk}</div>
+                <div className="md:col-span-2"><strong className="text-slate-500 dark:text-slate-400">Schema:</strong> <code className="text-[11px]">{c.syntheticDataContract.schema}</code></div>
               </div>
             </section>
 
             {/* Acceptance + critical */}
             <div className="grid gap-4 md:grid-cols-2">
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "acceptanceCriteria")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "acceptanceCriteria")}</h4>
                 <BulletList items={c.acceptanceCriteria} icon={CheckCircle2} />
               </section>
               <section className="rounded-md border border-red-200 bg-red-50/50 p-3">
@@ -309,30 +340,30 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
             {/* Security / privacy / accessibility / responsible use */}
             <div className="grid gap-3 md:grid-cols-2">
               <section className="rounded-md border p-3">
-                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><Lock className="h-3 w-3" />{t(lang, "securityRequirements")}</h4>
+                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><Lock className="h-3 w-3" />{t(lang, "securityRequirements")}</h4>
                 <BulletList items={c.securityRequirements} />
               </section>
               <section className="rounded-md border p-3">
-                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><ShieldCheck className="h-3 w-3" />{t(lang, "privacyRequirements")}</h4>
+                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><ShieldCheck className="h-3 w-3" />{t(lang, "privacyRequirements")}</h4>
                 <BulletList items={c.privacyRequirements} />
               </section>
               <section className="rounded-md border p-3">
-                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><Scale className="h-3 w-3" />{t(lang, "accessibilityRequirements")}</h4>
+                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><Scale className="h-3 w-3" />{t(lang, "accessibilityRequirements")}</h4>
                 <BulletList items={c.accessibilityRequirements} />
               </section>
               <section className="rounded-md border p-3">
-                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><Info className="h-3 w-3" />{t(lang, "responsibleUseRequirements")}</h4>
+                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><Info className="h-3 w-3" />{t(lang, "responsibleUseRequirements")}</h4>
                 <BulletList items={c.responsibleUseRequirements} />
               </section>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "testRequirements")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "testRequirements")}</h4>
                 <BulletList items={c.testRequirements} icon={ListChecks} />
               </section>
               <section>
-                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "demoRequirements")}</h4>
+                <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "demoRequirements")}</h4>
                 <BulletList items={c.demoRequirements} icon={Play} />
               </section>
             </div>
@@ -340,13 +371,13 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
             {/* Rubric */}
             <section className="rounded-md border p-3">
               <div className="mb-2 flex items-center justify-between">
-                <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "rubric")} v{rubric.version}</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "rubric")} v{rubric.version}</h4>
                 <Pill variant="warn">{t(lang, "passThreshold")}: {rubric.passThreshold}%</Pill>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr className="border-b text-left text-slate-500">
+                    <tr className="border-b text-left text-slate-500 dark:text-slate-400">
                       <th className="py-1.5 pr-2 font-medium">Criterion</th>
                       <th className="py-1.5 pr-2 font-medium">Weight</th>
                       <th className="py-1.5 font-medium">Critical</th>
@@ -371,7 +402,7 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
 
             {/* Remediation */}
             <section>
-              <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "remediationPaths")}</h4>
+              <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "remediationPaths")}</h4>
               <BulletList items={c.remediationPaths} icon={RotateCcw} />
             </section>
 
@@ -382,12 +413,12 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
                   <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-violet-700"><Crown className="h-3 w-3" />{t(lang, "badgeRelationship")}</h4>
                   <div className="text-sm font-medium">{lang === "es" ? badge.spanishName : badge.name}</div>
                   <div className="text-xs text-slate-600">{badge.description}</div>
-                  <div className="mt-1.5 text-xs font-semibold text-slate-500">{t(lang, "eligibility")}</div>
+                  <div className="mt-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">{t(lang, "eligibility")}</div>
                   <BulletList items={badge.eligibility} />
                 </section>
               )}
               <section className="rounded-md border p-3">
-                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><ArrowRight className="h-3 w-3" />{t(lang, "finalIntegrationInterfaces")}</h4>
+                <h4 className="mb-1.5 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><ArrowRight className="h-3 w-3" />{t(lang, "finalIntegrationInterfaces")}</h4>
                 <BulletList items={c.finalIntegrationInterfaces} />
               </section>
             </div>
@@ -395,8 +426,8 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
             {/* Progress (learner-facing, not internal audit terms) */}
             <section className="rounded-md border border-slate-200 p-3">
               <div className="mb-2 flex items-center justify-between">
-                <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "progress")}</h4>
-                <span className="text-xs text-slate-500">{progress.evidenceCompleted.length}/{c.requiredArtifacts.length}</span>
+                <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "progress")}</h4>
+                <span className="text-xs text-slate-500 dark:text-slate-400">{progress.evidenceCompleted.length}/{c.requiredArtifacts.length}</span>
               </div>
               <div className="grid gap-2 md:grid-cols-2">
                 <div>
@@ -495,7 +526,7 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
           <div className="space-y-4 p-4">
             {/* Provider mode */}
             <section>
-              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "providerMode")}</h4>
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "providerMode")}</h4>
               <div className="flex flex-wrap gap-2">
                 {([
                   ["no-key", t(lang, "noKey")],
@@ -508,7 +539,7 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
                   </Button>
                 ))}
               </div>
-              <p className="mt-1.5 text-xs text-slate-500">
+              <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
                 {mode === "no-key" && "Deterministic test double. No paid key required for the basic validation suite."}
                 {mode === "local" && "Local-model adapter (e.g. a small local server). Provider-neutral contract."}
                 {mode === "commercial-test" && "Commercial-model adapter in test mode. Sandbox credentials, never live."}
@@ -520,7 +551,7 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
             <section className="rounded-md border border-slate-200 p-3">
               <label className="flex items-center gap-2 text-xs">
                 <input type="checkbox" checked={webSearch} onChange={(e) => setWebSearch(e.target.checked)} className="h-4 w-4" />
-                <Globe className="h-3.5 w-3.5 text-slate-500" />
+                <Globe className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
                 <span className="font-medium">Web/SERP search</span>
                 <span className="text-slate-400">— provider-neutral, budget-bounded, untrusted-content-wrapped, injection-defended</span>
               </label>
@@ -528,7 +559,7 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
 
             {/* Task */}
             <section>
-              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "executeBoundedTask")}</h4>
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "executeBoundedTask")}</h4>
               <textarea
                 className="w-full rounded-md border p-2 text-sm"
                 rows={2}
@@ -548,19 +579,19 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
             {result && (
               <>
                 <section className="rounded-md border border-slate-200 p-3">
-                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "inspectRetrieval")}</h4>
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "inspectRetrieval")}</h4>
                   <div className="space-y-1 text-xs">
                     {result.retrieval.map((r, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <FileText className="mt-0.5 h-3 w-3 text-slate-400" />
-                        <span><strong>{r.doc}</strong> <span className="text-slate-500">(scope: {r.scope}, score: {r.score})</span> — {r.snippet}</span>
+                        <span><strong>{r.doc}</strong> <span className="text-slate-500 dark:text-slate-400">(scope: {r.scope}, score: {r.score})</span> — {r.snippet}</span>
                       </div>
                     ))}
                   </div>
                 </section>
 
                 <section className="rounded-md border border-slate-200 p-3">
-                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "inspectProposedTool")}</h4>
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "inspectProposedTool")}</h4>
                   <div className="font-mono text-xs">
                     <div><strong>tool:</strong> {result.proposedTool.name}</div>
                     <div><strong>args:</strong> {JSON.stringify(result.proposedTool.args)}</div>
@@ -589,21 +620,21 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
                 {approved && (
                   <>
                     <section className="rounded-md border border-slate-200 p-3">
-                      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "inspectVerifier")}</h4>
+                      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "inspectVerifier")}</h4>
                       <div className="text-xs">
                         <Pill variant={result.verifier.passed ? "ok" : "critical"}>{result.verifier.passed ? "passed" : "rejected"}</Pill>
                         <p className="mt-1.5 text-slate-600">{result.verifier.reason}</p>
-                        <p className="mt-1 text-slate-500">Faithfulness: {result.verifier.faithfulness} · Context precision: {result.verifier.contextPrecision}</p>
+                        <p className="mt-1 text-slate-500 dark:text-slate-400">Faithfulness: {result.verifier.faithfulness} · Context precision: {result.verifier.contextPrecision}</p>
                       </div>
                     </section>
 
                     <section className="rounded-md border border-slate-200 p-3">
-                      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "inspectTrace")} ({t(lang, "redacted")})</h4>
+                      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "inspectTrace")} ({t(lang, "redacted")})</h4>
                       <pre className="overflow-x-auto rounded bg-slate-900 p-2 font-mono text-[11px] text-slate-100">{result.trace}</pre>
                     </section>
 
                     <section className="rounded-md border border-slate-200 p-3">
-                      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "inspectBudget")}</h4>
+                      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "inspectBudget")}</h4>
                       <div className="grid grid-cols-2 gap-2 text-xs md:grid-cols-4">
                         <div><strong>{t(lang, "steps")}:</strong> {result.budget.steps}</div>
                         <div><strong>{t(lang, "toolCalls")}:</strong> {result.budget.toolCalls}</div>
@@ -619,7 +650,7 @@ function CopilotHarness({ lang, open, onClose }: { lang: Lang; open: boolean; on
                       <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-emerald-700">{t(lang, "inspectCitedResult")}</h4>
                       <p className="text-sm">{result.citedOutput.text}</p>
                       <div className="mt-2 space-y-1 text-xs">
-                        <div className="font-semibold text-slate-500">{t(lang, "citations")}:</div>
+                        <div className="font-semibold text-slate-500 dark:text-slate-400">{t(lang, "citations")}:</div>
                         {result.citedOutput.citations.map((cit, i) => (
                           <div key={i} className="flex items-start gap-1">
                             <span className="font-mono">[{i + 1}]</span>
@@ -661,12 +692,12 @@ function FinalIntegration({ lang, open, onClose }: { lang: Lang; open: boolean; 
         <ScrollArea className="max-h-[calc(90vh-8rem)]">
           <div className="space-y-4 p-4">
             <section>
-              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(lang, "verifyTwelveDeps")}</h4>
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "verifyTwelveDeps")}</h4>
               <div className="grid gap-2 md:grid-cols-2">
                 {FINAL_INTERFACES.map((f) => (
                   <div key={f.capstoneId} className="rounded-md border p-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-semibold text-slate-500">{f.capstoneId}</span>
+                      <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400">{f.capstoneId}</span>
                       <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
                     </div>
                     <div className="font-mono text-xs">{f.interfaceName}</div>
@@ -680,11 +711,11 @@ function FinalIntegration({ lang, open, onClose }: { lang: Lang; open: boolean; 
               <p className="text-xs text-slate-600">All twelve upstream interfaces are exercised by a contract test. The end-to-end synthetic scenario (intake → ETL → ER → relationship → analytics → automation → triage → service → ML → RAG → copilot → governance) passes.</p>
             </section>
             <section className="rounded-md border border-slate-200 p-3">
-              <h4 className="mb-1 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><RotateCcw className="h-3 w-3" />{t(lang, "inspectRollback")}</h4>
+              <h4 className="mb-1 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><RotateCcw className="h-3 w-3" />{t(lang, "inspectRollback")}</h4>
               <p className="text-xs text-slate-600">Rollback to last-known-good executed and recorded. Backup and restore demonstrated. Disaster exercise completed with a recorded incident.</p>
             </section>
             <section className="rounded-md border border-slate-200 p-3">
-              <h4 className="mb-1 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500"><FileText className="h-3 w-3" />Cards & threat model</h4>
+              <h4 className="mb-1 flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"><FileText className="h-3 w-3" />Cards & threat model</h4>
               <p className="text-xs text-slate-600">Data card, model card (aggregated from CP-N3-C), and system card present. Threat model enumerates the OWASP LLM Top 10 with controls. Operational runbook published.</p>
             </section>
             <section className="rounded-md border border-violet-200 bg-violet-50/40 p-3">
@@ -739,7 +770,7 @@ function SystemCardDialog({ capstoneId, lang, open, onClose }: { capstoneId: str
           <div className="space-y-3 p-4">
             {sections.map(([title, body]) => (
               <section key={title} className="rounded-md border p-3">
-                <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{title}</h4>
+                <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{title}</h4>
                 <p className="whitespace-pre-line text-xs leading-relaxed text-slate-700">• {body}</p>
               </section>
             ))}
@@ -757,10 +788,13 @@ function SystemCardDialog({ capstoneId, lang, open, onClose }: { capstoneId: str
 
 export default function HomePage() {
   const [lang, toggleLang] = useLang();
+  const [dark, toggleTheme] = useTheme();
   const [openId, setOpenId] = React.useState<string | null>(null);
   const [copilotOpen, setCopilotOpen] = React.useState(false);
   const [finalOpen, setFinalOpen] = React.useState(false);
   const [sysCardId, setSysCardId] = React.useState<string | null>(null);
+  const [search, setSearch] = React.useState("");
+  const [filter, setFilter] = React.useState<"all" | "implemented" | "missing" | "blocked">("all");
 
   const open = (id: string) => {
     if (id === "CP-N4-C") { setCopilotOpen(true); return; }
@@ -768,26 +802,49 @@ export default function HomePage() {
     setOpenId(id);
   };
 
+  // Compute overall progress
+  const totalArtifacts = CAPSTONES.reduce((s, c) => s + c.requiredArtifacts.length, 0);
+  const totalDone = CAPSTONES.reduce((s, c) => s + DEFAULT_PROGRESS[c.capstoneId].evidenceCompleted.length, 0);
+  const overallPct = Math.round((totalDone / totalArtifacts) * 100);
+  const totalBlockers = CAPSTONES.reduce((s, c) => s + DEFAULT_PROGRESS[c.capstoneId].blockers.length, 0);
+  const implementedCount = CAPSTONES.filter((c) => c.status === "implemented").length;
+
+  // Filter capstones
+  const filteredCapstones = React.useMemo(() => {
+    const q = search.toLowerCase().trim();
+    return CAPSTONES.filter((c) => {
+      if (q && !c.capstoneId.toLowerCase().includes(q) && !(lang === "es" ? c.titleEs : c.title).toLowerCase().includes(q) && !c.problemStatement.toLowerCase().includes(q)) return false;
+      const p = DEFAULT_PROGRESS[c.capstoneId];
+      if (filter === "implemented" && c.status !== "implemented") return false;
+      if (filter === "missing" && p.evidenceMissing.length === 0) return false;
+      if (filter === "blocked" && p.blockers.length === 0) return false;
+      return true;
+    });
+  }, [search, filter, lang]);
+
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b bg-white/95 backdrop-blur dark:bg-slate-900/95 dark:border-slate-800">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-600 text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 text-white shadow-sm">
               <GraduationCap className="h-5 w-5" />
             </div>
             <div>
               <div className="text-sm font-bold leading-tight">{t(lang, "appName")}</div>
-              <div className="text-[11px] text-slate-500 leading-tight">{t(lang, "appTagline")}</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight hidden sm:block">{t(lang, "appTagline")}</div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button size="sm" variant="ghost" onClick={() => document.getElementById("levels")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "levelsNav")}</Button>
-            <Button size="sm" variant="ghost" onClick={() => document.getElementById("capstones")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "capstonesNav")}</Button>
-            <Button size="sm" variant="ghost" onClick={() => document.getElementById("sections")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "sectionsNav")}</Button>
-            <Button size="sm" variant="ghost" onClick={() => document.getElementById("invariant")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "invariantNav")}</Button>
-            <Button size="sm" variant="outline" onClick={toggleLang}>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => document.getElementById("levels")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "levelsNav")}</Button>
+            <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => document.getElementById("capstones")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "capstonesNav")}</Button>
+            <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => document.getElementById("sections")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "sectionsNav")}</Button>
+            <Button size="sm" variant="ghost" className="hidden lg:inline-flex focus-ring" onClick={() => document.getElementById("invariant")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "invariantNav")}</Button>
+            <Button size="sm" variant="outline" className="focus-ring" onClick={toggleTheme} aria-label={dark ? t(lang, "lightMode") : t(lang, "darkMode")}>
+              {dark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+            </Button>
+            <Button size="sm" variant="outline" className="focus-ring" onClick={toggleLang}>
               <Globe className="mr-1 h-3.5 w-3.5" />{t(lang, "languageToggle")}
             </Button>
           </div>
@@ -796,33 +853,120 @@ export default function HomePage() {
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
         {/* Hero */}
-        <section className="mb-8 rounded-xl border bg-white p-6 shadow-sm">
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{t(lang, "appName")} — {t(lang, "capstonesNav")}</h1>
-          <p className="mt-2 max-w-3xl text-sm text-slate-600">{t(lang, "appTagline")}</p>
-          <div className="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+        <section className="mb-6 overflow-hidden rounded-xl border bg-gradient-to-br from-white via-violet-50/30 to-purple-50/20 p-6 shadow-sm dark:from-slate-900 dark:via-violet-950/20 dark:to-purple-950/10 dark:border-slate-800">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <h1 className="gradient-text text-2xl font-bold tracking-tight md:text-3xl">{t(lang, "appName")} — {t(lang, "capstonesNav")}</h1>
+          </div>
+          <p className="mt-1 max-w-3xl text-sm text-slate-600 dark:text-slate-300">{t(lang, "appTagline")}</p>
+          <div className="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
             <Info className="mr-1 inline h-3.5 w-3.5" />{t(lang, "levelDisclaimer")}
           </div>
         </section>
 
-        {/* Cardinality invariant */}
-        <section id="invariant" className="mb-8 rounded-xl border bg-white p-6 shadow-sm">
-          <h2 className="mb-1 text-lg font-semibold">{t(lang, "cardinalityTitle")}</h2>
-          <p className="mb-3 max-w-3xl text-sm text-slate-600">{t(lang, "cardinalityDesc")}</p>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-            <Card className="p-3 text-center"><div className="text-2xl font-bold text-violet-600">{CARDINALITY.levels}</div><div className="text-xs text-slate-500">{t(lang, "levelsNav")}</div></Card>
-            <Card className="p-3 text-center"><div className="text-2xl font-bold text-violet-600">{CARDINALITY.capstonesPerLevel}</div><div className="text-xs text-slate-500">{t(lang, "principalCapstone")}/{t(lang, "levelLabel")}</div></Card>
-            <Card className="p-3 text-center"><div className="text-2xl font-bold text-violet-600">{CARDINALITY.levelCapstones}</div><div className="text-xs text-slate-500">{t(lang, "principalCapstone")}</div></Card>
-            <Card className="p-3 text-center"><div className="text-2xl font-bold text-violet-600">{CARDINALITY.finalCapstones}</div><div className="text-xs text-slate-500">{t(lang, "finalCapstone")}</div></Card>
-            <Card className="p-3 text-center border-violet-300 bg-violet-50/40"><div className="text-2xl font-bold text-violet-700">{CARDINALITY.total}</div><div className="text-xs text-slate-500">{t(lang, "totalCapstones")}</div></Card>
+        {/* Progress overview */}
+        <section className="mb-6 grid gap-4 md:grid-cols-4">
+          <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "overallCompletion")}</div>
+                <div className="mt-1 text-2xl font-bold text-violet-600 dark:text-violet-400">{overallPct}%</div>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-400">
+                <TrendingUp className="h-5 w-5" />
+              </div>
+            </div>
+            <Progress value={overallPct} className="mt-2 h-1.5" />
+            <div className="mt-1 text-[11px] text-slate-400">{totalDone} {t(lang, "of")} {totalArtifacts}</div>
+          </Card>
+          <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "capstonesImplemented")}</div>
+                <div className="mt-1 text-2xl font-bold text-emerald-600 dark:text-emerald-400">{implementedCount}/13</div>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+            </div>
+            <div className="mt-2 flex gap-1">
+              {CAPSTONES.map((c) => (
+                <div key={c.capstoneId} className={`h-1.5 flex-1 rounded-full ${c.status === "implemented" ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-700"}`} title={c.capstoneId} />
+              ))}
+            </div>
+          </Card>
+          <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "blockersActive")}</div>
+                <div className="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400">{totalBlockers}</div>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+            </div>
+          </Card>
+          <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "levelsNav")}</div>
+                <div className="mt-1 text-2xl font-bold text-violet-600 dark:text-violet-400">{CARDINALITY.levels}</div>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-400">
+                <Layers className="h-5 w-5" />
+              </div>
+            </div>
+          </Card>
+        </section>
+
+        {/* Search + filter */}
+        <section className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t(lang, "searchPlaceholder")}
+              className="w-full rounded-md border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
+              aria-label={t(lang, "searchPlaceholder")}
+            />
           </div>
-          <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3 text-xs">
-            <div className="mb-1 font-semibold text-slate-700">{t(lang, "n4dDecision")}</div>
-            <div>{t(lang, "n4dFolded")}</div>
+          <div className="flex items-center gap-1">
+            <Filter className="h-4 w-4 text-slate-400" />
+            {(["all", "implemented", "missing", "blocked"] as const).map((f) => (
+              <Button
+                key={f}
+                size="sm"
+                variant={filter === f ? "default" : "outline"}
+                className="focus-ring"
+                onClick={() => setFilter(f)}
+              >
+                {t(lang, `filter${f.charAt(0).toUpperCase() + f.slice(1)}` as StringKey)}
+              </Button>
+            ))}
+          </div>
+        </section>
+
+        {/* Cardinality invariant */}
+        <section id="invariant" className="mb-8 rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+          <h2 className="mb-1 text-lg font-semibold">{t(lang, "cardinalityTitle")}</h2>
+          <p className="mb-3 max-w-3xl text-sm text-slate-600 dark:text-slate-300">{t(lang, "cardinalityDesc")}</p>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+            <Card className="card-hover p-3 text-center dark:bg-slate-800 dark:border-slate-700"><div className="text-2xl font-bold text-violet-600 dark:text-violet-400">{CARDINALITY.levels}</div><div className="text-xs text-slate-500 dark:text-slate-400">{t(lang, "levelsNav")}</div></Card>
+            <Card className="card-hover p-3 text-center dark:bg-slate-800 dark:border-slate-700"><div className="text-2xl font-bold text-violet-600 dark:text-violet-400">{CARDINALITY.capstonesPerLevel}</div><div className="text-xs text-slate-500 dark:text-slate-400">{t(lang, "principalCapstone")}/{t(lang, "levelLabel")}</div></Card>
+            <Card className="card-hover p-3 text-center dark:bg-slate-800 dark:border-slate-700"><div className="text-2xl font-bold text-violet-600 dark:text-violet-400">{CARDINALITY.levelCapstones}</div><div className="text-xs text-slate-500 dark:text-slate-400">{t(lang, "principalCapstone")}</div></Card>
+            <Card className="card-hover p-3 text-center dark:bg-slate-800 dark:border-slate-700"><div className="text-2xl font-bold text-violet-600 dark:text-violet-400">{CARDINALITY.finalCapstones}</div><div className="text-xs text-slate-500 dark:text-slate-400">{t(lang, "finalCapstone")}</div></Card>
+            <Card className="card-hover p-3 text-center border-violet-300 bg-violet-50/40 dark:bg-violet-950/20 dark:border-violet-800"><div className="text-2xl font-bold text-violet-700 dark:text-violet-300">{CARDINALITY.total}</div><div className="text-xs text-slate-500 dark:text-slate-400">{t(lang, "totalCapstones")}</div></Card>
+          </div>
+          <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3 text-xs dark:border-slate-700 dark:bg-slate-800/50">
+            <div className="mb-1 font-semibold text-slate-700 dark:text-slate-300">{t(lang, "n4dDecision")}</div>
+            <div className="text-slate-600 dark:text-slate-400">{t(lang, "n4dFolded")}</div>
             <div className="mt-2 grid gap-1 md:grid-cols-3">
               {CARDINALITY.cpN4CSubGates.map((sg) => (
-                <div key={sg.id} className="rounded border bg-white p-2">
-                  <div className="font-mono text-[11px] font-semibold text-violet-700">{sg.id} · {sg.sectionId}</div>
-                  <div className="text-[11px] text-slate-600">{sg.title}</div>
+                <div key={sg.id} className="rounded border bg-white p-2 dark:bg-slate-900 dark:border-slate-700">
+                  <div className="font-mono text-[11px] font-semibold text-violet-700 dark:text-violet-400">{sg.id} · {sg.sectionId}</div>
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400">{sg.title}</div>
                 </div>
               ))}
             </div>
@@ -832,16 +976,18 @@ export default function HomePage() {
         {/* Levels + capstones */}
         <section id="levels" className="mb-8 space-y-6">
           {LEVELS.map((lv) => {
-            const levelCapstones = CAPSTONES.filter((c) => c.level === lv.levelId);
+            const levelCapstones = CAPSTONES.filter((c) => c.level === lv.levelId)
+              .filter((c) => filteredCapstones.some((f) => f.capstoneId === c.capstoneId));
+            if (levelCapstones.length === 0) return null;
             return (
-              <div key={lv.stableId} className="rounded-xl border bg-white p-6 shadow-sm">
+              <div key={lv.stableId} className="rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-900 dark:border-slate-800">
                 <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <div className="flex items-center gap-2">
                       <Pill variant="default">{t(lang, "levelLabel")} {lv.levelId}</Pill>
                       <h2 className="text-xl font-semibold">{lang === "es" ? lv.spanishName : lv.name}</h2>
                     </div>
-                    <p className="mt-1 text-xs text-slate-500">{lv.sectionRange} · {lv.dreyfusMapping}</p>
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{lv.sectionRange} · {lv.dreyfusMapping}</p>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {lv.principalGates.map((g) => (
@@ -849,8 +995,8 @@ export default function HomePage() {
                     ))}
                   </div>
                 </div>
-                <details className="mb-3 text-xs text-slate-600">
-                  <summary className="cursor-pointer font-medium text-slate-700">{t(lang, "exitCapabilities")}</summary>
+                <details className="mb-3 text-xs text-slate-600 dark:text-slate-400">
+                  <summary className="cursor-pointer font-medium text-slate-700 dark:text-slate-300">{t(lang, "exitCapabilities")}</summary>
                   <ul className="mt-1.5 space-y-1">
                     {lv.exitCapabilities.map((e, i) => <li key={i} className="flex gap-2"><span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-slate-400" />{e}</li>)}
                   </ul>
@@ -863,27 +1009,35 @@ export default function HomePage() {
               </div>
             );
           })}
+          {filteredCapstones.length === 0 && (
+            <div className="rounded-xl border bg-white p-8 text-center text-sm text-slate-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400">
+              {t(lang, "noResults")}
+            </div>
+          )}
 
           {/* Final capstone */}
-          <div className="rounded-xl border border-violet-300 bg-violet-50/40 p-6 shadow-sm">
+          <div className="rounded-xl border border-violet-300 bg-violet-50/40 p-6 shadow-sm dark:bg-violet-950/20 dark:border-violet-800">
             <div className="mb-4 flex items-center gap-2">
-              <Crown className="h-5 w-5 text-violet-600" />
+              <Crown className="h-5 w-5 text-violet-600 dark:text-violet-400" />
               <h2 className="text-xl font-semibold">{t(lang, "finalCapstone")}</h2>
               <Pill variant="warn">CP-FINAL · S52</Pill>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
               <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={open} />
-              <Card className="p-4">
-                <h3 className="mb-2 text-sm font-semibold">{t(lang, "finalIntegrationInterfaces")}</h3>
-                <div className="space-y-1 text-xs">
+              <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800 md:col-span-2">
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="text-sm font-semibold">{t(lang, "finalIntegrationInterfaces")}</h3>
+                  <Pill variant="ok">12 / 12</Pill>
+                </div>
+                <div className="grid gap-1 text-xs sm:grid-cols-2">
                   {FINAL_INTERFACES.map((f) => (
-                    <div key={f.capstoneId} className="flex items-center justify-between rounded border bg-white p-1.5">
-                      <span className="font-mono">{f.capstoneId}</span>
-                      <span className="text-slate-500">{f.interfaceName}</span>
+                    <div key={f.capstoneId} className="flex items-center justify-between rounded border bg-white p-1.5 dark:bg-slate-800 dark:border-slate-700">
+                      <span className="font-mono text-violet-600 dark:text-violet-400">{f.capstoneId}</span>
+                      <span className="text-slate-500 dark:text-slate-400 text-[11px]">{f.interfaceName}</span>
                     </div>
                   ))}
                 </div>
-                <Button size="sm" variant="outline" className="mt-3 w-full" onClick={() => setSysCardId("CP-FINAL")}>
+                <Button size="sm" variant="outline" className="mt-3 w-full focus-ring" onClick={() => setSysCardId("CP-FINAL")}>
                   <FileText className="mr-1 h-3.5 w-3.5" />View system card
                 </Button>
               </Card>
@@ -891,21 +1045,40 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Sections mapping */}
-        <section id="sections" className="mb-8 rounded-xl border bg-white p-6 shadow-sm">
-          <h2 className="mb-3 text-lg font-semibold">{t(lang, "sectionsNav")} (S01–S52)</h2>
-          <p className="mb-3 text-xs text-slate-500">Every one of the 52 canonical sections is mapped to a principal capstone and contributes theory, an I-Do demo, a We-Do practice, a You-Do transfer task, an assessment, and a final-integration reuse.</p>
-          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-            {SECTIONS.map((s) => {
-              const cap = getCapstone(s.capstoneId ?? "");
+        {/* Sections mapping — grouped by level */}
+        <section id="sections" className="mb-8 rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+          <div className="mb-3 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold">{t(lang, "sectionsByLevel")}</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">S01–S52 · {SECTIONS.length} {t(lang, "sectionsNav").toLowerCase()}</p>
+            </div>
+          </div>
+          <p className="mb-4 text-xs text-slate-500 dark:text-slate-400">Every one of the 52 canonical sections is mapped to a principal capstone and contributes theory, an I-Do demo, a We-Do practice, a You-Do transfer task, an assessment, and a final-integration reuse.</p>
+          <div className="space-y-4">
+            {LEVELS.map((lv) => {
+              const lvSections = SECTIONS.filter((s) => s.levelId === lv.levelId);
               return (
-                <div key={s.sectionId} className="rounded-md border p-2 text-xs">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono font-semibold text-slate-500">{s.sectionId}</span>
-                    <span className="font-mono text-[10px] text-violet-600">{s.capstoneId}</span>
+                <div key={lv.stableId}>
+                  <div className="mb-2 flex items-center gap-2">
+                    <Pill variant="default">{t(lang, "levelLabel")} {lv.levelId}</Pill>
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{lang === "es" ? lv.spanishName : lv.name}</span>
+                    <span className="text-xs text-slate-400">{lv.sectionRange}</span>
                   </div>
-                  <div className="font-medium">{lang === "es" ? s.spanishTitle : s.title}</div>
-                  <div className="mt-1 line-clamp-2 text-slate-500">{s.artifactAdded}</div>
+                  <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                    {lvSections.map((s) => {
+                      const cap = getCapstone(s.capstoneId ?? "");
+                      return (
+                        <div key={s.sectionId} className="card-hover rounded-md border p-2 text-xs dark:border-slate-700 dark:bg-slate-800">
+                          <div className="flex items-center justify-between">
+                            <span className="font-mono font-semibold text-slate-500 dark:text-slate-400">{s.sectionId}</span>
+                            <span className="font-mono text-[10px] text-violet-600 dark:text-violet-400">{s.capstoneId}</span>
+                          </div>
+                          <div className="font-medium text-slate-700 dark:text-slate-200">{lang === "es" ? s.spanishTitle : s.title}</div>
+                          <div className="mt-1 line-clamp-2 text-slate-500 dark:text-slate-400">{s.artifactAdded}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               );
             })}
@@ -913,21 +1086,21 @@ export default function HomePage() {
         </section>
 
         {/* Badges */}
-        <section id="badges" className="mb-8 rounded-xl border bg-white p-6 shadow-sm">
+        <section id="badges" className="mb-8 rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-900 dark:border-slate-800">
           <h2 className="mb-3 text-lg font-semibold">{t(lang, "badgesNav")}</h2>
           <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
             {BADGES.map((b) => {
               const Icon = ICONS[b.icon] ?? GraduationCap;
               return (
-                <div key={b.badgeId} className="rounded-lg border p-3">
+                <div key={b.badgeId} className="card-hover rounded-lg border p-3 dark:border-slate-700 dark:bg-slate-800">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-violet-700"><Icon className="h-4 w-4" /></div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300"><Icon className="h-4 w-4" /></div>
                     <div>
-                      <div className="text-xs font-semibold">{lang === "es" ? b.spanishName : b.name}</div>
-                      <div className="font-mono text-[10px] text-slate-500">{b.badgeId} · {b.capstoneId}</div>
+                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-100">{lang === "es" ? b.spanishName : b.name}</div>
+                      <div className="font-mono text-[10px] text-slate-500 dark:text-slate-400">{b.badgeId} · {b.capstoneId}</div>
                     </div>
                   </div>
-                  <p className="mt-1.5 text-[11px] text-slate-600">{b.description}</p>
+                  <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">{b.description}</p>
                 </div>
               );
             })}
@@ -935,8 +1108,8 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer className="mt-auto border-t bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-4 text-center text-xs text-slate-500">
+      <footer className="mt-auto border-t bg-white dark:bg-slate-900 dark:border-slate-800">
+        <div className="mx-auto max-w-6xl px-4 py-4 text-center text-xs text-slate-500 dark:text-slate-400">
           {t(lang, "footerNote")} · {t(lang, "appName")} {new Date().getFullYear()}
         </div>
       </footer>
