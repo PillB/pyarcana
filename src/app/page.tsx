@@ -193,7 +193,19 @@ export default function Home() {
       <Glossary open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
       {!IS_STATIC_SITE && <FeedbackFab sectionId={activeSectionId} />}
       {!IS_STATIC_SITE && <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />}
-      <InteractiveTour open={tourOpen} onClose={() => setTourOpen(false)} />
+      <InteractiveTour
+        open={tourOpen}
+        onClose={() => setTourOpen(false)}
+        onNavigate={(target, sectionId) => {
+          if (target === 'capstones') { setView('capstones') }
+          else if (target === 'resources') { setView('resources') }
+          else if (target === 'home') { setView('home') }
+          else if (target === 'section' && sectionId) {
+            setView('section')
+            setActiveSectionId(sectionId)
+          }
+        }}
+      />
 
       {/* Sidebar — desktop */}
       <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-sidebar-border lg:block">

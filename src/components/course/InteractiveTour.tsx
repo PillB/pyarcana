@@ -66,6 +66,10 @@ interface TourStep {
   placement?: Placement
   /** When true, the step is skipped entirely if `target` is not present in the DOM. */
   conditional?: boolean
+  /** When set, the tour calls onNavigate() before showing this step. */
+  navigate?: 'home' | 'section' | 'capstones' | 'resources'
+  /** Section ID to open when navigate='section'. */
+  sectionId?: string
 }
 
 const STEPS: TourStep[] = [
@@ -85,12 +89,14 @@ const STEPS: TourStep[] = [
     titleKey: 'tour.capstones.title',
     bodyKey: 'tour.capstones.body',
     placement: 'bottom',
+    navigate: 'capstones',
   },
   {
     target: '[data-testid="nav-resources"]',
     titleKey: 'tour.resources.title',
     bodyKey: 'tour.resources.body',
     placement: 'bottom',
+    navigate: 'resources',
   },
   {
     target: '[data-testid="nav-admin"], [data-testid="nav-supervisor"]',
@@ -100,9 +106,29 @@ const STEPS: TourStep[] = [
     conditional: true,
   },
   {
+    target: '[data-testid="sidebar-sections"]',
+    titleKey: 'tour.openLesson.title',
+    bodyKey: 'tour.openLesson.body',
+    placement: 'right',
+    navigate: 'section',
+    sectionId: 'S01',
+  },
+  {
     target: '[data-testid="tab-ido"]',
     titleKey: 'tour.tabs.title',
     bodyKey: 'tour.tabs.body',
+    placement: 'bottom',
+  },
+  {
+    target: '[data-testid="tab-wedo"]',
+    titleKey: 'tour.exercises.title',
+    bodyKey: 'tour.exercises.body',
+    placement: 'bottom',
+  },
+  {
+    target: '[data-testid="tab-youdo"]',
+    titleKey: 'tour.youdo.title',
+    bodyKey: 'tour.youdo.body',
     placement: 'bottom',
   },
   {
@@ -110,6 +136,25 @@ const STEPS: TourStep[] = [
     titleKey: 'tour.autocheck.title',
     bodyKey: 'tour.autocheck.body',
     placement: 'bottom',
+  },
+  {
+    target: '[data-testid="section-next"]',
+    titleKey: 'tour.sectionNav.title',
+    bodyKey: 'tour.sectionNav.body',
+    placement: 'top',
+  },
+  {
+    target: '[data-testid="nav-glossary"]',
+    titleKey: 'tour.glossary.title',
+    bodyKey: 'tour.glossary.body',
+    placement: 'bottom',
+  },
+  {
+    target: '[data-testid="nav-capstones"]',
+    titleKey: 'tour.capstonesDeep.title',
+    bodyKey: 'tour.capstonesDeep.body',
+    placement: 'bottom',
+    navigate: 'capstones',
   },
   {
     target: '[data-testid="theme-toggle"]',
@@ -231,9 +276,11 @@ interface InteractiveTourProps {
   open: boolean
   /** Called when the tour finishes (either by completion or skip). */
   onClose: () => void
+  /** Called when a tour step needs to navigate (e.g. open a section, go to capstones). */
+  onNavigate?: (target: 'home' | 'section' | 'capstones' | 'resources', sectionId?: string) => void
 }
 
-export function InteractiveTour({ open, onClose }: InteractiveTourProps) {
+export function InteractiveTour({ open, onClose, onNavigate }: InteractiveTourProps) {
   const lang = useI18n((s) => s.lang)
   const tr = useCallback((k: string) => t(k, lang), [lang])
   const isMobile = useIsMobile()
@@ -247,6 +294,15 @@ export function InteractiveTour({ open, onClose }: InteractiveTourProps) {
   // Resolve conditional steps whenever the tour opens. Conditional steps whose
   // target isn't currently in the DOM (e.g. Admin link when not signed in as
   // admin) are filtered out so the user isn't shown a step pointing at nothing.
+  // Navigate when a step requests it (e.g. open a section, go to capstones)
+  useEffect(() => {
+    if (!open || !onNavigate) return
+    const step = effectiveSteps[stepIdx]
+    if (step?.navigate) {
+      onNavigate(step.navigate, step.sectionId)
+    }
+  }, [stepIdx, open, effectiveSteps, onNavigate])
+
   useEffect(() => {
     if (!open) {
       // eslint-disable-next-line react-hooks/set-state-in-effect

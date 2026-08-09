@@ -267,7 +267,7 @@ const translations: Record<Language, Dict> = {
 
     // Interactive tour (first-visit guide)
     'tour.welcome.title': 'Bienvenido a PyArcana',
-    'tour.welcome.body': 'Esta es una guía rápida de 10 pasos para conocer la plataforma. Toma menos de un minuto. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
+    'tour.welcome.body': 'Esta es una guía rápida de 17 pasos para conocer la plataforma. Toma menos de un minuto. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
     'tour.sections.title': 'Secciones del curso',
     'tour.sections.body': 'En la barra lateral tienes las 52 secciones del curso. Cada una sigue el método I Do / We Do / You Do / Autocheck. Marca tu progreso y vuelve cuando quieras.',
     'tour.capstones.title': 'Proyectos y Capstones',
@@ -288,6 +288,18 @@ const translations: Record<Language, Dict> = {
     'tour.legal.body': 'Privacidad, términos, cookies, aviso educativo, derechos ARCO y seguridad. PyArcana es un proyecto educativo, no certificación profesional.',
     'tour.done.title': '¡Listo — empieza a aprender!',
     'tour.done.body': 'Ya conoces PyArcana. Vuelve a esta guía cuando quieras desde el enlace «Repetir tour» en el pie de página.',
+    'tour.openLesson.title': 'Abramos la primera lección',
+    'tour.openLesson.body': 'Vamos a abrir la Sección 1 para que veas la estructura completa. Cada sección sigue el método I Do / We Do / You Do / Autocheck.',
+    'tour.exercises.title': 'Ejercicios guiados (We Do)',
+    'tour.exercises.body': 'En esta pestaña resuelves ejercicios paso a paso con pistas y retroalimentación inmediata. Es donde más aprendes — no te las saltes.',
+    'tour.youdo.title': 'Práctica independiente (You Do)',
+    'tour.youdo.body': 'Aquí trabajas solo, aplicando lo aprendido sin pistas. Este es el trabajo que acumulas para tu portafolio y tus capstones.',
+    'tour.sectionNav.title': 'Navegación entre secciones',
+    'tour.sectionNav.body': 'Usa estas flechas para avanzar o retroceder entre secciones. El curso tiene 52 secciones que avanzan de fundamentos a sistemas de producción.',
+    'tour.glossary.title': 'Glosario',
+    'tour.glossary.body': 'El glosario define todos los términos técnicos del curso en español e inglés. Úsalo cuando encuentres una palabra que no reconozcas.',
+    'tour.capstonesDeep.title': 'Cuándo usarás los capstones',
+    'tour.capstonesDeep.body': 'Los capstones son proyectos que demuestras al final de cada nivel (S04, S08, S13, etc.). Empiezas a trabajar en ellos desde la sección 1 — cada lección aporta una pieza. No esperes al final para empezar.',
     'tour.skip': 'Saltar',
     'tour.next': 'Siguiente',
     'tour.prev': 'Atrás',
@@ -530,7 +542,7 @@ const translations: Record<Language, Dict> = {
 
     // Interactive tour (first-visit guide)
     'tour.welcome.title': 'Bienvenido a PyArcana',
-    'tour.welcome.body': 'Esta es una guía rápida de 10 pasos para conocer la plataforma. Toma menos de un minuto. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
+    'tour.welcome.body': 'Esta es una guía rápida de 17 pasos para conocer la plataforma. Toma menos de un minuto. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
     'tour.sections.title': 'Secciones del curso',
     'tour.sections.body': 'En la barra lateral tienes las 52 secciones del curso. Cada una sigue el método I Do / We Do / You Do / Autocheck. Marca tu progreso y vuelve cuando quieras.',
     'tour.capstones.title': 'Proyectos y Capstones',
