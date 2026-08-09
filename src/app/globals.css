@@ -177,3 +177,15 @@
     outline-offset: 2px;
   }
 }
+
+/* Print styles — only the dialog/visible content shows when printing */
+@media print {
+  header, footer, nav { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .dark body { background: white !important; color: black !important; }
+  [data-slot="dialog-overlay"] { position: static !important; background: white !important; }
+  [data-slot="dialog-content"] { max-width: 100% !important; max-height: none !important; position: static !important; transform: none !important; box-shadow: none !important; border: none !important; }
+  [role="dialog"] { position: static !important; }
+  * { color: black !important; border-color: #ccc !important; }
+  a { text-decoration: underline; }
+}

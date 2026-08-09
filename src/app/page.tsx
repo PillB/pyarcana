@@ -21,6 +21,7 @@ import {
   Lock, AlertTriangle, CheckCircle2, XCircle, Play, RotateCcw, FileCheck,
   ListChecks, BookOpen, GraduationCap, ArrowRight, Info, Scale,
   Moon, Sun, Search, Filter, TrendingUp, Layers, Sparkles,
+  GitCompare, Printer, Share2, ArrowDown,
 } from "lucide-react";
 import { CAPSTONES, getCapstone, FINAL_INTERFACES } from "@/data/capstones";
 import { LEVELS, CARDINALITY } from "@/data/levels";
@@ -466,6 +467,9 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
               <FileText className="mr-1 h-3.5 w-3.5" />System card
             </Button>
           )}
+          <Button variant="outline" onClick={() => window.print()}>
+            <Printer className="mr-1 h-3.5 w-3.5" />{t(lang, "printBrief")}
+          </Button>
           <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
         </DialogFooter>
       </DialogContent>
@@ -784,6 +788,268 @@ function SystemCardDialog({ capstoneId, lang, open, onClose }: { capstoneId: str
   );
 }
 
+// ─────────────────────────────── capstone comparison ───────────────────────────────
+
+function ComparisonDialog({ lang, open, onClose }: { lang: Lang; open: boolean; onClose: () => void }) {
+  const [aId, setAId] = React.useState("CP-N1-A");
+  const [bId, setBId] = React.useState("CP-N4-C");
+  const a = getCapstone(aId);
+  const b = getCapstone(bId);
+
+  const dims: { label: string; aVal: string; bVal: string; diff: boolean }[] = [
+    { label: "Level", aVal: String(a.level), bVal: String(b.level), diff: a.level !== b.level },
+    { label: "Gate", aVal: a.gateSection, bVal: b.gateSection, diff: a.gateSection !== b.gateSection },
+    { label: "Version", aVal: a.version, bVal: b.version, diff: a.version !== b.version },
+    { label: "Status", aVal: a.status, bVal: b.status, diff: a.status !== b.status },
+    { label: "Artifacts", aVal: String(a.requiredArtifacts.length), bVal: String(b.requiredArtifacts.length), diff: a.requiredArtifacts.length !== b.requiredArtifacts.length },
+    { label: "Acceptance criteria", aVal: String(a.acceptanceCriteria.length), bVal: String(b.acceptanceCriteria.length), diff: a.acceptanceCriteria.length !== b.acceptanceCriteria.length },
+    { label: "Critical criteria", aVal: String(a.criticalCriteria.length), bVal: String(b.criticalCriteria.length), diff: a.criticalCriteria.length !== b.criticalCriteria.length },
+    { label: "Tests", aVal: String(a.testRequirements.length), bVal: String(b.testRequirements.length), diff: a.testRequirements.length !== b.testRequirements.length },
+    { label: "Security reqs", aVal: String(a.securityRequirements.length), bVal: String(b.securityRequirements.length), diff: a.securityRequirements.length !== b.securityRequirements.length },
+    { label: "Prerequisites", aVal: String(a.prerequisites.length), bVal: String(b.prerequisites.length), diff: a.prerequisites.length !== b.prerequisites.length },
+    { label: "Badge deps", aVal: String(a.badgeDependencies.length), bVal: String(b.badgeDependencies.length), diff: a.badgeDependencies.length !== b.badgeDependencies.length },
+    { label: "Rubric criteria", aVal: String(a.rubric.criteria.length), bVal: String(b.rubric.criteria.length), diff: a.rubric.criteria.length !== b.rubric.criteria.length },
+  ];
+
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-h-[90vh] max-w-4xl overflow-hidden p-0">
+        <DialogHeader className="border-b p-4">
+          <div className="flex items-center gap-2">
+            <GitCompare className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <DialogTitle className="text-lg">{t(lang, "compareCapstones")}</DialogTitle>
+          </div>
+          <DialogDescription className="text-xs">{t(lang, "compareSelectTwo")}</DialogDescription>
+        </DialogHeader>
+        <ScrollArea className="max-h-[calc(90vh-9rem)]">
+          <div className="space-y-4 p-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "capstoneA")}</label>
+                <select value={aId} onChange={(e) => setAId(e.target.value)} className="w-full rounded-md border border-slate-300 bg-white p-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 focus-ring">
+                  {CAPSTONES.map((c) => <option key={c.capstoneId} value={c.capstoneId}>{c.capstoneId} — {lang === "es" ? c.titleEs : c.title}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "capstoneB")}</label>
+                <select value={bId} onChange={(e) => setBId(e.target.value)} className="w-full rounded-md border border-slate-300 bg-white p-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 focus-ring">
+                  {CAPSTONES.map((c) => <option key={c.capstoneId} value={c.capstoneId}>{c.capstoneId} — {lang === "es" ? c.titleEs : c.title}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Titles */}
+            <div className="grid grid-cols-2 gap-3">
+              <Card className="card-hover p-3 dark:bg-slate-800 dark:border-slate-700">
+                <div className="font-mono text-xs text-violet-600 dark:text-violet-400">{a.capstoneId}</div>
+                <div className="text-sm font-semibold">{lang === "es" ? a.titleEs : a.title}</div>
+              </Card>
+              <Card className="card-hover p-3 dark:bg-slate-800 dark:border-slate-700">
+                <div className="font-mono text-xs text-violet-600 dark:text-violet-400">{b.capstoneId}</div>
+                <div className="text-sm font-semibold">{lang === "es" ? b.titleEs : b.title}</div>
+              </Card>
+            </div>
+
+            {/* Comparison table */}
+            <div className="overflow-x-auto rounded-md border dark:border-slate-700">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b bg-slate-50 dark:bg-slate-800">
+                    <th className="p-2 text-left font-medium text-slate-500 dark:text-slate-400">{t(lang, "differences")}</th>
+                    <th className="p-2 text-left font-medium text-slate-700 dark:text-slate-300">{a.capstoneId}</th>
+                    <th className="p-2 text-left font-medium text-slate-700 dark:text-slate-300">{b.capstoneId}</th>
+                    <th className="p-2 text-center font-medium text-slate-500 dark:text-slate-400">≠</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dims.map((d) => (
+                    <tr key={d.label} className="border-b last:border-0 dark:border-slate-700">
+                      <td className="p-2 font-medium text-slate-600 dark:text-slate-400">{d.label}</td>
+                      <td className="p-2 font-mono">{d.aVal}</td>
+                      <td className="p-2 font-mono">{d.bVal}</td>
+                      <td className="p-2 text-center">{d.diff ? <span className="text-amber-600 dark:text-amber-400">≠</span> : <span className="text-emerald-600 dark:text-emerald-400">=</span>}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Shared vs unique prerequisites */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <h4 className="mb-1 text-xs font-semibold text-slate-500 dark:text-slate-400">{t(lang, "prerequisites")} ({a.capstoneId})</h4>
+                <BulletList items={a.prerequisites} />
+              </div>
+              <div>
+                <h4 className="mb-1 text-xs font-semibold text-slate-500 dark:text-slate-400">{t(lang, "prerequisites")} ({b.capstoneId})</h4>
+                <BulletList items={b.prerequisites} />
+              </div>
+            </div>
+
+            {/* Shared critical criteria */}
+            <div>
+              <h4 className="mb-1 text-xs font-semibold text-slate-500 dark:text-slate-400">{t(lang, "criticalCriteria")}</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-md border border-red-200 bg-red-50/50 p-2 dark:border-red-800 dark:bg-red-950/30">
+                  <div className="mb-1 text-xs font-medium text-red-700 dark:text-red-400">{a.capstoneId}</div>
+                  <BulletList items={a.criticalCriteria} icon={XCircle} />
+                </div>
+                <div className="rounded-md border border-red-200 bg-red-50/50 p-2 dark:border-red-800 dark:bg-red-950/30">
+                  <div className="mb-1 text-xs font-medium text-red-700 dark:text-red-400">{b.capstoneId}</div>
+                  <BulletList items={b.criticalCriteria} icon={XCircle} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </ScrollArea>
+        <DialogFooter className="border-t p-3">
+          <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// ─────────────────────────────── dependency graph ───────────────────────────────
+
+function DependencyGraphDialog({ lang, open, onClose }: { lang: Lang; open: boolean; onClose: () => void }) {
+  // Nodes: 13 capstones positioned by level
+  const nodes = React.useMemo(() => {
+    const positions: { id: string; x: number; y: number; level: number; isFinal: boolean }[] = [];
+    for (const lv of LEVELS) {
+      lv.capstoneIds.forEach((id, i) => {
+        positions.push({ id, x: 15 + i * 30, y: 10 + (lv.levelId - 1) * 22, level: lv.levelId, isFinal: false });
+      });
+    }
+    positions.push({ id: "CP-FINAL", x: 45, y: 100, level: 4, isFinal: true });
+    return positions;
+  }, []);
+
+  // Edges: badgeDependencies (prerequisites) + final integration
+  const edges = React.useMemo(() => {
+    const e: { from: string; to: string; type: "prereq" | "integration" }[] = [];
+    for (const c of CAPSTONES) {
+      for (const dep of c.badgeDependencies) {
+        const fromCap = BADGES.find((b) => b.badgeId === dep);
+        if (fromCap) e.push({ from: fromCap.capstoneId, to: c.capstoneId, type: "prereq" });
+      }
+      if (c.capstoneId !== "CP-FINAL") {
+        e.push({ from: c.capstoneId, to: "CP-FINAL", type: "integration" });
+      }
+    }
+    return e;
+  }, []);
+
+  const getNode = (id: string) => nodes.find((n) => n.id === id);
+
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-h-[90vh] max-w-4xl overflow-hidden p-0">
+        <DialogHeader className="border-b p-4">
+          <div className="flex items-center gap-2">
+            <Network className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <DialogTitle className="text-lg">{t(lang, "dependencyGraph")}</DialogTitle>
+          </div>
+          <DialogDescription className="text-xs">{t(lang, "dependencyGraphDesc")}</DialogDescription>
+        </DialogHeader>
+        <ScrollArea className="max-h-[calc(90vh-9rem)]">
+          <div className="p-4">
+            {/* Legend */}
+            <div className="mb-4 flex flex-wrap items-center gap-4 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 rounded-full bg-violet-200 border border-violet-500" />
+                <span className="text-slate-600 dark:text-slate-400">{t(lang, "principalCapstoneNode")}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 rounded-full bg-violet-500 border border-violet-700" />
+                <span className="text-slate-600 dark:text-slate-400">{t(lang, "finalCapstoneNode")}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="h-4 w-6 border-t border-dashed border-slate-400" />
+                <span className="text-slate-600 dark:text-slate-400">{t(lang, "prerequisiteEdge")}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="h-4 w-6 border-t-2 border-violet-500" />
+                <span className="text-slate-600 dark:text-slate-400">{t(lang, "integrationEdge")}</span>
+              </div>
+            </div>
+
+            {/* SVG graph */}
+            <div className="overflow-x-auto rounded-md border dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+              <svg viewBox="0 0 100 120" className="w-full min-w-[600px]" style={{ height: "600px" }}>
+                {/* Edges */}
+                {edges.map((e, i) => {
+                  const from = getNode(e.from); const to = getNode(e.to);
+                  if (!from || !to) return null;
+                  return (
+                    <line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+                      stroke={e.type === "integration" ? "rgb(139 92 246)" : "rgb(148 163 184)"}
+                      strokeWidth={e.type === "integration" ? 0.4 : 0.2}
+                      strokeDasharray={e.type === "prereq" ? "0.5,0.5" : "none"}
+                      opacity={0.6}
+                    />
+                  );
+                })}
+                {/* Nodes */}
+                {nodes.map((n) => (
+                  <g key={n.id}>
+                    <circle cx={n.x} cy={n.y} r={n.isFinal ? 2.5 : 1.8}
+                      fill={n.isFinal ? "rgb(139 92 246)" : n.level === 4 ? "rgb(196 181 253)" : n.level === 3 ? "rgb(216 180 254)" : n.level === 2 ? "rgb(221 214 254)" : "rgb(237 233 254)"}
+                      stroke="rgb(139 92 246)" strokeWidth={0.3}
+                    />
+                    <text x={n.x} y={n.y - 3} textAnchor="middle" fontSize="1.8" fill="currentColor" className="fill-slate-700 dark:fill-slate-300">
+                      {n.id.replace("CP-", "")}
+                    </text>
+                  </g>
+                ))}
+                {/* Level labels */}
+                {LEVELS.map((lv) => (
+                  <text key={lv.stableId} x={2} y={10 + (lv.levelId - 1) * 22} fontSize="2" fill="currentColor" className="fill-slate-500 dark:fill-slate-400">
+                    L{lv.levelId}
+                  </text>
+                ))}
+                <text x={2} y={100} fontSize="2" fill="currentColor" className="fill-slate-500 dark:fill-slate-400">FIN</text>
+              </svg>
+            </div>
+
+            {/* Table view for accessibility */}
+            <details className="mt-4 text-xs">
+              <summary className="cursor-pointer font-medium text-slate-600 dark:text-slate-400">{t(lang, "upstream")} / {t(lang, "downstream")} (table)</summary>
+              <div className="mt-2 overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b dark:border-slate-700">
+                      <th className="p-1.5 text-left font-medium text-slate-500 dark:text-slate-400">Capstone</th>
+                      <th className="p-1.5 text-left font-medium text-slate-500 dark:text-slate-400">{t(lang, "upstream")}</th>
+                      <th className="p-1.5 text-left font-medium text-slate-500 dark:text-slate-400">{t(lang, "downstream")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CAPSTONES.map((c) => {
+                      const up = edges.filter((e) => e.to === c.capstoneId).map((e) => e.from);
+                      const down = edges.filter((e) => e.from === c.capstoneId).map((e) => e.to);
+                      return (
+                        <tr key={c.capstoneId} className="border-b last:border-0 dark:border-slate-700">
+                          <td className="p-1.5 font-mono text-violet-600 dark:text-violet-400">{c.capstoneId}</td>
+                          <td className="p-1.5 text-slate-600 dark:text-slate-400">{up.join(", ") || "—"}</td>
+                          <td className="p-1.5 text-slate-600 dark:text-slate-400">{down.join(", ") || "—"}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </div>
+        </ScrollArea>
+        <DialogFooter className="border-t p-3">
+          <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─────────────────────────────── main page ───────────────────────────────
 
 export default function HomePage() {
@@ -793,6 +1059,8 @@ export default function HomePage() {
   const [copilotOpen, setCopilotOpen] = React.useState(false);
   const [finalOpen, setFinalOpen] = React.useState(false);
   const [sysCardId, setSysCardId] = React.useState<string | null>(null);
+  const [compareOpen, setCompareOpen] = React.useState(false);
+  const [graphOpen, setGraphOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [filter, setFilter] = React.useState<"all" | "implemented" | "missing" | "blocked">("all");
 
@@ -841,6 +1109,12 @@ export default function HomePage() {
             <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => document.getElementById("capstones")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "capstonesNav")}</Button>
             <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => document.getElementById("sections")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "sectionsNav")}</Button>
             <Button size="sm" variant="ghost" className="hidden lg:inline-flex focus-ring" onClick={() => document.getElementById("invariant")?.scrollIntoView({ behavior: "smooth" })}>{t(lang, "invariantNav")}</Button>
+            <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => setCompareOpen(true)}>
+              <GitCompare className="mr-1 h-3.5 w-3.5" />{t(lang, "compare")}
+            </Button>
+            <Button size="sm" variant="ghost" className="hidden md:inline-flex focus-ring" onClick={() => setGraphOpen(true)}>
+              <Network className="mr-1 h-3.5 w-3.5" />{t(lang, "dependencyGraph")}
+            </Button>
             <Button size="sm" variant="outline" className="focus-ring" onClick={toggleTheme} aria-label={dark ? t(lang, "lightMode") : t(lang, "darkMode")}>
               {dark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
             </Button>
@@ -1125,6 +1399,8 @@ export default function HomePage() {
       <CopilotHarness lang={lang} open={copilotOpen} onClose={() => setCopilotOpen(false)} />
       <FinalIntegration lang={lang} open={finalOpen} onClose={() => setFinalOpen(false)} />
       <SystemCardDialog capstoneId={sysCardId} lang={lang} open={!!sysCardId} onClose={() => setSysCardId(null)} />
+      <ComparisonDialog lang={lang} open={compareOpen} onClose={() => setCompareOpen(false)} />
+      <DependencyGraphDialog lang={lang} open={graphOpen} onClose={() => setGraphOpen(false)} />
     </div>
   );
 }
