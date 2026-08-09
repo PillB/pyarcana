@@ -12,8 +12,32 @@
 //   - Narrow tools with allowlists, least privilege, idempotency, dry-run, sandboxing.
 //   - Human approval required for any side-effecting tool.
 //   - Generator–verifier separation.
-//   - Sensitive-data redaction in every emitted trace.
+//   - Sensitive-data redaction in every emitted trace (legacy `trace` string
+//     AND structured `otelSpans` array — GenAI semantic-conventions-compliant).
 //   - Stop-safely on budget exhaustion, provider failure, or rejection.
+//   - Web/SERP retrieval (when opts.webSearch=true) is provider-neutral,
+//     budget-bounded, robots-gated, deduped, and every snippet is wrapped as
+//     "[untrusted web content] …" so the verifier never treats open-web text
+//     as trusted instruction.
+
+import { createHash } from "node:crypto";
+import {
+  Tracer,
+  startRun,
+  startAgentStep,
+  startLlmGenerate,
+  llmGenerateEndAttrs,
+  ragRetrieveAttrs,
+  webRetrieveAttrs,
+  toolCallAttrs,
+  verifierAttrs,
+  runEndAttrs,
+  type ExportedSpan,
+} from "./otel";
+import {
+  searchWeb,
+  type WebSearchResult,
+} from "./web-search";
 
 export type ProviderMode = "no-key" | "local" | "commercial-test" | "commercial-approved";
 
@@ -68,6 +92,13 @@ export interface CopilotRunResult {
   verifier: VerifierResult;
   budget: Budget;
   trace: string;
+  /** Structured OTel GenAI spans (new canonical observability surface).
+   *  Present on `runHarness` results; the sync `runCopilotHarness` façade
+   *  omits it for UI determinism. Always JSON-serialisable. */
+  otelSpans?: ExportedSpan[];
+  /** Web/SERP results, present iff opts.webSearch=true. Every snippet is
+   *  wrapped as "[untrusted web content] …" — never treat as instruction. */
+  webResults?: WebSearchResult[];
   citedOutput: CitedOutput;
   stoppedSafely: boolean;
   stopReason: string;
@@ -80,6 +111,9 @@ export interface RunOptions {
   maxToolCalls?: number;
   maxCostUsd?: number;
   maxElapsedMs?: number;
+  /** When true, the harness also calls searchWeb() and includes web results
+   *  in the retrieval (wrapped as untrusted, with citations). */
+  webSearch?: boolean;
 }
 
 // ─────────────────────────── provider-neutral contracts ───────────────────────────
@@ -371,6 +405,20 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
   let stopReason = "completed";
 
   const trace: string[] = [];
+  // OTel GenAI tracer — root span is copilot.run; agent.step.* children;
+  // retrieval.rag / retrieval.web / llm.generate / tool.propose / verifier.check leaves.
+  const tracer = new Tracer();
+  const runId = createHash("sha1")
+    .update(`${opts.task}|${opts.providerMode}|${start}`)
+    .digest("hex")
+    .slice(0, 16);
+  const rootSpan = startRun(tracer, {
+    runId,
+    providerMode: opts.providerMode,
+    task: opts.task,
+    webSearchEnabled: opts.webSearch === true,
+  });
+
   const span = (name: string, attrs: Record<string, unknown>) => {
     const redactedAttrs = Object.fromEntries(
       Object.entries(attrs).map(([k, v]) => [k, typeof v === "string" ? redact(v) : v])
@@ -381,19 +429,57 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
 
   // Step 1: plan
   steps.push("plan");
+  const planStepSpan = startAgentStep(tracer, rootSpan, { stepN: steps.length, stepName: "plan" });
   span("agent.plan", { step: "plan" });
+  tracer.endSpan(planStepSpan);
   if (steps.length > budgetCfg.maxSteps) { stoppedSafely = true; stopReason = "max-steps"; }
 
   // Step 2: retrieve (access-filtered)
   steps.push("retrieve");
+  const retrieveStepSpan = startAgentStep(tracer, rootSpan, { stepN: steps.length, stepName: "retrieve" });
   const retrieval = retrieve(opts.task, corpus, userScopes);
   span("rag.retrieve", { hits: retrieval.length, indexVersion: INDEX_VERSION, scope: accessibleScope(userScopes) });
+  const ragSpan = tracer.startSpan(
+    "retrieval.rag",
+    retrieveStepSpan,
+    ragRetrieveAttrs({ hits: retrieval.length, indexVersion: INDEX_VERSION, scope: accessibleScope(userScopes) }),
+  );
+  tracer.endSpan(ragSpan);
   if (retrieval.length === 0) {
     span("rag.abstain", { reason: "no relevant chunks in accessible scope" });
   }
 
+  // Step 2b: optional web/SERP retrieval (provider-neutral, budget-bounded,
+  // robots-gated, deduped; snippets wrapped as untrusted).
+  let webResults: WebSearchResult[] | undefined;
+  if (opts.webSearch === true) {
+    const webSpan = tracer.startSpan(
+      "retrieval.web",
+      retrieveStepSpan,
+      webRetrieveAttrs({ query: opts.task, hits: 0, provider: "no-key", costUsd: 0, untrustedWrapped: true }),
+    );
+    try {
+      const sw = await searchWeb(opts.task, { maxResults: 5 });
+      webResults = sw.results;
+      tracer.endSpan(webSpan, webRetrieveAttrs({
+        query: opts.task,
+        hits: webResults.length,
+        provider: sw.provider,
+        costUsd: sw.budget.costUsd,
+        untrustedWrapped: true,
+      }));
+      span("web.retrieve", { hits: webResults.length, provider: sw.provider, untrusted: true });
+    } catch {
+      // Web search unavailable — fall back to abstain; do not crash the run.
+      tracer.endSpan(webSpan, webRetrieveAttrs({ query: opts.task, hits: 0, provider: "no-key", costUsd: 0, untrustedWrapped: true }));
+      span("web.abstain", { reason: "search unavailable" });
+    }
+  }
+  tracer.endSpan(retrieveStepSpan);
+
   // Step 3: generate (via adapter)
   steps.push("generate");
+  const genStepSpan = startAgentStep(tracer, rootSpan, { stepN: steps.length, stepName: "generate" });
   const modelReq: ModelRequest = {
     systemPrompt: "You are an auditable operations copilot. Cite every claim. Never infer fraud, kinship or collusion.",
     userPrompt: opts.task,
@@ -401,6 +487,7 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
     temperature: 0,
   };
   let modelRes: ModelResponse;
+  const llmSpan = startLlmGenerate(tracer, genStepSpan);
   try {
     modelRes = await adapter.generate(modelReq);
   } catch {
@@ -410,11 +497,37 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
   }
   costUsd += modelRes.costUsd;
   span("model.generate", { provider: modelRes.provider, tokensIn: modelRes.tokensIn, tokensOut: modelRes.tokensOut, cost: modelRes.costUsd, finishReason: modelRes.finishReason });
+  tracer.endSpan(llmSpan, llmGenerateEndAttrs({
+    provider: modelRes.provider,
+    model: modelRes.provider,
+    maxTokens: modelReq.maxTokens,
+    temperature: modelReq.temperature,
+    tokensIn: modelRes.tokensIn,
+    tokensOut: modelRes.tokensOut,
+    costUsd: modelRes.costUsd,
+    finishReason: modelRes.finishReason,
+    latencyMs: modelRes.latencyMs,
+  }));
+  tracer.endSpan(genStepSpan);
 
   // Step 4: propose tool (allowlisted)
   steps.push("propose-tool");
+  const toolStepSpan = startAgentStep(tracer, rootSpan, { stepN: steps.length, stepName: "propose-tool" });
   const proposedTool = proposeTool(opts.task);
   span("tool.propose", { name: proposedTool.name, sideEffect: proposedTool.sideEffect, allowlisted: proposedTool.allowlisted });
+  const toolSpan = tracer.startSpan(
+    "tool.propose",
+    toolStepSpan,
+    toolCallAttrs({
+      name: proposedTool.name,
+      input: proposedTool.args,
+      output: null,
+      allowlisted: proposedTool.allowlisted,
+      requiresApproval: proposedTool.sideEffect === "write" || proposedTool.sideEffect === "send",
+    }),
+  );
+  tracer.endSpan(toolSpan);
+  tracer.endSpan(toolStepSpan);
   if (!proposedTool.allowlisted) {
     stoppedSafely = true; stopReason = "tool-not-allowlisted";
   }
@@ -435,8 +548,16 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
 
   // Step 6: verify (generator–verifier separation)
   steps.push("verify");
+  const verifyStepSpan = startAgentStep(tracer, rootSpan, { stepN: steps.length, stepName: "verify" });
   const verifier = verify(opts.task, retrieval, modelRes.text);
   span("verifier.check", { passed: verifier.passed, faithfulness: verifier.faithfulness, contextPrecision: verifier.contextPrecision });
+  const verifySpan = tracer.startSpan(
+    "verifier.check",
+    verifyStepSpan,
+    verifierAttrs({ passed: verifier.passed, faithfulness: verifier.faithfulness, contextPrecision: verifier.contextPrecision }),
+  );
+  tracer.endSpan(verifySpan);
+  tracer.endSpan(verifyStepSpan);
 
   // Step 7: loop detection
   if (detectLoop(steps)) { stoppedSafely = true; stopReason = "loop-detected"; }
@@ -468,6 +589,12 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
   }
 
   span("run.end", { stoppedSafely, stopReason, withinBudget });
+  tracer.endSpan(rootSpan, runEndAttrs({
+    stoppedSafely: stoppedSafely || !withinBudget,
+    stopReason,
+    withinBudget,
+    budgetRemaining: Math.max(0, budgetCfg.maxSteps - steps.length),
+  }));
 
   return {
     providerMode: opts.providerMode,
@@ -476,6 +603,8 @@ export async function runHarness(opts: OrchestratorOptions): Promise<CopilotRunR
     verifier,
     budget: { steps: steps.length, toolCalls, costUsd: Math.round(costUsd * 10000) / 10000, elapsedMs, withinBudget },
     trace: redact(trace.join("\n")),
+    otelSpans: tracer.export(),
+    webResults,
     citedOutput,
     stoppedSafely: stoppedSafely || !withinBudget,
     stopReason,

@@ -20,11 +20,14 @@ const CP_N1_A: CapstoneContract = {
   capstoneId: "CP-N1-A",
   version: "1.3.0",
   title: "Reproducible Client Intake and Data-Quality CLI",
+  titleEs: "CLI reproducible de admisión y calidad de datos",
   level: 1,
   gateSection: "S04",
   subGates: [],
   problemStatement:
     "In 2015, the United Kingdom's Horizon IT scandal saw hundreds of sub-postmasters wrongly prosecuted because a data-intake system silently corrupted records and no one could reproduce what had happened. The lesson travels well: a program that swallows bad input without explanation, or that behaves differently on two machines, is not a tool but a liability. In this capstone you will build a command-line application that captures synthetic client records, validates required fields, preserves both raw and normalised values, explains every rejection or review reason in plain language, processes many records at once, calculates denominators correctly, emits both machine-readable and human-readable summaries, handles malformed input gracefully, uses no real personal information, runs from a clean environment, and ships tests alongside a beginner-friendly README. The aim is not flair but trust: another person, on another machine, must be able to run your program and obtain the same answer you did.",
+  problemStatementEs:
+    "En 2015, el escándalo del sistema informático Horizon del Reino Unido llevó a que cientos de subdirectores de correos fueran procesados injustamente porque un sistema de admisión de datos corrompió registros en silencio y nadie pudo reproducir lo que había ocurrido. La lección trasciende fronteras: un programa que traga entrada defectuosa sin explicación, o que se comporta de distinta manera en dos máquinas, no es una herramienta sino un pasivo. En este capstone construirás una aplicación de línea de comandos que captura registros sintéticos de clientes, valida los campos obligatorios, preserva tanto los valores crudos como los normalizados, explica en lenguaje llano cada razón de rechazo o revisión, procesa muchos registros a la vez, calcula los denominadores correctamente, emite resúmenes tanto legibles por máquina como por humanos, maneja entrada malformada con gracia, no usa información personal real, se ejecuta desde un entorno limpio e incluye pruebas junto con un README amable para principiantes. El objetivo no es el lucimiento sino la confianza: otra persona, en otra máquina, debe poder ejecutar tu programa y obtener la misma respuesta que obtuviste tú.",
   intendedUsers: ["A junior analyst onboarding synthetic clients into a bounded review queue", "A reviewer who must understand why a record was accepted or rejected"],
   jobsToBeDone: ["Capture synthetic client records from a file or stdin", "Validate and normalise fields while preserving raw values", "Explain rejection or review reasons", "Emit machine-readable and human-readable summaries"],
   learningOutcomes: [
@@ -77,11 +80,14 @@ const CP_N1_B: CapstoneContract = {
   capstoneId: "CP-N1-B",
   version: "1.3.0",
   title: "Reproducible Client and Transaction ETL Pipeline",
+  titleEs: "Pipeline ETL reproducible de clientes y transacciones",
   level: 1,
   gateSection: "S08",
   subGates: [],
   problemStatement:
     "When the European Space Agency's Rosetta probe neared comet 67P, its science team relied on pipelines that had to produce identical outputs whether run in Darmstadt or Toulouse, weeks apart, by different engineers. A pipeline that is not deterministic is not a pipeline; it is a rumour. In this capstone you will build a local ETL pipeline that ingests CSV and JSON, validates explicit contracts, preserves provenance, separates accepted from quarantined rows, produces deterministic outputs, records hashes and manifests, supports safe reruns, handles encoding and malformed rows, includes backup and recovery instructions, and exposes no secrets. The deliverable is a pipeline you would trust to run unattended, because you have watched it fail and recover gracefully.",
+  problemStatementEs:
+    "Cuando la sonda Rosetta de la Agencia Espacial Europea se acercó al cometa 67P, su equipo científico dependía de pipelines que debían producir salidas idénticas tanto si se ejecutaban en Darmstadt como en Toulouse, con semanas de diferencia, por ingenieros distintos. Un pipeline que no es determinista no es un pipeline; es un rumor. En este capstone construirás un pipeline ETL local que ingiere CSV y JSON, valida contratos explícitos, preserva la proveniencia, separa las filas aceptadas de las cuarentenadas, produce salidas deterministas, registra hashes y manifiestos, soporta reejecuciones seguras, maneja codificación y filas malformadas, incluye instrucciones de respaldo y recuperación, y no expone secretos. El entregable es un pipeline que confiarías ejecutar sin supervisión, porque lo has visto fallar y recuperarse con elegancia.",
   intendedUsers: ["A data engineer preparing synthetic client and transaction data for analysis", "A reviewer who must trace any output row back to its source"],
   jobsToBeDone: ["Ingest CSV and JSON with encoding detection", "Validate against explicit contracts", "Separate accepted and quarantined rows", "Produce deterministic outputs with manifests", "Recover safely from a partial failure"],
   learningOutcomes: [
@@ -136,11 +142,14 @@ const CP_N1_C: CapstoneContract = {
   capstoneId: "CP-N1-C",
   version: "1.4.0",
   title: "Familiarity Evidence Dashboard",
+  titleEs: "Tablero de evidencia de familiaridad",
   level: 1,
   gateSection: "S13",
   subGates: [],
   problemStatement:
     "In 2013, the Dutch childcare benefits scandal (toeslagenaffaire) began when an algorithm flagged dual-nationality parents as high-risk, collapsing tax records, address history and ethnicity into a fraud score that ruined tens of thousands of lives. The system inferred guilt from coincidence and offered no correction. This capstone exists to make the opposite choice routine. You will build a human-review dashboard that may use normalised matching, fuzzy matching, similarity, cross-referenced features, correlations, temporal overlap, geographic proximity and geofencing — but that keeps strictly separate the entity-resolution evidence, the relationship or familiarity evidence, and the risk or fraud decisions. The dashboard must never automatically infer kinship, collusion, fraud, criminal association, beneficial ownership or causal relationship. It must require provenance, uncertainty, false-positive analysis, human review, privacy controls and a correction mechanism. The deliverable is a dashboard that helps a human see, and refuses to decide for them.",
+  problemStatementEs:
+    "En 2013, el escándalo holandés de las prestaciones por cuidado infantil (toeslagenaffaire) comenzó cuando un algoritmo marcó a padres con doble nacionalidad como de alto riesgo, colapsando registros fiscales, historial de direcciones y etnicidad en una puntuación de fraude que arruinó decenas de miles de vidas. El sistema infería culpa a partir de coincidencias y no ofrecía corrección. Este capstone existe para hacer rutinaria la elección opuesta. Construirás un tablero de revisión humana que puede usar coincidencia normalizada, coincidencia difusa, similitud, características de referencia cruzada, correlaciones, solapamiento temporal, proximidad geográfica y geofencing — pero que mantiene estrictamente separadas la evidencia de resolución de entidades, la evidencia de relación o familiaridad, y las decisiones de riesgo o fraude. El tablero nunca debe inferir automáticamente parentesco, colusión, fraude, asociación criminal, beneficiario final o relación causal. Debe requerir proveniencia, incertidumbre, análisis de falsos positivos, revisión humana, controles de privacidad y un mecanismo de corrección. El entregable es un tablero que ayuda a un humano a ver, y se niega a decidir por él.",
   intendedUsers: ["A human reviewer assessing familiarity evidence on synthetic data", "A privacy officer auditing what the dashboard does and does not claim"],
   jobsToBeDone: ["Display entity-resolution evidence separately from relationship evidence and from risk decisions", "Show provenance, uncertainty and false-positive analysis", "Provide a correction mechanism", "Operate via keyboard and screen reader"],
   learningOutcomes: [
@@ -196,11 +205,14 @@ const CP_N2_A: CapstoneContract = {
   capstoneId: "CP-N2-A",
   version: "1.2.0",
   title: "Executive Data Quality and EDA Portfolio",
+  titleEs: "Portafolio ejecutivo de calidad de datos y EDA",
   level: 2,
   gateSection: "S17",
   subGates: [],
   problemStatement:
     "When the Reed College epidemiologists who famously reconstructed the 1918 influenza genome published their work, they accompanied every figure with an explicit statement of what the data could and could not say. The discipline of distinguishing observation from association, association from hypothesis, and hypothesis from recommendation is the difference between an analyst and a rumour-monger. In this capstone you will produce a reproducible analytical package containing a data dictionary, profiling, missingness analysis, reconciliation, distributions, segment comparisons, outlier rationale, assumptions, limitations, a notebook or script, an executive memo, a reproducible environment, and no unsupported causal interpretation. Your executive memo must distinguish observation, association, hypothesis, decision recommendation and evidence limitation — five registers of statement, each clearly labelled, never blurred.",
+  problemStatementEs:
+    "Cuando los epidemiólogos del Reed College que reconstruyeron el genoma de la gripe de 1918 publicaron su trabajo, acompañaron cada figura con una declaración explícita de lo que los datos podían y no podían decir. La disciplina de distinguir observación de asociación, asociación de hipótesis, e hipótesis de recomendación es la diferencia entre un analista y un propagador de rumores. En este capstone producirás un paquete analítico reproducible que contiene un diccionario de datos, perfilado, análisis de ausencia, reconciliación, distribuciones, comparaciones de segmentos, justificación de atípicos, supuestos, limitaciones, un notebook o script, un memo ejecutivo, un entorno reproducible y ninguna interpretación causal sin soporte. Tu memo ejecutivo debe distinguir observación, asociación, hipótesis, recomendación de decisión y limitación de evidencia — cinco registros de enunciado, cada uno claramente etiquetado, nunca difuminados.",
   intendedUsers: ["A manager who must act on the analysis", "A peer analyst who must reproduce it"],
   jobsToBeDone: ["Profile a synthetic dataset", "Diagnose missingness and distributions", "Compare segments without causal overreach", "Communicate findings in a disciplined memo"],
   learningOutcomes: [
@@ -251,11 +263,14 @@ const CP_N2_B: CapstoneContract = {
   capstoneId: "CP-N2-B",
   version: "1.2.0",
   title: "Accessible Insights Dashboard and Reporting Factory",
+  titleEs: "Tablero accesible de hallazgos y fábrica de reportes",
   level: 2,
   gateSection: "S21",
   subGates: [],
   problemStatement:
     "In 2019, the United Kingdom's Office for National Statistics rebuilt its inflation dashboard after discovering that colour-only encoding had locked colour-blind readers out of the national story for years. A dashboard that only some people can read is not a dashboard; it is a gate. In this capstone you will build an accessible dashboard and a reusable reporting factory: reusable report templates, table and chart exports, filter logic, source-to-claim traceability, data freshness indicators, error and empty states, accessible labels, keyboard operation, PDF or document output, and automated report checks. The project must prevent misleading axes, inaccessible colour-only encoding, hidden denominators, stale results presented as current, and unsupported executive claims.",
+  problemStatementEs:
+    "En 2019, la Oficina Nacional de Estadística del Reino Unido reconstruyó su tablero de inflación tras descubrir que la codificación basada solo en color había dejado fuera de la historia nacional a los lectores daltónicos durante años. Un tablero que solo algunos pueden leer no es un tablero; es una puerta cerrada. En este capstone construirás un tablero accesible y una fábrica de reportes reutilizable: plantillas de reporte reutilizables, exportación de tablas y gráficas, lógica de filtros, trazabilidad fuente-a-afirmación, indicadores de frescura de datos, estados de error y vacío, etiquetas accesibles, operación por teclado, salida en PDF o documento, y verificaciones automatizadas de reportes. El proyecto debe prevenir ejes engañosos, codificación inaccesible basada solo en color, denominadores ocultos, resultados obsoletos presentados como actuales y afirmaciones ejecutivas sin soporte.",
   intendedUsers: ["A decision-maker who reads the dashboard", "A report author who reuses the templates", "An accessibility auditor"],
   jobsToBeDone: ["Display insights accessibly", "Trace any claim to its source rows", "Export reproducible PDF reports", "Run automated report checks"],
   learningOutcomes: [
@@ -308,11 +323,14 @@ const CP_N2_C: CapstoneContract = {
   capstoneId: "CP-N2-C",
   version: "1.2.0",
   title: "Human-Approved RPA and AI Analyst Workflow",
+  titleEs: "Flujo RPA y de analista IA aprobado por humano",
   level: 2,
   gateSection: "S26",
   subGates: [],
   problemStatement:
     "In 2017, a Scandinavian marketing automation platform sent a campaign to two million customers because an analyst had connected an unattended send to a draft queue and gone home. The lesson is older than software: never wire the trigger to the gun. In this capstone you will build an end-to-end workflow — Excel or structured input → validation → analysis → report → human review → approval → email draft → optional authorised send — with no automatic external send without approval, idempotency, retries only for safe transient errors, an audit trail, rollback, a test mode, document and spreadsheet validation, safe email recipients, redacted logs, approval expiry, and a clear separation between draft and send. The deliverable is a workflow that a cautious person would trust to run overnight, because the only thing it can do unattended is nothing irreversible.",
+  problemStatementEs:
+    "En 2017, una plataforma escandinava de automatización de marketing envió una campaña a dos millones de clientes porque un analista había conectado un envío sin supervisión a una cola de borradores y se había ido a casa. La lección es más antigua que el software: nunca conectes el disparador al gatillo. En este capstone construirás un flujo de extremo a extremo — entrada en Excel o estructurada → validación → análisis → reporte → revisión humana → aprobación → borrador de correo → envío autorizado opcional — sin envío externo automático sin aprobación, con idempotencia, reintentos solo para errores transitorios seguros, pista de auditoría, rollback, un modo de prueba, validación de documentos y hojas de cálculo, destinatarios seguros, logs redactados, expiración de aprobación y una clara separación entre borrador y envío. El entregable es un flujo en el que una persona cautelosa confiaría para ejecutar durante la noche, porque lo único que puede hacer sin supervisión es nada irreversible.",
   intendedUsers: ["An analyst who prepares drafts", "An approver who authorises sends", "An auditor who reviews the trail"],
   jobsToBeDone: ["Validate structured input", "Analyse and draft a report", "Route to a human approver", "Send only after explicit approval", "Roll back on failure"],
   learningOutcomes: [
@@ -369,11 +387,14 @@ const CP_N3_A: CapstoneContract = {
   capstoneId: "CP-N3-A",
   version: "1.2.0",
   title: "Testable Entity Resolution Engine",
+  titleEs: "Motor evaluable de resolución de entidades",
   level: 3,
   gateSection: "S30",
   subGates: [],
   problemStatement:
     "When the United States Census Bureau deduplicated records for the 2020 count, it faced an old problem with new urgency: how do you decide that two records refer to the same person without ever claiming that they are related, kin, or conspiring? Entity resolution is the art of saying 'probably the same entity' and refusing to say anything more. In this capstone you will build an ER system with candidate generation, blocking, exact and fuzzy comparators, feature provenance, a labelled benchmark, train/dev/test separation where modelling is used, precision and recall, threshold selection, an ambiguous review queue, a deterministic baseline, error analysis, and no automatic relationship or fraud inference. Required tests include Unicode, aliases, missing data, conflicting identifiers, household sharing, common names, duplicate source records, false-positive controls and threshold boundaries.",
+  problemStatementEs:
+    "Cuando la Oficina del Censo de los Estados Unidos desduplicó registros para el censo de 2020, se enfrentó a un problema antiguo con nueva urgencia: ¿cómo decides que dos registros se refieren a la misma persona sin afirmar nunca que están relacionados, son parientes o conspiran? La resolución de entidades es el arte de decir 'probablemente la misma entidad' y negarse a decir nada más. En este capstone construirás un sistema de RE con generación de candidatos, blocking, comparadores exactos y difusos, proveniencia de características, un benchmark etiquetado, separación train/dev/test donde se usa modelado, precisión y recall, selección de umbral, una cola de revisión ambigua, un baseline determinista, análisis de errores y ninguna inferencia automática de relación o fraude. Las pruebas requeridas incluyen Unicode, alias, datos faltantes, identificadores conflictivos, hogares compartidos, nombres comunes, registros fuente duplicados, controles de falsos positivos y fronteras de umbral.",
   intendedUsers: ["A data engineer resolving synthetic entities", "A reviewer auditing the ambiguous queue"],
   jobsToBeDone: ["Generate candidates with blocking", "Compare with exact and fuzzy comparators", "Select a threshold with stated costs", "Route ambiguous cases to human review"],
   learningOutcomes: [
@@ -426,11 +447,14 @@ const CP_N3_B: CapstoneContract = {
   capstoneId: "CP-N3-B",
   version: "1.2.0",
   title: "Relationship Investigation Workbench",
+  titleEs: "Mesa de trabajo de investigación de relaciones",
   level: 3,
   gateSection: "S34",
   subGates: [],
   problemStatement:
     "When the International Consortium of Investigative Journalists published the Panama Papers, its reporters built a graph workbench to trace shell companies through nominees, directors and addresses — but every edge carried a question: what is the source, what does this edge mean, what does it not mean, how old is it, who may see it, can it be corrected? An edge without those answers is not evidence; it is innuendo. In this capstone you will build a workbench that represents entities and evidence as an explainable graph, preserves source and timestamp, supports path search, distinguishes direct from inferred links, limits path depth, filters by authorisation, displays uncertainty, supports analyst notes and correction, avoids automatic fraud labels, and supports case reproducibility. Every visual edge must answer the six required questions.",
+  problemStatementEs:
+    "Cuando el Consorcio Internacional de Periodistas de Investigación publicó los Papeles de Panamá, sus reporteros construyeron una mesa de trabajo en grafo para rastrear empresas ficticias a través de nominatarios, directores y direcciones — pero cada arista llevaba una pregunta: ¿cuál es la fuente, qué significa esta arista, qué no significa, qué antigüedad tiene, quién puede verla, se puede corregir? Una arista sin esas respuestas no es evidencia; es insinuación. En este capstone construirás una mesa de trabajo que representa entidades y evidencia como un grafo explicable, preserva fuente y marca de tiempo, soporta búsqueda de caminos, distingue enlaces directos de inferidos, limita la profundidad del camino, filtra por autorización, muestra incertidumbre, soporta notas del analista y corrección, evita etiquetas automáticas de fraude y soporta reproducibilidad del caso. Cada arista visual debe responder las seis preguntas requeridas.",
   intendedUsers: ["An analyst investigating synthetic relationships", "A reviewer auditing the evidence graph", "A privacy officer enforcing authorisation"],
   jobsToBeDone: ["Build an evidence graph", "Search paths with depth limits", "Display uncertainty and provenance", "Support notes and correction", "Reproduce a case from its export"],
   learningOutcomes: [
@@ -483,11 +507,14 @@ const CP_N3_C: CapstoneContract = {
   capstoneId: "CP-N3-C",
   version: "1.2.0",
   title: "Responsible ML Case Triage",
+  titleEs: "Triage responsable de casos con ML",
   level: 3,
   gateSection: "S39",
   subGates: [],
   problemStatement:
     "When the COMPAS recidivism score was audited by ProPublica in 2016, the question was not whether the model was accurate but whether it was fair, calibrated, and honest about its uncertainty — and whether a human ever saw the cases it was unsure about. In this capstone you will build a decision-support model that begins with a deterministic baseline, prevents data leakage, separates training and evaluation, reports calibration, chooses thresholds from stated costs, supports abstention, routes uncertain cases to human review, measures subgroup and temporal performance, produces a model card, monitors drift and quality, and does not make unreviewed adverse decisions. Required evidence includes the baseline, dataset version, split design, evaluation, calibration, threshold rationale, abstention policy, error analysis, model card and monitoring plan.",
+  problemStatementEs:
+    "Cuando la puntuación de reincidencia COMPAS fue auditada por ProPublica en 2016, la pregunta no era si el modelo era preciso sino si era justo, calibrado y honesto sobre su incertidumbre — y si un humano veía alguna vez los casos de los que no estaba seguro. En este capstone construirás un modelo de apoyo a la decisión que comienza con un baseline determinista, previene fuga de datos, separa entrenamiento y evaluación, reporta calibración, elige umbrales a partir de costos establecidos, soporta abstención, enruta casos inciertos a revisión humana, mide desempeño por subgrupo y temporal, produce una tarjeta de modelo, monitorea drift y calidad, y no toma decisiones adversas sin revisión. La evidencia requerida incluye el baseline, versión del dataset, diseño de partición, evaluación, calibración, justificación del umbral, política de abstención, análisis de errores, tarjeta de modelo y plan de monitoreo.",
   intendedUsers: ["A case triage analyst", "A reviewer auditing calibration and subgroup performance", "A model card reader"],
   jobsToBeDone: ["Train a triage model with leakage prevention", "Calibrate and choose a cost-aware threshold", "Abstain on uncertain cases", "Monitor drift and subgroup performance"],
   learningOutcomes: [
@@ -544,11 +571,14 @@ const CP_N4_A: CapstoneContract = {
   capstoneId: "CP-N4-A",
   version: "1.2.0",
   title: "Governed Python Service Platform",
+  titleEs: "Plataforma de servicio Python gobernada",
   level: 4,
   gateSection: "S43",
   subGates: [],
   problemStatement:
     "When the Knight Capital trading firm deployed a broken service to production in 2012, it lost four hundred and forty million dollars in forty-five minutes — not because the code was wrong, but because no one had governed the deployment, the rollback, or the environment. A service is not a script you ran once; it is a contract with operations. In this capstone you will turn prior logic into a production-style service with a versioned API, schema validation, authentication and authorisation, rate limits, secure configuration, dependency locks, a container image, non-root execution, health and readiness checks, resource limits, structured redacted logging, migrations, backup, recovery, security scanning, and contract and integration tests. A successful local demo is insufficient unless the service is reproducible in a clean environment.",
+  problemStatementEs:
+    "Cuando la firma de trading Knight Capital desplegó un servicio roto en producción en 2012, perdió cuatrocientos cuarenta millones de dólares en cuarenta y cinco minutos — no porque el código estuviera mal, sino porque nadie había gobernado el despliegue, el rollback ni el entorno. Un servicio no es un script que ejecutaste una vez; es un contrato con operaciones. En este capstone convertirás lógica previa en un servicio de estilo producción con una API versionada, validación de esquema, autenticación y autorización, límites de tasa, configuración segura, dependencias bloqueadas, una imagen de contenedor, ejecución non-root, verificaciones de salud y disponibilidad, límites de recursos, logging estructurado y redactado, migraciones, respaldo, recuperación, escaneo de seguridad y pruebas de contrato e integración. Una demostración local exitosa es insuficiente a menos que el servicio sea reproducible en un entorno limpio.",
   intendedUsers: ["A platform operator deploying the service", "A security reviewer auditing the container", "A client integrating the API"],
   jobsToBeDone: ["Expose a versioned, validated API", "Run as a non-root container with probes", "Migrate, back up and recover", "Scan dependencies for vulnerabilities"],
   learningOutcomes: [
@@ -606,11 +636,14 @@ const CP_N4_B: CapstoneContract = {
   capstoneId: "CP-N4-B",
   version: "1.2.0",
   title: "Production Data and ML Platform",
+  titleEs: "Plataforma de datos y ML de producción",
   level: 4,
   gateSection: "S47",
   subGates: [],
   problemStatement:
     "When Netflix's recommendation team published its MLOps practices, the headline was not the model but the rollback: every deploy could be reversed in minutes, and every model could be traced to its data. A platform without rollback is a gamble; a platform without lineage is a guess. In this capstone you will implement data and model lineage, reproducible experiments, dataset versioning, a registry, model or artifact signatures, train/serve consistency, CI/CD, staging, an approval gate, shadow or canary evaluation, service-level objectives, rollback, last-known-good recovery, and change and incident records. The project must prove rollback rather than merely documenting it.",
+  problemStatementEs:
+    "Cuando el equipo de recomendación de Netflix publicó sus prácticas MLOps, el titular no fue el modelo sino el rollback: cada despliegue podía revertirse en minutos, y cada modelo podía rastrearse hasta sus datos. Una plataforma sin rollback es una apuesta; una plataforma sin lineaje es una conjetura. En este capstone implementarás lineaje de datos y modelo, experimentos reproducibles, versionado de datasets, un registro, firmas de modelo o artefacto, consistencia train/serve, CI/CD, staging, una compuerta de aprobación, evaluación shadow o canary, objetivos de nivel de servicio, rollback, recuperación de último-bueno y registros de cambios e incidentes. El proyecto debe probar el rollback en lugar de simplemente documentarlo.",
   intendedUsers: ["An ML engineer deploying models", "A platform operator running canaries", "An auditor reviewing change records"],
   jobsToBeDone: ["Track lineage and version datasets", "Register models with signatures", "Promote via staging with approval", "Run shadow/canary with SLOs", "Roll back to last-known-good"],
   learningOutcomes: [
@@ -666,6 +699,7 @@ const CP_N4_C: CapstoneContract = {
   capstoneId: "CP-N4-C",
   version: "2.0.0",
   title: "Auditable Multi-Agent AI Operations Copilot and Harness",
+  titleEs: "Copiloto y harness de operaciones IA multi-agente auditable",
   level: 4,
   gateSection: "S51",
   subGates: [
@@ -675,6 +709,8 @@ const CP_N4_C: CapstoneContract = {
   ],
   problemStatement:
     "In 2024, a widely deployed customer-service agent began emailing customers the contents of its own retrieval index because no one had bounded its tool calls, filtered its citations, or required approval for an external send. A chatbot is not a copilot; a copilot is not a harness. This capstone incorporates the requested production multi-agent project. It must support model portability (a local-model adapter, a commercial-model adapter in test or approved mode, provider-neutral contracts, timeout, retry classification, budget enforcement, fallback, provider outage handling, deterministic test doubles, and no mandatory paid key for the basic validation suite); an agent graph and harness (an explicit orchestrator, bounded specialist roles, typed handoffs, persistent run state, maximum steps, tool calls, cost and elapsed time, stop conditions, loop detection, last-known-good checkpoint, durable resume, failed-hypothesis memory, and generator–verifier separation); RAG (an authorised document corpus, chunk provenance, versioned index, access filtering before retrieval, hybrid or justified retrieval, citations, retrieval and answer evaluation, abstention, prompt-injection defence, stale-index handling); tools (narrow schemas, single responsibility, least privilege, allowlists, typed errors, idempotency, safe retry policy, dry-run mode, sandboxing, side-effect audit, explicit human approval for sensitive actions); web and SERP integration (provider abstraction, query budget, domain restrictions, source provenance, retrieval timestamp, deduplication, citation, robots/terms/access constraints, injection treatment, no unverified web text treated as trusted instructions, fallback); evaluation and red teaming (deterministic checks, task-level holdout, trajectory evaluation, tool-argument evaluation, recovery evaluation, human review, calibrated model judges, injection attacks, data exfiltration attempts, tool misuse, infinite-loop attempts, cost exhaustion, context poisoning, provider failure, unauthorised side effects); and operations and governance (traces and spans, sensitive-data redaction, versioned models/prompts/datasets/indexes, latency, token and cost metrics, quality indicators, incident handling, rollback, audit history, correction and appeal, accessible interface, system card, no-go conditions). The capstone must demonstrate: plan → retrieve → call permitted tools → verify → request approval where required → produce cited output → record trace → recover or stop safely. A polished chatbot without these controls does not pass.",
+  problemStatementEs:
+    "En 2024, un agente de atención al cliente ampliamente desplegado comenzó a enviar por correo a los clientes el contenido de su propio índice de recuperación porque nadie había acotado sus llamadas a herramientas, filtrado sus citas ni requerido aprobación para un envío externo. Un chatbot no es un copiloto; un copiloto no es un harness. Este capstone incorpora el proyecto multi-agente de producción solicitado. Debe soportar portabilidad de modelo (un adaptador de modelo local, un adaptador de modelo comercial en modo prueba o aprobado, contratos neutrales respecto al proveedor, timeout, clasificación de reintentos, aplicación de presupuesto, fallback, manejo de caída del proveedor, dobles de prueba deterministas y ninguna clave paga obligatoria para el conjunto básico de validación); un grafo de agentes y harness (un orquestador explícito, roles especializados acotados, handoffs tipados, estado de ejecución persistente, máximo de pasos, llamadas a herramientas, costo y tiempo transcurrido, condiciones de parada, detección de bucles, checkpoint de último-bueno, reanudación durable, memoria de hipótesis fallidas y separación generador–verificador); RAG (un corpus de documentos autorizado, proveniencia de fragmentos, índice versionado, filtrado de acceso antes de la recuperación, recuperación híbrida o justificada, citas, evaluación de recuperación y respuesta, abstención, defensa contra inyección de prompt, manejo de índice obsoleto); herramientas (esquemas estrechos, responsabilidad única, mínimo privilegio, listas de permitidos, errores tipados, idempotencia, política de reintento seguro, modo dry-run, sandboxing, auditoría de efectos secundarios, aprobación humana explícita para acciones sensibles); integración web y SERP (abstracción de proveedor, presupuesto de consultas, restricciones de dominio, proveniencia de fuente, marca de tiempo de recuperación, deduplicación, cita, restricciones de robots/términos/acceso, tratamiento de inyección, ningún texto web no verificado tratado como instrucción confiable, fallback); evaluación y red teaming (verificaciones deterministas, holdout a nivel de tarea, evaluación de trayectoria, evaluación de argumentos de herramientas, evaluación de recuperación, revisión humana, jueces modelo calibrados donde se usen, ataques de inyección, intentos de exfiltración de datos, uso indebido de herramientas, intentos de bucle infinito, agotamiento de costo, envenenamiento de contexto, falla del proveedor, efectos secundarios no autorizados); y operaciones y gobernanza (trazas y spans, redacción de datos sensibles, modelos/prompts/datasets/índices versionados, latencia, métricas de tokens y costo, indicadores de calidad, manejo de incidentes, rollback, historial de auditoría, corrección y apelación, interfaz accesible, tarjeta de sistema, condiciones de no-ejecución). El capstone debe demostrar: planificar → recuperar → llamar herramientas permitidas → verificar → solicitar aprobación donde se requiera → producir salida citada → registrar traza → recuperar o detenerse de forma segura. Un chatbot pulido sin estos controles no aprueba.",
   intendedUsers: ["An operations analyst using the copilot on synthetic tasks", "An approver authorising sensitive tool calls", "A security reviewer auditing traces and red-team results", "An SRE running incident response"],
   jobsToBeDone: ["Configure provider mode (no-key, local, commercial-test, commercial-approved)", "Run a bounded task with retrieval and tools", "Inspect proposed tool calls and approve or reject", "Inspect verifier, trace, budget and cited output", "Recover or stop safely on failure"],
   learningOutcomes: [
@@ -777,11 +813,14 @@ const CP_FINAL: CapstoneContract = {
   capstoneId: "CP-FINAL",
   version: "1.1.0",
   title: "Enterprise Relationship and Operations Intelligence Platform",
+  titleEs: "Plataforma de inteligencia de relaciones y operaciones empresarial",
   level: 4,
   gateSection: "S52",
   subGates: [],
   problemStatement:
     "When the Apollo programme integrated a hundred contractors into one mission, the magic was not in any single module but in the interfaces: the precise, versioned contracts that let guidance, life support and telemetry speak to one another without confusion. A final capstone that merely collects twelve repositories is not an integration; it is a catalogue. In this capstone you will integrate all twelve level capstones through explicit, versioned interfaces: subsystem boundaries (intake, data quality and ETL, entity resolution, relationship evidence, analytics and reporting, automation, case triage, service platform, data and ML operations, RAG, agentic copilot, governance and observability); APIs or event contracts; contract tests; a dependency graph; a shared synthetic scenario; a reproducible deployment; end-to-end tests; security; privacy; observability; backup; restore; rollback; a disaster exercise; ADRs; architecture diagrams; a data card; a model card; a system card; a threat model; an operational runbook; a concise demo; a technical defence; a personal contribution statement; and a truthful CV narrative. The final project must not claim that the learner prevented fraud, saved money, improved a real organisation, achieved production accuracy, or operated at enterprise scale, unless those outcomes were genuinely and independently demonstrated.",
+  problemStatementEs:
+    "Cuando el programa Apolo integró a un centenar de contratistas en una sola misión, la magia no estuvo en ningún módulo individual sino en las interfaces: los contratos precisos y versionados que permitieron a la guía, el soporte vital y la telemetría hablarse entre sí sin confusión. Un capstone final que simplemente recolecta doce repositorios no es una integración; es un catálogo. En este capstone integrarás los doce capstones de nivel a través de interfaces explícitas y versionadas: límites de subsistema (admisión, calidad de datos y ETL, resolución de entidades, evidencia de relaciones, analítica y reportes, automatización, triage de casos, plataforma de servicio, operaciones de datos y ML, RAG, copiloto agéntico, gobernanza y observabilidad); APIs o contratos de eventos; pruebas de contrato; un grafo de dependencias; un escenario sintético compartido; un despliegue reproducible; pruebas de extremo a extremo; seguridad; privacidad; observabilidad; respaldo; restauración; rollback; un ejercicio de desastre; ADRs; diagramas de arquitectura; una tarjeta de datos; una tarjeta de modelo; una tarjeta de sistema; un modelo de amenazas; un runbook operacional; una demostración concisa; una defensa técnica; una declaración de contribución personal; y una narrativa de CV veraz. El proyecto final no debe afirmar que el aprendiz previno fraude, ahorró dinero, mejoró una organización real, logró precisión de producción u operó a escala empresarial, a menos que esos resultados fueran genuina e independientemente demostrados.",
   intendedUsers: ["A reviewer evaluating the integration", "An operator running the platform", "An auditor reading the system card"],
   jobsToBeDone: ["Integrate twelve upstream capstones via versioned interfaces", "Run contract tests and end-to-end tests", "Demonstrate backup, restore, rollback and disaster recovery", "Defend the architecture and report a truthful contribution"],
   learningOutcomes: [

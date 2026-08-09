@@ -140,11 +140,11 @@ function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: 
                 <span className="font-mono text-xs font-semibold text-slate-500">{c.capstoneId}</span>
                 <Pill variant={c.status === "implemented" ? "warn" : "ok"}>{c.status}</Pill>
               </div>
-              <CardTitle className="text-base leading-tight">{c.title}</CardTitle>
+              <CardTitle className="text-base leading-tight">{lang === "es" ? c.titleEs : c.title}</CardTitle>
             </div>
           </div>
         </div>
-        <CardDescription className="mt-1 line-clamp-3 text-xs">{c.problemStatement}</CardDescription>
+        <CardDescription className="mt-1 line-clamp-3 text-xs">{lang === "es" ? c.problemStatementEs : c.problemStatement}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 space-y-3 text-sm">
         <div className="flex flex-wrap items-center gap-2">
@@ -211,7 +211,7 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal }:
               <Pill key={sg.id} variant="warn">{sg.id} · {sg.sectionId}</Pill>
             ))}
           </div>
-          <DialogTitle className="text-xl">{c.title}</DialogTitle>
+          <DialogTitle className="text-xl">{lang === "es" ? c.titleEs : c.title}</DialogTitle>
           <DialogDescription className="text-xs">{isFinal ? t(lang, "finalCapstone") : t(lang, "principalCapstone")}</DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[calc(90vh-9rem)]">
@@ -219,7 +219,7 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal }:
             {/* Brief — Stephen Fry register */}
             <section>
               <h3 className="mb-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">{t(lang, "viewBrief")}</h3>
-              <p className="text-sm leading-relaxed text-slate-700">{c.problemStatement}</p>
+              <p className="text-sm leading-relaxed text-slate-700">{lang === "es" ? c.problemStatementEs : c.problemStatement}</p>
             </section>
 
             <div className="grid gap-4 md:grid-cols-2">

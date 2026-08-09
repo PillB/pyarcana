@@ -626,3 +626,167 @@ describe("Backward compatibility (Section 11)", () => {
     expect(BADGES.map((b) => b.badgeId)).toEqual(expected);
   });
 });
+
+// ─────────────────────────── CP-N4-C web/SERP + OTel integration ───────────────────────────
+// New tests added by Task 6-webserp-otel (Gap A web/SERP adapter + Gap B OTel
+// GenAI structured spans). These append to the existing suite — they do NOT
+// modify or weaken any existing test.
+
+describe("CP-N4-C web/SERP + OTel integration (Task 6)", () => {
+  test("web/SERP adapter integration: web results present when webSearch=true", async () => {
+    const res = await runHarness({
+      task: "OWASP LLM top 10 prompt injection compliance",
+      providerMode: "no-key",
+      approved: true,
+      webSearch: true,
+    });
+    expect(res.webResults).toBeDefined();
+    expect(res.webResults!.length).toBeGreaterThan(0);
+    // Every web result has provenance.
+    for (const r of res.webResults!) {
+      expect(r.provider).toBeTruthy();
+      expect(r.domain).toBeTruthy();
+      expect(r.fetchedAt).toBeTruthy();
+      expect(r.url).toBeTruthy();
+    }
+  });
+
+  test("web results are wrapped as untrusted (injection treatment)", async () => {
+    const res = await runHarness({
+      task: "OWASP LLM top 10",
+      providerMode: "no-key",
+      approved: true,
+      webSearch: true,
+    });
+    for (const r of res.webResults!) {
+      // The verifier and prompt builder look for the [untrusted web content]
+      // prefix to refuse to treat open-web text as trusted instruction.
+      expect(r.snippet.startsWith("[untrusted web content]")).toBe(true);
+    }
+    // The legacy trace string also records the web retrieval.
+    expect(res.trace).toContain("web.retrieve");
+  });
+
+  test("OTel spans present in the result (structured span array)", async () => {
+    const res = await runHarness({
+      task: "compliance memo ACME-001",
+      providerMode: "no-key",
+      approved: true,
+    });
+    expect(res.otelSpans).toBeDefined();
+    expect(Array.isArray(res.otelSpans)).toBe(true);
+    expect(res.otelSpans!.length).toBeGreaterThan(0);
+    // Every span has traceId/spanId/name/attributes.
+    for (const s of res.otelSpans!) {
+      expect(s.traceId).toMatch(/^[a-f0-9]{32}$/);
+      expect(s.spanId).toMatch(/^[a-f0-9]{16}$/);
+      expect(s.name).toBeTruthy();
+      expect(typeof s.attributes).toBe("object");
+    }
+  });
+
+  test("OTel spans have gen_ai.* attributes (semantic conventions)", async () => {
+    const res = await runHarness({
+      task: "compliance memo ACME-001",
+      providerMode: "no-key",
+      approved: true,
+    });
+    // Root span carries gen_ai.system.
+    const root = res.otelSpans!.find((s) => s.name === "copilot.run")!;
+    expect(root).toBeDefined();
+    expect(root.attributes["gen_ai.system"]).toBe("pyarcana");
+    // LLM span carries gen_ai.request.model + gen_ai.usage.*.
+    const llm = res.otelSpans!.find((s) => s.name === "llm.generate")!;
+    expect(llm).toBeDefined();
+    expect(llm.attributes["gen_ai.request.model"]).toBeTruthy();
+    expect(typeof llm.attributes["gen_ai.usage.input_tokens"]).toBe("number");
+    expect(typeof llm.attributes["gen_ai.usage.output_tokens"]).toBe("number");
+    expect(llm.attributes["gen_ai.response.finish_reasons"]).toEqual(["stop"]);
+    // Tool span carries gen_ai.tool.name.
+    const tool = res.otelSpans!.find((s) => s.name === "tool.propose")!;
+    expect(tool).toBeDefined();
+    expect(tool.attributes["gen_ai.tool.name"]).toBeTruthy();
+    expect(typeof tool.attributes["pyarcana.tool.allowlisted"]).toBe("boolean");
+  });
+
+  test("OTel spans are redacted (no PII leaks through structured spans)", async () => {
+    // Task containing an email-like pattern; the OTel span processor must
+    // redact it before export.
+    const res = await runHarness({
+      task: "contact ana.review@synthetic.example about ACME-001 KYC refresh",
+      providerMode: "no-key",
+      approved: true,
+    });
+    for (const s of res.otelSpans!) {
+      for (const v of Object.values(s.attributes)) {
+        if (typeof v === "string") {
+          expect(v).not.toContain("ana.review@synthetic.example");
+        }
+      }
+    }
+    // The legacy trace string is also redacted (existing invariant).
+    expect(res.trace).not.toContain("ana.review@synthetic.example");
+  });
+
+  test("OTel span tree: root → agent.step.* → leaves (rag/llm/tool/verifier)", async () => {
+    const res = await runHarness({
+      task: "compliance memo ACME-001",
+      providerMode: "no-key",
+      approved: true,
+    });
+    const spans = res.otelSpans!;
+    const root = spans.find((s) => s.name === "copilot.run")!;
+    expect(root.parentSpanId).toBeNull();
+    // Agent step spans are direct children of root.
+    const stepSpans = spans.filter((s) => s.name.startsWith("agent.step."));
+    expect(stepSpans.length).toBeGreaterThan(0);
+    for (const s of stepSpans) {
+      expect(s.parentSpanId).toBe(root.spanId);
+    }
+    // Leaf spans (llm.generate, tool.propose, verifier.check) are children of agent steps.
+    const llm = spans.find((s) => s.name === "llm.generate")!;
+    const parentStep = spans.find((s) => s.spanId === llm.parentSpanId)!;
+    expect(parentStep.name.startsWith("agent.step.")).toBe(true);
+  });
+
+  test("webSearch=false (default) produces no webResults field", async () => {
+    const res = await runHarness({
+      task: "compliance memo ACME-001",
+      providerMode: "no-key",
+      approved: true,
+    });
+    expect(res.webResults).toBeUndefined();
+  });
+
+  test("OTel pyarcana.* governance attributes on root span", async () => {
+    const res = await runHarness({
+      task: "compliance memo ACME-001",
+      providerMode: "no-key",
+      approved: true,
+      webSearch: true,
+    });
+    const root = res.otelSpans!.find((s) => s.name === "copilot.run")!;
+    expect(root.attributes["pyarcana.provider_mode"]).toBe("no-key");
+    expect(root.attributes["pyarcana.run_id"]).toBeTruthy();
+    expect(root.attributes["pyarcana.web_search.enabled"]).toBe(true);
+    // Verifier quality indicators.
+    const verifier = res.otelSpans!.find((s) => s.name === "verifier.check")!;
+    expect(typeof verifier.attributes["pyarcana.verifier.faithfulness"]).toBe("number");
+    expect(typeof verifier.attributes["pyarcana.verifier.context_precision"]).toBe("number");
+    // Index version on the rag retrieval span.
+    const rag = res.otelSpans!.find((s) => s.name === "retrieval.rag")!;
+    expect(rag.attributes["pyarcana.index.version"]).toMatch(/^v/);
+  });
+
+  test("OTel export is JSON-serialisable (durable resume invariant)", async () => {
+    const res = await runHarness({
+      task: "compliance memo ACME-001",
+      providerMode: "no-key",
+      approved: true,
+    });
+    const json = JSON.stringify(res);
+    const back = JSON.parse(json) as { otelSpans: unknown[] };
+    expect(Array.isArray(back.otelSpans)).toBe(true);
+    expect(back.otelSpans.length).toBe(res.otelSpans!.length);
+  });
+});

@@ -54,10 +54,12 @@ export interface CapstoneContract {
   capstoneId: string;        // e.g. "CP-N1-A"
   version: string;           // semver
   title: string;
+  titleEs: string;  // Stephen Fry Spanish redaction
   level: LevelId;
   gateSection: string;       // e.g. "S04"
   subGates: SubGate[];
   problemStatement: string;
+  problemStatementEs: string;  // Stephen Fry Spanish redaction
   intendedUsers: string[];
   jobsToBeDone: string[];
   learningOutcomes: string[];
