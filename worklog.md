@@ -2732,3 +2732,41 @@ Stage Summary:
   (f) Adding the missing 17 invariants requires NEW infrastructure: an in-memory or per-test SQLite Prisma setup, user/cohort/invitation/payment fixtures, Firebase/payment mocks, and likely a new tests/api/ directory for integration tests. Currently impossible to add a "User A can't access User B's data" test without standing up a dev server + seeded DB.
 - Reusable artifacts left for downstream agents: this audit report (below) + the invariant matrix as a backlog for the security-test-writing agent.
 - Source-quality honesty: I could not actually run any tests in this environment (tsx and @playwright/test are not installed in node_modules). Coverage assessment is based on static reading of test files, package.json scripts, CI workflow, and Prisma schema. To verify runtime behavior, run `bun install` then `npm run test:adversarial`.
+
+---
+Task ID: canonical-sync
+Agent: main orchestrator
+Task: Fetch canonical pyarcana repo, identify gaps, implement scoped compatible improvements, push, create PR
+
+## Current project status assessment
+- The canonical pyarcana repo (github.com/PillB/pyarcana) is king — 13/13 capstones formally_passed, Art Nouveau UI, mature CI/CD, deployed to GitHub Pages
+- Local environment replaced with a fresh clone of the canonical repo
+- Auth completed: logged in as PillB with repo scopes
+- Dev server cannot run in this 4GB sandbox (OOM-killed during webpack compilation of the 13K-file repo)
+- Changes made as scoped, compatible additions (no existing files modified)
+
+## Gap analysis performed
+1. CP-FINAL SYSTEM_CARD.md — MISSING (CP-N4-C had one, CP-FINAL did not)
+2. CP-N4-C OTel GenAI export — MISSING (tracing.py existed but no gen_ai.* semantic conventions)
+3. content_matrix.md — MISSING
+4. runtime_matrix.md — MISSING
+5. security_matrix.md — MISSING
+6. accessibility_matrix.md — MISSING
+7. deployment_evidence.md — MISSING
+
+## Completed modifications
+- **CP-FINAL SYSTEM_CARD.md**: 8 sections (what it is, 12 subsystem boundaries with interface + contract test, 6 integration-specific failure modes, operating modes, responsible-use, limits, versioning)
+- **CP-N4-C harness/otel_export.py**: OTel GenAI semantic-convention span export (gen_ai.* attributes, PyArcana extensions, OTLP/JSON envelope, validation function); sits on top of existing tracing.py
+- **5 validation matrices**: content (13 capstones), runtime (23 harness controls + 6 integration tests), security (OWASP LLM Top 10), accessibility (WCAG 2.2 AA), deployment evidence (CI/CD + live verification)
+
+## Verification results
+- All 7 files are additive (no existing files modified)
+- PR #24 created: https://github.com/PillB/pyarcana/pull/24
+- Branch: feat/scoped-v3 → main
+- Live site: https://pillb.github.io/pyarcana/ returns HTTP 200
+- Auth: logged in as PillB with repo scopes
+
+## Unresolved issues / risks
+1. **Dev server OOM** — the 13K-file repo exceeds the 4GB sandbox memory during webpack compilation; changes were made by editing files directly without running the dev server
+2. **PR merge** — PR #24 is open and ready for review/merge; merging will trigger the deploy workflow
+3. **Post-merge validation** — after merge, verify the live site still renders correctly and the new files are accessible
