@@ -22,6 +22,7 @@ import {
   ListChecks, BookOpen, GraduationCap, ArrowRight, Info, Scale,
   Moon, Sun, Search, Filter, TrendingUp, Layers, Sparkles,
   GitCompare, Printer, Share2, ArrowDown, Star, CheckSquare, Square,
+  Download, Upload, BookMarked,
 } from "lucide-react";
 import { CAPSTONES, getCapstone, FINAL_INTERFACES } from "@/data/capstones";
 import { LEVELS, CARDINALITY } from "@/data/levels";
@@ -265,11 +266,12 @@ function BulletList({ items, icon: Icon }: { items: string[]; icon?: React.Compo
 
 // ─────────────────────────────── capstone card ───────────────────────────────
 
-function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void; prog: LearnerProgress; bookmarked: boolean; onBookmark: (id: string) => void }) {
+function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark, sectionsDone }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void; prog: LearnerProgress; bookmarked: boolean; onBookmark: (id: string) => void; sectionsDone: number }) {
   const c = getCapstone(capstoneId);
   const badge = BADGES.find((b) => b.capstoneId === capstoneId);
   const IconBadge = badge ? (ICONS[badge.icon] ?? GraduationCap) : GraduationCap;
   const progress = prog[capstoneId] ?? DEFAULT_PROGRESS[capstoneId];
+  const totalSections = SECTIONS.filter((s) => s.capstoneId === capstoneId).length;
   const total = c.requiredArtifacts.length;
   const done = progress.evidenceCompleted.length;
   const pct = Math.round((done / total) * 100);
@@ -318,6 +320,12 @@ function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark }
           </div>
           <Progress value={pct} className="h-2" />
         </div>
+        {totalSections > 0 && (
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <span className="flex items-center gap-1"><CheckSquare className="h-3 w-3" />{t(lang, "sectionsInCapstone")}</span>
+            <span className="font-mono">{sectionsDone}/{totalSections}</span>
+          </div>
+        )}
         {hasBlockers && (
           <div className="rounded-md border border-amber-200 bg-amber-50 p-2 dark:border-amber-800 dark:bg-amber-950/40">
             <div className="mb-1 flex items-center gap-1 text-xs font-medium text-amber-800 dark:text-amber-300">
@@ -1242,7 +1250,7 @@ export default function HomePage() {
   const [graphOpen, setGraphOpen] = React.useState(false);
   const [helpOpen, setHelpOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
-  const [filter, setFilter] = React.useState<"all" | "implemented" | "missing" | "blocked">("all");
+  const [filter, setFilter] = React.useState<"all" | "implemented" | "missing" | "blocked" | "bookmarked">("all");
   const [progress, toggleProgress, resetProgress] = useProgress();
   const [bookmarks, toggleBookmark] = useBookmarks();
   const [sectionCompleted, toggleSection] = useSectionProgress();
@@ -1296,9 +1304,10 @@ export default function HomePage() {
       if (filter === "implemented" && c.status !== "implemented") return false;
       if (filter === "missing" && p.evidenceMissing.length === 0) return false;
       if (filter === "blocked" && p.blockers.length === 0) return false;
+      if (filter === "bookmarked" && !bookmarks.has(c.capstoneId)) return false;
       return true;
     });
-  }, [search, filter, lang, progress]);
+  }, [search, filter, lang, progress, bookmarks]);
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -1411,11 +1420,37 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-2">
             <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => {
+              const data = { progress, bookmarks: [...bookmarks], sectionCompleted: [...sectionCompleted], exportedAt: new Date().toISOString() };
+              const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a"); a.href = url; a.download = "pyarcana-progress.json"; a.click();
+              URL.revokeObjectURL(url);
+            }}>
+              <Download className="mr-1 h-3 w-3" />{t(lang, "exportProgress")}
+            </Button>
+            <label className="inline-flex cursor-pointer items-center rounded-md px-3 h-7 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-800 focus-ring">
+              <Upload className="mr-1 h-3 w-3" />{t(lang, "importProgress")}
+              <input type="file" accept=".json" className="hidden" onChange={(e) => {
+                const file = e.target.files?.[0]; if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                  try {
+                    const data = JSON.parse(reader.result as string);
+                    if (data.progress) { try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(data.progress)); } catch {} }
+                    if (data.bookmarks) { try { localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(data.bookmarks)); } catch {} }
+                    if (data.sectionCompleted) { try { localStorage.setItem(SECTION_PROGRESS_KEY, JSON.stringify(data.sectionCompleted)); } catch {} }
+                    window.location.reload();
+                  } catch { alert(t(lang, "progressImportError")); }
+                };
+                reader.readAsText(file);
+              }} />
+            </label>
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => {
               navigator.clipboard?.writeText(window.location.href).catch(() => {});
             }}>
               <Share2 className="mr-1 h-3 w-3" />{t(lang, "shareLink")}
             </Button>
-            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => { if (confirm(t(lang, "resetProgress") + "?")) resetProgress(); }}>
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => { if (confirm(t(lang, "resetProgress") + "?")) { resetProgress(); try { localStorage.removeItem(BOOKMARKS_KEY); localStorage.removeItem(SECTION_PROGRESS_KEY); } catch {} window.location.reload(); } }}>
               <RotateCcw className="mr-1 h-3 w-3" />{t(lang, "resetProgress")}
             </Button>
             <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => setHelpOpen(true)}>
@@ -1440,7 +1475,7 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-1">
             <Filter className="h-4 w-4 text-slate-400" />
-            {(["all", "implemented", "missing", "blocked"] as const).map((f) => (
+            {(["all", "implemented", "missing", "blocked", "bookmarked"] as const).map((f) => (
               <Button
                 key={f}
                 size="sm"
@@ -1448,6 +1483,7 @@ export default function HomePage() {
                 className="focus-ring"
                 onClick={() => setFilter(f)}
               >
+                {f === "bookmarked" && <Star className="mr-1 h-3 w-3" />}
                 {t(lang, `filter${f.charAt(0).toUpperCase() + f.slice(1)}` as StringKey)}
               </Button>
             ))}
@@ -1509,7 +1545,7 @@ export default function HomePage() {
                 </details>
                 <div id="capstones" className="grid gap-4 md:grid-cols-3">
                   {levelCapstones.map((c) => (
-                    <CapstoneCard key={c.capstoneId} capstoneId={c.capstoneId} lang={lang} onOpen={openWithHash} prog={progress} bookmarked={bookmarks.has(c.capstoneId)} onBookmark={toggleBookmark} />
+                    <CapstoneCard key={c.capstoneId} capstoneId={c.capstoneId} lang={lang} onOpen={openWithHash} prog={progress} bookmarked={bookmarks.has(c.capstoneId)} onBookmark={toggleBookmark} sectionsDone={SECTIONS.filter((s) => s.capstoneId === c.capstoneId && sectionCompleted.has(s.sectionId)).length} />
                   ))}
                 </div>
               </div>
@@ -1529,7 +1565,7 @@ export default function HomePage() {
               <Pill variant="warn">CP-FINAL · S52</Pill>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={openWithHash} prog={progress} bookmarked={bookmarks.has("CP-FINAL")} onBookmark={toggleBookmark} />
+              <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={openWithHash} prog={progress} bookmarked={bookmarks.has("CP-FINAL")} onBookmark={toggleBookmark} sectionsDone={SECTIONS.filter((s) => s.capstoneId === "CP-FINAL" && sectionCompleted.has(s.sectionId)).length} />
               <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800 md:col-span-2">
                 <div className="mb-2 flex items-center justify-between">
                   <h3 className="text-sm font-semibold">{t(lang, "finalIntegrationInterfaces")}</h3>
