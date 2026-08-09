@@ -336,3 +336,38 @@ Task: Deep-linking, progress persistence, keyboard shortcuts
 4. **Section-level progress** — track progress per section (S01–S52), not just per capstone.
 5. **Bookmark/favorite capstones** — let learners star capstones for quick access.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-5
+Agent: main orchestrator (cron round)
+Task: Evidence checkboxes, section-level progress, bookmark/favorite capstones
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 15 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code B9AA-39F2)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export, deep-linking, progress persistence, keyboard shortcuts
+
+## Completed modifications this round
+- **Evidence toggle checkboxes** (CapstoneDialog): each required artifact has a clickable CheckSquare/Square checkbox; completed items show line-through + emerald color; toggles persist via useProgress; live progress count; aria-pressed/aria-label
+- **Section-level progress** (sections grid): each of 52 sections has a checkbox; completed sections get emerald border+background+line-through; persists via useSectionProgress; new KPI card "Sections completed" (X/52) replaces "blockers active"
+- **Bookmark/favorite capstones** (CapstoneCard): star icon button top-right; bookmarked stars fill amber; persists via useBookmarks; aria-pressed/aria-label
+- **Accessibility fix**: added DialogDescription to KeyboardHelpDialog (fixes "Missing Description or aria-describedby for DialogContent" warning)
+- **i18n**: 12 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (no regression)
+- Lint clean, type-check clean
+- agent-browser: bookmark toggles from "Bookmark" to "Bookmarked"
+- agent-browser: evidence checkboxes render with mark complete/incomplete buttons
+- No console errors or warnings after fresh reload
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code B9AA-39F2 pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Bookmarks filter** — add a "Bookmarks only" filter button so learners can quickly see their starred capstones.
+4. **Section progress per capstone** — show section completion count on each capstone card.
+5. **Export progress** — let learners export their progress as JSON for backup.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
