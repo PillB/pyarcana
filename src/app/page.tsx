@@ -261,6 +261,87 @@ function useTimeline(): [TimelineEntry[], (capstoneId: string, evidence: string,
   return [timeline, record];
 }
 
+// Streak tracker: consecutive days with at least one evidence completion
+const STREAK_KEY = "pyarcana-streak-v1";
+function useStreak(timeline: TimelineEntry[]): { count: number; active: boolean } {
+  const [streak, setStreak] = React.useState({ count: 0, active: false });
+  React.useEffect(() => {
+    if (timeline.length === 0) { setStreak({ count: 0, active: false }); return; }
+    // Group completions by date (YYYY-MM-DD)
+    const dates = new Set(timeline.map((e) => e.ts.slice(0, 10)));
+    const sortedDates = [...dates].sort().reverse();
+    if (sortedDates.length === 0) { setStreak({ count: 0, active: false }); return; }
+    // Check if the most recent date is today or yesterday
+    const today = new Date().toISOString().slice(0, 10);
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    const active = sortedDates[0] === today || sortedDates[0] === yesterday;
+    // Count consecutive days backward from the most recent
+    let count = 1;
+    for (let i = 0; i < sortedDates.length - 1; i++) {
+      const d1 = new Date(sortedDates[i]);
+      const d2 = new Date(sortedDates[i + 1]);
+      const diff = (d1.getTime() - d2.getTime()) / 86400000;
+      if (Math.round(diff) === 1) count++;
+      else break;
+    }
+    setStreak({ count, active });
+    try { localStorage.setItem(STREAK_KEY, JSON.stringify({ count, active })); } catch {}
+  }, [timeline]);
+  return streak;
+}
+
+// Achievement notifications: check for milestones after evidence toggle
+interface Achievement { id: string; title: string; desc: string; }
+function useAchievements(progress: LearnerProgress): [Achievement | null, () => void] {
+  const [current, setCurrent] = React.useState<Achievement | null>(null);
+  const check = React.useCallback((capstoneId: string) => {
+    const c = getCapstone(capstoneId);
+    const p = progress[capstoneId];
+    if (!c || !p) return;
+    // Capstone complete: all artifacts done
+    if (p.evidenceCompleted.length === c.requiredArtifacts.length && c.requiredArtifacts.length > 0) {
+      setCurrent({ id: `capstone-${capstoneId}`, title: STRINGS.en.capstoneComplete, desc: STRINGS.en.capstoneCompleteDesc.replace("{capstone}", capstoneId) });
+      return;
+    }
+    // Level complete: all 3 capstones in the level at 100%
+    const levelCapstones = CAPSTONES.filter((x) => x.level === c.level && x.capstoneId !== "CP-FINAL");
+    const allLevelDone = levelCapstones.every((x) => {
+      const px = progress[x.capstoneId];
+      return px && px.evidenceCompleted.length === x.requiredArtifacts.length;
+    });
+    if (allLevelDone) {
+      setCurrent({ id: `level-${c.level}`, title: STRINGS.en.levelComplete, desc: STRINGS.en.levelCompleteDesc.replace("{level}", String(c.level)) });
+      return;
+    }
+    // All 13 complete
+    const allDone = CAPSTONES.every((x) => {
+      const px = progress[x.capstoneId];
+      return px && px.evidenceCompleted.length === x.requiredArtifacts.length;
+    });
+    if (allDone) {
+      setCurrent({ id: "all", title: STRINGS.en.allCapstonesComplete, desc: STRINGS.en.allCapstonesCompleteDesc });
+    }
+  }, [progress]);
+  // Re-check when progress changes
+  React.useEffect(() => {
+    // Find any newly-completed capstone and trigger
+    for (const c of CAPSTONES) {
+      const p = progress[c.capstoneId];
+      if (p && p.evidenceCompleted.length === c.requiredArtifacts.length && c.requiredArtifacts.length > 0) {
+        // Only show if not already shown (simple: show once per session via sessionStorage)
+        const key = `achv-shown-${c.capstoneId}`;
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, "1");
+          setCurrent({ id: `capstone-${c.capstoneId}`, title: STRINGS.en.capstoneComplete, desc: STRINGS.en.capstoneCompleteDesc.replace("{capstone}", c.capstoneId) });
+          return;
+        }
+      }
+    }
+  }, [progress]);
+  const dismiss = React.useCallback(() => setCurrent(null), []);
+  return [current, dismiss];
+}
+
 function blockerToLearner(lang: Lang, blocker: string): string {
   const map: Record<string, StringKey> = {
     "missing-rollback": "missingRollback",
@@ -460,6 +541,32 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
               <section>
                 <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "prerequisites")}</h4>
                 <BulletList items={c.prerequisites} icon={BookOpen} />
+                {/* Prerequisite capstone chain */}
+                {c.badgeDependencies.length > 0 ? (
+                  <div className="mt-2 rounded-md border p-2 dark:border-slate-700 dark:bg-slate-800">
+                    <div className="mb-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">{t(lang, "prerequisitesDesc")}</div>
+                    <div className="flex flex-wrap items-center gap-1">
+                      {c.badgeDependencies.map((bd, i) => {
+                        const fromBadge = BADGES.find((b) => b.badgeId === bd);
+                        const fromId = fromBadge?.capstoneId ?? bd;
+                        return (
+                          <React.Fragment key={bd}>
+                            <button onClick={() => { onClose(); setTimeout(() => window.location.hash = fromId.toLowerCase(), 100); }} className="focus-ring rounded border border-violet-200 bg-violet-50 px-1.5 py-0.5 font-mono text-[10px] text-violet-700 hover:bg-violet-100 dark:border-violet-800 dark:bg-violet-950/40 dark:text-violet-300" title={fromBadge?.name}>
+                              {fromId}
+                            </button>
+                            {i < c.badgeDependencies.length - 1 && <ArrowRight className="h-3 w-3 text-slate-400" />}
+                          </React.Fragment>
+                        );
+                      })}
+                      <ArrowRight className="h-3 w-3 text-slate-400" />
+                      <span className="rounded border border-violet-400 bg-violet-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-violet-800 dark:bg-violet-900 dark:text-violet-200">{c.capstoneId}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-2 rounded-md border border-emerald-200 bg-emerald-50 p-2 text-[11px] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
+                    <CheckCircle2 className="mr-1 inline h-3 w-3" />{t(lang, "noPrerequisites")}
+                  </div>
+                )}
               </section>
               <section>
                 <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "learningOutcomes")}</h4>
@@ -1311,6 +1418,8 @@ export default function HomePage() {
   const [sectionCompleted, toggleSection] = useSectionProgress();
   const [recent, addRecent, clearRecent] = useRecent();
   const [timeline, recordTimeline] = useTimeline();
+  const streak = useStreak(timeline);
+  const [achievement, dismissAchievement] = useAchievements(progress);
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   const open = React.useCallback((id: string) => {
@@ -1466,11 +1575,12 @@ export default function HomePage() {
           <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "levelsNav")}</div>
-                <div className="mt-1 text-2xl font-bold text-violet-600 dark:text-violet-400">{CARDINALITY.levels}</div>
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "streak")}</div>
+                <div className="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400">{streak.count} <span className="text-sm font-normal">{t(lang, "streakDays")}</span></div>
+                <div className="mt-0.5 text-[10px] text-slate-400">{streak.active ? "🔥" : ""}</div>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-400">
-                <Layers className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400">
+                <Sparkles className="h-5 w-5" />
               </div>
             </div>
           </Card>
@@ -1794,6 +1904,24 @@ export default function HomePage() {
       <ComparisonDialog lang={lang} open={compareOpen} onClose={() => setCompareOpen(false)} />
       <DependencyGraphDialog lang={lang} open={graphOpen} onClose={() => setGraphOpen(false)} />
       <KeyboardHelpDialog lang={lang} open={helpOpen} onClose={() => setHelpOpen(false)} />
+
+      {/* Achievement toast */}
+      {achievement && (
+        <div className="fixed bottom-4 right-4 z-50 max-w-sm rounded-lg border border-violet-300 bg-white p-4 shadow-lg dark:border-violet-700 dark:bg-slate-900">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-400">
+              <Crown className="h-5 w-5" />
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-semibold text-violet-700 dark:text-violet-300">{achievement.title}</div>
+              <div className="text-xs text-slate-600 dark:text-slate-400">{achievement.desc}</div>
+            </div>
+            <button onClick={dismissAchievement} className="focus-ring rounded p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" aria-label={t(lang, "dismiss")}>
+              <XCircle className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
