@@ -440,3 +440,37 @@ Task: Progress timeline, difficulty indicator, recently viewed capstones
 4. **Streak tracker** — track consecutive days of evidence completion.
 5. **Achievement notifications** — toast when a capstone reaches 100% evidence.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-8
+Agent: main orchestrator (cron round)
+Task: Capstone prerequisite chain, streak tracker, achievement toasts
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 21 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code C91B-FE59)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export, deep-linking, progress persistence, keyboard shortcuts, evidence checkboxes, section progress, bookmarks, bookmarks filter, export/import, timeline, difficulty indicator, recently viewed
+
+## Completed modifications this round
+- **Capstone prerequisite chain** (CapstoneDialog): visual chain of prerequisite capstones (badgeDependencies → current); clickable chips navigate to prerequisite dialog; ArrowRight connectors; "No prerequisites" emerald badge for entry capstones; prerequisitesDesc explains the chain
+- **Streak tracker**: useStreak hook computes consecutive days with evidence completions; active if most recent is today/yesterday (🔥); new KPI card in overview (replaces static "levels" card); persisted
+- **Achievement toasts**: useAchievements hook detects capstone/level/all-complete milestones; toast (fixed bottom-right) with Crown icon; once per session (sessionStorage); three tiers; dismiss button
+- **i18n**: 16 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (no regression)
+- Lint clean, type-check clean (fixed duplicate i18n key: prerequisites already existed)
+- agent-browser: streak KPI renders (0 day streak initially)
+- agent-browser: prerequisites section renders in capstone dialogs
+- No console errors
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code C91B-FE59 pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Learning path recommendation** — suggest next capstone based on completed prerequisites.
+4. **Capstone notes** — let learners write private notes per capstone (persisted).
+5. **Progress dashboard page** — a dedicated /progress route (or dialog) with charts.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
