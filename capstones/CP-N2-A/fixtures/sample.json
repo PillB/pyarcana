@@ -1,0 +1,10 @@
+{
+  "capstone": "CP-N2-A",
+  "note": "synthetic sample data (CC0, no real PII)",
+  "records": [
+    {
+      "id": "sample-1",
+      "client_id": "ACME-001"
+    }
+  ]
+}

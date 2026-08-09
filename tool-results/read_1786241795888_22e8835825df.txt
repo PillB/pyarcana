@@ -1,0 +1,402 @@
+     1→import type { CapstoneContract, FinalIntegrationInterface } from "./types";
+     2→import { RUBRICS } from "./rubrics";
+     3→
+     4→// ─────────────────────────────────────────────────────────────────────────────
+     5→// PyArcana canonical capstone contracts — thirteen in total.
+     6→// Twelve principal level capstones (3 per level × 4 levels) plus one final
+     7→// transversal capstone. The N4-D request is folded into CP-N4-C with three
+     8→// sub-gates (S49/S50/S51); no fourteenth principal capstone is created.
+     9→//
+    10→// Briefs are handcrafted in the Stephen Fry register: elegant, warm, expansive,
+    11→// opening with an international anecdote that raises the question the capstone
+    12→// answers. No bulk generation. No placeholders.
+    13→// ─────────────────────────────────────────────────────────────────────────────
+    14→
+    15→const REDACTION = { en: 2, es: 2, lastUpdated: "2026-07-30" };
+    16→
+    17→// ─────────────────────────────── LEVEL 1 ───────────────────────────────
+    18→
+    19→const CP_N1_A: CapstoneContract = {
+    20→  capstoneId: "CP-N1-A",
+    21→  version: "1.3.0",
+    22→  title: "Reproducible Client Intake and Data-Quality CLI",
+    23→  titleEs: "CLI reproducible de admisión y calidad de datos",
+    24→  level: 1,
+    25→  gateSection: "S04",
+    26→  subGates: [],
+    27→  problemStatement:
+    28→    "In 2015, the United Kingdom's Horizon IT scandal saw hundreds of sub-postmasters wrongly prosecuted because a data-intake system silently corrupted records and no one could reproduce what had happened. The lesson travels well: a program that swallows bad input without explanation, or that behaves differently on two machines, is not a tool but a liability. In this capstone you will build a command-line application that captures synthetic client records, validates required fields, preserves both raw and normalised values, explains every rejection or review reason in plain language, processes many records at once, calculates denominators correctly, emits both machine-readable and human-readable summaries, handles malformed input gracefully, uses no real personal information, runs from a clean environment, and ships tests alongside a beginner-friendly README. The aim is not flair but trust: another person, on another machine, must be able to run your program and obtain the same answer you did.",
+    29→  problemStatementEs:
+    30→    "En 2015, el escándalo del sistema informático Horizon del Reino Unido llevó a que cientos de subdirectores de correos fueran procesados injustamente porque un sistema de admisión de datos corrompió registros en silencio y nadie pudo reproducir lo que había ocurrido. La lección trasciende fronteras: un programa que traga entrada defectuosa sin explicación, o que se comporta de distinta manera en dos máquinas, no es una herramienta sino un pasivo. En este capstone construirás una aplicación de línea de comandos que captura registros sintéticos de clientes, valida los campos obligatorios, preserva tanto los valores crudos como los normalizados, explica en lenguaje llano cada razón de rechazo o revisión, procesa muchos registros a la vez, calcula los denominadores correctamente, emite resúmenes tanto legibles por máquina como por humanos, maneja entrada malformada con gracia, no usa información personal real, se ejecuta desde un entorno limpio e incluye pruebas junto con un README amable para principiantes. El objetivo no es el lucimiento sino la confianza: otra persona, en otra máquina, debe poder ejecutar tu programa y obtener la misma respuesta que obtuviste tú.",
+    31→  intendedUsers: ["A junior analyst onboarding synthetic clients into a bounded review queue", "A reviewer who must understand why a record was accepted or rejected"],
+    32→  jobsToBeDone: ["Capture synthetic client records from a file or stdin", "Validate and normalise fields while preserving raw values", "Explain rejection or review reasons", "Emit machine-readable and human-readable summaries"],
+    33→  learningOutcomes: [
+    34→    "Build a runnable Python CLI with typed arguments and helpful errors.",
+    35→    "Apply field-level validation and normalisation with provenance.",
+    36→    "Quarantine malformed input without losing it.",
+    37→    "Write beginner-friendly tests and documentation.",
+    38→  ],
+    39→  prerequisites: ["Basic Python", "Comfort with the command line", "Familiarity with CSV and JSON"],
+    40→  sectionContributions: [
+    41→    { sectionId: "S01", artifact: "Reproducible project skeleton", theory: "Reproducible environments", iDo: "Scaffold a runnable CLI project", weDo: "Complete a partial layout", youDo: "Create an independent skeleton", assessment: "Boots from a clean environment", finalInterface: "Foundational layout for all downstream capstones" },
+    42→    { sectionId: "S02", artifact: "Argument parser with typed flags", theory: "CLI ergonomics", iDo: "Build argparse with subcommands", weDo: "Add a validation subcommand", youDo: "Design flags for a new intake shape", assessment: "Exits non-zero with helpful message on bad input", finalInterface: "CLI entrypoint reused by ETL and dashboard" },
+    43→    { sectionId: "S03", artifact: "Validation rule set with raw/normalised pairs", theory: "Validation, normalisation, provenance", iDo: "Write normalisers for names, dates, IDs", weDo: "Add rules for phone and address", youDo: "Design a rule for a synthetic identifier", assessment: "Rejections include a human-readable reason", finalInterface: "Rule set reused by ETL contracts and dashboard" },
+    44→    { sectionId: "S04", artifact: "Complete CLI with fixtures, tests, snapshot", theory: "Authentic assessment", iDo: "Demonstrate the reference solution", weDo: "Run the acceptance script", youDo: "Extend for a new synthetic case", assessment: "Acceptance script passes; demo recorded", finalInterface: "Intake CLI becomes the entry subsystem of CP-FINAL" },
+    45→  ],
+    46→  requiredArtifacts: ["CLI source", "Synthetic fixtures", "Validation rules", "Branch tests", "Command examples", "Output snapshot", "README", "Limitations", "Short demo"],
+    47→  requiredEvidence: ["Acceptance script output", "Output snapshot", "Recorded demo", "README reproducibility section"],
+    48→  syntheticDataContract: { generator: "Deterministic Python generator producing synthetic names, dates, IDs, phones and addresses from public word lists", schema: "client_id, name_raw, name_norm, dob_raw, dob_norm, phone_raw, phone_norm, address_raw, address_norm, status, reason", size: "1,000 records plus 200 malformed edge cases", license: "Synthetic / CC0", piiRisk: "No real PII; all names and addresses are synthetic" },
+    49→  acceptanceCriteria: [
+    50→    "CLI accepts a CSV or JSON file and processes multiple records.",
+    51→    "Required fields are validated; raw and normalised values are both preserved.",
+    52→    "Rejections and reviews carry a human-readable reason.",
+    53→    "Denominators (accepted / rejected / review) are calculated correctly.",
+    54→    "Machine-readable (JSON) and human-readable (text) summaries are emitted.",
+    55→    "Malformed input is handled without crashing.",
+    56→    "Runs from a clean environment with one command.",
+    57→    "Tests pass on the canonical fixtures.",
+    58→  ],
+    59→  criticalCriteria: [
+    60→    "No real personal information anywhere in the project.",
+    61→    "No committed secrets.",
+    62→    "Reproducible from a clean environment.",
+    63→    "Rejections always include a reason.",
+    64→  ],
+    65→  securityRequirements: ["No secrets in code or logs", "Input validation on every field", "No shell injection via CLI arguments", "Dependencies locked"],
+    66→  privacyRequirements: ["Synthetic data only", "No real PII", "Raw values stored only for the synthetic fixtures"],
+    67→  accessibilityRequirements: ["Clear, plain-language rejection reasons", "Readable monospaced output", "Colour not required to understand output"],
+    68→  responsibleUseRequirements: ["No automated adverse decision", "Human review required for any borderline record"],
+    69→  testRequirements: ["Normal path tests", "Boundary tests (empty, max-length, unicode)", "Failure tests (malformed, missing required fields)", "Idempotency of summary generation"],
+    70→  demoRequirements: ["One-command demo recorded", "README walkthrough"],
+    71→  rubric: RUBRICS["CP-N1-A"],
+    72→  remediationPaths: ["If reproducibility fails: add a lockfile and document the environment", "If rejections lack reasons: extend the rule set with reason codes", "If tests are thin: add boundary and failure cases"],
+    73→  badgeDependencies: [],
+    74→  finalIntegrationInterfaces: ["CLI intake → ETL pipeline (CP-N1-B)", "Validation rules → dashboard evidence (CP-N1-C)"],
+    75→  status: "implemented",
+    76→  redactionPasses: REDACTION,
+    77→};
+    78→
+    79→const CP_N1_B: CapstoneContract = {
+    80→  capstoneId: "CP-N1-B",
+    81→  version: "1.3.0",
+    82→  title: "Reproducible Client and Transaction ETL Pipeline",
+    83→  titleEs: "Pipeline ETL reproducible de clientes y transacciones",
+    84→  level: 1,
+    85→  gateSection: "S08",
+    86→  subGates: [],
+    87→  problemStatement:
+    88→    "When the European Space Agency's Rosetta probe neared comet 67P, its science team relied on pipelines that had to produce identical outputs whether run in Darmstadt or Toulouse, weeks apart, by different engineers. A pipeline that is not deterministic is not a pipeline; it is a rumour. In this capstone you will build a local ETL pipeline that ingests CSV and JSON, validates explicit contracts, preserves provenance, separates accepted from quarantined rows, produces deterministic outputs, records hashes and manifests, supports safe reruns, handles encoding and malformed rows, includes backup and recovery instructions, and exposes no secrets. The deliverable is a pipeline you would trust to run unattended, because you have watched it fail and recover gracefully.",
+    89→  problemStatementEs:
+    90→    "Cuando la sonda Rosetta de la Agencia Espacial Europea se acercó al cometa 67P, su equipo científico dependía de pipelines que debían producir salidas idénticas tanto si se ejecutaban en Darmstadt como en Toulouse, con semanas de diferencia, por ingenieros distintos. Un pipeline que no es determinista no es un pipeline; es un rumor. En este capstone construirás un pipeline ETL local que ingiere CSV y JSON, valida contratos explícitos, preserva la proveniencia, separa las filas aceptadas de las cuarentenadas, produce salidas deterministas, registra hashes y manifiestos, soporta reejecuciones seguras, maneja codificación y filas malformadas, incluye instrucciones de respaldo y recuperación, y no expone secretos. El entregable es un pipeline que confiarías ejecutar sin supervisión, porque lo has visto fallar y recuperarse con elegancia.",
+    91→  intendedUsers: ["A data engineer preparing synthetic client and transaction data for analysis", "A reviewer who must trace any output row back to its source"],
+    92→  jobsToBeDone: ["Ingest CSV and JSON with encoding detection", "Validate against explicit contracts", "Separate accepted and quarantined rows", "Produce deterministic outputs with manifests", "Recover safely from a partial failure"],
+    93→  learningOutcomes: [
+    94→    "Build a streaming ETL pipeline with explicit contracts.",
+    95→    "Preserve provenance and produce content-hash manifests.",
+    96→    "Quarantine malformed rows without losing them.",
+    97→    "Prove idempotency and recovery.",
+    98→  ],
+    99→  prerequisites: ["CP-N1-A", "File I/O basics", "Hashing concepts"],
+   100→  sectionContributions: [
+   101→    { sectionId: "S05", artifact: "Streaming readers with encoding detection", theory: "Robust ingestion", iDo: "Read a dirty CSV safely", weDo: "Handle a malformed JSON stream", youDo: "Add a new file-format adapter", assessment: "Malformed rows quarantined, not lost", finalInterface: "Readers reused by analytics factory" },
+   102→    { sectionId: "S06", artifact: "Versioned schema contracts with rejection reasons", theory: "Explicit contracts", iDo: "Write a pydantic-style schema", weDo: "Evolve the schema with a migration", youDo: "Design a contract for transactions", assessment: "Schema rejects invalid rows with reason codes", finalInterface: "Contracts become ETL ↔ service boundary" },
+   103→    { sectionId: "S07", artifact: "Run manifest with input hashes and output lineage", theory: "Determinism and idempotency", iDo: "Compute a content-hash manifest", weDo: "Prove reruns produce identical outputs", youDo: "Add a partial-rerun capability", assessment: "Idempotency test passes on three reruns", finalInterface: "Manifest format reused by data/ML platform" },
+   104→    { sectionId: "S08", artifact: "Complete ETL with rejects, manifest, lineage, recovery", theory: "Authentic assessment", iDo: "Demonstrate the reference pipeline", weDo: "Run the recovery drill", youDo: "Add a new source adapter", assessment: "Idempotency + recovery tests pass", finalInterface: "ETL becomes data-quality subsystem of CP-FINAL" },
+   105→  ],
+   106→  requiredArtifacts: ["ETL scripts", "Schemas", "Test fixtures", "Rejects log", "Manifest", "Lineage", "Idempotency test", "Recovery demo", "README"],
+   107→  requiredEvidence: ["Manifest from a real run", "Idempotency test output across three reruns", "Recovery drill recording"],
+   108→  syntheticDataContract: { generator: "Deterministic generator extending CP-N1-A's clients with synthetic transactions (amounts, timestamps, merchant categories)", schema: "txn_id, client_id, amount, currency, timestamp, merchant_id, merchant_category, status, reason", size: "10,000 transactions across 1,000 clients", license: "Synthetic / CC0", piiRisk: "No real PII; clients and merchants are synthetic" },
+   109→  acceptanceCriteria: [
+   110→    "Ingests CSV and JSON with encoding detection.",
+   111→    "Validates against explicit, versioned contracts.",
+   112→    "Preserves provenance for every output row.",
+   113→    "Separates accepted and quarantined rows.",
+   114→    "Outputs are deterministic across reruns.",
+   115→    "Manifest records input hashes and output lineage.",
+   116→    "Safe reruns do not duplicate or corrupt outputs.",
+   117→    "Malformed rows are quarantined with a reason.",
+   118→    "Backup and recovery instructions are documented and demonstrated.",
+   119→    "No secrets are exposed.",
+   120→  ],
+   121→  criticalCriteria: [
+   122→    "Deterministic outputs across reruns.",
+   123→    "Quarantined rows are never lost.",
+   124→    "No secrets in code, config or logs.",
+   125→    "Recovery drill restores the pipeline to a known state.",
+   126→  ],
+   127→  securityRequirements: ["No secrets in code or logs", "No path traversal via input filenames", "Dependencies locked and scanned"],
+   128→  privacyRequirements: ["Synthetic data only", "No real PII", "Provenance preserved without exposing source-system details"],
+   129→  accessibilityRequirements: ["Manifest is human-readable text", "Error messages are plain language"],
+   130→  responsibleUseRequirements: ["No automated adverse decision based on ETL output", "Quarantine reason is reviewable"],
+   131→  testRequirements: ["Normal path", "Boundary (empty file, huge file, unicode)", "Failure (malformed, encoding mismatch, partial write)", "Idempotency (three reruns)", "Recovery (kill mid-run, restart)"],
+   132→  demoRequirements: ["Recovery drill recorded", "Manifest shown", "Idempotency shown"],
+   133→  rubric: RUBRICS["CP-N1-B"],
+   134→  remediationPaths: ["If non-deterministic: isolate sources of randomness and seed them", "If rows are lost: strengthen the quarantine path", "If recovery is fragile: add a write-ahead manifest"],
+   135→  badgeDependencies: ["B-N1-A"],
+   136→  finalIntegrationInterfaces: ["ETL output → analytics (CP-N2-A)", "Manifest format → data/ML platform (CP-N4-B)"],
+   137→  status: "implemented",
+   138→  redactionPasses: REDACTION,
+   139→};
+   140→
+   141→const CP_N1_C: CapstoneContract = {
+   142→  capstoneId: "CP-N1-C",
+   143→  version: "1.4.0",
+   144→  title: "Familiarity Evidence Dashboard",
+   145→  titleEs: "Tablero de evidencia de familiaridad",
+   146→  level: 1,
+   147→  gateSection: "S13",
+   148→  subGates: [],
+   149→  problemStatement:
+   150→    "In 2013, the Dutch childcare benefits scandal (toeslagenaffaire) began when an algorithm flagged dual-nationality parents as high-risk, collapsing tax records, address history and ethnicity into a fraud score that ruined tens of thousands of lives. The system inferred guilt from coincidence and offered no correction. This capstone exists to make the opposite choice routine. You will build a human-review dashboard that may use normalised matching, fuzzy matching, similarity, cross-referenced features, correlations, temporal overlap, geographic proximity and geofencing — but that keeps strictly separate the entity-resolution evidence, the relationship or familiarity evidence, and the risk or fraud decisions. The dashboard must never automatically infer kinship, collusion, fraud, criminal association, beneficial ownership or causal relationship. It must require provenance, uncertainty, false-positive analysis, human review, privacy controls and a correction mechanism. The deliverable is a dashboard that helps a human see, and refuses to decide for them.",
+   151→  problemStatementEs:
+   152→    "En 2013, el escándalo holandés de las prestaciones por cuidado infantil (toeslagenaffaire) comenzó cuando un algoritmo marcó a padres con doble nacionalidad como de alto riesgo, colapsando registros fiscales, historial de direcciones y etnicidad en una puntuación de fraude que arruinó decenas de miles de vidas. El sistema infería culpa a partir de coincidencias y no ofrecía corrección. Este capstone existe para hacer rutinaria la elección opuesta. Construirás un tablero de revisión humana que puede usar coincidencia normalizada, coincidencia difusa, similitud, características de referencia cruzada, correlaciones, solapamiento temporal, proximidad geográfica y geofencing — pero que mantiene estrictamente separadas la evidencia de resolución de entidades, la evidencia de relación o familiaridad, y las decisiones de riesgo o fraude. El tablero nunca debe inferir automáticamente parentesco, colusión, fraude, asociación criminal, beneficiario final o relación causal. Debe requerir proveniencia, incertidumbre, análisis de falsos positivos, revisión humana, controles de privacidad y un mecanismo de corrección. El entregable es un tablero que ayuda a un humano a ver, y se niega a decidir por él.",
+   153→  intendedUsers: ["A human reviewer assessing familiarity evidence on synthetic data", "A privacy officer auditing what the dashboard does and does not claim"],
+   154→  jobsToBeDone: ["Display entity-resolution evidence separately from relationship evidence and from risk decisions", "Show provenance, uncertainty and false-positive analysis", "Provide a correction mechanism", "Operate via keyboard and screen reader"],
+   155→  learningOutcomes: [
+   156→    "Compute normalised, fuzzy, token, temporal and geographic similarity features.",
+   157→    "Keep ER evidence, relationship evidence and risk decisions separate.",
+   158→    "Provide provenance, uncertainty and false-positive review.",
+   159→    "Build an accessible dashboard for human review.",
+   160→  ],
+   161→  prerequisites: ["CP-N1-A", "CP-N1-B", "Basic statistics", "Accessibility fundamentals"],
+   162→  sectionContributions: [
+   163→    { sectionId: "S09", artifact: "Token and string similarity functions", theory: "Similarity metrics", iDo: "Implement Jaro-Winkler and token ratio", weDo: "Tune a threshold on synthetic pairs", youDo: "Add a phonetic comparator", assessment: "Similarity scores are deterministic and explainable", finalInterface: "Comparators reused by ER engine (CP-N3-A)" },
+   164→    { sectionId: "S10", artifact: "Temporal-overlap and geo-proximity features", theory: "Temporal and geographic features", iDo: "Compute a haversine distance", weDo: "Build a geofence predicate", youDo: "Add a time-window overlap feature", assessment: "Features carry provenance and units", finalInterface: "Features feed relationship workbench (CP-N3-B)" },
+   165→    { sectionId: "S11", artifact: "Privacy sheet and no-automated-decision policy", theory: "Separating evidence from decisions", iDo: "Draft a privacy sheet", weDo: "List forbidden inferences", youDo: "Write a correction mechanism", assessment: "Dashboard never auto-claims fraud or kinship", finalInterface: "Privacy sheet template reused by all later capstones" },
+   166→    { sectionId: "S12", artifact: "Accessible dashboard with keyboard operation", theory: "WCAG-aligned dashboards", iDo: "Assemble an evidence card", weDo: "Add keyboard navigation", youDo: "Add a data-table fallback for a chart", assessment: "Passes a keyboard-only smoke test", finalInterface: "Dashboard shell reused by reporting factory (CP-N2-B)" },
+   167→    { sectionId: "S13", artifact: "Dashboard separating ER, relationship and risk decisions", theory: "Authentic assessment", iDo: "Demonstrate the reference dashboard", weDo: "Run the false-positive review", youDo: "Add a new evidence signal", assessment: "Three-way separation test passes", finalInterface: "Dashboard becomes the review surface of CP-FINAL" },
+   168→  ],
+   169→  requiredArtifacts: ["Dashboard source", "Similarity features", "Temporal and geographic features", "Privacy sheet", "Correction mechanism", "Accessibility check", "False-positive review", "Short demo"],
+   170→  requiredEvidence: ["Three-way separation verified", "False-positive review recorded", "Accessibility check output"],
+   171→  syntheticDataContract: { generator: "Synthetic clients with planted co-occurrences (shared address, overlapping employment, geographic proximity) and explicit ground-truth labels for evaluation only", schema: "pair_id, client_a, client_b, features{...}, er_evidence, relationship_evidence, risk_decision, provenance, uncertainty", size: "5,000 pairs with 200 planted positives and 4,800 negatives", license: "Synthetic / CC0", piiRisk: "No real PII; all entities and addresses are synthetic" },
+   172→  acceptanceCriteria: [
+   173→    "Dashboard displays entity-resolution evidence, relationship evidence and risk decisions in three separate, clearly labelled regions.",
+   174→    "Every evidence signal carries provenance and a unit.",
+   175→    "Every signal carries an uncertainty or confidence measure.",
+   176→    "A false-positive review path is demonstrated.",
+   177→    "A correction mechanism allows a reviewer to dispute a signal.",
+   178→    "No automated adverse decision is made.",
+   179→    "Dashboard operates via keyboard alone.",
+   180→    "Dashboard passes a 200%-zoom reflow check.",
+   181→  ],
+   182→  criticalCriteria: [
+   183→    "No automatic inference of fraud, collusion, kinship, criminal association, beneficial ownership or causal relationship.",
+   184→    "ER evidence is never collapsed into relationship or risk decisions.",
+   185→    "No real PII.",
+   186→    "Human review required for any borderline case.",
+   187→  ],
+   188→  securityRequirements: ["No secrets", "Synthetic data only", "No external network calls"],
+   189→  privacyRequirements: ["Privacy sheet present and complete", "No real PII", "Correction mechanism documented"],
+   190→  accessibilityRequirements: ["Keyboard operation", "Non-colour-only encoding", "200%-zoom reflow", "Screen-reader labels", "Data-table fallback for charts"],
+   191→  responsibleUseRequirements: ["No automated adverse decision", "Human review required", "Correction mechanism available", "False-positive review demonstrated"],
+   192→  testRequirements: ["Separation test (ER / relationship / risk)", "Provenance test (every signal has source)", "Uncertainty test", "False-positive review test", "Accessibility keyboard test", "200%-zoom test"],
+   193→  demoRequirements: ["Recorded walkthrough showing separation, correction and false-positive review"],
+   194→  rubric: RUBRICS["CP-N1-C"],
+   195→  remediationPaths: ["If separation is weak: introduce explicit typed regions and tests", "If provenance is missing: tag every feature at compute time", "If accessibility fails: add keyboard handlers and data-table fallbacks"],
+   196→  badgeDependencies: ["B-N1-A", "B-N1-B"],
+   197→  finalIntegrationInterfaces: ["Dashboard review surface → CP-FINAL", "Comparators → ER engine (CP-N3-A)", "Features → relationship workbench (CP-N3-B)"],
+   198→  status: "implemented",
+   199→  redactionPasses: REDACTION,
+   200→};
+   201→
+   202→// ─────────────────────────────── LEVEL 2 ───────────────────────────────
+   203→
+   204→const CP_N2_A: CapstoneContract = {
+   205→  capstoneId: "CP-N2-A",
+   206→  version: "1.2.0",
+   207→  title: "Executive Data Quality and EDA Portfolio",
+   208→  titleEs: "Portafolio ejecutivo de calidad de datos y EDA",
+   209→  level: 2,
+   210→  gateSection: "S17",
+   211→  subGates: [],
+   212→  problemStatement:
+   213→    "When the Reed College epidemiologists who famously reconstructed the 1918 influenza genome published their work, they accompanied every figure with an explicit statement of what the data could and could not say. The discipline of distinguishing observation from association, association from hypothesis, and hypothesis from recommendation is the difference between an analyst and a rumour-monger. In this capstone you will produce a reproducible analytical package containing a data dictionary, profiling, missingness analysis, reconciliation, distributions, segment comparisons, outlier rationale, assumptions, limitations, a notebook or script, an executive memo, a reproducible environment, and no unsupported causal interpretation. Your executive memo must distinguish observation, association, hypothesis, decision recommendation and evidence limitation — five registers of statement, each clearly labelled, never blurred.",
+   214→  problemStatementEs:
+   215→    "Cuando los epidemiólogos del Reed College que reconstruyeron el genoma de la gripe de 1918 publicaron su trabajo, acompañaron cada figura con una declaración explícita de lo que los datos podían y no podían decir. La disciplina de distinguir observación de asociación, asociación de hipótesis, e hipótesis de recomendación es la diferencia entre un analista y un propagador de rumores. En este capstone producirás un paquete analítico reproducible que contiene un diccionario de datos, perfilado, análisis de ausencia, reconciliación, distribuciones, comparaciones de segmentos, justificación de atípicos, supuestos, limitaciones, un notebook o script, un memo ejecutivo, un entorno reproducible y ninguna interpretación causal sin soporte. Tu memo ejecutivo debe distinguir observación, asociación, hipótesis, recomendación de decisión y limitación de evidencia — cinco registros de enunciado, cada uno claramente etiquetado, nunca difuminados.",
+   216→  intendedUsers: ["A manager who must act on the analysis", "A peer analyst who must reproduce it"],
+   217→  jobsToBeDone: ["Profile a synthetic dataset", "Diagnose missingness and distributions", "Compare segments without causal overreach", "Communicate findings in a disciplined memo"],
+   218→  learningOutcomes: [
+   219→    "Profile data and diagnose missingness mechanisms.",
+   220→    "Compare distributions and segments responsibly.",
+   221→    "Produce a reproducible analytical environment.",
+   222→    "Write an executive memo that separates five registers of statement.",
+   223→  ],
+   224→  prerequisites: ["CP-N1-A", "CP-N1-B", "Basic statistics", "Notebook or scripting comfort"],
+   225→  sectionContributions: [
+   226→    { sectionId: "S14", artifact: "Profiling report with missingness patterns", theory: "Profiling and missingness (MCAR/MAR/MNAR)", iDo: "Profile a synthetic dataset", weDo: "Diagnose a missingness pattern", youDo: "Design a missingness flag feature", assessment: "Distinguishes MCAR from MNAR with evidence", finalInterface: "Profiling feeds data-quality subsystem of CP-FINAL" },
+   227→    { sectionId: "S15", artifact: "Distribution and segment-comparison notebook", theory: "Distributions, outliers, segment comparisons", iDo: "Compare two segments responsibly", weDo: "Justify an outlier treatment", youDo: "Design a segment comparison without causal overreach", assessment: "Memo distinguishes observation from association", finalInterface: "Segment logic reused by case triage (CP-N3-C)" },
+   228→    { sectionId: "S16", artifact: "Locked environment + executive memo template", theory: "Reproducible analytics and executive communication", iDo: "Write a five-part memo", weDo: "Draft a memo for a synthetic finding", youDo: "Write a memo with explicit limitations", assessment: "Memo uses five-part structure", finalInterface: "Memo template reused by reporting factory (CP-N2-B)" },
+   229→    { sectionId: "S17", artifact: "Complete EDA portfolio with memo and reproducible env", theory: "Authentic assessment", iDo: "Demonstrate the reference portfolio", weDo: "Run the reproducibility check", youDo: "Extend for a new segment", assessment: "Portfolio reproduces from a clean environment", finalInterface: "EDA portfolio becomes analytics subsystem of CP-FINAL" },
+   230→  ],
+   231→  requiredArtifacts: ["Data dictionary", "Profiling report", "Missingness analysis", "Reconciliation", "Distributions", "Segment comparisons", "Outlier rationale", "Assumptions", "Limitations", "Notebook or script", "Executive memo", "Reproducible environment"],
+   232→  requiredEvidence: ["Reproducibility check output", "Memo with five-part structure", "Clean-environment rebuild log"],
+   233→  syntheticDataContract: { generator: "Synthetic retail transaction dataset with planted missingness mechanisms and segment structure", schema: "txn_id, client_id, amount, channel, segment, region, timestamp, missing_flag", size: "50,000 transactions", license: "Synthetic / CC0", piiRisk: "No real PII" },
+   234→  acceptanceCriteria: [
+   235→    "Data dictionary is complete and accurate.",
+   236→    "Profiling and missingness analysis distinguish MCAR, MAR and MNAR.",
+   237→    "Distributions and segment comparisons are presented without causal overreach.",
+   238→    "Outlier rationale is explicit.",
+   239→    "Assumptions and limitations are stated.",
+   240→    "Executive memo uses the five-part structure.",
+   241→    "Portfolio reproduces from a clean environment in one command.",
+   242→  ],
+   243→  criticalCriteria: [
+   244→    "No unsupported causal interpretation.",
+   245→    "Memo distinguishes observation/association/hypothesis/recommendation/limitation.",
+   246→    "Reproducible from a clean environment.",
+   247→  ],
+   248→  securityRequirements: ["No secrets", "Dependencies locked"],
+   249→  privacyRequirements: ["Synthetic data only", "No real PII"],
+   250→  accessibilityRequirements: ["Notebook is readable in plain text", "Memo is accessible (headings, alt text)"],
+   251→  responsibleUseRequirements: ["No unsupported causal claim", "Limitations explicit"],
+   252→  testRequirements: ["Reproducibility test", "Memo structure test (five parts present)", "Missingness-classification test"],
+   253→  demoRequirements: ["Clean-environment rebuild recorded", "Memo walkthrough recorded"],
+   254→  rubric: RUBRICS["CP-N2-A"],
+   255→  remediationPaths: ["If reproducibility fails: pin the environment and seed all randomness", "If memo blurs registers: enforce the five-part template with a linter"],
+   256→  badgeDependencies: ["B-N1-A", "B-N1-B", "B-N1-C"],
+   257→  finalIntegrationInterfaces: ["EDA portfolio → analytics subsystem of CP-FINAL", "Memo template → reporting factory (CP-N2-B)"],
+   258→  status: "implemented",
+   259→  redactionPasses: REDACTION,
+   260→};
+   261→
+   262→const CP_N2_B: CapstoneContract = {
+   263→  capstoneId: "CP-N2-B",
+   264→  version: "1.2.0",
+   265→  title: "Accessible Insights Dashboard and Reporting Factory",
+   266→  titleEs: "Tablero accesible de hallazgos y fábrica de reportes",
+   267→  level: 2,
+   268→  gateSection: "S21",
+   269→  subGates: [],
+   270→  problemStatement:
+   271→    "In 2019, the United Kingdom's Office for National Statistics rebuilt its inflation dashboard after discovering that colour-only encoding had locked colour-blind readers out of the national story for years. A dashboard that only some people can read is not a dashboard; it is a gate. In this capstone you will build an accessible dashboard and a reusable reporting factory: reusable report templates, table and chart exports, filter logic, source-to-claim traceability, data freshness indicators, error and empty states, accessible labels, keyboard operation, PDF or document output, and automated report checks. The project must prevent misleading axes, inaccessible colour-only encoding, hidden denominators, stale results presented as current, and unsupported executive claims.",
+   272→  problemStatementEs:
+   273→    "En 2019, la Oficina Nacional de Estadística del Reino Unido reconstruyó su tablero de inflación tras descubrir que la codificación basada solo en color había dejado fuera de la historia nacional a los lectores daltónicos durante años. Un tablero que solo algunos pueden leer no es un tablero; es una puerta cerrada. En este capstone construirás un tablero accesible y una fábrica de reportes reutilizable: plantillas de reporte reutilizables, exportación de tablas y gráficas, lógica de filtros, trazabilidad fuente-a-afirmación, indicadores de frescura de datos, estados de error y vacío, etiquetas accesibles, operación por teclado, salida en PDF o documento, y verificaciones automatizadas de reportes. El proyecto debe prevenir ejes engañosos, codificación inaccesible basada solo en color, denominadores ocultos, resultados obsoletos presentados como actuales y afirmaciones ejecutivas sin soporte.",
+   274→  intendedUsers: ["A decision-maker who reads the dashboard", "A report author who reuses the templates", "An accessibility auditor"],
+   275→  jobsToBeDone: ["Display insights accessibly", "Trace any claim to its source rows", "Export reproducible PDF reports", "Run automated report checks"],
+   276→  learningOutcomes: [
+   277→    "Design accessible charts (non-colour-only, keyboard, 200%-zoom).",
+   278→    "Implement source-to-claim traceability.",
+   279→    "Build reusable report templates with automated checks.",
+   280→    "Prevent misleading visualisations.",
+   281→  ],
+   282→  prerequisites: ["CP-N2-A", "Accessibility fundamentals", "Charting library basics"],
+   283→  sectionContributions: [
+   284→    { sectionId: "S18", artifact: "Reusable accessible chart and report templates", theory: "WCAG-aligned chart design", iDo: "Build a chart with shape+label encoding", weDo: "Add a data-table fallback", youDo: "Design a template for a new report type", assessment: "Passes non-colour-only and 200%-zoom checks", finalInterface: "Templates reused by CP-FINAL reporting surface" },
+   285→    { sectionId: "S19", artifact: "Filter engine with source-to-claim links", theory: "Traceability and freshness", iDo: "Wire a claim to its source rows", weDo: "Add a freshness indicator", youDo: "Design a filter for a new dimension", assessment: "Every claim resolves to source rows and a timestamp", finalInterface: "Traceability reused by audit subsystem of CP-FINAL" },
+   286→    { sectionId: "S20", artifact: "PDF export with automated report checks", theory: "Reproducible document output", iDo: "Export a PDF deterministically", weDo: "Add an automated check for misleading axes", youDo: "Design a check for hidden denominators", assessment: "Report checks block misleading outputs", finalInterface: "Report checks reused by governance subsystem of CP-FINAL" },
+   287→    { sectionId: "S21", artifact: "Complete dashboard factory with exports and checks", theory: "Authentic assessment", iDo: "Demonstrate the reference factory", weDo: "Run the accessibility check", youDo: "Extend for a new audience", assessment: "Passes accessibility and automated checks", finalInterface: "Reporting factory becomes reporting subsystem of CP-FINAL" },
+   288→  ],
+   289→  requiredArtifacts: ["Dashboard source", "Report templates", "Chart and table exports", "Filter engine", "Source-to-claim links", "Freshness indicators", "Error and empty states", "Accessible labels", "PDF export", "Automated report checks"],
+   290→  requiredEvidence: ["Accessibility check output", "Automated report-check output", "Source-to-claim trace shown"],
+   291→  syntheticDataContract: { generator: "Synthetic insights dataset derived from CP-N2-A's EDA portfolio", schema: "metric_id, segment, value, denominator, source_rows[], freshness_ts", size: "200 metrics across 10 segments", license: "Synthetic / CC0", piiRisk: "No real PII" },
+   292→  acceptanceCriteria: [
+   293→    "Dashboard is keyboard-operable.",
+   294→    "No colour-only encoding; shape, label or pattern always present.",
+   295→    "200%-zoom reflow is intact (no horizontal scroll).",
+   296→    "Every claim resolves to source rows and a freshness timestamp.",
+   297→    "Error and empty states are present and accessible.",
+   298→    "PDF export is deterministic.",
+   299→    "Automated report checks block misleading axes, hidden denominators and stale results.",
+   300→  ],
+   301→  criticalCriteria: [
+   302→    "No misleading axes.",
+   303→    "No colour-only encoding.",
+   304→    "No hidden denominators.",
+   305→    "No stale results presented as current.",
+   306→    "No unsupported executive claims.",
+   307→  ],
+   308→  securityRequirements: ["No secrets", "No external network calls from the dashboard"],
+   309→  privacyRequirements: ["Synthetic data only", "No real PII"],
+   310→  accessibilityRequirements: ["WCAG 2.2 AA", "Keyboard operation", "Non-colour-only encoding", "200%-zoom reflow", "Screen-reader labels", "Data-table fallback"],
+   311→  responsibleUseRequirements: ["No unsupported claims", "Stale results flagged"],
+   312→  testRequirements: ["Accessibility test (keyboard, zoom, colour)", "Source-to-claim test", "Freshness test", "Report-check test (misleading axes, hidden denominators)"],
+   313→  demoRequirements: ["Accessibility walkthrough recorded", "PDF export shown", "Report checks shown"],
+   314→  rubric: RUBRICS["CP-N2-B"],
+   315→  remediationPaths: ["If accessibility fails: add keyboard handlers, data-table fallbacks, alt text", "If traceability fails: tag every claim with source rows at compute time"],
+   316→  badgeDependencies: ["B-N2-A"],
+   317→  finalIntegrationInterfaces: ["Reporting factory → reporting subsystem of CP-FINAL", "Traceability → audit subsystem of CP-FINAL"],
+   318→  status: "implemented",
+   319→  redactionPasses: REDACTION,
+   320→};
+   321→
+   322→const CP_N2_C: CapstoneContract = {
+   323→  capstoneId: "CP-N2-C",
+   324→  version: "1.2.0",
+   325→  title: "Human-Approved RPA and AI Analyst Workflow",
+   326→  titleEs: "Flujo RPA y de analista IA aprobado por humano",
+   327→  level: 2,
+   328→  gateSection: "S26",
+   329→  subGates: [],
+   330→  problemStatement:
+   331→    "In 2017, a Scandinavian marketing automation platform sent a campaign to two million customers because an analyst had connected an unattended send to a draft queue and gone home. The lesson is older than software: never wire the trigger to the gun. In this capstone you will build an end-to-end workflow — Excel or structured input → validation → analysis → report → human review → approval → email draft → optional authorised send — with no automatic external send without approval, idempotency, retries only for safe transient errors, an audit trail, rollback, a test mode, document and spreadsheet validation, safe email recipients, redacted logs, approval expiry, and a clear separation between draft and send. The deliverable is a workflow that a cautious person would trust to run overnight, because the only thing it can do unattended is nothing irreversible.",
+   332→  problemStatementEs:
+   333→    "En 2017, una plataforma escandinava de automatización de marketing envió una campaña a dos millones de clientes porque un analista había conectado un envío sin supervisión a una cola de borradores y se había ido a casa. La lección es más antigua que el software: nunca conectes el disparador al gatillo. En este capstone construirás un flujo de extremo a extremo — entrada en Excel o estructurada → validación → análisis → reporte → revisión humana → aprobación → borrador de correo → envío autorizado opcional — sin envío externo automático sin aprobación, con idempotencia, reintentos solo para errores transitorios seguros, pista de auditoría, rollback, un modo de prueba, validación de documentos y hojas de cálculo, destinatarios seguros, logs redactados, expiración de aprobación y una clara separación entre borrador y envío. El entregable es un flujo en el que una persona cautelosa confiaría para ejecutar durante la noche, porque lo único que puede hacer sin supervisión es nada irreversible.",
+   334→  intendedUsers: ["An analyst who prepares drafts", "An approver who authorises sends", "An auditor who reviews the trail"],
+   335→  jobsToBeDone: ["Validate structured input", "Analyse and draft a report", "Route to a human approver", "Send only after explicit approval", "Roll back on failure"],
+   336→  learningOutcomes: [
+   337→    "Build an idempotent automation runner.",
+   338→    "Classify errors for safe retry.",
+   339→    "Implement a human-approval gate with expiry.",
+   340→    "Maintain an audit trail and rollback.",
+   341→  ],
+   342→  prerequisites: ["CP-N2-A", "CP-N2-B", "Workflow basics"],
+   343→  sectionContributions: [
+   344→    { sectionId: "S22", artifact: "Document/spreadsheet validator with contracts", theory: "Structured-input validation", iDo: "Validate a spreadsheet against a contract", weDo: "Add a column-level rule", youDo: "Design a validator for a new template", assessment: "Invalid documents quarantined with reasons", finalInterface: "Validator reused by automation subsystem of CP-FINAL" },
+   345→    { sectionId: "S23", artifact: "Idempotent runner with safe-retry and audit trail", theory: "Idempotency and retry classification", iDo: "Build an idempotent runner", weDo: "Classify transient vs permanent errors", youDo: "Design a retry policy for a new action", assessment: "Runner idempotent across reruns", finalInterface: "Runner reused by automation subsystem of CP-FINAL" },
+   346→    { sectionId: "S24", artifact: "Approval gate with redacted logs and draft/send separation", theory: "HITL, least privilege, secure logging", iDo: "Build an approval gate", weDo: "Redact a sensitive log field", youDo: "Design an approval-expiry policy", assessment: "No external send without explicit approval", finalInterface: "Approval gate reused by agentic copilot (CP-N4-C)" },
+   347→    { sectionId: "S25", artifact: "AI-draft module with allowlisted recipients", theory: "AI-assisted drafting with safe recipients", iDo: "Draft an analyst email", weDo: "Add a recipient allowlist", youDo: "Design a redaction rule for a new field", assessment: "Drafts never send to non-allowlisted recipients", finalInterface: "AI-draft module reused by agentic copilot (CP-N4-C)" },
+   348→    { sectionId: "S26", artifact: "Complete workflow with audit, rollback and test mode", theory: "Authentic assessment", iDo: "Demonstrate the reference workflow", weDo: "Run the rollback drill", youDo: "Extend for a new input type", assessment: "Passes idempotency, approval and rollback tests", finalInterface: "Workflow becomes automation subsystem of CP-FINAL" },
+   349→  ],
+   350→  requiredArtifacts: ["Workflow source", "Validator", "Idempotent runner", "Approval gate", "Redacted logs", "Audit trail", "Rollback", "Test mode", "Recipient allowlist", "AI-draft module"],
+   351→  requiredEvidence: ["Idempotency test output", "Approval-gate test output", "Rollback drill recording", "Redacted-log sample"],
+   352→  syntheticDataContract: { generator: "Synthetic Excel/CSV inputs with planted validation cases and synthetic recipient allowlist", schema: "run_id, input_hash, action, status, approver, approved_at, sent_at, redacted_log", size: "100 runs with 20 approval cases", license: "Synthetic / CC0", piiRisk: "No real PII; recipients are synthetic" },
+   353→  acceptanceCriteria: [
+   354→    "Workflow validates structured input and quarantines invalid documents.",
+   355→    "Runner is idempotent across reruns.",
+   356→    "Retries only occur for safe transient errors.",
+   357→    "No external send occurs without explicit human approval.",
+   358→    "Approval expires after a configured window.",
+   359→    "Audit trail records every action with a redacted log.",
+   360→    "Rollback restores the workflow to a prior state.",
+   361→    "Test mode runs without any external side effect.",
+   362→    "Recipients are allowlisted; drafts never send to non-allowlisted addresses.",
+   363→  ],
+   364→  criticalCriteria: [
+   365→    "No automatic external send without approval.",
+   366→    "Approval expiry enforced.",
+   367→    "Logs redacted of PII and secrets.",
+   368→    "Rollback demonstrated.",
+   369→  ],
+   370→  securityRequirements: ["Recipient allowlist", "Redacted logs", "No secrets", "Test mode blocks side effects"],
+   371→  privacyRequirements: ["No real PII", "Redacted logs", "Synthetic recipients"],
+   372→  accessibilityRequirements: ["Approval UI is keyboard-operable", "Audit trail is readable text"],
+   373→  responsibleUseRequirements: ["Human approval required for any side effect", "Test mode available", "Rollback available"],
+   374→  testRequirements: ["Idempotency test", "Approval-gate test (no send without approval)", "Approval-expiry test", "Rollback test", "Redaction test", "Allowlist test"],
+   375→  demoRequirements: ["Approval flow recorded", "Rollback drill recorded", "Redacted-log sample shown"],
+   376→  rubric: RUBRICS["CP-N2-C"],
+   377→  remediationPaths: ["If a send can occur without approval: insert a hard gate and test it", "If logs leak PII: extend the redaction rule set", "If rollback is fragile: add a write-ahead audit trail"],
+   378→  badgeDependencies: ["B-N2-A", "B-N2-B"],
+   379→  finalIntegrationInterfaces: ["Automation workflow → automation subsystem of CP-FINAL", "Approval gate → agentic copilot (CP-N4-C)"],
+   380→  status: "implemented",
+   381→  redactionPasses: REDACTION,
+   382→};
+   383→
+   384→// ─────────────────────────────── LEVEL 3 ───────────────────────────────
+   385→
+   386→const CP_N3_A: CapstoneContract = {
+   387→  capstoneId: "CP-N3-A",
+   388→  version: "1.2.0",
+   389→  title: "Testable Entity Resolution Engine",
+   390→  titleEs: "Motor evaluable de resolución de entidades",
+   391→  level: 3,
+   392→  gateSection: "S30",
+   393→  subGates: [],
+   394→  problemStatement:
+   395→    "When the United States Census Bureau deduplicated records for the 2020 count, it faced an old problem with new urgency: how do you decide that two records refer to the same person without ever claiming that they are related, kin, or conspiring? Entity resolution is the art of saying 'probably the same entity' and refusing to say anything more. In this capstone you will build an ER system with candidate generation, blocking, exact and fuzzy comparators, feature provenance, a labelled benchmark, train/dev/test separation where modelling is used, precision and recall, threshold selection, an ambiguous review queue, a deterministic baseline, error analysis, and no automatic relationship or fraud inference. Required tests include Unicode, aliases, missing data, conflicting identifiers, household sharing, common names, duplicate source records, false-positive controls and threshold boundaries.",
+   396→  problemStatementEs:
+   397→    "Cuando la Oficina del Censo de los Estados Unidos desduplicó registros para el censo de 2020, se enfrentó a un problema antiguo con nueva urgencia: ¿cómo decides que dos registros se refieren a la misma persona sin afirmar nunca que están relacionados, son parientes o conspiran? La resolución de entidades es el arte de decir 'probablemente la misma entidad' y negarse a decir nada más. En este capstone construirás un sistema de RE con generación de candidatos, blocking, comparadores exactos y difusos, proveniencia de características, un benchmark etiquetado, separación train/dev/test donde se usa modelado, precisión y recall, selección de umbral, una cola de revisión ambigua, un baseline determinista, análisis de errores y ninguna inferencia automática de relación o fraude. Las pruebas requeridas incluyen Unicode, alias, datos faltantes, identificadores conflictivos, hogares compartidos, nombres comunes, registros fuente duplicados, controles de falsos positivos y fronteras de umbral.",
+   398→  intendedUsers: ["A data engineer resolving synthetic entities", "A reviewer auditing the ambiguous queue"],
+   399→  jobsToBeDone: ["Generate candidates with blocking", "Compare with exact and fuzzy comparators", "Select a threshold with stated costs", "Route ambiguous cases to human review"],
+   400→  learningOutcomes: [
+
+[showing lines 1-400 of 943; use offset=401 with limit to continue reading]

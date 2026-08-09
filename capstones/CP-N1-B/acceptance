@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+"""CP-N1-B acceptance tests."""
+import sys, json, tempfile, os
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
+from solution import run_etl, validate, hash_row
+
+def check(n, c, d=""): print(f"[{'PASS' if c else 'FAIL'}] {n}" + (f" — {d}" if d else "")); return c
+
+def main():
+    ok = True
+    good = {"txn_id":"T1","client_id":"C1","amount":"100.50","currency":"USD","timestamp":"2026-01-01"}
+    bad = {"txn_id":"","client_id":"C2","amount":"notanumber","currency":"USD","timestamp":"2026-01-01"}
+    r1 = validate(good); r2 = validate(bad)
+    ok &= check("valid accepted", r1.status=="accepted")
+    ok &= check("invalid quarantined", r2.status=="quarantined")
+    ok &= check("quarantine has reasons", "amount" in r2.reason)
+    ok &= check("hash present", len(r1.source_hash)==16)
+    with tempfile.TemporaryDirectory() as d:
+        inp = Path(d)/"in.json"; inp.write_text(json.dumps({"records":[good,bad]}))
+        out = Path(d)/"out"
+        m = run_etl(str(inp), str(out))
+        ok &= check("manifest created", (out/"manifest.json").exists())
+        ok &= check("accepted file", (out/"accepted.json").exists())
+        ok &= check("quarantined file", (out/"quarantined.json").exists())
+        ok &= check("manifest has hashes", "output_hashes" in m and len(m["output_hashes"])==2)
+        ok &= check("accepted count=1", m["accepted"]==1)
+        ok &= check("quarantined count=1", m["quarantined"]==1)
+        # Idempotency: rerun produces same manifest
+        m2 = run_etl(str(inp), str(out))
+        ok &= check("idempotent manifest", m["output_hashes"]==m2["output_hashes"])
+    print(f"\n{'ALL PASS' if ok else 'SOME FAILED'}"); return 0 if ok else 1
+
+if __name__=="__main__": sys.exit(main())

@@ -1,0 +1,240 @@
+{
+  "scenario_id": "ACME-001-final",
+  "subsystems": [
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N1-A",
+      "subsystem": "intake.ingest",
+      "interface_version": "v1",
+      "input": {
+        "records": [
+          {
+            "client_id": "ACME-001",
+            "name": "Ana Almeida",
+            "dob": "1990-05-12",
+            "phone": "+1-415-555-1234",
+            "address": "10 Maple Ave, Springfield, IL 62701"
+          }
+        ]
+      },
+      "output": {
+        "accepted": 1,
+        "rejected": 0,
+        "review": 0
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N1-B",
+      "subsystem": "etl.run",
+      "interface_version": "v1",
+      "input": {
+        "source": "fixtures/clients.csv"
+      },
+      "output": {
+        "manifest": {
+          "accepted_count": 1
+        },
+        "outputs": [
+          "accepted.jsonl"
+        ],
+        "quarantined": []
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N1-C",
+      "subsystem": "familiarity.review",
+      "interface_version": "v1",
+      "input": {
+        "pair_id": "PAIR-000001"
+      },
+      "output": {
+        "er": [],
+        "relationship": [],
+        "risk": "no_decision",
+        "provenance": "CP-N1-C/v1"
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N2-A",
+      "subsystem": "eda.profile",
+      "interface_version": "v1",
+      "input": {
+        "dataset_version": "ds-clients-v1"
+      },
+      "output": {
+        "dictionary": [],
+        "missingness": {},
+        "distributions": {}
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N2-B",
+      "subsystem": "reporting.render",
+      "interface_version": "v1",
+      "input": {
+        "template": "summary",
+        "data": {}
+      },
+      "output": {
+        "pdf": "report.pdf",
+        "claims": []
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N2-C",
+      "subsystem": "automation.run",
+      "interface_version": "v1",
+      "input": {
+        "input": "fixtures/sample.json",
+        "dry_run": true
+      },
+      "output": {
+        "run_id": "R-0001",
+        "audit": [],
+        "approval_required": false
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N3-A",
+      "subsystem": "er.resolve",
+      "interface_version": "v1",
+      "input": {
+        "records": [
+          {
+            "record_id": "R1",
+            "name": "Ana Almeida",
+            "dob": "1990-05-12"
+          }
+        ]
+      },
+      "output": {
+        "clusters": [
+          [
+            "R1"
+          ]
+        ],
+        "ambiguous_queue": [],
+        "metrics": {
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N3-B",
+      "subsystem": "relationship.graph",
+      "interface_version": "v1",
+      "input": {
+        "entities": [
+          "ACME-001"
+        ],
+        "evidence": []
+      },
+      "output": {
+        "graph": [],
+        "paths": [],
+        "edges_meta": []
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N3-C",
+      "subsystem": "triage.score",
+      "interface_version": "v1",
+      "input": {
+        "case": {
+          "features": {
+            "f1": 0.5,
+            "f2": 0.5,
+            "f3": 0.5
+          }
+        }
+      },
+      "output": {
+        "score": 0.5,
+        "calibrated_prob": 0.5,
+        "abstain": false,
+        "model_card_ref": "model_card.md"
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N4-A",
+      "subsystem": "service.api",
+      "interface_version": "v1",
+      "input": {
+        "endpoint": "/service/v1/ingest",
+        "method": "POST"
+      },
+      "output": {
+        "status": 200,
+        "redacted_log": "[redacted]"
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N4-B",
+      "subsystem": "mlplatform.deploy",
+      "interface_version": "v1",
+      "input": {
+        "model_version": "model-01-v3",
+        "strategy": "canary"
+      },
+      "output": {
+        "deployment_id": "D-001",
+        "slo": "ok",
+        "rollback_target": "model-01-v3"
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    },
+    {
+      "scenario_id": "ACME-001-final",
+      "capstone_id": "CP-N4-C",
+      "subsystem": "copilot.run",
+      "interface_version": "v1",
+      "input": {
+        "task": "Summarise KYC for ACME-001",
+        "provider_mode": "no-key",
+        "budget": {}
+      },
+      "output": {
+        "run_id": "RUN-001",
+        "steps": 5,
+        "citations": [],
+        "trace": [],
+        "approval_status": "not_required"
+      },
+      "contract_test_status": "pending",
+      "e2e_status": "pending"
+    }
+  ],
+  "shared_trace_id": "trace-final-001"
+}

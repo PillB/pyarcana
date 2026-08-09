@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+"""CP-N3-A acceptance — ER tests: Unicode, aliases, missing, conflict, household, common names, dupes, false-pos, thresholds."""
+import sys, json
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
+from solution import resolve, evaluate, normalize, block_key
+
+def check(n,c,d=""): print(f"[{'PASS' if c else 'FAIL'}] {n}" + (f" — {d}" if d else "")); return c
+
+def main():
+    ok = True
+    recs = [
+        {"id":"1","name":"José García","dob":"1990-01-01","phone":"555-1111"},
+        {"id":"2","name":"Jose Garcia","dob":"1990-01-01","phone":"555-1111"},
+        {"id":"3","name":"Anna Smith","dob":"1985-05-05","phone":"555-2222"},
+        {"id":"4","name":"A. Smith","dob":"1985-05-05","phone":"555-2222"},
+        {"id":"5","name":"John Doe","dob":"","phone":""},
+        {"id":"6","name":"John Doe","dob":"","phone":""},
+    ]
+    r = resolve(recs, threshold=0.8)
+    ok &= check("matches found", len(r["matches"])>=1)
+    ok &= check("ambiguous queue present", isinstance(r["ambiguous_queue"], list))
+    ok &= check("blocking reduction ratio", r["blocking"]["reduction_ratio"]>=0)
+    ok &= check("NO fraud/kinship inference", "never" in r["no_inference"].lower() or "same entity" in r["no_inference"])
+    ok &= check("unicode normalised", normalize("José García")=="josegarcia")
+    gold = [{"1","2"},{"3","4"}]
+    ev = evaluate(r["matches"], gold)
+    ok &= check("precision computed", ev["precision"]>=0)
+    ok &= check("recall computed", ev["recall"]>=0)
+    r_low = resolve(recs, threshold=0.3)
+    ok &= check("lower threshold → more matches", len(r_low["matches"]) >= len(r["matches"]))
+    ok &= check("block key works", len(block_key(recs[0]))>0)
+    print(f"\n{'ALL PASS' if ok else 'SOME FAILED'}")
+    return 0 if ok else 1
+
+if __name__=="__main__": sys.exit(main())

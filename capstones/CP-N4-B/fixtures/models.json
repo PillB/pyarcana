@@ -1,0 +1,202 @@
+[
+  {
+    "model_id": "model-01",
+    "version": "v1",
+    "dataset_version": "ds-clients-v2",
+    "signature": "c7738c302ec3aa8f",
+    "train_metric": 0.7731,
+    "serve_metric": 0.7731,
+    "slo_status": "ok",
+    "rollback_target": "model-01-v1"
+  },
+  {
+    "model_id": "model-01",
+    "version": "v2",
+    "dataset_version": "ds-clients-v1",
+    "signature": "0a20a3009f3c647d",
+    "train_metric": 0.9191,
+    "serve_metric": 0.7272,
+    "slo_status": "violated",
+    "rollback_target": "model-01-v1"
+  },
+  {
+    "model_id": "model-01",
+    "version": "v3",
+    "dataset_version": "ds-clients-v2",
+    "signature": "5faf638bb14ea2a5",
+    "train_metric": 0.7406,
+    "serve_metric": 0.7406,
+    "slo_status": "ok",
+    "rollback_target": "model-01-v3"
+  },
+  {
+    "model_id": "model-01",
+    "version": "v4",
+    "dataset_version": "ds-txns-v1",
+    "signature": "469e7cf487f58229",
+    "train_metric": 0.9416,
+    "serve_metric": 0.9416,
+    "slo_status": "violated",
+    "rollback_target": "model-01-v3"
+  },
+  {
+    "model_id": "model-02",
+    "version": "v1",
+    "dataset_version": "ds-clients-v2",
+    "signature": "8f28e33f2b804c7f",
+    "train_metric": 0.7977,
+    "serve_metric": 0.7977,
+    "slo_status": "ok",
+    "rollback_target": "model-02-v1"
+  },
+  {
+    "model_id": "model-02",
+    "version": "v2",
+    "dataset_version": "ds-txns-v2",
+    "signature": "df86ae12f63e667a",
+    "train_metric": 0.7089,
+    "serve_metric": 0.5465,
+    "slo_status": "violated",
+    "rollback_target": "model-02-v1"
+  },
+  {
+    "model_id": "model-02",
+    "version": "v3",
+    "dataset_version": "ds-triage-v1",
+    "signature": "2006b01ca837040b",
+    "train_metric": 0.9464,
+    "serve_metric": 0.9464,
+    "slo_status": "ok",
+    "rollback_target": "model-02-v3"
+  },
+  {
+    "model_id": "model-02",
+    "version": "v4",
+    "dataset_version": "ds-clients-v1",
+    "signature": "90ca10092222e9ff",
+    "train_metric": 0.8262,
+    "serve_metric": 0.8262,
+    "slo_status": "violated",
+    "rollback_target": "model-02-v3"
+  },
+  {
+    "model_id": "model-03",
+    "version": "v1",
+    "dataset_version": "ds-clients-v2",
+    "signature": "1ad06580e1c75ce5",
+    "train_metric": 0.9381,
+    "serve_metric": 0.9381,
+    "slo_status": "ok",
+    "rollback_target": "model-03-v1"
+  },
+  {
+    "model_id": "model-03",
+    "version": "v2",
+    "dataset_version": "ds-triage-v1",
+    "signature": "f7ba72f5fb5db630",
+    "train_metric": 0.7023,
+    "serve_metric": 0.5926,
+    "slo_status": "violated",
+    "rollback_target": "model-03-v1"
+  },
+  {
+    "model_id": "model-03",
+    "version": "v3",
+    "dataset_version": "ds-triage-v1",
+    "signature": "7be195ed01c7663f",
+    "train_metric": 0.9453,
+    "serve_metric": 0.9453,
+    "slo_status": "ok",
+    "rollback_target": "model-03-v3"
+  },
+  {
+    "model_id": "model-03",
+    "version": "v4",
+    "dataset_version": "ds-txns-v2",
+    "signature": "fd9036ecd3bd3bfa",
+    "train_metric": 0.7955,
+    "serve_metric": 0.7955,
+    "slo_status": "violated",
+    "rollback_target": "model-03-v3"
+  },
+  {
+    "model_id": "model-04",
+    "version": "v1",
+    "dataset_version": "ds-txns-v1",
+    "signature": "3191e1fabb31fe94",
+    "train_metric": 0.7379,
+    "serve_metric": 0.7379,
+    "slo_status": "ok",
+    "rollback_target": "model-04-v1"
+  },
+  {
+    "model_id": "model-04",
+    "version": "v2",
+    "dataset_version": "ds-txns-v2",
+    "signature": "2d91d030c14a94b8",
+    "train_metric": 0.8122,
+    "serve_metric": 0.6149,
+    "slo_status": "violated",
+    "rollback_target": "model-04-v1"
+  },
+  {
+    "model_id": "model-04",
+    "version": "v3",
+    "dataset_version": "ds-txns-v1",
+    "signature": "7a690578063b7169",
+    "train_metric": 0.9461,
+    "serve_metric": 0.9461,
+    "slo_status": "ok",
+    "rollback_target": "model-04-v3"
+  },
+  {
+    "model_id": "model-04",
+    "version": "v4",
+    "dataset_version": "ds-txns-v2",
+    "signature": "7800ec83722638d3",
+    "train_metric": 0.9384,
+    "serve_metric": 0.9384,
+    "slo_status": "violated",
+    "rollback_target": "model-04-v3"
+  },
+  {
+    "model_id": "model-05",
+    "version": "v1",
+    "dataset_version": "ds-clients-v2",
+    "signature": "36bf8a5a9363fb3a",
+    "train_metric": 0.7576,
+    "serve_metric": 0.7576,
+    "slo_status": "ok",
+    "rollback_target": "model-05-v1"
+  },
+  {
+    "model_id": "model-05",
+    "version": "v2",
+    "dataset_version": "ds-clients-v1",
+    "signature": "271d90e892ea1fc7",
+    "train_metric": 0.7057,
+    "serve_metric": 0.5708,
+    "slo_status": "violated",
+    "rollback_target": "model-05-v1"
+  },
+  {
+    "model_id": "model-05",
+    "version": "v3",
+    "dataset_version": "ds-triage-v1",
+    "signature": "f2ebf5ad541f0fbb",
+    "train_metric": 0.9471,
+    "serve_metric": 0.9471,
+    "slo_status": "ok",
+    "rollback_target": "model-05-v3"
+  },
+  {
+    "model_id": "model-05",
+    "version": "v4",
+    "dataset_version": "ds-clients-v1",
+    "signature": "e3c22d5b96ba711e",
+    "train_metric": 0.8689,
+    "serve_metric": 0.8689,
+    "slo_status": "violated",
+    "rollback_target": "model-05-v3"
+  }
+]
