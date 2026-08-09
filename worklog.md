@@ -267,3 +267,37 @@ Task: Scaffold 13 runnable capstone starter project repos with Python code + acc
 4. **Print/export to PDF** — system cards and capstone briefs should be exportable as PDF.
 5. **Dependency graph visualization** — a visual graph showing the 13-capstone flow and upstream dependencies.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-3
+Agent: main orchestrator (cron round)
+Task: Capstone comparison view, dependency graph visualization, print/export
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 11 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code B99D-297B)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos
+
+## Completed modifications this round
+- **Capstone comparison view** (ComparisonDialog): select any 2 of 13 capstones; side-by-side table with 12 dimensions (level, gate, version, status, artifacts, acceptance, critical, tests, security, prerequisites, badge deps, rubric criteria); ≠/= diff indicators; side-by-side prerequisites and critical criteria panels
+- **Dependency graph visualization** (DependencyGraphDialog): SVG graph with 13 nodes positioned by level (L1–L4 + FINAL); two edge types (prerequisite dashed grey, integration solid violet); legend; accessible table view (upstream/downstream per capstone); VLM-verified rendering
+- **Print/export to PDF**: Print button in CapstoneDialog footer (window.print()); print CSS in globals.css (hides header/footer/nav, white background, static dialog positioning, black text)
+- **i18n**: 20 new EN/ES strings (compareCapstones, dependencyGraph, exportPdf, printBrief, legend, upstream/downstream, principalCapstoneNode, finalCapstoneNode, prerequisiteEdge, integrationEdge, etc.)
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (no regression)
+- Lint clean, type-check clean
+- agent-browser: comparison dialog renders with diff table and dropdowns
+- agent-browser: dependency graph renders with SVG nodes and edges
+- VLM: "graph renders with visible nodes (purple circles) and connecting edges; legend visible"
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code B99D-297B pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Capstone deep-linking** — URL hash for direct capstone links (e.g. #CP-N4-C) for sharing.
+4. **Progress persistence** — save learner progress to localStorage so completed evidence survives page refresh.
+5. **Keyboard shortcuts** — e.g. '?' for help, '/' for search focus, 'g c' for compare, 'g g' for graph.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
