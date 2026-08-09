@@ -1,0 +1,215 @@
+{
+  "section_index": 11,
+  "title": "OOP y modelo de dominio",
+  "outcomes": [
+    "Modelar entidades con class/dataclass e instancias válidas",
+    "Imponer invariantes en construcción sin side-effects externos",
+    "Encapsular con properties y métodos de consulta seguros",
+    "Definir igualdad/hash y mutabilidad (frozen) consciente",
+    "Preferir composición a herencia frágil",
+    "Usar Protocol/duck typing para puertos del dominio",
+    "Separar dominio de I/O con repo/service y to_dict",
+    "Probar dominio puro y evitar APIs de fraude/parentesco"
+  ],
+  "theory": [
+    {
+      "heading": "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
+      "paragraphs": [
+        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`.",
+        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva.",
+        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests)."
+      ],
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\nc = ClientRecord(\"C001\", \"Ana Perez\", [\"ana@ejemplo.pe\"])\nprint(c)\nprint(type(c).__name__, c.client_id)"
+    },
+    {
+      "heading": "Clases, instancias y dataclass",
+      "paragraphs": [
+        "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación.",
+        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido.",
+        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Invariantes y estados válidos",
+      "paragraphs": [
+        "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias.",
+        "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar).",
+        "Ejemplo: `document_id` no vacío; fechas de transacción coherentes."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Propiedades y métodos",
+      "paragraphs": [
+        "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera.",
+        "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras.",
+        "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Igualdad, hash y mutabilidad consciente",
+      "paragraphs": [
+        "`__eq__` por **business key** (document_id / entity_id) evita comparar basura de campos opcionales. **`frozen=True`** habilita hash seguro para sets/dicts.",
+        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq.",
+        "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Composición antes que herencia",
+      "paragraphs": [
+        "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`.",
+        "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo.",
+        "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Protocolos y polimorfismo con propósito",
+      "paragraphs": [
+        "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural.",
+        "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta.",
+        "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Repositorios, servicios y serialización",
+      "paragraphs": [
+        "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde.",
+        "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas.",
+        "CLI (S10) llama al service; el service no imprime ni parsea argparse."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Dependencias y pruebas del dominio",
+      "paragraphs": [
+        "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan.",
+        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`).",
+        "Scores de resolución/relación son campos; un test puede verificar que existen como float y que no hay método de veredicto."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S11-T1-B-DEMO",
+      "description": "ClientRecord dataclass desde dict sintético.",
+      "why": "from_dict nombra el borde dict→dominio.",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        return cls(d[\"client_id\"], d[\"full_name\"], list(d.get(\"emails\", [])))\n\nraw = {\"client_id\": \"C001\", \"full_name\": \"Ana Perez\", \"emails\": [\"ana@ejemplo.pe\"]}\nc = ClientRecord.from_dict(raw)\nprint(c)"
+    },
+    {
+      "demoId": "S11-T2-A-DEMO",
+      "description": "ClientRecord rechaza document_id vacío.",
+      "why": "Invariante en construcción: no hay instancia inválida.",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self) -> None:\n        if not str(self.document_id).strip():\n            raise ValueError(\"document_id vacío\")\n\nprint(ClientRecord(\"C001\", \"DNI-100\"))\ntry:\n    ClientRecord(\"C002\", \"\")\nexcept ValueError as e:\n    print(\"rejected\", e)"
+    },
+    {
+      "demoId": "S11-T2-B-DEMO",
+      "description": "display_name y masked_email como properties.",
+      "why": "La superficie pública no necesita el email completo para mostrar.",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    first_name: str\n    last_name: str\n    email: str\n\n    @property\n    def display_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.email.partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\nc = ClientRecord(\"Lucía\", \"Méndez\", \"lucia@ejemplo.pe\")\nprint(c.display_name)\nprint(c.masked_email)"
+    },
+    {
+      "demoId": "S11-T3-A-DEMO",
+      "description": "ResolvedEntity frozen por valor; set de entidades.",
+      "why": "frozen permite usar entidades en sets sin sorpresas de mutación.",
+      "code": ""
+    },
+    {
+      "demoId": "S11-T3-B-DEMO",
+      "description": "CaseFile compone list[RelationshipEvidence] + entidad resuelta.",
+      "why": "Composición ensambla el caso sin herencia artificial.",
+      "code": ""
+    },
+    {
+      "demoId": "S11-T4-A-DEMO",
+      "description": "Protocol EntityStore con get/save; FakeStore en memoria.",
+      "why": "El service depende del Protocol, no de una clase base pesada.",
+      "code": ""
+    },
+    {
+      "demoId": "S11-T4-B-DEMO",
+      "description": "InMemoryClientRepository + service que no decide fraude.",
+      "why": "Service orquesta persistencia; no emite veredictos de fraude.",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    def to_dict(self):\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nclass InMemoryClientRepository:\n    def __init__(self):\n        self._d = {}\n    def save(self, c: ClientRecord):\n        self._d[c.client_id] = c\n    def get(self, cid: str):\n        return self._d.get(cid)\n\nclass ClientService:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, cl"
+    },
+    {
+      "demoId": null,
+      "description": "Tests de RelationshipEvidence: solo señales; sin is_fraud().",
+      "why": "La suite protege el límite ético del modelo.",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ndef test_signal_bounds():\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.7)\n    assert 0 <= ev.signal_score <= 1\n    assert not hasattr(ev, \"is_fraud\")\n    return \"pass\"\n\ndef test_no_family_verdict():\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    return \"pass\"\n\nprint(test_signal_bounds())\nprint(test_no_family_verdict())"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Por qué `field(default_factory=list)` y no `= []`?",
+      "options": [
+        "Es más corto",
+        "Evita el default mutable compartido entre instancias",
+        "Obliga a usar Protocol",
+        "Activa el garbage collector"
+      ]
+    },
+    {
+      "question": "RelationshipEvidence.signal_score representa…",
+      "options": [
+        "Veredicto legal de parentesco",
+        "Una señal/dato numérico, no un veredicto de fraude o familia",
+        "Password hasheado",
+        "Exit code del CLI"
+      ]
+    },
+    {
+      "question": "Un Protocol EntityStore sirve para…",
+      "options": [
+        "Conectarse solo a Postgres",
+        "Definir un puerto get/save implementable por fakes y adapters",
+        "Reemplazar dataclass",
+        "Serializar a PDF"
+      ]
+    },
+    {
+      "question": "Objeto inválido: ¿cuándo fallar?",
+      "options": [
+        "Al final del mes",
+        "En la construcción (__post_init__/validate)",
+        "Nunca",
+        "Solo en producción"
+      ]
+    },
+    {
+      "question": "Client hereda de Person…",
+      "options": [
+        "Siempre es la mejor opción",
+        "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+        "Es obligatoria en Python",
+        "Impide tests"
+      ]
+    },
+    {
+      "question": "¿Qué no debe tener el dominio de familiaridad?",
+      "options": [
+        "to_dict",
+        "is_fraud() automático",
+        "Invariantes",
+        "Tests unitarios"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional"
+  ]
+}

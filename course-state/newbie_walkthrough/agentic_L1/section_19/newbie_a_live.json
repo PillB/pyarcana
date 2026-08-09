@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s19-dfb67bb569",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "justification_from_packet": "Para comparar regiones (categorías) el chart choice natural es bar con baseline 0. Imprimo 'bar' como decide el subtema de pregunta/audiencia/chart choice."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+      "justification_from_packet": "El metadata pregunta/audiencia/chart documenta la decisión de diseño: totales por región para ejecutivo → bar. Es el contrato del mismo subtema."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\n\nprint(elige_chart(\"tendencia mensual\"), \"|\", elige_chart(\"comparar regiones\"))\n",
+      "justification_from_packet": "Keyword 'tendencia' → line; comparar regiones → bar. El helper elige_chart materializa la regla de chart choice del paquete: line | bar."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "code": "truco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "justification_from_packet": "Recortar el baseline infla la diferencia visual: (5/10)/(5/50)=5.0. El factor cuantifica la deshonestidad de escalas del subtema ejes/encodings."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "justification_from_packet": "Gate de integridad: ylim_bottom==0 es honesto en barras de montos. Si no, revisar por inflación visual."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "code": "encoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "justification_from_packet": "dual_axis sin control es encoding de alto riesgo de engaño. El paquete lo marca riesgo_alto frente a position encoding más legible."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n",
+      "justification_from_packet": "Bar chart Matplotlib con set_ylim desde 0: get_ylim()[0]==0 → True. Cumple el encoding honesto del subtema Matplotlib/Seaborn."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n",
+      "justification_from_packet": "ylabel con unidades PEN hace legible el eje. Imprimo 'PEN' como validación del encoding de unidades del demo."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.1)\n    meta = {\"n_bars\": len(labels), \"ylim0\": ax.get_ylim()[0]}\n    plt.close(fig)\n    return meta\n\nprint(meta_bar([\"a\", \"b\"], [1, 2]))\n",
+      "justification_from_packet": "meta_bar reporta n_bars y ylim0 tras dibujar con baseline 0: {'n_bars':2,'ylim0':0.0}. Contrato de transferencia del subtema de composición Matplotlib."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "code": "print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "justification_from_packet": "Export dict fija fmt/dpi/panels para artefactos del portfolio: png, 120 dpi, 2 paneles. Composición y exportación del subtema."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "code": "version = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "justification_from_packet": "Nombre versionado fig_cpn2b_v3.png evita sobrescribir figuras en el repo del capstone de visualización."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)\n",
+      "justification_from_packet": "Subplots 1×2 con títulos Vol y Med: listo ['Vol','Med']. Annotations/títulos claros para el lector ejecutivo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])\n",
+      "justification_from_packet": "Filtro del modelo de datos Plotly-like: de rows por región Lima saco median 28. El filtro es sobre datos, no magia del front."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "code": "print(f\"Lima: {28} PEN (n={40})\")\n",
+      "justification_from_packet": "Tooltip honesto incluye valor, unidad PEN y n: 'Lima: 28 PEN (n=40)'. Modelo de tooltips del subtema interactivo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\n\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "justification_from_packet": "Función tooltip(row) reutiliza el mismo formato región/valor/n. Para Cusco produce 'Cusco: 22.5 PEN (n=32)'."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "code": "chart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "justification_from_packet": "Parity chart↔tabla: el número del chart debe repetirse en la tabla accesible. Lima 1 == v 1 → True."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "justification_from_packet": "Estado de filtros serializado en JSON permite compartir/reproducir la vista: {\"filtro_region\": \"Lima\"}."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+      "justification_from_packet": "alt_text desde tabla: 'Lima=28 PEN; Cusco=22 PEN' es la alternativa accesible textual del chart."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "code": "print(\"unidad=PEN | fuente=sintetico\")\n",
+      "justification_from_packet": "Caption mínimo declara unidad y fuente: unidad=PEN | fuente=sintetico. Subtema de unidades/fuente/limitaciones."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})\n",
+      "justification_from_packet": "Valido que el caption tenga las tres claves obligatorias unidad/fuente/limitacion → True."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\n\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "justification_from_packet": "Pie de figura unido con |: 'unidad: PEN | n: 10'. Formato legible para el portfolio."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "code": "claim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "justification_from_packet": "Generalizar a 'del Perú' sin decir 'muestra' es sobreclaim → RECHAZADO. Gate de no-sobreclaim del subtema accesible."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint((\"n=\" in alt), \"|\", True)\n",
+      "justification_from_packet": "El alt text debe mencionar n= para no ocultar tamaño muestral. 'n=' in alt es True; reporto True | True como pide el contrato."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\n\nprint(classify_claim(\"lidera en la muestra web\"), \"|\", classify_claim(\"es la mejor del país\"))\n",
+      "justification_from_packet": "classify_claim permite claims que acotan a la muestra y rechaza generalizaciones. Resultado PERMITIDO | RECHAZADO."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Para comparar magnitudes entre categorías, barras con baseline 0 son preferibles a pie 3D o dual axis sin escala. Chart choice del subtema T1-A/B."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Una alternativa accesible debe repetir los mismos números clave del chart (tabla/alt text), no ser solo una imagen más grande ni quitar unidades."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "'Lima es la mejor del Perú' desde muestra web es sobreclaim / generalización indebida. Hay que acotar a la muestra."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "El caption de portfolio debe incluir unidad, fuente y limitaciones. No colores favoritos ni secretos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Si el eje Y de barras arranca en 40, el gate marca inflación visual y exige baseline 0 o justificación. No lo 'arregla' con dual-axis ni borra etiquetas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:46:06.640164+00:00",
+  "session_started_at": "2026-07-23T16:43:05+00:00",
+  "session_ended_at": "2026-07-23T16:43:42.400000+00:00",
+  "receipt_response_sha256": "d541ddeea4e59955c21766fd2815aed14d2193321f49864ed89deab0c6affb73",
+  "receipt_exercises_sha256": "30697bfa45abfe870a088836804b2c713929d0a3c84f047b7e86d89e1dbf9d0a",
+  "receipt_selfcheck_sha256": "1449fd33bf6ab4e7ea515e31ca2652eaffd4bbff33c7ae8793a2069372c8890a"
+}

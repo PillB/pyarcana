@@ -1,0 +1,11 @@
+deploy_status
+commit=e4607b8
+branch=main
+deploy_workflow=https://github.com/PillB/pyarcana/actions/runs/30035454468
+conclusion=success
+deployed_at=2026-07-23T18:51:52Z
+site=https://pillb.github.io/pyarcana/
+pedagogy=L1+L2 clean_52; K1+K2 REJECTED_THEATER
+independence_L1_L2_just_identity=0.0
+adversarial=phrase_bank+forensic+receipt gates green
+notes=GitHub Pages deploy succeeded after STRUCTURAL_OPENING_MASS + L2 opener diversify push

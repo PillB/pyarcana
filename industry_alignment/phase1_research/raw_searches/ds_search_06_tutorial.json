@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.merriam-webster.com/dictionary/data",
+    "name": "DATA Definition & Meaning",
+    "snippet": "6 days ago — The meaning of DATA is factual information (such as measurements or statistics) used as a basis for reasoning, discussion, or calculation.",
+    "host_name": "www.merriam-webster.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://data.gov",
+    "name": "Data.gov Home - Data.gov",
+    "snippet": "Here you will find data , tools, and resources to conduct research, develop web and mobile applications, design data visualizations, and more.",
+    "host_name": "data.gov",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/Data",
+    "name": "Data",
+    "snippet": "Data (/ˈdeɪtə/ is a collection of discrete or continuous values that conveys information, describing the quantity, quality, fact, statistics,",
+    "host_name": "en.wikipedia.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/data",
+    "name": "What is Data? | IBM",
+    "snippet": "Data is a collection of facts, numbers, words, observations or other useful information. Through data processing and data analysis, organizations transform raw ...",
+    "host_name": "www.ibm.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://data.org",
+    "name": "data.org - Democratizing data, for good",
+    "snippet": "data.org brings together philanthropy, technology, academia, and social impact organizations to build the field of data science for social impact.",
+    "host_name": "data.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dictionary.cambridge.org/us/dictionary/english/data",
+    "name": "DATA | definition in the Cambridge English Dictionary",
+    "snippet": "information, especially facts or numbers , collected to be examined and considered and used to help decision-making, or information in an electronic form",
+    "host_name": "dictionary.cambridge.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=PEWMgtu-1e4",
+    "name": "What is Data? | Data Fundamentals for Beginners",
+    "snippet": "In this series we walk through the fundamentals of data ! This lesson we look at what data exactly is!",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/m5mub0/why_do_so_many_of_us_suck_at_basic_programming",
+    "name": "Why do so many of us suck at basic programming?",
+    "snippet": "It's honestly unbelievable and frustrating how many Data Scientists suck at writing good code.\n\nIt's like many of us never learned basic modularity concepts, ...",
+    "host_name": "www.reddit.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/Can-I-really-become-a-data-scientist-in-3-months-as-advertised-in-most-bootcamps",
+    "name": "Can I really become a data scientist in 3 months",
+    "snippet": "Can I really become a data scientist in 3 months as advertised in most bootcamps?",
+    "host_name": "www.quora.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hockey-graphs.com/2020/06/22/how-to-debug-data-science-code",
+    "name": "How to Debug Data Science Code",
+    "snippet": "Jun 22, 2020 — Start with the error message . If that doesn't produce helpful results, try searching for your programming tool and the keywords describing the ...",
+    "host_name": "hockey-graphs.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

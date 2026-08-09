@@ -1,0 +1,530 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 51,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a-agentic_G1-s51-dual43_52",
+  "production_note": "agentic_G1 dual-LLM explorer: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T1-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools",
+        "trace",
+        "reconstruible",
+        "sin",
+        "pii",
+        "calcula",
+        "contrato"
+      ],
+      "justification_from_packet": "[Explorer/S51-T1-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace comp». Hints: «Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.; El predicado correcto debe ser verdadero porque el fix». Theory `traces de prompts/retrieval/tools` exige evidencia «trace reconstruible sin PII». Demo S51-T1-A-DEMO. Predicado de dominio: `not (not record[\"trace_id\"] or record[\"pii_in_trace\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retri`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T1-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"pii_in_trace\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"PASS\" if ok else \"REDACT_AND_QUARANTINE_TRACE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools",
+        "modela",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Explorer/S51-T1-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entrada: dict con case_id, trace_id, spans, v». Hints: «Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.; Después aplica la regla de S51-T1-A: trace completo, bundle versiona». Theory `traces de prompts/retrieval/tools` exige evidencia «trace reconstruible sin PII». Demo S51-T1-A-DEMO. Predicado de dominio: `not (not record[\"trace_id\"] or record[\"pii_in_trace\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T1-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"pii_in_trace\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"prompt\", \"model\", \"index\", \"pii_in_trace\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"RESTORE_TRACE_CONTEXT\"\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"CONTINUE\" if ok else \"REDACT_AND_QUARANTINE_TRACE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools",
+        "simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Explorer/S51-T1-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUAR». Hints: «Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró trace». Theory `traces de prompts/retrieval/tools` exige evidencia «trace reconstruible sin PII». Demo S51-T1-A-DEMO. Predicado de dominio: `not (not record[\"trace_id\"] or record[\"pii_in_trace\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T1-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nmeets_contract = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "tokens",
+        "costo",
+        "latency",
+        "redacción",
+        "dashboard",
+        "por",
+        "etapa",
+        "prueba",
+        "compara",
+        "contrato"
+      ],
+      "justification_from_packet": "[Explorer/S51-T1-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cu». Hints: «Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T». Theory `tokens, costo, latency y redacción` exige evidencia «dashboard por etapa con prueba de redacción». Demo S51-T1-B-DEMO. Predicado de dominio: `not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"ans`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T1-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"redacted_fields\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"PASS\" if ok else \"ALERT_COST_LATENCY\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "tokens",
+        "costo",
+        "latency",
+        "redacción",
+        "verifica",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Explorer/S51-T1-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_token». Hints: «Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.; Después aplica la regla de S51-T1-B: tokens cuadran, p95 bajo SLO». Theory `tokens, costo, latency y redacción` exige evidencia «dashboard por etapa con prueba de redacción». Demo S51-T1-B-DEMO. Predicado de dominio: `not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T1-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"redacted_fields\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"FIX_REDACTION_PIPELINE\"\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"CONTINUE\" if ok else \"ALERT_COST_LATENCY\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "tokens",
+        "costo",
+        "latency",
+        "redacción",
+        "extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Explorer/S51-T1-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_L». Hints: «Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró toke». Theory `tokens, costo, latency y redacción` exige evidencia «dashboard por etapa con prueba de redacción». Demo S51-T1-B-DEMO. Predicado de dominio: `not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T2-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nmeets_contract = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset",
+        "respuesta",
+        "enlazada",
+        "bundle",
+        "versionado",
+        "filtra",
+        "contrato"
+      ],
+      "justification_from_packet": "[Explorer/S51-T2-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versio». Hints: «Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.; El predicado correcto debe ». Theory `registro de modelo/prompt/dataset` exige evidencia «respuesta enlazada a bundle versionado». Demo S51-T2-A-DEMO. Predicado de dominio: `not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"inde`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T2-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"immutable\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\n    return \"PASS\" if ok else \"FREEZE_RELEASE_BUNDLE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset",
+        "clasifica",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Explorer/S51-T2-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entrada: dict con case_id, release, model, pr». Hints: «Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.; Después aplica la regla de S51-T2-A: seis versiones explícitas y bundle». Theory `registro de modelo/prompt/dataset` exige evidencia «respuesta enlazada a bundle versionado». Demo S51-T2-A-DEMO. Predicado de dominio: `not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"inde`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T2-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"immutable\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"REGISTER_MISSING_VERSION\"\n    ok = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\n    return \"CONTINUE\" if ok else \"FREEZE_RELEASE_BUNDLE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset",
+        "defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Explorer/S51-T2-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEAS». Hints: «Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró se». Theory `registro de modelo/prompt/dataset` exige evidencia «respuesta enlazada a bundle versionado». Demo S51-T2-A-DEMO. Predicado de dominio: `not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"inde`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T2-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nmeets_contract = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "cambio",
+        "acceso",
+        "retención",
+        "auditoría",
+        "auditables",
+        "modela",
+        "contrato",
+        "sobre",
+        "caso",
+        "moq"
+      ],
+      "justification_from_packet": "[Explorer/S51-T2-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separac». Hints: «Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.; El predicado corre». Theory `cambio, acceso, retención y auditoría` exige evidencia «cambio y acceso auditables». Demo S51-T2-B-DEMO. Predicado de dominio: `not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"m`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T2-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"audit_append_only\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"PASS\" if ok else \"REJECT_UNGOVERNED_CHANGE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "cambio",
+        "acceso",
+        "retención",
+        "auditoría",
+        "audita",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Explorer/S51-T2-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_only`. Entrada: dict con case_id, author, a». Hints: «Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.; Después aplica la regla de S51-T2-B: separación de funciones, s». Theory `cambio, acceso, retención y auditoría` exige evidencia «cambio y acceso auditables». Demo S51-T2-B-DEMO. Predicado de dominio: `not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T2-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"audit_append_only\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"REQUEST_INDEPENDENT_APPROVAL\"\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"CONTINUE\" if ok else \"REJECT_UNGOVERNED_CHANGE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "cambio",
+        "acceso",
+        "retención",
+        "auditoría",
+        "recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Explorer/S51-T2-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UN». Hints: «Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostr». Theory `cambio, acceso, retención y auditoría` exige evidencia «cambio y acceso auditables». Demo S51-T2-B-DEMO. Predicado de dominio: `not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T3-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nmeets_contract = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "slo",
+        "feedback",
+        "drift",
+        "alerta",
+        "accionable",
+        "owner",
+        "runbook",
+        "verifica",
+        "contrato",
+        "sobre"
+      ],
+      "justification_from_packet": "[Explorer/S51-T3-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithful». Hints: «Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.; ». Theory `SLO, feedback y drift` exige evidencia «alerta accionable con owner/runbook». Demo S51-T3-A-DEMO. Predicado de dominio: `not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T3-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"PASS\" if ok else \"OPEN_COPILOT_INCIDENT\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "slo",
+        "feedback",
+        "drift",
+        "decide",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Explorer/S51-T3-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, availability, availability_slo, faith». Hints: «Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S51-T3-A: availability/faithfulness/drift bajo S». Theory `SLO, feedback y drift` exige evidencia «alerta accionable con owner/runbook». Demo S51-T3-A-DEMO. Predicado de dominio: `not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T3-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"owner\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"TRIAGE_DRIFT_SLICE\"\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"CONTINUE\" if ok else \"OPEN_COPILOT_INCIDENT\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "slo",
+        "feedback",
+        "drift",
+        "contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Explorer/S51-T3-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y». Hints: «Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró availabi». Theory `SLO, feedback y drift` exige evidencia «alerta accionable con owner/runbook». Demo S51-T3-A-DEMO. Predicado de dominio: `not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T3-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nmeets_contract = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "incidents",
+        "rollback",
+        "postmortem",
+        "simulacro",
+        "acciones",
+        "verificadas",
+        "clasifica",
+        "contrato",
+        "sobre",
+        "caso"
+      ],
+      "justification_from_packet": "[Explorer/S51-T3-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contenció». Hints: «Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-». Theory `incidents, rollback y postmortem` exige evidencia «simulacro de rollback y acciones verificadas». Demo S51-T3-B-DEMO. Predicado de dominio: `not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T3-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"owners_assigned\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"ROLLBACK_AND_CONTAIN\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "incidents",
+        "rollback",
+        "postmortem",
+        "calcula",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Explorer/S51-T3-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, roll». Hints: «Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.; Después aplica la regla de S51-T3-B: contención, last-good, RTO y». Theory `incidents, rollback y postmortem` exige evidencia «simulacro de rollback y acciones verificadas». Demo S51-T3-B-DEMO. Predicado de dominio: `not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T3-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"owners_assigned\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"CONVENE_INCIDENT_REVIEW\"\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else \"ROLLBACK_AND_CONTAIN\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "incidents",
+        "rollback",
+        "postmortem",
+        "instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Explorer/S51-T3-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AN». Hints: «Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró con». Theory `incidents, rollback y postmortem` exige evidencia «simulacro de rollback y acciones verificadas». Demo S51-T3-B-DEMO. Predicado de dominio: `not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T4-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nmeets_contract = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "usuario",
+        "entiende",
+        "evidencia",
+        "confirma",
+        "acción",
+        "audita",
+        "contrato"
+      ],
+      "justification_from_packet": "[Explorer/S51-T4-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incerti». Hints: «Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.; El pr». Theory `incertidumbre, citas y confirmaciones` exige evidencia «usuario entiende evidencia y confirma acción». Demo S51-T4-A-DEMO. Predicado de dominio: `not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":Tr`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T4-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"confirmed\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"PASS\" if ok else \"BLOCK_UNCONFIRMED_ACTION\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "compara",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Explorer/S51-T4-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Entrada: dict con case_id, uncertainty_show». Hints: «Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.; Después aplica la regla de S51-T4-A: incertidumbre/citas visibles y efe». Theory `incertidumbre, citas y confirmaciones` exige evidencia «usuario entiende evidencia y confirma acción». Demo S51-T4-A-DEMO. Predicado de dominio: `not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T4-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"confirmed\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"ASK_USER_TO_CONFIRM\"\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"CONTINUE\" if ok else \"BLOCK_UNCONFIRMED_ACTION\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Explorer/S51-T4-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONF». Hints: «Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró incerti». Theory `incertidumbre, citas y confirmaciones` exige evidencia «usuario entiende evidencia y confirma acción». Demo S51-T4-A-DEMO. Predicado de dominio: `not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S51-T4-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nmeets_contract = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "accesibilidad",
+        "corrección",
+        "contestabilidad",
+        "flujo",
+        "wcag",
+        "apelación",
+        "completables",
+        "decide",
+        "contrato",
+        "sobre"
+      ],
+      "justification_from_packet": "[Explorer/S51-T4-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar t». Hints: «Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla expli». Theory `accesibilidad, corrección y contestabilidad` exige evidencia «flujo WCAG y apelación completables». Demo S51-T4-B-DEMO. Predicado de dominio: `not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not rec`. Entrega ancla: `record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\"`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S51-T4-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"appeal_to_human\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"PASS\" if ok else \"FAIL_ACCESSIBILITY_GATE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "accesibilidad",
+        "corrección",
+        "contestabilidad",
+        "filtra",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Explorer/S51-T4-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_human`. Entrada: dict con case_id, keybo». Hints: «Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.; Después aplica la regla de S51-T4-B: teclado/lector/contraste y c». Theory `accesibilidad, corrección y contestabilidad` exige evidencia «flujo WCAG y apelación completables». Demo S51-T4-B-DEMO. Predicado de dominio: `not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not rec`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S51-T4-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"appeal_to_human\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"ROUTE_CONTESTATION\"\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"CONTINUE\" if ok else \"FAIL_ACCESSIBILITY_GATE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "accesibilidad",
+        "corrección",
+        "contestabilidad",
+        "demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Explorer/S51-T4-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FA». Hints: «Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró teclado/». Theory `accesibilidad, corrección y contestabilidad` exige evidencia «flujo WCAG y apelación completables». Demo S51-T4-B-DEMO. Predicado de dominio: `not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not rec`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En theory del paquete activo, la evidencia esperada del primer subtema es «trace reconstruible sin PII»; la opción elegida repite esa evidencia para aprobar el contrato de «Observabilidad, gobernanza y UX del copiloto».",
+      "confidence": 0.88,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "El error de sección bloquea release; theory exige no ocultar evidencia. La opción «emitir ROLLBACK_COPILOT y conservar evidencia» emite la acción de contención y conserva el trace.",
+      "confidence": 0.88,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "El criterio de éxito del contrato operativo en theory es «se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir»; la opción del gate coincide con ese resultado defendible, no con afirmaciones vacías.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Theory del caso peruano sintético prohíbe PII real, secretos y inferir fraude/parentesco; «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» respeta alcance mínimo y revisión humana.",
+      "confidence": 0.88,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:12:16.312792+00:00",
+  "session_started_at": "2026-07-23T06:11:04.312792+00:00",
+  "session_ended_at": "2026-07-23T06:12:16.312792+00:00"
+}

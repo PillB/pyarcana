@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s23-5045308b80",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "code": "nodes=[{'id':'n1','role':'link','name':'Inicio'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Me apoyé en «DOM y locators orientados a usuario»: get_by_role/name localiza el link Inicio y devuelve su id; preferible a CSS frágil."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "code": "order={'role':0,'testid':1,'css':2,'xpath':3}\nstrats=['css','role','testid']\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Me apoyé en «DOM y locators orientados a usuario»: Orden canónico role, testid, css al priorizar estrategias de locator."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "code": "hits=[{'name':'OK'}]\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "Me apoyé en «DOM y locators orientados a usuario»: Si hay hits tomo el name; si no, need_testid como fallback."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "code": "i=0\nfor _ in range(3):\n    i += 1\nprint(i)\n",
+      "justification_from_packet": "Tomé la teoría «auto-waiting y assertions» y el fixture del starter: Me apoyé en «auto-waiting y assertions»: Contador de reintentos llega a 3; waits/retry del subtema Así el código del ejercicio S23-T1-B-E1 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "code": "print('ok')\n",
+      "justification_from_packet": "Tomé la teoría «auto-waiting y assertions» y el fixture del starter: Me apoyé en «auto-waiting y assertions»: Tras estabilizar la UI el step reporta ok Así el código del ejercicio S23-T1-B-E2 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "code": "expected, actual = 'done', 'done'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Tomé la teoría «auto-waiting y assertions» y el fixture del starter: Me apoyé en «auto-waiting y assertions»: Assertion de resultado: expected==actual → pass Así el código del ejercicio S23-T1-B-E3 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "code": "form={'user':'ana','pass':'x'}\nprint(form)\n",
+      "justification_from_packet": "Me apoyé en «formularios, uploads/downloads y sesiones»: Formulario sintético de login sin secretos reales."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "code": "import hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "Me apoyé en «formularios, uploads/downloads y sesiones»: Hash del storage state sintético para no versionar cookies."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "code": "state={'token':'abc'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Me apoyé en «formularios, uploads/downloads y sesiones»: Con token reuso sesión; sin token hago login."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        self.auth = user == 'ana' and password == 'x'\n        return self.auth\n\np = LoginPage()\nprint(p.submit('ana', 'x'))\n",
+      "justification_from_packet": "Me apoyé en «auth, estados y Page Objects»: Page Object encapsula submit y deja auth True con credenciales de lab."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "code": "print('ok')\n",
+      "justification_from_packet": "Tomé la teoría «auth, estados y Page Objects» y el fixture del starter: Me apoyé en «auth, estados y Page Objects»: Paso POM completado con ok Así el código del ejercicio S23-T2-B-E2 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "code": "state={'page':'home','auth':True}\nprint(state)\n",
+      "justification_from_packet": "Tomé la teoría «auth, estados y Page Objects» y el fixture del starter: Me apoyé en «auth, estados y Page Objects»: Estado post-login con page y auth Así el código del ejercicio S23-T2-B-E3 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "code": "ev={'step':'click','ts':1,'ok':True}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "Tomé la teoría «trace, screenshot y logs» y el fixture del starter: Me apoyé en «trace, screenshot y logs»: Evento de evidencia con keys ordenadas Así el código del ejercicio S23-T3-A-E1 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "code": "logs=['INFO ok','ERR timeout']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Tomé la teoría «trace, screenshot y logs» y el fixture del starter: Me apoyé en «trace, screenshot y logs»: Filtro ERR para triage del run Así el código del ejercicio S23-T3-A-E2 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "code": "pkg={'screenshot':'s.png','html':'h.html','log':'l.txt'}\nprint(pkg)\n",
+      "justification_from_packet": "Tomé la teoría «trace, screenshot y logs» y el fixture del starter: Me apoyé en «trace, screenshot y logs»: Paquete screenshot/html/log para forensics Así el código del ejercicio S23-T3-A-E3 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "code": "def should_retry(k):\n    return k in {'timeout', '429'}\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Tomé la teoría «selectores robustos, retries y recovery» y el fixture del starter: Me apoyé en «selectores robustos, retries y recovery»: Reintento solo timeout/429; captcha no Así el código del ejercicio S23-T3-B-E1 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "code": "err='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Tomé la teoría «selectores robustos, retries y recovery» y el fixture del starter: Me apoyé en «selectores robustos, retries y recovery»: Stale → goto_home de recuperación Así el código del ejercicio S23-T3-B-E2 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "code": "i=2\nprint('ok', i)\n",
+      "justification_from_packet": "Tomé la teoría «selectores robustos, retries y recovery» y el fixture del starter: Me apoyé en «selectores robustos, retries y recovery»: Recovery exitoso reporta ok y el intento Así el código del ejercicio S23-T3-B-E3 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "code": "api=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Tomé la teoría «API/export primero» y el fixture del starter: Me apoyé en «API/export primero»: API disponible → preferir api a RPA Así el código del ejercicio S23-T4-A-E1 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "code": "c={'cost_rpa':10,'cost_api':2}\nprint(c)\n",
+      "justification_from_packet": "Tomé la teoría «API/export primero» y el fixture del starter: Me apoyé en «API/export primero»: Comparación de costos rpa vs api Así el código del ejercicio S23-T4-A-E2 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "code": "decision={'channel':'api','reason':'stable_endpoint'}\nprint(decision)\n",
+      "justification_from_packet": "Tomé la teoría «API/export primero» y el fixture del starter: Me apoyé en «API/export primero»: Decisión documentada de canal Así el código del ejercicio S23-T4-A-E3 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "code": "captcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Tomé la teoría «términos, CAPTCHA, desktop fallback y handoff humano» y el fixture del starter: Me apoyé en «términos, CAPTCHA, desktop fallback y handoff humano»: CAPTCHA implica handoff humano Así el código del ejercicio S23-T4-B-E1 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "code": "sig={'tos_forbidden':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "Tomé la teoría «términos, CAPTCHA, desktop fallback y handoff humano» y el fixture del starter: Me apoyé en «términos, CAPTCHA, desktop fallback y handoff humano»: ToS forbidden → abort del bot Así el código del ejercicio S23-T4-B-E2 queda alineado con la instruction activa."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "code": "payload={'step':'login','ts':1,'ok':False}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Me apoyé en «términos, CAPTCHA, desktop fallback y handoff humano»: Payload de handoff con step login."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "get_by_role refleja la UI accesible y suele ser más estable que CSS nth-child. El subtema de localización lo prioriza."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Ante CAPTCHA el robot se detiene y hace handoff humano. No se resuelve con servicios externos ni se ignora el ToS."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "API/export primero: buscar integración no-UI antes de automatizar el browser. RPA no es el default. Eso se lee en las opciones del selfcheck y en el texto del paquete activo de la sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Un retry seguro reintenta solo fallas transitorias (timeout/red), no captcha ni 403 de negocio. Eso se lee en las opciones del selfcheck y en el texto del paquete activo de la sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:52:26.255679+00:00",
+  "session_started_at": "2026-07-23T16:53:20+00:00",
+  "session_ended_at": "2026-07-23T16:54:07.600000+00:00",
+  "receipt_response_sha256": "1b77247eb7c1e9c333074188a87700c080688003ab5e2b84b8978f7c579fcc77",
+  "receipt_exercises_sha256": "120851a9841bdb0cac3a2eaeb1f609b8d53ff630222dded29adcc1cb3ee1fb90",
+  "receipt_selfcheck_sha256": "8d406efc10b2c298b36c8e9975172e3e92ec347074d574064b4dfce0933f737c"
+}

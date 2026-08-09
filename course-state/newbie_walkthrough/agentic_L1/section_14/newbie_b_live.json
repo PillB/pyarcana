@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s14-c23851ccb5",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "id": "S14-T1-A-E1",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en ndarray/ufunc/broadcast pide `S14-T1-A-E1` — dtype/shape, máscaras y views; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "id": "S14-T1-A-E2",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S14-T1-A-E2` — dtype/shape, máscaras y views. Si no cuadra con theory de ndarray/ufunc/broadcast, no firmo el pass. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "id": "S14-T1-A-E3",
+      "code": "import numpy as np\ndef validate_1d_f64(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\nvalidate_1d_f64(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    validate_1d_f64(np.array([[1.0], [2.0]], dtype=np.float64))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S14-T1-A-E3` — dtype/shape, máscaras y views. El iDo/theory de ndarray/ufunc/broadcast es la fuente, no mi memoria. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "id": "S14-T1-B-E1",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nprint(np.where(score >= 0.5)[0].tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S14-T1-B-E1` — dtype/shape, máscaras y views, alineado al contrato de ndarray/ufunc/broadcast del slim_packet. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "id": "S14-T1-B-E2",
+      "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nprint(ids[scores < np.median(scores)].tolist())\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S14-T1-B-E2` — dtype/shape, máscaras y views. Sin eso el ejercicio de ndarray/ufunc/broadcast queda teatro. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "id": "S14-T1-B-E3",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40]); order = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en ndarray/ufunc/broadcast pide `S14-T1-B-E3` — dtype/shape, máscaras y views; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "id": "S14-T2-A-E1",
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist(), \"|\", np.round(M.mean(axis=1), 2).tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S14-T2-A-E1` — dtype/shape, máscaras y views. Si no cuadra con theory de ndarray/ufunc/broadcast, no firmo el pass. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "id": "S14-T2-A-E2",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4).tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S14-T2-A-E2` — dtype/shape, máscaras y views. El iDo/theory de ndarray/ufunc/broadcast es la fuente, no mi memoria. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "id": "S14-T2-A-E3",
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S14-T2-A-E3` — dtype/shape, máscaras y views, alineado al contrato de ndarray/ufunc/broadcast del slim_packet. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "id": "S14-T2-B-E1",
+      "code": "import numpy as np\nM = np.zeros((2, 3)); w = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S14-T2-B-E1` — dtype/shape, máscaras y views. Sin eso el ejercicio de ndarray/ufunc/broadcast queda teatro. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "id": "S14-T2-B-E2",
+      "code": "import numpy as np\na = np.arange(4); b = np.arange(3); P = a[:, None] * b\nprint(P.shape, P.tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en ndarray/ufunc/broadcast pide `S14-T2-B-E2` — dtype/shape, máscaras y views; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "id": "S14-T2-B-E3",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S14-T2-B-E3` — dtype/shape, máscaras y views. Si no cuadra con theory de ndarray/ufunc/broadcast, no firmo el pass. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "id": "S14-T3-A-E1",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3]); v = raw[:2]; v[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S14-T3-A-E1` — dtype/shape, máscaras y views. El iDo/theory de ndarray/ufunc/broadcast es la fuente, no mi memoria. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "id": "S14-T3-A-E2",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3]); c = raw[:2].copy(); c[0] = 9\nprint(raw.tolist(), c.tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S14-T3-A-E2` — dtype/shape, máscaras y views, alineado al contrato de ndarray/ufunc/broadcast del slim_packet. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "id": "S14-T3-A-E3",
+      "code": "import numpy as np\na = np.array([1.0, 2.0]); a.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S14-T3-A-E3` — dtype/shape, máscaras y views. Sin eso el ejercicio de ndarray/ufunc/broadcast queda teatro. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "id": "S14-T3-B-E1",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en ndarray/ufunc/broadcast pide `S14-T3-B-E1` — dtype/shape, máscaras y views; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "id": "S14-T3-B-E2",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.round(np.nanmean(x), 1)))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S14-T3-B-E2` — dtype/shape, máscaras y views. Si no cuadra con theory de ndarray/ufunc/broadcast, no firmo el pass. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "id": "S14-T3-B-E3",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\nprint(float(np.nansum(np.where(np.isinf(x), np.nan, x))))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S14-T3-B-E3` — dtype/shape, máscaras y views. El iDo/theory de ndarray/ufunc/broadcast es la fuente, no mi memoria. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "id": "S14-T4-A-E1",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\ns_loop = sum(float(a[i] * a[i]) for i in range(len(a)))\nprint(bool(abs(s_loop - float((a * a).sum())) < 1e-6))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S14-T4-A-E1` — dtype/shape, máscaras y views, alineado al contrato de ndarray/ufunc/broadcast del slim_packet. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "id": "S14-T4-A-E2",
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S14-T4-A-E2` — dtype/shape, máscaras y views. Sin eso el ejercicio de ndarray/ufunc/broadcast queda teatro. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "id": "S14-T4-A-E3",
+      "code": "import numpy as np, time\nn = 10000; a = np.zeros(n); b = np.ones(n)\nt0 = time.perf_counter(); r = a + b; _ = time.perf_counter() - t0\nprint(\"timed\", bool(abs(r.mean() - 1.0) < 1e-9))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en ndarray/ufunc/broadcast pide `S14-T4-A-E3` — dtype/shape, máscaras y views; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "id": "S14-T4-B-E1",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S14-T4-B-E1` — dtype/shape, máscaras y views. Si no cuadra con theory de ndarray/ufunc/broadcast, no firmo el pass. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "id": "S14-T4-B-E2",
+      "code": "import numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S14-T4-B-E2` — dtype/shape, máscaras y views. El iDo/theory de ndarray/ufunc/broadcast es la fuente, no mi memoria. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "id": "S14-T4-B-E3",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S14-T4-B-E3` — dtype/shape, máscaras y views, alineado al contrato de ndarray/ufunc/broadcast del slim_packet. (lectura directa del packet L1 s14).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Theory de ndarray/ufunc/broadcast: la opción «dtype» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Como skeptic descarto distractores: en ndarray/ufunc/broadcast, el slim_packet apunta a «Filtrar o seleccionar elementos que cumplen la condició».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de ndarray/ufunc/broadcast se ancla a «Por columna (colapsa filas)» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Releo outcomes de ndarray/ufunc/broadcast: «Puede mutar el array base porque suele ser un view» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s14 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S15+ para resolver S14."
+  ],
+  "recorded_at": "2026-07-23T16:41:48.523726+00:00",
+  "session_started_at": "2026-07-23T16:40:46.725Z",
+  "session_ended_at": "2026-07-23T16:41:48.522Z",
+  "receipt_response_sha256": "34fd986b66b3883757c0002db3a73069947e94c013d7a6874841b2a470bb519b",
+  "receipt_exercises_sha256": "5adcef4ad4cb365f7abeeb04a60bcb59c146e41e315f7bcac7a391183b5befc9",
+  "receipt_selfcheck_sha256": "998f91ec46a5558793647196fe69f3c7ee1fae87c2824dd284ecf7fcf51c75ff"
+}

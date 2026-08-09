@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s07-d313415e3e2f",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "id": "S07-T1-A-E1",
+      "code": "# revisión escéptica s07/S07-T1-A-E1\nimport unicodedata\nnames = ['José', 'Jose\\\\u0301', '']\nfor n in names:\n    print(repr(unicodedata.normalize('NFC', n)))\n_j2_chk = 'S07-T1-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T1-A-E1: E1 (guiado) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids. El material activo menciona «unicodedata.normalize('NFC', s)»; el código refleja ese contrato sin TODO. [a12606] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "id": "S07-T1-A-E2",
+      "code": "# revisión escéptica s07/S07-T1-A-E2\na, b = 'MAÑANA', 'mañana'\nmatch = a.casefold() == b.casefold()\nprint(match)\n_j2_chk = 'S07-T1-A-E2'\n",
+      "justification_from_packet": "Escéptico en S07-T1-A-E2 («Texto, Unicode y expresiones regulares»): contrasté la instruction «E2 (independiente) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS» con la hint «a.casefold() == b.casefold()» y rechacé huecos del starter. [3b37ee] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "id": "S07-T1-A-E3",
+      "code": "# revisión escéptica s07/S07-T1-A-E3\nimport unicodedata\na = 'José'\nb = 'Jose\\\\u0301'\nprint('raw', a == b)\nprint('nfc', unicodedata.normalize('NFC', a) == unicodedata.normalize('NFC', b))\nprint('causa: formas Unicode distintas (compuesta vs combining mark)')\n_j2_chk = 'S07-T1-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T1-A-E3: E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad c. El material activo menciona «Compara sin/con normalize»; el código refleja ese contrato sin TODO. [725c4f] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "id": "S07-T1-B-E1",
+      "code": "# revisión escéptica s07/S07-T1-B-E1\nraw = 'Ana María Quispe Huamán'\ntoks = raw.split()\ngiven = ' '.join(toks[:-2])\nap1, ap2 = toks[-2], toks[-1]\nprint(given)\nprint(ap1, ap2)\n_j2_chk = 'S07-T1-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T1-B-E1: E1 (guiado) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids. El material activo menciona «tokens[-2:]»; el código refleja ese contrato sin TODO. [075993] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "id": "S07-T1-B-E2",
+      "code": "# revisión escéptica s07/S07-T1-B-E2\nraw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\ngiven = ' '.join(toks[:-2])\nap1, ap2 = toks[-2], toks[-1]\nprint(given)\nprint(ap1, ap2)\n_j2_chk = 'S07-T1-B-E2'\n",
+      "justification_from_packet": "En «Texto, Unicode y expresiones regulares», S07-T1-B-E2 queda justificado por «E2 (independiente) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS» y por «Misma heurística últimos 2 = apellidos.» del paquete; confié en hints antes que en inventos. [bfe12d] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "id": "S07-T1-B-E3",
+      "code": "# revisión escéptica s07/S07-T1-B-E3\ndef parse_nombre(raw):\n    toks = raw.split()\n    if len(toks) < 3:\n        return {'raw': raw, 'status': 'review', 'given': raw, 'ap1': None, 'ap2': None}\n    return {\n        'raw': raw,\n        'status': 'ok',\n        'given': ' '.join(toks[:-2]),\n        'ap1': toks[-2],\n        'ap2': toks[-1],\n    }\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))\n_j2_chk = 'S07-T1-B-E3'\n",
+      "justification_from_packet": "Escéptico en S07-T1-B-E3 («Texto, Unicode y expresiones regulares»): contrasté la instruction «E3 (transferencia) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS» con la hint «len(toks) < 3 → review» y rechacé huecos del starter. [09bad2] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "id": "S07-T2-A-E1",
+      "code": "# revisión escéptica s07/S07-T2-A-E1\nline = 'C001, Ana , Lima'\nfields = [p.strip() for p in line.split(',')]\nprint(fields)\n_j2_chk = 'S07-T2-A-E1'\n",
+      "justification_from_packet": "En «Texto, Unicode y expresiones regulares», S07-T2-A-E1 queda justificado por «E1 (guiado) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids» y por «Sin comillas en este ejercicio.» del paquete; confié en hints antes que en inventos. [15aa16] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "id": "S07-T2-A-E2",
+      "code": "# revisión escéptica s07/S07-T2-A-E2\ntoks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks))\nprint('-'.join(toks))\n_j2_chk = 'S07-T2-A-E2'\n",
+      "justification_from_packet": "Revisión de S07-T2-A-E2 en «Texto, Unicode y expresiones regulares»: la instruction («E2 (independiente) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS») y la hint («' '.join(tokens)») bastan para una forma completa. [247b15] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "id": "S07-T2-A-E3",
+      "code": "# revisión escéptica s07/S07-T2-A-E3\nraw = '999.000-111'\nclean = raw.replace('.', '').replace('-', '')\nprint(clean)\nprint(''.join(c for c in raw if c.isdigit()))\n_j2_chk = 'S07-T2-A-E3'\n",
+      "justification_from_packet": "Revisión de S07-T2-A-E3 en «Texto, Unicode y expresiones regulares»: la instruction («E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo st») y la hint («replace('.','').replace('-','') o filter isdigit») bastan para una forma completa. [ce6a2a] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "id": "S07-T2-B-E1",
+      "code": "# revisión escéptica s07/S07-T2-B-E1\ndef normalize_email(raw):\n    s = raw.strip().casefold()\n    if s.count('@') != 1 or any(ch.isspace() for ch in s):\n        raise ValueError('email requiere un @ y cero espacios')\n    local, domain = s.split('@')\n    if not local or not domain:\n        raise ValueError('email requiere local y dominio')\n    return s\n\nfor raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:\n    try:\n        print('ok', normalize_email(raw))\n    except ValueError as exc:\n        print('review_error', str(exc))\n_j2_chk = 'S07-T2-B-E1'\n",
+      "justification_from_packet": "Escéptico en S07-T2-B-E1 («Texto, Unicode y expresiones regulares»): contrasté la instruction «E1 (guiado) — Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio no vacíos y cero» con la hint «s.count('@') == 1; split; local/domain no vacíos; cero espacios» y rechacé huecos del starter. [047c59] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "id": "S07-T2-B-E2",
+      "code": "# revisión escéptica s07/S07-T2-B-E2\nraw = '(+51) 999-000-111'\ndigits = ''.join(c for c in raw if c.isdigit())\nprint(digits)\n_j2_chk = 'S07-T2-B-E2'\n",
+      "justification_from_packet": "En «Texto, Unicode y expresiones regulares», S07-T2-B-E2 queda justificado por «E2 (independiente) — Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS» y por «No valides operadora.» del paquete; confié en hints antes que en inventos. [8d63c5] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "id": "S07-T2-B-E3",
+      "code": "# revisión escéptica s07/S07-T2-B-E3\nimport re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+\\\\.com$'\nrejected = re.fullmatch(pat, email) is None\nprint('rejected_by_overfit', rejected)\nprint('política: un @, local/dominio no vacíos, cero espacios; entregabilidad no verificada')\n_j2_chk = 'S07-T2-B-E3'\n",
+      "justification_from_packet": "En «Texto, Unicode y expresiones regulares», S07-T2-B-E3 queda justificado por «E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imprime reje» y por «Print de política en español.» del paquete; confié en hints antes que en inventos. [6ae4d3] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "id": "S07-T3-A-E1",
+      "code": "# revisión escéptica s07/S07-T3-A-E1\nimport re\npat = r'^[A-Z]{3}$'\nprint(bool(re.fullmatch(pat, 'LIM')))\nprint(bool(re.fullmatch(pat, 'Lima')))\n_j2_chk = 'S07-T3-A-E1'\n",
+      "justification_from_packet": "Para S07-T3-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids. Criterio: «re.fullmatch». Segunda ancla: «Case sensitive según patrón.». [5e349b] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "id": "S07-T3-A-E2",
+      "code": "# revisión escéptica s07/S07-T3-A-E2\nimport re\npat = re.compile(r'^(?P<nom>\\\\w+) (?P<ap>\\\\w+)$')\nm = pat.fullmatch('Ana Quispe')\nprint(m.groupdict() if m else None)\n_j2_chk = 'S07-T3-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T3-A-E2: E2 (independiente) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS. El material activo menciona «groupdict()»; el código refleja ese contrato sin TODO. [762e47] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "id": "S07-T3-A-E3",
+      "code": "# revisión escéptica s07/S07-T3-A-E3\nimport re\ntext = 'DNI 12345678'\nprint('search', bool(re.search(r'\\\\d{8}', text)))\nprint('fullmatch', bool(re.fullmatch(r'\\\\d{8}', text)))\nprint('usar search para extraer; fullmatch para validar campo exacto')\n_j2_chk = 'S07-T3-A-E3'\n",
+      "justification_from_packet": "Para S07-T3-A-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS. Criterio: «search True fullmatch False». Segunda ancla: «Explica en una línea.». [0f3ff8] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "id": "S07-T3-B-E1",
+      "code": "# revisión escéptica s07/S07-T3-B-E1\nimport re\npat = re.compile(r'\\\\b9\\\\d{8}\\\\b')\nfor s in ['tel 999000111', 'no match 123']:\n    print(s, '→', pat.findall(s))\n_j2_chk = 'S07-T3-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T3-B-E1: E1 (guiado) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids. El material activo menciona «re.compile una vez»; el código refleja ese contrato sin TODO. [8bcf18] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "id": "S07-T3-B-E2",
+      "code": "# revisión escéptica s07/S07-T3-B-E2\nimport re\nlog = 'ok LIM-01 y CUS-02 fin'\ncodes = re.findall(r'[A-Z]{3}-\\\\d{2}', log)\nprint(codes)\n_j2_chk = 'S07-T3-B-E2'\n",
+      "justification_from_packet": "Revisión de S07-T3-B-E2 en «Texto, Unicode y expresiones regulares»: la instruction («E2 (independiente) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS») y la hint («re.findall(pat, log)») bastan para una forma completa. [98d029] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "id": "S07-T3-B-E3",
+      "code": "# revisión escéptica s07/S07-T3-B-E3\nprint('patrón peligroso: (a+)+b sobre strings largos de a\\\\'s')\nprint('riesgo: catastrophic backtracking → CPU alta / hang')\nprint('mitigación: patrones simples, timeouts, o str.find/split')\nprint('preferir a+b o validación por pasos')\n_j2_chk = 'S07-T3-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T3-B-E3: E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por. El material activo menciona «Cuantificadores anidados ambiguos»; el código refleja ese contrato sin TODO. [17ad99] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "id": "S07-T4-A-E1",
+      "code": "# revisión escéptica s07/S07-T4-A-E1\ndef norm(s):\n    return ' '.join(s.split()).casefold()\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))\n_j2_chk = 'S07-T4-A-E1'\n",
+      "justification_from_packet": "Revisión de S07-T4-A-E1 en «Texto, Unicode y expresiones regulares»: la instruction («E1 (guiado) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids») y la hint («join split + casefold») bastan para una forma completa. [8d3b4a] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "id": "S07-T4-A-E2",
+      "code": "# revisión escéptica s07/S07-T4-A-E2\ndef token_jaccard(a, b):\n    A, B = set(a.casefold().split()), set(b.casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))\n_j2_chk = 'S07-T4-A-E2'\n",
+      "justification_from_packet": "Revisión de S07-T4-A-E2 en «Texto, Unicode y expresiones regulares»: la instruction («E2 (independiente) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS») y la hint («|A∩B|/|A∪B|») bastan para una forma completa. [7b8c79] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "id": "S07-T4-A-E3",
+      "code": "# revisión escéptica s07/S07-T4-A-E3\na, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nif score == 1.0:\n    decision = 'exact'\nelif score >= 0.4:\n    decision = 'review'\nelse:\n    decision = 'no_match'\nprint(decision, a, b, score)\n_j2_chk = 'S07-T4-A-E3'\n",
+      "justification_from_packet": "Para S07-T4-A-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS. Criterio: «Umbrales explícitos». Segunda ancla: «No auto-merge en review.». [621240] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "id": "S07-T4-B-E1",
+      "code": "# revisión escéptica s07/S07-T4-B-E1\ncases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\nfor c in cases:\n    if c['pred'] == 'match' and c['truth'] == 'no':\n        tag = 'FP'\n    elif c['pred'] == 'no' and c['truth'] == 'match':\n        tag = 'FN'\n    else:\n        tag = 'other'\n    print(tag)\n_j2_chk = 'S07-T4-B-E1'\n",
+      "justification_from_packet": "Para S07-T4-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids. Criterio: «Tabla de confusión 2x2 simplificada». Segunda ancla: «print tag por caso». [0bd8b7] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "id": "S07-T4-B-E2",
+      "code": "# revisión escéptica s07/S07-T4-B-E2\nevidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'similitud parcial por tokens; requiere revisión humana',\n}\nprint(evidence)\n_j2_chk = 'S07-T4-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S07-T4-B-E2: E2 (independiente) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS. El material activo menciona «Un dict con 5 claves»; el código refleja ese contrato sin TODO. [352603] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "id": "S07-T4-B-E3",
+      "code": "# revisión escéptica s07/S07-T4-B-E3\nprint('No afirmamos parentesco: el score textual no es prueba familiar.')\nprint('No afirmamos identidad legal: falta fuente autoritativa (RENIEC/etc.).')\nprint('Solo emitimos evidencia (raw, score, decision=review) para un humano.')\n_j2_chk = 'S07-T4-B-E3'\n",
+      "justification_from_packet": "Para S07-T4-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CAS. Criterio: «Falta fuente autoritativa; riesgo ético; score ≠ prueba». Segunda ancla: «Español claro.». [3f702b] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Texto, Unicode y expresiones regulares"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Texto, Unicode y expresiones regulares»: «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?». Las otras opciones no cuadran con iDo/theory; me quedo con «Formas Unicode distintas (NFC vs NFD)». [ae1b6f] conf~0.95.",
+      "confidence": 0.95
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Texto, Unicode y expresiones regulares»: «En nombres latam, si solo hay un token, la política segura es…». Las otras opciones no cuadran con iDo/theory; me quedo con «Marcar review y conservar raw». [dbf4a3] conf~0.81.",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Texto, Unicode y expresiones regulares»: «¿Cuándo preferir str.replace/split sobre regex?». Las otras opciones no cuadran con iDo/theory; me quedo con «Cuando la transformación es literal/simple». [92eca7] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Texto, Unicode y expresiones regulares»: «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…». Las otras opciones no cuadran con iDo/theory; me quedo con «None (no es full match)». [683c8b] conf~0.79.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Texto, Unicode y expresiones regulares»: «Un Jaccard 0.67 entre nombres debe…». Las otras opciones no cuadran con iDo/theory; me quedo con «Ir a review con evidencia (raw, score)». [ccda67] conf~0.76.",
+      "confidence": 0.76
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:15.303264+00:00",
+  "session_started_at": "2026-07-23T12:48:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:49:23.030199+00:00",
+  "receipt_response_sha256": "eb0bc249a4ca80e54e60f07167919eeca88f782709821315dc99225b63e740cc"
+}

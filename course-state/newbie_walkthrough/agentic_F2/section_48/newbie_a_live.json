@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s48-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n\n# F2-note:75494843d7 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a0d6ef50] Resuelvo S48-T1-A-E1 solo con el paquete activo. Instrucción: «S48-T1-A-E1 · Calcula el contrato de `embeddings y similarity` sobre `CASO-PUN-048-1A`. La entrada es el dict completo del starter; la operación debe demostrar ». Pista: «Relaciona los campos `query`, `docs`, `metric`, `version`, `expected_top` con la regla exp». Demo S48-T1-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('embeddings y similarity')\n\n# F2-note:841b0d226f packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fb397512] Como explorador, S48-T1-A-E2: sigo el starter y el iDo. El enunciado pide «S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id, query, d». Aplico «Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.». Línea clave: `print('embeddings y similarity')`. Heading: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos\n2. `CASO-PUN-048-1A` debe continuar, el adverso debe devolver `REJECT_EMBEDDING_RANK` y la ausencia de `expected_top` debe devolver `REVIEW_METRIC_VERSION`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró top por dot product y versión embedding explícita; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:007bc40f70 packet-grounded (explorer); instr_tokens=48\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/769ed873] S48-T1-A-E3 — material del slim_packet basta. «S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO-PUN-048-1A` debe continuar, el adverso debe devolver `REJEC» · hint «Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de evaluar el » · S48-T1-A-DEMO. Entrega: `1. S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n\n# F2-note:42fd8a7de5 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3b4623af] S48-T1-B-E1 — material del slim_packet basta. «S48-T1-B-E1 · Compara el contrato de `límites, versiones y evaluación` sobre `CASO-PUN-048-1B`. La entrada es el dict completo del starter; la operación debe de» · hint «Relaciona los campos `baseline_recall`, `candidate_recall`, `min_recall`, `holdout`, `rein» · S48-T1-B-DEMO. Entrega: `record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"h`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('límites, versiones y evaluación')\n\n# F2-note:6a16a47fb3 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1034f03f] Resuelvo S48-T1-B-E2 solo con el paquete activo. Instrucción: «S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adverso y registro sin `reindex_cost_pen`. Entrada: dict con cas». Pista: «Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir antes de esa r». Demo S48-T1-B-DEMO. Código ancla: `print('límites, versiones y evaluación')`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos\n2. `CASO-PUN-048-1B` debe continuar, el adverso debe devolver `KEEP_EMBEDDING_BASELINE` y la ausencia de `reindex_cost_pen` debe devolver `EVALUATE_ERROR_SLICES`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró recall holdout mejora y costo de reindexación acotado; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:f0782da8fd packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2a72b641] S48-T1-B-E3 — material del slim_packet basta. «S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos. `CASO-PUN-048-1B` debe continuar, el adverso debe devol» · hint «Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de evaluar el » · S48-T1-B-DEMO. Entrega: `1. S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n\n# F2-note:947347fed8 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/050437f1] Como explorador, S48-T2-A-E1: sigo el starter y el iDo. El enunciado pide «S48-T2-A-E1 · Filtra el contrato de `chunking, metadata y dedup` sobre `CASO-PUN-048-2A`. La entrada es el dict completo del starter; la operación debe demostra». Aplico «Relaciona los campos `chunks`, `unique_hashes`, `source_version` con la regla explicada en». Línea clave: `record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",`. Heading: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('chunking, metadata y dedup')\n\n# F2-note:0e54691c67 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6cdabf2c] S48-T2-A-E2 — material del slim_packet basta. «S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso y registro sin `source_version`. Entrada: dict con case_id, » · hint «Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes de esa ram» · S48-T2-A-DEMO. Entrega: `print('chunking, metadata y dedup')`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos\n2. `CASO-PUN-048-2A` debe continuar, el adverso debe devolver `DEDUP_AND_RECHUNK` y la ausencia de `source_version` debe devolver `RESTORE_CHUNK_METADATA`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró hashes únicos, metadata y source version; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:b1a6958ece packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fd73f9b9] S48-T2-A-E3 — material del slim_packet basta. «S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. `CASO-PUN-048-2A` debe continuar, el adverso debe devolver `» · hint «Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de evaluar el» · S48-T2-A-DEMO. Entrega: `1. S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"]\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n\n# F2-note:c3f4d655eb packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b2189a6c] Resuelvo S48-T2-B-E1 solo con el paquete activo. Instrucción: «S48-T2-B-E1 · Modela el contrato de `ACL, deletion y provenance` sobre `CASO-PUN-048-2B`. La entrada es el dict completo del starter; la operación debe demostra». Pista: «Relaciona los campos `user_acl`, `chunk_acl`, `deleted`, `provenance`, `cache_invalidated`». Demo S48-T2-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"pr`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('ACL, deletion y provenance')\n\n# F2-note:07231c7346 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/21a28ca9] S48-T2-B-E2 — material del slim_packet basta. «S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y registro sin `cache_invalidated`. Entrada: dict con case_id, » · hint «Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir antes de esa » · S48-T2-B-DEMO. Entrega: `print('ACL, deletion y provenance')`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos\n2. `CASO-PUN-048-2B` debe continuar, el adverso debe devolver `FILTER_OR_DELETE_CHUNK` y la ausencia de `cache_invalidated` debe devolver `VERIFY_ACL_PROVENANCE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró ACL intersecta, documento activo y cache coherente; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:a7739e9a2b packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/97e2dd33] Como explorador, S48-T2-B-E3: sigo el starter y el iDo. El enunciado pide «S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. `CASO-PUN-048-2B` debe continuar, el adverso debe devolver `». Aplico «Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de evaluar el ». Línea clave: `1. S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos`. Heading: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n\n# F2-note:935f983d60 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c17ba88f] S48-T3-A-E1 — material del slim_packet basta. «S48-T3-A-E1 · Verifica el contrato de `lexical/vector/hybrid y reranking` sobre `CASO-PUN-048-3A`. La entrada es el dict completo del starter; la operación debe» · hint «Relaciona los campos `lexical`, `vector`, `weights`, `expected_top` con la regla explicada» · S48-T3-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('lexical/vector/hybrid y reranking')\n\n# F2-note:eb9401a7c7 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5eddff0f] Resuelvo S48-T3-A-E2 solo con el paquete activo. Instrucción: «S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id». Pista: «Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.». Demo S48-T3-A-DEMO. Código ancla: `print('lexical/vector/hybrid y reranking')`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos\n2. `CASO-PUN-048-3A` debe continuar, el adverso debe devolver `RECALIBRATE_HYBRID_RANK` y la ausencia de `expected_top` debe devolver `REVIEW_RERANK_CANDIDATES`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró weighted hybrid score produce top esperado; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:f55927d32b packet-grounded (explorer); instr_tokens=48\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ba55726c] S48-T3-A-E3 — material del slim_packet basta. «S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos. `CASO-PUN-048-3A` debe continuar, el adverso debe de» · hint «Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes de evaluar » · S48-T3-A-DEMO. Entrega: `1. S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n\n# F2-note:d5dbbab1d2 packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ca30c854] Resuelvo S48-T3-B-E1 solo con el paquete activo. Instrucción: «S48-T3-B-E1 · Clasifica el contrato de `contexto, citas y permisos` sobre `CASO-PUN-048-3B`. La entrada es el dict completo del starter; la operación debe demos». Pista: «Relaciona los campos `claims`, `cited_claims`, `citation_acl`, `context_tokens`, `max_cont». Demo S48-T3-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('contexto, citas y permisos')\n\n# F2-note:b5fff1c5c9 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3678c6f5] Como explorador, S48-T3-B-E2: sigo el starter y el iDo. El enunciado pide «S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y registro sin `max_context_tokens`. Entrada: dict con case_id». Aplico «Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir antes de esa». Línea clave: `print('contexto, citas y permisos')`. Heading: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos\n2. `CASO-PUN-048-3B` debe continuar, el adverso debe devolver `ABSTAIN_UNCITED` y la ausencia de `max_context_tokens` debe devolver `REQUEST_AUTHORIZED_CONTEXT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró todas las claims citadas, ACL y contexto bajo límite; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:a0879325f9 packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/48c337b6] Como explorador, S48-T3-B-E3: sigo el starter y el iDo. El enunciado pide «S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos. `CASO-PUN-048-3B` debe continuar, el adverso debe devolve». Aplico «Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes de evalua». Línea clave: `1. S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos`. Heading: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n\n# F2-note:9024e29d4d packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/00334897] Resuelvo S48-T4-A-E1 solo con el paquete activo. Instrucción: «S48-T4-A-E1 · Audita el contrato de `structured output y grounding` sobre `CASO-PUN-048-4A`. La entrada es el dict completo del starter; la operación debe demos». Pista: «Relaciona los campos `output`, `schema_keys`, `allowed_evidence`, `injected_instruction_ig». Demo S48-T4-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('structured output y grounding')\n\n# F2-note:4a154d21c1 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9ad583c8] Como explorador, S48-T4-A-E2: sigo el starter y el iDo. El enunciado pide «S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso y registro sin `injected_instruction_ignored`. Entrada: dic». Aplico «Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe ocurrir an». Línea clave: `print('structured output y grounding')`. Heading: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos\n2. `CASO-PUN-048-4A` debe continuar, el adverso debe devolver `REJECT_UNGROUNDED_OUTPUT` y la ausencia de `injected_instruction_ignored` debe devolver `VALIDATE_OUTPUT_SCHEMA`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró schema exacto, evidence IDs permitidos e injection ignorada; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:90d097c4e4 packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/4660b447] S48-T4-A-E3 — material del slim_packet basta. «S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. `CASO-PUN-048-4A` debe continuar, el adverso debe devolver `» · hint «Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de evaluar el» · S48-T4-A-DEMO. Entrega: `1. S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n\n# F2-note:cb36592335 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a1ad568b] Resuelvo S48-T4-B-E1 solo con el paquete activo. Instrucción: «S48-T4-B-E1 · Decide el contrato de `retrieval/answer eval, costo y abstención` sobre `CASO-PUN-048-4B`. La entrada es el dict completo del starter; la operació». Pista: «Relaciona los campos `retrieval_recall`, `min_recall`, `faithfulness`, `min_faithfulness`,». Demo S48-T4-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_f`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('retrieval/answer eval, costo y abstención')\n\n# F2-note:4dd68e6e9a packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9e22a7b9] Resuelvo S48-T4-B-E2 solo con el paquete activo. Instrucción: «S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixture adverso y registro sin `support`. Entrada: dict con case». Pista: «Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa rama.». Demo S48-T4-B-DEMO. Código ancla: `print('retrieval/answer eval, costo y abstención')`. Teoría: embeddings y similarity | límites, versiones y evaluación | chunking, metadata y. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S48-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos\n2. `CASO-PUN-048-4B` debe continuar, el adverso debe devolver `ABSTAIN_WITH_REASON` y la ausencia de `support` debe devolver `TUNE_RETRIEVAL_OR_BUDGET`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró retrieval/answer gates, costo y soporte; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:24b575f6dc packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S48",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/df10419a] S48-T4-B-E3 — material del slim_packet basta. «S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos. `CASO-PUN-048-4B` debe continuar, el adverso» · hint «Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes de evaluar » · S48-T4-B-DEMO. Entrega: `1. S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures di`. embeddings y similarity | límites, versiones y evaluación | chunking, metadata y."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "ranking reproducible con versión de embedding",
+      "justification_from_packet": "[agentic_F2/Explorer] S48 q0: embeddings/similarity se aprueban con ranking reproducible con versión de embedding.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir ABSTAIN y conservar evidencia",
+      "justification_from_packet": "[agentic_F2/Explorer] S48 q1: error S48 → ABSTAIN y conservar evidencia (RAG con abstención).",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido",
+      "justification_from_packet": "[agentic_F2/Explorer] S48 q2: gate RAG = retrieval y respuesta superan umbrales separados; toda afirmación material cita fragmento permitido.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F2/Explorer] S48 q3: CASO-PUN-048 sintético, mínimo, trazable, revisión humana.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.903643+00:00"
+}

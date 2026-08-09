@@ -1,0 +1,238 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preservation-sentinel:
+    name: Preservation / deletion sentinel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run preservation sentinel
+        env:
+          PRESERVATION_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: node scripts/preservation_sentinel.mjs
+
+      - name: Upload sentinel result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preservation-sentinel
+          path: audit/safe-agent/preservation-sentinel-result.json
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Run ESLint
+        run: bun run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Generate Prisma client
+        run: bun run db:generate
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+  adversarial-unit:
+    name: Adversarial unit suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run adversarial unit tests
+        run: npm run test:adversarial
+
+      - name: Exam pedagogy + v3 counts
+        run: npm run test:exam-pedagogy && npm run test:v3-counts
+
+  platform-builds:
+    name: Platform build (${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [dynamic, static]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Generate Prisma client
+        if: matrix.mode == 'dynamic'
+        run: bun run db:generate
+
+      - name: Build dynamic LMS
+        if: matrix.mode == 'dynamic'
+        run: bun run build
+        env:
+          DATABASE_URL: file:./db/ci.db
+          NEXTAUTH_SECRET: ci-only-secret-not-used-outside-this-build
+          NEXTAUTH_URL: http://localhost:3000
+
+      - name: Build public GitHub Pages edition
+        if: matrix.mode == 'static'
+        run: bun run build:static
+        env:
+          NEXT_PUBLIC_BASE_PATH: /pyarcana
+
+      - name: Verify static artifact contract
+        if: matrix.mode == 'static'
+        run: python3 tests/adversarial/test_static_export_guard.py
+
+      - name: Install Playwright Chromium for public-site journeys
+        if: matrix.mode == 'static'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run public GitHub Pages browser journeys
+        if: matrix.mode == 'static'
+        run: |
+          mkdir -p .ci-static
+          cp -R out .ci-static/pyarcana
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .ci-static &
+          BASE_URL=http://127.0.0.1:4173 PAGES_BASE=1 npx playwright test scripts/static_public.spec.ts scripts/safe_agent_journeys.spec.ts --reporter=list
+
+  regression-content:
+    name: Content Regression (no sections removed)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run content regression tests (source-only, no dev server)
+        run: npx playwright test scripts/regression.spec.ts --grep "Section registry|CodePlayground|Roadmap" --reporter=list
+
+  regression-browser:
+    name: Browser Regression (UI + HUD + code fidelity)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Start dev server
+        run: |
+          bun run dev &
+          sleep 15
+          curl -sI http://localhost:3000 | head -1
+
+      - name: Run browser regression tests
+        run: npx playwright test scripts/regression.spec.ts scripts/code_rendering.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|all 52 sections|Code rendering fidelity" --reporter=list
+        env:
+          BASE_URL: http://localhost:3000
+          CODE_FIDELITY_SCREENSHOTS: '1'
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: |
+            test-results/
+            playwright-report/

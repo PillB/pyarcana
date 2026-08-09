@@ -1,0 +1,402 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic B",
+  "attempt_id": "agentic_G1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-newbie_b-s14-da2a6168896a",
+  "production_note": "agentic_G1 dual-LLM Skeptic B: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives; dual-LLM packet-only no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T1-A-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T1-A-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\n\ndef validate_1d_f64(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate_1d_f64(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    validate_1d_f64(np.array([[1.0]], dtype=np.float64))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T1-A-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T1-B-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T1-B-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T1-B-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist(), \"|\", np.round(M.mean(axis=1), 2).tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T2-A-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4).tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T2-A-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 8).tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T2-A-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T2-B-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T2-B-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T2-B-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T3-A-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T3-A-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T3-A-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T3-B-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T3-B-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T3-B-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\na = np.arange(1000, dtype=float)\nb = a.copy()\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = (a * b).sum()\nprint(abs(s_loop - s_vec) < 1e-6)\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T4-A-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T4-A-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "code": "import numpy as np, time\n# skeptic: fixture del packet\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", bool(np.isclose(c.mean(), 1.0)))\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T4-A-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "code": "import numpy as np\n# skeptic: fixture del packet\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T4-B-E1 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "code": "import numpy as np\n# skeptic: fixture del packet\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T4-B-E2 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "code": "import numpy as np\n# skeptic: fixture del packet\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+      "justification_from_packet": "Skeptic B revisó S14/S14-T4-B-E3 con duda sobre el fixture del starter. Conceptos del packet: ndarray dtype shape mask broadcast newaxis view copy isnan nanmean nbytes allclose vectorizado. Implementé la operación de dominio con print del contrato; instruction pedía: «E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape",
+        "mask",
+        "broadcast",
+        "newaxis",
+        "view",
+        "copy"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic B, S14 Q0: descarté distractores y me quedé con «dtype». Motivo desde theory del packet: dtype del ndarray indica el tipo homogéneo de sus elementos (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic B, S14 Q1: descarté distractores y me quedé con «Filtrar o seleccionar elementos que cumplen la condición». Motivo desde theory del packet: máscara booleana a > 0.5 filtra o selecciona elementos que cumplen la condición (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic B, S14 Q2: descarté distractores y me quedé con «Por columna (colapsa filas)». Motivo desde theory del packet: axis=0 en reducción 2D agrega por columna (colapsa filas) (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic B, S14 Q3: descarté distractores y me quedé con «Puede mutar el array base porque suele ser un view». Motivo desde theory del packet: mutar un slice simple puede mutar el array base porque suele ser un view (solo stems + theory; sin correctIndex)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:19:28.782781+00:00",
+  "session_started_at": "2026-07-23T09:10:28.782781+00:00",
+  "session_ended_at": "2026-07-23T09:19:28.782781+00:00"
+}

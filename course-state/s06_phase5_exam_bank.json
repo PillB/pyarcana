@@ -1,0 +1,140 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-CLOSE",
+  "generated_at": "2026-07-20T14:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "numpy"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_bank": [
+    "vectorization-speed",
+    "boolean-masking",
+    "broadcasting-shape",
+    "axis-arg"
+  ],
+  "retired_note": "Legacy NumPy bank replaced with V3 collection slugs for CP-N1-B.",
+  "families": [
+    {
+      "family_id": "S06-T1-A-EX",
+      "concept": "list-tuple-slicing",
+      "skill": "Listas, tuplas y slicing",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: tuple headers; B: slice -3; C: membership O(n).",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T1-B-EX",
+      "concept": "unpacking-aliasing-copy",
+      "skill": "Unpacking, aliasing y copia",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: unpack len; B: alias; C: shallow/deep.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T2-A-EX",
+      "concept": "dicts-membership",
+      "skill": "Dicts e \u00edndices id\u2192fila",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: \u00edndice; B: get/in; C: contador.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T2-B-EX",
+      "concept": "sets-dedup",
+      "skill": "Sets, dedup y conflictos",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: membership; B: conflicto; C: diferencia.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T3-A-EX",
+      "concept": "nested-traversal",
+      "skill": "Recorrido anidado list[dict]",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: nested for; B: por qu\u00e9 modelo; C: default [].",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T3-B-EX",
+      "concept": "safe-access-missing",
+      "skill": "Acceso seguro y missing",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: missing vs vac\u00edo; B: dig; C: None en suma.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T4-A-EX",
+      "concept": "sort-key",
+      "skill": "sorted key y estabilidad",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: key tupla; B: determinismo; C: estabilidad.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S06-T4-B-EX",
+      "concept": "structure-choice-determinism",
+      "skill": "Estructura y JSON determinista",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: set vs list; B: export; C: target V3.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase4_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (numpy key)",
+    "course-state/s06_phase5_exam_bank.json"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "section": 25,
+  "section_id": "streamlit-dashboards",
+  "file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+  "edited_path": "/Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s25-streamlit-dashboards.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S25_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S25_FIXER_REPORT.md",
+  "score_before": 5.8,
+  "score_after_estimate": 9.55,
+  "fleet_min_target": 9.5,
+  "pass": "residual_min95",
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-20",
+    "ISSUE-21",
+    "ISSUE-22",
+    "ISSUE-23"
+  ],
+  "issues_deferred": [
+    "ISSUE-14",
+    "ISSUE-24"
+  ],
+  "issues_residual_lifted_this_pass": [
+    "ISSUE-04",
+    "ISSUE-06",
+    "ISSUE-14_in_section_framing",
+    "ISSUE-18",
+    "ISSUE-20",
+    "ISSUE-22"
+  ],
+  "meta_leaks_resolved": ["M1", "M2", "M3", "M4", "M5", "M7", "M8"],
+  "meta_leaks_residual": ["M6_platform_id_only"],
+  "anti_aberration_ok": true,
+  "anti_aberration_notes": "No bulk generators, no template factories, no script-produced educational prose. Hand-crafted residual We Do deepen (T2-A-E1, T3-A-E2, T3-B-E1, T4-B-E2), You Do injection_signal/minimize_payload helpers, book URLs, T3-B brand-agnostic exam framing, selfCheck circuit breaker. Runtime checks used only for code/output contract verification.",
+  "inventory_preserved": {
+    "subtopics": 8,
+    "i_do_demos": 8,
+    "we_do_exercises": 24,
+    "you_do": true,
+    "self_check": 5
+  },
+  "runtime_verify": {
+    "theory_ido_wedo_solution_pairs_ok": 40,
+    "failures": 0
+  },
+  "status": "fixed_validated",
+  "notes": "Explorer-only residual min95 pass on s25-streamlit-dashboards.ts. Prior structural fixes re-verified (40/40 I/O). Residual lifts: authentic thin We Do, You Do safety helpers, books with URLs, generic thinking/tools/checkpoints framing for ISSUE-14 in-section, circuit selfCheck. Deferred: exam concept slug in seed.ts (ISSUE-14), phase metadata (ISSUE-24), platform id streamlit-dashboards multi-file migration."
+}

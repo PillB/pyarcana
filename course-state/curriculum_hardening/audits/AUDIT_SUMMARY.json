@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-07-24T22:12:34.699160+00:00",
+  "accept": 1,
+  "request_fix": 0,
+  "reject_hardening": 0,
+  "sections": [
+    {
+      "index": 36,
+      "verdict": "ACCEPT",
+      "high": 0
+    }
+  ]
+}

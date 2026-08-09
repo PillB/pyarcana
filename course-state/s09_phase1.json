@@ -1,0 +1,259 @@
+{
+  "version": "3.2",
+  "section": "S09",
+  "section_id": "visualization",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s09-visualization.ts",
+    "orphan_files": [
+      "src/lib/course/sections/s09-sklearn.ts"
+    ],
+    "total_lines": 596,
+    "structure": {
+      "id": "visualization",
+      "index": 9,
+      "title": "Data Visualization",
+      "shortTitle": "Visualización",
+      "tagline_platform": "Data Visualization",
+      "estimatedHours": 8,
+      "level": "Principiante avanzado",
+      "phase": 0
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "matplotlib — la base de todo",
+        "v3_alignment": "none — viz → N2/S19"
+      },
+      {
+        "block": 2,
+        "heading": "Subplots y figure/axes",
+        "v3_alignment": "none"
+      },
+      {
+        "block": 3,
+        "heading": "seaborn — gráficos estadísticos",
+        "v3_alignment": "none"
+      },
+      {
+        "block": 4,
+        "heading": "plotly — interactivo",
+        "v3_alignment": "none"
+      }
+    ],
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "matplotlib line/bar/scatter/hist/box",
+      "seaborn heatmap/pairplot/violin",
+      "plotly interactivo",
+      "styling y anotaciones",
+      "subplots",
+      "export PNG/HTML"
+    ],
+    "iDo_steps_count": 2,
+    "weDo_steps_count": 1,
+    "youDo_project": {
+      "title": "Add Visuals to Your Netflix EDA — Tu primera pieza de portafolio visual",
+      "maps_to_capstone_current": "legacy portfolio",
+      "maps_to_capstone_v3_target": "CP-N1-C (inicio)"
+    },
+    "selfCheck_questions": {
+      "total": 5
+    },
+    "codePlayground_demo": {
+      "note": "Demos viven principalmente en iDo; V3 requiere 8 demos por subtema",
+      "verified": false
+    }
+  },
+  "exam_bank_inventory": {
+    "source_file": "prisma/seed.ts",
+    "section_id": "visualization",
+    "total_questions": 12,
+    "unique_concepts": 4,
+    "variants_per_concept": 3,
+    "concepts": [
+      {
+        "slug": "matplotlib-oo-api",
+        "variants": 3,
+        "coverage": "Legacy viz — NOT V3 S9"
+      },
+      {
+        "slug": "tight-layout",
+        "variants": 3,
+        "coverage": "Legacy viz — NOT V3 S9"
+      },
+      {
+        "slug": "seaborn-use-case",
+        "variants": 3,
+        "coverage": "Legacy viz — NOT V3 S9"
+      },
+      {
+        "slug": "plotly-export",
+        "variants": 3,
+        "coverage": "Legacy viz — NOT V3 S9"
+      }
+    ],
+    "gap_vs_v3": {
+      "current_concepts": 4,
+      "v3_target_subtopics": 8,
+      "missing_subtopics": 8,
+      "missing_concept_slugs": [
+        "T1-a: exception-types-raise-chaining",
+        "T1-b: recovery-boundaries-cleanup",
+        "T2-a: traceback-debugger",
+        "T2-b: minimal-repro-hypothesis-rootcause",
+        "T3-a: log-levels-structure",
+        "T3-b: correlation-ids-pii-redaction",
+        "T4-a: failfast-vs-continue",
+        "T4-b: idempotency-retries-quarantine"
+      ]
+    }
+  },
+  "platform_inventory": {
+    "section_renders": true,
+    "tabs_visible": [
+      "theory",
+      "ido",
+      "wedo",
+      "youdo",
+      "quiz"
+    ],
+    "section_registered_in_index": true
+  },
+  "counting_summary": {
+    "current_state": {
+      "topics": 4,
+      "topics_v3_aligned": 0,
+      "subtopics": 0,
+      "demos": 2,
+      "student_exercises": 1,
+      "topic_evaluations": 0,
+      "exam_variants": 12,
+      "section_exam": 1,
+      "project_increments": 1,
+      "selfCheck_mcq": 5
+    },
+    "v3_target": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variants": 24,
+      "section_exam": 1,
+      "project_increments": 1
+    },
+    "gap": {
+      "topics_need_full_retheme": 4,
+      "subtopics": 8,
+      "demos": 6,
+      "student_exercises": 23,
+      "topic_evaluations": 4,
+      "exam_variants": 12,
+      "project_needs_retheme": true
+    }
+  },
+  "issues_found": [
+    {
+      "issue_id": "S09-CONTENT-001",
+      "severity": "P0",
+      "status": "open",
+      "category": "topic_mismatch",
+      "observed_evidence": "src/lib/course/sections/s09-visualization.ts enseña 'Data Visualization'. V3 S09 exige 'Excepciones, debugging y logging seguro'.",
+      "expected": "4 temas V3 con 8 subtemas: ['T1', 'T2', 'T3', 'T4']",
+      "root_cause": "Contenido V2/plataforma; V3 redefinió S9–S13 del nivel 1 de datos/familiaridad",
+      "impact": "Cero cobertura de outcomes V3; bloquea compliance claim",
+      "fix": "PHASE 3–5: retheme; preservar archivo legado hasta migración",
+      "verification": [
+        "Theory headings match V3 T1–T4",
+        "You Do matches V3 project"
+      ]
+    },
+    {
+      "issue_id": "S09-CONTENT-002",
+      "severity": "P1",
+      "status": "open",
+      "category": "counting_contract",
+      "observed_evidence": "~2 demos, ~1 ejercicios formales, 12 exam variants, 0 topic evals",
+      "expected": "8 demos, 24 exercises, 24 exam variants, 4 topic evaluations",
+      "root_cause": "Estructura V2",
+      "impact": "Insuficiente práctica/evaluación mastery",
+      "fix": "Expandir a vector canónico en PHASE 3–5",
+      "verification": [
+        "subtopics=8",
+        "variants=24",
+        "exercises=24"
+      ]
+    },
+    {
+      "issue_id": "S09-CONTENT-003",
+      "severity": "P1",
+      "status": "open",
+      "category": "capstone_alignment",
+      "observed_evidence": "You Do = Add Visuals to Your Netflix EDA — Tu primera pieza de portafolio visual",
+      "expected": "bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia fallo de datos, configuración y proveedor",
+      "root_cause": "Proyecto legado de portafolio DS/RPA",
+      "impact": "Capstone CP-N1-C (inicio) pierde incremento de S09",
+      "fix": "Rediseñar You Do en PHASE 3/4",
+      "verification": [
+        "Project maps to V3 gate"
+      ]
+    },
+    {
+      "issue_id": "S09-CONTENT-004",
+      "severity": "P1",
+      "status": "open",
+      "category": "exam_bank",
+      "observed_evidence": "4 conceptos legacy: ['matplotlib-oo-api', 'tight-layout', 'seaborn-use-case', 'plotly-export']",
+      "expected": "8 familias A/B/C V3",
+      "root_cause": "Banco alineado a título plataforma",
+      "impact": "Examen no mide skills V3",
+      "fix": "PHASE 5: 8×3 variantes nuevas",
+      "verification": [
+        "8 concepts × 3 under production plan"
+      ]
+    },
+    {
+      "issue_id": "S09-CONTENT-005",
+      "severity": "P2",
+      "status": "open",
+      "category": "topic_evaluations",
+      "observed_evidence": "0 topic evaluations; solo selfCheck de sección",
+      "expected": "4 evaluaciones de tema (2 tareas + rúbrica 0–3)",
+      "root_cause": "Shape CourseSection no modela topic evals aún",
+      "impact": "Sin assessment formativo por tema",
+      "fix": "Blueprint PHASE 3 declara 4 paquetes",
+      "verification": [
+        "topic_evaluations count = 4 in blueprint"
+      ]
+    },
+    {
+      "issue_id": "S09-CONTENT-006",
+      "severity": "P2",
+      "status": "open",
+      "category": "orphan_files",
+      "observed_evidence": "No importados por index.ts: ['src/lib/course/sections/s09-sklearn.ts']",
+      "expected": "Un archivo canónico por section index o rehome documentado",
+      "root_cause": "Renumeración histórica de secciones",
+      "impact": "Riesgo de editar archivo no servido",
+      "fix": "Tratar index.ts import como canónico; no borrar huérfanos en esta lane",
+      "verification": [
+        "phase0 platform snapshot lists canonical file"
+      ]
+    }
+  ],
+  "phase_1_gate": {
+    "all_paths_inspected": true,
+    "all_artifacts_counted": true,
+    "all_gaps_registered": true,
+    "issues_count": 6,
+    "issues_P0": 1,
+    "issues_P1": 3,
+    "issues_P2": 2,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3",
+    "notes": "PHASE 2 (source research deep) deferred in factory lane; blueprints authorized at S03-comparable scope. No section passed."
+  }
+}

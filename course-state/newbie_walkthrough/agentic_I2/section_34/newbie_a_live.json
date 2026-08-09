@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 34,
+  "packet_sha": "cbcfca0849bec7b8",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_34/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s34-ba79a6d12818",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S34-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\nmeets_contract = record[\"accuracy_only\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_ACCURACY_ONLY\"\nprint(\"S34-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "confusion",
+        "matrix",
+        "precision",
+        "recall",
+        "AUC"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T1-A-E1: del starter/instruction «S34-T1-A-E1 · Calcula el contrato de `confusion matrix, precision/recall/F y PR-AUC` sobre `CASO-LIM-034-1A`. La entrada es el dict completo del starter; la operación debe demostra…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_only\"] is False else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nincomplete = {**valid}\nincomplete.pop(\"tp\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'tp'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "confusion",
+        "matrix",
+        "precision",
+        "recall"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T1-A-E2: del starter/instruction «S34-T1-A-E2 · Modela tres rutas de `confusion matrix, precision/recall/F y PR-AUC`: fixture válido, fixture adverso y registro sin `tp`. Entrada: dict con case_id, tp, fp, fn, accu…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CONFUSION'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_ACCURACY_ONLY'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "confusion",
+        "matrix",
+        "precision"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T1-A-E3: del starter/instruction «S34-T1-A-E3 · Contrasta fallo cerrado para `confusion matrix, precision/recall/F y PR-AUC` con tres fixtures distintos. `CASO-LIM-034-1A` debe continuar, el adverso debe devolver `…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\nmeets_contract = not (record[\"load\"] > record[\"capacity\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QUEUE_OVERLOAD\"\nprint(\"S34-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "top",
+        "carga",
+        "revisi",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T1-B-E1: del starter/instruction «S34-T1-B-E1 · Calcula el contrato de `top-k y carga de revisión` sobre `CASO-LIM-034-1B`. La entrada es el dict completo del starter; la operación debe demostrar precision@k con lo…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"load\"] > record[\"capacity\"]) else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nincomplete = {**valid}\nincomplete.pop(\"capacity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'capacity'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "top",
+        "carga",
+        "revisi",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T1-B-E2: del starter/instruction «S34-T1-B-E2 · Modela tres rutas de `top-k y carga de revisión`: fixture válido, fixture adverso y registro sin `capacity`. Entrada: dict con case_id, precision_at_k, load, capacity…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CAPACITY'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_QUEUE_OVERLOAD'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "top",
+        "carga",
+        "revisi"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T1-B-E3: del starter/instruction «S34-T1-B-E3 · Contrasta fallo cerrado para `top-k y carga de revisión` con tres fixtures distintos. `CASO-LIM-034-1B` debe continuar, el adverso debe devolver `REJECT_QUEUE_OVERLOA…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\nmeets_contract = record[\"resample_global\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKY_RESAMPLE\"\nprint(\"S34-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "class",
+        "weights",
+        "resampling",
+        "dentro",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T2-A-E1: del starter/instruction «S34-T2-A-E1 · Calcula el contrato de `class weights y resampling dentro de CV` sobre `CASO-LIM-034-2A`. La entrada es el dict completo del starter; la operación debe demostrar peso…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"resample_global\"] is False else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nincomplete = {**valid}\nincomplete.pop(\"n1\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'n1'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "class",
+        "weights",
+        "resampling",
+        "dentro"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T2-A-E2: del starter/instruction «S34-T2-A-E2 · Modela tres rutas de `class weights y resampling dentro de CV`: fixture válido, fixture adverso y registro sin `n1`. Entrada: dict con case_id, n0, n1, resample_globa…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_WEIGHTS'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_LEAKY_RESAMPLE'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "class",
+        "weights",
+        "resampling"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T2-A-E3: del starter/instruction «S34-T2-A-E3 · Contrasta fallo cerrado para `class weights y resampling dentro de CV` con tres fixtures distintos. `CASO-LIM-034-2A` debe continuar, el adverso debe devolver `REJECT…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\nmeets_contract = record[\"accuracy_enough\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_PREVALENCE_BLIND\"\nprint(\"S34-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "prevalencia",
+        "tricas",
+        "enga",
+        "osas",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T2-B-E1: del starter/instruction «S34-T2-B-E1 · Calcula el contrato de `prevalencia y métricas engañosas` sobre `CASO-LIM-034-2B`. La entrada es el dict completo del starter; la operación debe demostrar base rate b…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_enough\"] is False else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nincomplete = {**valid}\nincomplete.pop(\"prevalence\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'prevalence'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "prevalencia",
+        "tricas",
+        "enga",
+        "osas"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T2-B-E2: del starter/instruction «S34-T2-B-E2 · Modela tres rutas de `prevalencia y métricas engañosas`: fixture válido, fixture adverso y registro sin `prevalence`. Entrada: dict con case_id, prevalence, all_neg_a…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_BASE_RATE'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_PREVALENCE_BLIND'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "prevalencia",
+        "tricas",
+        "enga"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T2-B-E3: del starter/instruction «S34-T2-B-E3 · Contrasta fallo cerrado para `prevalencia y métricas engañosas` con tres fixtures distintos. `CASO-LIM-034-2B` debe continuar, el adverso debe devolver `REJECT_PREVAL…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\nmeets_contract = not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3)\nstatus = \"PASS\" if meets_contract else \"REJECT_UNCALIBRATED\"\nprint(\"S34-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "reliability",
+        "curves",
+        "Brier",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T3-A-E1: del starter/instruction «S34-T3-A-E1 · Calcula el contrato de `reliability curves y Brier` sobre `CASO-LIM-034-3A`. La entrada es el dict completo del starter; la operación debe demostrar Brier bajo y reli…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3) else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nincomplete = {**valid}\nincomplete.pop(\"brier\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'brier'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "reliability",
+        "curves",
+        "Brier",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T3-A-E2: del starter/instruction «S34-T3-A-E2 · Modela tres rutas de `reliability curves y Brier`: fixture válido, fixture adverso y registro sin `brier`. Entrada: dict con case_id, brier, mean_p, freq. Salidas exa…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_BRIER'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_UNCALIBRATED'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "reliability",
+        "curves",
+        "Brier"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T3-A-E3: del starter/instruction «S34-T3-A-E3 · Contrasta fallo cerrado para `reliability curves y Brier` con tres fixtures distintos. `CASO-LIM-034-3A` debe continuar, el adverso debe devolver `REJECT_UNCALIBRATED…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\nmeets_contract = not (record[\"calibrator_set\"] == \"train_in_sample\")\nstatus = \"PASS\" if meets_contract else \"REJECT_IN_SAMPLE_CAL\"\nprint(\"S34-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "calibradores",
+        "evaluaci",
+        "fuera",
+        "muestra",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T3-B-E1: del starter/instruction «S34-T3-B-E1 · Calcula el contrato de `calibradores y evaluación fuera de muestra` sobre `CASO-LIM-034-3B`. La entrada es el dict completo del starter; la operación debe demostrar c…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"calibrator_set\"] == \"train_in_sample\") else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nincomplete = {**valid}\nincomplete.pop(\"calibrator_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'calibrator_set'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "calibradores",
+        "evaluaci",
+        "fuera",
+        "muestra"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T3-B-E2: del starter/instruction «S34-T3-B-E2 · Modela tres rutas de `calibradores y evaluación fuera de muestra`: fixture válido, fixture adverso y registro sin `calibrator_set`. Entrada: dict con case_id, raw, ca…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CAL_SET'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_IN_SAMPLE_CAL'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "calibradores",
+        "evaluaci",
+        "fuera"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T3-B-E3: del starter/instruction «S34-T3-B-E3 · Contrasta fallo cerrado para `calibradores y evaluación fuera de muestra` con tres fixtures distintos. `CASO-LIM-034-3B` debe continuar, el adverso debe devolver `REJ…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\nmeets_contract = not (record[\"thr_id\"] == \"default\")\nstatus = \"PASS\" if meets_contract else \"REJECT_FIXED_THR\"\nprint(\"S34-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "threshold",
+        "por",
+        "costo",
+        "capacidad",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T4-A-E1: del starter/instruction «S34-T4-A-E1 · Calcula el contrato de `threshold por costo/capacidad` sobre `CASO-LIM-034-4A`. La entrada es el dict completo del starter; la operación debe demostrar thr versionado…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"thr_id\"] == \"default\") else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'cost'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "threshold",
+        "por",
+        "costo",
+        "capacidad"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T4-A-E2: del starter/instruction «S34-T4-A-E2 · Modela tres rutas de `threshold por costo/capacidad`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_id, thr, n_review, thr_id, cost. S…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_COST_MATRIX'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_FIXED_THR'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "threshold",
+        "por",
+        "costo"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T4-A-E3: del starter/instruction «S34-T4-A-E3 · Contrasta fallo cerrado para `threshold por costo/capacidad` con tres fixtures distintos. `CASO-LIM-034-4A` debe continuar, el adverso debe devolver `REJECT_FIXED_THR…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\nmeets_contract = not (record[\"decision\"] == \"force_1\")\nstatus = \"PASS\" if meets_contract else \"REJECT_FORCE_LABEL\"\nprint(\"S34-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Calcula",
+        "contrato",
+        "abstenci",
+        "slices",
+        "sensibilidad",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T4-B-E1: del starter/instruction «S34-T4-B-E1 · Calcula el contrato de `abstención, slices y sensibilidad` sobre `CASO-LIM-034-4B`. La entrada es el dict completo del starter; la operación debe demostrar score en b…» completé el contrato usando print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"decision\"] == \"force_1\") else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nincomplete = {**valid}\nincomplete.pop(\"low\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'low'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Modela",
+        "tres",
+        "rutas",
+        "abstenci",
+        "slices",
+        "sensibilidad",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T4-B-E2: del starter/instruction «S34-T4-B-E2 · Modela tres rutas de `abstención, slices y sensibilidad`: fixture válido, fixture adverso y registro sin `low`. Entrada: dict con case_id, score, low, high, decision.…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S34-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_ABSTAIN_BAND'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_FORCE_LABEL'\n\nvalid = {\"case_id\": 'CASO-LIM-034-1A', }\nadverse = {\"case_id\": 'CASO-LIM-034-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S34",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "abstenci",
+        "slices",
+        "sensibilidad"
+      ],
+      "justification_from_packet": "Explorer A sobre S34-T4-B-E3: del starter/instruction «S34-T4-B-E3 · Contrasta fallo cerrado para `abstención, slices y sensibilidad` con tres fixtures distintos. `CASO-LIM-034-4B` debe continuar, el adverso debe devolver `REJECT_FORCE…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «Precision/recall o PR-AUC de la cola» porque la theory del paquete (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas) responde a «Con desbalance fuerte, conviene priorizar:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «Introduce leakage y métricas infladas» porque la theory del paquete (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas) responde a «Resamplear todo el dataset antes de CV:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «En un set de calibración fuera de muestra» porque la theory del paquete (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas) responde a «Un calibrador debe ajustarse:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «Abstener según política» porque la theory del paquete (confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | class weights y resampling dentro de CV | prevalencia y métricas engañosas) responde a «Score en banda low–high debe:» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "confusion matrix, precision/recall/F y PR-AUC",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:02:57.990000+00:00",
+  "session_started_at": "2026-07-23T13:02:17.510000+00:00",
+  "session_ended_at": "2026-07-23T13:02:57.990000+00:00"
+}

@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s27-09df2f224038",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "id": "S27-T1-A-E1",
+      "code": "# skeptic/S27-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S27-T1-A-E1 no improvisé APIs: revisé que no quede TODO ni pass de relleno y armé el cuerpo desde el quiz_card. Resumen de instrucción: S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: justifica, frágiles, scripts, datos, fixture. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "concepts_used": [
+        "S27-T1-A"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "id": "S27-T1-A-E2",
+      "code": "# skeptic/S27-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S27/S27-T1-A-E2 («Estrategia de pruebas con pytest»): S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo;. Apoyo léxico K2: contratos, riesgo, datos, Contrato. Hint: sorted reverse. Starter: forma esperada en comentarios del starter, TODO contractual. Prefiero lo aburrido, determinista y auditable; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S27-T1-A"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "id": "S27-T1-A-E3",
+      "code": "# skeptic/S27-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S27-T1-A-E3 («Estrategia de pruebas con pytest»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo e». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: compara layer. Léxico del paquete: riesgos, reordena, silenciosa, Contrato. No asumo que el primer predicado booleano sea correcto; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S27-T1-A"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "id": "S27-T1-B-E1",
+      "code": "# skeptic/S27-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S27/S27-T1-B-E1 («Estrategia de pruebas con pytest»): S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada e. Apoyo léxico K2: pytest, menos, Clasifica, frágiles. Hint: casefold. Starter: forma esperada en comentarios del starter, TODO contractual. Prefiero lo aburrido, determinista y auditable; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S27-T1-B"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "id": "S27-T1-B-E2",
+      "code": "# skeptic/S27-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S27-T1-B-E2 («Estrategia de pruebas con pytest»): releí con desconfianza el starter del quiz_card. Enunciado: «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: assert luego print. Léxico del paquete: riesgos, entidades, pruebas, riesgo. Prefiero lo aburrido, determinista y auditable; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S27-T1-B"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "id": "S27-T1-B-E3",
+      "code": "# skeptic/S27-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S27-T1-B-E3. La sección «Estrategia de pruebas con pytest» pide: S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es e. Me anclé en normalización, comparadores, integración y en «normaliza ambos». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso contrasté theory headings con el enunciado del ejercicio; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S27-T1-B"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "id": "S27-T2-A-E1",
+      "code": "# skeptic/S27-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S27/S27-T2-A-E1 («Estrategia de pruebas con pytest»): S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo. Apoyo léxico K2: menos, integración, regresión, run_id. Hint: startswith. Starter: forma esperada en comentarios del starter, TODO contractual. Prefiero lo aburrido, determinista y auditable; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S27-T2-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "id": "S27-T2-A-E2",
+      "code": "# skeptic/S27-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S27-T2-A-E2 («Estrategia de pruebas con pytest»): releí con desconfianza el starter del quiz_card. Enunciado: «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo;». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: ternario. Léxico del paquete: pruebas, datos, pytest, matching. Prefiero lo aburrido, determinista y auditable; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S27-T2-A"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "id": "S27-T2-A-E3",
+      "code": "# skeptic/S27-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint([(' x ', 'x')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S27-T2-A-E3. La sección «Estrategia de pruebas con pytest» pide: S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entr. Me anclé en unitarias, diseño, Clasifica y en «lista de tuplas». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso releí con desconfianza el starter del quiz_card; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S27-T2-A"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "id": "S27-T2-B-E1",
+      "code": "# skeptic/S27-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S27-T2-B-E1 («Estrategia de pruebas con pytest»): seguí el knowledge boundary: solo landing + packet K2. Enunciado: «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es». Señal del starter: TODO contractual. Hint: deepcopy. Léxico del paquete: pocas, entidades, normalización, inicio. No asumo que el primer predicado booleano sea correcto; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S27-T2-B"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "id": "S27-T2-B-E2",
+      "code": "# skeptic/S27-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint('function')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S27-T2-B-E2. La sección «Estrategia de pruebas con pytest» pide: S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; im. Me anclé en casos, integración, comparadores y en «literal». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso derivé el cuerpo desde forma esperada sin inventar APIs; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S27-T2-B"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "id": "S27-T2-B-E3",
+      "code": "# skeptic/S27-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S27-T2-B-E3 no improvisé APIs: derivé el cuerpo desde forma esperada sin inventar APIs y armé el cuerpo desde el quiz_card. Resumen de instrucción: S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entra. Flags: TODO contractual. Conceptos activos: diseño, pytest, operativo, pirámide, contratos. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S27-T2-B"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "id": "S27-T3-A-E1",
+      "code": "# skeptic/S27-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S27-T3-A-E1 («Estrategia de pruebas con pytest»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; im». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: import math. Léxico del paquete: pocas, riesgo, comparadores, inicio. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S27-T3-A"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "id": "S27-T3-A-E2",
+      "code": "# skeptic/S27-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que el primer predicado booleano sea correcto al cerrar S27-T3-A-E2. La sección «Estrategia de pruebas con pytest» pide: S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen. Me anclé en operativo, baratas, incorrectos y en «try/except». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso seguí el knowledge boundary: solo landing + packet K2; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S27-T3-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "id": "S27-T3-A-E3",
+      "code": "# skeptic/S27-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S27-T3-A-E3 no improvisé APIs: revisé que no quede TODO ni pass de relleno y armé el cuerpo desde el quiz_card. Resumen de instrucción: S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es. Flags: TODO contractual. Conceptos activos: prioriza, pytest, riesgo, frágiles, entrada. Sigo dudando de atajos teatrales.",
+      "concepts_used": [
+        "S27-T3-A"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "id": "S27-T3-B-E1",
+      "code": "# skeptic/S27-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S27-T3-B-E1. La sección «Estrategia de pruebas con pytest» pide: S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el. Me anclé en Contrato, impacto, hacen y en «raise ValueError». Marcas del starter: TODO contractual. Por eso releí con desconfianza el starter del quiz_card; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S27-T3-B"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "id": "S27-T3-B-E2",
+      "code": "# skeptic/S27-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S27-T3-B-E2 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter com. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: pocas, muchas, entrada, hacen, Contrato. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S27-T3-B"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "id": "S27-T3-B-E3",
+      "code": "# skeptic/S27-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S27/S27-T3-B-E3 («Estrategia de pruebas con pytest»): S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el sta. Apoyo léxico K2: contratos, verificables, muchas, prioriza. Hint: f-string !r. Starter: forma esperada en comentarios del starter, TODO contractual. Exijo evidencia lexical en theory/iDo del paquete activo; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S27-T3-B"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "id": "S27-T4-A-E1",
+      "code": "# skeptic/S27-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S27-T4-A-E1. La sección «Estrategia de pruebas con pytest» pide: S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter c. Me anclé en Contrato, riesgo, pocas y en «if/else». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso seguí el knowledge boundary: solo landing + packet K2; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S27-T4-A"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "id": "S27-T4-A-E2",
+      "code": "# skeptic/S27-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S27-T4-A-E2 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el sta. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: prioriza, incorrectos, impacto, inicio, pytest. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S27-T4-A"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "id": "S27-T4-A-E3",
+      "code": "# skeptic/S27-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S27/S27-T4-A-E3 («Estrategia de pruebas con pytest»): S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter. Apoyo léxico K2: normalización, entidades, hacen, casos. Hint: int(100*k/n). Starter: forma esperada en comentarios del starter, TODO contractual. No asumo que el primer predicado booleano sea correcto; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S27-T4-A"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "id": "S27-T4-B-E1",
+      "code": "# skeptic/S27-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S27-T4-B-E1 no improvisé APIs: seguí el knowledge boundary: solo landing + packet K2 y armé el cuerpo desde el quiz_card. Resumen de instrucción: S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe):. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: reordena, Estrategia, silenciosa, menos, matching. No asumo que el primer predicado booleano sea correcto.",
+      "concepts_used": [
+        "S27-T4-B"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "id": "S27-T4-B-E2",
+      "code": "# skeptic/S27-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint({'expected': 1, 'actual': 2})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S27/S27-T4-B-E2 («Estrategia de pruebas con pytest»): S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es. Apoyo léxico K2: riesgo, contratos, pocas, comparadores. Hint: dict. Starter: forma esperada en comentarios del starter, TODO contractual. No asumo que el primer predicado booleano sea correcto; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S27-T4-B"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "id": "S27-T4-B-E3",
+      "code": "# skeptic/S27-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint('bug_repro → regression_test')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S27-T4-B-E3 («Estrategia de pruebas con pytest»): crucé instruction contra hints e iDo del slim_packet. Enunciado: «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: string. Léxico del paquete: frágiles, integración, datos, comparadores. Prefiero lo aburrido, determinista y auditable; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S27-T4-B"
+      ],
+      "confidence": 0.92
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S27#0 en «Estrategia de pruebas con pytest»: «En la pirámide de pruebas, la base más ancha suele ser:». Escojo índice 2 → «Pruebas unitarias». Descarto «E2E UI / Solo manual» (no cuadra con theory/iDo del paquete K2). Señales: riesgo, regresión, run_id, tests. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S27#1 en «Estrategia de pruebas con pytest»: «Un oráculo confiable es:». Escojo índice 0 → «Una fuente de verdad determinista para el assert». Descarto «Un print en consola / El reloj del sistema sin fijar» (no cuadra con theory/iDo del paquete K2). Señales: datos, reordena, frágiles, diseño. Prefiero lo aburrido, determinista y auditable.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S27#2 en «Estrategia de pruebas con pytest»: «Si mutas un casefold y ningún test falla:». Escojo índice 1 → «El contrato es débil; el mutante sobrevivió». Descarto «Está bien / pytest está roto siempre» (no cuadra con theory/iDo del paquete K2). Señales: probabilidad, impacto, scripts, datos. No asumo que el primer predicado booleano sea correcto.",
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S27#3 en «Estrategia de pruebas con pytest»: «Las pruebas de matching en CP-N3-A demuestran:». Escojo índice 3 → «Contratos de misma entidad / normalización — no riesgo ni relación». Descarto «Fraude automático / Parentescos» (no cuadra con theory/iDo del paquete K2). Señales: matching, fixture, pirámide, baratas. Sigo dudando de atajos teatrales.",
+      "confidence": 0.77
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:12:12.191629+00:00",
+  "session_started_at": "2026-07-23T15:11:49.082459+00:00",
+  "session_ended_at": "2026-07-23T15:12:12.189347+00:00",
+  "receipt_response_sha256": "7df38f680e84bc2ae29e32bba6f632f181b053474e655f1c7e9893bed611ebf3",
+  "receipt_exercises_sha256": "0f9160358265ac7f1948de33e1e33a82f627feda26f1125aa0fc45d905ad8ebd",
+  "receipt_selfcheck_sha256": "683268a4bd0f25f9ca1a97fabf6cb12e120b6bf0544faa84e930e71b6f639be4"
+}

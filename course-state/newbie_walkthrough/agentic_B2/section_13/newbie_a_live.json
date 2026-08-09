@@ -1,0 +1,561 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 13,
+  "packet_sha": "3e127eb2c78e3634",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_13/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.567318+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "d379746195de",
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T1-A-E1\nimport re\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\nprint(norm_name(\" Ana  QUISPE \"))\nprint(norm_doc(\"D-12.34\"))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "norm_name",
+        "sub",
+        "casefold",
+        "strip"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T1-A-E1 desde la instruction publicada: «E1 (guiado) — `norm_name` y `norm_doc`: casefold, colapsar espacios; doc solo [a-z0-9]. Prueba ' Ana QUISPE ' y 'D-12.34'.». Veo en iDo `S13-T1-B-DEMO` (Emparejar 2 registros sintéticos por documento normalizado + bloque región.) → «». Hint weDo: «re.sub para espacios y no alfanuméricos». Traigo al code `norm_name` + `norm_doc` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T1-A-E2\ndef blocking_key(rec):\n    toks = rec[\"name\"].casefold().split()\n    ap = toks[1] if len(toks) >= 2 else toks[0]\n    return f\"{ap}|{rec['region'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "blocking_key",
+        "rec",
+        "toks",
+        "name"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T1-A-E2 arranco citando el weDo: «E2 (independiente) — `blocking_key(rec)` = primer_apellido|region en casefold. Nombre 'Luis Huamán Soto', region 'Cusco'.». Veo en iDo `S13-T1-B-DEMO` (Emparejar 2 registros sintéticos por documento normalizado + bloque región.) → «». Hint weDo: «Último token no; usa el segundo token como apellido paterno o el último: documenta. Aquí:…». Traigo al code `blocking_key` + `def blocking_key` copiados del patrón. Teoria packet: «Normalización, blocking y entity resolution»."
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T1-A-E3\nimport re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef bkey(r):\n    ap = r[\"name\"].casefold().split()[-1]\n    return f\"{ap}|{r['region'].casefold()}\"\ndef er_score(a, b):\n    same_doc = norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"])\n    same_block = bkey(a) == bkey(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc:\n        return 0.5\n    return 0.0\nA = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nB = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nC = {\"name\": \"Ana Other\", \"document_id\": \"X1\", \"region\": \"Cusco\"}\nD = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"region\": \"Lima\"}\nprint(er_score(A, B), er_score(A, C), er_score(A, D))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "norm_doc",
+        "sub",
+        "casefold",
+        "bkey"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T1-A-E3 desde la instruction publicada: «E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si solo doc; 0.0 si no. Documenta con print de los tres casos sintéticos.». Ancla iDo B2 `S13-T1-B-DEMO` (Emparejar 2 registros sintéticos por documento normalizado + bloque región.) → «». Hint weDo: «Combina igualdad de doc y block». Sello con `norm_doc` + `er_score` en la respuesta. Teoria packet: «Normalización, blocking y entity resolution»."
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T1-B-E1\ntp, fp, fn = 8, 2, 2\nprint(\"precision\", round(tp / (tp + fp), 3))\nprint(\"recall\", round(tp / (tp + fn), 3))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "precision",
+        "round",
+        "recall"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T1-B-E1 arranco citando el weDo: «E1 (guiado) — De tp,fp,fn calcula precision y recall; imprime redondeado a 3 decimales. tp=8,fp=2,fn=2.». Demo de referencia `S13-T1-B-DEMO` (Emparejar 2 registros sintéticos por documento normalizado + bloque región.) → «». Hint weDo: «precision = tp/(tp+fp)». Sello con `precision` + `recall` en la respuesta. Teoria packet: «Verdad etiquetada, precision/recall y revisión clerical»."
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T1-B-E2\npairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\nprint(clerical_queue(pairs))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "pairs",
+        "score",
+        "clerical_queue",
+        "low"
+      ],
+      "justification_from_packet": "[B2-Explorer] S13-T1-B-E2 — experimento con lo que el packet pide: «E2 (independiente) — `clerical_queue(pairs, low=0.4, high=0.7)` devuelve ids con score en [low, high] inclusive.». Ancla iDo B2 `S13-T1-B-DEMO` (Emparejar 2 registros sintéticos por documento normalizado + bloque región.) → «». Hint weDo: «list comprehension con filtro de banda». Marca en code: `clerical_queue` + `def clerical_queue`. Teoria packet: «Verdad etiquetada, precision/recall y revisión clerical»."
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T1-B-E3\nprint(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")\nprint(\"ops_action:\", \"needs_review\")\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "fp_not_fraud",
+        "positive",
+        "matching",
+        "evidencia"
+      ],
+      "justification_from_packet": "[B2-Explorer] S13-T1-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Redacta (print) 2 líneas: por qué un FP de ER no implica fraude; y qué acción operativa tomar (review).». Demo de referencia `S13-T1-B-DEMO` (Emparejar 2 registros sintéticos por documento normalizado + bloque región.) → «». Hint weDo: «Mensajes fijos cortos». Traigo al code `fp_not_fraud` + `needs_review` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T2-A-E1\ndef shared_email(a, b):\n    return bool(a) and bool(b) and a.casefold() == b.casefold()\nprint(shared_email(\"Ana@Example.com\", \"ana@example.com\"))\nprint(shared_email(\"\", \"\"))\nprint(shared_email(\"a@x.com\", \"b@x.com\"))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "shared_email",
+        "bool",
+        "and",
+        "casefold"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T2-A-E1 arranco citando el weDo: «E1 (guiado) — `shared_email(a,b)` True si emails casefold iguales y no vacíos.». Veo en iDo `S13-T2-A-DEMO` (Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.) → «import random random.seed(13) pairs = []». Hint weDo: «a and b and a.casefold()==b.casefold()». Traigo al code `shared_email` + `def shared_email` copiados del patrón. Teoria packet: «Email/teléfono/dirección compartidos, distancia y apellidos»."
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T2-A-E2\ndef rel_score(km, surname_jaccard):\n    return round(0.6 * (1 if km < 2 else 0) + 0.4 * surname_jaccard, 3)\nprint(rel_score(1.2, 0.5))\nprint(rel_score(5.0, 0.5))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "rel_score",
+        "surname_jaccard",
+        "round",
+        "else"
+      ],
+      "justification_from_packet": "[B2-Explorer] S13-T2-A-E2 — experimento con lo que el packet pide: «E2 (independiente) — `rel_score(km, surname_jaccard)` = 0.6*(1 if km<2 else 0)+0.4*jaccard; round 3.». Demo de referencia `S13-T2-A-DEMO` (Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.) → «import random random.seed(13) pairs = []». Hint weDo: «Combina distancia y apellido». Sello con `surname_jaccard` + `rel_score` en la respuesta. Teoria packet: «Score de evidencia, incertidumbre y explicación»."
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T2-A-E3\nprint(\"relationship_signal_score no implica parentesco ni colusión\")\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "relationship_signal_score",
+        "implica",
+        "parentesco"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T2-A-E3 arranco citando el weDo: «E3 (transferencia) — Imprime disclaimer exacto: 'relationship_signal_score no implica parentesco ni colusión'.». Veo en iDo `S13-T2-A-DEMO` (Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.) → «import random random.seed(13) pairs = []». Hint weDo: «Un solo print». En el code dejé `relationship_signal_score` + `parentesco` para amarrar el mismo gesto. Teoria packet: «Score de evidencia, incertidumbre y explicación»."
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T2-B-E1\ntxs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    ends = {a, b}\n    return [m for x, y, m in txs if {x, y} == ends]\nprint(direct_txs(txs, \"A\", \"B\"))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "txs",
+        "direct_txs",
+        "ends"
+      ],
+      "justification_from_packet": "[B2-Explorer] S13-T2-B-E1 — experimento con lo que el packet pide: «E1 (guiado) — `direct_txs(txs, a, b)` lista montos de transferencias directas entre a y b (cualquier dirección).». Demo de referencia `S13-T2-B-DEMO` (Dos entidades: shared phone + 1.2 km → señales con explicación.) → «». Hint weDo: «set equality de endpoints». Marca en code: `direct_txs` + `def direct_txs`. Teoria packet: «Email/teléfono/dirección compartidos, distancia y apellidos»."
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T2-B-E2\ntxs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c) - {a, c})\nprint(common_counterparties(txs, \"A\", \"C\"))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "txs",
+        "neighbors",
+        "node",
+        "set"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T2-B-E2 desde la instruction publicada: «E2 (independiente) — `common_counterparties(txs, a, c)` devuelve sorted set de nodos que transan con ambos.». Veo en iDo `S13-T2-B-DEMO` (Dos entidades: shared phone + 1.2 km → señales con explicación.) → «». Hint weDo: «Intersección de vecinos». Marca en code: `common_counterparties` + `def common_counterparties`. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T2-B-E3\nprint(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "no_collusion",
+        "contraparte",
+        "prueba",
+        "acuerdo"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T2-B-E3 arranco citando el weDo: «E3 (transferencia) — Lista 2 cosas que NO debes inferir de contraparte común (print líneas no_collusion y no_kinship).». Veo en iDo `S13-T2-B-DEMO` (Dos entidades: shared phone + 1.2 km → señales con explicación.) → «». Hint weDo: «Mensajes explícitos». Traigo al code `no_collusion` + `no_kinship` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T3-A-E1\ndef explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing_fields={missing}\",\n    ]\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "explanation_bullets",
+        "rel",
+        "missing",
+        "entity_resolution_score"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T3-A-E1 desde la instruction publicada: «E1 (guiado) — `explanation_bullets(er, rel, missing)` devuelve lista de 3 strings formateados.». Veo en iDo `S13-T3-A-DEMO` (Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.) → «». Hint weDo: «f-strings con los tres inputs». Traigo al code `explanation_bullets` + `def explanation_bullets` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T3-A-E2\ndef uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "uncertainty_band",
+        "missing",
+        "conflict",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S13-T3-A-E2: tomo la consigna weDo: «E2 (independiente) — `uncertainty_band(missing, conflict)` → high si conflict o len(missing)>=2; med si missing; low si no.». Plantilla iDo `S13-T3-A-DEMO` (Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.) → «». Hint weDo: «Orden de ifs: conflict primero». Traigo al code `uncertainty_band` + `def uncertainty_band` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T3-A-E3\ner, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 3)\nconflict = abs(er - rel) > 0.5\nprint(\"evidence_score\", score)\nprint(\"uncertainty\", \"high\" if conflict else \"low\")\nprint(\"note\", \"señales conflictivas\")\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "rel",
+        "score",
+        "round",
+        "conflict"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T3-A-E3 desde la instruction publicada: «E3 (transferencia) — Caso conflictivo er=0.9 rel=0.1: imprime evidence_score ponderado 0.6/0.4 y uncertainty high + bullet 'señales conflictivas'.». Veo en iDo `S13-T3-A-DEMO` (Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.) → «». Hint weDo: «abs(er-rel)>0.5 → conflict». En el code dejé `evidence_score` + `conflictivas` para amarrar el mismo gesto. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T3-B-E1\nthresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n    \"review_high\": 0.7,\n}\nprint(sorted(thresholds.items()))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "thresholds",
+        "accept_min",
+        "review_low",
+        "review_high"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T3-B-E1 arranco citando el weDo: «E1 (guiado) — Config dict thresholds: accept_min=0.8, review_low=0.4, review_high=0.7. Imprime sorted items.». Demo de referencia `S13-T3-B-DEMO` (Ficha con score, uncertainty low/med/high y 3 bullets de por qué.) → «». Hint weDo: «Tres claves numéricas». Sello con `review_high` + `accept_min` en la respuesta. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T3-B-E2\nth = {\"accept_min\": 0.8, \"review_low\": 0.4, \"review_high\": 0.7}\ndef decide_ops_status(score, unc, th):\n    if unc == \"high\" or th[\"review_low\"] <= score <= th[\"review_high\"]:\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score >= th[\"accept_min\"]:\n        return \"accept_pair\"\n    return \"needs_review\"\nfor s, u in [(0.9, \"low\"), (0.55, \"med\"), (0.2, \"low\"), (0.85, \"high\")]:\n    print(s, u, decide_ops_status(s, u, th))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "accept_min",
+        "review_low",
+        "review_high",
+        "decide_ops_status"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T3-B-E2 arranco citando el weDo: «E2 (independiente) — `decide_ops_status(score, unc, th)`: needs_review si unc==high o score en [review_low, review_high]; abstain si score < review_low;…». Plantilla iDo `S13-T3-B-DEMO` (Ficha con score, uncertainty low/med/high y 3 bullets de por qué.) → «». Hint weDo: «Implementa la matriz de decisión». Sello con `decide_ops_status` + `needs_review` en la respuesta. Teoria packet: «Score de evidencia, incertidumbre y explicación»."
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T3-B-E3\nout = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}\nforbidden = {\"is_family\", \"auto_fraud\"}\nclean = {k: v for k, v in out.items() if k not in forbidden}\nprint(sorted(clean.keys()))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "out",
+        "status",
+        "needs_review",
+        "is_family"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T3-B-E3 desde la instruction publicada: «E3 (transferencia) — Auditoría: dado un dict de campos de salida, elimina claves is_family y auto_fraud si existen; imprime sorted keys restantes.». Plantilla iDo `S13-T3-B-DEMO` (Ficha con score, uncertainty low/med/high y 3 bullets de por qué.) → «». Hint weDo: «pop o dict comprehension». En el code dejé `auto_fraud` + `is_family` para amarrar el mismo gesto. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T4-A-E1\ndef pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\nprint(pseudonymize(\"Ana Quispe Rojas\"))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "pseudonymize",
+        "name",
+        "join",
+        "split"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T4-A-E1 arranco citando el weDo: «E1 (guiado) — `pseudonymize('Ana Quispe Rojas')` → 'A*** Q*** R***'.». Demo de referencia `S13-T4-A-DEMO` (Scores en zona gris → status=needs_review; nunca auto_fraud=true.) → «def decide(score, unc): if unc == \"high\" or 0.4 <= score <= 0.7: return \"needs_review\"». Hint weDo: «primer char + *** por token». Traigo al code `pseudonymize` + `print(` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T4-A-E2\ndef case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\nprint(case_sheet(0.9, 0.4))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "case_sheet",
+        "rel",
+        "entity_resolution_score",
+        "relationship_signal_score"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S13-T4-A-E2 arranco citando el weDo: «E2 (independiente) — `case_sheet(er, rel)` dict con ambos scores y assert er key != rel key; imprime sheet.». Plantilla iDo `S13-T4-A-DEMO` (Scores en zona gris → status=needs_review; nunca auto_fraud=true.) → «def decide(score, unc): if unc == \"high\" or 0.4 <= score <= 0.7: return \"needs_review\"». Hint weDo: «Claves entity_resolution_score y relationship_signal_score». Marca en code: `case_sheet` + `def case_sheet`. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T4-A-E3\ndef map_tooltip(lat, lon, km, source):\n    return f\"lat={lat} lon={lon} geo_distance_km={km} source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "map_tooltip",
+        "lat",
+        "lon",
+        "source"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S13-T4-A-E3: tomo la consigna weDo: «E3 (transferencia) — `map_tooltip(lat, lon, km, source)` string con coords y geoseñal trazable.». Plantilla iDo `S13-T4-A-DEMO` (Scores en zona gris → status=needs_review; nunca auto_fraud=true.) → «def decide(score, unc): if unc == \"high\" or 0.4 <= score <= 0.7: return \"needs_review\"». Hint weDo: «Incluye source=». Marca en code: `map_tooltip` + `def map_tooltip`. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T4-B-E1\nprivacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\nprint(privacy[\"pii_real\"])\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "privacy",
+        "data_class",
+        "synthetic_only",
+        "pii_real"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T4-B-E1 desde la instruction publicada: «E1 (guiado) — Completa privacy sheet dict: data_class=synthetic_only, pii_real=False, roles=['viewer','reviewer']. Imprime json-like sorted keys.». Ancla iDo B2 `S13-T4-B-DEMO` (Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.) → «def pseudo(n): return \" \".join(p[0] + \"***\" for p in n.split()) cases = [». Hint weDo: «Tres campos mínimos CF-1». Traigo al code `synthetic_only` + `data_class` copiados del patrón. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T4-B-E2\ndef demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\nprint(demo_command())\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "demo_command",
+        "python",
+        "demo_n1_dashboard",
+        "synthetic"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T4-B-E2 desde la instruction publicada: «E2 (independiente) — `demo_command()` devuelve 'python -m demo_n1_dashboard --synthetic'.». Veo en iDo `S13-T4-B-DEMO` (Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.) → «def pseudo(n): return \" \".join(p[0] + \"***\" for p in n.split()) cases = [». Hint weDo: «String fijo documentado en runbook». En el code dejé `demo_n1_dashboard` + `demo_command` para amarrar el mismo gesto. Teoria packet: «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»."
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S13-T4-B-E3\nactions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-check S01-S13 critical paths after incident\")\n# B2 dual-run (Explorer): re-validated vs packet S13 S13-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S13",
+        "actions",
+        "rotate_secret",
+        "redact_logs",
+        "postmortem"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S13-T4-B-E3 desde la instruction publicada: «E3 (transferencia) — Runbook de incidente PII en log: lista de 3 acciones rotate_secret, redact_logs, postmortem. Imprime joined por '|'.». Plantilla iDo `S13-T4-B-DEMO` (Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.) → «def pseudo(n): return \" \".join(p[0] + \"***\" for p in n.split()) cases = [». Hint weDo: «Orden fijo de respuesta». En el code dejé `rotate_secret` + `redact_logs` para amarrar el mismo gesto. Teoria packet: «Privacidad, acceso, pruebas, demo y runbook»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Mantenerse separados en la ficha de caso",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: entity_resolution_score y relationship_signal_score deben mantenerse separados en la ficha de caso; no fusionarlos en un solo número sin etiqueta ni reemplazar por is_family."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Error de matching; no es veredicto legal de fraude",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: False positive de ER es error de matching; no es veredicto legal de fraude ni parentesco automático."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Encolar needs_review / abstenerse según política",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Zona gris de score: encolar needs_review / abstenerse según política; no auto_fraud=true ni setear is_family."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Privacy sheet, acceso, tests, demo y runbook",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: CF-1 en S13 incluye privacy sheet, acceso, tests, demo y runbook (cierre de Familiarity), no hardcodear tokens ni marcar section_passed desde author lane."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Level-1 regression notes del You Do: re-chequear paths críticos S01–S13 en el runbook sin editar el ledger aquí."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

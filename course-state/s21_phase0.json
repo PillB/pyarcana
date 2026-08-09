@@ -1,0 +1,255 @@
+{
+  "version": "3.2",
+  "section": "S21",
+  "section_id": "fastapi",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "pass",
+        "evidence": "V3 S21 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "blocked",
+        "evidence": "Plataforma no está en 4×2 V3; requiere retheme PHASE 4"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "blocked",
+        "evidence": "Inventario plataforma bajo vector canónico"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "blocked",
+        "evidence": "seed legacy 4×3=12; target V3 8×3=24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen acumulativo + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "partial",
+        "evidence": "selfCheck/youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "pass",
+        "evidence": "Tono profesional en plataforma"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "pass",
+        "evidence": "Principio transversal; N2 no es gate ER"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "partial",
+        "evidence": "Re-verificación en PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S21",
+        "status": "pass",
+        "evidence": "Preferencia V3 datasets sintéticos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S21-001",
+        "requirement": "S21 cubre: Templates — Jinja y separación datos/presentación; condiciones, tablas y formato seguro",
+        "source": "V3 roadmap S21 T1",
+        "acceptance_test": "Contenido de S21 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma 'fastapi' (FastAPI — Backend Python para Sitios Web en Vivo) no enseña el tema V3 'Templates' como ownership canónico."
+      },
+      {
+        "id": "REQ-S21-002",
+        "requirement": "S21 cubre: DOCX/PDF — estilos y secciones; extracción de PDF digital y detección de imagen/OCR",
+        "source": "V3 roadmap S21 T2",
+        "acceptance_test": "Contenido de S21 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma 'fastapi' (FastAPI — Backend Python para Sitios Web en Vivo) no enseña el tema V3 'DOCX/PDF' como ownership canónico."
+      },
+      {
+        "id": "REQ-S21-003",
+        "requirement": "S21 cubre: Informe — resumen ejecutivo, método y hallazgos; gráficos, tablas, fuentes y limitaciones",
+        "source": "V3 roadmap S21 T3",
+        "acceptance_test": "Contenido de S21 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma 'fastapi' (FastAPI — Backend Python para Sitios Web en Vivo) no enseña el tema V3 'Informe' como ownership canónico."
+      },
+      {
+        "id": "REQ-S21-004",
+        "requirement": "S21 cubre: QA — redacción, accesibilidad y consistencia; render visual, provenance y aprobación",
+        "source": "V3 roadmap S21 T4",
+        "acceptance_test": "Contenido de S21 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma 'fastapi' (FastAPI — Backend Python para Sitios Web en Vivo) no enseña el tema V3 'QA' como ownership canónico."
+      },
+      {
+        "id": "REQ-S21-005",
+        "requirement": "S21 incremento/gate: Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+        "source": "V3 roadmap S21 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do plataforma alineado a 'FastAPI — Backend Python para Sitios Web en Vivo', no al gate V3."
+      },
+      {
+        "id": "REQ-S21-006",
+        "requirement": "S21 proyecto: cierre CP-N2-B (capstone CP-N2-B (cierre))",
+        "source": "V3 roadmap S21 + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S21-007",
+        "requirement": "S21 entorno: local",
+        "source": "V3 roadmap S21",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local"
+      },
+      {
+        "id": "REQ-S21-008",
+        "requirement": "S21 prerrequisitos: S20",
+        "source": "V3 roadmap S21",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['S20']"
+      },
+      {
+        "id": "REQ-S21-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N2-FACTORY",
+        "acceptance_test": "Archivo src/lib/course/sections/s21-fastapi.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S21 carga en la plataforma con id estable 'fastapi'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id fastapi registrado",
+        "status": "pass",
+        "evidence": "file src/lib/course/sections/s21-fastapi.ts; id: 'fastapi'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S21 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'fastapi': 4×3=12 legacy; 0 alineados a V3 S21"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s21-fastapi.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S21-001",
+      "issue": "V3 define S21 como 'Documentos, plantillas y reportes trazables'. Plataforma id 'fastapi' es 'FastAPI — Backend Python para Sitios Web en Vivo' (src/lib/course/sections/s21-fastapi.ts).",
+      "resolution": "KEEP platform id 'fastapi' (learning_roadmap.md authority). TARGET production content = V3 4×2. Legacy inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded",
+      "type": "platform_id_mapping_conflict"
+    },
+    {
+      "id": "CONTRADICTION-S21-002",
+      "issue": "You Do / project de plataforma no coincide con gate V3: Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números r...",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S21",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S21-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    }
+  ],
+  "platform_id_mapping": {
+    "platform_section_id": "fastapi",
+    "platform_title": "FastAPI — Backend Python para Sitios Web en Vivo",
+    "v3_title": "Documentos, plantillas y reportes trazables",
+    "decision": "KEEP_PLATFORM_ID",
+    "conflict": true,
+    "severity": "learning_roadmap.md for id; V3 for content target"
+  },
+  "v3_section_snapshot": {
+    "v3_label": "S21 — Documentos, plantillas y reportes trazables",
+    "prerequisite": "S20",
+    "environment": "local",
+    "project": "cierre CP-N2-B",
+    "topics": {
+      "T1": "Templates: Jinja y separación datos/presentación; condiciones, tablas y formato seguro",
+      "T2": "DOCX/PDF: estilos y secciones; extracción de PDF digital y detección de imagen/OCR",
+      "T3": "Informe: resumen ejecutivo, método y hallazgos; gráficos, tablas, fuentes y limitaciones",
+      "T4": "QA: redacción, accesibilidad y consistencia; render visual, provenance y aprobación"
+    },
+    "increment_gate": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+    "capstone": "CP-N2-B (cierre)"
+  },
+  "platform_section_snapshot": {
+    "section_id": "fastapi",
+    "index": 21,
+    "title": "FastAPI — Backend Python para Sitios Web en Vivo",
+    "shortTitle": "FastAPI",
+    "file": "src/lib/course/sections/s21-fastapi.ts",
+    "orphan_files": [],
+    "exam_concepts_seed_expected": 4,
+    "note": "Legacy content retained; V3 retheme in PHASE 4+"
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3_LIGHTWEIGHT",
+    "note": "PHASE 1/2 skipped in lightweight factory mode; phase3 carries slug plan + counts"
+  }
+}

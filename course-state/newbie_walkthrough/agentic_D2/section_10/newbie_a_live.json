@@ -1,0 +1,278 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 10,
+  "packet_sha": "8b461ffa87af3bfa",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "status": "answered",
+      "code": "print(\"src/familiarity/__init__.py\")\nprint(\"src/familiarity/cli.py\")\nprint(\"pyproject.toml\")\n# D2-Explorer: packet-only re-walk S10 S10-T1-A-E1\n",
+      "answer": "print(\"src/familiarity/__init__.py\")\nprint(\"src/familiarity/cli.py\")\nprint(\"pyproject.toml\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Layout src/ con __init__.py y pyproject.toml del packaging del curso. Módulos importables del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "status": "answered",
+      "code": "def add(a, b):\n    return a + b\nassert add(2, 3) == 5\nprint(\"import ok\", add(2, 3))\n# D2-Explorer: packet-only re-walk S10 S10-T1-A-E2\n",
+      "answer": "def add(a, b):\n    return a + b\nassert add(2, 3) == 5\nprint(\"import ok\", add(2, 3))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Función de módulo importable con assert de humo. Separar librería de script ejecutable.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "status": "answered",
+      "code": "__all__ = [\"normalize_email\"]\ndef normalize_email(s):\n    return s.strip().lower()\ndef _private():\n    return 1\nprint(__all__)\nprint(normalize_email(\" A@B.COM \"))\n# D2-Explorer: packet-only re-walk S10 S10-T1-A-E3\n",
+      "answer": "__all__ = [\"normalize_email\"]\ndef normalize_email(s):\n    return s.strip().lower()\ndef _private():\n    return 1\nprint(__all__)\nprint(normalize_email(\" A@B.COM \"))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] __all__ declara API pública; _private queda interna del módulo. Contrato de imports del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "status": "answered",
+      "code": "def main():\n    print(\"hello cli\")\nif __name__ == \"__main__\":\n    main()\n# D2-Explorer: packet-only re-walk S10 S10-T1-B-E1\n",
+      "answer": "def main():\n    print(\"hello cli\")\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] if __name__ == '__main__' ejecuta el CLI solo al correr el módulo, no al importar. Guardián del entrypoint.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "status": "answered",
+      "code": "def run(argv=None):\n    argv = list(argv or [])\n    return {\"args\": argv, \"ok\": True}\nif __name__ == \"__main__\":\n    print(run([\"--help\"]))\n# D2-Explorer: packet-only re-walk S10 S10-T1-B-E2\n",
+      "answer": "def run(argv=None):\n    argv = list(argv or [])\n    return {\"args\": argv, \"ok\": True}\nif __name__ == \"__main__\":\n    print(run([\"--help\"]))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] run(argv) testeable; sin side effects al importar el módulo. CLI desacoplado del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "status": "answered",
+      "code": "print(\"from familiarity.normalize import normalize_email  # absoluto en app\")\nprint(\"from .normalize import normalize_email  # relativo dentro del paquete\")\n# D2-Explorer: packet-only re-walk S10 S10-T1-B-E3\n",
+      "answer": "print(\"from familiarity.normalize import normalize_email  # absoluto en app\")\nprint(\"from .normalize import normalize_email  # relativo dentro del paquete\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Imports absolutos del paquete en app; relativos dentro del package. Evitar sys.path hacks.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "status": "answered",
+      "code": "defaults = {\"timeout\": 30, \"retries\": 1}\nenv = {\"timeout\": 10}\nflags = {\"retries\": 3}\ncfg = {**defaults, **env, **flags}\nprint(cfg)\nprint(\"precedencia flags > env > file > defaults\")\n# D2-Explorer: packet-only re-walk S10 S10-T2-A-E1\n",
+      "answer": "defaults = {\"timeout\": 30, \"retries\": 1}\nenv = {\"timeout\": 10}\nflags = {\"retries\": 3}\ncfg = {**defaults, **env, **flags}\nprint(cfg)\nprint(\"precedencia flags > env > file > defaults\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Precedencia flags > env > file > defaults del config CLI. Merge sin perder claves base.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "status": "answered",
+      "code": "import os\ntoken = os.environ.get(\"API_TOKEN\")\nif not token:\n    print(\"missing API_TOKEN → fail-fast\")\nelse:\n    print(\"token present len\", len(token))\n# D2-Explorer: packet-only re-walk S10 S10-T2-A-E2\n",
+      "answer": "import os\ntoken = os.environ.get(\"API_TOKEN\")\nif not token:\n    print(\"missing API_TOKEN → fail-fast\")\nelse:\n    print(\"token present len\", len(token))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Token de API en variable de entorno / secret store, no hardcode. Ausente → fail-fast de config.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "status": "answered",
+      "code": "print(\"API_TOKEN=\")\nprint(\"DATABASE_URL=\")\nprint(\"nunca commitear .env real\")\n# D2-Explorer: packet-only re-walk S10 S10-T2-A-E3\n",
+      "answer": "print(\"API_TOKEN=\")\nprint(\"DATABASE_URL=\")\nprint(\"nunca commitear .env real\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] .env.example con claves vacías; .env real fuera de git. Herencia de secretos S01 en packaging.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "status": "answered",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--input\", required=True)\np.add_argument(\"--verbose\", action=\"store_true\")\nargs = p.parse_args([\"--input\", \"data.csv\"])\nprint(args.input, args.verbose)\n# D2-Explorer: packet-only re-walk S10 S10-T2-B-E1\n",
+      "answer": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--input\", required=True)\np.add_argument(\"--verbose\", action=\"store_true\")\nargs = p.parse_args([\"--input\", \"data.csv\"])\nprint(args.input, args.verbose)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] argparse define flags del CLI; --input required. parse_args con argv de prueba. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "status": "answered",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"path\")\ntry:\n    p.parse_args([])\nexcept SystemExit as e:\n    print(\"exit code uso/parseo\", e.code)\n# D2-Explorer: packet-only re-walk S10 S10-T2-B-E2\n",
+      "answer": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"path\")\ntry:\n    p.parse_args([])\nexcept SystemExit as e:\n    print(\"exit code uso/parseo\", e.code)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Exit code 2 en argparse suele ser error de uso/parseo de argumentos. SystemExit del parser.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "status": "answered",
+      "code": "def cli(argv):\n    if not argv:\n        return 2\n    if argv[0] == \"--fail-data\":\n        return 1\n    print({\"result\": \"ok\"})\n    return 0\nprint(cli([\"run\"]), cli([]), cli([\"--fail-data\"]))\n# D2-Explorer: packet-only re-walk S10 S10-T2-B-E3\n",
+      "answer": "def cli(argv):\n    if not argv:\n        return 2\n    if argv[0] == \"--fail-data\":\n        return 1\n    print({\"result\": \"ok\"})\n    return 0\nprint(cli([\"run\"]), cli([]), cli([\"--fail-data\"]))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] 0 éxito, 1 error datos, 2 uso; stdout solo datos. Contrato de exit codes CLI. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "status": "answered",
+      "code": "import logging, sys\nlog = logging.getLogger(\"app\")\nlog.handlers.clear()\nlog.addHandler(logging.StreamHandler(sys.stderr))\nlog.setLevel(logging.INFO)\nlog.info(\"progress=start\")\nprint('{\"n\":1}')\n# D2-Explorer: packet-only re-walk S10 S10-T3-A-E1\n",
+      "answer": "import logging, sys\nlog = logging.getLogger(\"app\")\nlog.handlers.clear()\nlog.addHandler(logging.StreamHandler(sys.stderr))\nlog.setLevel(logging.INFO)\nlog.info(\"progress=start\")\nprint('{\"n\":1}')\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Logs de progreso a stderr; JSON de datos a stdout. Separación stdout/stderr del CLI.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "status": "answered",
+      "code": "def validate_args(path):\n    if not path:\n        raise SystemExit(2)\n    return path\nprint(validate_args(\"x.csv\"))\ntry:\n    validate_args(\"\")\nexcept SystemExit as e:\n    print(\"usage exit\", e.code)\n# D2-Explorer: packet-only re-walk S10 S10-T3-A-E2\n",
+      "answer": "def validate_args(path):\n    if not path:\n        raise SystemExit(2)\n    return path\nprint(validate_args(\"x.csv\"))\ntry:\n    validate_args(\"\")\nexcept SystemExit as e:\n    print(\"usage exit\", e.code)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Validación de args en el borde CLI con exit 2 de uso. Fail-fast de argumentos. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "status": "answered",
+      "code": "print(\"subcomando nuevo compatible → minor\")\nprint(\"romper flags existentes → major\")\nprint(\"fix mensaje docs → patch\")\n# D2-Explorer: packet-only re-walk S10 S10-T3-A-E3\n",
+      "answer": "print(\"subcomando nuevo compatible → minor\")\nprint(\"romper flags existentes → major\")\nprint(\"fix mensaje docs → patch\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Añadir subcomando compatible es tipicamente minor en semver. Major si rompe el contrato CLI.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "status": "answered",
+      "code": "print('[project]')\nprint('name = \"familiarity\"')\nprint('version = \"0.1.0\"')\nprint('requires-python = \">=3.12\"')\n# D2-Explorer: packet-only re-walk S10 S10-T3-B-E1\n",
+      "answer": "print('[project]')\nprint('name = \"familiarity\"')\nprint('version = \"0.1.0\"')\nprint('requires-python = \">=3.12\"')\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] pyproject.toml declara name/version/requires-python del paquete. Metadata de packaging S10.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "status": "answered",
+      "code": "print(\"console_scripts: familiarity=familiarity.cli:main\")\nprint(\"entrypoint apunta a main() con guard __name__\")\n# D2-Explorer: packet-only re-walk S10 S10-T3-B-E2\n",
+      "answer": "print(\"console_scripts: familiarity=familiarity.cli:main\")\nprint(\"entrypoint apunta a main() con guard __name__\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] console_scripts enlaza el comando al main del módulo CLI. Entrypoint instalable.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "status": "answered",
+      "code": "print(\"README: pip install -e . && familiarity --help\")\nprint(\"no incluir .env con API_TOKEN en el git del paquete\")\n# D2-Explorer: packet-only re-walk S10 S10-T3-B-E3\n",
+      "answer": "print(\"README: pip install -e . && familiarity --help\")\nprint(\"no incluir .env con API_TOKEN en el git del paquete\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] README de uso del CLI; secretos fuera del repo. .env no va al git del paquete. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "status": "answered",
+      "code": "def test_add():\n    assert 1 + 1 == 2\ntest_add()\nprint(\"tests ok\")\n# D2-Explorer: packet-only re-walk S10 S10-T4-A-E1\n",
+      "answer": "def test_add():\n    assert 1 + 1 == 2\ntest_add()\nprint(\"tests ok\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Test mínimo del paquete con assert ejecutable. Suite de humo packaging. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "status": "answered",
+      "code": "print(\"tests/test_normalize.py\")\nprint(\"from familiarity.normalize import normalize_email\")\n# D2-Explorer: packet-only re-walk S10 S10-T4-A-E2\n",
+      "answer": "print(\"tests/test_normalize.py\")\nprint(\"from familiarity.normalize import normalize_email\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Tests importan la API pública del paquete instalado editable. Layout tests/ del curso.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "status": "answered",
+      "code": "print(\"CI: ruff check + pytest en el venv\")\nprint(\"fallar el job si tests rojos\")\n# D2-Explorer: packet-only re-walk S10 S10-T4-A-E3\n",
+      "answer": "print(\"CI: ruff check + pytest en el venv\")\nprint(\"fallar el job si tests rojos\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] CI corre linter y tests; rojo bloquea merge. Calidad del paquete CLI. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "status": "answered",
+      "code": "print(\"CHANGELOG: 0.2.0 añade subcomando ingest (minor)\")\n# D2-Explorer: packet-only re-walk S10 S10-T4-B-E1\n",
+      "answer": "print(\"CHANGELOG: 0.2.0 añade subcomando ingest (minor)\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] CHANGELOG documenta minor al añadir subcomando compatible. Comunicación de versión.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "status": "answered",
+      "code": "print(\"version 0.1.0 → 0.1.1 patch: fix mensaje de error CLI\")\n# D2-Explorer: packet-only re-walk S10 S10-T4-B-E2\n",
+      "answer": "print(\"version 0.1.0 → 0.1.1 patch: fix mensaje de error CLI\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Patch para fix de mensaje sin romper API. Semver patch del CLI. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "status": "answered",
+      "code": "print(\"no versionar: .env, .venv/, dist/, *.egg-info\")\nprint(\"sí versionar: pyproject.toml, src/, README, tests/\")\n# D2-Explorer: packet-only re-walk S10 S10-T4-B-E3\n",
+      "answer": "print(\"no versionar: .env, .venv/, dist/, *.egg-info\")\nprint(\"sí versionar: pyproject.toml, src/, README, tests/\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] .env con API_TOKEN no debe ir al git; sí pyproject y src. Selfcheck packaging secrets.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] if __name__ == '__main__' corre el CLI solo al ejecutar, no al importar. Guardián del entrypoint S10.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "flags > env > file > defaults",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Precedencia correcta: flags > env > file > defaults. Config del CLI profesional.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Exit code 2 en argparse suele ser error de uso/parseo. Distinto de 0 éxito. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Logs de progreso van a stderr, no mezclados con JSON en stdout. Contrato CLI stdout/stderr.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Añadir un subcomando nuevo compatible es tipicamente minor. Semver del paquete. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "chosen_text": ".env con API_TOKEN",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] .env con API_TOKEN no debe ir al git del paquete. Secretos fuera del repo. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.041240+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s10-live"
+}

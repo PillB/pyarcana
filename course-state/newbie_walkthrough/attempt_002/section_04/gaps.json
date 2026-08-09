@@ -1,0 +1,9 @@
+[
+  {
+    "tag": "UNTAUGHT_CONCEPT",
+    "severity": "P1",
+    "exercise_id": "selfcheck-0",
+    "detail": "Correct option poorly supported by packet: [0,1,2]",
+    "section_index": 4
+  }
+]

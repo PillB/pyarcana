@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7785732",
+    "name": "communicating uncertainty in medical machine learning - PMC",
+    "snippet": "2021 · Cited by 646 — In this article, we provide an overview of different approaches to uncertainty quantification and abstention for machine learning .",
+    "host_name": "pmc.ncbi.nlm.nih.gov",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ojs.aaai.org/index.php/AAAI/article/view/35094/37249",
+    "name": "Things Machine Learning Models Know That They Don't",
+    "snippet": "2025 · Cited by 16 — A ML model with uncertainty augments point-wise predictions with additional information, such as confidence intervals, standard errors, or a density estimate .\n2025 · Cited by 16 — A ML model with uncertainty augments point-wise predictions confidence intervals, standard errors, or a density estimate. In general, most ML models do not ...",
+    "host_name": "ojs.aaai.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mindfulmodeler.substack.com/p/when-in-doubt-abstain-why-machine",
+    "name": "When in Doubt, Abstain: Why Machine Learning Models Need",
+    "snippet": "The question of when to abstain is a more general one. Here are some reasons why we might want the machine learning model to abstain from making predictions.",
+    "host_name": "mindfulmodeler.substack.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/MachineLearning/comments/1qpbrgp/d_why_isnt_uncertainty_estimation_implemented_in",
+    "name": "[D] Why isn't uncertainty estimation implemented in more",
+    "snippet": "I have a feeling there must be an obvious answer here. I just came across gaussian process here:\n\nhttps://www.sciencedirect.com/science/article/pii/S24054712203 ...",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://icml.cc/virtual/2025/poster/45527",
+    "name": "Cryptographically Prohibiting the Abuse of Model Abstention",
+    "snippet": "Cautious predictions —where a machine learning model abstains when uncertain—are crucial for limiting harmful errors in safety-critical applications.",
+    "host_name": "icml.cc",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=Qgc1-6rbMBU",
+    "name": "Machine Learning for Uncertainty Quantification: Trusting the",
+    "snippet": "Adopting uncertainty quantification (UQ) has become a prerequisite for providing credibility in modeling and simulation. UQ can be ...",
+    "host_name": "www.youtube.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S138650562500231X",
+    "name": "A vision for uncertainty-aware machine learning in healthcare",
+    "snippet": "2025 · Cited by 25 — A special issue dedicated to uncertainty modeling in medical AI, which gathers theoretical, methodological, and practical contributions addressing this ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nitmb.org/understanding-sources-of-uncertaint/understanding-sources-of-uncertainty-in-machine-learning",
+    "name": "Understanding Sources of Uncertainty in Machine Learning",
+    "snippet": "The second type of uncertainty is epistemic uncertainty : signal that exists but that you cannot recover without more data.",
+    "host_name": "www.nitmb.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

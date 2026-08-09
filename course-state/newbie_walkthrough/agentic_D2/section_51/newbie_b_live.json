@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 51,
+  "packet_sha": "c89a65abd3621d96",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T1-A-E1\n",
+      "answer": "S51-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Calcula",
+        "contrato",
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"too`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"pii_in_trace\", \"spans\", \"trace_id\", \"versions\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"trace_id\"] or record[\"pii_in_trace\"])) else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'prompt', 'answer', 'tool', 'retrieval'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\ninvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': '', 'spans': set(), 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': True}\nincomplete = dict(valid)\nincomplete.pop(\"pii_in_trace\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T1-A-E2\n",
+      "answer": "PASS REDACT_AND_QUARANTINE_TRACE MISSING:pii_in_trace",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Modela",
+        "tres",
+        "rutas",
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"pii_in_trace\", \"spans\", \"trace_id\", \"versions\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_TRACE_CONTEXT\"\n    return \"CONTINUE\" if (not (not record[\"trace_id\"] or record[\"pii_in_trace\"])) else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'prompt', 'answer', 'tool', 'retrieval'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\ninvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': '', 'spans': set(), 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': True}\nuncertain = dict(valid)\nuncertain.pop(\"pii_in_trace\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T1-A-E3\n",
+      "answer": "CONTINUE REDACT_AND_QUARANTINE_TRACE RESTORE_TRACE_CONTEXT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "traces",
+        "prompts",
+        "retrieval"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nmeets_contract = record[\"total_tokens\"] == record[\"prompt_tokens\"]+record[\"retrieval_tokens\"]+record[\"answer_tokens\"] and record[\"p95_ms\"] <= record[\"slo_ms\"]\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T1-B-E1\n",
+      "answer": "S51-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Compara",
+        "contrato",
+        "tokens",
+        "costo",
+        "latency",
+        "redacci",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"answer_tokens\", \"case_id\", \"p95_ms\", \"prompt_tokens\", \"redacted_fields\", \"retrieval_tokens\", \"slo_ms\", \"total_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"total_tokens\"] == record[\"prompt_tokens\"]+record[\"retrieval_tokens\"]+record[\"answer_tokens\"] and record[\"p95_ms\"] <= record[\"slo_ms\"]) else \"ALERT_COST_LATENCY\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\ninvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 1700, 'slo_ms': 1200, 'redacted_fields': 4, 'cache_acl_safe': False, 'rollback_minutes': 1000000}\nincomplete = dict(valid)\nincomplete.pop(\"redacted_fields\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T1-B-E2\n",
+      "answer": "PASS ALERT_COST_LATENCY MISSING:redacted_fields",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Verifica",
+        "tres",
+        "rutas",
+        "tokens",
+        "costo",
+        "latency",
+        "redacci"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"answer_tokens\", \"case_id\", \"p95_ms\", \"prompt_tokens\", \"redacted_fields\", \"retrieval_tokens\", \"slo_ms\", \"total_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"FIX_REDACTION_PIPELINE\"\n    return \"CONTINUE\" if (record[\"total_tokens\"] == record[\"prompt_tokens\"]+record[\"retrieval_tokens\"]+record[\"answer_tokens\"] and record[\"p95_ms\"] <= record[\"slo_ms\"]) else \"ALERT_COST_LATENCY\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\ninvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 1700, 'slo_ms': 1200, 'redacted_fields': 4, 'cache_acl_safe': False, 'rollback_minutes': 1000000}\nuncertain = dict(valid)\nuncertain.pop(\"redacted_fields\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T1-B-E3\n",
+      "answer": "CONTINUE ALERT_COST_LATENCY FIX_REDACTION_PIPELINE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tokens",
+        "costo",
+        "latency"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nmeets_contract = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T2-A-E1\n",
+      "answer": "S51-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Filtra",
+        "contrato",
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"dataset\", \"evaluator\", \"immutable\", \"index\", \"model\", \"prompt\", \"release\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))) else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'latest', 'prompt': 'latest', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': False}\nincomplete = dict(valid)\nincomplete.pop(\"immutable\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T2-A-E2\n",
+      "answer": "PASS FREEZE_RELEASE_BUNDLE MISSING:immutable",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"dataset\", \"evaluator\", \"immutable\", \"index\", \"model\", \"prompt\", \"release\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGISTER_MISSING_VERSION\"\n    return \"CONTINUE\" if (not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))) else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'latest', 'prompt': 'latest', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': False}\nuncertain = dict(valid)\nuncertain.pop(\"immutable\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T2-A-E3\n",
+      "answer": "CONTINUE FREEZE_RELEASE_BUNDLE REGISTER_MISSING_VERSION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "registro",
+        "modelo",
+        "prompt"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nmeets_contract = record[\"author\"] != record[\"approver\"] and not record[\"access_scope\"].endswith(\"admin\") and record[\"audit_append_only\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T2-B-E1\n",
+      "answer": "S51-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Modela",
+        "contrato",
+        "cambio",
+        "acceso",
+        "retenci",
+        "auditor",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"ac`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"access_scope\", \"approver\", \"audit_append_only\", \"author\", \"case_id\", \"retention_days\", \"risk\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"author\"] != record[\"approver\"] and not record[\"access_scope\"].endswith(\"admin\") and record[\"audit_append_only\"]) else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'owner-b', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'super-admin', 'retention_days': 30, 'audit_append_only': False}\nincomplete = dict(valid)\nincomplete.pop(\"audit_append_only\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T2-B-E2\n",
+      "answer": "PASS REJECT_UNGOVERNED_CHANGE MISSING:audit_append_only",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Audita",
+        "tres",
+        "rutas",
+        "cambio",
+        "acceso",
+        "retenci",
+        "auditor"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"access_scope\", \"approver\", \"audit_append_only\", \"author\", \"case_id\", \"retention_days\", \"risk\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INDEPENDENT_APPROVAL\"\n    return \"CONTINUE\" if (record[\"author\"] != record[\"approver\"] and not record[\"access_scope\"].endswith(\"admin\") and record[\"audit_append_only\"]) else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'owner-b', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'super-admin', 'retention_days': 30, 'audit_append_only': False}\nuncertain = dict(valid)\nuncertain.pop(\"audit_append_only\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T2-B-E3\n",
+      "answer": "CONTINUE REJECT_UNGOVERNED_CHANGE REQUEST_INDEPENDENT_APPROVAL",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "cambio",
+        "acceso",
+        "retenci"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nmeets_contract = record[\"availability\"] >= record[\"availability_slo\"] and record[\"drift\"] <= record[\"max_drift\"]\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T3-A-E1\n",
+      "answer": "S51-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Verifica",
+        "contrato",
+        "SLO",
+        "feedback",
+        "drift",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulne`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"availability\", \"availability_slo\", \"case_id\", \"drift\", \"faithfulness\", \"faithfulness_slo\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"availability\"] >= record[\"availability_slo\"] and record[\"drift\"] <= record[\"max_drift\"]) else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\ninvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.1, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.99, 'max_drift': 0.08, 'owner': 'ai-oncall'}\nincomplete = dict(valid)\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T3-A-E2\n",
+      "answer": "PASS OPEN_COPILOT_INCIDENT MISSING:owner",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Decide",
+        "tres",
+        "rutas",
+        "SLO",
+        "feedback",
+        "drift",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"availability\", \"availability_slo\", \"case_id\", \"drift\", \"faithfulness\", \"faithfulness_slo\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRIAGE_DRIFT_SLICE\"\n    return \"CONTINUE\" if (record[\"availability\"] >= record[\"availability_slo\"] and record[\"drift\"] <= record[\"max_drift\"]) else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\ninvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.1, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.99, 'max_drift': 0.08, 'owner': 'ai-oncall'}\nuncertain = dict(valid)\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T3-A-E3\n",
+      "answer": "CONTINUE OPEN_COPILOT_INCIDENT TRIAGE_DRIFT_SLICE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "feedback",
+        "drift"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nmeets_contract = record[\"contained\"] and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] and record[\"owners_assigned\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T3-B-E1\n",
+      "answer": "S51-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Clasifica",
+        "contrato",
+        "incidents",
+        "rollback",
+        "postmortem",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_m`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"owners_assigned\", \"postmortem_actions\", \"rollback_minutes\", \"rolled_back_to\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"contained\"] and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] and record[\"owners_assigned\"]) else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\ninvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nincomplete = dict(valid)\nincomplete.pop(\"owners_assigned\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T3-B-E2\n",
+      "answer": "PASS ROLLBACK_AND_CONTAIN MISSING:owners_assigned",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Calcula",
+        "tres",
+        "rutas",
+        "incidents",
+        "rollback",
+        "postmortem",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"owners_assigned\", \"postmortem_actions\", \"rollback_minutes\", \"rolled_back_to\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONVENE_INCIDENT_REVIEW\"\n    return \"CONTINUE\" if (record[\"contained\"] and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] and record[\"owners_assigned\"]) else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\ninvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nuncertain = dict(valid)\nuncertain.pop(\"owners_assigned\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T3-B-E3\n",
+      "answer": "CONTINUE ROLLBACK_AND_CONTAIN CONVENE_INCIDENT_REVIEW",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "incidents",
+        "rollback",
+        "postmortem"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nmeets_contract = record[\"uncertainty_shown\"] and record[\"citations_resolve\"] and record[\"confirmed\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T4-A-E1\n",
+      "answer": "S51-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Audita",
+        "contrato",
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"citations_resolve\", \"confirmation_required\", \"confirmed\", \"effect_summary\", \"uncertainty_shown\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"uncertainty_shown\"] and record[\"citations_resolve\"] and record[\"confirmed\"]) else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': False, 'citations_resolve': False, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': False}\nincomplete = dict(valid)\nincomplete.pop(\"confirmed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T4-A-E2\n",
+      "answer": "PASS BLOCK_UNCONFIRMED_ACTION MISSING:confirmed",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Compara",
+        "tres",
+        "rutas",
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"citations_resolve\", \"confirmation_required\", \"confirmed\", \"effect_summary\", \"uncertainty_shown\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASK_USER_TO_CONFIRM\"\n    return \"CONTINUE\" if (record[\"uncertainty_shown\"] and record[\"citations_resolve\"] and record[\"confirmed\"]) else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': False, 'citations_resolve': False, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': False}\nuncertain = dict(valid)\nuncertain.pop(\"confirmed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T4-A-E3\n",
+      "answer": "CONTINUE BLOCK_UNCONFIRMED_ACTION ASK_USER_TO_CONFIRM",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "incertidumbre",
+        "citas",
+        "confirmaciones"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nmeets_contract = not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n# D2-Skeptic: packet-only re-walk S51 S51-T4-B-E1\n",
+      "answer": "S51-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Decide",
+        "contrato",
+        "accesibilidad",
+        "correcci",
+        "contestabilidad",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"con`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"appeal_to_human\", \"case_id\", \"contrast_ratio\", \"correction_available\", \"keyboard_complete\", \"min_contrast\", \"screen_reader_labels\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]) else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 0.0, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nincomplete = dict(valid)\nincomplete.pop(\"appeal_to_human\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T4-B-E2\n",
+      "answer": "PASS FAIL_ACCESSIBILITY_GATE MISSING:appeal_to_human",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Filtra",
+        "tres",
+        "rutas",
+        "accesibilidad",
+        "correcci",
+        "contestabilidad",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"appeal_to_human\", \"case_id\", \"contrast_ratio\", \"correction_available\", \"keyboard_complete\", \"min_contrast\", \"screen_reader_labels\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ROUTE_CONTESTATION\"\n    return \"CONTINUE\" if (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]) else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 0.0, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nuncertain = dict(valid)\nuncertain.pop(\"appeal_to_human\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S51 S51-T4-B-E3\n",
+      "answer": "CONTINUE FAIL_ACCESSIBILITY_GATE ROUTE_CONTESTATION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "accesibilidad",
+        "correcci",
+        "contestabilidad"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S51-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces Traza prompts, retrieval y tools Mide tokens/costo/latency con redacción». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?» elijo «trace reconstruible sin PII» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces\nTraza prompts, retrieval y tools\nMide toke». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir ROLLBACK_COPILOT y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces\nTraza prompts, retrieval y tools\nMide toke». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?» elijo «se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces\nTraza prompts, retrieval y tools\nMide toke». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces\nTraza prompts, retrieval y tools\nMide toke». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.667351+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s51-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

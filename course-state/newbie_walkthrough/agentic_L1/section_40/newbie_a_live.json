@@ -1,0 +1,431 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s40-992ef5143f",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "code": "# Explorer · S40-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\nmeets_contract = record[\"observed_ms\"] <= record[\"target_ms\"] and bool(record.get(\"owner\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «requisitos funcionales y quality attributes» («Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para e»), el contrato de S40-T1-A-E1 exige demostrar latencia observada contra umbral y dueño. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_QA_SCENARIO`.",
+      "concepts_used": [
+        "latencia",
+        "observada",
+        "contra",
+        "umbral",
+        "dueño"
+      ],
+      "confidence": 0.765
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "code": "# Explorer · S40-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'source', 'stimulus', 'environment', 'response', 'observed_ms', 'target_ms', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"observed_ms\"] <= record[\"target_ms\"] and bool(record.get(\"owner\"))) else \"REJECT_QA_SCENARIO\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 400, 'target_ms': 300, 'owner': 'platform'}\nincomplete = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «requisitos funcionales y quality attributes» el paquete pide tres rutas; la teoría subraya: «Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para e». Para S40-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple latencia observada contra umbral y dueño, y `REJECT_QA_SCENARIO` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "latencia",
+        "observada",
+        "contra",
+        "umbral",
+        "dueño"
+      ],
+      "confidence": 0.753
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "code": "# Explorer · S40-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'source', 'stimulus', 'environment', 'response', 'observed_ms', 'target_ms', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_QA_OWNER\"\n    return \"CONTINUE\" if (record[\"observed_ms\"] <= record[\"target_ms\"] and bool(record.get(\"owner\"))) else \"REJECT_QA_SCENARIO\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 400, 'target_ms': 300, 'owner': 'platform'}\nincomplete = {\"case_id\": 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «requisitos funcionales y quality attributes» («Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para e») separa incertidumbre de breach. En S40-T1-A-E3 la ausencia enruta a `REQUEST_QA_OWNER`, CONTINUE solo con latencia observada contra umbral y dueño, y el adverso a `REJECT_QA_SCENARIO`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "latencia",
+        "observada",
+        "contra",
+        "umbral",
+        "dueño"
+      ],
+      "confidence": 0.801
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "code": "# Explorer · S40-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nmeets_contract = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record.get(\"residual_risk\") is not None and bool(record.get(\"risk_owner\"))\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «trade-offs, riesgos y criterios medibles» («Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tiene una opción univers»), el contrato de S40-T1-B-E1 exige demostrar alternativa con menor score y riesgo residual aceptable. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REOPEN_TRADEOFF`.",
+      "concepts_used": [
+        "alternativa",
+        "con",
+        "menor",
+        "score",
+        "riesgo",
+        "residual",
+        "aceptable"
+      ],
+      "confidence": 0.866
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "code": "# Explorer · S40-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'scores', 'selected', 'risk_owner', 'residual_risk'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record.get(\"residual_risk\") is not None and bool(record.get(\"risk_owner\"))) else \"REOPEN_TRADEOFF\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'sync', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async', 'risk_owner': 'arquitectura'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «trade-offs, riesgos y criterios medibles» el paquete pide tres rutas; la teoría subraya: «Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tiene una opción univers». Para S40-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple alternativa con menor score y riesgo residual aceptable, y `REOPEN_TRADEOFF` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "alternativa",
+        "con",
+        "menor",
+        "score",
+        "riesgo",
+        "residual",
+        "aceptable"
+      ],
+      "confidence": 0.834
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "code": "# Explorer · S40-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'scores', 'selected', 'risk_owner', 'residual_risk'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ESCALATE_RESIDUAL_RISK\"\n    return \"CONTINUE\" if (record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record.get(\"residual_risk\") is not None and bool(record.get(\"risk_owner\"))) else \"REOPEN_TRADEOFF\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'sync', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = {\"case_id\": 'CASO-LIM-040-1B', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async', 'risk_owner': 'arquitectura'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «trade-offs, riesgos y criterios medibles» («Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tiene una opción univers») separa incertidumbre de breach. En S40-T1-B-E3 la ausencia enruta a `ESCALATE_RESIDUAL_RISK`, CONTINUE solo con alternativa con menor score y riesgo residual aceptable, y el adverso a `REOPEN_TRADEOFF`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "alternativa",
+        "con",
+        "menor",
+        "score",
+        "riesgo",
+        "residual",
+        "aceptable"
+      ],
+      "confidence": 0.736
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "code": "# Explorer · S40-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\nmeets_contract = all(edge[1] != \"infrastructure\" for edge in record[\"dependencies\"]) and \"domain\" in record.get(\"layers\", [])\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «cohesión/coupling y capas» («Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el dominio.»), el contrato de S40-T2-A-E1 exige demostrar grafo de dependencias sin dominio hacia infraestructura. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REDRAW_BOUNDARY`.",
+      "concepts_used": [
+        "grafo",
+        "dependencias",
+        "sin",
+        "dominio",
+        "hacia",
+        "infraestructura"
+      ],
+      "confidence": 0.772
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "code": "# Explorer · S40-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'layers', 'dependencies'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (all(edge[1] != \"infrastructure\" for edge in record[\"dependencies\"]) and \"domain\" in record.get(\"layers\", [])) else \"REDRAW_BOUNDARY\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain'], ['domain', 'infrastructure']]}\nincomplete = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «cohesión/coupling y capas» el paquete pide tres rutas; la teoría subraya: «Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el dominio.». Para S40-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple grafo de dependencias sin dominio hacia infraestructura, y `REDRAW_BOUNDARY` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "grafo",
+        "dependencias",
+        "sin",
+        "dominio",
+        "hacia",
+        "infraestructura"
+      ],
+      "confidence": 0.869
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "code": "# Explorer · S40-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'layers', 'dependencies'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_LAYER_OWNER\"\n    return \"CONTINUE\" if (all(edge[1] != \"infrastructure\" for edge in record[\"dependencies\"]) and \"domain\" in record.get(\"layers\", [])) else \"REDRAW_BOUNDARY\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain'], ['domain', 'infrastructure']]}\nincomplete = {\"case_id\": 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «cohesión/coupling y capas» («Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el dominio.») separa incertidumbre de breach. En S40-T2-A-E3 la ausencia enruta a `REVIEW_LAYER_OWNER`, CONTINUE solo con grafo de dependencias sin dominio hacia infraestructura, y el adverso a `REDRAW_BOUNDARY`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "grafo",
+        "dependencias",
+        "sin",
+        "dominio",
+        "hacia",
+        "infraestructura"
+      ],
+      "confidence": 0.746
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "code": "# Explorer · S40-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\nmeets_contract = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) > 0\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «ports/adapters y dependencia hacia dominio» («Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables.»), el contrato de S40-T2-B-E1 exige demostrar adapter sustituible y dominio sin imports externos. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `INVERT_DEPENDENCY`.",
+      "concepts_used": [
+        "adapter",
+        "sustituible",
+        "dominio",
+        "sin",
+        "imports",
+        "externos"
+      ],
+      "confidence": 0.866
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "code": "# Explorer · S40-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'port', 'adapter', 'domain_imports', 'contract_tests'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) > 0) else \"INVERT_DEPENDENCY\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'CaseRepository', 'domain_imports': ['sqlalchemy'], 'contract_tests': 3}\nincomplete = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': []}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «ports/adapters y dependencia hacia dominio» el paquete pide tres rutas; la teoría subraya: «Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables.». Para S40-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple adapter sustituible y dominio sin imports externos, y `INVERT_DEPENDENCY` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "adapter",
+        "sustituible",
+        "dominio",
+        "sin",
+        "imports",
+        "externos"
+      ],
+      "confidence": 0.786
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "code": "# Explorer · S40-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'port', 'adapter', 'domain_imports', 'contract_tests'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DEFINE_PORT_CONTRACT\"\n    return \"CONTINUE\" if (record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) > 0) else \"INVERT_DEPENDENCY\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'CaseRepository', 'domain_imports': ['sqlalchemy'], 'contract_tests': 3}\nincomplete = {\"case_id\": 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': []}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «ports/adapters y dependencia hacia dominio» («Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables.») separa incertidumbre de breach. En S40-T2-B-E3 la ausencia enruta a `DEFINE_PORT_CONTRACT`, CONTINUE solo con adapter sustituible y dominio sin imports externos, y el adverso a `INVERT_DEPENDENCY`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "adapter",
+        "sustituible",
+        "dominio",
+        "sin",
+        "imports",
+        "externos"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "code": "# Explorer · S40-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}, 'translations': {'case': 'record'}}\nmeets_contract = (not bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) and bool(record.get(\"translations\"))\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «bounded contexts y lenguaje ubicuo» («Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un record de ER.»), el contrato de S40-T3-A-E1 exige demostrar términos locales disjuntos y traducción declarada. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `SPLIT_CONTEXTS`.",
+      "concepts_used": [
+        "términos",
+        "locales",
+        "disjuntos",
+        "traducción",
+        "declarada"
+      ],
+      "confidence": 0.802
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "code": "# Explorer · S40-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'contexts', 'translations'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) and bool(record.get(\"translations\"))) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}, 'translations': {'case': 'record'}}\ninvalid = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'case', 'record', 'score'}, 'intake': {'case'}}, 'translations': {}}\nincomplete = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «bounded contexts y lenguaje ubicuo» el paquete pide tres rutas; la teoría subraya: «Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un record de ER.». Para S40-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple términos locales disjuntos y traducción declarada, y `SPLIT_CONTEXTS` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "términos",
+        "locales",
+        "disjuntos",
+        "traducción",
+        "declarada"
+      ],
+      "confidence": 0.869
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "code": "# Explorer · S40-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'contexts', 'translations'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WORKSHOP_UBIQUITOUS_LANGUAGE\"\n    return \"CONTINUE\" if ((not bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) and bool(record.get(\"translations\"))) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}, 'translations': {'case': 'record'}}\ninvalid = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'case', 'record', 'score'}, 'intake': {'case'}}, 'translations': {}}\nincomplete = {\"case_id\": 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «bounded contexts y lenguaje ubicuo» («Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un record de ER.») separa incertidumbre de breach. En S40-T3-A-E3 la ausencia enruta a `WORKSHOP_UBIQUITOUS_LANGUAGE`, CONTINUE solo con términos locales disjuntos y traducción declarada, y el adverso a `SPLIT_CONTEXTS`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "términos",
+        "locales",
+        "disjuntos",
+        "traducción",
+        "declarada"
+      ],
+      "confidence": 0.721
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "code": "# Explorer · S40-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\nmeets_contract = bool(record.get(\"entity_id\")) and record[\"vo\"].get(\"currency\") == \"PEN\" and record.get(\"vo_frozen\") is True and record.get(\"service_stateless\") is True\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «entities, value objects y servicios» («Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalmente a una entidad.»), el contrato de S40-T3-B-E1 exige demostrar identidad estable, VO en PEN e invariantes inmutables. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_DOMAIN_MODEL`.",
+      "concepts_used": [
+        "identidad",
+        "estable",
+        "PEN",
+        "invariantes",
+        "inmutables"
+      ],
+      "confidence": 0.803
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "code": "# Explorer · S40-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'entity_id', 'vo', 'vo_frozen', 'service_stateless'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (bool(record.get(\"entity_id\")) and record[\"vo\"].get(\"currency\") == \"PEN\" and record.get(\"vo_frozen\") is True and record.get(\"service_stateless\") is True) else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'USD'}, 'vo_frozen': False, 'service_stateless': False}\nincomplete = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «entities, value objects y servicios» el paquete pide tres rutas; la teoría subraya: «Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalmente a una entidad.». Para S40-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple identidad estable, VO en PEN e invariantes inmutables, y `REJECT_DOMAIN_MODEL` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "identidad",
+        "estable",
+        "PEN",
+        "invariantes",
+        "inmutables"
+      ],
+      "confidence": 0.726
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "code": "# Explorer · S40-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'entity_id', 'vo', 'vo_frozen', 'service_stateless'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLARIFY_INVARIANT\"\n    return \"CONTINUE\" if (bool(record.get(\"entity_id\")) and record[\"vo\"].get(\"currency\") == \"PEN\" and record.get(\"vo_frozen\") is True and record.get(\"service_stateless\") is True) else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'USD'}, 'vo_frozen': False, 'service_stateless': False}\nincomplete = {\"case_id\": 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «entities, value objects y servicios» («Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalmente a una entidad.») separa incertidumbre de breach. En S40-T3-B-E3 la ausencia enruta a `CLARIFY_INVARIANT`, CONTINUE solo con identidad estable, VO en PEN e invariantes inmutables, y el adverso a `REJECT_DOMAIN_MODEL`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "identidad",
+        "estable",
+        "PEN",
+        "invariantes",
+        "inmutables"
+      ],
+      "confidence": 0.754
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "code": "# Explorer · S40-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\nmeets_contract = record.get(\"adr_status\") == \"accepted\" and {\"alternatives\", \"consequences\", \"rollback\"} <= set(record.get(\"adr_fields\") or set()) and len(record.get(\"c4_levels\") or set()) >= 2\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «diagramas C4/flujo y ADRs» («C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo final.»), el contrato de S40-T4-A-E1 exige demostrar C4 mínimo y ADR con alternativas, consecuencias y rollback. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `RETURN_ADR_TO_DRAFT`.",
+      "concepts_used": [
+        "mínimo",
+        "ADR",
+        "con",
+        "alternativas",
+        "consecuencias",
+        "rollback"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "code": "# Explorer · S40-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'c4_levels', 'adr_fields', 'adr_status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"adr_status\") == \"accepted\" and {\"alternatives\", \"consequences\", \"rollback\"} <= set(record.get(\"adr_fields\") or set()) and len(record.get(\"c4_levels\") or set()) >= 2) else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\ninvalid = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'context'}, 'adr_status': 'draft'}\nincomplete = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «diagramas C4/flujo y ADRs» el paquete pide tres rutas; la teoría subraya: «C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo final.». Para S40-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple C4 mínimo y ADR con alternativas, consecuencias y rollback, y `RETURN_ADR_TO_DRAFT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "mínimo",
+        "ADR",
+        "con",
+        "alternativas",
+        "consecuencias",
+        "rollback"
+      ],
+      "confidence": 0.768
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "code": "# Explorer · S40-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'c4_levels', 'adr_fields', 'adr_status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ARCH_REVIEW\"\n    return \"CONTINUE\" if (record.get(\"adr_status\") == \"accepted\" and {\"alternatives\", \"consequences\", \"rollback\"} <= set(record.get(\"adr_fields\") or set()) and len(record.get(\"c4_levels\") or set()) >= 2) else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\ninvalid = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'context'}, 'adr_status': 'draft'}\nincomplete = {\"case_id\": 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «diagramas C4/flujo y ADRs» («C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo final.») separa incertidumbre de breach. En S40-T4-A-E3 la ausencia enruta a `REQUEST_ARCH_REVIEW`, CONTINUE solo con C4 mínimo y ADR con alternativas, consecuencias y rollback, y el adverso a `RETURN_ADR_TO_DRAFT`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "mínimo",
+        "ADR",
+        "con",
+        "alternativas",
+        "consecuencias",
+        "rollback"
+      ],
+      "confidence": 0.833
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "code": "# Explorer · S40-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nmeets_contract = set(record[\"v1_fields\"]) <= set(record[\"v11_fields\"]) and bool(record.get(\"debt_owner\")) and bool(record.get(\"retire_on\"))\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «APIs, eventos, deuda y evolución compatible» («Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro.»), el contrato de S40-T4-B-E1 exige demostrar campos v1 preservados y deuda con owner/fecha. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `BLOCK_BREAKING_CHANGE`.",
+      "concepts_used": [
+        "campos",
+        "preservados",
+        "deuda",
+        "con",
+        "owner",
+        "fecha"
+      ],
+      "confidence": 0.754
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "code": "# Explorer · S40-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'v1_fields', 'v11_fields', 'debt_owner', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (set(record[\"v1_fields\"]) <= set(record[\"v11_fields\"]) and bool(record.get(\"debt_owner\")) and bool(record.get(\"retire_on\"))) else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «APIs, eventos, deuda y evolución compatible» el paquete pide tres rutas; la teoría subraya: «Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro.». Para S40-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple campos v1 preservados y deuda con owner/fecha, y `BLOCK_BREAKING_CHANGE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "campos",
+        "preservados",
+        "deuda",
+        "con",
+        "owner",
+        "fecha"
+      ],
+      "confidence": 0.787
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "code": "# Explorer · S40-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'v1_fields', 'v11_fields', 'debt_owner', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"NEGOTIATE_VERSION\"\n    return \"CONTINUE\" if (set(record[\"v1_fields\"]) <= set(record[\"v11_fields\"]) and bool(record.get(\"debt_owner\")) and bool(record.get(\"retire_on\"))) else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = {\"case_id\": 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «APIs, eventos, deuda y evolución compatible» («Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro.») separa incertidumbre de breach. En S40-T4-B-E3 la ausencia enruta a `NEGOTIATE_VERSION`, CONTINUE solo con campos v1 preservados y deuda con owner/fecha, y el adverso a `BLOCK_BREAKING_CHANGE`, sin rellenar evidencia en Arquitectura, DDD y decisiones técnicas.",
+      "concepts_used": [
+        "campos",
+        "preservados",
+        "deuda",
+        "con",
+        "owner",
+        "fecha"
+      ],
+      "confidence": 0.898
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Q0: elijo «escenario QA completo con umbral y dueño» anclado en «requisitos funcionales y quality attributes» («Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medi»), frente a «¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-0»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.752,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Q1: elijo «emitir BLOCK_ARCHITECTURE y conservar evidencia» anclado en «trade-offs, riesgos y criterios medibles» («Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impac»), frente a «Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.829,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Q2: elijo «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuenc» anclado en «cohesión/coupling y capas» («Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que pre»), frente a «¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.873,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «ports/adapters y dependencia hacia dominio» («Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de cód»), frente a «¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.82,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.007035+00:00",
+  "session_started_at": "2026-07-23T16:45:46.642241+00:00",
+  "session_ended_at": "2026-07-23T16:46:45.070930+00:00",
+  "receipt_response_sha256": "16b4f2095f00e0249b1d4d2818d73bda1884369755c356bd1abb02261d38f5e2",
+  "receipt_exercises_sha256": "6e1610c23e45b610641a2d08057e994df4e164d558941b8c560a89db76046a43",
+  "receipt_selfcheck_sha256": "9cdbf2020fc4acf046de8efb777baf86097116e2bf16bf8ed1ab72f498a4d8d2"
+}

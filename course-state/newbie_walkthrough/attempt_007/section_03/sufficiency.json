@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "if campo is None:"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Se ejecuta esa rama y se omiten las siguientes"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "\"default\""
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Un set de literales y el operador in"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _"
+  }
+]

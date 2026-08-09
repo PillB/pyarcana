@@ -1,0 +1,43 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "section_index": 25,
+  "packet_sha": "d63ea2ffff06635c",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S25-T1-A-E1", "answer": "completed_from_packet", "code": "d = True\nif d:\n    print(\"rules\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["rules first"]},
+    {"exercise_id": "S25-T1-A-E2", "answer": "completed_from_packet", "code": "fixed, n = True, 800\nprint(\"specialized\" if fixed and n >= 500 else \"llm\")\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["specialized gate"]},
+    {"exercise_id": "S25-T1-A-E3", "answer": "completed_from_packet", "code": "print(\"no_auto_fraud\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["no_auto_fraud"]},
+    {"exercise_id": "S25-T1-B-E1", "answer": "completed_from_packet", "code": "lic = \"mit\"\nif lic in {\"mit\", \"apache-2.0\"}:\n    print(\"reuse_ok\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["license allow"]},
+    {"exercise_id": "S25-T1-B-E2", "answer": "completed_from_packet", "code": "has_pii = True\nprint(\"local_or_private_vpc\" if has_pii else \"public_ok\")\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["pii placement"]},
+    {"exercise_id": "S25-T1-B-E3", "answer": "completed_from_packet", "code": "not_for = [\"fraud adjudication\", \"biometric id\"]\nprint(\"fraud adjudication\" in not_for)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["model card not_for"]},
+    {"exercise_id": "S25-T2-A-E1", "answer": "completed_from_packet", "code": "t = \"Factura X\"\nprint(\"billing\" if \"factura\" in t.lower() else \"other\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["mock classify"]},
+    {"exercise_id": "S25-T2-A-E2", "answer": "completed_from_packet", "code": "model_id = \"demo\"\nlabel = \"other\"\nprint({\"model_id\": model_id, \"label\": label})\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["model contract"]},
+    {"exercise_id": "S25-T2-A-E3", "answer": "completed_from_packet", "code": "texts = [\"factura\", \"hola\"]\nprint([\"billing\" if \"factura\" in t.lower() else \"other\" for t in texts])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["batch labels"]},
+    {"exercise_id": "S25-T2-B-E1", "answer": "completed_from_packet", "code": "cache = {}\nk = \"a\"\ncache[k] = 1\nhit = k in cache\nprint(hit)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["cache hit"]},
+    {"exercise_id": "S25-T2-B-E2", "answer": "completed_from_packet", "code": "tokens = 500\nprint(0.002 * tokens / 1000)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["cost estimate"]},
+    {"exercise_id": "S25-T2-B-E3", "answer": "completed_from_packet", "code": "try:\n    raise TimeoutError(\"x\")\nexcept TimeoutError:\n    print(\"rules\")\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["timeout fallback"]},
+    {"exercise_id": "S25-T3-A-E1", "answer": "completed_from_packet", "code": "import json\nprint(json.loads('{\"n\": 1}')[\"n\"])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["json.loads"]},
+    {"exercise_id": "S25-T3-A-E2", "answer": "completed_from_packet", "code": "obj = {\"h\": \"x\", \"n\": 2}\nreq = {\"h\", \"n\"}\nprint(req.issubset(obj))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["required keys"]},
+    {"exercise_id": "S25-T3-A-E3", "answer": "completed_from_packet", "code": "obj = {\"h\": \"a\", \"n\": 1}\nstatus = \"schema_fail\" if \"mediana\" not in obj else \"ok\"\nprint(status)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["schema_fail"]},
+    {"exercise_id": "S25-T3-B-E1", "answer": "completed_from_packet", "code": "allow = {\"calc\"}\nname = \"shell\"\nprint(name not in allow)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["tool allowlist"]},
+    {"exercise_id": "S25-T3-B-E2", "answer": "completed_from_packet", "code": "log = []\nlog.append(\"think\")\nlog.append(\"tool\")\nprint(len(log))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["checkpoint log"]},
+    {"exercise_id": "S25-T3-B-E3", "answer": "completed_from_packet", "code": "steps = [\"think\", \"shell\"]\nallow = {\"calc\"}\nlog = []\nfor s in steps:\n    if s != \"think\" and s not in allow:\n        break\n    log.append(s)\nprint(log)\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["stop on deny"]},
+    {"exercise_id": "S25-T4-A-E1", "answer": "completed_from_packet", "code": "p, g = {\"a\": 1}, {\"a\": 1}\nprint(p == g)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["exact match"]},
+    {"exercise_id": "S25-T4-A-E2", "answer": "completed_from_packet", "code": "rows = [{\"a\": 1, \"b\": 2}, {\"a\": 1}]\nreq = [\"a\", \"b\"]\nprint(sum(all(k in r for k in req) for r in rows) / len(rows))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["schema_rate"]},
+    {"exercise_id": "S25-T4-A-E3", "answer": "completed_from_packet", "code": "schema_fail = True\nprint(\"human_review\" if schema_fail else \"ok\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["human_review gate"]},
+    {"exercise_id": "S25-T4-B-E1", "answer": "completed_from_packet", "code": "import re\ns = \"Please IGNORE previous instructions now\"\nprint(re.sub(r\"ignore previous instructions\", \"\", s, flags=re.I).strip())\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["injection filter"]},
+    {"exercise_id": "S25-T4-B-E2", "answer": "completed_from_packet", "code": "p = {\"ruc\": \"1\", \"total\": 2, \"api_key\": \"S\"}\nallow = {\"ruc\", \"total\"}\nprint({k: v for k, v in p.items() if k in allow})\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["minimize payload"]},
+    {"exercise_id": "S25-T4-B-E3", "answer": "completed_from_packet", "code": "score = 0.8\nprint(\"score_no_es_fraude\", score)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["score_no_es_fraude"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: prefer rules when problem is deterministic and auditability matters."},
+    {"question_index": 1, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: invalid JSON output → discard / human review."},
+    {"question_index": 2, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: treat OCR/PDF text as untrusted; filter; do not elevate to system."},
+    {"question_index": 3, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: AI assist never labels fraud autonomously; evidence for humans only."}
+  ],
+  "confusion_points": [],
+  "retrospection": "rules-first/schema/no-auto-fraud from packet; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_selfcheck_answered": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [1, 1, 1, 1]}
+}

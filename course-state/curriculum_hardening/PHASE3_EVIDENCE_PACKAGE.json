@@ -1,0 +1,492 @@
+{
+  "generated_at": "2026-07-24T05:28:44.303973+00:00",
+  "phase": "phase3_evidence_package",
+  "storm_count": 52,
+  "pa_count": 52,
+  "all_hand_storm": true,
+  "all_n_equals_section": true,
+  "min_pa_rank": 9.55,
+  "sections": [
+    {
+      "section": 1,
+      "storm": "S01_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 1,
+      "source_urls": 13,
+      "pa": "S01_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 2,
+      "storm": "S02_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 2,
+      "source_urls": 13,
+      "pa": "S02_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 3,
+      "storm": "S03_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 3,
+      "source_urls": 13,
+      "pa": "S03_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 4,
+      "storm": "S04_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 4,
+      "source_urls": 13,
+      "pa": "S04_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 5,
+      "storm": "S05_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 5,
+      "source_urls": 13,
+      "pa": "S05_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 6,
+      "storm": "S06_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 6,
+      "source_urls": 13,
+      "pa": "S06_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 7,
+      "storm": "S07_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 7,
+      "source_urls": 13,
+      "pa": "S07_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 8,
+      "storm": "S08_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 8,
+      "source_urls": 13,
+      "pa": "S08_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 9,
+      "storm": "S09_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 9,
+      "source_urls": 13,
+      "pa": "S09_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 10,
+      "storm": "S10_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 10,
+      "source_urls": 13,
+      "pa": "S10_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 11,
+      "storm": "S11_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 11,
+      "source_urls": 12,
+      "pa": "S11_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 12,
+      "storm": "S12_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 12,
+      "source_urls": 13,
+      "pa": "S12_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 13,
+      "storm": "S13_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 13,
+      "source_urls": 13,
+      "pa": "S13_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 14,
+      "storm": "S14_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 14,
+      "source_urls": 14,
+      "pa": "S14_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 15,
+      "storm": "S15_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 15,
+      "source_urls": 15,
+      "pa": "S15_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 16,
+      "storm": "S16_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 16,
+      "source_urls": 16,
+      "pa": "S16_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 17,
+      "storm": "S17_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 17,
+      "source_urls": 17,
+      "pa": "S17_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 18,
+      "storm": "S18_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 18,
+      "source_urls": 18,
+      "pa": "S18_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 19,
+      "storm": "S19_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 19,
+      "source_urls": 19,
+      "pa": "S19_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 20,
+      "storm": "S20_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 20,
+      "source_urls": 20,
+      "pa": "S20_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 21,
+      "storm": "S21_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 21,
+      "source_urls": 21,
+      "pa": "S21_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 22,
+      "storm": "S22_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 22,
+      "source_urls": 22,
+      "pa": "S22_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 23,
+      "storm": "S23_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 23,
+      "source_urls": 13,
+      "pa": "S23_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 24,
+      "storm": "S24_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 24,
+      "source_urls": 13,
+      "pa": "S24_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 25,
+      "storm": "S25_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 25,
+      "source_urls": 14,
+      "pa": "S25_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 26,
+      "storm": "S26_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 26,
+      "source_urls": 13,
+      "pa": "S26_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 27,
+      "storm": "S27_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 27,
+      "source_urls": 13,
+      "pa": "S27_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 28,
+      "storm": "S28_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 28,
+      "source_urls": 13,
+      "pa": "S28_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 29,
+      "storm": "S29_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 29,
+      "source_urls": 13,
+      "pa": "S29_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 30,
+      "storm": "S30_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 30,
+      "source_urls": 13,
+      "pa": "S30_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 31,
+      "storm": "S31_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 31,
+      "source_urls": 13,
+      "pa": "S31_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 32,
+      "storm": "S32_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 32,
+      "source_urls": 13,
+      "pa": "S32_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 33,
+      "storm": "S33_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 33,
+      "source_urls": 13,
+      "pa": "S33_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 34,
+      "storm": "S34_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 34,
+      "source_urls": 13,
+      "pa": "S34_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 35,
+      "storm": "S35_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 35,
+      "source_urls": 13,
+      "pa": "S35_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 36,
+      "storm": "S36_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 36,
+      "source_urls": 20,
+      "pa": "S36_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 37,
+      "storm": "S37_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 37,
+      "source_urls": 20,
+      "pa": "S37_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 38,
+      "storm": "S38_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 38,
+      "source_urls": 20,
+      "pa": "S38_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 39,
+      "storm": "S39_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 39,
+      "source_urls": 20,
+      "pa": "S39_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 40,
+      "storm": "S40_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 40,
+      "source_urls": 20,
+      "pa": "S40_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 41,
+      "storm": "S41_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 41,
+      "source_urls": 20,
+      "pa": "S41_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 42,
+      "storm": "S42_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 42,
+      "source_urls": 20,
+      "pa": "S42_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 43,
+      "storm": "S43_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 43,
+      "source_urls": 20,
+      "pa": "S43_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 44,
+      "storm": "S44_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 44,
+      "source_urls": 20,
+      "pa": "S44_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 45,
+      "storm": "S45_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 45,
+      "source_urls": 20,
+      "pa": "S45_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 46,
+      "storm": "S46_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 46,
+      "source_urls": 20,
+      "pa": "S46_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 47,
+      "storm": "S47_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 47,
+      "source_urls": 20,
+      "pa": "S47_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 48,
+      "storm": "S48_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 48,
+      "source_urls": 20,
+      "pa": "S48_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 49,
+      "storm": "S49_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 49,
+      "source_urls": 20,
+      "pa": "S49_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 50,
+      "storm": "S50_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 50,
+      "source_urls": 15,
+      "pa": "S50_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 51,
+      "storm": "S51_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 51,
+      "source_urls": 15,
+      "pa": "S51_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    },
+    {
+      "section": 52,
+      "storm": "S52_STORM.json",
+      "method": "hand_STORM_domain_sources",
+      "n_cycles": 52,
+      "source_urls": 15,
+      "pa": "S52_PARAGRAPHS.md",
+      "expert_rank": 9.55
+    }
+  ],
+  "artifacts": {
+    "GOLD_STANDARD_CHECKLIST": "course-state/curriculum_hardening/GOLD_STANDARD_CHECKLIST.md",
+    "GRAPH_MEMORY": "course-state/curriculum_hardening/GRAPH_MEMORY.json",
+    "GRAPH_MEMORY_SUMMARY": "course-state/curriculum_hardening/GRAPH_MEMORY_SUMMARY.md",
+    "SECTION_PROGRESS_LEDGER": "course-state/curriculum_hardening/SECTION_PROGRESS_LEDGER.json",
+    "RESIDUAL_MAP_EXPERT": "course-state/curriculum_hardening/RESIDUAL_MAP_EXPERT.json",
+    "S52_SENIOR_MASTER": "course-state/curriculum_hardening/dossiers/S52_SENIOR_MASTER_VALIDATION.md",
+    "PHASE2_AUDIT": "course-state/curriculum_hardening/PHASE2_CONSISTENCY_DEPLOY_AUDIT.md",
+    "STORM_GLOB": "course-state/curriculum_hardening/dossiers/S##_STORM.json",
+    "PA_GLOB": "course-state/curriculum_hardening/paragraph_analysis/S##_PARAGRAPHS.md",
+    "LIVE_SITE": "https://pillb.github.io/pyarcana/",
+    "ROADMAP_V3": "learning_roadmap_52_V3.md"
+  }
+}

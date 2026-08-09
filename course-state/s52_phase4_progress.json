@@ -1,0 +1,322 @@
+{
+  "version": "3.2",
+  "section": "S52",
+  "section_id": "career-strategy",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S40-S52-P4",
+  "generated_at": "2026-07-20T08:24:59Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget career-strategy section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s52-career-strategy.ts",
+      "course-state/s52_phase4_progress.json",
+      "course-state/lanes/LANE-S40-S52-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "career-strategy",
+    "index": 52,
+    "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+    "shortTitle": "Capstone FINAL",
+    "tagline": "CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV",
+    "estimatedHours": 20,
+    "learningOutcomes": 8,
+    "youDo": "[FINAL] Enterprise Relationship & Operations Intelligence Platform: capstone final (CP-FINAL exclusivamente)",
+    "icon": "Rocket",
+    "legacy_note": "career-strategy retargeted to V3 Enterprise Relationship & Operations Intelligence Platform: capstone final",
+    "capstone": "CP-FINAL exclusivamente",
+    "final_gate": true
+  },
+  "subtopics_authored": {
+    "S52-T1-A": {
+      "slug": "stakeholders-jobs-success-cf1",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T1-A-DEMO",
+      "exercises": [
+        "S52-T1-A-E1",
+        "S52-T1-A-E2",
+        "S52-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S52-T1-B": {
+      "slug": "changes-constraints-risks-nogo",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T1-B-DEMO",
+      "exercises": [
+        "S52-T1-B-E1",
+        "S52-T1-B-E2",
+        "S52-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S52-T2-A": {
+      "slug": "bounded-apis-events",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T2-A-DEMO",
+      "exercises": [
+        "S52-T2-A-E1",
+        "S52-T2-A-E2",
+        "S52-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S52-T2-B": {
+      "slug": "data-models-rpa-rag-human",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T2-B-DEMO",
+      "exercises": [
+        "S52-T2-B-E1",
+        "S52-T2-B-E2",
+        "S52-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S52-T3-A": {
+      "slug": "tests-evals-redteam-perf",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T3-A-DEMO",
+      "exercises": [
+        "S52-T3-A-E1",
+        "S52-T3-A-E2",
+        "S52-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S52-T3-B": {
+      "slug": "slo-backup-rollback-disaster",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T3-B-DEMO",
+      "exercises": [
+        "S52-T3-B-E1",
+        "S52-T3-B-E2",
+        "S52-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S52-T4-A": {
+      "slug": "demo-cv-narrative",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T4-A-DEMO",
+      "exercises": [
+        "S52-T4-A-E1",
+        "S52-T4-A-E2",
+        "S52-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S52-T4-B": {
+      "slug": "arch-readme-cards-license-video-defense",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S52-T4-B-DEMO",
+      "exercises": [
+        "S52-T4-B-E1",
+        "S52-T4-B-E2",
+        "S52-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "[FINAL] Enterprise Relationship & Operations Intelligence Platform: capstone final (CP-FINAL exclusivamente)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S52-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S52-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Datos sintéticos only. ER/matching no implica fraude ni parentesco. Sin PII real ni secretos."
+}

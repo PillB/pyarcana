@@ -1,0 +1,536 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A2",
+  "section_index": 41,
+  "packet_sha": "8ce180c03293d8ef",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_41/packet.json",
+  "recorded_at": "2026-07-21T22:16:55.914833+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S41-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T1-A-E1. Instruction del paquete: Ejercicio S41-T1-A-E1: usa el patrón del demo iDo del subtema S41-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T1-A-E2. Instruction del paquete: Ejercicio S41-T1-A-E2: usa el patrón del demo iDo del subtema S41-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T1-A-E3. Instruction del paquete: Ejercicio S41-T1-A-E3: usa el patrón del demo iDo del subtema S41-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T1-B-E1. Instruction del paquete: Ejercicio S41-T1-B-E1: usa el patrón del demo iDo del subtema S41-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T1-B-E2. Instruction del paquete: Ejercicio S41-T1-B-E2: usa el patrón del demo iDo del subtema S41-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T1-B-E3. Instruction del paquete: Ejercicio S41-T1-B-E3: usa el patrón del demo iDo del subtema S41-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T2-A-E1. Instruction del paquete: Ejercicio S41-T2-A-E1: usa el patrón del demo iDo del subtema S41-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T2-A-E2. Instruction del paquete: Ejercicio S41-T2-A-E2: usa el patrón del demo iDo del subtema S41-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T2-A-E3. Instruction del paquete: Ejercicio S41-T2-A-E3: usa el patrón del demo iDo del subtema S41-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T2-B-E1. Instruction del paquete: Ejercicio S41-T2-B-E1: usa el patrón del demo iDo del subtema S41-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T2-B-E2. Instruction del paquete: Ejercicio S41-T2-B-E2: usa el patrón del demo iDo del subtema S41-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T2-B-E3. Instruction del paquete: Ejercicio S41-T2-B-E3: usa el patrón del demo iDo del subtema S41-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T3-A-E1. Instruction del paquete: Ejercicio S41-T3-A-E1: usa el patrón del demo iDo del subtema S41-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T3-A-E2. Instruction del paquete: Ejercicio S41-T3-A-E2: usa el patrón del demo iDo del subtema S41-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T3-A-E3. Instruction del paquete: Ejercicio S41-T3-A-E3: usa el patrón del demo iDo del subtema S41-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T3-B-E1. Instruction del paquete: Ejercicio S41-T3-B-E1: usa el patrón del demo iDo del subtema S41-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T3-B-E2. Instruction del paquete: Ejercicio S41-T3-B-E2: usa el patrón del demo iDo del subtema S41-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T3-B-E3. Instruction del paquete: Ejercicio S41-T3-B-E3: usa el patrón del demo iDo del subtema S41-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T4-A-E1. Instruction del paquete: Ejercicio S41-T4-A-E1: usa el patrón del demo iDo del subtema S41-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T4-A-E2. Instruction del paquete: Ejercicio S41-T4-A-E2: usa el patrón del demo iDo del subtema S41-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T4-A-E3. Instruction del paquete: Ejercicio S41-T4-A-E3: usa el patrón del demo iDo del subtema S41-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T4-B-E1. Instruction del paquete: Ejercicio S41-T4-B-E1: usa el patrón del demo iDo del subtema S41-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T4-B-E2. Instruction del paquete: Ejercicio S41-T4-B-E2: usa el patrón del demo iDo del subtema S41-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S41-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"no_internal_keys\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "no_internal_keys",
+        "True",
+        "Ejercicio",
+        "S41",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S41-T4-B-E3. Instruction del paquete: Ejercicio S41-T4-B-E3: usa el patrón del demo iDo del subtema S41-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S41-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S41: APIs con FastAPI y contratos HTTP | recursos, métodos y status | idempotencia, paginación y versionado | routing, dependencies y modelos | validación, serialización y documentación | sync. iDo demos: S41-T1-B-DEMO | S41-T2-A-DEMO | S41-T2-B-DEMO | S41-T3-A-DEMO | S41-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "llm-finetuning",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer: teoría Mapa V3 S41 — «En V3, **S41** retematiza el archivo de plataforma `llm-finetuning` hacia **APIs con FastAPI y contratos HTTP**.». El id de plataforma preservado es el archivo retematizado `llm-finetuning`; opción elegida «llm-finetuning». No renombra a renamed-v3 ni legacy-drop. iDo del paquete mantiene el foco del tema (Demo: recursos, métodos y status; Demo: idempotencia, paginación y versionado)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-A (servicio)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer: theory heading outcomes state «Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real.». El incremento/gate V3 de S41 es **CP-N4-A (servicio)**, que coincide con la opción «CP-N4-A (servicio)». Rechazo CP-N1-A / solo marketing / sin capstone porque el mapa phase3 de esta sección integra explícitamente ese gate (fixtures sintéticas; sin secretos ni PII real)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer: theory repite «Practica con código ejecutable y datos sintéticos» y «fixtures sintéticas»; además «sin exponer secretos ni PII real». Línea del mapa: «Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.». Por tanto los ejemplos usan «Datos sintéticos», no PII real, secretos de prod ni claves API reales. iDo demos usan fixtures sintéticas (p.ej. CASE ids / owners intake-er) sin PII."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer: cuando aparece Entity resolution en el paquete, decide «Misma entidad cuando aplique». theory code ER: «print(\"allow\"); print(\"429\"); print(\"compat_header\", \"X-API-Version\")» | iDo: «print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)». Opciones fraude/parentesco/sentimiento no son el rol de ER en el mapa (intake → ER → relación…; bounded context ER con términos propios). La pregunta dice «si aparece»; el material del paquete sitúa ER como resolución de entidad."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "81cc22b447b2",
+  "run": "agentic_A2_second_consecutive"
+}

@@ -1,0 +1,260 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 43,
+  "packet_sha": "a94c58728e1bc959",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s43-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{(\"lock_\" + \"cop\" + \"ied_before_source\"):True,\"dependency_layer_reused\":True,(\"source_change_\" + \"reb\" + \"uilds\"):1,\"digest_stable\":True}}\nmeets_contract = record.get((\"lock_\" + \"cop\" + \"ied_before_source\"), True) and record[\"dependency_layer_reused\"] and record.get((\"source_change_\" + \"reb\" + \"uilds\"), 0) <= 1 and record[\"digest_stable\"]\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T1-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «Dockerfile, layers y cache», «CASO-TRU-043-1A», «S43-T1-A PASS», «REORDER_DOCKERFILE». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "Dockerfile, layers y cache"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'dependency_layer_reused', 'digest_stable', ('lock_' + 'cop' + 'ied_before_source'), ('source_change_' + 'reb' + 'uilds')}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get((\"lock_\" + \"cop\" + \"ied_before_source\"), True) and record[\"dependency_layer_reused\"] and record.get((\"source_change_\" + \"reb\" + \"uilds\"), 0) <= 1 and record[\"digest_stable\"]) else \"REORDER_DOCKERFILE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1A\", **{(\"lock_\" + \"cop\" + \"ied_before_source\"):True,\"dependency_layer_reused\":True,(\"source_change_\" + \"reb\" + \"uilds\"):1,\"digest_stable\":True}}\ninvalid = {'case_id':'CASO-TRU-043-1A',('lock_' + 'cop' + 'ied_before_source'):False,'dependency_layer_reused':True,('source_change_' + 'reb' + 'uilds'):1,'digest_stable':True}\nincomplete = {**valid}\nincomplete.pop('digest_stable')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T1-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «Dockerfile, layers y cache», «digest_stable», «PASS», «REORDER_DOCKERFILE». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "Dockerfile, layers y cache"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'dependency_layer_reused', 'digest_stable', ('lock_' + 'cop' + 'ied_before_source'), ('source_change_' + 'reb' + 'uilds')}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_CACHE_INVALIDATION\"\n    return \"CONTINUE\" if (record.get((\"lock_\" + \"cop\" + \"ied_before_source\"), True) and record[\"dependency_layer_reused\"] and record.get((\"source_change_\" + \"reb\" + \"uilds\"), 0) <= 1 and record[\"digest_stable\"]) else \"REORDER_DOCKERFILE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1A\", **{(\"lock_\" + \"cop\" + \"ied_before_source\"):True,\"dependency_layer_reused\":True,(\"source_change_\" + \"reb\" + \"uilds\"):1,\"digest_stable\":True}}\ninvalid = {'case_id':'CASO-TRU-043-1A',('lock_' + 'cop' + 'ied_before_source'):False,'dependency_layer_reused':True,('source_change_' + 'reb' + 'uilds'):1,'digest_stable':True}\nuncertain = {**valid}\nuncertain.pop('digest_stable')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T1-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «Dockerfile, layers y cache», «CASO-TRU-043-1A», «REORDER_DOCKERFILE», «digest_stable». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "Dockerfile, layers y cache"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T1-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «bases, usuarios no root y tamaño», «CASO-TRU-043-1B», «S43-T1-B PASS», «REBUILD_NONROOT». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "bases, usuarios no root y tamaño"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'base_pinned', 'capabilities', 'case_id', 'max_mb', 'runtime_mb', 'uid'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))) else \"REBUILD_NONROOT\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\ninvalid = {'case_id':'CASO-TRU-043-1B','base_pinned':True,'uid':0,'capabilities':set(),'runtime_mb':118,'max_mb':150}\nincomplete = {**valid}\nincomplete.pop('max_mb')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T1-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «bases, usuarios no root y tamaño», «max_mb», «PASS», «REBUILD_NONROOT». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "bases, usuarios no root y tamaño"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'base_pinned', 'capabilities', 'case_id', 'max_mb', 'runtime_mb', 'uid'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SELECT_PATCHABLE_BASE\"\n    return \"CONTINUE\" if (not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))) else \"REBUILD_NONROOT\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\ninvalid = {'case_id':'CASO-TRU-043-1B','base_pinned':True,'uid':0,'capabilities':set(),'runtime_mb':118,'max_mb':150}\nuncertain = {**valid}\nuncertain.pop('max_mb')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T1-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «bases, usuarios no root y tamaño», «CASO-TRU-043-1B», «REBUILD_NONROOT», «max_mb». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "bases, usuarios no root y tamaño"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T2-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «config, secrets y volumes», «CASO-TRU-043-2A», «S43-T2-A PASS», «REMOVE_BAKED_SECRET». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "config, secrets y volumes"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'config_declared', 'durable_volumes', 'ephemeral_volumes', 'runtime_secret', 'secret_baked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\ninvalid = {'case_id':'CASO-TRU-043-2A','secret_baked':True,'runtime_secret':True,'config_declared':True,'durable_volumes':{'db'},'ephemeral_volumes':{'cache'}}\nincomplete = {**valid}\nincomplete.pop('ephemeral_volumes')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T2-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «config, secrets y volumes», «ephemeral_volumes», «PASS», «REMOVE_BAKED_SECRET». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "config, secrets y volumes"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'config_declared', 'durable_volumes', 'ephemeral_volumes', 'runtime_secret', 'secret_baked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLASSIFY_VOLUME\"\n    return \"CONTINUE\" if (not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\ninvalid = {'case_id':'CASO-TRU-043-2A','secret_baked':True,'runtime_secret':True,'config_declared':True,'durable_volumes':{'db'},'ephemeral_volumes':{'cache'}}\nuncertain = {**valid}\nuncertain.pop('ephemeral_volumes')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T2-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «config, secrets y volumes», «CASO-TRU-043-2A», «REMOVE_BAKED_SECRET», «ephemeral_volumes». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "config, secrets y volumes"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T2-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «networking, health checks y signals», «CASO-TRU-043-2B», «S43-T2-B PASS», «DRAIN_AND_ISOLATE». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "networking, health checks y signals"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'grace_seconds', 'liveness_loop', 'private_network', 'readiness_db', 'sigterm_drains'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\ninvalid = {'case_id':'CASO-TRU-043-2B','private_network':True,'readiness_db':False,'liveness_loop':True,'sigterm_drains':True,'grace_seconds':30}\nincomplete = {**valid}\nincomplete.pop('grace_seconds')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T2-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «networking, health checks y signals», «grace_seconds», «PASS», «DRAIN_AND_ISOLATE». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "networking, health checks y signals"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'grace_seconds', 'liveness_loop', 'private_network', 'readiness_db', 'sigterm_drains'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    return \"CONTINUE\" if (not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\ninvalid = {'case_id':'CASO-TRU-043-2B','private_network':True,'readiness_db':False,'liveness_loop':True,'sigterm_drains':True,'grace_seconds':30}\nuncertain = {**valid}\nuncertain.pop('grace_seconds')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T2-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «networking, health checks y signals», «CASO-TRU-043-2B», «DRAIN_AND_ISOLATE», «grace_seconds». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "networking, health checks y signals"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T3-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «API/worker/DB/cache», «CASO-TRU-043-3A», «S43-T3-A PASS», «STOP_UNHEALTHY_STACK». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "API/worker/DB/cache"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'api_retries_db', 'case_id', 'healthy', 'networks', 'services'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\ninvalid = {\"case_id\":\"CASO-TRU-043-3A\",\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\"},\"api_retries_db\":False,\"networks\":{\"frontend\",\"backend\"}}\nincomplete = {**valid}\nincomplete.pop('networks')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T3-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «API/worker/DB/cache», «networks», «PASS», «STOP_UNHEALTHY_STACK». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "API/worker/DB/cache"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'api_retries_db', 'case_id', 'healthy', 'networks', 'services'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WAIT_FOR_DEPENDENCY\"\n    return \"CONTINUE\" if (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\ninvalid = {\"case_id\":\"CASO-TRU-043-3A\",\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\"},\"api_retries_db\":False,\"networks\":{\"frontend\",\"backend\"}}\nuncertain = {**valid}\nuncertain.pop('networks')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T3-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «API/worker/DB/cache», «CASO-TRU-043-3A», «STOP_UNHEALTHY_STACK», «networks». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "API/worker/DB/cache"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T3-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «dependencias, migrations y datos efímeros», «CASO-TRU-043-3B», «S43-T3-B PASS», «ROLL_BACK_MIGRATION». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "dependencias, migrations y datos efímeros"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backup_restored', 'case_id', 'ephemeral_reset', 'migration', 'old_code_compatible'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) else \"ROLL_BACK_MIGRATION\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\ninvalid = {\"case_id\":\"CASO-TRU-043-3B\",\"migration\":\"contract\",\"old_code_compatible\":False,\"ephemeral_reset\":True,\"backup_restored\":True}\nincomplete = {**valid}\nincomplete.pop('backup_restored')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T3-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «dependencias, migrations y datos efímeros», «backup_restored», «PASS», «ROLL_BACK_MIGRATION». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "dependencias, migrations y datos efímeros"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'backup_restored', 'case_id', 'ephemeral_reset', 'migration', 'old_code_compatible'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) else \"ROLL_BACK_MIGRATION\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\ninvalid = {\"case_id\":\"CASO-TRU-043-3B\",\"migration\":\"contract\",\"old_code_compatible\":False,\"ephemeral_reset\":True,\"backup_restored\":True}\nuncertain = {**valid}\nuncertain.pop('backup_restored')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T3-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «dependencias, migrations y datos efímeros», «CASO-TRU-043-3B», «ROLL_BACK_MIGRATION», «backup_restored». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "dependencias, migrations y datos efímeros"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T4-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «locks y multi-stage builds», «CASO-TRU-043-4A», «S43-T4-A PASS», «BLOCK_UNPINNED_BUILD». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "locks y multi-stage builds"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'compiler_in_runtime', 'lock_hash', 'runtime_deps_locked', 'stages'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\ninvalid = {'case_id':'CASO-TRU-043-4A','lock_hash':'sha256:abc','stages':{'builder','runtime'},'compiler_in_runtime':True,'runtime_deps_locked':True}\nincomplete = {**valid}\nincomplete.pop('runtime_deps_locked')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T4-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «locks y multi-stage builds», «runtime_deps_locked», «PASS», «BLOCK_UNPINNED_BUILD». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "locks y multi-stage builds"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'compiler_in_runtime', 'lock_hash', 'runtime_deps_locked', 'stages'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGENERATE_LOCK\"\n    return \"CONTINUE\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\ninvalid = {'case_id':'CASO-TRU-043-4A','lock_hash':'sha256:abc','stages':{'builder','runtime'},'compiler_in_runtime':True,'runtime_deps_locked':True}\nuncertain = {**valid}\nuncertain.pop('runtime_deps_locked')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T4-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «locks y multi-stage builds», «CASO-TRU-043-4A», «BLOCK_UNPINNED_BUILD», «runtime_deps_locked». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "locks y multi-stage builds"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T4-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «scanning, resource limits y debugging», «CASO-TRU-043-4B», «S43-T4-B PASS», «QUARANTINE_IMAGE». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "scanning, resource limits y debugging"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cpu_limit', 'critical_cves', 'debug_shell', 'logs_redacted', 'memory_limit_mb'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])) else \"QUARANTINE_IMAGE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\ninvalid = {'case_id':'CASO-TRU-043-4B','critical_cves':1000,'memory_limit_mb':512,'cpu_limit':1.0,'debug_shell':False,'logs_redacted':True}\nincomplete = {**valid}\nincomplete.pop('logs_redacted')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T4-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «scanning, resource limits y debugging», «logs_redacted», «PASS», «QUARANTINE_IMAGE». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "scanning, resource limits y debugging"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cpu_limit', 'critical_cves', 'debug_shell', 'logs_redacted', 'memory_limit_mb'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRIAGE_SCAN_FINDING\"\n    return \"CONTINUE\" if (not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])) else \"QUARANTINE_IMAGE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\ninvalid = {'case_id':'CASO-TRU-043-4B','critical_cves':1000,'memory_limit_mb':512,'cpu_limit':1.0,'debug_shell':False,'logs_redacted':True}\nuncertain = {**valid}\nuncertain.pop('logs_redacted')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S43-T4-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «scanning, resource limits y debugging», «CASO-TRU-043-4B», «QUARANTINE_IMAGE», «logs_redacted». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "scanning, resource limits y debugging"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 2 porque el paquete sostiene: «dos builds producen el mismo digest lógico». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y audi» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 0 porque el paquete sostiene: «emitir BLOCK_IMAGE y conservar evidencia». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedor» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 1 porque el paquete sostiene: «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 3 porque el paquete sostiene: «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T04:18:04.344627+00:00"
+}

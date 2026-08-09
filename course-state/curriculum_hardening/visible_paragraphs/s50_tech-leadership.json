@@ -1,0 +1,612 @@
+{
+  "index": 50,
+  "id": "tech-leadership",
+  "title": "Evals, red teaming y fiabilidad de IA",
+  "file": "s50-tech-leadership.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S50: Evals, red teaming y fiabilidad de IA",
+      "len": 50
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. Task dataset: tareas con slices (normal/edge/adversarial) y holdout. Rúbrica 0–3: anclas observables. Outcome/process/trajectory/recovery: dimensiones de eval. Graders: det/humano/LLM con calibración. Order bias: sensibilidad al orden de opciones. Prompt injection / exfil / tool misuse: amenazas P0. Faithfulness/hallucination: soporte de claims. Rollback RTO: tiempo de revertir release de IA.",
+      "len": 408
+    },
+    {
+      "i": 2,
+      "text": "S50 es el quality gate del copiloto (CP-N4-C): no solo BLEU del texto final — tool args y reanudación cuentan. Id tech-leadership es legacy.",
+      "len": 140
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: dataset versionado, rúbrica, baseline y candidato. Salida: scores por severidad, trayectoria, tool calls y promote/block. Error: regresión P0/P1, injection exitosa o grader sin calibrar → block.",
+      "len": 213
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-ICA-050 (organización ficticia de operaciones en Ica (Desierto Verde Lab)): copiloto sintético de ops. T1 evals → T2 jueces → T3 adversarial → T4 fiabilidad. Stdlib.",
+      "len": 175
+    },
+    {
+      "i": 5,
+      "text": "T1-A Task dataset versionado, slices y rúbrica 0–3",
+      "len": 50
+    },
+    {
+      "i": 6,
+      "text": "El dataset suma slices (normal/edge/adversarial) = tasks; la rúbrica ancla 0–3; el holdout es estricto (0 < holdout < tasks).",
+      "len": 125
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: sum(slices)==tasks, rubric_levels=={0,1,2,3}, holdout en rango.",
+      "len": 74
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: tasks/slices/rubric/holdout. Salida: dataset válido. Error: slices rotas → REBUILD_EVAL_DATASET.",
+      "len": 115
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-ICA-050-1A: 40 tasks, slices 25+10+5, rúbrica 0–3, holdout parcial.",
+      "len": 83
+    },
+    {
+      "i": 10,
+      "text": "T1-B Resultado, proceso, trajectory y recovery en la eval",
+      "len": 57
+    },
+    {
+      "i": 11,
+      "text": "Evalúa cuatro dimensiones (outcome/process/trajectory/recovery) y prohíbe tools forbiddens. Un outcome bonito con trajectory insegura no pasa.",
+      "len": 142
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: min(dim) ≥ min_dimension y not forbidden_tool_used.",
+      "len": 62
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: scores y flag de tool. Salida: pass/fail trayectoria. Error: tool prohibida o dim baja → FAIL_UNSAFE_TRAJECTORY.",
+      "len": 131
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-ICA-050-1B: scores ≥2, forbidden_tool_used False.",
+      "len": 65
+    },
+    {
+      "i": 15,
+      "text": "T2-A Graders deterministas, humanos y LLM en ensemble",
+      "len": 53
+    },
+    {
+      "i": 16,
+      "text": "Combina graders en [0,1] y mide human_llm_agreement. Un LLM-judge solo no basta.",
+      "len": 80
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: scores en rango y agreement ≥ min_agreement.",
+      "len": 55
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: scores de graders. Salida: ensemble calibrable. Error: desacuerdo alto → RECALIBRATE_GRADERS.",
+      "len": 112
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-ICA-050-2A: det/human/llm en rango, agreement ≥ umbral.",
+      "len": 71
+    },
+    {
+      "i": 20,
+      "text": "T2-B Calibración de jueces, order bias y holdout intacto",
+      "len": 56
+    },
+    {
+      "i": 21,
+      "text": "Calibración con anclas; order bias (order_gap) bajo umbral; holdout nunca tocado para entrenar jueces.",
+      "len": 102
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: anchor_accuracy≥min, order_gap≤max, not holdout_touched.",
+      "len": 67
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: métricas de juez. Salida: juez válido. Error: bias/holdout → INVALIDATE_JUDGE.",
+      "len": 97
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-ICA-050-2B: anchor 0.92, order_gap 0.02, holdout intacto.",
+      "len": 73
+    },
+    {
+      "i": 25,
+      "text": "T3-A Prompt injection, exfiltración y tool misuse P0",
+      "len": 52
+    },
+    {
+      "i": 26,
+      "text": "Ataques P0: injection bloqueada, exfil bytes=0, tool_scope read-only, tool_args_valid.",
+      "len": 86
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: banderas booleanas + severity P0 en el registro de prueba.",
+      "len": 69
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: resultados de red team. Salida: block o pass seguridad. Error: cualquier P0 fallido → BLOCK_SECURITY_P0.",
+      "len": 123
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-ICA-050-3A: injection_blocked, exfil 0, read-only, args valid, severity P0.",
+      "len": 91
+    },
+    {
+      "i": 30,
+      "text": "indirect injection, data poisoning y least privilege",
+      "len": 52
+    },
+    {
+      "i": 31,
+      "text": "Instrucciones en documentos se tratan como data; chunks envenenados se remueven; permisos de tool son least privilege.",
+      "len": 118
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: document_instruction_treated_as_data, poisoned_chunks_removed≥1, requested_permission ∈ tool_permissions.",
+      "len": 116
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: corpus y permisos. Salida: corpus limpio. Error: poison residual → QUARANTINE_POISONED_CORPUS.",
+      "len": 113
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-ICA-050-3B: instructions-as-data, 3 chunks removed, permission en grant.",
+      "len": 88
+    },
+    {
+      "i": 35,
+      "text": "T4-A Hallucination crítica cero y abstención sin soporte",
+      "len": 56
+    },
+    {
+      "i": 36,
+      "text": "Mide support rate de claims; unsupported_critical==0; si retrieval vacío, abstained_when_empty.",
+      "len": 95
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: supported/total ≥ min_support_rate, critical unsupported 0, abstain flag.",
+      "len": 84
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: conteos de claims. Salida: pass o block alucinación. Error: critical unsupported → BLOCK_HALLUCINATION_REGRESSION.",
+      "len": 133
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-ICA-050-4A: 18/20 soporte ≥0.9, critical 0, abstain when empty.",
+      "len": 79
+    },
+    {
+      "i": 40,
+      "text": "latency/cost/caching, incident response y rollback",
+      "len": 50
+    },
+    {
+      "i": 41,
+      "text": "Fiabilidad operativa: p95≤SLO, cost≤cap, cache_acl_safe, rollback_minutes≤RTO.",
+      "len": 78
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: predicado cuádruple sobre latencia, costo, cache y rollback.",
+      "len": 71
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: métricas de release. Salida: promote o rollback. Error: RTO roto → ROLLBACK_AI_RELEASE.",
+      "len": 106
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-ICA-050-4B: p95 850≤1000, cost 0.07≤0.1, cache ACL safe, rollback ≤ RTO.",
+      "len": 88
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S50: Evals, red teaming y fiabilidad de IA",
+      "text": "Ruta de S50: Evals, red teaming y fiabilidad de IA"
+    },
+    {
+      "i": 1,
+      "len": 408,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. Task dataset: tareas con slices (normal/edge/adversarial) y holdout. Rúbrica 0–3: anclas observables. Outcome/process/trajectory/recovery: dimensiones de eval. Graders",
+      "text": "Diccionario. Task dataset: tareas con slices (normal/edge/adversarial) y holdout. Rúbrica 0–3: anclas observables. Outcome/process/trajectory/recovery: dimensiones de eval. Graders: det/humano/LLM con calibración. Order bias: sensibilidad al orden de opciones. Prompt injection / exfil / tool misuse: amenazas P0. Faithfulness/hallucination: soporte de claims. Rollback RTO: tiempo de revertir release de IA."
+    },
+    {
+      "i": 2,
+      "len": 140,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S50 es el quality gate del copiloto (CP-N4-C): no solo BLEU del texto final — tool args y reanudación cuentan. Id tech-leadership es legacy.",
+      "text": "S50 es el quality gate del copiloto (CP-N4-C): no solo BLEU del texto final — tool args y reanudación cuentan. Id tech-leadership es legacy."
+    },
+    {
+      "i": 3,
+      "len": 213,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: dataset versionado, rúbrica, baseline y candidato. Salida: scores por severidad, trayectoria, tool calls y promote/block. Error: regresión P0/P1, injection exito",
+      "text": "Contrato. Entrada: dataset versionado, rúbrica, baseline y candidato. Salida: scores por severidad, trayectoria, tool calls y promote/block. Error: regresión P0/P1, injection exitosa o grader sin calibrar → block."
+    },
+    {
+      "i": 4,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-ICA-050 (organización ficticia de operaciones en Ica (Desierto Verde Lab)): copiloto sintético de ops. T1 evals → T2 jueces → T3 adversarial → T4 fiabilidad. Stdlib.",
+      "text": "Caso CASO-ICA-050 (organización ficticia de operaciones en Ica (Desierto Verde Lab)): copiloto sintético de ops. T1 evals → T2 jueces → T3 adversarial → T4 fiabilidad. Stdlib."
+    },
+    {
+      "i": 5,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-A Task dataset versionado, slices y rúbrica 0–3",
+      "text": "T1-A Task dataset versionado, slices y rúbrica 0–3"
+    },
+    {
+      "i": 6,
+      "len": 125,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El dataset suma slices (normal/edge/adversarial) = tasks; la rúbrica ancla 0–3; el holdout es estricto (0 < holdout < tasks).",
+      "text": "El dataset suma slices (normal/edge/adversarial) = tasks; la rúbrica ancla 0–3; el holdout es estricto (0 < holdout < tasks)."
+    },
+    {
+      "i": 7,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: sum(slices)==tasks, rubric_levels=={0,1,2,3}, holdout en rango.",
+      "text": "Mecanismo: sum(slices)==tasks, rubric_levels=={0,1,2,3}, holdout en rango."
+    },
+    {
+      "i": 8,
+      "len": 115,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: tasks/slices/rubric/holdout. Salida: dataset válido. Error: slices rotas → REBUILD_EVAL_DATASET.",
+      "text": "Contrato. Entrada: tasks/slices/rubric/holdout. Salida: dataset válido. Error: slices rotas → REBUILD_EVAL_DATASET."
+    },
+    {
+      "i": 9,
+      "len": 83,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-1A: 40 tasks, slices 25+10+5, rúbrica 0–3, holdout parcial.",
+      "text": "Aplicación CASO-ICA-050-1A: 40 tasks, slices 25+10+5, rúbrica 0–3, holdout parcial."
+    },
+    {
+      "i": 10,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-B Resultado, proceso, trajectory y recovery en la eval",
+      "text": "T1-B Resultado, proceso, trajectory y recovery en la eval"
+    },
+    {
+      "i": 11,
+      "len": 142,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evalúa cuatro dimensiones (outcome/process/trajectory/recovery) y prohíbe tools forbiddens. Un outcome bonito con trajectory insegura no pasa.",
+      "text": "Evalúa cuatro dimensiones (outcome/process/trajectory/recovery) y prohíbe tools forbiddens. Un outcome bonito con trajectory insegura no pasa."
+    },
+    {
+      "i": 12,
+      "len": 62,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: min(dim) ≥ min_dimension y not forbidden_tool_used.",
+      "text": "Mecanismo: min(dim) ≥ min_dimension y not forbidden_tool_used."
+    },
+    {
+      "i": 13,
+      "len": 131,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: scores y flag de tool. Salida: pass/fail trayectoria. Error: tool prohibida o dim baja → FAIL_UNSAFE_TRAJECTORY.",
+      "text": "Contrato. Entrada: scores y flag de tool. Salida: pass/fail trayectoria. Error: tool prohibida o dim baja → FAIL_UNSAFE_TRAJECTORY."
+    },
+    {
+      "i": 14,
+      "len": 65,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-1B: scores ≥2, forbidden_tool_used False.",
+      "text": "Aplicación CASO-ICA-050-1B: scores ≥2, forbidden_tool_used False."
+    },
+    {
+      "i": 15,
+      "len": 53,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-A Graders deterministas, humanos y LLM en ensemble",
+      "text": "T2-A Graders deterministas, humanos y LLM en ensemble"
+    },
+    {
+      "i": 16,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Combina graders en [0,1] y mide human_llm_agreement. Un LLM-judge solo no basta.",
+      "text": "Combina graders en [0,1] y mide human_llm_agreement. Un LLM-judge solo no basta."
+    },
+    {
+      "i": 17,
+      "len": 55,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: scores en rango y agreement ≥ min_agreement.",
+      "text": "Mecanismo: scores en rango y agreement ≥ min_agreement."
+    },
+    {
+      "i": 18,
+      "len": 112,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: scores de graders. Salida: ensemble calibrable. Error: desacuerdo alto → RECALIBRATE_GRADERS.",
+      "text": "Contrato. Entrada: scores de graders. Salida: ensemble calibrable. Error: desacuerdo alto → RECALIBRATE_GRADERS."
+    },
+    {
+      "i": 19,
+      "len": 71,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-2A: det/human/llm en rango, agreement ≥ umbral.",
+      "text": "Aplicación CASO-ICA-050-2A: det/human/llm en rango, agreement ≥ umbral."
+    },
+    {
+      "i": 20,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-B Calibración de jueces, order bias y holdout intacto",
+      "text": "T2-B Calibración de jueces, order bias y holdout intacto"
+    },
+    {
+      "i": 21,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Calibración con anclas; order bias (order_gap) bajo umbral; holdout nunca tocado para entrenar jueces.",
+      "text": "Calibración con anclas; order bias (order_gap) bajo umbral; holdout nunca tocado para entrenar jueces."
+    },
+    {
+      "i": 22,
+      "len": 67,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: anchor_accuracy≥min, order_gap≤max, not holdout_touched.",
+      "text": "Mecanismo: anchor_accuracy≥min, order_gap≤max, not holdout_touched."
+    },
+    {
+      "i": 23,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: métricas de juez. Salida: juez válido. Error: bias/holdout → INVALIDATE_JUDGE.",
+      "text": "Contrato. Entrada: métricas de juez. Salida: juez válido. Error: bias/holdout → INVALIDATE_JUDGE."
+    },
+    {
+      "i": 24,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-2B: anchor 0.92, order_gap 0.02, holdout intacto.",
+      "text": "Aplicación CASO-ICA-050-2B: anchor 0.92, order_gap 0.02, holdout intacto."
+    },
+    {
+      "i": 25,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-A Prompt injection, exfiltración y tool misuse P0",
+      "text": "T3-A Prompt injection, exfiltración y tool misuse P0"
+    },
+    {
+      "i": 26,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ataques P0: injection bloqueada, exfil bytes=0, tool_scope read-only, tool_args_valid.",
+      "text": "Ataques P0: injection bloqueada, exfil bytes=0, tool_scope read-only, tool_args_valid."
+    },
+    {
+      "i": 27,
+      "len": 69,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: banderas booleanas + severity P0 en el registro de prueba.",
+      "text": "Mecanismo: banderas booleanas + severity P0 en el registro de prueba."
+    },
+    {
+      "i": 28,
+      "len": 123,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: resultados de red team. Salida: block o pass seguridad. Error: cualquier P0 fallido → BLOCK_SECURITY_P0.",
+      "text": "Contrato. Entrada: resultados de red team. Salida: block o pass seguridad. Error: cualquier P0 fallido → BLOCK_SECURITY_P0."
+    },
+    {
+      "i": 29,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-3A: injection_blocked, exfil 0, read-only, args valid, severity P0.",
+      "text": "Aplicación CASO-ICA-050-3A: injection_blocked, exfil 0, read-only, args valid, severity P0."
+    },
+    {
+      "i": 30,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "indirect injection, data poisoning y least privilege",
+      "text": "indirect injection, data poisoning y least privilege"
+    },
+    {
+      "i": 31,
+      "len": 118,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Instrucciones en documentos se tratan como data; chunks envenenados se remueven; permisos de tool son least privilege.",
+      "text": "Instrucciones en documentos se tratan como data; chunks envenenados se remueven; permisos de tool son least privilege."
+    },
+    {
+      "i": 32,
+      "len": 116,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: document_instruction_treated_as_data, poisoned_chunks_removed≥1, requested_permission ∈ tool_permissions.",
+      "text": "Mecanismo: document_instruction_treated_as_data, poisoned_chunks_removed≥1, requested_permission ∈ tool_permissions."
+    },
+    {
+      "i": 33,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: corpus y permisos. Salida: corpus limpio. Error: poison residual → QUARANTINE_POISONED_CORPUS.",
+      "text": "Contrato. Entrada: corpus y permisos. Salida: corpus limpio. Error: poison residual → QUARANTINE_POISONED_CORPUS."
+    },
+    {
+      "i": 34,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-3B: instructions-as-data, 3 chunks removed, permission en grant.",
+      "text": "Aplicación CASO-ICA-050-3B: instructions-as-data, 3 chunks removed, permission en grant."
+    },
+    {
+      "i": 35,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-A Hallucination crítica cero y abstención sin soporte",
+      "text": "T4-A Hallucination crítica cero y abstención sin soporte"
+    },
+    {
+      "i": 36,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mide support rate de claims; unsupported_critical==0; si retrieval vacío, abstained_when_empty.",
+      "text": "Mide support rate de claims; unsupported_critical==0; si retrieval vacío, abstained_when_empty."
+    },
+    {
+      "i": 37,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: supported/total ≥ min_support_rate, critical unsupported 0, abstain flag.",
+      "text": "Mecanismo: supported/total ≥ min_support_rate, critical unsupported 0, abstain flag."
+    },
+    {
+      "i": 38,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: conteos de claims. Salida: pass o block alucinación. Error: critical unsupported → BLOCK_HALLUCINATION_REGRESSION.",
+      "text": "Contrato. Entrada: conteos de claims. Salida: pass o block alucinación. Error: critical unsupported → BLOCK_HALLUCINATION_REGRESSION."
+    },
+    {
+      "i": 39,
+      "len": 79,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-4A: 18/20 soporte ≥0.9, critical 0, abstain when empty.",
+      "text": "Aplicación CASO-ICA-050-4A: 18/20 soporte ≥0.9, critical 0, abstain when empty."
+    },
+    {
+      "i": 40,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "latency/cost/caching, incident response y rollback",
+      "text": "latency/cost/caching, incident response y rollback"
+    },
+    {
+      "i": 41,
+      "len": 78,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fiabilidad operativa: p95≤SLO, cost≤cap, cache_acl_safe, rollback_minutes≤RTO.",
+      "text": "Fiabilidad operativa: p95≤SLO, cost≤cap, cache_acl_safe, rollback_minutes≤RTO."
+    },
+    {
+      "i": 42,
+      "len": 71,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: predicado cuádruple sobre latencia, costo, cache y rollback.",
+      "text": "Mecanismo: predicado cuádruple sobre latencia, costo, cache y rollback."
+    },
+    {
+      "i": 43,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: métricas de release. Salida: promote o rollback. Error: RTO roto → ROLLBACK_AI_RELEASE.",
+      "text": "Contrato. Entrada: métricas de release. Salida: promote o rollback. Error: RTO roto → ROLLBACK_AI_RELEASE."
+    },
+    {
+      "i": 44,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-ICA-050-4B: p95 850≤1000, cost 0.07≤0.1, cache ACL safe, rollback ≤ RTO.",
+      "text": "Aplicación CASO-ICA-050-4B: p95 850≤1000, cost 0.07≤0.1, cache ACL safe, rollback ≤ RTO."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 9902
+}

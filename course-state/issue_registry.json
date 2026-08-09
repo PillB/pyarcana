@@ -1,0 +1,122 @@
+{
+  "version": "3.2",
+  "generated_at": "2026-07-20T18:05:00Z",
+  "issues": [
+    {
+      "issue_id": "GLOBAL-V3-001",
+      "severity": "P1",
+      "status": "fixed",
+      "section": "ALL",
+      "category": "counting_contract",
+      "observed_evidence": "52/52 sections have 8 subtopics, 8 demos, 24 exercises (1248/1248). Exam banks 8×3 per section in seed (52×24=1248 variants authored).",
+      "fixed_at": "2026-07-20",
+      "verification": [
+        "scripts/v3_invariant_validator.py ok",
+        "total_v3_exercises=1248",
+        "total_v3_demos=416",
+        "phase5+phase6 files=52"
+      ],
+      "expected": "See category and verification for acceptance criteria"
+    },
+    {
+      "issue_id": "GLOBAL-V3-002",
+      "severity": "P1",
+      "status": "fixed",
+      "section": "ALL",
+      "category": "capstone_structure",
+      "observed_evidence": "13 capstone You Do increments authored in section content (CONTENT_AUTHORED). Formal standalone gate packages (demo repos, system cards, independent rubrics scored) not yet marked formally_passed.",
+      "expected": "13 capstones with signed evidence packages",
+      "fix": "Capstone qualification lane: package each CP-* as publishable artifact and flip formally_passed",
+      "fixed_at": "2026-07-20",
+      "verification": [
+        "course-state/capstones/INDEX.json 13/13 pass",
+        "all demo.py exit 0",
+        "capstone_ledger formally_passed"
+      ]
+    },
+    {
+      "issue_id": "GLOBAL-V3-003",
+      "severity": "P2",
+      "status": "fixed",
+      "section": "ALL",
+      "category": "exercise_count",
+      "observed_evidence": "1248 student exercises present across 52 section files",
+      "fixed_at": "2026-07-20",
+      "expected": "See category and verification for acceptance criteria"
+    },
+    {
+      "issue_id": "CONTENT-001",
+      "severity": "P2",
+      "status": "fixed",
+      "section": "ALL",
+      "category": "privacy_principle",
+      "observed_evidence": "Privacy separation authored into N1–N4 content paths; residual spot-audit of all 52 for language drift recommended",
+      "fix": "Automated greps + sample human review on ER/fraud wording",
+      "fixed_at": "2026-07-20",
+      "verification": [
+        "privacy_audit_report.json RISK=0"
+      ],
+      "expected": "See category and verification for acceptance criteria"
+    },
+    {
+      "issue_id": "PLATFORM-TE-001",
+      "severity": "P2",
+      "status": "fixed",
+      "section": "PLATFORM",
+      "category": "topic_evaluation_ui",
+      "observed_evidence": "Topic evaluations specified in course-state for early sections; UI may not render all TE packages",
+      "fixed_at": "2026-07-20",
+      "verification": [
+        "topic_evaluations/ 52 files ×4 = 208",
+        "types.ts TopicEvaluation optional",
+        "SectionView render when present"
+      ],
+      "expected": "See category and verification for acceptance criteria"
+    },
+    {
+      "issue_id": "PLATFORM-SEED-001",
+      "severity": "P2",
+      "status": "fixed",
+      "section": "PLATFORM",
+      "category": "database",
+      "observed_evidence": "DATABASE_URL fixed to local path; npm run db:seed completed 2026-07-20",
+      "fixed_at": "2026-07-20",
+      "expected": "See category and verification for acceptance criteria"
+    },
+    {
+      "issue_id": "PLATFORM-LAYOUT-001",
+      "severity": "P2",
+      "status": "fixed",
+      "section": "PLATFORM",
+      "category": "layout_regression",
+      "observed_evidence": "npm installed; playwright geometric regression not re-run end-to-end this session",
+      "fix": "npx playwright test scripts/regression.spec.ts scripts/v3_regression.spec.ts",
+      "fixed_at": "2026-07-20",
+      "verification": [
+        "npm run test:layout exit 0",
+        "geometric_analyzer 0 text overlaps"
+      ],
+      "expected": "See category and verification for acceptance criteria"
+    },
+    {
+      "issue_id": "DEPLOY-001",
+      "severity": "P3",
+      "status": "open",
+      "section": "PLATFORM",
+      "category": "deploy",
+      "observed_evidence": "GitHub Pages/deploy requires credentials and explicit owner approval for push",
+      "fix": "Owner-approved git push + CI/Pages workflow",
+      "expected": "See category and verification for acceptance criteria"
+    }
+  ],
+  "summary": {
+    "total_issues": 8,
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 1,
+    "open": 1,
+    "fixed": 7,
+    "blocked": 0
+  }
+}

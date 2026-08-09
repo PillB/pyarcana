@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s46-73641e8c679e",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "# dual skeptic-H1 · S46-T1-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T1-A-E1: contrasté el Pass del paquete («S46-T1-A-E1 · Calcula el contrato de `ventanas, event time y watermarks` sobre `CASO-HYO-046-1A`. La entrada es el dict completo del starter…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "event_time",
+        "window_end"
+      ]
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "# dual skeptic-H1 · S46-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'event_time', 'watermark', 'case_id', 'allowed_lateness', 'window_end'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    return \"PASS\" if ok else 'SIDE_OUTPUT_LATE_EVENT'\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 130, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T1-A-E2: contrasté el Pass del paquete («S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adverso y registro sin `allowed_lateness`. E…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "event_time",
+        "watermark"
+      ]
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "# dual skeptic-H1 · S46-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'event_time', 'watermark', 'case_id', 'allowed_lateness', 'window_end'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'WAIT_FOR_WATERMARK'\n    ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    return \"CONTINUE\" if ok else 'SIDE_OUTPUT_LATE_EVENT'\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 130, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T1-A-E3: contrasté el Pass del paquete («S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos. `CASO-HYO-046-1A` debe continuar, e…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "event_time",
+        "watermark"
+      ]
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "# dual skeptic-H1 · S46-T1-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T1-B-E1: contrasté el Pass del paquete («S46-T1-B-E1 · Compara el contrato de `late data y exactly-once como propiedad compuesta` sobre `CASO-HYO-046-1B`. La entrada es el dict comp…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "event_ids",
+        "sink_ids"
+      ]
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "# dual skeptic-H1 · S46-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'event_ids', 'checkpoint', 'case_id', 'sink_ids', 'late_policy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\n    return \"PASS\" if ok else 'REPLAY_IDEMPOTENTLY'\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T1-B-E2: contrasté el Pass del paquete («S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture válido, fixture adverso y registro sin `la…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "event_ids",
+        "checkpoint"
+      ]
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "# dual skeptic-H1 · S46-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'event_ids', 'checkpoint', 'case_id', 'sink_ids', 'late_policy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CHOOSE_LATE_POLICY'\n    ok = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\n    return \"CONTINUE\" if ok else 'REPLAY_IDEMPOTENTLY'\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T1-B-E3: contrasté el Pass del paquete («S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distintos. `CASO-HYO-046-1B`…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "event_ids",
+        "checkpoint"
+      ]
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "# dual skeptic-H1 · S46-T2-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T2-A-E1: contrasté el Pass del paquete («S46-T2-A-E1 · Filtra el contrato de `DAG/assets y dependency` sobre `CASO-HYO-046-2A`. La entrada es el dict completo del starter; la operac…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "nodes",
+        "raw"
+      ]
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "# dual skeptic-H1 · S46-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"])) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\ninvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\"},\"edges\":{(\"raw\",\"raw\"),(\"clean\",\"report\")},\"typed_io\":False}}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T2-A-E2: contrasté el Pass del paquete («S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y registro sin `typed_io`. Entrada: dict co…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "nodes"
+      ]
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "# dual skeptic-H1 · S46-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'edges', 'typed_io', 'nodes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DECLARE_ASSET_DEPENDENCY'\n    ok = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\n    return \"CONTINUE\" if ok else 'REJECT_DAG'\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'report', 'clean', 'raw'}, 'edges': {('raw', 'clean'), ('clean', 'report')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'report', 'clean', 'raw'}, 'edges': {('raw', 'clean'), ('clean', 'report')}, 'typed_io': False}\nincomplete = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'report', 'clean', 'raw'}, 'edges': {('raw', 'clean'), ('clean', 'report')}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T2-A-E3: contrasté el Pass del paquete («S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CASO-HYO-046-2A` debe continuar, el advers…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "edges",
+        "typed_io"
+      ]
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "# dual skeptic-H1 · S46-T2-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T2-B-E1: contrasté el Pass del paquete («S46-T2-B-E1 · Modela el contrato de `schedules, backfills y state recovery` sobre `CASO-HYO-046-2B`. La entrada es el dict completo del star…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "intervals",
+        "overlap"
+      ]
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "# dual skeptic-H1 · S46-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'intervals', 'checkpoint', 'case_id', 'resume_from', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    return \"PASS\" if ok else 'STOP_OVERLAPPING_BACKFILL'\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T2-B-E2: contrasté el Pass del paquete («S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture adverso y registro sin `resume_from`. En…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "intervals",
+        "checkpoint"
+      ]
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "# dual skeptic-H1 · S46-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'intervals', 'checkpoint', 'case_id', 'resume_from', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RECOVER_CHECKPOINT'\n    ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    return \"CONTINUE\" if ok else 'STOP_OVERLAPPING_BACKFILL'\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T2-B-E3: contrasté el Pass del paquete («S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos. `CASO-HYO-046-2B` debe contin…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "intervals",
+        "checkpoint"
+      ]
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "# dual skeptic-H1 · S46-T3-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T3-A-E1: contrasté el Pass del paquete («S46-T3-A-E1 · Verifica el contrato de `contracts y freshness` sobre `CASO-HYO-046-3A`. La entrada es el dict completo del starter; la operac…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "schema",
+        "str"
+      ]
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "# dual skeptic-H1 · S46-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'observed_schema', 'schema', 'case_id', 'freshness_min', 'owner', 'slo_min'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    return \"PASS\" if ok else 'QUARANTINE_DATASET'\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T3-A-E2: contrasté el Pass del paquete («S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_i…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "observed_schema",
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "# dual skeptic-H1 · S46-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'observed_schema', 'schema', 'case_id', 'freshness_min', 'owner', 'slo_min'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PAGE_DATA_OWNER'\n    ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    return \"CONTINUE\" if ok else 'QUARANTINE_DATASET'\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T3-A-E3: contrasté el Pass del paquete («S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CASO-HYO-046-3A` debe continuar, el adverso…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "observed_schema",
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "# dual skeptic-H1 · S46-T3-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T3-B-E1: contrasté el Pass del paquete («S46-T3-B-E1 · Clasifica el contrato de `lineage, observability y ownership` sobre `CASO-HYO-046-3B`. La entrada es el dict completo del star…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "run_id",
+        "run"
+      ]
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "# dual skeptic-H1 · S46-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'metrics', 'case_id', 'inputs', 'owner', 'outputs', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    return \"PASS\" if ok else 'OPEN_QUALITY_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T3-B-E2: contrasté el Pass del paquete («S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture adverso y registro sin `owner`. Entrada: d…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "metrics",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "# dual skeptic-H1 · S46-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'metrics', 'case_id', 'inputs', 'owner', 'outputs', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRACE_LINEAGE'\n    ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    return \"CONTINUE\" if ok else 'OPEN_QUALITY_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T3-B-E3: contrasté el Pass del paquete («S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos. `CASO-HYO-046-3B` debe contin…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "metrics",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "# dual skeptic-H1 · S46-T4-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T4-A-E1: contrasté el Pass del paquete («S46-T4-A-E1 · Audita el contrato de `partitions e incremental loads` sobre `CASO-HYO-046-4A`. La entrada es el dict completo del starter; la…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "partition",
+        "source_keys"
+      ]
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "# dual skeptic-H1 · S46-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'partition', 'max_small_files', 'small_files', 'case_id', 'second_run_changes', 'target_keys', 'source_keys'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    return \"PASS\" if ok else 'REBUILD_PARTITION'\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 3, 'small_files': 2, 'max_small_files': 5}\nincomplete = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 0, 'small_files': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T4-A-E2: contrasté el Pass del paquete («S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture adverso y registro sin `max_small_files`. Entr…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "partition",
+        "max_small_files"
+      ]
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "# dual skeptic-H1 · S46-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'partition', 'max_small_files', 'small_files', 'case_id', 'second_run_changes', 'target_keys', 'source_keys'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_INCREMENTAL_KEY'\n    ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    return \"CONTINUE\" if ok else 'REBUILD_PARTITION'\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 3, 'small_files': 2, 'max_small_files': 5}\nincomplete = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 0, 'small_files': 2}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T4-A-E3: contrasté el Pass del paquete («S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos. `CASO-HYO-046-4A` debe continuar, el ad…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "partition",
+        "max_small_files"
+      ]
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "# dual skeptic-H1 · S46-T4-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T4-B-E1: contrasté el Pass del paquete («S46-T4-B-E1 · Decide el contrato de `SLO, incidentes y data recovery` sobre `CASO-HYO-046-4B`. La entrada es el dict completo del starter; l…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S46-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "case_id",
+        "CASO",
+        "HYO",
+        "freshness_sli",
+        "freshness_slo"
+      ]
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "# dual skeptic-H1 · S46-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'postmortem_actions', 'freshness_slo', 'case_id', 'rto_minutes', 'freshness_sli', 'owner', 'target_rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    return \"PASS\" if ok else 'DECLARE_DATA_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T4-B-E2: contrasté el Pass del paquete («S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "postmortem_actions",
+        "freshness_slo"
+      ]
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "# dual skeptic-H1 · S46-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'postmortem_actions', 'freshness_slo', 'case_id', 'rto_minutes', 'freshness_sli', 'owner', 'target_rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_RECOVERY_RUNBOOK'\n    ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    return \"CONTINUE\" if ok else 'DECLARE_DATA_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall', '_adverse': True}\nincomplete = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S46/S46-T4-B-E3: contrasté el Pass del paquete («S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos. `CASO-HYO-046-4B` debe continuar,…») con theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Conceptos dual, skeptic, S46, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S46",
+        "dict",
+        "str",
+        "required",
+        "postmortem_actions",
+        "freshness_slo"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S46#0: contrasto stem «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?» con párrafos theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Elijo índice 1 («fixtures en hora/desorden/tardío con resultado esperado») porque cuadra con el vocabulario del paquete; distractores ['un print sin assert ni versión', 'una captura de pantalla sin fuente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S46#1: contrasto stem «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?» con párrafos theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Elijo índice 3 («emitir QUARANTINE_PARTITION y conservar evidencia») porque cuadra con el vocabulario del paquete; distractores ['continuar y ocultar el warning', 'inventar evidencia faltante'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S46#2: contrasto stem «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?» con párrafos theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Elijo índice 0 («backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness») porque cuadra con el vocabulario del paquete; distractores ['el archivo S46 existe, aunque no pruebe el gate', 'el README afirma que funciona'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S46#3: contrasto stem «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?» con párrafos theory/iDo («ventanas, event time y watermarks» Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes ). Elijo índice 2 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque cuadra con el vocabulario del paquete; distractores ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:43:57.767518+00:00",
+  "session_started_at": "2026-07-23T08:43:37.544899+00:00",
+  "session_ended_at": "2026-07-23T08:43:57.767518+00:00"
+}

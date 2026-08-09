@@ -1,0 +1,365 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s50-711f36c4d0",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "id": "S50-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T1-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del…",
+      "confidence": 0.743,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "id": "S50-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'tasks', 'slices', 'holdout', 'rubric_levels', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\n    return \"PASS\" if meets else 'REBUILD_EVAL_DATASET'\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 0, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nincomplete = {k: v for k, v in valid.items() if k != 'holdout'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T1-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama. Después aplica la regla de S50-T1-A: slices suman task. Instruction: S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y regist…",
+      "confidence": 0.796,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "id": "S50-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'tasks', 'slices', 'holdout', 'rubric_levels', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CALIBRATE_RUBRIC'\n    meets = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\n    if not meets:\n        return 'REBUILD_EVAL_DATASET'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 0, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nincomplete = {k: v for k, v in valid.items() if k != 'holdout'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T1-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe cont…",
+      "confidence": 0.818,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "id": "S50-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T1-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es …",
+      "confidence": 0.877,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "id": "S50-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'recovery', 'trajectory', 'outcome', 'process', 'min_dimension', 'forbidden_tool_used', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"PASS\" if meets else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {k: v for k, v in valid.items() if k != 'min_dimension'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T1-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama. Después aplica la regla de S50-T1-B: cuatro dime. Instruction: S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fi…",
+      "confidence": 0.929,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "id": "S50-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'recovery', 'trajectory', 'outcome', 'process', 'min_dimension', 'forbidden_tool_used', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'HUMAN_REVIEW_PROCESS'\n    meets = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    if not meets:\n        return 'FAIL_UNSAFE_TRAJECTORY'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {k: v for k, v in valid.items() if k != 'min_dimension'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T1-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO…",
+      "confidence": 0.775,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "id": "S50-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T2-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict c…",
+      "confidence": 0.805,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "id": "S50-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'llm', 'min_agreement', 'human', 'human_llm_agreement', 'deterministic', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    return \"PASS\" if meets else 'RECALIBRATE_GRADERS'\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.0, 'min_agreement': 0.75}\nincomplete = {k: v for k, v in valid.items() if k != 'min_agreement'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T2-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama. Después aplica la regla de S50-T2-A: scores acot. Instruction: S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture a…",
+      "confidence": 0.925,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "id": "S50-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'llm', 'min_agreement', 'human', 'human_llm_agreement', 'deterministic', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ADJUDICATE_DISAGREEMENT'\n    meets = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    if not meets:\n        return 'RECALIBRATE_GRADERS'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.0, 'min_agreement': 0.75}\nincomplete = {k: v for k, v in valid.items() if k != 'min_agreement'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T2-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050…",
+      "confidence": 0.811,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "id": "S50-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T2-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es…",
+      "confidence": 0.827,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "id": "S50-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'min_anchor_accuracy', 'order_gap', 'holdout_touched', 'anchor_accuracy', 'case_id', 'max_order_gap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    return \"PASS\" if meets else 'INVALIDATE_JUDGE'\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 1.0, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = {k: v for k, v in valid.items() if k != 'holdout_touched'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T2-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama. Después aplica la regla de S50-T2-B: anclas ca. Instruction: S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fi…",
+      "confidence": 0.748,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "id": "S50-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'min_anchor_accuracy', 'order_gap', 'holdout_touched', 'anchor_accuracy', 'case_id', 'max_order_gap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SEAL_NEW_HOLDOUT'\n    meets = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    if not meets:\n        return 'INVALIDATE_JUDGE'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 1.0, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = {k: v for k, v in valid.items() if k != 'holdout_touched'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T2-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CA…",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "id": "S50-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T3-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada…",
+      "confidence": 0.782,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "id": "S50-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'severity', 'tool_scope', 'injection_blocked', 'tool_args_valid', 'exfiltration_bytes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    return \"PASS\" if meets else 'BLOCK_SECURITY_P0'\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {k: v for k, v in valid.items() if k != 'severity'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T3-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama. Después aplica la regla de S50-T3-A: injection conten. Instruction: S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, f…",
+      "confidence": 0.829,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "id": "S50-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'severity', 'tool_scope', 'injection_blocked', 'tool_args_valid', 'exfiltration_bytes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRESERVE_ATTACK_TRACE'\n    meets = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    if not meets:\n        return 'BLOCK_SECURITY_P0'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {k: v for k, v in valid.items() if k != 'severity'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T3-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `…",
+      "confidence": 0.814,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "id": "S50-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T3-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. L…",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "id": "S50-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'tool_permissions', 'document_instruction_treated_as_data', 'requested_permission', 'poisoned_chunks_removed', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"PASS\" if meets else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {k: v for k, v in valid.items() if k != 'requested_permission'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T3-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama. Después aplica la regla de S50-T3-B: indi. Instruction: S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture …",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "id": "S50-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'tool_permissions', 'document_instruction_treated_as_data', 'requested_permission', 'poisoned_chunks_removed', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REDUCE_TOOL_PRIVILEGE'\n    meets = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    if not meets:\n        return 'QUARANTINE_POISONED_CORPUS'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {k: v for k, v in valid.items() if k != 'requested_permission'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T3-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures di…",
+      "confidence": 0.794,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "id": "S50-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T4-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo…",
+      "confidence": 0.795,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "id": "S50-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'supported_claims', 'abstained_when_empty', 'min_support_rate', 'unsupported_critical', 'total_claims', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    return \"PASS\" if meets else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1, 'abstained_when_empty': True}\nincomplete = {k: v for k, v in valid.items() if k != 'abstained_when_empty'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T4-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama. Después aplica la regla de S50-T4-A: supp. Instruction: S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y …",
+      "confidence": 0.752,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "id": "S50-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'supported_claims', 'abstained_when_empty', 'min_support_rate', 'unsupported_critical', 'total_claims', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_ABSTENTION_SLICE'\n    meets = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    if not meets:\n        return 'BLOCK_HALLUCINATION_REGRESSION'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1, 'abstained_when_empty': True}\nincomplete = {k: v for k, v in valid.items() if k != 'abstained_when_empty'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T4-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe …",
+      "confidence": 0.801,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "id": "S50-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n",
+      "justification_from_packet": "En el paquete de S50 (Evals, red teaming y fiabilidad de IA), el ejercicio S50-T4-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La ent…",
+      "confidence": 0.851,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "id": "S50-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'slo_ms', 'p95_ms', 'rollback_minutes', 'cost_cap_pen', 'cache_acl_safe', 'rto_minutes', 'case_id', 'cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if meets else 'ROLLBACK_AI_RELEASE'\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1000000, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S50-T4-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama. Después aplica la regla de S50-T4-B: latencia/cost. Instruction: S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture vál…",
+      "confidence": 0.782,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "id": "S50-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'slo_ms', 'p95_ms', 'rollback_minutes', 'cost_cap_pen', 'cache_acl_safe', 'rto_minutes', 'case_id', 'cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_INCIDENT_RESPONSE'\n    meets = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    if not meets:\n        return 'ROLLBACK_AI_RELEASE'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1000000, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S50-T4-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distin…",
+      "confidence": 0.749,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "S50-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Como Explorer en S50 «Evals, red teaming y fiabilidad de IA», leí el stem «¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?» y las opciones del selfCheck del paquete. Elegí el índice 1 («dataset versionado y rúbrica calibrada») porque alinea con la evidencia de aprobación del subtema en theory/outcomes, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.903,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Como Explorer en S50 «Evals, red teaming y fiabilidad de IA», leí el stem «Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?» y las opciones del selfCheck del paquete. Elegí el índice 3 («emitir BLOCK_CANDIDATE y conservar evidencia») porque alinea con la respuesta fail-closed que conserva evidencia ante error, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.887,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Como Explorer en S50 «Evals, red teaming y fiabilidad de IA», leí el stem «¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?» y las opciones del selfCheck del paquete. Elegí el índice 0 («evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final») porque alinea con el criterio del gate CP descrito en el paquete, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.861,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Como Explorer en S50 «Evals, red teaming y fiabilidad de IA», leí el stem «¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?» y las opciones del selfCheck del paquete. Elegí el índice 2 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque alinea con el tratamiento sintético y trazable del CASO del curso, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.817,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:24.474914+00:00",
+  "session_started_at": "2026-07-23T14:44:37.142840+00:00",
+  "session_ended_at": "2026-07-23T14:45:05.232840+00:00",
+  "receipt_response_sha256": "e02274f913632d4bed3f2d0ce08a223be30cd2e104fa017e0afb1abc27170fdd",
+  "receipt_exercises_sha256": "c647c193805c8306ffb8d90088356b060c93299e2f79e6bc4a84fe00255590bd",
+  "receipt_selfcheck_sha256": "b8bff57cfb6639c43a3f4c427929c4e04300c7e305e4db4471c48b71269e0e82"
+}

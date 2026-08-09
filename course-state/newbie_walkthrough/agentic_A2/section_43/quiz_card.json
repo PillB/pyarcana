@@ -1,0 +1,229 @@
+{
+  "section_index": 43,
+  "title": "Contenedores y reproducibilidad operativa",
+  "outcomes": [
+    "Optimiza Dockerfile y layers",
+    "Usa non-root y reduce tamaño",
+    "Inyecta config/secrets/volumes",
+    "Configura net, health y signals",
+    "Compone API/worker/DB/cache",
+    "Ordena deps, migrations y datos efímeros",
+    "Fija locks y multi-stage",
+    "Escanea, limita recursos y debugguea"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S43: Contenedores y reproducibilidad operativa",
+      "paragraphs": [
+        "En V3, **S43** retematiza el archivo de plataforma `llmops` hacia **Contenedores y reproducibilidad operativa**. **FINAL/CLOSE gate** (CLOSE).",
+        "Incremento: Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Dockerfile, layers y cache",
+      "paragraphs": [
+        "**Dockerfile, layers y cache** — outcome del blueprint phase3 para `dockerfile-layers-cache`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "bases, usuarios no root y tamaño",
+      "paragraphs": [
+        "**bases, usuarios no root y tamaño** — outcome del blueprint phase3 para `bases-nonroot-size`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"env\", \"prod\"); print(\"secret_ref\", \"${SECRET}\"); print(\"volume\", \"/data\")"
+    },
+    {
+      "heading": "config, secrets y volumes",
+      "paragraphs": [
+        "**config, secrets y volumes** — outcome del blueprint phase3 para `config-secrets-volumes`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"env\", \"prod\"); print(\"secret_ref\", \"${SECRET}\"); print(\"volume\", \"/data\")"
+    },
+    {
+      "heading": "networking, health checks y signals",
+      "paragraphs": [
+        "**networking, health checks y signals** — outcome del blueprint phase3 para `net-health-signals`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "API/worker/DB/cache",
+      "paragraphs": [
+        "**API/worker/DB/cache** — outcome del blueprint phase3 para `api-worker-db-cache`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "dependencias, migrations y datos efímeros",
+      "paragraphs": [
+        "**dependencias, migrations y datos efímeros** — outcome del blueprint phase3 para `deps-migrations-ephemeral`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"multistage\", [\"builder\",\"runtime\"]); print(\"locks\", [\"requirements.txt\"]); print(\"reproducible\", True)"
+    },
+    {
+      "heading": "locks y multi-stage builds",
+      "paragraphs": [
+        "**locks y multi-stage builds** — outcome del blueprint phase3 para `locks-multistage`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"limits\", {\"cpu\":\"1\",\"mem\":\"512Mi\"}); print(\"scan_clean\", True); print(\"debug\", \"ephemeral_shell\")"
+    },
+    {
+      "heading": "scanning, resource limits y debugging",
+      "paragraphs": [
+        "**scanning, resource limits y debugging** — outcome del blueprint phase3 para `scan-limits-debug`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S43-T1-B-DEMO",
+      "description": "Demo: Dockerfile, layers y cache",
+      "why": "Demuestra el outcome de S43-T1-A con Python verificable.",
+      "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")"
+    },
+    {
+      "demoId": "S43-T2-A-DEMO",
+      "description": "Demo: bases, usuarios no root y tamaño",
+      "why": "Demuestra el outcome de S43-T1-B con Python verificable.",
+      "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")"
+    },
+    {
+      "demoId": "S43-T2-B-DEMO",
+      "description": "Demo: config, secrets y volumes",
+      "why": "Demuestra el outcome de S43-T2-A con Python verificable.",
+      "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)"
+    },
+    {
+      "demoId": "S43-T3-A-DEMO",
+      "description": "Demo: networking, health checks y signals",
+      "why": "Demuestra el outcome de S43-T2-B con Python verificable.",
+      "code": "print(200); print(503); print(\"graceful\", True)"
+    },
+    {
+      "demoId": "S43-T3-B-DEMO",
+      "description": "Demo: API/worker/DB/cache",
+      "why": "Demuestra el outcome de S43-T3-A con Python verificable.",
+      "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)"
+    },
+    {
+      "demoId": "S43-T4-A-DEMO",
+      "description": "Demo: dependencias, migrations y datos efímeros",
+      "why": "Demuestra el outcome de S43-T3-B con Python verificable.",
+      "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")"
+    },
+    {
+      "demoId": "S43-T4-B-DEMO",
+      "description": "Demo: locks y multi-stage builds",
+      "why": "Demuestra el outcome de S43-T4-A con Python verificable.",
+      "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: scanning, resource limits y debugging",
+      "why": "Demuestra el outcome de S43-T4-B con Python verificable.",
+      "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S43 que se preserva es:",
+      "options": [
+        "llmops",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S43 pertenece a:",
+      "options": [
+        "CP-N4-A (cierre)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "CP-N1-C",
+  "version": "2.0.0",
+  "name": "Tablero de Evidencia de Familiaridad",
+  "level": 1,
+  "gate_section": "S13",
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Diseño limpio, modular, testeable y documentado."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
+  "critical_failures": [
+    "Infiere fraude/parentesco automáticamente",
+    "Sin revisión humana",
+    "Sin hoja de privacidad",
+    "Sin mecanismo de corrección"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "señal de coincidencia exacta → evidencia de entidad",
+    "similitud difusa en umbral → revisión humana",
+    "no se infiere fraude automáticamente",
+    "evidencia de entidad ≠ evidencia de relación ≠ decisión",
+    "hoja de privacidad presente"
+  ]
+}

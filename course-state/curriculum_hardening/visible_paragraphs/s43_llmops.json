@@ -1,0 +1,612 @@
+{
+  "index": 43,
+  "id": "llmops",
+  "title": "Contenedores y reproducibilidad operativa",
+  "file": "s43-llmops.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S43: contenedores y reproducibilidad operativa del stack",
+      "len": 61
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S43. Layer cache: reutilizar capas si lock no cambia. Non-root: UID≠0. Multi-stage: builder vs runtime. Health: readiness (deps) vs liveness (loop). Compose: servicios + redes + volúmenes. Expand/contract: migración compatible con código viejo. SBOM/scan: CVEs de imagen. Resource limits: memoria/CPU del contenedor.",
+      "len": 328
+    },
+    {
+      "i": 2,
+      "text": "Cierre de CP-N4-A: la plataforma se levanta con un comando, health checks verdes, usuario no root y runbook de recuperación.",
+      "len": 124
+    },
+    {
+      "i": 3,
+      "text": "Contrato de sección. Entrada: Dockerfile, compose y config sintética. Salida: stack healthy reproducible. Error: secret en imagen, root o compose sin health → no se promociona.",
+      "len": 176
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 Imágenes → T2 Runtime → T3 Compose → T4 Reproducibilidad/scan. CASO-LIM-043 Trujillo sintético.",
+      "len": 105
+    },
+    {
+      "i": 5,
+      "text": "T1-A Dockerfile: orden de layers, locks y cache de dependencias",
+      "len": 63
+    },
+    {
+      "i": 6,
+      "text": "Copia lock antes del source para reutilizar la capa de dependencias. Un cambio de código no debe reinstalar el mundo. Mide source_change_rebuilds y digest_stable del layer de deps.",
+      "len": 180
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: orden COPY lock → RUN install → COPY src. lock_copied_before_source y dependency_layer_reused True; idealmente un solo rebuild de source.",
+      "len": 148
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: flags de orden y rebuilds. Salida: cache de deps estable. Error: COPY . primero. Por qué importa: si no fijas «flags de orden y rebuilds» → «cache de deps estable», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «COPY» para confirmar fail-closed.",
+      "len": 317
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-043-1A: lock primero, rebuilds=1, digest estable. CI de Trujillo más rápida.",
+      "len": 98
+    },
+    {
+      "i": 10,
+      "text": "T1-B Bases pineadas, usuario no root y tamaño de imagen",
+      "len": 55
+    },
+    {
+      "i": 11,
+      "text": "Base pineada por digest/tag inmutable. UID ≠ 0. Sin capabilities peligrosas. Tamaño runtime bajo umbral (p. ej. 150MB lab). Imágenes gordas = superficie y pull lentos.",
+      "len": 167
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: base_pinned, uid!=0, capabilities vacío, runtime_mb <= max_mb.",
+      "len": 73
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: base, uid, caps, tamaños. Salida: runtime no-root acotado. Error: USER root o latest flotante. Por qué importa: si no fijas «base, uid, caps, tamaños» → «runtime no-root acotado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «USER root o latest flotante» para confirmar fail-closed.",
+      "len": 355
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-043-1B: uid 10001, 118MB, base pinned. Plataforma Trujillo.",
+      "len": 81
+    },
+    {
+      "i": 15,
+      "text": "T2-A Config declarada, secrets en runtime y volumes durables",
+      "len": 60
+    },
+    {
+      "i": 16,
+      "text": "Config declarada (env/file montado); secretos en runtime (no bake en imagen); volúmenes durables (db) vs efímeros (tmp). Bake de secret invalida el release.",
+      "len": 156
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: not secret_baked y runtime_secret y config_declared; sets de volúmenes separados.",
+      "len": 92
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: flags de secret/config y volúmenes. Salida: secretos runtime y volúmenes clasificados. Error: ARG con password en Dockerfile. Por qué importa: si no fijas «flags de secret/config y volúmenes» → «secretos runtime y volúmenes clasificados», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «ARG con password en Dockerfile» para confirmar fail-closed.",
+      "len": 417
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-043-2A: secret runtime, db durable. Compose Trujillo.",
+      "len": 75
+    },
+    {
+      "i": 20,
+      "text": "T2-B Networking privado, health checks y señales SIGTERM",
+      "len": 56
+    },
+    {
+      "i": 21,
+      "text": "Red privada entre servicios; readiness espera DB; liveness detecta loop muerto; SIGTERM drena con grace. Sin readiness, matas pods que aún arrancan.",
+      "len": 148
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: flags private_network, readiness_db, liveness_loop, sigterm_drains, grace_seconds≥30 lab.",
+      "len": 100
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: red/health/signals. Salida: drain e isolation correctos. Error: solo liveness HTTP que pega a DB. Por qué importa: si no fijas «red/health/signals» → «drain e isolation correctos», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo liveness HTTP que pega a DB» para confirmar fail-closed.",
+      "len": 361
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-043-2B: grace 30s, private network. API Trujillo drena jobs.",
+      "len": 82
+    },
+    {
+      "i": 25,
+      "text": "T3-A Compose con API, worker, DB y cache healthy juntos",
+      "len": 55
+    },
+    {
+      "i": 26,
+      "text": "Compose declara api, worker, db, cache con health. API reintenta DB. Redes front/back separan exposición. Un servicio unhealthy detiene el gate del stack.",
+      "len": 154
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: services y healthy sets iguales; api_retries_db; networks con back privado.",
+      "len": 86
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: services, healthy, retries, networks. Salida: stack cuádruple healthy. Error: worker sin dependencias. Por qué importa: si no fijas «services, healthy, retries, networks» → «stack cuádruple healthy», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «worker sin dependencias» para confirmar fail-closed.",
+      "len": 371
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-043-3A: cuatro servicios healthy. One-command Trujillo.",
+      "len": 77
+    },
+    {
+      "i": 30,
+      "text": "T3-B Migraciones expand/contract y datos efímeros de lab",
+      "len": 56
+    },
+    {
+      "i": 31,
+      "text": "Migraciones expand primero (compatible con código viejo), luego contract. Datos efímeros se resetean en lab; backups se prueban restore. Nunca migrate destructivo sin rollback.",
+      "len": 176
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: migration=='expand', old_code_compatible, ephemeral_reset, backup_restored.",
+      "len": 86
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: migration flags. Salida: expand seguro con restore. Error: drop column usado por v_old. Por qué importa: si no fijas «migration flags» → «expand seguro con restore», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «drop column usado por v_old» para confirmar fail-closed.",
+      "len": 341
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-043-3B: expand + restore. DB lab Trujillo.",
+      "len": 64
+    },
+    {
+      "i": 35,
+      "text": "T4-A Locks con digest y multi-stage builder/runtime",
+      "len": 51
+    },
+    {
+      "i": 36,
+      "text": "Lock con hash (sha256:…). Stages builder y runtime; el runtime no trae compiler. Deps de runtime pineadas. Reproducibilidad = mismo digest en dos builds limpios.",
+      "len": 161
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: lock_hash prefix, stages set, not compiler_in_runtime, runtime_deps_locked.",
+      "len": 86
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: lock/stages/compiler flags. Salida: multi-stage pineado. Error: gcc en imagen final. Por qué importa: si no fijas «lock/stages/compiler flags» → «multi-stage pineado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «gcc en imagen final» para confirmar fail-closed.",
+      "len": 335
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-043-4A: sha256 lock, builder+runtime. Release Trujillo.",
+      "len": 77
+    },
+    {
+      "i": 40,
+      "text": "T4-B Scanning de CVEs, resource limits y debug sin shell root",
+      "len": 61
+    },
+    {
+      "i": 41,
+      "text": "Scan de imagen: critical_cves==0 para promover. Limits de memoria/CPU. Debug sin shell root permanente; logs redactados. Quarantine si el scan falla.",
+      "len": 149
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: cves, memory_limit_mb≤512 lab, cpu_limit, not debug_shell, logs_redacted.",
+      "len": 84
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: scan y limits. Salida: imagen cuarentenable y acotada. Error: CVE crítica ignorada. Por qué importa: si no fijas «scan y limits» → «imagen cuarentenable y acotada», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «CVE crítica ignorada» para confirmar fail-closed.",
+      "len": 333
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-043-4B: 0 CVE, 512MB, sin shell debug. Gate final CP-N4-A.",
+      "len": 80
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 61,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S43: contenedores y reproducibilidad operativa del stack",
+      "text": "Mapa S43: contenedores y reproducibilidad operativa del stack"
+    },
+    {
+      "i": 1,
+      "len": 328,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S43. Layer cache: reutilizar capas si lock no cambia. Non-root: UID≠0. Multi-stage: builder vs runtime. Health: readiness (deps) vs liveness (loop). Compose: servicios ",
+      "text": "Diccionario S43. Layer cache: reutilizar capas si lock no cambia. Non-root: UID≠0. Multi-stage: builder vs runtime. Health: readiness (deps) vs liveness (loop). Compose: servicios + redes + volúmenes. Expand/contract: migración compatible con código viejo. SBOM/scan: CVEs de imagen. Resource limits: memoria/CPU del contenedor."
+    },
+    {
+      "i": 2,
+      "len": 124,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cierre de CP-N4-A: la plataforma se levanta con un comando, health checks verdes, usuario no root y runbook de recuperación.",
+      "text": "Cierre de CP-N4-A: la plataforma se levanta con un comando, health checks verdes, usuario no root y runbook de recuperación."
+    },
+    {
+      "i": 3,
+      "len": 176,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de sección. Entrada: Dockerfile, compose y config sintética. Salida: stack healthy reproducible. Error: secret en imagen, root o compose sin health → no se promociona.",
+      "text": "Contrato de sección. Entrada: Dockerfile, compose y config sintética. Salida: stack healthy reproducible. Error: secret en imagen, root o compose sin health → no se promociona."
+    },
+    {
+      "i": 4,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Imágenes → T2 Runtime → T3 Compose → T4 Reproducibilidad/scan. CASO-LIM-043 Trujillo sintético.",
+      "text": "Orden: T1 Imágenes → T2 Runtime → T3 Compose → T4 Reproducibilidad/scan. CASO-LIM-043 Trujillo sintético."
+    },
+    {
+      "i": 5,
+      "len": 63,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-A Dockerfile: orden de layers, locks y cache de dependencias",
+      "text": "T1-A Dockerfile: orden de layers, locks y cache de dependencias"
+    },
+    {
+      "i": 6,
+      "len": 180,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Copia lock antes del source para reutilizar la capa de dependencias. Un cambio de código no debe reinstalar el mundo. Mide source_change_rebuilds y digest_stable del layer de deps.",
+      "text": "Copia lock antes del source para reutilizar la capa de dependencias. Un cambio de código no debe reinstalar el mundo. Mide source_change_rebuilds y digest_stable del layer de deps."
+    },
+    {
+      "i": 7,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: orden COPY lock → RUN install → COPY src. lock_copied_before_source y dependency_layer_reused True; idealmente un solo rebuild de source.",
+      "text": "Mecanismo: orden COPY lock → RUN install → COPY src. lock_copied_before_source y dependency_layer_reused True; idealmente un solo rebuild de source."
+    },
+    {
+      "i": 8,
+      "len": 317,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: flags de orden y rebuilds. Salida: cache de deps estable. Error: COPY . primero. Por qué importa: si no fijas «flags de orden y rebuilds» → «cache de d",
+      "text": "Contrato operativo. Entrada: flags de orden y rebuilds. Salida: cache de deps estable. Error: COPY . primero. Por qué importa: si no fijas «flags de orden y rebuilds» → «cache de deps estable», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «COPY» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 98,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-1A: lock primero, rebuilds=1, digest estable. CI de Trujillo más rápida.",
+      "text": "Aplicación a CASO-LIM-043-1A: lock primero, rebuilds=1, digest estable. CI de Trujillo más rápida."
+    },
+    {
+      "i": 10,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-B Bases pineadas, usuario no root y tamaño de imagen",
+      "text": "T1-B Bases pineadas, usuario no root y tamaño de imagen"
+    },
+    {
+      "i": 11,
+      "len": 167,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Base pineada por digest/tag inmutable. UID ≠ 0. Sin capabilities peligrosas. Tamaño runtime bajo umbral (p. ej. 150MB lab). Imágenes gordas = superficie y pull lentos.",
+      "text": "Base pineada por digest/tag inmutable. UID ≠ 0. Sin capabilities peligrosas. Tamaño runtime bajo umbral (p. ej. 150MB lab). Imágenes gordas = superficie y pull lentos."
+    },
+    {
+      "i": 12,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: base_pinned, uid!=0, capabilities vacío, runtime_mb <= max_mb.",
+      "text": "Mecanismo: base_pinned, uid!=0, capabilities vacío, runtime_mb <= max_mb."
+    },
+    {
+      "i": 13,
+      "len": 355,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: base, uid, caps, tamaños. Salida: runtime no-root acotado. Error: USER root o latest flotante. Por qué importa: si no fijas «base, uid, caps, tamaños» ",
+      "text": "Contrato operativo. Entrada: base, uid, caps, tamaños. Salida: runtime no-root acotado. Error: USER root o latest flotante. Por qué importa: si no fijas «base, uid, caps, tamaños» → «runtime no-root acotado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «USER root o latest flotante» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 81,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-1B: uid 10001, 118MB, base pinned. Plataforma Trujillo.",
+      "text": "Aplicación a CASO-LIM-043-1B: uid 10001, 118MB, base pinned. Plataforma Trujillo."
+    },
+    {
+      "i": 15,
+      "len": 60,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-A Config declarada, secrets en runtime y volumes durables",
+      "text": "T2-A Config declarada, secrets en runtime y volumes durables"
+    },
+    {
+      "i": 16,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Config declarada (env/file montado); secretos en runtime (no bake en imagen); volúmenes durables (db) vs efímeros (tmp). Bake de secret invalida el release.",
+      "text": "Config declarada (env/file montado); secretos en runtime (no bake en imagen); volúmenes durables (db) vs efímeros (tmp). Bake de secret invalida el release."
+    },
+    {
+      "i": 17,
+      "len": 92,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: not secret_baked y runtime_secret y config_declared; sets de volúmenes separados.",
+      "text": "Mecanismo: not secret_baked y runtime_secret y config_declared; sets de volúmenes separados."
+    },
+    {
+      "i": 18,
+      "len": 417,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: flags de secret/config y volúmenes. Salida: secretos runtime y volúmenes clasificados. Error: ARG con password en Dockerfile. Por qué importa: si no fi",
+      "text": "Contrato operativo. Entrada: flags de secret/config y volúmenes. Salida: secretos runtime y volúmenes clasificados. Error: ARG con password en Dockerfile. Por qué importa: si no fijas «flags de secret/config y volúmenes» → «secretos runtime y volúmenes clasificados», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «ARG con password en Dockerfile» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 75,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-2A: secret runtime, db durable. Compose Trujillo.",
+      "text": "Aplicación a CASO-LIM-043-2A: secret runtime, db durable. Compose Trujillo."
+    },
+    {
+      "i": 20,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-B Networking privado, health checks y señales SIGTERM",
+      "text": "T2-B Networking privado, health checks y señales SIGTERM"
+    },
+    {
+      "i": 21,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Red privada entre servicios; readiness espera DB; liveness detecta loop muerto; SIGTERM drena con grace. Sin readiness, matas pods que aún arrancan.",
+      "text": "Red privada entre servicios; readiness espera DB; liveness detecta loop muerto; SIGTERM drena con grace. Sin readiness, matas pods que aún arrancan."
+    },
+    {
+      "i": 22,
+      "len": 100,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: flags private_network, readiness_db, liveness_loop, sigterm_drains, grace_seconds≥30 lab.",
+      "text": "Mecanismo: flags private_network, readiness_db, liveness_loop, sigterm_drains, grace_seconds≥30 lab."
+    },
+    {
+      "i": 23,
+      "len": 361,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: red/health/signals. Salida: drain e isolation correctos. Error: solo liveness HTTP que pega a DB. Por qué importa: si no fijas «red/health/signals» → «",
+      "text": "Contrato operativo. Entrada: red/health/signals. Salida: drain e isolation correctos. Error: solo liveness HTTP que pega a DB. Por qué importa: si no fijas «red/health/signals» → «drain e isolation correctos», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo liveness HTTP que pega a DB» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-2B: grace 30s, private network. API Trujillo drena jobs.",
+      "text": "Aplicación a CASO-LIM-043-2B: grace 30s, private network. API Trujillo drena jobs."
+    },
+    {
+      "i": 25,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-A Compose con API, worker, DB y cache healthy juntos",
+      "text": "T3-A Compose con API, worker, DB y cache healthy juntos"
+    },
+    {
+      "i": 26,
+      "len": 154,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Compose declara api, worker, db, cache con health. API reintenta DB. Redes front/back separan exposición. Un servicio unhealthy detiene el gate del stack.",
+      "text": "Compose declara api, worker, db, cache con health. API reintenta DB. Redes front/back separan exposición. Un servicio unhealthy detiene el gate del stack."
+    },
+    {
+      "i": 27,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: services y healthy sets iguales; api_retries_db; networks con back privado.",
+      "text": "Mecanismo: services y healthy sets iguales; api_retries_db; networks con back privado."
+    },
+    {
+      "i": 28,
+      "len": 371,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: services, healthy, retries, networks. Salida: stack cuádruple healthy. Error: worker sin dependencias. Por qué importa: si no fijas «services, healthy,",
+      "text": "Contrato operativo. Entrada: services, healthy, retries, networks. Salida: stack cuádruple healthy. Error: worker sin dependencias. Por qué importa: si no fijas «services, healthy, retries, networks» → «stack cuádruple healthy», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «worker sin dependencias» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-3A: cuatro servicios healthy. One-command Trujillo.",
+      "text": "Aplicación a CASO-LIM-043-3A: cuatro servicios healthy. One-command Trujillo."
+    },
+    {
+      "i": 30,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-B Migraciones expand/contract y datos efímeros de lab",
+      "text": "T3-B Migraciones expand/contract y datos efímeros de lab"
+    },
+    {
+      "i": 31,
+      "len": 176,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Migraciones expand primero (compatible con código viejo), luego contract. Datos efímeros se resetean en lab; backups se prueban restore. Nunca migrate destructivo sin rollback.",
+      "text": "Migraciones expand primero (compatible con código viejo), luego contract. Datos efímeros se resetean en lab; backups se prueban restore. Nunca migrate destructivo sin rollback."
+    },
+    {
+      "i": 32,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: migration=='expand', old_code_compatible, ephemeral_reset, backup_restored.",
+      "text": "Mecanismo: migration=='expand', old_code_compatible, ephemeral_reset, backup_restored."
+    },
+    {
+      "i": 33,
+      "len": 341,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: migration flags. Salida: expand seguro con restore. Error: drop column usado por v_old. Por qué importa: si no fijas «migration flags» → «expand seguro",
+      "text": "Contrato operativo. Entrada: migration flags. Salida: expand seguro con restore. Error: drop column usado por v_old. Por qué importa: si no fijas «migration flags» → «expand seguro con restore», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «drop column usado por v_old» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 64,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-3B: expand + restore. DB lab Trujillo.",
+      "text": "Aplicación a CASO-LIM-043-3B: expand + restore. DB lab Trujillo."
+    },
+    {
+      "i": 35,
+      "len": 51,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-A Locks con digest y multi-stage builder/runtime",
+      "text": "T4-A Locks con digest y multi-stage builder/runtime"
+    },
+    {
+      "i": 36,
+      "len": 161,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Lock con hash (sha256:…). Stages builder y runtime; el runtime no trae compiler. Deps de runtime pineadas. Reproducibilidad = mismo digest en dos builds limpios.",
+      "text": "Lock con hash (sha256:…). Stages builder y runtime; el runtime no trae compiler. Deps de runtime pineadas. Reproducibilidad = mismo digest en dos builds limpios."
+    },
+    {
+      "i": 37,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: lock_hash prefix, stages set, not compiler_in_runtime, runtime_deps_locked.",
+      "text": "Mecanismo: lock_hash prefix, stages set, not compiler_in_runtime, runtime_deps_locked."
+    },
+    {
+      "i": 38,
+      "len": 335,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: lock/stages/compiler flags. Salida: multi-stage pineado. Error: gcc en imagen final. Por qué importa: si no fijas «lock/stages/compiler flags» → «multi",
+      "text": "Contrato operativo. Entrada: lock/stages/compiler flags. Salida: multi-stage pineado. Error: gcc en imagen final. Por qué importa: si no fijas «lock/stages/compiler flags» → «multi-stage pineado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «gcc en imagen final» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-4A: sha256 lock, builder+runtime. Release Trujillo.",
+      "text": "Aplicación a CASO-LIM-043-4A: sha256 lock, builder+runtime. Release Trujillo."
+    },
+    {
+      "i": 40,
+      "len": 61,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-B Scanning de CVEs, resource limits y debug sin shell root",
+      "text": "T4-B Scanning de CVEs, resource limits y debug sin shell root"
+    },
+    {
+      "i": 41,
+      "len": 149,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Scan de imagen: critical_cves==0 para promover. Limits de memoria/CPU. Debug sin shell root permanente; logs redactados. Quarantine si el scan falla.",
+      "text": "Scan de imagen: critical_cves==0 para promover. Limits de memoria/CPU. Debug sin shell root permanente; logs redactados. Quarantine si el scan falla."
+    },
+    {
+      "i": 42,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: cves, memory_limit_mb≤512 lab, cpu_limit, not debug_shell, logs_redacted.",
+      "text": "Mecanismo: cves, memory_limit_mb≤512 lab, cpu_limit, not debug_shell, logs_redacted."
+    },
+    {
+      "i": 43,
+      "len": 333,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: scan y limits. Salida: imagen cuarentenable y acotada. Error: CVE crítica ignorada. Por qué importa: si no fijas «scan y limits» → «imagen cuarentenabl",
+      "text": "Contrato operativo. Entrada: scan y limits. Salida: imagen cuarentenable y acotada. Error: CVE crítica ignorada. Por qué importa: si no fijas «scan y limits» → «imagen cuarentenable y acotada», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «CVE crítica ignorada» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-043-4B: 0 CVE, 512MB, sin shell debug. Gate final CP-N4-A.",
+      "text": "Aplicación a CASO-LIM-043-4B: 0 CVE, 512MB, sin shell debug. Gate final CP-N4-A."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 11734
+}

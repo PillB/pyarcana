@@ -1,0 +1,711 @@
+{
+  "attempt_id": "agentic_A1",
+  "section_index": 10,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    }
+  ],
+  "active": {
+    "id": "sklearn",
+    "index": 10,
+    "title": "Módulos, packaging y CLI profesional",
+    "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+    "jobRelevance": "Empaquetar un ETL en un CLI instalable es lo que separa un notebook suelto de una herramienta usable por el equipo. Esta sección (id `sklearn` conservado) retematiza S10 a **módulos, packaging y CLI**: cierra empaquetado de **CP-N1-B** y base de **CP-N1-C**. scikit-learn se difiere al tramo ML.",
+    "learningOutcomes": [
+      "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+      "Definir API pública estable y helpers privados",
+      "Crear paquete instalable con layout src y pyproject.toml",
+      "Aplicar semver simple y requires-python / deps con criterio",
+      "Implementar subcomandos argparse con exit codes 0/1/2",
+      "Separar stdout (datos) de stderr (diagnóstico)",
+      "Implementar precedencia flags > env > archivo > defaults",
+      "Mantener secretos fuera del repo y validar config al arranque"
+    ],
+    "theory": [
+      {
+        "heading": "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)",
+        "paragraphs": [
+          "En V3, **S10 no es el path principal de Pipeline/ColumnTransformer/SHAP**. Ese material se reubica al tramo de ML tabular. Aquí empaquetas **familiarity_core**: módulos limpios, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia**.",
+          "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno **local-python**. Id de plataforma `sklearn` se conserva.",
+          "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Imports, namespaces y __main__",
+        "paragraphs": [
+          "`import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script.",
+          "`if __name__ == '__main__':` protege el CLI/demo para que no corra al importar. **`__all__`** documenta la API pública de `from mod import *` (y comunica intención).",
+          "Los **imports circulares** se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Dependencias cíclicas y API pública",
+        "paragraphs": [
+          "Prefijo `_` marca helpers **privados** (convención). La fachada (`__init__.py` o `api.py`) reexporta solo lo estable.",
+          "Una **API pública pequeña** (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major.",
+          "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Layout src, pyproject.toml y builds",
+        "paragraphs": [
+          "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo sin instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling).",
+          "`pip install -e .` instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI.",
+          "Si ves `ModuleNotFoundError` post-install, revisa nombre del paquete, packages discovery y el cwd."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Versionado y compatibilidad",
+        "paragraphs": [
+          "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual.",
+          "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón).",
+          "Un **CHANGELOG** stub (Added/Changed/Fixed) evita amnesia entre sprints. Breaking de firma pública se anuncia."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "argparse, subcomandos y exit codes",
+        "paragraphs": [
+          "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios.",
+          "Exit codes: **0** éxito, **2** uso/CLI inválido (argparse default), **1** error de runtime/negocio. Scripts y CI dependen de esto.",
+          "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "stdin/stdout/stderr y ayuda",
+        "paragraphs": [
+          "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` no contamina el archivo.",
+          "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`.",
+          "No mezcles `print` de debug en stdout. Progress bars y logs van a stderr."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Archivo/env/flags y precedencia",
+        "paragraphs": [
+          "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**.",
+          "Documenta la tabla en README. Un flag `--log-level` debe ganar a `FAMILIARITY_LOG_LEVEL`.",
+          "Implementa un `merge_config` puro y testeable: dicts por capa, reduce de menor a mayor prioridad."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Secretos, defaults y validación temprana",
+        "paragraphs": [
+          "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. Defaults seguros (TLS on, log level INFO, no debug PII).",
+          "`validate_config()` al arranque con errores claros (qué clave falta, qué subcomando la exige).",
+          "Fail-fast de config evita procesar 10k filas con un path mal tipeado."
+        ],
+        "code": null,
+        "code_output": null
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S10-T1-B-DEMO",
+          "description": "Separar normalize y cli en funciones; demo con guard __main__.",
+          "why": "La lógica vive en normalize; el entrypoint solo orquesta.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S10-T2-A-DEMO",
+          "description": "Fachada que exporta solo 4 símbolos públicos.",
+          "why": "Cuatro símbolos estables; helpers con _ fuera de la API.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S10-T2-B-DEMO",
+          "description": "Modelo mínimo de layout src + metadatos instalables.",
+          "why": "El layout src + pyproject es el contrato de packaging del curso.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S10-T3-A-DEMO",
+          "description": "Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).",
+          "why": "Feature compatible sube minor; documenta en CHANGELOG.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S10-T3-B-DEMO",
+          "description": "CLI con subcomandos ingest|normalize|compare|report y exit codes.",
+          "why": "Subparsers + return codes hacen la CLI operable en scripts.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S10-T4-A-DEMO",
+          "description": "Datos a stdout y diagnóstico a stderr (simula pipe normalize).",
+          "why": "El pipe de datos queda limpio; logs viven en stderr.",
+          "code": "import sys\nfrom io import StringIO\n\ndef normalize_cmd(raw: str, err: StringIO) -> str:\n    err.write(\"stage=normalize event=start\\n\")\n    out = raw.strip().casefold()\n    err.write(\"stage=normalize event=done\\n\")\n    return out\n\nstderr = StringIO()\ndata = normalize_cmd('  {\"name\": \"Ana\"}  ', stderr)\nprint(data)  # stdout\nprint(\"--- stderr ---\")\nprint(stderr.getvalue().strip())",
+          "language": "python",
+          "output": "{\"name\": \"ana\"}\n--- stderr ---\nstage=normalize event=start\nstage=normalize event=done"
+        },
+        {
+          "demoId": "S10-T4-B-DEMO",
+          "description": "FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.",
+          "why": "Precedencia flags > env > default documentada y testeable.",
+          "code": "def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str:\n    level = default\n    if env:\n        level = env\n    if flag:\n        level = flag\n    return level\n\nprint(\"solo env\", resolve_log_level(env=\"DEBUG\"))\nprint(\"flag gana\", resolve_log_level(env=\"DEBUG\", flag=\"ERROR\"))\nprint(\"default\", resolve_log_level())",
+          "language": "python",
+          "output": "solo env DEBUG\nflag gana ERROR\ndefault INFO"
+        },
+        {
+          "demoId": null,
+          "description": "Abort si falta API_TOKEN solo cuando el subcomando lo requiere.",
+          "why": "Validación temprana y contextual al subcomando.",
+          "code": "def need_token(command: str) -> bool:\n    return command in {\"ingest\", \"report\"}\n\ndef validate(command: str, cfg: dict) -> None:\n    if need_token(command) and not cfg.get(\"API_TOKEN\"):\n        raise SystemExit(f\"config: API_TOKEN requerido para {command}\")\n\nvalidate(\"normalize\", {})\nprint(\"normalize ok\")\ntry:\n    validate(\"ingest\", {})\nexcept SystemExit as e:\n    print(\"abort\", e)\nvalidate(\"ingest\", {\"API_TOKEN\": \"secret-demo\"})\nprint(\"ingest ok\")",
+          "language": "python",
+          "output": "normalize ok\nabort config: API_TOKEN requerido para ingest\ningest ok"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S10-T1-A-E1",
+          "instruction": "Crea un módulo lógico con función pública `clean` y `__all__ = ['clean']`.",
+          "hints": [
+            "Helper privado con _ no va en __all__.",
+            "Imprime __all__ y clean('  X ')."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO: clean + __all__"
+        },
+        {
+          "id": "S10-T1-A-E2",
+          "instruction": "Simula un import circular y arréglalo extrayendo un util compartido.",
+          "hints": [
+            "a importa b y b importa a → rompe; mueve la función común a util.",
+            "Imprime ok desde ambos lados."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# circular roto conceptualmente:\n# a.f -> b.g -> a.f\n# TODO: versión sana con util"
+        },
+        {
+          "id": "S10-T1-A-E3",
+          "instruction": "Elige import absoluto vs relativo en layout src: imprime la recomendación para 3 casos.",
+          "hints": [
+            "Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.",
+            "Formato caso -> recomendación."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "casos = [\n    \"normalize.py importa compare en el mismo paquete\",\n    \"plugin externo usa familiarity_core\",\n    \"ejecutar el CLI del paquete\",\n]\n# TODO"
+        },
+        {
+          "id": "S10-T1-B-E1",
+          "instruction": "Marca helpers privados con _ y deja públicas solo `normalize` y `compare`.",
+          "hints": [
+            "Imprime lista public vs private detectada por nombre.",
+            "Usa dir() filtrado o una lista explícita."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\n# TODO: renombrar y reportar"
+        },
+        {
+          "id": "S10-T1-B-E2",
+          "instruction": "Implementa una fachada que reexporta normalize y compare e imprime __all__.",
+          "hints": [
+            "Las implementaciones pueden ser locales.",
+            "from-style reexport simulado."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO facade"
+        },
+        {
+          "id": "S10-T1-B-E3",
+          "instruction": "Documenta un breaking change de firma pública: old → new y versión major.",
+          "hints": [
+            "Imprime BREAKING y NEW_VERSION.",
+            "Ejemplo: compare(a,b)->bool se vuelve compare(a,b)->float score."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T2-A-E1",
+          "instruction": "Completa un dict estilo pyproject con name y version e imprímelos.",
+          "hints": [
+            "name=familiarity-core version=0.1.0",
+            "Incluye requires-python >=3.11."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "project = {\n    # TODO\n}\nprint(project)"
+        },
+        {
+          "id": "S10-T2-A-E2",
+          "instruction": "Lista el layout src mínimo de un paquete importable e imprime cada path.",
+          "hints": [
+            "Incluye __init__.py, normalize.py, cli.py, pyproject.toml.",
+            "Usa prefijo src/familiarity_core/."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO paths"
+        },
+        {
+          "id": "S10-T2-A-E3",
+          "instruction": "Diagnostica ModuleNotFoundError: imprime 3 causas probables post-install.",
+          "hints": [
+            "Piensa en nombre, editable, y cwd.",
+            "Formato cause: ..."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T2-B-E1",
+          "instruction": "Clasifica 4 cambios en major/minor/patch.",
+          "hints": [
+            "Breaking → major; feature → minor; fix → patch.",
+            "Imprime cambio: nivel."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "cambios = [\n    \"renombrar normalize a clean_name (API pública)\",\n    \"añadir flag --format a report\",\n    \"corregir typo en help\",\n    \"eliminar subcomando compare\",\n]\n# TODO"
+        },
+        {
+          "id": "S10-T2-B-E2",
+          "instruction": "Fija dependencies mínimas del paquete (puede ser lista vacía + note) e imprime requires-python.",
+          "hints": [
+            "Para N1 stdlib: dependencies=[].",
+            "requires-python>=3.11."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T2-B-E3",
+          "instruction": "Escribe una política de compatibilidad hacia S11 dominio (3 bullets).",
+          "hints": [
+            "Cubrir renames de entidades y versiones.",
+            "Imprime POLICY líneas."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T3-A-E1",
+          "instruction": "Añade subcomando report con --format text|json y parsea un argv de ejemplo.",
+          "hints": [
+            "Usa argparse subparsers.",
+            "Imprime el namespace."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import argparse\n# TODO"
+        },
+        {
+          "id": "S10-T3-A-E2",
+          "instruction": "Mapea situaciones a exit codes 0/1/2 e imprime `caso: code`.",
+          "hints": [
+            "0 éxito, 1 runtime, 2 usage.",
+            "Cinco casos."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "casos = [\n    \"normalize ok\",\n    \"archivo de input no existe\",\n    \"flag desconocido\",\n    \"subcomando ausente\",\n    \"validación de config falla al arrancar\",\n]\n# TODO"
+        },
+        {
+          "id": "S10-T3-A-E3",
+          "instruction": "Escribe 3 líneas de ayuda --help orientadas a operador no dev.",
+          "hints": [
+            "Evita jerga de frameworks.",
+            "Imprime HELP: ..."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T3-B-E1",
+          "instruction": "Escribe resultado a stdout y un log a stderr (capturado con StringIO en la demo).",
+          "hints": [
+            "Función process(n) retorna n*2; log event=done.",
+            "Imprime ambos streams."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from io import StringIO\n# TODO"
+        },
+        {
+          "id": "S10-T3-B-E2",
+          "instruction": "Implementa `read_input(path_or_dash, stdin_text)` que lee path o '-' como stdin.",
+          "hints": [
+            "Si path=='-', usa stdin_text.",
+            "Prueba ambos modos."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    # TODO\n    ...\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))"
+        },
+        {
+          "id": "S10-T3-B-E3",
+          "instruction": "Revisa un CLI que contamina stdout con prints de progreso y propón la salida limpia.",
+          "hints": [
+            "Imprime BAD y GOOD.",
+            "GOOD solo JSON final."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def bad_cli():\n    print(\"empezando\")\n    print('{\"ok\": true}')\n    print(\"fin\")\n\n# TODO good_cli"
+        },
+        {
+          "id": "S10-T4-A-E1",
+          "instruction": "Imprime la tabla de precedencia de 4 capas (1=más baja … 4=más alta).",
+          "hints": [
+            "defaults < file < env < flags.",
+            "Formato rank:layer"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T4-A-E2",
+          "instruction": "Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando None en capas altas.",
+          "hints": [
+            "Prueba con log_level en todas las capas.",
+            "El flag debe ganar."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def merge(defaults, file_cfg, env_cfg, flags):\n    # TODO\n    ...\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))"
+        },
+        {
+          "id": "S10-T4-A-E3",
+          "instruction": "Caso conflictivo: env=DEBUG y flag=INFO — imprime el resultado esperado y por qué.",
+          "hints": [
+            "Una línea result= y una razón.",
+            "Español claro."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T4-B-E1",
+          "instruction": "Checklist de secretos en .gitignore: imprime 4 entradas típicas.",
+          "hints": [
+            "Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.",
+            "Formato ignore: ..."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S10-T4-B-E2",
+          "instruction": "Implementa `validate_config(cfg)` que exige log_level y data_dir; errores claros.",
+          "hints": [
+            "Raise RuntimeError con nombre de clave.",
+            "Prueba ok y fail."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def validate_config(cfg: dict) -> None:\n    # TODO\n    ...\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)"
+        },
+        {
+          "id": "S10-T4-B-E3",
+          "instruction": "Dado un default inseguro (log_level=DEBUG y echo_sql=True), propone defaults seguros.",
+          "hints": [
+            "Imprime old → new por clave.",
+            "Sin secretos en defaults."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\n# TODO"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Paquete familiarity_core + CLI profesional",
+      "context": "Conviertes el ETL de familiaridad en **paquete instalable** con subcomandos ingest|normalize|compare|report, config por precedencia y validación temprana. Sin secretos en repo. Reemplaza el legado de churn sklearn.",
+      "objectives": [
+        "Layout src/ + pyproject.toml instalable en editable",
+        "Subcomandos ingest, normalize, compare, report",
+        "Lógica de dominio separada de I/O CLI",
+        "Config por precedencia y validación temprana",
+        "Ayuda --help y exit codes documentados"
+      ],
+      "requirements": [
+        "pip install -e . funciona en entorno limpio (documentado)",
+        "python -m familiarity_core --help o entry point console_scripts",
+        "Sin secretos en repo; datos sintéticos",
+        "Errores de uso vs runtime distinguibles por exit code",
+        "Lógica importable sin side-effects",
+        "README de precedencia de config"
+      ],
+      "portfolioNote": "Incluye captura de --help, tabla de exit codes y ejemplo de pipe `... | normalize > out.json 2> log.txt` con datos sintéticos.",
+      "starterCode": "\"\"\"familiarity_core — packaging + CLI (CP-N1-B/C).\nEste stub simula la estructura; en tu repo real usa src/ + pyproject.toml.\n\"\"\"\nfrom __future__ import annotations\nimport argparse\nimport sys\nfrom typing import Optional\n\n__all__ = [\"normalize\", \"compare\", \"main\"]\n\ndef normalize(text: str) -> str:\n    return \" \".join(text.split()).casefold()\n\ndef compare(a: str, b: str) -> float:\n    return 1.0 if normalize(a) == normalize(b) else 0.0\n\ndef build_parser() -> argparse.ArgumentParser:\n    p = argparse.ArgumentParser(\n        prog=\"familiarity\",\n        description=\"CLI de familiaridad (datos sintéticos).\",\n    )\n    sub = p.add_subparsers(dest=\"cmd\", required=True)\n    sub.add_parser(\"ingest\", help=\"ingerir archivos de entrada\")\n    n = sub.add_parser(\"normalize\", help=\"normalizar texto\")\n    n.add_argument(\"text\")\n    c = sub.add_parser(\"compare\", help=\"comparar dos textos\")\n    c.add_argument(\"a\")\n    c.add_argument(\"b\")\n    r = sub.add_parser(\"report\", help=\"reporte simple\")\n    r.add_argument(\"--format\", choices=[\"text\", \"json\"], default=\"text\")\n    return p\n\ndef main(argv: Optional[list[str]] = None) -> int:\n    ns = build_parser().parse_args(argv)\n    if ns.cmd == \"normalize\":\n        print(normalize(ns.text))\n        return 0\n    if ns.cmd == \"compare\":\n        print(compare(ns.a, ns.b))\n        return 0\n    if ns.cmd == \"report\":\n        print(\"{\"status\": \"ok\"}\" if ns.format == \"json\" else \"status=ok\")\n        return 0\n    if ns.cmd == \"ingest\":\n        print(\"ingest: ok\", file=sys.stderr)\n        return 0\n    return 2\n\nif __name__ == \"__main__\":\n    raise SystemExit(main())"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Para qué sirve `if __name__ == '__main__'`?",
+        "options": [
+          "Acelerar el interpreter",
+          "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+          "Definir __all__",
+          "Instalar dependencias"
+        ]
+      },
+      {
+        "question": "Precedencia correcta de config…",
+        "options": [
+          "defaults > flags > env > file",
+          "flags > env > file > defaults",
+          "env > flags > file > defaults",
+          "file > flags > env > defaults"
+        ]
+      },
+      {
+        "question": "Exit code 2 en CLI argparse suele significar…",
+        "options": [
+          "Éxito",
+          "Error de uso/parseo de argumentos",
+          "Timeout de red",
+          "Fraude detectado"
+        ]
+      },
+      {
+        "question": "¿Dónde van los logs de progreso?",
+        "options": [
+          "stdout con el JSON",
+          "stderr",
+          "en el nombre del archivo",
+          "en __all__"
+        ]
+      },
+      {
+        "question": "Añadir un subcomando nuevo compatible es tipicamente…",
+        "options": [
+          "major",
+          "minor",
+          "borrar el repo",
+          "patch obligatorio siempre"
+        ]
+      },
+      {
+        "question": "¿Qué no debe ir al git del paquete?",
+        "options": [
+          ".env con API_TOKEN",
+          "README.md",
+          "pyproject.toml",
+          "src/.../__init__.py"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "adf1b4b46fb5db1b"
+}

@@ -1,0 +1,236 @@
+{
+  "section_index": 50,
+  "title": "Evals, red teaming y fiabilidad de IA",
+  "outcomes": [
+    "Arma dataset y rúbrica de tareas",
+    "Evalúa resultado, proceso y recovery",
+    "Combina graders det/humanos/LLM",
+    "Calibra jueces y evita order bias",
+    "Prueba injection, exfil y tool misuse",
+    "Mitiga injection indirecta y poisoning",
+    "Detecta hallucination y abstiene",
+    "Opera latency/cost e incidentes"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S50: Evals, red teaming y fiabilidad de IA",
+      "paragraphs": [
+        "En V3, **S50** retematiza el archivo de plataforma `tech-leadership` hacia **Evals, red teaming y fiabilidad de IA**.",
+        "Incremento: suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye argumentos de tool call y reanudación, no solo texto final.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "task dataset y rubric",
+      "paragraphs": [
+        "**task dataset y rubric** — outcome del blueprint phase3 para `task-dataset-rubric`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "resultado, proceso, trajectory y recovery",
+      "paragraphs": [
+        "**resultado, proceso, trajectory y recovery** — outcome del blueprint phase3 para `outcome-process-trajectory-recovery`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "graders deterministas/humanos/LLM",
+      "paragraphs": [
+        "**graders deterministas/humanos/LLM** — outcome del blueprint phase3 para `graders-det-human-llm`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "calibración, order bias y conjunto retenido",
+      "paragraphs": [
+        "**calibración, order bias y conjunto retenido** — outcome del blueprint phase3 para `calibration-order-bias-holdout`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "prompt injection, exfiltración y tool misuse",
+      "paragraphs": [
+        "**prompt injection, exfiltración y tool misuse** — outcome del blueprint phase3 para `injection-exfil-tool-misuse`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "indirect injection, data poisoning y least privilege",
+      "paragraphs": [
+        "**indirect injection, data poisoning y least privilege** — outcome del blueprint phase3 para `indirect-poison-least-priv`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "hallucination y abstención",
+      "paragraphs": [
+        "**hallucination y abstención** — outcome del blueprint phase3 para `hallucination-abstention`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"p95_ms\":800,\"cost_usd\":0.02}); print(\"incident\", \"rollback_model\"); print(\"cache\", \"prompt_prefix\")"
+    },
+    {
+      "heading": "latency/cost/caching, incident response y rollback",
+      "paragraphs": [
+        "**latency/cost/caching, incident response y rollback** — outcome del blueprint phase3 para `latency-cost-cache-incident-rollback`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (quality gate)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S50-T1-B-DEMO",
+      "description": "Demo: task dataset y rubric",
+      "why": "Demuestra el outcome de S50-T1-A con Python verificable.",
+      "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")"
+    },
+    {
+      "demoId": "S50-T2-A-DEMO",
+      "description": "Demo: resultado, proceso, trajectory y recovery",
+      "why": "Demuestra el outcome de S50-T1-B con Python verificable.",
+      "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)"
+    },
+    {
+      "demoId": "S50-T2-B-DEMO",
+      "description": "Demo: graders deterministas/humanos/LLM",
+      "why": "Demuestra el outcome de S50-T2-A con Python verificable.",
+      "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")"
+    },
+    {
+      "demoId": "S50-T3-A-DEMO",
+      "description": "Demo: calibración, order bias y conjunto retenido",
+      "why": "Demuestra el outcome de S50-T2-B con Python verificable.",
+      "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)"
+    },
+    {
+      "demoId": "S50-T3-B-DEMO",
+      "description": "Demo: prompt injection, exfiltración y tool misuse",
+      "why": "Demuestra el outcome de S50-T3-A con Python verificable.",
+      "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")"
+    },
+    {
+      "demoId": "S50-T4-A-DEMO",
+      "description": "Demo: indirect injection, data poisoning y least privilege",
+      "why": "Demuestra el outcome de S50-T3-B con Python verificable.",
+      "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")"
+    },
+    {
+      "demoId": "S50-T4-B-DEMO",
+      "description": "Demo: hallucination y abstención",
+      "why": "Demuestra el outcome de S50-T4-A con Python verificable.",
+      "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: latency/cost/caching, incident response y rollback",
+      "why": "Demuestra el outcome de S50-T4-B con Python verificable.",
+      "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S50 que se preserva es:",
+      "options": [
+        "tech-leadership",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S50 pertenece a:",
+      "options": [
+        "CP-N4-C (quality gate)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura",
+    "Ingeniería de datos y orquestación de producción",
+    "MLOps: experimentos, registro y serving",
+    "LLM applications y RAG con evidencia",
+    "Agentes, herramientas y context engineering"
+  ]
+}

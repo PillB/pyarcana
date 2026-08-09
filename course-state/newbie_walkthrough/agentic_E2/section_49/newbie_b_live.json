@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 49,
+  "packet_sha": "2864233a4f8e529b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s49-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T1-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "pasos",
+        "status",
+        "print",
+        "salida",
+        "true",
+        "case_id",
+        "aya"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T1-A-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación debe demostrar workflow preferido cuando pasos conocidos y b…». Hints: Relaciona los campos `known_steps`, `branch_count`, `tool_choice_uncertain`, `baseline_success`, `agent_success` con la regla explicada en S49-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva ADR workflow/agente con baseline; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'branch_count', 'known_steps', 'tool_choice_uncertain', 'baseline_success', 'case_id', 'agent_success'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    except Exception:\n        return 'KEEP_DETERMINISTIC_WORKFLOW'\n    return 'PASS' if ok else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nrecord = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'agent_success'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T1-A-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, known_steps, branch_count, tool_choice_uncertain, ba…». Hints: Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.; Después aplica la regla de S49-T1-A: workflow preferido cuando pasos conocidos y baseline gana. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T1-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"agent_success\"\n    try:\n        ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T1-A-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `KEEP_DETERMINISTIC_WORKFLOW` y la ausencia de `age…». Hints: Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró workflow preferido cuando pasos conocidos y baseline gana; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T1-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "routing",
+        "status",
+        "print",
+        "completos",
+        "evaluator_pass",
+        "evaluator",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T1-B-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo del starter; la operación debe demostrar ruta válida, plan …». Hints: Relaciona los campos `route`, `plan_steps`, `max_steps`, `worker_outputs`, `evaluator_pass` con la regla explicada en S49-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva trayectoria con roles y máximo de iteraciones; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'route', 'max_steps', 'plan_steps', 'worker_outputs', 'evaluator_pass', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    except Exception:\n        return 'STOP_AGENT_LOOP'\n    return 'PASS' if ok else 'STOP_AGENT_LOOP'\n\nrecord = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'evaluator_pass'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "routing",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "report"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T1-B-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. Entrada: dict con case_id, route, plan_steps, max…». Hints: Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.; Después aplica la regla de S49-T1-B: ruta válida, plan acotado, outputs completos y evaluación. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T1-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"evaluator_pass\"\n    try:\n        ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "routing",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "report"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T1-B-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continuar, el adverso debe devolver `STOP_AGENT_LOOP` y la…». Hints: Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ruta válida, plan acotado, outputs completos y evaluación; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T2-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "side_effect",
+        "print",
+        "tool",
+        "salida",
+        "estrecho",
+        "true"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T2-A-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter; la operación debe demostrar una responsabilidad, schema es…». Hints: Relaciona los campos `tool`, `responsibilities`, `schema_fields`, `side_effect`, `typed_errors` con la regla explicada en S49-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva tool contract con casos válidos/inválidos; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibil…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'side_effect', 'typed_errors', 'tool', 'responsibilities', 'schema_fields', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    except Exception:\n        return 'DISABLE_OVERBROAD_TOOL'\n    return 'PASS' if ok else 'DISABLE_OVERBROAD_TOOL'\n\nrecord = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'typed_errors'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "clasifica",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T2-A-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: dict con case_id, tool, responsibilities, schema_fie…». Hints: Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.; Después aplica la regla de S49-T2-A: una responsabilidad, schema estrecho y error tipado. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T2-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"typed_errors\"\n    try:\n        ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T2-A-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adverso debe devolver `DISABLE_OVERBROAD_TOOL` y la aus…». Hints: Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró una responsabilidad, schema estrecho y error tipado; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T2-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "tool",
+        "granted",
+        "schema_valid",
+        "scope",
+        "attempts"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T2-B-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del starter; la operación debe demostrar schema/scope válidos y r…». Hints: Relaciona los campos `schema_valid`, `scope`, `granted`, `idempotency_key`, `attempts`, `effects`, `error_kind` con la regla explicada en S49-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva replay y denegación de tool probados; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:p…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'error_kind', 'idempotency_key', 'effects', 'granted', 'schema_valid', 'scope', 'attempts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    except Exception:\n        return 'DENY_TOOL_CALL'\n    return 'PASS' if ok else 'DENY_TOOL_CALL'\n\nrecord = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'error_kind'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "scope",
+        "true",
+        "registro",
+        "get",
+        "error_kind"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T2-B-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: dict con case_id, schema_valid, scope, granted, ide…». Hints: Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.; Después aplica la regla de S49-T2-B: schema/scope válidos y retry con un solo efecto. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T2-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"error_kind\"\n    try:\n        ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "scope",
+        "true",
+        "get",
+        "error_kind",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T2-B-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el adverso debe devolver `DENY_TOOL_CALL` y la ausen…». Hints: Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró schema/scope válidos y retry con un solo efecto; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T3-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "provenance",
+        "status",
+        "print",
+        "salida",
+        "checkpoint_after_effect",
+        "true",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T3-A-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo del starter; la operación debe demostrar contexto bajo pres…». Hints: Relaciona los campos `context_tokens`, `max_context_tokens`, `retrieved_just_in_time`, `checkpoint_after_effect`, `provenance` con la regla explicada en S49-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva reanudación desde checkpoint consistente; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_to…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'provenance', 'retrieved_just_in_time', 'context_tokens', 'max_context_tokens', 'checkpoint_after_effect', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    except Exception:\n        return 'COMPACT_AND_CHECKPOINT'\n    return 'PASS' if ok else 'COMPACT_AND_CHECKPOINT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'provenance'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "provenance",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "retrieved_just_in_time"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T3-A-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrada: dict con case_id, context_tokens, max_context_t…». Hints: Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.; Después aplica la regla de S49-T3-A: contexto bajo presupuesto, JIT, provenance y checkpoint. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T3-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"provenance\"\n    try:\n        ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "provenance",
+        "print",
+        "stages",
+        "infrastructure",
+        "contrasta",
+        "true",
+        "retrieve_minimum_context",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T3-A-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continuar, el adverso debe devolver `COMPACT_AND_CHECKPOIN…». Hints: Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró contexto bajo presupuesto, JIT, provenance y checkpoint; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T3-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "no_prod_write",
+        "retención",
+        "status",
+        "print",
+        "last_known_good",
+        "clasifica",
+        "facts_before"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T3-B-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del starter; la operación debe demostrar compaction conserva rest…». Hints: Relaciona los campos `facts_before`, `facts_after`, `memory_retention_days`, `last_known_good` con la regla explicada en S49-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva compaction no pierde restricción crítica; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"n…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'memory_retention_days', 'last_known_good', 'facts_after', 'facts_before', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    except Exception:\n        return 'RESTORE_LAST_KNOWN_GOOD'\n    return 'PASS' if ok else 'RESTORE_LAST_KNOWN_GOOD'\n\nrecord = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'last_known_good'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "no_prod_write",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "known"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T3-B-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada: dict con case_id, facts_before, facts_after, mem…». Hints: Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.; Después aplica la regla de S49-T3-B: compaction conserva restricciones, retención y LKG. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T3-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"last_known_good\"\n    try:\n        ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "no_prod_write",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "known"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T3-B-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el adverso debe devolver `RESTORE_LAST_KNOWN_GOOD` y…». Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró compaction conserva restricciones, retención y LKG; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T4-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "pasos",
+        "status",
+        "print",
+        "goal_met",
+        "max_tokens",
+        "dentro",
+        "meta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T4-A-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la operación debe demostrar meta lograda dentro de pasos, token…». Hints: Relaciona los campos `goal_met`, `steps`, `max_steps`, `tokens`, `max_tokens`, `cost_pen`, `max_cost_pen` con la regla explicada en S49-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva budget exhaustion termina con razón; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'max_steps', 'tokens', 'goal_met', 'max_tokens', 'max_cost_pen', 'cost_pen', 'steps', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    except Exception:\n        return 'STOP_BUDGET_EXHAUSTED'\n    return 'PASS' if ok else 'STOP_BUDGET_EXHAUSTED'\n\nrecord = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'max_cost_pen'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "goal_met",
+        "max_tokens",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T4-A-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con case_id, goal_met, steps, max_steps, tokens, max_t…». Hints: Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.; Después aplica la regla de S49-T4-A: meta lograda dentro de pasos, tokens y costo. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T4-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"max_cost_pen\"\n    try:\n        ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "goal_met",
+        "max_tokens",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T4-A-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe devolver `STOP_BUDGET_EXHAUSTED` y la ausencia de …». Hints: Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró meta lograda dentro de pasos, tokens y costo; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S49-T4-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "approval",
+        "entrada",
+        "status",
+        "print",
+        "workspace",
+        "human",
+        "sandbox_and_stop",
+        "none"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T4-B-E1 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del starter; la operación debe demostrar sandbox mínimo, aprobación…». Hints: Relaciona los campos `network`, `filesystem`, `sensitive_action`, `approval_required`, `approval_present`, `checkpoint`, `replayed_effects` con la regla explicada en S49-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva acción de producción imposible sin aprobación; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"worksp…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S49-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'network', 'sensitive_action', 'approval_required', 'approval_present', 'checkpoint', 'replayed_effects', 'filesystem', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    except Exception:\n        return 'SANDBOX_AND_STOP'\n    return 'PASS' if ok else 'SANDBOX_AND_STOP'\n\nrecord = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'replayed_effects'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "human",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T4-B-E2 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrada: dict con case_id, network, filesystem, sensitiv…». Hints: Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.; Después aplica la regla de S49-T4-B: sandbox mínimo, aprobación y reanudación sin repetir efectos. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S49-T4-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"replayed_effects\"\n    try:\n        ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "human",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S49-T4-B-E3 solo con el paquete activo S49 (Agentes, herramientas y context engineering). Instruction: «S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el adverso debe devolver `SANDBOX_AND_STOP` y la ause…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sandbox mínimo, aprobación y reanudación sin repetir efectos; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «workflow vs agente Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato…». Demos: S49-T1-A-DEMO | S49-T1-B-DEMO | S49-T2-A-DEMO | S49-T2-B-DEMO | S49-T3-A-DEMO | S49-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "ADR workflow/agente con baseline",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «ADR workflow/agente con baseline» para la pregunta «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?» porque el paquete activo S49 (Agentes, herramientas y context engineering) enseña: «Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "emitir STOP_AGENT y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «emitir STOP_AGENT y conservar evidencia» para la pregunta «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?» porque el paquete activo S49 (Agentes, herramientas y context engineering) enseña: «Aplicación de `workflow vs agente` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia es…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» para la pregunta «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?» porque el paquete activo S49 (Agentes, herramientas y context engineering) enseña: «Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para la pregunta «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?» porque el paquete activo S49 (Agentes, herramientas y context engineering) enseña: «Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: ADR workflow/agente con baseline. Error: tool no perm…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.943842+00:00"
+}

@@ -1,0 +1,62 @@
+{
+  "section": 27,
+  "section_id": "async-concurrency",
+  "file": "src/lib/course/sections/s27-async-concurrency.ts",
+  "title": "Estrategia de pruebas con pytest",
+  "shortTitle": "Pytest y contratos",
+  "score_before": 4.8,
+  "score_after_estimate": 9.6,
+  "status": "fixed_validated",
+  "anti_aberration_ok": true,
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S27_EXPLORER_REPORT.md",
+  "issues_fixed": [
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-21",
+    "ISSUE-22",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M8"
+  ],
+  "issues_deferred": [
+    "ISSUE-01_ops_id_filename_rename_async-concurrency",
+    "ISSUE-20_phase_metadata_alignment_intentional_n3",
+    "M6_DEFECT_comments_kept_as_bug_hunt_pattern",
+    "M7_platform_id_async-concurrency_kept_for_routing"
+  ],
+  "validation": {
+    "theory_ido_solution_code_output_pairs_ok": 40,
+    "youDo_starter_runs": true,
+    "meta_leak_hits": 0,
+    "theory_paragraph_duplicates": 0,
+    "weDo_instruction_unique": 24,
+    "test_star_defs": 11,
+    "tsc_noEmit_clean": true
+  },
+  "this_pass_residual_edits": [
+    "S27-T3-B-E2 starter/solution I/O honesty (invalid vs reject/assert)",
+    "S27-T4-A-E3 starter/solution I/O honesty (int percent 66 vs round 67 trap)",
+    "selfCheck Q5 package-scope distractor factual correction"
+  ],
+  "notes": "Explorer-guided residual pass on S27 only. Prior full fix re-validated (P0 meta-leaks, boilerplate purge, 40/40 code-output honesty, authentic test_* shapes). This pass closed residual ISSUE-08 I/O conflicts in two weDo starters and a factual ISSUE-15 quiz distractor. Platform id async-concurrency retained for stable URLs. Hand-crafted educational content only — no bulk generators. score_after_estimate 9.6 ≥ 9.5 fleet floor.",
+  "date": "2026-07-24"
+}

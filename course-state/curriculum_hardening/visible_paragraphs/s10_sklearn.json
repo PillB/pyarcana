@@ -1,0 +1,501 @@
+{
+  "index": 10,
+  "id": "sklearn",
+  "title": "Módulos, packaging y CLI profesional",
+  "file": "s10-sklearn.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)",
+      "len": 63
+    },
+    {
+      "i": 1,
+      "text": "En V3, S10 no es el path principal de Pipeline/ColumnTransformer/SHAP. Ese material se reubica al tramo de ML tabular. Aquí empaquetas familiarity_core: módulos limpios, pyproject.toml, CLI con subcomandos y config por precedencia. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 425
+    },
+    {
+      "i": 2,
+      "text": "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno local-python. Id de plataforma sklearn se conserva. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 399
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Módulos → T2 Paquetes → T3 CLI → T4 Configuración. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 331
+    },
+    {
+      "i": 4,
+      "text": "Imports, namespaces y __main__",
+      "len": 30
+    },
+    {
+      "i": 5,
+      "text": "import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 350
+    },
+    {
+      "i": 6,
+      "text": "if __name__ == '__main__': protege el CLI/demo para que no corra al importar. __all__ documenta la API pública de from mod import * (y comunica intención). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 441
+    },
+    {
+      "i": 7,
+      "text": "Los imports circulares se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Imports, namespaces y __main__»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 390
+    },
+    {
+      "i": 8,
+      "text": "Dependencias cíclicas y API pública",
+      "len": 35
+    },
+    {
+      "i": 9,
+      "text": "Prefijo _ marca helpers privados (convención). La fachada (__init__.py o api.py) reexporta solo lo estable. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 301
+    },
+    {
+      "i": 10,
+      "text": "Una API pública pequeña (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 423
+    },
+    {
+      "i": 11,
+      "text": "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias cíclicas y API pública»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 350
+    },
+    {
+      "i": 12,
+      "text": "Layout src, pyproject.toml y builds",
+      "len": 35
+    },
+    {
+      "i": 13,
+      "text": "Layout src/: src/familiarity_core/... evita importar el paquete desde el repo sin instalar. pyproject.toml declara name, version, requires-python y el build backend (setuptools/hatchling). En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 382
+    },
+    {
+      "i": 14,
+      "text": "pip install -e . instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 397
+    },
+    {
+      "i": 15,
+      "text": "Si ves ModuleNotFoundError post-install, revisa nombre del paquete, packages discovery y el cwd. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Layout src, pyproject.toml y builds»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 339
+    },
+    {
+      "i": 16,
+      "text": "Versionado y compatibilidad",
+      "len": 27
+    },
+    {
+      "i": 17,
+      "text": "SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 332
+    },
+    {
+      "i": 18,
+      "text": "requires-python y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 383
+    },
+    {
+      "i": 19,
+      "text": "Un CHANGELOG real, aunque breve (Added/Changed/Fixed con cambios concretos), evita amnesia entre sprints. Breaking de firma pública se anuncia. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Versionado y compatibilidad»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 378
+    },
+    {
+      "i": 20,
+      "text": "argparse, subcomandos y exit codes",
+      "len": 34
+    },
+    {
+      "i": 21,
+      "text": "argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 308
+    },
+    {
+      "i": 22,
+      "text": "Exit codes: 0 éxito, 2 uso/CLI inválido (argparse default), 1 error de runtime/negocio. Scripts y CI dependen de esto. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 404
+    },
+    {
+      "i": 23,
+      "text": "Separa el parse de args de la lógica: main(argv) -> int retorna el código; el entrypoint hace sys.exit(main()). Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «argparse, subcomandos y exit codes»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 353
+    },
+    {
+      "i": 24,
+      "text": "stdin/stdout/stderr y ayuda",
+      "len": 27
+    },
+    {
+      "i": 25,
+      "text": "stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 291
+    },
+    {
+      "i": 26,
+      "text": "Soportar path o - para stdin habilita pipes: cat data.json | familiarity normalize. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 369
+    },
+    {
+      "i": 27,
+      "text": "No mezcles print de debug en stdout. Progress bars y logs van a stderr. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «stdin/stdout/stderr y ayuda»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 306
+    },
+    {
+      "i": 28,
+      "text": "Archivo/env/flags y precedencia",
+      "len": 31
+    },
+    {
+      "i": 29,
+      "text": "Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 280
+    },
+    {
+      "i": 30,
+      "text": "Documenta la tabla en README. Un flag --log-level debe ganar a FAMILIARITY_LOG_LEVEL. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 371
+    },
+    {
+      "i": 31,
+      "text": "Implementa un merge_config puro y testeable: dicts por capa, reduce de menor a mayor prioridad. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Archivo/env/flags y precedencia»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 334
+    },
+    {
+      "i": 32,
+      "text": "Secretos, defaults y validación temprana",
+      "len": 40
+    },
+    {
+      "i": 33,
+      "text": "Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo. Defaults seguros (log level INFO, no debug PII). En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+      "len": 403
+    },
+    {
+      "i": 34,
+      "text": "validate_config() al arranque reporta qué clave falta y qué subcomando la exige: input_path para ingest y manifest_path para report. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+      "len": 418
+    },
+    {
+      "i": 35,
+      "text": "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Secretos, defaults y validación temprana»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 317
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 63,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)",
+      "text": "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 425,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S10 no es el path principal de Pipeline/ColumnTransformer/SHAP. Ese material se reubica al tramo de ML tabular. Aquí empaquetas familiarity_core: módulos limpios, pyproject.",
+      "text": "En V3, S10 no es el path principal de Pipeline/ColumnTransformer/SHAP. Ese material se reubica al tramo de ML tabular. Aquí empaquetas familiarity_core: módulos limpios, pyproject.toml, CLI con subcomandos y config por precedencia. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 2,
+      "len": 399,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno local-python. Id de plataforma sklearn se conserva. Contrato: entrada explícita → transformación documentada → salida ",
+      "text": "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno local-python. Id de plataforma sklearn se conserva. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 3,
+      "len": 331,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Módulos → T2 Paquetes → T3 CLI → T4 Configuración. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido ",
+      "text": "Orden: T1 Módulos → T2 Paquetes → T3 CLI → T4 Configuración. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 4,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Imports, namespaces y __main__",
+      "text": "Imports, namespaces y __main__"
+    },
+    {
+      "i": 5,
+      "len": 350,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En packaging y CLI, el ",
+      "text": "import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 441,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "if __name__ == '__main__': protege el CLI/demo para que no corra al importar. __all__ documenta la API pública de from mod import * (y comunica intención). Contrato: entrada explíc",
+      "text": "if __name__ == '__main__': protege el CLI/demo para que no corra al importar. __all__ documenta la API pública de from mod import * (y comunica intención). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 7,
+      "len": 390,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los imports circulares se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks. Caso sintético Perú: CLI lo",
+      "text": "Los imports circulares se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Imports, namespaces y __main__»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Dependencias cíclicas y API pública",
+      "text": "Dependencias cíclicas y API pública"
+    },
+    {
+      "i": 9,
+      "len": 301,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prefijo _ marca helpers privados (convención). La fachada (__init__.py o api.py) reexporta solo lo estable. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelin",
+      "text": "Prefijo _ marca helpers privados (convención). La fachada (__init__.py o api.py) reexporta solo lo estable. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 423,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una API pública pequeña (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major. Contrato: entrada explícita → transformaci",
+      "text": "Una API pública pequeña (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 11,
+      "len": 350,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes.",
+      "text": "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias cíclicas y API pública»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 12,
+      "len": 35,
+      "rank": 9,
+      "issues": [
+        {
+          "code": "too_short",
+          "severity": "med",
+          "detail": "len=35"
+        }
+      ],
+      "excerpt": "Layout src, pyproject.toml y builds",
+      "text": "Layout src, pyproject.toml y builds"
+    },
+    {
+      "i": 13,
+      "len": 382,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Layout src/: src/familiarity_core/... evita importar el paquete desde el repo sin instalar. pyproject.toml declara name, version, requires-python y el build backend (setuptools/hat",
+      "text": "Layout src/: src/familiarity_core/... evita importar el paquete desde el repo sin instalar. pyproject.toml declara name, version, requires-python y el build backend (setuptools/hatchling). En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 397,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "pip install -e . instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI. Contrato: entrada explícita → transformación documentada → salida me",
+      "text": "pip install -e . instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 15,
+      "len": 339,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Si ves ModuleNotFoundError post-install, revisa nombre del paquete, packages discovery y el cwd. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta ",
+      "text": "Si ves ModuleNotFoundError post-install, revisa nombre del paquete, packages discovery y el cwd. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Layout src, pyproject.toml y builds»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Versionado y compatibilidad",
+      "text": "Versionado y compatibilidad"
+    },
+    {
+      "i": 17,
+      "len": 332,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, el porqué es operativ",
+      "text": "SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 383,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "requires-python y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Contrato: entrada explícita → transformación documentada → salida medible; si falt",
+      "text": "requires-python y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 19,
+      "len": 378,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un CHANGELOG real, aunque breve (Added/Changed/Fixed con cambios concretos), evita amnesia entre sprints. Breaking de firma pública se anuncia. Caso sintético Perú: CLI local que e",
+      "text": "Un CHANGELOG real, aunque breve (Added/Changed/Fixed con cambios concretos), evita amnesia entre sprints. Breaking de firma pública se anuncia. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Versionado y compatibilidad»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "argparse, subcomandos y exit codes",
+      "text": "argparse, subcomandos y exit codes"
+    },
+    {
+      "i": 21,
+      "len": 308,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el porqué es operativo: reduce ambigüedad en ",
+      "text": "argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 404,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Exit codes: 0 éxito, 2 uso/CLI inválido (argparse default), 1 error de runtime/negocio. Scripts y CI dependen de esto. Contrato: entrada explícita → transformación documentada → sa",
+      "text": "Exit codes: 0 éxito, 2 uso/CLI inválido (argparse default), 1 error de runtime/negocio. Scripts y CI dependen de esto. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 23,
+      "len": 353,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Separa el parse de args de la lógica: main(argv) -> int retorna el código; el entrypoint hace sys.exit(main()). Caso sintético Perú: CLI local que emite scores sintéticos y exit co",
+      "text": "Separa el parse de args de la lógica: main(argv) -> int retorna el código; el entrypoint hace sys.exit(main()). Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «argparse, subcomandos y exit codes»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "stdin/stdout/stderr y ayuda",
+      "text": "stdin/stdout/stderr y ayuda"
+    },
+    {
+      "i": 25,
+      "len": 291,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales",
+      "text": "stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 26,
+      "len": 369,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Soportar path o - para stdin habilita pipes: cat data.json | familiarity normalize. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o ",
+      "text": "Soportar path o - para stdin habilita pipes: cat data.json | familiarity normalize. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 27,
+      "len": 306,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No mezcles print de debug en stdout. Progress bars y logs van a stderr. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límit",
+      "text": "No mezcles print de debug en stdout. Progress bars y logs van a stderr. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «stdin/stdout/stderr y ayuda»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Archivo/env/flags y precedencia",
+      "text": "Archivo/env/flags y precedencia"
+    },
+    {
+      "i": 29,
+      "len": 280,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rast",
+      "text": "Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 371,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Documenta la tabla en README. Un flag --log-level debe ganar a FAMILIARITY_LOG_LEVEL. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia ",
+      "text": "Documenta la tabla en README. Un flag --log-level debe ganar a FAMILIARITY_LOG_LEVEL. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 31,
+      "len": 334,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Implementa un merge_config puro y testeable: dicts por capa, reduce de menor a mayor prioridad. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta d",
+      "text": "Implementa un merge_config puro y testeable: dicts por capa, reduce de menor a mayor prioridad. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Archivo/env/flags y precedencia»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Secretos, defaults y validación temprana",
+      "text": "Secretos, defaults y validación temprana"
+    },
+    {
+      "i": 33,
+      "len": 403,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo. Defaults seguros (l",
+      "text": "Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo. Defaults seguros (log level INFO, no debug PII). En packaging y CLI, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 418,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "validate_config() al arranque reporta qué clave falta y qué subcomando la exige: input_path para ingest y manifest_path para report. Contrato: entrada explícita → transformación do",
+      "text": "validate_config() al arranque reporta qué clave falta y qué subcomando la exige: input_path para ingest y manifest_path para report. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud."
+    },
+    {
+      "i": 35,
+      "len": 317,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite ",
+      "text": "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Secretos, defaults y validación temprana»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9,
+  "high_issues": [],
+  "raw_len": 15471
+}

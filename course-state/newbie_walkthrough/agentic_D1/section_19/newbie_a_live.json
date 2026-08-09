@@ -1,0 +1,391 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 19,
+  "packet_sha": "2607badf23d76722",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "bar",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T1-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T1-A-E1 (guided) apoyándome en la teoría «pregunta, audiencia y chart choice» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Asigna chart='bar'.; print el valor.. Salida observada: bar."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "{'pregunta': 'totales por región', 'audiencia': 'ejecutivo', 'chart': 'bar'}",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T1-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T1-A-E2 (independent) apoyándome en la teoría «pregunta, audiencia y chart choice» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Incluye las 3 claves.; chart bar.. Salida observada: {'pregunta': 'totales por región', 'audiencia': 'ejecutivo', 'chart': 'bar'}."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "line | bar",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"), \"|\", elige_chart(\"comparar regiones\"))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T1-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T1-A-E3 (transfer) apoyándome en la teoría «pregunta, audiencia y chart choice» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: in para substring.; Dos prints.. Salida observada: line | bar."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "factor 5.0",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T1-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T1-B-E1 (guided) apoyándome en la teoría «ejes, escalas y encodings honestos» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.; factor = truco/honesto.. Salida observada: factor 5.0."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "honesto",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T1-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T1-B-E2 (independent) apoyándome en la teoría «ejes, escalas y encodings honestos» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Variable ylim_bottom=0.; print condicional.. Salida observada: honesto."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "riesgo_alto",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T1-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T1-B-E3 (transfer) apoyándome en la teoría «ejes, escalas y encodings honestos» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: if/elif.; Prueba dual_axis.. Salida observada: riesgo_alto."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "True",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T2-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T2-A-E1 (guided) apoyándome en la teoría «Matplotlib / Seaborn» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: matplotlib Agg.; plt.close.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "PEN",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T2-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T2-A-E2 (independent) apoyándome en la teoría «Matplotlib / Seaborn» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: set_ylabel.; Agg backend.. Salida observada: PEN."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "{'n_bars': 2, 'ylim0': 0.0}",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nimport numpy as np\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(bottom=0)\n    return {\"n_bars\": len(labels), \"ylim0\": ax.get_ylim()[0]}\nprint(meta_bar([\"a\", \"b\"], [1, 2]))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T2-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T2-A-E3 (transfer) apoyándome en la teoría «Matplotlib / Seaborn» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: len(values).; set_ylim(0, max*1.2).. Salida observada: {'n_bars': 2, 'ylim0': 0.0}."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "{'fmt': 'png', 'dpi': 120, 'panels': 2}",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T2-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T2-B-E1 (guided) apoyándome en la teoría «composición, annotations y exportación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Dict literal.; print.. Salida observada: {'fmt': 'png', 'dpi': 120, 'panels': 2}."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "fig_cpn2b_v3.png",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T2-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T2-B-E2 (independent) apoyándome en la teoría «composición, annotations y exportación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: f-string.; print nombre.. Salida observada: fig_cpn2b_v3.png."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "['Vol', 'Med']",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T2-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T2-B-E3 (transfer) apoyándome en la teoría «composición, annotations y exportación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: ax.get_title().; close fig.. Salida observada: ['Vol', 'Med']."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "28",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T3-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T3-A-E1 (guided) apoyándome en la teoría «Plotly / filtros / tooltips (modelo de datos)» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: list comp o next.; print valor.. Salida observada: 28."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "Lima: 28 PEN (n=40)",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T3-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T3-A-E2 (independent) apoyándome en la teoría «Plotly / filtros / tooltips (modelo de datos)» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: f-string.; print.. Salida observada: Lima: 28 PEN (n=40)."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "Cusco: 22.5 PEN (n=32)",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T3-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T3-A-E3 (transfer) apoyándome en la teoría «Plotly / filtros / tooltips (modelo de datos)» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Incluye unidad PEN.; Función pura.. Salida observada: Cusco: 22.5 PEN (n=32)."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T3-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T3-B-E1 (guided) apoyándome en la teoría «estado, performance y alternativas accesibles» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Compara valores.; print True.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "{\"filtro_region\": \"Lima\"}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T3-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T3-B-E2 (independent) apoyándome en la teoría «estado, performance y alternativas accesibles» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: import json.; print.. Salida observada: {\"filtro_region\": \"Lima\"}."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "Lima=28 PEN; Cusco=22 PEN",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T3-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T3-B-E3 (transfer) apoyándome en la teoría «estado, performance y alternativas accesibles» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: join.; Incluye PEN.. Salida observada: Lima=28 PEN; Cusco=22 PEN."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "unidad=PEN | fuente=sintetico",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T4-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T4-A-E1 (guided) apoyándome en la teoría «unidades, fuente y limitaciones» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: f-string o dict.; Ambas menciones.. Salida observada: unidad=PEN | fuente=sintetico."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "True",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T4-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T4-A-E2 (independent) apoyándome en la teoría «unidades, fuente y limitaciones» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: set de keys.; issuperset.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "unidad: PEN | n: 10",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T4-A",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T4-A-E3 (transfer) apoyándome en la teoría «unidades, fuente y limitaciones» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: join items.; orden de inserción dict.. Salida observada: unidad: PEN | n: 10."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "RECHAZADO",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T4-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T4-B-E1 (guided) apoyándome en la teoría «color, contraste, texto alternativo y no sobreclaim» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: in checks.; Caso: 'mejor del Perú'.. Salida observada: RECHAZADO."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "True | True",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint((\"n=\" in alt), \"|\", (\"n=\" in alt.replace(\"n=\", \"n=\")))\n",
+      "confidence": 0.9,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T4-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T4-B-E2 (independent) apoyándome en la teoría «color, contraste, texto alternativo y no sobreclaim» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: substring.; alt de ejemplo.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "PERMITIDO | RECHAZADO",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"), \"|\", classify_claim(\"es la mejor del país\"))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S19-T4-B",
+        "packet_theory",
+        "iDo",
+        "Visualización y comunicación accesible"
+      ],
+      "justification_from_packet": "Como explorer del paquete S19, resolví S19-T4-B-E3 (transfer) apoyándome en la teoría «color, contraste, texto alternativo y no sobreclaim» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Función binaria simple didáctica.; Dos prints.. Salida observada: PERMITIDO | RECHAZADO."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S19 Q0 «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?»: elijo [2] «Barras con baseline 0». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S19 Q1 «Una alternativa accesible debe:»: elijo [0] «Repetir los mismos números clave del chart». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S19 Q2 «“Lima es la mejor región del Perú” a partir de una muestra web es:»: elijo [1] «Sobreclaim / generalización indebida». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S19 Q3 «El caption de un gráfico de portfolio debe incluir:»: elijo [3] «Unidad, fuente y limitaciones». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S19 Q4 «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integri»: elijo [1] «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:20.960320+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s19-live"
+}

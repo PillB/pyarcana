@@ -1,0 +1,175 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s09-5e68a478f1",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "code": "fallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\ntipos = [\n    \"ValueError\",\n    \"TypeError\",\n    \"KeyError\",\n    \"FileNotFoundError\",\n    \"ValidationError\",\n]\nfor f, t in zip(fallos, tipos):\n    print(f\"{f} -> {t}\")\n",
+      "justification_from_packet": "Para S09-T1-A-E1 me apoyé en «Tipos específicos, raise y chaining»: Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception ge… En el ejercicio usé mapa fallo→tipo concreto. ValueError/TypeError/KeyError/FileNotFoundError/ValidationError. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T1-A."
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "code": "from decimal import Decimal, InvalidOperation\n\ndef parse_monto(raw):\n    s = str(raw).strip().replace(\",\", \".\")\n    try:\n        d = Decimal(s)\n    except InvalidOperation:\n        raise ValueError(f\"monto no numérico: {raw!r}\")\n    if not d.is_finite():\n        raise ValueError(f\"monto no finito: {raw!r}\")\n    if d < 0:\n        raise ValueError(f\"monto negativo: {raw!r}\")\n    return d.quantize(Decimal(\"0.01\"))\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)\n",
+      "justification_from_packet": "Para S09-T1-A-E2 me apoyé en «Tipos específicos, raise y chaining»: Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception ge… En el ejercicio usé Decimal + mensajes accionables. coma decimal, quantize 0.01, rechazo negativo/no numérico. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T1-A."
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "code": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f\"no se pudo cargar: {e}\") from e\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)\n",
+      "justification_from_packet": "Para S09-T1-A-E3 me apoyé en «Tipos específicos, raise y chaining»: Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception ge… En el ejercicio usé raise ... from e. DataLoadError encadena OSError en __cause__. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T1-A."
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "code": "state = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)\n",
+      "justification_from_packet": "Para S09-T1-B-E1 me apoyé en «Fronteras de recuperación y cleanup»: try/except/else/finally: else corre solo si no hubo excepción; finally siempre (cleanup). with garantiza cierre de handles vía context managers… En el ejercicio usé finally siempre cierra. closed=True con y sin excepción. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T1-B."
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "code": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\npolitica = {\n    \"delimiter vacío en config\": \"fail-fast\",\n    \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\",\n    \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\",\n    \"timeout leyendo un record remoto\": \"recover\",\n}\nfor e in errores:\n    print(f\"{e}: {politica[e]}\")\n",
+      "justification_from_packet": "Para S09-T1-B-E2 me apoyé en «Fronteras de recuperación y cleanup»: try/except/else/finally: else corre solo si no hubo excepción; finally siempre (cleanup). with garantiza cierre de handles vía context managers… En el ejercicio usé taxonomía recover vs fail-fast. config/secretos abortan; fila y timeout recover. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T1-B."
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "code": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:  # noqa: E722\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n",
+      "justification_from_packet": "Para S09-T1-B-E3 me apoyé en «Fronteras de recuperación y cleanup»: try/except/else/finally: else corre solo si no hubo excepción; finally siempre (cleanup). with garantiza cierre de handles vía context managers… En el ejercicio usé except ValueError solo. cuarentena de datos; RuntimeError propaga. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T1-B."
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "code": "tb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\nframes = []\nfor line in tb.splitlines():\n    if \" in \" in line and line.strip().startswith(\"File\"):\n        frames.append(line.rsplit(\" in \", 1)[-1].strip())\nprint(\"frame1\", frames[0])\nprint(\"frame2\", frames[1])\nprint(\"frame3\", frames[2])\n",
+      "justification_from_packet": "Para S09-T2-A-E1 me apoyé en «Traceback y debugger»: Un traceback lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser tu código, no el de la stdlib… En el ejercicio usé parse de frames File…in. main→run→normalize de afuera hacia adentro. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T2-A."
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"locals_seguros\", {\"id\": row.get(\"id\")})\n        raise KeyError(\"email\")\n    return row[\"email\"].lower()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n",
+      "justification_from_packet": "Para S09-T2-A-E2 me apoyé en «Traceback y debugger»: Un traceback lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser tu código, no el de la stdlib… En el ejercicio usé locals seguros sin PII. solo id en DEBUG antes del KeyError. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T2-A."
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "code": "tb = '''Traceback (most recent call last):\n  File \"app.py\", line 1, in <module>\n    normalize({\"id\": 1})\n  File \"app.py\", line 1, in normalize\n    return row[\"email\"].lower()\nKeyError: 'email'\n'''\nprint(\"causa_raiz=normalize falta clave email\")\n",
+      "justification_from_packet": "Para S09-T2-A-E3 me apoyé en «Traceback y debugger»: Un traceback lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser tu código, no el de la stdlib… En el ejercicio usé causa raíz desde texto tb. normalize falta clave email sin re-ejecutar. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T2-A."
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "code": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = None\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        minimal = d\n        break\nprint(\"minimal=\", minimal)\nparse_dni  # keep function bound\ntry:\n    parse_dni(minimal)\nexcept ValueError as e:\n    print(\"repro\", e)\n",
+      "justification_from_packet": "Para S09-T2-B-E1 me apoyé en «Reproducción mínima, hipótesis y causa raíz»: Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review… En el ejercicio usé minimal repro. primer DNI inválido '123'. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T2-B."
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "code": "def normalize_phone(p: str) -> str:\n    return \"\".join(c for c in p if c.isdigit())\n\na = normalize_phone(\"+51 999 111 222\")\nb = normalize_phone(\"999 111 222\")\nprint(a)\nprint(b)\nprint(\"country_digits_preserved\", a.startswith(\"51\"))\nprint(\"plus_symbol_expected\", False)\nprint(\"hipotesis1: se filtró el + pero se conservó 51\")\nprint(\"hipotesis2: se perdió el prefijo de país; el experimento b sin + lo distingue\")\n",
+      "justification_from_packet": "Para S09-T2-B-E2 me apoyé en «Reproducción mínima, hipótesis y causa raíz»: Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review… En el ejercicio usé hipótesis + experimentos. distingo + vs dígitos 51 del contrato S07. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T2-B."
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "code": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    parts = s.split()\n    keep = {\"de\", \"del\", \"la\", \"las\", \"los\", \"y\"}\n    out = []\n    for i, p in enumerate(parts):\n        if i > 0 and p.casefold() in keep:\n            out.append(p.casefold())\n        else:\n            out.append(p[:1].upper() + p[1:].lower() if p else p)\n    return \" \".join(out)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\n    print(\"RED unexpected\")\nexcept AssertionError:\n    print(\"RED\")\nprint(\"GREEN\", test(good_title))\n",
+      "justification_from_packet": "Para S09-T2-B-E3 me apoyé en «Reproducción mínima, hipótesis y causa raíz»: Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review… En el ejercicio usé RED luego GREEN. title bugueado vs good_title con partículas. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T2-B."
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "code": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\nniveles = [\"INFO\", \"DEBUG\", \"WARNING\", \"ERROR\", \"ERROR\", \"INFO\"]\nfor e, n in zip(eventos, niveles):\n    print(f\"{e}: {n}\")\n",
+      "justification_from_packet": "Para S09-T3-A-E1 me apoyé en «Niveles y estructura de logging»: Niveles: DEBUG (detalle dev), INFO (progreso), WARNING (anomalía recuperable), ERROR (fallo de unidad), CRITICAL (job/proceso)… En el ejercicio usé niveles DEBUG..ERROR. progreso INFO, detalle DEBUG, fallos ERROR. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T3-A."
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "code": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\n",
+      "justification_from_packet": "Para S09-T3-A-E2 me apoyé en «Niveles y estructura de logging»: Niveles: DEBUG (detalle dev), INFO (progreso), WARNING (anomalía recuperable), ERROR (fallo de unidad), CRITICAL (job/proceso)… En el ejercicio usé logger StringIO. INFO stage=ingest event=start. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T3-A."
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "code": "import logging, io, sys\n\ndef cli_stub_bad(n):\n    print(\"empezando\")\n    print(\"sumando\")\n    print(n + 1)\n\ndef cli_stub_good(n, log):\n    log.info(\"empezando\")\n    log.info(\"sumando\")\n    print(f\"RESULT={n + 1}\")\n\nbuf = io.StringIO()\nlog = logging.getLogger(\"cli.good\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\ncli_stub_good(2, log)\nprint(buf.getvalue().strip())\n",
+      "justification_from_packet": "Para S09-T3-A-E3 me apoyé en «Niveles y estructura de logging»: Niveles: DEBUG (detalle dev), INFO (progreso), WARNING (anomalía recuperable), ERROR (fallo de unidad), CRITICAL (job/proceso)… En el ejercicio usé logs a stderr/logger; dato a stdout. RESULT=3 sin mezclar progreso. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T3-A."
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "code": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    if not local:\n        return \"***@\" + domain\n    return local[0] + \"***@\" + domain\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:]\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n",
+      "justification_from_packet": "Para S09-T3-B-E1 me apoyé en «Correlation IDs y redacción de PII»: Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote… En el ejercicio usé mask email/phone. c***@… y ***últimos4 con datos sintéticos PE. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T3-B."
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "code": "def repo_save(corr, item):\n    print(\"repo\", corr, item[\"id\"])\n\ndef service_upsert(corr, item):\n    print(\"service\", corr)\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(\"cli\", corr)\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n",
+      "justification_from_packet": "Para S09-T3-B-E2 me apoyé en «Correlation IDs y redacción de PII»: Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote… En el ejercicio usé correlation_id por capas. mismo corr-42 en cli/service/repo. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T3-B."
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "code": "def unsafe_log(row):\n    return f\"error en {row['email']} tel={row['phone']}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"detected_unsafe\", \"email\" in unsafe_log.__code__.co_consts and \"phone\" in unsafe_log.__code__.co_consts)\nprint(\"SAFE: error en a***@ejemplo.pe tel=***1222\")\n",
+      "justification_from_packet": "Para S09-T3-B-E3 me apoyé en «Correlation IDs y redacción de PII»: Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote… En el ejercicio usé auditoría estática + SAFE. no ejecuto unsafe_log(row); emito máscara. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T3-B."
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "code": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\nclase = [\n    \"data\", \"config\", \"provider\", \"data\", \"config\", \"provider\", \"data\", \"config\",\n]\nfor f, c in zip(fallos, clase):\n    print(f\"{f}: {c}\")\n",
+      "justification_from_packet": "Para S09-T4-A-E1 me apoyé en «Fallar rápido vs continuar con cuarentena»: Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere… En el ejercicio usé taxonomía data/config/provider. ocho fallos etiquetados. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T4-A."
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "code": "def process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\nprint(\"ok\", len(r[\"ok\"]), \"quarantined\", len(r[\"quarantined\"]), \"in\", r[\"in\"])\n",
+      "justification_from_packet": "Para S09-T4-A-E2 me apoyé en «Fallar rápido vs continuar con cuarentena»: Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere… En el ejercicio usé process_batch + assert conteos. ok+quarantined == in. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T4-A."
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "code": "rules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n    print(r)\n",
+      "justification_from_packet": "Para S09-T4-A-E3 me apoyé en «Fallar rápido vs continuar con cuarentena»: Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere… En el ejercicio usé 3 POLICY de abort. config crítica, ratio quarantine, provider agotado. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T4-A."
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "code": "retry = {\n    \"TimeoutError\": \"yes\",\n    \"ValueError\": \"no\",\n    \"ConnectionError\": \"yes\",\n    \"KeyError\": \"no\",\n    \"PermissionError\": \"no\",\n}\nfor e, r in retry.items():\n    print(f\"{e}: {r}\")\n",
+      "justification_from_packet": "Para S09-T4-B-E1 me apoyé en «Idempotencia, retries y cuarentena»: Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena… En el ejercicio usé retry sí/no. Timeout/Connection yes; Value/Key/Permission no. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T4-B."
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "code": "def retry_call(fn, max_attempts=3):\n    last = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n",
+      "justification_from_packet": "Para S09-T4-B-E2 me apoyé en «Idempotencia, retries y cuarentena»: Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena… En el ejercicio usé retry_call TimeoutError. flaky llega a done en 3 calls. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T4-B."
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "code": "import hashlib, json\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(\n    json.dumps(record[\"payload\"], sort_keys=True).encode()\n).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\nprint(\"idem_key=\" + key)\n",
+      "justification_from_packet": "Para S09-T4-B-E3 me apoyé en «Idempotencia, retries y cuarentena»: Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena… En el ejercicio usé idem_key source:id:v:hash. re-ingesta segura del record sintético. Así el código del paquete activo se alinea con la instruction y el demo iDo de S09-T4-B."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #0: «¿Para qué sirve `raise NewError(...) from e`?». Elijo «Encadenar la causa en __cause__ sin perder contexto» porque en «Tipos específicos, raise y chaining» el paquete indica: Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception genéri. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #1: «Un delimiter vacío en config del job debería…». Elijo «Fail-fast (abortar el job)» porque en «Fallar rápido vs continuar con cuarentena» el paquete indica: Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere.. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #2: «¿Qué va a stdout en una CLI bien diseñada?». Elijo «Solo datos; diagnóstico a stderr» porque en «Correlation IDs y redacción de PII» el paquete indica: Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote.. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #3: «mask_email('ana@ejemplo.pe') de forma segura podría ser…». Elijo «a***@ejemplo.pe» porque en «Correlation IDs y redacción de PII» el paquete indica: Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote.. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #4: «TimeoutError en un fetch remoto típico…». Elijo «Puede reintentarse con backoff; ValueError de datos no» porque en «Idempotencia, retries y cuarentena» el paquete indica: Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena.. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #5: «¿Cuál es un buen minimal repro?». Elijo «La entrada más pequeña que reproduce el bug» porque en «Reproducción mínima, hipótesis y causa raíz» el paquete indica: Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review.. Las otras opciones chocan con esa política del theory activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:58.558601+00:00",
+  "session_started_at": "2026-07-23T16:24:31.554754+00:00",
+  "session_ended_at": "2026-07-23T16:25:24.887754+00:00",
+  "receipt_response_sha256": "6cd4ce4243959341aa47e27ac4d0b3c793c740bf897583fea2c3cd5a333a809b",
+  "receipt_exercises_sha256": "f7cab59b481f0812c55be7c057e27cc3014c5ac6ff8d894437ca185dd30535f2",
+  "receipt_selfcheck_sha256": "628cdada91cf65a47cead400b18592b37374e0e241d2e8f9212dde7e2938b5da"
+}

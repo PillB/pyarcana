@@ -1,0 +1,493 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 19,
+  "packet_sha": "2607badf23d76722",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s19-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar",
+        "guiado",
+        "Concepto",
+        "choice"
+      ],
+      "justification_from_packet": "Explorer en S19-T1-A-E1 (guided): resolví el fixture del paquete para «chart choice para comparación regional» respetando el pass «bar». Usé theory/iDo (S19-T1-A-DEMO) y pistas [\"Asigna chart='bar'.\", 'print el valor.'] del slim packet, sin solutions externas. Cierre: print(chart)"
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pregunta",
+        "totales",
+        "por",
+        "audiencia",
+        "ejecutivo",
+        "chart",
+        "bar",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S19-T1-A-E2: reescribí el TODO del starter del paquete para cumplir el contrato Pass de la instruction, usando solo fixtures y APIs del slim packet (theory/iDo de la sección 19). Cierre: print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})"
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "elige_chart",
+        "pregunta",
+        "line",
+        "tendencia",
+        "lower",
+        "else",
+        "bar",
+        "mensual"
+      ],
+      "justification_from_packet": "Explorer en S19-T1-A-E3 (transfer): resolví el fixture del paquete para «elige_chart por keyword tendencia» respetando el pass «line | bar». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['in para substring.', 'Dos prints.'] del slim packet, sin solutions externas. Cierre: print(elige_chart(\"comparar regiones\"))"
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "truco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "truco",
+        "hon",
+        "factor",
+        "round",
+        "guiado",
+        "Concepto",
+        "visual",
+        "por"
+      ],
+      "justification_from_packet": "Explorer en S19-T1-B-E1 (guided): resolví el fixture del paquete para «inflación visual por baseline recortado» respetando el pass «factor 5.0». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.', 'factor = truco/honesto.'] del slim packet, sin solutions externas. Cierre: print(\"factor\", round(truco / hon, 2))"
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ylim_bottom",
+        "honesto",
+        "else",
+        "revisar",
+        "independiente",
+        "Concepto",
+        "gate",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer en S19-T1-B-E2 (independent): resolví el fixture del paquete para «gate ylim_bottom==0» respetando el pass «honesto». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['Variable ylim_bottom=0.', 'print condicional.'] del slim packet, sin solutions externas. Cierre: print(\"honesto\" if ylim_bottom == 0 else \"revisar\")"
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "encoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "dual_axis",
+        "riesgo_alto",
+        "else",
+        "transferencia",
+        "Concepto",
+        "riesgo",
+        "position"
+      ],
+      "justification_from_packet": "Explorer en S19-T1-B-E3 (transfer): resolví el fixture del paquete para «riesgo de dual_axis vs position» respetando el pass «riesgo_alto». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['if/elif.', 'Prueba dual_axis.'] del slim packet, sin solutions externas. Cierre: print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")"
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "bar"
+      ],
+      "justification_from_packet": "Explorer en S19-T2-A-E1 (guided): resolví el fixture del paquete para «bar chart con ylim desde 0» respetando el pass «True». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['matplotlib Agg.', 'plt.close.'] del slim packet, sin solutions externas. Cierre: print(ax.get_ylim()[0] == 0)"
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "set_ylabel"
+      ],
+      "justification_from_packet": "Explorer en S19-T2-A-E2 (independent): resolví el fixture del paquete para «ylabel de unidades PEN» respetando el pass «PEN». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['set_ylabel.', 'Agg backend.'] del slim packet, sin solutions externas. Cierre: print(ax.get_ylabel())"
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nimport numpy as np\nfig, ax = plt.subplots()\nbars = ax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint({\"n_bars\": len(bars), \"ylim0\": np.float64(ax.get_ylim()[0])})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "numpy",
+        "fig",
+        "subplots"
+      ],
+      "justification_from_packet": "Explorer en S19-T2-A-E3 (transfer): resolví el fixture del paquete para «meta_bar n_bars y ylim0» respetando el pass «{'n_bars': 2, 'ylim0': np.float64(0.0)}». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['len(values).', 'set_ylim(0, max*1.2).'] del slim packet, sin solutions externas. Cierre: print({\"n_bars\": len(bars), \"ylim0\": np.float64(ax.get_ylim()[0])})"
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S19-T2-B-E1 (guided): resolví el fixture del paquete para «export dict fmt/dpi/panels» respetando el pass «{'fmt': 'png', 'dpi': 120, 'panels': 2}». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['Dict literal.', 'print.'] del slim packet, sin solutions externas. Cierre: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})"
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "version = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "version",
+        "fig_cpn2b_v",
+        "png",
+        "independiente",
+        "Concepto",
+        "nombre",
+        "versionado",
+        "figura"
+      ],
+      "justification_from_packet": "Explorer en S19-T2-B-E2 (independent): resolví el fixture del paquete para «nombre versionado de figura» respetando el pass «fig_cpn2b_v3.png». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['f-string.', 'print nombre.'] del slim packet, sin solutions externas. Cierre: print(f\"fig_cpn2b_v{version}.png\")"
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "axes",
+        "subplots"
+      ],
+      "justification_from_packet": "Explorer en S19-T2-B-E3 (transfer): resolví el fixture del paquete para «subplots 1×2 con títulos» respetando el pass «['Vol', 'Med']». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['ax.get_title().', 'close fig.'] del slim packet, sin solutions externas. Cierre: print([ax.get_title() for ax in axes])"
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(rows[0][\"median\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco",
+        "guiado",
+        "Concepto",
+        "filtro"
+      ],
+      "justification_from_packet": "Explorer en S19-T3-A-E1 (guided): resolví el fixture del paquete para «filtro de rows por región» respetando el pass «28». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['list comp o next.', 'print valor.'] del slim packet, sin solutions externas. Cierre: print(rows[0][\"median\"])"
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S19-T3-A-E2 (independent): resolví el fixture del paquete para «tooltip con unidad y n» respetando el pass «Lima: 28 PEN (n=40)». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['f-string.', 'print.'] del slim packet, sin solutions externas. Cierre: print(f\"Lima: {28} PEN (n={40})\")"
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "tooltip",
+        "row",
+        "region",
+        "median",
+        "PEN",
+        "Cusco",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S19-T3-A-E3 (transfer): resolví el fixture del paquete para «función tooltip» respetando el pass «Cusco: 22.5 PEN (n=32)». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['Incluye unidad PEN.', 'Función pura.'] del slim packet, sin solutions externas. Cierre: print(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))"
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "chart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "chart",
+        "Lima",
+        "table",
+        "region",
+        "guiado",
+        "Concepto",
+        "parity",
+        "tabla"
+      ],
+      "justification_from_packet": "Explorer en S19-T3-B-E1 (guided): resolví el fixture del paquete para «parity chart↔tabla» respetando el pass «True». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['Compara valores.', 'print True.'] del slim packet, sin solutions externas. Cierre: print(chart[\"Lima\"] == table[0][\"v\"])"
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "json",
+        "dumps",
+        "filtro_region",
+        "Lima",
+        "ensure_ascii",
+        "independiente",
+        "Concepto",
+        "state"
+      ],
+      "justification_from_packet": "Explorer en S19-T3-B-E2 (independent): resolví el fixture del paquete para «state de filtros serializado JSON» respetando el pass «{\"filtro_region\": \"Lima\"}». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['import json.', 'print.'] del slim packet, sin solutions externas. Cierre: print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))"
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "join",
+        "PEN",
+        "for",
+        "transferencia"
+      ],
+      "justification_from_packet": "Explorer en S19-T3-B-E3 (transfer): resolví el fixture del paquete para «alt_text desde tabla» respetando el pass «Lima=28 PEN; Cusco=22 PEN». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['join.', 'Incluye PEN.'] del slim packet, sin solutions externas. Cierre: print(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))"
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S19-T4-A-E1 (guided): resolví el fixture del paquete para «caption con unidad y fuente» respetando el pass «unidad=PEN | fuente=sintetico». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['f-string o dict.', 'Ambas menciones.'] del slim packet, sin solutions externas. Cierre: print(\"unidad=PEN | fuente=sintetico\")"
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(all(k in cap for k in (\"unidad\", \"fuente\", \"limitacion\")))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion",
+        "web",
+        "all",
+        "for"
+      ],
+      "justification_from_packet": "Explorer en S19-T4-A-E2 (independent): resolví el fixture del paquete para «validación de claves de caption» respetando el pass «True». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['set de keys.', 'issuperset.'] del slim packet, sin solutions externas. Cierre: print(all(k in cap for k in (\"unidad\", \"fuente\", \"limitacion\")))"
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pie",
+        "cap",
+        "join",
+        "for",
+        "items",
+        "unidad",
+        "PEN",
+        "transferencia"
+      ],
+      "justification_from_packet": "Explorer en S19-T4-A-E3 (transfer): resolví el fixture del paquete para «pie de figura unido con |» respetando el pass «unidad: PEN | n: 10». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['join items.', 'orden de inserción dict.'] del slim packet, sin solutions externas. Cierre: print(pie({\"unidad\": \"PEN\", \"n\": 10}))"
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "claim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "claim",
+        "Lima",
+        "mejor",
+        "del",
+        "RECHAZADO",
+        "and",
+        "muestra",
+        "not"
+      ],
+      "justification_from_packet": "Explorer en S19-T4-B-E1 (guided): resolví el fixture del paquete para «rechazo de claim sin 'muestra'» respetando el pass «RECHAZADO». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['in checks.', \"Caso: 'mejor del Perú'.\"] del slim packet, sin solutions externas. Cierre: print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")"
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "alt",
+        "Lima",
+        "PEN",
+        "replace",
+        "independiente",
+        "Concepto",
+        "text",
+        "debe"
+      ],
+      "justification_from_packet": "Explorer en S19-T4-B-E2 (independent): resolví el fixture del paquete para «alt text debe mencionar n=» respetando el pass «True | True». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['substring.', 'alt de ejemplo.'] del slim packet, sin solutions externas. Cierre: print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))"
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "classify_claim",
+        "text",
+        "PERMITIDO",
+        "muestra",
+        "else",
+        "RECHAZADO",
+        "lidera",
+        "web"
+      ],
+      "justification_from_packet": "Explorer en S19-T4-B-E3 (transfer): resolví el fixture del paquete para «classify_claim PERMITIDO/RECHAZADO» respetando el pass «PERMITIDO | RECHAZADO». Usé theory/iDo (S19-T1-A-DEMO) y pistas ['Función binaria simple didáctica.', 'Dos prints.'] del slim packet, sin solutions externas. Cierre: print(classify_claim(\"es la mejor del país\"))"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Barras con baseline 0",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S19 selfcheck Q0: elijo «Barras con baseline 0» porque theory/iDo de «Visualización y comunicación accesible» lo enseña explícitamente frente a distractores. Pregunta: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S19 selfcheck Q1: elijo «Repetir los mismos números clave del chart» porque theory/iDo de «Visualización y comunicación accesible» lo enseña explícitamente frente a distractores. Pregunta: «Una alternativa accesible debe:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S19 selfcheck Q2: elijo «Sobreclaim / generalización indebida» porque theory/iDo de «Visualización y comunicación accesible» lo enseña explícitamente frente a distractores. Pregunta: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S19 selfcheck Q3: elijo «Unidad, fuente y limitaciones» porque theory/iDo de «Visualización y comunicación accesible» lo enseña explícitamente frente a distractores. Pregunta: «El caption de un gráfico de portfolio debe incluir:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Aceptarlo si los colores tienen buen contraste",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S19 selfcheck Q4: elijo «Aceptarlo si los colores tienen buen contraste» porque theory/iDo de «Visualización y comunicación accesible» lo enseña explícitamente frente a distractores. Pregunta: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate ». Sin correctIndex; solo paquete activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.781326+00:00"
+}

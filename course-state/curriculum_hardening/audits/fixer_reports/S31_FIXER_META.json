@@ -1,0 +1,47 @@
+{
+  "section": 31,
+  "section_id": "streaming-data",
+  "file": "src/lib/course/sections/s31-streaming-data.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S31_EXPLORER_REPORT.md",
+  "score_before": 5.5,
+  "score_after_estimate": 9.65,
+  "anti_aberration_ok": true,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17"
+  ],
+  "issues_deferred": [],
+  "status": "fixed_validated",
+  "runtime_validation": {
+    "theory_and_ido_and_wedo_code_output_pairs": "40/40",
+    "demos": 8,
+    "exercises": 24,
+    "self_check": 10,
+    "student_facing_meta_leaks": 0,
+    "thin_instructions_under_150": 0,
+    "thin_theory_paragraphs_under_200": 0,
+    "theory_avg_paragraph_chars": 287,
+    "instruction_min_chars": 152
+  },
+  "residual_pass": {
+    "date": "2026-07-24",
+    "focus": "Re-validate Explorer registry; hand-strengthen residual ISSUE-05/14 We Do (T1-A-E3 counts, T3-B-E2 degree-from-edges, T4-A-E3 idempotence framing)",
+    "bulk_generation_used": false
+  },
+  "notes": "Explorer-guided Fixer residual pass for S31 only. Authority: S31_EXPLORER_REPORT.md. All P0/P1/P2 and section-scope ISSUE-16 fixed by hand; runtime-verified 40/40 code/output pairs. Self-check 10 MCQ. Platform id streaming-data kept silent to students. No bulk content generation. score_after_estimate 9.65 ≥ fleet floor 9.5."
+}

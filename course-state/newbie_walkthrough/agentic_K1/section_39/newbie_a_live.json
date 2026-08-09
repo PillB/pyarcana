@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 39,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s39-9cc07d9889",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = (\n    record[\"stages\"] == CANON\n    and record[\"label_space\"] == \"needs_review\"\n    and record[\"auto_fraud\"] is False\n)\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n",
+      "justification_from_packet": "Del instruction y theory del packet S39 completo el contrato de S39-T1-A-E1; pista: Compara stages con la tupla canónica; no inviertas el orden ni cambies los datos del fixture.."
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (\n        record[\"stages\"] == CANON\n        and record[\"label_space\"] == \"needs_review\"\n        and record.get(\"auto_fraud\") is False\n    )\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(reversed(CANON))}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Según starter defectuoso de S39-T1-A-E2, corrijo solo el predicado/defecto del paquete. Hint: Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.."
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef decide(record: dict) -> str:\n    if \"stages\" not in record:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\") is True:\n        return \"REJECT_ER_SCOPE\"\n    if record.get(\"stages\") != CANON:\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n    \"er_claims_parentesco\": False,\n}\nbad_order = {**valid, \"stages\": list(reversed(CANON))}\nbad_er = {**valid, \"er_claims_parentesco\": True}\nmissing = {k: v for k, v in valid.items() if k != \"stages\"}\nprint(decide(valid), decide(bad_order), decide(bad_er), decide(missing))\n",
+      "justification_from_packet": "Exploro el fixture CASO-LIM-039 de S39-T1-A-E3 y dejo la salida contractual. Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.."
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = (not record[\"breaking\"] or record[\"bump\"] == \"major\") and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n",
+      "justification_from_packet": "Hints + starter de S39-T1-B-E1: fail-closed y sin auto-fraude. Pista: Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.."
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = ((not record[\"breaking\"]) or record[\"bump\"] == \"major\") and bool(record[\"owner\"])\n    return \"PASS\" if ok else \"REJECT_BUMP_POLICY\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Del instruction y theory del packet S39 completo el contrato de S39-T1-B-E2; pista: Si falta owner, devuelve MISSING:owner sin mirar bump.."
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict):\n    for art in reg.values():\n        if not art.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\", len(reg)\n        if art.get(\"breaking\") and art.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\", len(reg)\n    return \"CONTINUE\", len(reg)\n\nprint(*decide(registry))\n",
+      "justification_from_packet": "Según starter defectuoso de S39-T1-B-E3, corrijo solo el predicado/defecto del paquete. Hint: Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.."
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = (\n    packet.get(\"score\", 0) > 0\n    and isinstance(packet.get(\"evidence\"), list) and len(packet[\"evidence\"]) > 0\n    and isinstance(packet.get(\"graph_path\"), list) and len(packet[\"graph_path\"]) > 0\n)\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n",
+      "justification_from_packet": "Exploro el fixture CASO-LIM-039 de S39-T2-A-E1 y dejo la salida contractual. evidence y graph_path deben ser listas con al menos un elemento; score solo no basta.."
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_PACKET_INCOMPLETE\"\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Hints + starter de S39-T2-A-E2: fail-closed y sin auto-fraude. Pista: Missing de clave ≠ lista vacía: tokens distintos (MISSING vs REJECT_PACKET_INCOMPLETE).."
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(packet: dict):\n    if \"uncertainty\" not in packet:\n        return \"REQUEST_UNCERTAINTY\", 0\n    has_ev = bool(packet.get(\"evidence\")) and bool(packet.get(\"graph_path\"))\n    if not has_ev:\n        return \"REJECT_SCORE_ALONE\", 1\n    return \"CONTINUE\", 4\n\nok = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(ok))\n",
+      "justification_from_packet": "Del instruction y theory del packet S39 completo el contrato de S39-T2-A-E3; pista: Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.."
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nif record.get(\"human_action\"):\n    final = record[\"human_action\"]\n    override = True\nelse:\n    final = auto\n    override = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n",
+      "justification_from_packet": "Según starter defectuoso de S39-T2-B-E1, corrijo solo el predicado/defecto del paquete. Hint: human_action no nulo gana siempre; debe setear override True en el evento de audit conceptual.."
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        if not record.get(\"second_reviewer\"):\n            return \"MISSING:second_reviewer\"\n        return \"reopen\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n",
+      "justification_from_packet": "Exploro el fixture CASO-LIM-039 de S39-T2-B-E2 y dejo la salida contractual. Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.."
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(event: dict):\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_NO_AUDIT\", False\n    if event.get(\"feedback\") and not event.get(\"feedback_id\"):\n        return \"REQUEST_FEEDBACK_ID\", False\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REJECT_LEAKAGE_CARE\", False\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Hints + starter de S39-T2-B-E3: fail-closed y sin auto-fraude. Pista: Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.."
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "checklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n",
+      "justification_from_packet": "Del instruction y theory del packet S39 completo el contrato de S39-T3-A-E1; pista: not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.."
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if c.get(\"secrets_in_repo\") is True:\n        return \"REJECT_SECRETS\"\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Según starter defectuoso de S39-T3-A-E2, corrijo solo el predicado/defecto del paquete. Hint: Missing de rbac se detecta por claves; secrets True es breach de contenido.."
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(payload: dict):\n    slices = payload.get(\"slices\") or []\n    if not slices:\n        return \"REQUEST_SLICE_METRICS\", \"fp_rate\"\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for s in slices:\n        if s.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", \"fp_rate\"\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Exploro el fixture CASO-LIM-039 de S39-T3-A-E3 y dejo la salida contractual. Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.."
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n",
+      "justification_from_packet": "Hints + starter de S39-T3-B-E1: fail-closed y sin auto-fraude. Pista: incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.."
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n",
+      "justification_from_packet": "Del instruction y theory del packet S39 completo el contrato de S39-T3-B-E2; pista: Tabla de verdad simple: (F,F)=normal, (T,F)=abstain_more, (F,T)=human_only.."
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", None\n        return \"ROLLBACK\", ops.get(\"prev_model_id\")\n    if ops.get(\"drift_high\"):\n        return \"MONITOR\", \"current_model\"\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Según starter defectuoso de S39-T3-B-E3, corrijo solo el predicado/defecto del paquete. Hint: Rollback apunta a artefacto versionado previo, no al working tree local.."
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = (\n    \"no_auto_fraud_label\" in acceptance\n    and \"e2e_synthetic_run\" in acceptance\n    and \"audit_log\" in acceptance\n)\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n",
+      "justification_from_packet": "Exploro el fixture CASO-LIM-039 de S39-T4-A-E1 y dejo la salida contractual. Busca el string exacto no_auto_fraud_label dentro de la lista acceptance.."
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Hints + starter de S39-T4-A-E2: fail-closed y sin auto-fraude. Pista: Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.."
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(paths: list):\n    need = {\"happy\", \"override\", \"ood_abstain\"}\n    got = set(paths)\n    if got == need:\n        return \"CONTINUE\", 3\n    if got <= {\"happy\"}:\n        return \"REJECT_HAPPY_ONLY\", len(paths)\n    return \"REQUEST_DEMO_PATH\", len(paths)\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n",
+      "justification_from_packet": "Del instruction y theory del packet S39 completo el contrato de S39-T4-A-E3; pista: Compara como conjunto los nombres canónicos; el orden de la lista no importa.."
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "cards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n",
+      "justification_from_packet": "Según starter defectuoso de S39-T4-B-E1, corrijo solo el predicado/defecto del paquete. Hint: Conjunto {model, data, system}; ni de más ni de menos para el contrato mínimo de S39.."
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    return \"PASS\" if \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Exploro el fixture CASO-LIM-039 de S39-T4-B-E2 y dejo la salida contractual. Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.."
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(pm: dict):\n    if pm.get(\"blameless\") is False:\n        return \"REJECT_BLAMEFUL\", False\n    if not pm.get(\"root_cause\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    if not pm.get(\"actions\"):\n        return \"REQUEST_ACTIONS\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Hints + starter de S39-T4-B-E3: fail-closed y sin auto-fraude. Pista: Blameless mira procesos y sistemas; no nombres de personas como root_cause.."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.92,
+      "justification_from_packet": "Según teoría del paquete S39: elijo «needs_review / prioridad de cola» alineado a outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.92,
+      "justification_from_packet": "Según teoría del paquete S39: elijo «Se documentan; PASS lo califica otra lane» alineado a outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "Según teoría del paquete S39: elijo «Evidencia y path además del score» alineado a outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "justification_from_packet": "Según teoría del paquete S39: elijo «human_only / rollback a artefacto previo» alineado a outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.92,
+      "justification_from_packet": "Según teoría del paquete S39: elijo «Bump major, owner contactable y revalidación de paths» alineado a outcomes y theory del slim_packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:22.593223+00:00",
+  "session_started_at": "2026-07-23T14:37:21.414684+00:00",
+  "session_ended_at": "2026-07-23T14:37:39.084684+00:00",
+  "receipt_response_sha256": "0dfdc645c1d8dd82f55a32975798d8c5021427dc20f59bb921503047bf32e70e",
+  "receipt_exercises_sha256": "f9d8d4e6ea08265b5bd7beb7d615d27746553e9407480ca4f0d5ff16c8135eeb",
+  "receipt_selfcheck_sha256": "ae7f2586e09e3a082d93cd15954b0704b00b9e6c7777c66c64d52ed3081ec4d4"
+}

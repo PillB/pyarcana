@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s47-3b7e13136e",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T1-A-E1: no confío en demos sin assert; la regla «rerun dentro de tolerancia con seed/parámetros» del instruction exige fixtures y etiqueta de breach MARK_RUN_NONREPRODUCIBLE. Theory/outcome de anclaje: Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evi. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entra",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T1-A-E2: no confío en demos sin assert; la regla «S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolera» del instruction exige fixtures y etiqueta de breach MARK_RUN_NONREPRODUCIBLE. Theory/outcome de anclaje: Sirve batch/online con features consistentes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y ",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'tolerance' not in record or record.get('tolerance') in (None, \"\", [], set(), {}):\n        return \"INVESTIGATE_RANDOMNESS\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T1-A-E3: no confío en demos sin assert; la regla «S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` deb» del instruction exige fixtures y etiqueta de breach MARK_RUN_NONREPRODUCIBLE. Theory/outcome de anclaje: Revierte, retira y audita modelos. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T1-B-E1: no confío en demos sin assert; la regla «data/code/env/split/métrica versionados y candidato mejor» del instruction exige fixtures y etiqueta de breach INVALIDATE_COMPARISON. Theory/outcome de anclaje: latency, batching y fallback. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. ",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"PASS\" if ok else \"INVALIDATE_COMPARISON\"\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': '', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\nincomplete = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T1-B-E2: no confío en demos sin assert; la regla «S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro s» del instruction exige fixtures y etiqueta de breach INVALIDATE_COMPARISON. Theory/outcome de anclaje: Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evi. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture ",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'baseline' not in record or record.get('baseline') in (None, \"\", [], set(), {}):\n        return \"RESTORE_LINEAGE\"\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"CONTINUE\" if ok else \"INVALIDATE_COMPARISON\"\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': '', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\nincomplete = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T1-B-E3: no confío en demos sin assert; la regla «S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-0» del instruction exige fixtures y etiqueta de breach INVALIDATE_COMPARISON. Theory/outcome de anclaje: Sirve batch/online con features consistentes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures di",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T2-A-E1: no confío en demos sin assert; la regla «firma exacta, staging y aprobación» del instruction exige fixtures y etiqueta de breach DENY_MODEL_PROMOTION. Theory/outcome de anclaje: latency, batching y fallback. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"PASS\" if ok else \"DENY_MODEL_PROMOTION\"\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T2-A-E2: no confío en demos sin assert; la regla «S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `appr» del instruction exige fixtures y etiqueta de breach DENY_MODEL_PROMOTION. Theory/outcome de anclaje: Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso ",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'approved' not in record or record.get('approved') in (None, \"\", [], set(), {}):\n        return \"REQUEST_MODEL_APPROVAL\"\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"CONTINUE\" if ok else \"DENY_MODEL_PROMOTION\"\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T2-A-E3: no confío en demos sin assert; la regla «S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` de» del instruction exige fixtures y etiqueta de breach DENY_MODEL_PROMOTION. Theory/outcome de anclaje: firmas, stages y approvals. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. ",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T2-B-E1: no confío en demos sin assert; la regla «digest, compatibilidad de features y card completa» del instruction exige fixtures y etiqueta de breach REJECT_MODEL_ARTIFACT. Theory/outcome de anclaje: Controla latency, batching y fallback. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T2-B-E2: no confío en demos sin assert; la regla «S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro» del instruction exige fixtures y etiqueta de breach REJECT_MODEL_ARTIFACT. Theory/outcome de anclaje: rollback, retirement y audit. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixtur",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'card_sections' not in record or record.get('card_sections') in (None, \"\", [], set(), {}):\n        return \"COMPLETE_MODEL_CARD\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T2-B-E3: no confío en demos sin assert; la regla «S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-T» del instruction exige fixtures y etiqueta de breach REJECT_MODEL_ARTIFACT. Theory/outcome de anclaje: Revierte, retira y audita modelos. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixture",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T3-A-E1: no confío en demos sin assert; la regla «paridad batch/online sin leakage y contract tests» del instruction exige fixtures y etiqueta de breach DISABLE_INCONSISTENT_SERVING. Theory/outcome de anclaje: Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. ",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"PASS\" if ok else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T3-A-E2: no confío en demos sin assert; la regla «S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin » del instruction exige fixtures y etiqueta de breach DISABLE_INCONSISTENT_SERVING. Theory/outcome de anclaje: Publica artefactos y compatibilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adv",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'contract_tests' not in record or record.get('contract_tests') in (None, \"\", [], set(), {}):\n        return \"TRACE_FEATURE_PIPELINE\"\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"CONTINUE\" if ok else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T3-A-E3: no confío en demos sin assert; la regla «S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-0» del instruction exige fixtures y etiqueta de breach DISABLE_INCONSISTENT_SERVING. Theory/outcome de anclaje: tracking y reproducibilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures di",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T3-B-E1: no confío en demos sin assert; la regla «p95 bajo SLO, batch acotado y fallback probado» del instruction exige fixtures y etiqueta de breach ACTIVATE_SAFE_FALLBACK. Theory/outcome de anclaje: Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature lea. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La en",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"PASS\" if ok else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 1000120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T3-B-E2: no confío en demos sin assert; la regla «S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fall» del instruction exige fixtures y etiqueta de breach ACTIVATE_SAFE_FALLBACK. Theory/outcome de anclaje: Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso ",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'fallback_tested' not in record or record.get('fallback_tested') in (None, \"\", [], set(), {}):\n        return \"TUNE_BATCH_OR_CAPACITY\"\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"CONTINUE\" if ok else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 1000120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T3-B-E3: no confío en demos sin assert; la regla «S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3» del instruction exige fixtures y etiqueta de breach ACTIVATE_SAFE_FALLBACK. Theory/outcome de anclaje: artefactos, model card y compatibilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distin",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T4-A-E1: no confío en demos sin assert; la regla «tráfico limitado, quality/error gates y hooks» del instruction exige fixtures y etiqueta de breach STOP_CANARY. Theory/outcome de anclaje: Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La e",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"PASS\" if ok else \"STOP_CANARY\"\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 1000005, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T4-A-E2: no confío en demos sin assert; la regla «S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach STOP_CANARY. Theory/outcome de anclaje: latency, batching y fallback. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adve",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'hooks' not in record or record.get('hooks') in (None, \"\", [], set(), {}):\n        return \"COLLECT_MORE_SHADOW_EVIDENCE\"\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"CONTINUE\" if ok else \"STOP_CANARY\"\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 1000005, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T4-A-E3: no confío en demos sin assert; la regla «S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A`» del instruction exige fixtures y etiqueta de breach STOP_CANARY. Theory/outcome de anclaje: Despliega shadow/canary con monitoring. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distinto",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T4-B-E1: no confío en demos sin assert; la regla «last-known-good compatible, rollback y retiro auditado» del instruction exige fixtures y etiqueta de breach ROLLBACK_TO_LAST_GOOD. Theory/outcome de anclaje: Despliega shadow/canary con monitoring. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entra",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if ok else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S47/S47-T4-B-E2: no confío en demos sin assert; la regla «S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit» del instruction exige fixtures y etiqueta de breach ROLLBACK_TO_LAST_GOOD. Theory/outcome de anclaje: Revierte, retira y audita modelos. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'audit_entry' not in record or record.get('audit_entry') in (None, \"\", [], set(), {}):\n        return \"REVIEW_RETIREMENT\"\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"CONTINUE\" if ok else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S47/S47-T4-B-E3: no confío en demos sin assert; la regla «S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B`» del instruction exige fixtures y etiqueta de breach ROLLBACK_TO_LAST_GOOD. Theory/outcome de anclaje: batch/online y feature consistency. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distinto",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "S47 self-check Q0: escojo «rerun dentro de tolerancia declarada» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?. Ancla: tracking y reproducibilidad. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.74,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "S47 self-check Q1: escojo «emitir ROLLBACK_MODEL y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "S47 self-check Q2: escojo «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?. Ancla: data/code/env lineage y comparación. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "S47 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?. Ancla: Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.89,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.829533+00:00",
+  "session_started_at": "2026-07-23T15:45:56.799430+00:00",
+  "session_ended_at": "2026-07-23T15:46:19.499430+00:00",
+  "receipt_response_sha256": "1a71cd487ff0bfb997b276ad22643d0414922c4a07cb93db14f14f25709c0388",
+  "receipt_exercises_sha256": "f4f21e73db472cb07d9bad4abd447ee57f86c6e54fb101fde48afcb4ecfdaa48",
+  "receipt_selfcheck_sha256": "9f0457c4a7423e3bb63b011803b8ce97a2d6f8d687dc74a889c124bdd4a30eb3"
+}

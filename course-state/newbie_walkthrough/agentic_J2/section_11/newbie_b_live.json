@@ -1,0 +1,299 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s11-a914339992b2",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "id": "S11-T1-A-E1",
+      "code": "# revisión escéptica s11/S11-T1-A-E1\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord(\"C001\", \"Ana Perez\", [\"999111222\"]))\n_j2_chk = 'S11-T1-A-E1'\n",
+      "justification_from_packet": "Escéptico en S11-T1-A-E1 («OOP y modelo de dominio»): contrasté la instruction «E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids» con la hint «Usa field(default_factory=list).» y rechacé huecos del starter. [267b7c] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "id": "S11-T1-A-E2",
+      "code": "# revisión escéptica s11/S11-T1-A-E2\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n    currency: str\n\nprint(Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\"))\n_j2_chk = 'S11-T1-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T1-A-E2: E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «Importa Decimal; sin defaults en campos obligatorios.»; el código refleja ese contrato sin TODO. [fb2b6e] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "id": "S11-T1-A-E3",
+      "code": "# revisión escéptica s11/S11-T1-A-E3\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        return cls(d[\"client_id\"], d[\"full_name\"])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)\n_j2_chk = 'S11-T1-A-E3'\n",
+      "justification_from_packet": "Escéptico en S11-T1-A-E3 («OOP y modelo de dominio»): contrasté la instruction «E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA» con la hint «classmethod from_dict.» y rechacé huecos del starter. [667c87] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "id": "S11-T1-B-E1",
+      "code": "# revisión escéptica s11/S11-T1-B-E1\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self):\n        if not isinstance(self.amount, Decimal):\n            raise TypeError(\"amount debe ser Decimal\")\n        if self.amount <= Decimal(\"0\"):\n            raise ValueError(\"amount debe ser > 0\")\n        if self.amount != self.amount.quantize(Decimal(\"0.01\")):\n            raise ValueError(\"amount debe tener máximo 2 decimales\")\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(\"currency no soportada\")\n\nprint(Transaction(\"T1\", Decimal(\"10.00\"), \"PEN\"))\ntry:\n    Transaction(\"T2\", Decimal(\"0.00\"), \"PEN\")\nexcept ValueError as e:\n    print(\"reject\", e)\ntry:\n    Transaction(\"T3\", Decimal(\"1.00\"), \"EUR\")\nexcept ValueError as e:\n    print(\"reject\", e)\n_j2_chk = 'S11-T1-B-E1'\n",
+      "justification_from_packet": "Revisión de S11-T1-B-E1 en «OOP y modelo de dominio»: la instruction («E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids») y la hint («__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.») bastan para una forma completa. [49676b] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "id": "S11-T1-B-E2",
+      "code": "# revisión escéptica s11/S11-T1-B-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        cid = str(d.get(\"client_id\", \"\")).strip()\n        doc = str(d.get(\"document_id\", \"\")).strip()\n        if not cid:\n            raise ValueError(\"client_id vacío\")\n        if not doc:\n            raise ValueError(\"document_id vacío\")\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({\"client_id\": \"C1\", \"document_id\": \"D1\"}))\ntry:\n    ClientRecord.from_dict({\"client_id\": \"C2\", \"document_id\": \" \"})\nexcept ValueError as e:\n    print(e)\n_j2_chk = 'S11-T1-B-E2'\n",
+      "justification_from_packet": "En «OOP y modelo de dominio», S11-T1-B-E2 queda justificado por «E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA» y por «Prueba ok y fail.» del paquete; confié en hints antes que en inventos. [6d8882] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "id": "S11-T1-B-E3",
+      "code": "# revisión escéptica s11/S11-T1-B-E3\nfor inv in [\n    \"INV: ClientRecord.document_id no vacío\",\n    \"INV: Transaction.amount es Decimal > 0 (0.01) y currency es PEN o USD\",\n    \"INV: RelationshipEvidence.signal_score entre 0 y 1\",\n    \"INV: ResolvedEntity.entity_id único y no vacío\",\n]:\n    print(inv)\n_j2_chk = 'S11-T1-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T1-B-E3: E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «ClientRecord, Transaction, Evidence, Entity.»; el código refleja ese contrato sin TODO. [c5a860] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "id": "S11-T2-A-E1",
+      "code": "# revisión escéptica s11/S11-T2-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\nprint(Person(\"Ana\", \"Perez\").full_name)\n_j2_chk = 'S11-T2-A-E1'\n",
+      "justification_from_packet": "Para S11-T2-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids. Criterio: «@property sin setter.». Segunda ancla: «Print full_name.». [4409e6] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "id": "S11-T2-A-E2",
+      "code": "# revisión escéptica s11/S11-T2-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction(\"T1\", 10).age_days_since(25))\n_j2_chk = 'S11-T2-A-E2'\n",
+      "justification_from_packet": "Revisión de S11-T2-A-E2 en «OOP y modelo de dominio»: la instruction («E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA») y la hint («Retorna day - day_created.») bastan para una forma completa. [d42052] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "id": "S11-T2-A-E3",
+      "code": "# revisión escéptica s11/S11-T2-A-E3\nfrom math import isfinite\n\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self) -> float:\n        return self._score\n\n    @score.setter\n    def score(self, value: float) -> None:\n        v = float(value)\n        if not isfinite(v) or not 0.0 <= v <= 1.0:\n            raise ValueError(\"score fuera de rango\")\n        self._score = v\n\ns = Signal()\ns.score = 0.4\nprint(\"ok\", s.score)\ntry:\n    s.score = 1.5\nexcept ValueError as e:\n    print(\"reject\", e)\ntry:\n    s.score = float(\"nan\")\nexcept ValueError as e:\n    print(\"reject_nan\", e)\n_j2_chk = 'S11-T2-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T2-A-E3: E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «Property score + math.isfinite antes del rango.»; el código refleja ese contrato sin TODO. [136ca8] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "id": "S11-T2-B-E1",
+      "code": "# revisión escéptica s11/S11-T2-B-E1\nfrom dataclasses import dataclass, field\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str = field(compare=False)\n\n    def __post_init__(self):\n        if not self.entity_id.strip():\n            raise ValueError(\"entity_id vacío\")\n\na = ResolvedEntity(\"E1\", \"Ana\")\nb = ResolvedEntity(\"E1\", \"Ana actualizada\")\nc = ResolvedEntity(\"E2\", \"Ana\")\nprint(a == b, a == c)\nprint(len({a, b, c}))\n_j2_chk = 'S11-T2-B-E1'\n",
+      "justification_from_packet": "Revisión de S11-T2-B-E1 en «OOP y modelo de dominio»: la instruction («E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids») y la hint («dataclass(frozen=True) + field(compare=False) en display_name.») bastan para una forma completa. [a490d2] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "id": "S11-T2-B-E2",
+      "code": "# revisión escéptica s11/S11-T2-B-E2\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ns = {\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E3\", 0.1),\n}\nprint(len(s))\n_j2_chk = 'S11-T2-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T2-B-E2: E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «frozen=True dataclass.»; el código refleja ese contrato sin TODO. [457bda] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "id": "S11-T2-B-E3",
+      "code": "# revisión escéptica s11/S11-T2-B-E3\nclass MutableEntity:\n    def __init__(self, eid, name):\n        self.eid = eid\n        self.name = name\n    def __hash__(self):\n        return hash((self.eid, self.name))\n    def __eq__(self, o):\n        return isinstance(o, MutableEntity) and (self.eid, self.name) == (o.eid, o.name)\n\nm = MutableEntity(\"E1\", \"Ana\")\nd = {m: \"row\"}\nm.name = \"Ana P\"  # mutó la key\nprint(\"BUG lookup_after_mutate\", d.get(m))\n\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass FrozenEntity:\n    eid: str\n    name: str\n\nf = FrozenEntity(\"E1\", \"Ana\")\nd2 = {f: \"row\"}\nprint(\"SAFE\", d2.get(FrozenEntity(\"E1\", \"Ana\")))\n_j2_chk = 'S11-T2-B-E3'\n",
+      "justification_from_packet": "En «OOP y modelo de dominio», S11-T2-B-E3 queda justificado por «E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA» y por «Con mutable: cambiar campo rompe lookup.» del paquete; confié en hints antes que en inventos. [d0beec] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "id": "S11-T3-A-E1",
+      "code": "# revisión escéptica s11/S11-T3-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nc = Client(\"C001\", PersonInfo(\"Ana\", \"Perez\"))\nprint(c.client_id, c.person.first_name)\nprint(\"design=composition\")\n_j2_chk = 'S11-T3-A-E1'\n",
+      "justification_from_packet": "En «OOP y modelo de dominio», S11-T3-A-E1 queda justificado por «E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids» y por «Sin class Person base.» del paquete; confié en hints antes que en inventos. [27b5e3] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "id": "S11-T3-A-E2",
+      "code": "# revisión escéptica s11/S11-T3-A-E2\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev: dict) -> None:\n        self.evidences.append(ev)\n\ncf = CaseFile(\"CF1\")\ncf.add_evidence({\"score\": 0.1})\ncf.add_evidence({\"score\": 0.2})\nprint(\"n=\", len(cf.evidences))\n_j2_chk = 'S11-T3-A-E2'\n",
+      "justification_from_packet": "Revisión de S11-T3-A-E2 en «OOP y modelo de dominio»: la instruction («E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA») y la hint («Lista interna.») bastan para una forma completa. [9a29ab] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "id": "S11-T3-A-E3",
+      "code": "# revisión escéptica s11/S11-T3-A-E3\nprint(\"JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person\")\nprint(\"JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser Client\")\n_j2_chk = 'S11-T3-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T3-A-E3: E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «Piensa en roles y evolución del modelo.»; el código refleja ese contrato sin TODO. [0b1f78] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "id": "S11-T3-B-E1",
+      "code": "# revisión escéptica s11/S11-T3-B-E1\nfrom typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.5 if pair[0] != pair[1] else 1.0\n\ns: Scorer = FakeScorer()\nprint(s.score((\"E1\", \"E2\")))\n_j2_chk = 'S11-T3-B-E1'\n",
+      "justification_from_packet": "Para S11-T3-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids. Criterio: «Imprime el score de un par sintético.». Segunda ancla: «typing.Protocol.». [4c79f2] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "id": "S11-T3-B-E2",
+      "code": "# revisión escéptica s11/S11-T3-B-E2\ndef apply(norm, text):\n    return norm(text)\n\ndef strip_norm(s: str) -> str:\n    return s.strip()\n\ndef casefold_norm(s: str) -> str:\n    return s.strip().casefold()\n\nprint(apply(strip_norm, \" Ana \"))\nprint(apply(casefold_norm, \" Ana \"))\n_j2_chk = 'S11-T3-B-E2'\n",
+      "justification_from_packet": "Escéptico en S11-T3-B-E2 («OOP y modelo de dominio»): contrasté la instruction «E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA» con la hint «apply(norm, text) llama norm(text).» y rechacé huecos del starter. [59a034] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "id": "S11-T3-B-E3",
+      "code": "# revisión escéptica s11/S11-T3-B-E3\nprint(\"WHEN_NOT: solo hay una implementación y no hay tests con fake\")\nprint(\"WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematura\")\n_j2_chk = 'S11-T3-B-E3'\n",
+      "justification_from_packet": "Revisión de S11-T3-B-E3 en «OOP y modelo de dominio»: la instruction («E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA») y la hint («YAGNI / una sola implementación.») bastan para una forma completa. [e04892] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "id": "S11-T4-A-E1",
+      "code": "# revisión escéptica s11/S11-T4-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = \"\"\n\n    def to_dict(self) -> dict:\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nprint(ClientRecord(\"C1\", \"a@ejemplo.pe\", \"secret\").to_dict())\n_j2_chk = 'S11-T4-A-E1'\n",
+      "justification_from_packet": "Escéptico en S11-T4-A-E1 («OOP y modelo de dominio»): contrasté la instruction «E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids» con la hint «Aunque existan en el objeto, no serializarlos.» y rechacé huecos del starter. [ef6317] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "id": "S11-T4-A-E2",
+      "code": "# revisión escéptica s11/S11-T4-A-E2\nclass Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row: dict) -> None:\n        self._d[row[\"client_id\"]] = row\n    def get(self, client_id: str):\n        return self._d.get(client_id)\n\nr = Repo()\nr.save({\"client_id\": \"C001\", \"email\": \"a@ejemplo.pe\"})\nprint(r.get(\"C001\"))\n_j2_chk = 'S11-T4-A-E2'\n",
+      "justification_from_packet": "Escéptico en S11-T4-A-E2 («OOP y modelo de dominio»): contrasté la instruction «E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA» con la hint «Clase con save y get.» y rechacé huecos del starter. [4b09f2] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "id": "S11-T4-A-E3",
+      "code": "# revisión escéptica s11/S11-T4-A-E3\nfor line in [\n    \"LAYER: cli — argparse, stdin/stdout, exit codes\",\n    \"LAYER: service — casos de uso, sin print\",\n    \"LAYER: domain/repo — entidades, invariantes, persistencia abstracta\",\n]:\n    print(line)\n_j2_chk = 'S11-T4-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T4-A-E3: E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «cli → service → domain/repo.»; el código refleja ese contrato sin TODO. [96fd1c] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "id": "S11-T4-B-E1",
+      "code": "# revisión escéptica s11/S11-T4-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\ndef test_empty_document_rejected():\n    try:\n        ClientRecord(\"C1\", \" \")\n        assert False, \"debía fallar\"\n    except ValueError:\n        return \"pass\"\n\nprint(test_empty_document_rejected())\n_j2_chk = 'S11-T4-B-E1'\n",
+      "justification_from_packet": "Escéptico en S11-T4-B-E1 («OOP y modelo de dominio»): contrasté la instruction «E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids» con la hint «Usa assert en un try o pytest-style manual.» y rechacé huecos del starter. [34ce7d] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "id": "S11-T4-B-E2",
+      "code": "# revisión escéptica s11/S11-T4-B-E2\nclass FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row[\"id\"]] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({\"id\": id, \"name\": name})\n        return self.repo.get(id)\n\ndef test_register():\n    s = Service(FakeRepo())\n    assert s.register(\"C1\", \"Ana\")[\"name\"] == \"Ana\"\n    print(\"pass\")\n\ndef test_get():\n    repo = FakeRepo()\n    Service(repo).register(\"C1\", \"Ana\")\n    assert repo.get(\"C1\")[\"id\"] == \"C1\"\n    print(\"pass\")\n\ndef test_missing():\n    assert Service(FakeRepo()).repo.get(\"X\") is None\n    print(\"pass\")\n\ntest_register(); test_get(); test_missing()\n_j2_chk = 'S11-T4-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S11-T4-B-E2: E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA. El material activo menciona «Imprime pass x3.»; el código refleja ese contrato sin TODO. [752009] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "id": "S11-T4-B-E3",
+      "code": "# revisión escéptica s11/S11-T4-B-E3\nprint(\"ANTES: Client.decide_fraud(score)->bool veredicto en el dominio\")\nprint(\"DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del modelo\")\n_j2_chk = 'S11-T4-B-E3'\n",
+      "justification_from_packet": "Revisión de S11-T4-B-E3 en «OOP y modelo de dominio»: la instruction («E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CA») y la hint («Mueve el score a Evidence; elimina el veredicto.») bastan para una forma completa. [0372f8] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "OOP y modelo de dominio"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #0 en «OOP y modelo de dominio»: «¿Por qué `field(default_factory=list)` y no `= []`?». Las otras opciones no cuadran con iDo/theory; me quedo con «Evita el default mutable compartido entre instancias». [71623d] conf~0.93.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #1 en «OOP y modelo de dominio»: «RelationshipEvidence.signal_score representa…». Las otras opciones no cuadran con iDo/theory; me quedo con «Una señal/dato numérico, no un veredicto de fraude o familia». [3a3310] conf~0.93.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #2 en «OOP y modelo de dominio»: «Un Protocol EntityStore sirve para…». Las otras opciones no cuadran con iDo/theory; me quedo con «Definir un puerto get/save implementable por fakes y adapters». [3337cf] conf~0.81.",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #3 en «OOP y modelo de dominio»: «Objeto inválido: ¿cuándo fallar?». Las otras opciones no cuadran con iDo/theory; me quedo con «En la construcción (__post_init__/validate)». [f90c83] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #4 en «OOP y modelo de dominio»: «Client hereda de Person…». Las otras opciones no cuadran con iDo/theory; me quedo con «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar». [c7750a] conf~0.71.",
+      "confidence": 0.71
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #5 en «OOP y modelo de dominio»: «¿Qué no debe tener el dominio de familiaridad?». Las otras opciones no cuadran con iDo/theory; me quedo con «is_fraud() automático». [666f5d] conf~0.95.",
+      "confidence": 0.95
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:23.776509+00:00",
+  "session_started_at": "2026-07-23T12:51:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:51:39.096199+00:00",
+  "receipt_response_sha256": "c0c6e10e89b2535572b805450da15fce56b4413fbb78708ee4fe40e2209d39b1"
+}

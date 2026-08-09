@@ -1,0 +1,9 @@
+{
+  "section": 2,
+  "id": "basics",
+  "file": "s02-basics.ts",
+  "score_1_to_10": 7.2,
+  "issue_count": 21,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S31",
+  "section_id": "streaming-data",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:28Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget streaming-data section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s31-streaming-data.ts",
+      "course-state/s31_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "streaming-data",
+    "index": 31,
+    "title": "Grafos y evidencia relacional",
+    "shortTitle": "Grafos y evidencia",
+    "tagline": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Grafo temporal con caminos de evidencia (CP-N3-B inicio)",
+    "icon": "Network",
+    "legacy_note": "streaming-data retargeted to graphs / CP-N3-B start",
+    "capstone": "CP-N3-B (inicio)"
+  },
+  "subtopics_authored": {
+    "S31-T1-A": {
+      "slug": "nodes-edges-direction-weight",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T1-A-DEMO",
+      "exercises": [
+        "S31-T1-A-E1",
+        "S31-T1-A-E2",
+        "S31-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S31-T1-B": {
+      "slug": "multigraph-time-provenance",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T1-B-DEMO",
+      "exercises": [
+        "S31-T1-B-E1",
+        "S31-T1-B-E2",
+        "S31-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S31-T2-A": {
+      "slug": "entities-tx-contacts",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T2-A-DEMO",
+      "exercises": [
+        "S31-T2-A-E1",
+        "S31-T2-A-E2",
+        "S31-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S31-T2-B": {
+      "slug": "dedup-agg-keep-detail",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T2-B-DEMO",
+      "exercises": [
+        "S31-T2-B-E1",
+        "S31-T2-B-E2",
+        "S31-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S31-T3-A": {
+      "slug": "degree-components-paths",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T3-A-DEMO",
+      "exercises": [
+        "S31-T3-A-E1",
+        "S31-T3-A-E2",
+        "S31-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S31-T3-B": {
+      "slug": "centrality-limited-interp",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T3-B-DEMO",
+      "exercises": [
+        "S31-T3-B-E1",
+        "S31-T3-B-E2",
+        "S31-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S31-T4-A": {
+      "slug": "subgraphs-tests",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T4-A-DEMO",
+      "exercises": [
+        "S31-T4-A-E1",
+        "S31-T4-A-E2",
+        "S31-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S31-T4-B": {
+      "slug": "viz-scale-privacy-edge-evidence",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S31-T4-B-DEMO",
+      "exercises": [
+        "S31-T4-B-E1",
+        "S31-T4-B-E2",
+        "S31-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Grafo temporal con caminos de evidencia (CP-N3-B inicio)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S31-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S31-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

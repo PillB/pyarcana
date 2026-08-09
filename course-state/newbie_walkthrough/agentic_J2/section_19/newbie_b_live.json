@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s19-fed49618256d",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "id": "S19-T1-A-E1",
+      "code": "# revisión escéptica s19/S19-T1-A-E1\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n_j2_chk = 'S19-T1-A-E1'\n",
+      "justification_from_packet": "Escéptico en S19-T1-A-E1 («Visualización y comunicación accesible»): contrasté la instruction «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: preg» con la hint «Asigna chart='bar'.» y rechacé huecos del starter. [42534c] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "id": "S19-T1-A-E2",
+      "code": "# revisión escéptica s19/S19-T1-A-E2\nprint({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n_j2_chk = 'S19-T1-A-E2'\n",
+      "justification_from_packet": "Para S19-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: pr. Criterio: «Incluye las 3 claves.». Segunda ancla: «chart bar.». [3da099] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "id": "S19-T1-A-E3",
+      "code": "# revisión escéptica s19/S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n_j2_chk = 'S19-T1-A-E3'\n",
+      "justification_from_packet": "Revisión de S19-T1-A-E3 en «Visualización y comunicación accesible»: la instruction («E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: de») y la hint («in para substring.») bastan para una forma completa. [8fc108] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "id": "S19-T1-B-E1",
+      "code": "# revisión escéptica s19/S19-T1-B-E1\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n_j2_chk = 'S19-T1-B-E1'\n",
+      "justification_from_packet": "Escéptico en S19-T1-B-E1 («Visualización y comunicación accesible»): contrasté la instruction «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: tru» con la hint «altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.» y rechacé huecos del starter. [3f8d4b] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "id": "S19-T1-B-E2",
+      "code": "# revisión escéptica s19/S19-T1-B-E2\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n_j2_chk = 'S19-T1-B-E2'\n",
+      "justification_from_packet": "Para S19-T1-B-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos. Criterio: «Variable ylim_bottom=0.». Segunda ancla: «print condicional.». [94490f] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "id": "S19-T1-B-E3",
+      "code": "# revisión escéptica s19/S19-T1-B-E3\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n_j2_chk = 'S19-T1-B-E3'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T1-B-E3 queda justificado por «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: enco» y por «Prueba dual_axis.» del paquete; confié en hints antes que en inventos. [1b3b85] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "id": "S19-T2-A-E1",
+      "code": "# revisión escéptica s19/S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n_j2_chk = 'S19-T2-A-E1'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T2-A-E1 queda justificado por «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"» y por «plt.close.» del paquete; confié en hints antes que en inventos. [c6209d] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "id": "S19-T2-A-E2",
+      "code": "# revisión escéptica s19/S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n_j2_chk = 'S19-T2-A-E2'\n",
+      "justification_from_packet": "Para S19-T2-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.us. Criterio: «set_ylabel.». Segunda ancla: «Agg backend.». [14edf7] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "id": "S19-T2-A-E3",
+      "code": "# revisión escéptica s19/S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0]}\n    plt.close(fig)\n    return out\nprint(meta_bar([\"A\", \"B\"], [3, 4]))\n_j2_chk = 'S19-T2-A-E3'\n",
+      "justification_from_packet": "Revisión de S19-T2-A-E3 en «Visualización y comunicación accesible»: la instruction («E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.u») y la hint («len(values).») bastan para una forma completa. [21f3fa] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "id": "S19-T2-B-E1",
+      "code": "# revisión escéptica s19/S19-T2-B-E1\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n_j2_chk = 'S19-T2-B-E1'\n",
+      "justification_from_packet": "Escéptico en S19-T2-B-E1 («Visualización y comunicación accesible»): contrasté la instruction «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"p» con la hint «Dict literal.» y rechacé huecos del starter. [632a93] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "id": "S19-T2-B-E2",
+      "code": "# revisión escéptica s19/S19-T2-B-E2\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n_j2_chk = 'S19-T2-B-E2'\n",
+      "justification_from_packet": "Escéptico en S19-T2-B-E2 («Visualización y comunicación accesible»): contrasté la instruction «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version» con la hint «f-string.» y rechacé huecos del starter. [f96249] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "id": "S19-T2-B-E3",
+      "code": "# revisión escéptica s19/S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)\n_j2_chk = 'S19-T2-B-E3'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T2-B-E3 queda justificado por «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.» y por «close fig.» del paquete; confié en hints antes que en inventos. [d6756c] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "id": "S19-T3-A-E1",
+      "code": "# revisión escéptica s19/S19-T3-A-E1\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])\n_j2_chk = 'S19-T3-A-E1'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T3-A-E1 queda justificado por «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\"» y por «print valor.» del paquete; confié en hints antes que en inventos. [5b05a4] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "id": "S19-T3-A-E2",
+      "code": "# revisión escéptica s19/S19-T3-A-E2\nprint(f\"Lima: {28} PEN (n={40})\")\n_j2_chk = 'S19-T3-A-E2'\n",
+      "justification_from_packet": "Revisión de S19-T3-A-E2 en «Visualización y comunicación accesible»: la instruction («E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima:») y la hint («f-string.») bastan para una forma completa. [a68b52] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "id": "S19-T3-A-E3",
+      "code": "# revisión escéptica s19/S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n_j2_chk = 'S19-T3-A-E3'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T3-A-E3 queda justificado por «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row» y por «Función pura.» del paquete; confié en hints antes que en inventos. [5981f2] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "id": "S19-T3-B-E1",
+      "code": "# revisión escéptica s19/S19-T3-B-E1\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n_j2_chk = 'S19-T3-B-E1'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T3-B-E1 queda justificado por «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; tab» y por «print True.» del paquete; confié en hints antes que en inventos. [c09dbe] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "id": "S19-T3-B-E2",
+      "code": "# revisión escéptica s19/S19-T3-B-E2\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n_j2_chk = 'S19-T3-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S19-T3-B-E2: E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: pr. El material activo menciona «import json.»; el código refleja ese contrato sin TODO. [d9ecc1] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "id": "S19-T3-B-E3",
+      "code": "# revisión escéptica s19/S19-T3-B-E3\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n_j2_chk = 'S19-T3-B-E3'\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible», S19-T3-B-E3 queda justificado por «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"regi» y por «Incluye PEN.» del paquete; confié en hints antes que en inventos. [5fce77] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "id": "S19-T4-A-E1",
+      "code": "# revisión escéptica s19/S19-T4-A-E1\nprint(\"unidad=PEN | fuente=sintetico\")\n_j2_chk = 'S19-T4-A-E1'\n",
+      "justification_from_packet": "Para S19-T4-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=P. Criterio: «f-string o dict.». Segunda ancla: «Ambas menciones.». [b048b8] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "id": "S19-T4-A-E2",
+      "code": "# revisión escéptica s19/S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})\n_j2_chk = 'S19-T4-A-E2'\n",
+      "justification_from_packet": "Revisión de S19-T4-A-E2 en «Visualización y comunicación accesible»: la instruction («E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap») y la hint («set de keys.») bastan para una forma completa. [d42ad7] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "id": "S19-T4-A-E3",
+      "code": "# revisión escéptica s19/S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n_j2_chk = 'S19-T4-A-E3'\n",
+      "justification_from_packet": "Para S19-T4-A-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(ca. Criterio: «join items.». Segunda ancla: «orden de inserción dict.». [c117e3] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "id": "S19-T4-B-E1",
+      "code": "# revisión escéptica s19/S19-T4-B-E1\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n_j2_chk = 'S19-T4-B-E1'\n",
+      "justification_from_packet": "Escéptico en S19-T4-B-E1 («Visualización y comunicación accesible»): contrasté la instruction «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lim» con la hint «in checks.» y rechacé huecos del starter. [d168ce] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "id": "S19-T4-B-E2",
+      "code": "# revisión escéptica s19/S19-T4-B-E2\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\nprint(\"n=\" in \"Lima 28 PEN n=40\")\n_j2_chk = 'S19-T4-B-E2'\n",
+      "justification_from_packet": "Escéptico en S19-T4-B-E2 («Visualización y comunicación accesible»): contrasté la instruction «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Li» con la hint «substring.» y rechacé huecos del starter. [8c1a6c] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "id": "S19-T4-B-E3",
+      "code": "# revisión escéptica s19/S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n_j2_chk = 'S19-T4-B-E3'\n",
+      "justification_from_packet": "Para S19-T4-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: d. Criterio: «Función binaria simple didáctica.». Segunda ancla: «Dos prints.». [e384a5] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Visualización y comunicación accesible»: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Las otras opciones no cuadran con iDo/theory; me quedo con «Barras con baseline 0». [821f66] conf~0.78.",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Visualización y comunicación accesible»: «Una alternativa accesible debe:». Las otras opciones no cuadran con iDo/theory; me quedo con «Repetir los mismos números clave del chart». [5be1a5] conf~0.93.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Visualización y comunicación accesible»: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Las otras opciones no cuadran con iDo/theory; me quedo con «Sobreclaim / generalización indebida». [e6815c] conf~0.85.",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Visualización y comunicación accesible»: «El caption de un gráfico de portfolio debe incluir:». Las otras opciones no cuadran con iDo/theory; me quedo con «Unidad, fuente y limitaciones». [38b8c2] conf~0.89.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Visualización y comunicación accesible»: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0.». Las otras opciones no cuadran con iDo/theory; me quedo con «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificació». [c5052d] conf~0.76.",
+      "confidence": 0.76
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:50.293289+00:00",
+  "session_started_at": "2026-07-23T12:56:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:57:19.219199+00:00",
+  "receipt_response_sha256": "ad2d8316283e44bf57116218e9056813bae77680d78564cd3c4c3e0c61b465dc"
+}

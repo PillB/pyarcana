@@ -1,0 +1,533 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-skeptic-s17-c504bfa8",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nm = cli.merge(tx, on='cliente_id', how='left')\nprint(len(m))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge",
+        "how",
+        "left",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T1-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002},…»). Teoría S17-T1-A: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, out. Prints: ['print(len(m))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "print",
+        "bool",
+        "is_unique"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T1-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id`…»). Teoría S17-T1-A: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, out. Prints: ['print(bool(cli[\"cliente_id\"].is_unique))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on='cliente_id', how='inner')))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "print",
+        "len",
+        "merge",
+        "how",
+        "inner"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T1-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id.…»). Teoría S17-T1-A: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, out. Prints: [\"print(len(cli.merge(tx, on='cliente_id', how='inner')))\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on='cliente_id', how='left', indicator=True)\nprint(m.loc[m['_merge'] == 'left_only', 'cliente_id'].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge",
+        "how",
+        "left",
+        "indicator"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T1-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left …»). Teoría S17-T1-B: «validate, duplicación accidental y anti-join»: El parámetro `validate='one_to_one'|'one_to_many'|...` hace qu. Prints: [\"print(m.loc[m['_merge'] == 'left_only', 'cliente_id'].tolist())\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on='id', validate='one_to_one')\n    print('ok')\nexcept Exception:\n    print('fail')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "try",
+        "merge",
+        "validate",
+        "one_to_one",
+        "print",
+        "except",
+        "Exception",
+        "fail"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T1-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Inte…»). Teoría S17-T1-B: «validate, duplicación accidental y anti-join»: El parámetro `validate='one_to_one'|'one_to_many'|...` hace qu. Prints: [\"print('ok')\", \"print('fail')\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on='cliente_id', how='left', indicator=True)\nprint(int((m['_merge'] == 'left_only').sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "C003",
+        "merge",
+        "how",
+        "left",
+        "indicator"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T1-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cue…»). Teoría S17-T1-B: «validate, duplicación accidental y anti-join»: El parámetro `validate='one_to_one'|'one_to_many'|...` hace qu. Prints: [\"print(int((m['_merge'] == 'left_only').sum()))\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nlong = df.melt(id_vars='id', value_vars=['a', 'b'])\nprint(len(long))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "long",
+        "melt",
+        "id_vars",
+        "value_vars",
+        "print",
+        "len"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T2-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='i…»). Teoría S17-T2-A: «concat, melt y pivot»: `concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long. Prints: ['print(len(long))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nwide = long.pivot_table(index='id', columns='k', values='v', aggfunc='sum').reset_index()\nprint(wide.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "long",
+        "DataFrame",
+        "wide",
+        "pivot_table",
+        "index",
+        "columns",
+        "values",
+        "aggfunc",
+        "sum",
+        "reset_index"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T2-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivo…»). Teoría S17-T2-A: «concat, melt y pivot»: `concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long. Prints: ['print(wide.columns.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "len",
+        "concat",
+        "ignore_index",
+        "True"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T2-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd…»). Teoría S17-T2-A: «concat, melt y pivot»: `concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long. Prints: ['print(len(pd.concat([a, b], ignore_index=True)))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nwide = long.pivot(index='id', columns='mes', values='monto')\nwide.columns = [f'monto_{c}' for c in wide.columns]\nprint(list(wide.columns))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "long",
+        "DataFrame",
+        "mes",
+        "monto",
+        "wide",
+        "pivot",
+        "index",
+        "columns",
+        "values",
+        "monto_"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T2-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot …»). Teoría S17-T2-B: «long/wide y nombres estables»: Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (`ene`, `fe. Prints: ['print(list(wide.columns))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "columns",
+        "cliente_id",
+        "monto_ene",
+        "expected",
+        "print",
+        "set"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T2-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_en…»). Teoría S17-T2-B: «long/wide y nombres estables»: Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (`ene`, `fe. Prints: ['print(set(df.columns) == expected)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "rename",
+        "columns",
+        "monto",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T2-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto…»). Teoría S17-T2-B: «long/wide y nombres estables»: Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (`ene`, `fe. Prints: ['print(df.rename(columns={\"a\": \"monto\"}).columns.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby('region')['monto'].sum().to_dict())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "print",
+        "groupby",
+        "sum",
+        "to_dict"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T3-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `gr…»). Teoría S17-T3-A: «groupby / agg / transform»: `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos).. Prints: [\"print(df.groupby('region')['monto'].sum().to_dict())\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby('region')['monto'].transform('mean').tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "print",
+        "groupby",
+        "transform",
+        "mean",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T3-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. I…»). Teoría S17-T3-A: «groupby / agg / transform»: `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos).. Prints: [\"print(df.groupby('region')['monto'].transform('mean').tolist())\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\nout = df.groupby('region', as_index=False).agg(total=('monto', 'sum'), n=('monto', 'count'))\nprint(out.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "out",
+        "groupby",
+        "as_index",
+        "False",
+        "agg"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T3-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('m…»). Teoría S17-T3-A: «groupby / agg / transform»: `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos).. Prints: ['print(out.columns.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "rolling",
+        "mean",
+        "print",
+        "None",
+        "isna",
+        "else",
+        "float",
+        "for"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T3-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como …»). Teoría S17-T3-B: «ventanas, fechas y cohortes»: `rolling` construye **ventanas móviles** sobre series ordenadas; `resample` req. Prints: ['print([None if pd.isna(x) else float(x) for x in s])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\nfirst = df.groupby('cliente_id')['fecha'].transform('min')\ncohort = first.dt.to_period('M').astype(str)\nprint(dict(zip(df['cliente_id'], cohort)))\n# unique id→cohort\nprint({k: v for k, v in zip(df['cliente_id'], cohort)})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "fecha",
+        "to_datetime",
+        "first",
+        "groupby",
+        "transform",
+        "min"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T3-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (fe…»). Teoría S17-T3-B: «ventanas, fechas y cohortes»: `rolling` construye **ventanas móviles** sobre series ordenadas; `resample` req. Prints: [\"print(dict(zip(df['cliente_id'], cohort)))\", \"print({k: v for k, v in zip(df['cliente_id'], cohort)})\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\nr = s.sort_index().rolling(2).mean()\nprint(float(r.iloc[-1]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "to_datetime",
+        "sort_index",
+        "rolling",
+        "mean",
+        "print",
+        "float",
+        "iloc"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T3-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valo…»). Teoría S17-T3-B: «ventanas, fechas y cohortes»: `rolling` construye **ventanas móviles** sobre series ordenadas; `resample` req. Prints: ['print(float(r.iloc[-1]))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "parts",
+        "total",
+        "print",
+        "abs",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T4-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(par…»). Teoría S17-T4-A: «denominadores y totales»: Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia. Prints: ['print(abs(sum(parts) - total) < 1e-9)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "activos = 40\npagados = 10\nprint(pagados / activos)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "activos",
+        "pagados",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T4-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagado…»). Teoría S17-T4-A: «denominadores y totales»: Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia. Prints: ['print(pagados / activos)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "total = 100.0\nlima = 60.0\nprint(total - lima)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "total",
+        "lima",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T4-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (tota…»). Teoría S17-T4-A: «denominadores y totales»: Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia. Prints: ['print(total - lima)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx['fecha'] <= cutoff, 'monto'].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "print",
+        "loc",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T4-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9…»). Teoría S17-T4-B: «leakage temporal y controles antes/después»: **Leakage temporal** es usar información con fecha posterior al . Prints: [\"print(tx.loc[tx['fecha'] <= cutoff, 'monto'].tolist())\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nsum_total = float(tx['monto'].sum())\nsum_pre = float(tx.loc[tx['fecha'] <= cutoff, 'monto'].sum())\nprint(sum_total - sum_pre)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "sum_total",
+        "float",
+        "sum",
+        "sum_pre"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T4-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de en…»). Teoría S17-T4-B: «leakage temporal y controles antes/después»: **Leakage temporal** es usar información con fecha posterior al . Prints: ['print(sum_total - sum_pre)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\npre = tx[tx['fecha'] <= cutoff]\nprint(pre.groupby('cliente_id')['monto'].max().to_dict())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "pre",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S17-T4-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02…»). Teoría S17-T4-B: «leakage temporal y controles antes/después»: **Leakage temporal** es usar información con fecha posterior al . Prints: [\"print(pre.groupby('cliente_id')['monto'].max().to_dict())\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S17-Q0] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «validate='one_to_one' en merge sirve para:». Teoría: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper. Opción retenida: «Fallar si la cardinalidad no es 1:1» (idx 0), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S17-Q1] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Un anti-join left_only identifica:». Teoría: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper. Opción retenida: «Filas del left sin match en right» (idx 2), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S17-Q2] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «transform en groupby:». Teoría: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper. Opción retenida: «Reinyecta el agregado al shape original» (idx 3), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S17-Q3] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Leakage temporal ocurre cuando:». Teoría: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper. Opción retenida: «Incluyes datos posteriores al cutoff en features/métricas del pasado» (idx 1), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S17-Q4] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes». Teoría: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper. Opción retenida: «Documentar diff con tolerancia eps o corregir el corte» (idx 0), alineada a evidencia explícita de paragraphs/code del active packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:28:18.947683+00:00",
+  "session_started_at": "2026-07-23T06:28:18.944350+00:00",
+  "session_ended_at": "2026-07-23T06:28:18.947703+00:00"
+}

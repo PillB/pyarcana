@@ -1,0 +1,178 @@
+[
+  {
+    "section": 19,
+    "title": "Visualizaci\u00f3n y comunicaci\u00f3n accesible",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 31.19,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_19/newbie_a_live.json",
+        "sha": "6acee69fa920",
+        "instance_id": "h1-explorer-s19-22d7d8650a10"
+      },
+      "newbie_b": {
+        "duration_s": 27.22,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_19/newbie_b_live.json",
+        "sha": "8c441d00e142",
+        "instance_id": "h1-skeptic-s19-0f4d5d86a010"
+      }
+    }
+  },
+  {
+    "section": 20,
+    "title": "Automatizaci\u00f3n robusta de Excel",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 25.84,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_20/newbie_a_live.json",
+        "sha": "36a43f9a7429",
+        "instance_id": "h1-explorer-s20-339b09b1a629"
+      },
+      "newbie_b": {
+        "duration_s": 26.29,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_20/newbie_b_live.json",
+        "sha": "34f5291e12cf",
+        "instance_id": "h1-skeptic-s20-16e6a1247fbf"
+      }
+    }
+  },
+  {
+    "section": 21,
+    "title": "Documentos, plantillas y reportes trazables",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 28.35,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_21/newbie_a_live.json",
+        "sha": "e1242acc1a7f",
+        "instance_id": "h1-explorer-s21-35b5a32ed48c"
+      },
+      "newbie_b": {
+        "duration_s": 28.68,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_21/newbie_b_live.json",
+        "sha": "a742c754571a",
+        "instance_id": "h1-skeptic-s21-7cd006247fb7"
+      }
+    }
+  },
+  {
+    "section": 22,
+    "title": "Email, identidad y aprobaci\u00f3n humana",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 28.83,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_22/newbie_a_live.json",
+        "sha": "7ec4bd15f198",
+        "instance_id": "h1-explorer-s22-80f5a41f6337"
+      },
+      "newbie_b": {
+        "duration_s": 30.45,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_22/newbie_b_live.json",
+        "sha": "26f6a66ebd07",
+        "instance_id": "h1-skeptic-s22-d3cb3a67835c"
+      }
+    }
+  },
+  {
+    "section": 23,
+    "title": "Browser RPA con Playwright",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 18.02,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_23/newbie_a_live.json",
+        "sha": "64825916cc19",
+        "instance_id": "h1-explorer-s23-c1309f604591"
+      },
+      "newbie_b": {
+        "duration_s": 22.2,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_23/newbie_b_live.json",
+        "sha": "123699548679",
+        "instance_id": "h1-skeptic-s23-7e7b504afa4f"
+      }
+    }
+  },
+  {
+    "section": 24,
+    "title": "OCR y Document AI",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 24.52,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_24/newbie_a_live.json",
+        "sha": "b778c5dc1888",
+        "instance_id": "h1-explorer-s24-0ead258429cf"
+      },
+      "newbie_b": {
+        "duration_s": 27.98,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_24/newbie_b_live.json",
+        "sha": "d1fc8706ba04",
+        "instance_id": "h1-skeptic-s24-1198c4f90373"
+      }
+    }
+  },
+  {
+    "section": 25,
+    "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 29.55,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_25/newbie_a_live.json",
+        "sha": "236facba1541",
+        "instance_id": "h1-explorer-s25-7c2baea0b88b"
+      },
+      "newbie_b": {
+        "duration_s": 29.04,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_25/newbie_b_live.json",
+        "sha": "c6dcef80dafe",
+        "instance_id": "h1-skeptic-s25-de6192888123"
+      }
+    }
+  },
+  {
+    "section": 26,
+    "title": "Orquestaci\u00f3n y VP RPA + AI Analyst",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 26.7,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_26/newbie_a_live.json",
+        "sha": "1f59abba08f4",
+        "instance_id": "h1-explorer-s26-b482a678a3eb"
+      },
+      "newbie_b": {
+        "duration_s": 21.9,
+        "n_ex": 24,
+        "n_sc": 4,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_26/newbie_b_live.json",
+        "sha": "ca9c32f3fcc8",
+        "instance_id": "h1-skeptic-s26-637cbd51125d"
+      }
+    }
+  }
+]

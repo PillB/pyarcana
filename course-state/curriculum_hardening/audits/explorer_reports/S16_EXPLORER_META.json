@@ -1,0 +1,9 @@
+{
+  "section": 16,
+  "id": "wxpython-gui",
+  "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+  "score_1_to_10": 6.5,
+  "issue_count": 18,
+  "meta_leak_count": 10,
+  "status": "complete"
+}

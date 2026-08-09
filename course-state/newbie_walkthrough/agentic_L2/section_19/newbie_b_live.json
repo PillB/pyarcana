@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-3a55d0c91e-s19",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "id": "S19-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T1-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; chart = \"bar\". Complet. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "id": "S19-T1-A-E2",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T1-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por región\", \"audiencia\". Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"ch… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "id": "S19-T1-A-E3",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(f\"{elige_chart('tendencia mensual')} | {elige_chart('comparar regiones')}\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T1-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; return \"line\" if \"tenden. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: def elige_chart(pregunta):… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "id": "S19-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T1-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); hon = (50 - 45) / 50. . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "id": "S19-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T1-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"honesto\" if ylim_bottom . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "id": "S19-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T1-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"riesgo_alto\" if encodin. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "id": "S19-T2-A-E1",
+      "code": "import matplotlib; matplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots(); ax.bar([\"a\",\"b\"],[1,2]); ax.set_ylim(0,3)\nprint(ax.get_ylim()[0]==0); plt.close(fig)\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T2-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TODO . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import matplotlib; matplotlib.use(\"Agg\")… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "id": "S19-T2-A-E2",
+      "code": "import matplotlib; matplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots(); ax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel()); plt.close(fig)\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T2-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TO. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import matplotlib; matplotlib.use(\"Agg\")… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "id": "S19-T2-A-E3",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nimport numpy as np\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values)*1.2)\n    meta = {\"n_bars\": len(values), \"ylim0\": np.float64(ax.get_ylim()[0])}\n    plt.close(fig)\n    return meta\nprint(meta_bar([\"a\",\"b\"], [1,2]))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T2-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Completa. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import matplotlib… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "id": "S19-T2-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T2-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}). Completa el TODO d. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture sintético CASO-PE — sin PII real… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "id": "S19-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T2-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{version}.png\"). Completa . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "id": "S19-T2-B-E3",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\"); axes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T2-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Comple. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import matplotlib… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "id": "S19-T3-A-E1",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r[\"median\"] for r in rows if r[\"region\"]==\"Lima\"))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T3-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"medi. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\"… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "id": "S19-T3-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T3-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa el TODO del starter. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture sintético CASO-PE — sin PII real… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "id": "S19-T3-A-E3",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T3-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} PEN . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: def tooltip(row):… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "id": "S19-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T3-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\": 1}]. Completa el TOD. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "id": "S19-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T3-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_a. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "id": "S19-T3-B-E3",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T3-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "id": "S19-T4-A-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T4-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Completa el TODO del star. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture sintético CASO-PE — sin PII real… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "id": "S19-T4-A-E2",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T4-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \". Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "id": "S19-T4-A-E3",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T4-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in cap. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: def pie(cap):… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "id": "S19-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T4-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print(\"RECHAZADO\" if (\"de. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "id": "S19-T4-B-E2",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint(f'{\"n=\" in alt} | {\"n=\" in alt}')\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T4-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in alt or \"n=\" in alt.. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: alt = \"Lima 28 PEN n=40\"… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "id": "S19-T4-B-E3",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(f\"{classify_claim('lidera en la muestra web')} | {classify_claim('es la mejor del país')}\")\n",
+      "justification_from_packet": "Como skeptic en Visualización y comunicación accesible, crucé S19-T4-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if \"m. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: def classify_claim(text):… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S19 «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?»: la respuesta «Barras con baseline 0» es la única coherente con el vocabulario de Visualización y comunicación accesible en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Autochequeo skeptic S19 «Una alternativa accesible debe:»: la respuesta «Repetir los mismos números clave del chart» es la única coherente con el vocabulario de Visualización y comunicación accesible en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S19 «“Lima es la mejor región del Perú” a partir de una muestra web es:»: la respuesta «Sobreclaim / generalización indebida» es la única coherente con el vocabulario de Visualización y comunicación accesible en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S19 «El caption de un gráfico de portfolio debe incluir:»: la respuesta «Unidad, fuente y limitaciones» es la única coherente con el vocabulario de Visualización y comunicación accesible en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S19 «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP-N2-B?»: la respuesta «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» es la única coherente con el vocabulario de Visualización y comunicación accesible en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:15.168342+00:00",
+  "session_started_at": "2026-07-23T17:29:20.946791Z",
+  "session_ended_at": "2026-07-23T17:29:56.414247Z",
+  "receipt_response_sha256": "e4b6a865df4f152e5e4374a47f612855109e17c46c2cc1ddc7cb7133d2d2636c",
+  "receipt_exercises_sha256": "959f0fbce03d187e0c5c1c59aec0affd2b059f66c5e0b6019a040f5919df2400",
+  "receipt_selfcheck_sha256": "6bc4253addcc0158b419a401a8c18d0a7a0a2e96c890febb9793d61f7417a895"
+}

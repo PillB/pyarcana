@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 28,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_28/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S28-T1-A-E1", "answer": "seed before each random; compare equality True", "code": "import random\nrandom.seed(0)\na = random.random()\nrandom.seed(0)\nb = random.random()\nprint(a == b)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["random.seed", "reproducible"]},
+    {"exercise_id": "S28-T1-A-E2", "answer": "invariant scores in [0,1]", "code": "scores = [0, 0.5, 1]\nprint(all(0 <= s <= 1 for s in scores))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["invariant", "all", "range"]},
+    {"exercise_id": "S28-T1-A-E3", "answer": "idempotence strip f(f(s))==f(s)", "code": "s = '  x '\nf = str.strip\nprint(f(f(s)) == f(s))\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["idempotence", "strip"]},
+    {"exercise_id": "S28-T1-B-E1", "answer": "symmetry of equality", "code": "a, b = 'x', 'x'\nprint((a == b) == (b == a))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["symmetry"]},
+    {"exercise_id": "S28-T1-B-E2", "answer": "casefold equality Ana/ANA True (metamorphic upper)", "code": "print('Ana'.casefold() == 'ANA'.casefold())\n", "confidence": 0.93, "blocked_on": [], "concepts_used": ["casefold", "metamorphic"]},
+    {"exercise_id": "S28-T1-B-E3", "answer": "swap args equality idempotent", "code": "a, b = 1, 1\nprint((a == b) == (b == a))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["swap", "property"]},
+    {"exercise_id": "S28-T2-A-E1", "answer": "missing id → id requerido", "code": "r = {}\nif not r.get('id'):\n    print('id requerido')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["schema", "get", "guard"]},
+    {"exercise_id": "S28-T2-A-E2", "answer": "score out of range → score", "code": "score = 1.2\nif not (0 <= score <= 1):\n    print('score')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["quality contract", "score range"]},
+    {"exercise_id": "S28-T2-A-E3", "answer": "count rows failing empty id", "code": "rows = [{'id': '1'}, {'id': ''}]\nprint(sum(1 for r in rows if not r.get('id')))\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["sum", "validation count"]},
+    {"exercise_id": "S28-T2-B-E1", "answer": "print drift if golden!=current", "code": "golden, current = {'n': 1}, {'n': 2}\nif golden != current:\n    print('drift')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["golden", "drift"]},
+    {"exercise_id": "S28-T2-B-E2", "answer": "reconcile blocked without approval", "code": "diff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["reconcile policy", "blocked"]},
+    {"exercise_id": "S28-T2-B-E3", "answer": "golden version 3", "code": "print(3)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["versionado"]},
+    {"exercise_id": "S28-T3-A-E1", "answer": "fake DB dict get name Ana", "code": "db = {'e1': {'name': 'Ana'}}\nprint(db['e1']['name'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["fake DB", "dict"]},
+    {"exercise_id": "S28-T3-A-E2", "answer": "fake clock 2026-07-20 iso", "code": "from datetime import date\nprint(date(2026, 7, 20).isoformat())\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["fake clock", "isoformat"]},
+    {"exercise_id": "S28-T3-A-E3", "answer": "HTTP 503 → retry", "code": "status = 503\nprint('retry' if status == 503 else 'ok')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["fake HTTP", "status"]},
+    {"exercise_id": "S28-T3-B-E1", "answer": "real match casefold A/a", "code": "print('A'.casefold() == 'a'.casefold())\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["contract", "casefold", "no mock"]},
+    {"exercise_id": "S28-T3-B-E2", "answer": "always-True overmock is weak", "code": "f = lambda a, b: True\nprint('weak' if f('A', 'z') is True and f('x', 'y') is True else 'ok')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["overmock", "weak"]},
+    {"exercise_id": "S28-T3-B-E3", "answer": "observable rows_written=1", "code": "print({'rows_written': 1})\n", "confidence": 0.88, "blocked_on": [], "concepts_used": ["edge contract", "observable effect"]},
+    {"exercise_id": "S28-T4-A-E1", "answer": "sqlite memory create insert count", "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table e(id text)')\nc.execute(\"insert into e values ('1')\")\nn = c.execute('select count(*) from e').fetchone()[0]\nprint(n)\n", "confidence": 0.93, "blocked_on": [], "concepts_used": ["sqlite3", "COUNT", "memory"]},
+    {"exercise_id": "S28-T4-A-E2", "answer": "C(4,2)=6 candidate pairs", "code": "n = 4\nprint(n * (n - 1) // 2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["cardinality", "pairs"]},
+    {"exercise_id": "S28-T4-A-E3", "answer": "checkpoint pending items not in done", "code": "done, items = {'a'}, ['a', 'b']\nprint([x for x in items if x not in done])\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["checkpoint", "reanudación"]},
+    {"exercise_id": "S28-T4-B-E1", "answer": "stable sorted", "code": "print(sorted(['b', 'a']))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["sorted", "determinism"]},
+    {"exercise_id": "S28-T4-B-E2", "answer": "flake_rate>0 → fail_job", "code": "flake_rate = 0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["CI gate", "flakes"]},
+    {"exercise_id": "S28-T4-B-E3", "answer": "CI pipeline unit→data→integration", "code": "print('unit→data→integration')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["CI pipeline order"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: metamorphic tests transform input so output relation is predictable (e.g. padding spaces)."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Riesgo de ocultar regresiones", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory golden reconcile: update only with review — never silently in CI; silent update hides regressions."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Acoplar el test a detalles internos y ocultar bugs", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory sobre-mocking: couples to internal details and can hide bugs; prefer edge contracts."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory flakes: seed, injected clock, stable sort; fail job if drift/flakes persist on gate suite."}
+  ],
+  "confusion_points": ["Platform id llm-agents vs title QA de datos — follow V3 retheme."],
+  "retrospection": "S28 24 weDo filled from theory/iDo (seed, invariants, schema, golden, fakes, sqlite, CI). Selfcheck 4/4. blocked_count=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

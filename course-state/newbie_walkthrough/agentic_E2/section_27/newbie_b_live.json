@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 27,
+  "packet_sha": "effa396a740261f6",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s27-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "score",
+        "sintético",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T1-A-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/d…». Hints: Multiplica enteros; print del producto. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `impact, likelihood = 5, 4`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "áreas",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "score",
+        "unit"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T1-A-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect…». Hints: sorted reverse; key con producto. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `rows=[('e2e',2,1),('unit',5,5)]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "top_layer",
+        "unit",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T1-A-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin re…». Hints: compara layer; pirámide. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `top_layer='unit'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "casefold",
+        "normalize",
+        "run_id",
+        "defecto",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T1-B-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen…». Hints: casefold; split/join. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `s=' A B '`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "raw",
+        "casefold",
+        "print",
+        "run_id",
+        "defecto",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T1-B-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/d…». Hints: assert luego print; oráculo 'ana'. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `raw='ANA'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "normalizados",
+        "print",
+        "casefold",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T1-B-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa…». Hints: normaliza ambos; compara. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `a,b='X Y','x y'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "test_b",
+        "print",
+        "defecto",
+        "startswith",
+        "run_id",
+        "empiezan",
+        "test_"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T2-A-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defe…». Hints: startswith; list comp. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `names=['test_a','helper','test_b']`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T2-A-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defec…». Hints: ternario; diff conceptual. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `left,right='a','b'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T2-A-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; im…». Hints: lista de tuplas; tabla. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T2-B-E1\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "copia",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T2-B-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen…». Hints: deepcopy; mutación local. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from copy import deepcopy`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "function",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T2-B-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto …». Hints: literal; scopes pytest. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T2-B-E3\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T2-B-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imp…». Hints: list comp; ids sintéticos. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def make(n):`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "usa",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T3-A-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto …». Hints: import math; isclose. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import math`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\nprint('bad')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T3-A-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indica…». Hints: try/except; ValueError. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `try:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T3-A-E3\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "contenido",
+        "solution",
+        "name"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T3-A-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen…». Hints: tempfile; utf-8. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import tempfile`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T3-B-E1\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(str(e))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "raise",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T3-B-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa …». Hints: raise ValueError; except. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `email=''`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "arroba",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T3-B-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO…». Hints: in; guard. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `s='sin-arroba'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "imprímelo",
+        "score",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T3-B-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo…». Hints: f-string !r; sin PII. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `v=-1`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T4-A-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TO…». Hints: if/else; dos prints o tupla. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def f(x):`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "review",
+        "entrada",
+        "hit",
+        "set",
+        "print",
+        "defecto",
+        "run_id",
+        "auto"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T4-A-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo…». Hints: membership; cobertura. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `hit={'auto','review'}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T4-A-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el …». Hints: int(100*k/n); branch %. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `k,n=2,3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "raw",
+        "print",
+        "defecto",
+        "run_id",
+        "usa",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T4-B-E1 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter comp…». Hints: compara; kill mutant. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `raw=' a '`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "actual",
+        "falla",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T4-B-E2 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implement…». Hints: dict; debug CI. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S27-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S27-T4-B-E3 solo con el paquete activo S27 (Estrategia de pruebas con pytest). Instruction: «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el T…». Hints: string; mantenimiento. Teoría/iDo: «riesgos y pirámide de pruebas La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en mat…». Demos: S27-T1-A-DEMO | S27-T1-B-DEMO | S27-T2-A-DEMO | S27-T2-B-DEMO | S27-T3-A-DEMO | S27-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Pruebas unitarias",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «Pruebas unitarias» para la pregunta «En la pirámide de pruebas, la base más ancha suele ser:» porque el paquete activo S27 (Estrategia de pruebas con pytest) enseña: «La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «Una fuente de verdad determinista para el assert» para la pregunta «Un oráculo confiable es:» porque el paquete activo S27 (Estrategia de pruebas con pytest) enseña: «**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que normalización/matching sean …». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «El contrato es débil; el mutante sobrevivió» para la pregunta «Si mutas un casefold y ningún test falla:» porque el paquete activo S27 (Estrategia de pruebas con pytest) enseña: «Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa) y probabilidad. En ER, normalización y comparadores son capa de alto riesgo. Contrato operativo: entrada caso…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «Contratos de misma entidad / normalización — no riesgo ni relación» para la pregunta «Las pruebas de matching en CP-N3-A demuestran:» porque el paquete activo S27 (Estrategia de pruebas con pytest) enseña: «La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.366732+00:00"
+}

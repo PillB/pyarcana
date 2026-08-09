@@ -1,0 +1,187 @@
+{
+  "attempt": "agentic_L2",
+  "results": [
+    {
+      "section": 40,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_40/newbie_a_live.json",
+      "session_id": "l2-exp-s40-71a4b3da3915",
+      "latency_s": 67.25
+    },
+    {
+      "section": 40,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_40/newbie_b_live.json",
+      "session_id": "l2-ske-s40-08d1105a076c",
+      "latency_s": 68.46
+    },
+    {
+      "section": 41,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_41/newbie_a_live.json",
+      "session_id": "l2-exp-s41-69adcd75173a",
+      "latency_s": 68.3
+    },
+    {
+      "section": 41,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_41/newbie_b_live.json",
+      "session_id": "l2-ske-s41-58dfe7fb1379",
+      "latency_s": 66.58
+    },
+    {
+      "section": 42,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_42/newbie_a_live.json",
+      "session_id": "l2-exp-s42-677193295e98",
+      "latency_s": 67.98
+    },
+    {
+      "section": 42,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_42/newbie_b_live.json",
+      "session_id": "l2-ske-s42-97f6818d7ce5",
+      "latency_s": 67.81
+    },
+    {
+      "section": 43,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_43/newbie_a_live.json",
+      "session_id": "l2-exp-s43-3b88d0a404e2",
+      "latency_s": 65.55
+    },
+    {
+      "section": 43,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_43/newbie_b_live.json",
+      "session_id": "l2-ske-s43-1c786942c955",
+      "latency_s": 65.87
+    },
+    {
+      "section": 44,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_44/newbie_a_live.json",
+      "session_id": "l2-exp-s44-af300bc5cc5c",
+      "latency_s": 67.61
+    },
+    {
+      "section": 44,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_44/newbie_b_live.json",
+      "session_id": "l2-ske-s44-bcc4455c6aab",
+      "latency_s": 66.38
+    },
+    {
+      "section": 45,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_45/newbie_a_live.json",
+      "session_id": "l2-exp-s45-ce5beefe5995",
+      "latency_s": 65.51
+    },
+    {
+      "section": 45,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_45/newbie_b_live.json",
+      "session_id": "l2-ske-s45-181992574ac7",
+      "latency_s": 66.57
+    },
+    {
+      "section": 46,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_46/newbie_a_live.json",
+      "session_id": "l2-exp-s46-3dcb264e4227",
+      "latency_s": 68.89
+    },
+    {
+      "section": 46,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_46/newbie_b_live.json",
+      "session_id": "l2-ske-s46-98b6b4950f13",
+      "latency_s": 66.93
+    },
+    {
+      "section": 47,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_47/newbie_a_live.json",
+      "session_id": "l2-exp-s47-ad188bc9828d",
+      "latency_s": 66.31
+    },
+    {
+      "section": 47,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_47/newbie_b_live.json",
+      "session_id": "l2-ske-s47-a2ba680e19d2",
+      "latency_s": 69.77
+    },
+    {
+      "section": 48,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_48/newbie_a_live.json",
+      "session_id": "l2-exp-s48-3ad77d43a060",
+      "latency_s": 69.74
+    },
+    {
+      "section": 48,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_48/newbie_b_live.json",
+      "session_id": "l2-ske-s48-3d4333b221fd",
+      "latency_s": 68.69
+    },
+    {
+      "section": 49,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_49/newbie_a_live.json",
+      "session_id": "l2-exp-s49-0f348dfc297f",
+      "latency_s": 66.81
+    },
+    {
+      "section": 49,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_49/newbie_b_live.json",
+      "session_id": "l2-ske-s49-8c25785a44cb",
+      "latency_s": 65.58
+    },
+    {
+      "section": 50,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_50/newbie_a_live.json",
+      "session_id": "l2-exp-s50-77bf573158ce",
+      "latency_s": 69.52
+    },
+    {
+      "section": 50,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_50/newbie_b_live.json",
+      "session_id": "l2-ske-s50-4dc448e621e6",
+      "latency_s": 69.64
+    },
+    {
+      "section": 51,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_51/newbie_a_live.json",
+      "session_id": "l2-exp-s51-777e58f7caea",
+      "latency_s": 65.85
+    },
+    {
+      "section": 51,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_51/newbie_b_live.json",
+      "session_id": "l2-ske-s51-99a88029a7dd",
+      "latency_s": 66.85
+    },
+    {
+      "section": 52,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_52/newbie_a_live.json",
+      "session_id": "l2-exp-s52-e847e2dd8d1e",
+      "latency_s": 66.87
+    },
+    {
+      "section": 52,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_52/newbie_b_live.json",
+      "session_id": "l2-ske-s52-5282b0ae09a7",
+      "latency_s": 68.39
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "section": 6,
+  "id": "numpy",
+  "file": "src/lib/course/sections/s06-numpy.ts",
+  "score_1_to_10": 7.6,
+  "issue_count": 22,
+  "meta_leak_count": 11,
+  "status": "complete"
+}

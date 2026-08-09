@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-exp-s47-ad188bc9828d",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de tracking y reproducibilidad en S47-T1-A-E1. El paquete indica rerun dentro de tolerancia con seed/parámetros; por eso el código valida CASO-TAC-047-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"PASS\" if ok else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\ninvalid = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 1.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\nincomplete = {k: v for k, v in valid.items() if k != 'tolerance'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de tracking y reproducibilidad en S47-T1-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TAC-047-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"INVESTIGATE_RANDOMNESS\"\n    ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"CONTINUE\" if ok else \"MARK_RUN_NONREPRODUCIBLE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}},\n    {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 1.81, 'rerun_metric': 0.805, 'tolerance': 0.01}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}.items() if k != 'tolerance'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S47-T1-A-E3, el fixture CASO-TAC-047-1A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «tracking y reproducibilidad» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de data/code/env lineage y comparación en S47-T1-B-E1. El paquete indica data/code/env/split/métrica versionados y candidato mejor; por eso el código valida CASO-TAC-047-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"PASS\" if ok else \"INVALIDATE_COMPARISON\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}}\ninvalid = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': -0.18000000000000005, 'baseline': 0.78}}\nincomplete = {k: v for k, v in valid.items() if k != 'baseline'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de data/code/env lineage y comparación en S47-T1-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TAC-047-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RESTORE_LINEAGE\"\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"CONTINUE\" if ok else \"INVALIDATE_COMPARISON\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}},\n    {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': -0.18000000000000005, 'baseline': 0.78}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}}.items() if k != 'baseline'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T1-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TAC-047-1B reconstruí meets_contract alineado a «data/code/env lineage y comparación» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de firmas, stages y approvals en S47-T2-A-E1. El paquete indica firma exacta, staging y aprobación; por eso el código valida CASO-TAC-047-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"PASS\" if ok else \"DENY_MODEL_PROMOTION\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}}\nincomplete = {k: v for k, v in valid.items() if k != 'approved'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T2-A-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TAC-047-2A reconstruí meets_contract alineado a «firmas, stages y approvals» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REQUEST_MODEL_APPROVAL\"\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"CONTINUE\" if ok else \"DENY_MODEL_PROMOTION\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}},\n    {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}}.items() if k != 'approved'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de firmas, stages y approvals en S47-T2-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-TAC-047-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de artefactos, model card y compatibilidad en S47-T2-B-E1. El paquete indica digest, compatibilidad de features y card completa; por eso el código valida CASO-TAC-047-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"PASS\" if ok else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3_X', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'card_sections'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de artefactos, model card y compatibilidad en S47-T2-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TAC-047-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"COMPLETE_MODEL_CARD\"\n    ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"CONTINUE\" if ok else \"REJECT_MODEL_ARTIFACT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}},\n    {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3_X', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}.items() if k != 'card_sections'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S47-T2-B-E3, el fixture CASO-TAC-047-2B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «artefactos, model card y compatibilidad» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T3-A-E1: la operación debe demostrar paridad batch/online sin leakage y contract tests. Con el caso sintético CASO-TAC-047-3A reconstruí meets_contract alineado a «batch/online y feature consistency» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"PASS\" if ok else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\ninvalid = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8, '__bad__'], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\nincomplete = {k: v for k, v in valid.items() if k != 'contract_tests'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de batch/online y feature consistency en S47-T3-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TAC-047-3A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"TRACE_FEATURE_PIPELINE\"\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"CONTINUE\" if ok else \"DISABLE_INCONSISTENT_SERVING\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}},\n    {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8, '__bad__'], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}.items() if k != 'contract_tests'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T3-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TAC-047-3A reconstruí meets_contract alineado a «batch/online y feature consistency» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de latency, batching y fallback en S47-T3-B-E1. El paquete indica p95 bajo SLO, batch acotado y fallback probado; por eso el código valida CASO-TAC-047-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"PASS\" if ok else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 240, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'fallback_tested'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S47-T3-B-E2, el fixture CASO-TAC-047-3B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «latency, batching y fallback» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"TUNE_BATCH_OR_CAPACITY\"\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"CONTINUE\" if ok else \"ACTIVATE_SAFE_FALLBACK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}},\n    {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 240, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}.items() if k != 'fallback_tested'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T3-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TAC-047-3B reconstruí meets_contract alineado a «latency, batching y fallback» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S47-T4-A-E1, el fixture CASO-TAC-047-4A deja ver que tráfico limitado, quality/error gates y hooks. Corregí el predicado defectuoso del starter para que el escenario de «shadow/canary y monitoring hooks» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"PASS\" if ok else \"STOP_CANARY\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 1.004, 'max_error_rate': 0.01, 'hooks': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'hooks'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S47-T4-A-E2, el fixture CASO-TAC-047-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «shadow/canary y monitoring hooks» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"COLLECT_MORE_SHADOW_EVIDENCE\"\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"CONTINUE\" if ok else \"STOP_CANARY\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}},\n    {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 1.004, 'max_error_rate': 0.01, 'hooks': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}}.items() if k != 'hooks'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S47-T4-A-E3, el fixture CASO-TAC-047-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «shadow/canary y monitoring hooks» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T4-B-E1: la operación debe demostrar last-known-good compatible, rollback y retiro auditado. Con el caso sintético CASO-TAC-047-4B reconstruí meets_contract alineado a «rollback, retirement y audit» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if ok else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'audit_entry'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T4-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TAC-047-4B reconstruí meets_contract alineado a «rollback, retirement y audit» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REVIEW_RETIREMENT\"\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"CONTINUE\" if ok else \"ROLLBACK_TO_LAST_GOOD\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}},\n    {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}.items() if k != 'audit_entry'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S47-T4-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TAC-047-4B reconstruí meets_contract alineado a «rollback, retirement y audit» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.75
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Para la pregunta «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?…» el packet de S47 sostiene «rerun dentro de tolerancia declarada». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Para la pregunta «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y audi…» el packet de S47 sostiene «emitir ROLLBACK_MODEL y conservar evidencia». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En self-check Q2 de S47 elegí «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» porque el theory/outcomes del paquete describen esa evidencia (Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Para la pregunta «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?…» el packet de S47 sostiene «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.78
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:53:16.000841+00:00",
+  "session_started_at": "2026-07-23T17:52:09.682603+00:00",
+  "session_ended_at": "2026-07-23T17:53:15.996142+00:00",
+  "receipt_response_sha256": "0c7e1f63aeecb61882d77ee663d3e6b41dab2babc7f8634c9f51bc0d7f6ef79e",
+  "receipt_exercises_sha256": "48d2e63fe859090bd8637242aa0a241cdcb09d72b105f7d7b9b27bccb16dccb6",
+  "receipt_selfcheck_sha256": "b5512e62b25f7deeaa9a707e63f7399c16c703658bb9b19b2fd2458899490a0d"
+}

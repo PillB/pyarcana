@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-explorer-s07-8eb7737662",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Texto, Unicode y expresiones regulares», me enfoqué en S07-T1 para completar S07-T1-A-E1. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E1 (guiado) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Normaliza a NFC la lista `['José'… La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "a, b = 'MAÑANA', 'mañana'\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S07-T1-A-E2 leyendo outcomes y teoría de S07-T1. Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: E2 (independiente) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Usa casefold para decidir … Anclé la respuesta en: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S07-T1-A-E3 partí del material del quiz_card sobre S07-T1: Texto, Unicode y expresiones regulares. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad cruda, igualdad NFC y un mensaje de causa (NFD residual).… Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = 'Ana María Quispe Huamán'\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Texto, Unicode y expresiones regulares», me enfoqué en S07-T1 para completar S07-T1-B-E1. El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: E1 (guiado) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: De `'Ana María Quispe Huamán'` ex… La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = 'María del Carmen Quispe Ríos'\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S07-T1-B-E2 junto con la teoría de «Texto, Unicode y expresiones regulares». Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Preserva partículas en giv… Apoyo en paquete: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "raw = \"  María   del  Carmen  Quispe  Huamán \"\ntokens = raw.split()\nprint(tokens)\n# Heurística demo: últimos 2 tokens = apellidos si len>=3\nif len(tokens) >= 3:\n    ap2, ap1 = tokens[-1], tokens[-2]\n    given = \" \".join(tokens[:-2])\n    print(\"given:\", given)\n    print(\"apellidos:\", ap1, ap2)\nprint('ok')\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S07-T1-B-E3 partí del material del quiz_card sobre S07-T1: Texto, Unicode y expresiones regulares. La instruction pide: E3 (transferencia) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si hay menos de 3 tokens, … Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "line = 'C001, Ana , Lima'\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Texto, Unicode y expresiones regulares», me enfoqué en S07-T2 para completar S07-T2-A-E1. Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Split CSV-like simple `'C001,Ana,… La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "toks = ['Jr.', 'Unión', '450']\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S07-T2-A-E2 leyendo outcomes y teoría de S07-T2. La instruction pide: E2 (independiente) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Une tokens `['Jr.', 'Unión… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw = '999.000-111'\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S07-T2-A-E3 partí del material del quiz_card sobre S07-T2: Texto, Unicode y expresiones regulares. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo stdlib str/unicodedata/re (S01–S07). Documenta el criterio en el memo de… Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or any(ch.isspace() for ch in s):\n        raise ValueError(\"email requiere un @ y cero espacios\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email requiere local y dominio\")\n    return s\n\ndef normalize_phone_pe(raw: str) -> str:\n    return \"\".join(c for c in raw if c.isdigit())\n\nprint(normalize_email(\"  Ana+test@Example.COM \"))\nprint(normalize_phone_pe(\"+51 999-000-111\"))\nprint('ok')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S07-T2-B-E1 junto con la teoría de «Texto, Unicode y expresiones regulares». Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E1 (guiado) — Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio no vacíos y cero espacios. Imprime `'  A@B.COM '` y captura errores para `'@b.com'`, `… Apoyo en paquete: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = '(+51) 999-000-111'\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S07-T2 («Texto, Unicode y expresiones regulares») y resolví el ejercicio S07-T2-B-E2 (independiente). La instruction pide: E2 (independiente) — Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Teléfono a dígitos: `'(+51… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\nemail = 'user+tag@example.com'\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S07-T2-B-E3 leyendo outcomes y teoría de S07-T2. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imprime rejected=True y la política exacta: un @, local/dominio no vacíos y cero e… Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S07-T3-A-E1 partí del material del quiz_card sobre S07-T3: Texto, Unicode y expresiones regulares. La instruction pide: E1 (guiado) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: `fullmatch` de código región `^[A… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Anclé la respuesta en: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S07-T3-A-E2 junto con la teoría de «Texto, Unicode y expresiones regulares». El contrato del ejercicio (independiente) se satisface con el patrón del paquete; instruction resumida: E2 (independiente) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Extrae grupos nombre/apell… Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\ntext = 'DNI 12345678'\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Texto, Unicode y expresiones regulares», me enfoqué en S07-T3 para completar S07-T3-A-E3. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Contrasta search vs fullma… La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S07-T3 («Texto, Unicode y expresiones regulares») y resolví el ejercicio S07-T3-B-E1 (guiado). El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: E1 (guiado) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Compila `\\b9\\d{8}\\b` y reutiliza … Apoyo en paquete: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S07-T3-B-E2 leyendo outcomes y teoría de S07-T3. Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: E2 (independiente) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: findall de códigos `[A-Z]{… La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S07-T3-B-E3 junto con la teoría de «Texto, Unicode y expresiones regulares». Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por qué preferimos `a+b` o str methods. No necesitas colgar el proceso: so… Apoyo en paquete: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def tokens(s: str) -> set[str]:\n    return set(s.casefold().split())\n\ndef token_jaccard(a: str, b: str) -> float:\n    A, B = tokens(a), tokens(b)\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P. Perez\"), 3))\nprint(round(token_jaccard(\"Ana Quispe\", \"Luis Huamán\"), 3))\nprint('ok')\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S07-T4-A-E1 partí del material del quiz_card sobre S07-T4: Texto, Unicode y expresiones regulares. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E1 (guiado) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Exact match tras normalize: colla… La teoría remarca: «Texto, Unicode y expresiones regulares» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def tokens(s: str) -> set[str]:\n    return set(s.casefold().split())\n\ndef token_jaccard(a: str, b: str) -> float:\n    A, B = tokens(a), tokens(b)\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P. Perez\"), 3))\nprint(round(token_jaccard(\"Ana Quispe\", \"Luis Huamán\"), 3))\nprint('ok')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S07-T4 («Texto, Unicode y expresiones regulares») y resolví el ejercicio S07-T4-A-E2 (independiente). El contrato del ejercicio (independiente) se satisface con el patrón del paquete; instruction resumida: E2 (independiente) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Implementa Jaccard de toke… Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S07-T4-A-E3 leyendo outcomes y teoría de S07-T4. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si score está en [0.4, 1.0… Apoyo en paquete: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S07-T4-B-E1 junto con la teoría de «Texto, Unicode y expresiones regulares». Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Clasifica FP/FN: pred match + tru… Fragmento de teoría que usé: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "evidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'similitud parcial por tokens; requiere revisión humana',\n}\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S07-T4 («Texto, Unicode y expresiones regulares») y resolví el ejercicio S07-T4-B-E2 (independiente). Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: E2 (independiente) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Empaqueta evidencia `dict(… Anclé la respuesta en: «Texto, Unicode y expresiones regulares»"
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S07-T4 («Texto, Unicode y expresiones regulares») y resolví el ejercicio S07-T4-B-E3 (transferencia). Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Redacta en 2-3 prints por … Apoyo en paquete: «Texto, Unicode y expresiones regulares»"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #0: «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?». Elegí el índice 2: «Formas Unicode distintas (NFC vs NFD)». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para la pregunta 1 («En nombres latam, si solo hay un token, la política segura es…») la opción correcta es 0 — «Marcar review y conservar raw» — porque el paquete define ese contrato y no las alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "En autoevaluación, pregunta 2: me quedo con la opción 1 («Cuando la transformación es literal/simple»). Las otras no coinciden con el vocabulario del theory/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta 3 del self-check: «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…» → respuesta 3 «None (no es full match)», alineada a outcomes y párrafos de la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.83,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #4: «Un Jaccard 0.67 entre nombres debe…». Elegí el índice 2: «Ir a review con evidencia (raw, score)». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:30.808410+00:00",
+  "session_started_at": "2026-07-23T13:30:18.063725+00:00",
+  "session_ended_at": "2026-07-23T13:30:30.807135+00:00",
+  "receipt_response_sha256": "6b0d1028452e053e8280825be99491e99d28002237327de0e35083a0d1a03bcd",
+  "receipt_exercises_sha256": "c37c68d8dd493fdb48f662173747e74c7c68e4fa6545a4686303c8ae539e53a0",
+  "receipt_selfcheck_sha256": "a03ab24995894c3ddc0243edb25e3898dbef31c7501134584802fd419be4da18"
+}

@@ -1,0 +1,588 @@
+{
+  "lane_id": "LANE-S40-S52-CLOSE",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK + PHASE_6_VALIDATION",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "scope": [
+    "S40",
+    "S41",
+    "S42",
+    "S43",
+    "S44",
+    "S45",
+    "S46",
+    "S47",
+    "S48",
+    "S49",
+    "S50",
+    "S51",
+    "S52"
+  ],
+  "phase5": {
+    "agentic-architecture": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s40_phase5_exam_bank.json",
+      "concept_slugs": [
+        "functional-quality-attrs",
+        "tradeoffs-risks-measurable",
+        "cohesion-coupling-layers",
+        "ports-adapters-domain-dep",
+        "bounded-contexts-ubiquitous",
+        "entities-vo-services",
+        "c4-flow-adr",
+        "apis-events-debt-compat"
+      ],
+      "title_v3": "Arquitectura, DDD y decisiones técnicas"
+    },
+    "llm-finetuning": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s41_phase5_exam_bank.json",
+      "concept_slugs": [
+        "resources-methods-status",
+        "idempotency-pagination-versioning",
+        "routing-deps-models",
+        "validation-serialize-docs",
+        "sync-async-background",
+        "errors-timeouts-lifecycle",
+        "unit-contract-integration",
+        "compat-ratelimit-observability"
+      ],
+      "title_v3": "APIs con FastAPI y contratos HTTP"
+    },
+    "graph-rag": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s42_phase5_exam_bank.json",
+      "concept_slugs": [
+        "pydantic-jsonschema",
+        "evolution-unions-business-val",
+        "authn-authz-rbac",
+        "scopes-service-ids-deny",
+        "limits-injection-ssrf-path",
+        "secrets-crypto-deps",
+        "minimize-purpose-retention",
+        "audit-delete-pseudo-access"
+      ],
+      "title_v3": "Schemas, seguridad y privacidad de servicios"
+    },
+    "llmops": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s43_phase5_exam_bank.json",
+      "concept_slugs": [
+        "dockerfile-layers-cache",
+        "bases-nonroot-size",
+        "config-secrets-volumes",
+        "net-health-signals",
+        "api-worker-db-cache",
+        "deps-migrations-ephemeral",
+        "locks-multistage",
+        "scan-limits-debug"
+      ],
+      "title_v3": "Contenedores y reproducibilidad operativa"
+    },
+    "multimodal": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s44_phase5_exam_bank.json",
+      "concept_slugs": [
+        "lint-types-tests-matrix",
+        "caches-artifacts-conditions",
+        "min-perms-pin-secret-scan",
+        "sbom-provenance-attest",
+        "envs-approvals",
+        "migrations-canary-rollback",
+        "branch-review-release-notes",
+        "failure-handling-audit-evidence"
+      ],
+      "title_v3": "CI/CD y seguridad de la cadena de suministro"
+    },
+    "iac": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s45_phase5_exam_bank.json",
+      "concept_slugs": [
+        "object-relational-cache",
+        "consistency-lifecycle-backups",
+        "queue-event-delivery",
+        "dedup-ordering-dlq",
+        "compute-autoscale-net",
+        "iam-private-egress",
+        "declarative-config-envs",
+        "cost-quotas-recovery-portability"
+      ],
+      "title_v3": "Cloud, almacenamiento, colas e infraestructura"
+    },
+    "gpu-computing": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s46_phase5_exam_bank.json",
+      "concept_slugs": [
+        "windows-event-time-watermarks",
+        "late-data-exactly-once",
+        "dag-assets-dependency",
+        "schedules-backfills-state",
+        "contracts-freshness",
+        "lineage-obs-ownership",
+        "partitions-incremental",
+        "slo-incidents-data-recovery"
+      ],
+      "title_v3": "Ingeniería de datos y orquestación de producción"
+    },
+    "opensource": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s47_phase5_exam_bank.json",
+      "concept_slugs": [
+        "tracking-reproducibility",
+        "data-code-env-lineage-compare",
+        "signatures-stages-approvals",
+        "artifacts-card-compat",
+        "batch-online-feature-consistency",
+        "latency-batching-fallback",
+        "shadow-canary-monitoring",
+        "rollback-retire-audit"
+      ],
+      "title_v3": "MLOps: experimentos, registro y serving"
+    },
+    "ai-governance": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s48_phase5_exam_bank.json",
+      "concept_slugs": [
+        "embeddings-similarity",
+        "limits-versions-eval",
+        "chunking-metadata-dedup",
+        "acl-deletion-provenance",
+        "lexical-vector-hybrid-rerank",
+        "context-cites-permissions",
+        "structured-grounding",
+        "retrieval-answer-eval-cost-abstain"
+      ],
+      "title_v3": "LLM applications y RAG con evidencia"
+    },
+    "data-contracts": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s49_phase5_exam_bank.json",
+      "concept_slugs": [
+        "workflow-vs-agent",
+        "routing-planner-evaluator",
+        "single-responsibility-fns",
+        "schema-perms-idempotency-errors",
+        "min-context-jit-checkpoints",
+        "memory-compaction-lkg",
+        "stopping-budgets",
+        "sandbox-human-approval-recovery"
+      ],
+      "title_v3": "Agentes, herramientas y context engineering"
+    },
+    "tech-leadership": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s50_phase5_exam_bank.json",
+      "concept_slugs": [
+        "task-dataset-rubric",
+        "outcome-process-trajectory-recovery",
+        "graders-det-human-llm",
+        "calibration-order-bias-holdout",
+        "injection-exfil-tool-misuse",
+        "indirect-poison-least-priv",
+        "hallucination-abstention",
+        "latency-cost-cache-incident-rollback"
+      ],
+      "title_v3": "Evals, red teaming y fiabilidad de IA"
+    },
+    "integrator-final": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s51_phase5_exam_bank.json",
+      "concept_slugs": [
+        "traces-prompts-retrieval-tools",
+        "tokens-cost-latency-redaction",
+        "registry-model-prompt-dataset",
+        "change-access-retention-audit",
+        "slo-feedback-drift",
+        "incidents-rollback-postmortem",
+        "uncertainty-cites-confirm",
+        "a11y-correction-contestability"
+      ],
+      "title_v3": "Observabilidad, gobernanza y UX del copiloto"
+    },
+    "career-strategy": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s52_phase5_exam_bank.json",
+      "concept_slugs": [
+        "stakeholders-jobs-success-cf1",
+        "changes-constraints-risks-nogo",
+        "bounded-apis-events",
+        "data-models-rpa-rag-human",
+        "tests-evals-redteam-perf",
+        "slo-backup-rollback-disaster",
+        "demo-cv-narrative",
+        "arch-readme-cards-license-video-defense"
+      ],
+      "title_v3": "Enterprise Relationship & Operations Intelligence Platform: capstone final"
+    }
+  },
+  "phase6": {
+    "S40": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s40_phase6_validation.json"
+    },
+    "S41": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s41_phase6_validation.json"
+    },
+    "S42": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s42_phase6_validation.json"
+    },
+    "S43": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s43_phase6_validation.json"
+    },
+    "S44": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s44_phase6_validation.json"
+    },
+    "S45": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s45_phase6_validation.json"
+    },
+    "S46": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s46_phase6_validation.json"
+    },
+    "S47": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s47_phase6_validation.json"
+    },
+    "S48": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s48_phase6_validation.json"
+    },
+    "S49": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s49_phase6_validation.json"
+    },
+    "S50": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s50_phase6_validation.json"
+    },
+    "S51": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s51_phase6_validation.json"
+    },
+    "S52": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s52_phase6_validation.json"
+    }
+  },
+  "sections_authorized_to_close": [
+    "S40",
+    "S41",
+    "S42",
+    "S43",
+    "S44",
+    "S45",
+    "S46",
+    "S47",
+    "S48",
+    "S49",
+    "S50",
+    "S51",
+    "S52"
+  ],
+  "sections_blocked": [],
+  "pass_fail_table": [
+    {
+      "section": "S40",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S41",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S42",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S43",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S44",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S45",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S46",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S47",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S48",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S49",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S50",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S51",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S52",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    }
+  ],
+  "privacy_note": "Matching/resolución de entidades y scores no implican fraude, parentesco ni colusión. Datos sintéticos en demos/exámenes.",
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s40_phase5_exam_bank.json",
+    "course-state/s40_phase6_validation.json",
+    "course-state/s41_phase5_exam_bank.json",
+    "course-state/s41_phase6_validation.json",
+    "course-state/s42_phase5_exam_bank.json",
+    "course-state/s42_phase6_validation.json",
+    "course-state/s43_phase5_exam_bank.json",
+    "course-state/s43_phase6_validation.json",
+    "course-state/s44_phase5_exam_bank.json",
+    "course-state/s44_phase6_validation.json",
+    "course-state/s45_phase5_exam_bank.json",
+    "course-state/s45_phase6_validation.json",
+    "course-state/s46_phase5_exam_bank.json",
+    "course-state/s46_phase6_validation.json",
+    "course-state/s47_phase5_exam_bank.json",
+    "course-state/s47_phase6_validation.json",
+    "course-state/s48_phase5_exam_bank.json",
+    "course-state/s48_phase6_validation.json",
+    "course-state/s49_phase5_exam_bank.json",
+    "course-state/s49_phase6_validation.json",
+    "course-state/s50_phase5_exam_bank.json",
+    "course-state/s50_phase6_validation.json",
+    "course-state/s51_phase5_exam_bank.json",
+    "course-state/s51_phase6_validation.json",
+    "course-state/s52_phase5_exam_bank.json",
+    "course-state/s52_phase6_validation.json",
+    "course-state/lanes/LANE-S40-S52-CLOSE.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json"
+  ],
+  "next_action": "Orchestrator: merge authorized S40–S52 into checkpoint/section_ledger; db:seed updated banks."
+}

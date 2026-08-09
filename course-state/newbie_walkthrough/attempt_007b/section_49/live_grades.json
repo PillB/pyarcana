@@ -1,0 +1,1116 @@
+{
+  "section_index": 49,
+  "section_id": "data-contracts",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S49-T1-A-E1",
+          "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\n",
+          "note": "",
+          "concepts_used": [
+            "workflow",
+            "agent",
+            "iDo_S49-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-A-E2",
+          "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\n",
+          "note": "",
+          "concepts_used": [
+            "workflow",
+            "agent",
+            "iDo_S49-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-A-E3",
+          "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\n",
+          "note": "",
+          "concepts_used": [
+            "workflow",
+            "agent",
+            "iDo_S49-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-B-E1",
+          "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\n",
+          "note": "",
+          "concepts_used": [
+            "routing",
+            "planner",
+            "iDo_S49-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-B-E2",
+          "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\n",
+          "note": "",
+          "concepts_used": [
+            "routing",
+            "planner",
+            "iDo_S49-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-B-E3",
+          "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\n",
+          "note": "",
+          "concepts_used": [
+            "routing",
+            "planner",
+            "iDo_S49-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-A-E1",
+          "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")\n",
+          "note": "",
+          "concepts_used": [
+            "tools",
+            "srp",
+            "iDo_S49-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-A-E2",
+          "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")\n",
+          "note": "",
+          "concepts_used": [
+            "tools",
+            "srp",
+            "iDo_S49-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-A-E3",
+          "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")\n",
+          "note": "",
+          "concepts_used": [
+            "tools",
+            "srp",
+            "iDo_S49-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-B-E1",
+          "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")\n",
+          "note": "",
+          "concepts_used": [
+            "schema",
+            "idempotency",
+            "iDo_S49-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-B-E2",
+          "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")\n",
+          "note": "",
+          "concepts_used": [
+            "schema",
+            "idempotency",
+            "iDo_S49-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-B-E3",
+          "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")\n",
+          "note": "",
+          "concepts_used": [
+            "schema",
+            "idempotency",
+            "iDo_S49-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-A-E1",
+          "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "context",
+            "jit",
+            "iDo_S49-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-A-E2",
+          "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "context",
+            "jit",
+            "iDo_S49-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-A-E3",
+          "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "context",
+            "jit",
+            "iDo_S49-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-B-E1",
+          "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)\n",
+          "note": "",
+          "concepts_used": [
+            "memory",
+            "lkg",
+            "iDo_S49-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-B-E2",
+          "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)\n",
+          "note": "",
+          "concepts_used": [
+            "memory",
+            "lkg",
+            "iDo_S49-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-B-E3",
+          "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)\n",
+          "note": "",
+          "concepts_used": [
+            "memory",
+            "lkg",
+            "iDo_S49-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-A-E1",
+          "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")\n",
+          "note": "",
+          "concepts_used": [
+            "budget",
+            "stop",
+            "iDo_S49-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-A-E2",
+          "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")\n",
+          "note": "",
+          "concepts_used": [
+            "budget",
+            "stop",
+            "iDo_S49-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-A-E3",
+          "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")\n",
+          "note": "",
+          "concepts_used": [
+            "budget",
+            "stop",
+            "iDo_S49-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-B-E1",
+          "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")\n",
+          "note": "",
+          "concepts_used": [
+            "sandbox",
+            "human",
+            "iDo_S49-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-B-E2",
+          "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")\n",
+          "note": "",
+          "concepts_used": [
+            "sandbox",
+            "human",
+            "iDo_S49-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-B-E3",
+          "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")\n",
+          "note": "",
+          "concepts_used": [
+            "sandbox",
+            "human",
+            "iDo_S49-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S49-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow\n",
+          "expected_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow\n",
+          "expected_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow\n",
+          "expected_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "route planner\neval True\nmax_loops 3\n",
+          "expected_head": "route planner\neval True\nmax_loops 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "route planner\neval True\nmax_loops 3\n",
+          "expected_head": "route planner\neval True\nmax_loops 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "route planner\neval True\nmax_loops 3\n",
+          "expected_head": "route planner\neval True\nmax_loops 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "one_tool_one_job True\ntools_n 2\ncompose agent\n",
+          "expected_head": "one_tool_one_job True\ntools_n 2\ncompose agent",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "one_tool_one_job True\ntools_n 2\ncompose agent\n",
+          "expected_head": "one_tool_one_job True\ntools_n 2\ncompose agent",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "one_tool_one_job True\ntools_n 2\ncompose agent\n",
+          "expected_head": "one_tool_one_job True\ntools_n 2\ncompose agent",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema True\nperms allowlist\nerrors typed\n",
+          "expected_head": "schema True\nperms allowlist\nerrors typed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema True\nperms allowlist\nerrors typed\n",
+          "expected_head": "schema True\nperms allowlist\nerrors typed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema True\nperms allowlist\nerrors typed\n",
+          "expected_head": "schema True\nperms allowlist\nerrors typed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "jit True\nk 2\ncheckpoint True\n",
+          "expected_head": "jit True\nk 2\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "jit True\nk 2\ncheckpoint True\n",
+          "expected_head": "jit True\nk 2\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "jit True\nk 2\ncheckpoint True\n",
+          "expected_head": "jit True\nk 2\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compaction True\nlkg True\nmemory_bound 2\n",
+          "expected_head": "compaction True\nlkg True\nmemory_bound 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compaction True\nlkg True\nmemory_bound 2\n",
+          "expected_head": "compaction True\nlkg True\nmemory_bound 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compaction True\nlkg True\nmemory_bound 2\n",
+          "expected_head": "compaction True\nlkg True\nmemory_bound 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit\n",
+          "expected_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit\n",
+          "expected_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit\n",
+          "expected_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint\n",
+          "expected_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint\n",
+          "expected_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint\n",
+          "expected_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S49-T1-A-E1",
+          "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-A-E2",
+          "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-A-E3",
+          "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-B-E1",
+          "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-B-E2",
+          "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T1-B-E3",
+          "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-A-E1",
+          "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-A-E2",
+          "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-A-E3",
+          "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-B-E1",
+          "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-B-E2",
+          "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T2-B-E3",
+          "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-A-E1",
+          "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-A-E2",
+          "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-A-E3",
+          "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-B-E1",
+          "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-B-E2",
+          "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T3-B-E3",
+          "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-A-E1",
+          "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-A-E2",
+          "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-A-E3",
+          "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-B-E1",
+          "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-B-E2",
+          "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S49-T4-B-E3",
+          "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S49-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S49-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow\n",
+          "expected_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow\n",
+          "expected_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow\n",
+          "expected_head": "agent_when open_ended\nworkflow_when fixed_steps\nsafety prefer_workflow",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "route planner\neval True\nmax_loops 3\n",
+          "expected_head": "route planner\neval True\nmax_loops 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "route planner\neval True\nmax_loops 3\n",
+          "expected_head": "route planner\neval True\nmax_loops 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "route planner\neval True\nmax_loops 3\n",
+          "expected_head": "route planner\neval True\nmax_loops 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "one_tool_one_job True\ntools_n 2\ncompose agent\n",
+          "expected_head": "one_tool_one_job True\ntools_n 2\ncompose agent",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "one_tool_one_job True\ntools_n 2\ncompose agent\n",
+          "expected_head": "one_tool_one_job True\ntools_n 2\ncompose agent",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "one_tool_one_job True\ntools_n 2\ncompose agent\n",
+          "expected_head": "one_tool_one_job True\ntools_n 2\ncompose agent",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema True\nperms allowlist\nerrors typed\n",
+          "expected_head": "schema True\nperms allowlist\nerrors typed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema True\nperms allowlist\nerrors typed\n",
+          "expected_head": "schema True\nperms allowlist\nerrors typed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema True\nperms allowlist\nerrors typed\n",
+          "expected_head": "schema True\nperms allowlist\nerrors typed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "jit True\nk 2\ncheckpoint True\n",
+          "expected_head": "jit True\nk 2\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "jit True\nk 2\ncheckpoint True\n",
+          "expected_head": "jit True\nk 2\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "jit True\nk 2\ncheckpoint True\n",
+          "expected_head": "jit True\nk 2\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compaction True\nlkg True\nmemory_bound 2\n",
+          "expected_head": "compaction True\nlkg True\nmemory_bound 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compaction True\nlkg True\nmemory_bound 2\n",
+          "expected_head": "compaction True\nlkg True\nmemory_bound 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compaction True\nlkg True\nmemory_bound 2\n",
+          "expected_head": "compaction True\nlkg True\nmemory_bound 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit\n",
+          "expected_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit\n",
+          "expected_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit\n",
+          "expected_head": "budget_tokens 2000\nbudget_steps 5\nstop_on limit",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint\n",
+          "expected_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint\n",
+          "expected_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S49-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint\n",
+          "expected_head": "sandbox True\nhuman_gate True\nrecovery resume_checkpoint",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

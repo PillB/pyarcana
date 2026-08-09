@@ -1,0 +1,517 @@
+{
+  "section": 17,
+  "title": "Joins, reshape, groupby y cierre analítico",
+  "file": "s17-packaging.ts",
+  "n_required": 17,
+  "n_logged": 17,
+  "generated_at": "2026-07-24T05:19:14.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — WT DEFECT 25 > HEAD 0",
+    "ethics": "no causal claims; synthetic PE; leakage controls",
+    "v3_retarget": "joins/groupby CP-N2-A close not packaging",
+    "expert_pass_at": "2026-07-24T05:19:14.000+00:00",
+    "resources_expanded": true
+  },
+  "unique_foci": 17,
+  "source_url_count": 17,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget joins groupby not packaging CLI",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "merge",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html",
+          "note": "validate indicator"
+        },
+        {
+          "family": "pandas",
+          "title": "groupby",
+          "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+          "note": "agg transform"
+        },
+        {
+          "family": "pandas",
+          "title": "reshaping",
+          "url": "https://pandas.pydata.org/docs/user_guide/reshaping.html",
+          "note": "melt pivot"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 1/17: «V3 retarget joins groupby not packaging CLI» via pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget joins groupby not packaging CLI».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget joins groupby not packaging CLI»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 1/17: «V3 retarget joins groupby not packaging CLI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "merge how cardinality 1to1 1tom",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "groupby",
+          "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+          "note": "agg transform"
+        },
+        {
+          "family": "pandas",
+          "title": "reshaping",
+          "url": "https://pandas.pydata.org/docs/user_guide/reshaping.html",
+          "note": "melt pivot"
+        },
+        {
+          "family": "pandas",
+          "title": "window",
+          "url": "https://pandas.pydata.org/docs/user_guide/window.html",
+          "note": "rolling"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 2/17: «merge how cardinality 1to1 1tom» via pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «merge how cardinality 1to1 1tom».",
+      "expand_scope": "E1/E2/E3 + docs for «merge how cardinality 1to1 1tom»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 2/17: «merge how cardinality 1to1 1tom» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "pre-merge dtype uniqueness row counts",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "reshaping",
+          "url": "https://pandas.pydata.org/docs/user_guide/reshaping.html",
+          "note": "melt pivot"
+        },
+        {
+          "family": "pandas",
+          "title": "window",
+          "url": "https://pandas.pydata.org/docs/user_guide/window.html",
+          "note": "rolling"
+        },
+        {
+          "family": "pandas",
+          "title": "timeseries",
+          "url": "https://pandas.pydata.org/docs/user_guide/timeseries.html",
+          "note": "cohorts"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 3/17: «pre-merge dtype uniqueness row counts» via pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «pre-merge dtype uniqueness row counts».",
+      "expand_scope": "E1/E2/E3 + docs for «pre-merge dtype uniqueness row counts»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 3/17: «pre-merge dtype uniqueness row counts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "validate one_to_one MergeError",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "window",
+          "url": "https://pandas.pydata.org/docs/user_guide/window.html",
+          "note": "rolling"
+        },
+        {
+          "family": "pandas",
+          "title": "timeseries",
+          "url": "https://pandas.pydata.org/docs/user_guide/timeseries.html",
+          "note": "cohorts"
+        },
+        {
+          "family": "pandas",
+          "title": "MergeError",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.errors.MergeError.html",
+          "note": "validate fail"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 4/17: «validate one_to_one MergeError» via pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «validate one_to_one MergeError».",
+      "expand_scope": "E1/E2/E3 + docs for «validate one_to_one MergeError»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 4/17: «validate one_to_one MergeError» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "indicator anti-join left_only orphans",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "timeseries",
+          "url": "https://pandas.pydata.org/docs/user_guide/timeseries.html",
+          "note": "cohorts"
+        },
+        {
+          "family": "pandas",
+          "title": "MergeError",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.errors.MergeError.html",
+          "note": "validate fail"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 5/17: «indicator anti-join left_only orphans» via pandas, Coursera (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «indicator anti-join left_only orphans».",
+      "expand_scope": "E1/E2/E3 + docs for «indicator anti-join left_only orphans»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 5/17: «indicator anti-join left_only orphans» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "concat melt pivot reshape",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "MergeError",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.errors.MergeError.html",
+          "note": "validate fail"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 6/17: «concat melt pivot reshape» via pandas, Coursera, MIT (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «concat melt pivot reshape».",
+      "expand_scope": "E1/E2/E3 + docs for «concat melt pivot reshape»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 6/17: «concat melt pivot reshape» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "aggfunc sum explicit pivot_table",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 7/17: «aggfunc sum explicit pivot_table» via Coursera, MIT, Harvard (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «aggfunc sum explicit pivot_table».",
+      "expand_scope": "E1/E2/E3 + docs for «aggfunc sum explicit pivot_table»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 7/17: «aggfunc sum explicit pivot_table» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "stable column names monto_ene schema",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 8/17: «stable column names monto_ene schema» via MIT, Harvard, Live (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «stable column names monto_ene schema».",
+      "expand_scope": "E1/E2/E3 + docs for «stable column names monto_ene schema»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 8/17: «stable column names monto_ene schema» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "groupby named aggregation as_index false",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 9/17: «groupby named aggregation as_index false» via Harvard, Live, deeplearning.ai (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «groupby named aggregation as_index false».",
+      "expand_scope": "E1/E2/E3 + docs for «groupby named aggregation as_index false»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 9/17: «groupby named aggregation as_index false» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "transform re-inject group mean",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 10/17: «transform re-inject group mean» via Live, deeplearning.ai, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «transform re-inject group mean».",
+      "expand_scope": "E1/E2/E3 + docs for «transform re-inject group mean»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 10/17: «transform re-inject group mean» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "rolling window ordered dates",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 11/17: «rolling window ordered dates» via deeplearning.ai, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «rolling window ordered dates».",
+      "expand_scope": "E1/E2/E3 + docs for «rolling window ordered dates»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 11/17: «rolling window ordered dates» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "cohort first purchase period",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "pandas",
+          "title": "concat",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.concat.html",
+          "note": "stack frames"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 12/17: «cohort first purchase period» via GitHub, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «cohort first purchase period».",
+      "expand_scope": "E1/E2/E3 + docs for «cohort first purchase period»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 12/17: «cohort first purchase period» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "reconcile denominators totals portfolio",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "pandas",
+          "title": "concat",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.concat.html",
+          "note": "stack frames"
+        },
+        {
+          "family": "pandas",
+          "title": "pivot_table",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html",
+          "note": "aggfunc"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 13/17: «reconcile denominators totals portfolio» via GitHub, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «reconcile denominators totals portfolio».",
+      "expand_scope": "E1/E2/E3 + docs for «reconcile denominators totals portfolio»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 13/17: «reconcile denominators totals portfolio» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "temporal leakage cutoff before after",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "concat",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.concat.html",
+          "note": "stack frames"
+        },
+        {
+          "family": "pandas",
+          "title": "pivot_table",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html",
+          "note": "aggfunc"
+        },
+        {
+          "family": "Real Python",
+          "title": "pandas merge join",
+          "url": "https://realpython.com/pandas-merge-join-and-concat/",
+          "note": "join patterns"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 14/17: «temporal leakage cutoff before after» via pandas, Real Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «temporal leakage cutoff before after».",
+      "expand_scope": "E1/E2/E3 + docs for «temporal leakage cutoff before after»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 14/17: «temporal leakage cutoff before after» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "no causal claims CP-N2-A memo",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "pivot_table",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html",
+          "note": "aggfunc"
+        },
+        {
+          "family": "Real Python",
+          "title": "pandas merge join",
+          "url": "https://realpython.com/pandas-merge-join-and-concat/",
+          "note": "join patterns"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "course orgs"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 15/17: «no causal claims CP-N2-A memo» via pandas, Real Python, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «no causal claims CP-N2-A memo».",
+      "expand_scope": "E1/E2/E3 + docs for «no causal claims CP-N2-A memo»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 15/17: «no causal claims CP-N2-A memo» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "synthetic Lima Cusco Arequipa PEN",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "pandas merge join",
+          "url": "https://realpython.com/pandas-merge-join-and-concat/",
+          "note": "join patterns"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "course orgs"
+        },
+        {
+          "family": "pandas",
+          "title": "merge",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html",
+          "note": "validate indicator"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 16/17: «synthetic Lima Cusco Arequipa PEN» via Real Python, GitHub, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic Lima Cusco Arequipa PEN».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic Lima Cusco Arequipa PEN»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 16/17: «synthetic Lima Cusco Arequipa PEN» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "fan-out detection len out vs left",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "course orgs"
+        },
+        {
+          "family": "pandas",
+          "title": "merge",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html",
+          "note": "validate indicator"
+        },
+        {
+          "family": "pandas",
+          "title": "groupby",
+          "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+          "note": "agg transform"
+        }
+      ],
+      "synthesize": "S17 «Joins, reshape, groupby y cierre analítico» cycle 17/17: «fan-out detection len out vs left» via GitHub, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «fan-out detection len out vs left».",
+      "expand_scope": "E1/E2/E3 + docs for «fan-out detection len out vs left»; V3 roadmap; pair S17.",
+      "re_synthesize": "Decision 17/17: «fan-out detection len out vs left» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html",
+    "https://pandas.pydata.org/docs/user_guide/groupby.html",
+    "https://pandas.pydata.org/docs/user_guide/reshaping.html",
+    "https://pandas.pydata.org/docs/user_guide/window.html",
+    "https://pandas.pydata.org/docs/user_guide/timeseries.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.errors.MergeError.html",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://cs50.harvard.edu/python/",
+    "https://pillb.github.io/pyarcana/",
+    "https://www.deeplearning.ai/specializations/data-engineering",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://pandas.pydata.org/docs/reference/api/pandas.concat.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html",
+    "https://realpython.com/pandas-merge-join-and-concat/",
+    "https://github.com/https-deeplearning-ai"
+  ]
+}

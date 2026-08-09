@@ -1,0 +1,494 @@
+{
+  "section_index": 46,
+  "title": "Ingeniería de datos y orquestación de producción",
+  "outcomes": [
+    "Maneja ventanas y watermarks",
+    "Trata late data y exactly-once compuesto",
+    "Modela DAG/assets y deps",
+    "Programa backfills y recupera estado",
+    "Valida contracts y freshness",
+    "Registra lineage y ownership",
+    "Carga incremental por particiones",
+    "Opera SLO e incidentes de datos"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S46-T1-A",
+      "heading": "ventanas, event time y watermarks",
+      "paragraphs": [
+        "Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: fixtures en hora/desorden/tardío con resultado esperado. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `ventanas, event time y watermarks` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es fixtures en hora/desorden/tardío con resultado esperado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T1-B",
+      "heading": "late data y exactly-once como propiedad compuesta",
+      "paragraphs": [
+        "Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: retry y late event no duplican agregado. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `late data y exactly-once como propiedad compuesta` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es retry y late event no duplican agregado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T2-A",
+      "heading": "DAG/assets y dependency",
+      "paragraphs": [
+        "Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincidentes.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: grafo acíclico con inputs/outputs tipados. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `DAG/assets y dependency` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es grafo acíclico con inputs/outputs tipados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T2-B",
+      "heading": "schedules, backfills y state recovery",
+      "paragraphs": [
+        "Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: backfill acotado y reanudación ensayada. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `schedules, backfills y state recovery` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es backfill acotado y reanudación ensayada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T3-A",
+      "heading": "contracts y freshness",
+      "paragraphs": [
+        "Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: schema break y stale data alertan. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `contracts y freshness` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es schema break y stale data alertan. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T3-B",
+      "heading": "lineage, observability y ownership",
+      "paragraphs": [
+        "Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: incidente reconstruible por lineage. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `lineage, observability y ownership` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es incidente reconstruible por lineage. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T4-A",
+      "heading": "partitions e incremental loads",
+      "paragraphs": [
+        "Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: segunda ejecución cambia cero filas. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `partitions e incremental loads` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es segunda ejecución cambia cero filas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S46-T4-B",
+      "heading": "SLO, incidentes y data recovery",
+      "paragraphs": [
+        "Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención.",
+        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: simulacro cumple RTO y postmortem tiene acciones. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `SLO, incidentes y data recovery` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es simulacro cumple RTO y postmortem tiene acciones. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S46-T1-A-DEMO",
+        "subtopicId": "S46-T1-A",
+        "environment": "local-python",
+        "description": "Demo: ventanas, event time y watermarks",
+        "why": "Hace observable `ventanas, event time y watermarks` con un caso local pequeño y deja como evidencia fixtures en hora/desorden/tardío con resultado esperado; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T1-B-DEMO",
+        "subtopicId": "S46-T1-B",
+        "environment": "local-python",
+        "description": "Demo: late data y exactly-once como propiedad compuesta",
+        "why": "Hace observable `late data y exactly-once como propiedad compuesta` con un caso local pequeño y deja como evidencia retry y late event no duplican agregado; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T2-A-DEMO",
+        "subtopicId": "S46-T2-A",
+        "environment": "local-python",
+        "description": "Demo: DAG/assets y dependency",
+        "why": "Hace observable `DAG/assets y dependency` con un caso local pequeño y deja como evidencia grafo acíclico con inputs/outputs tipados; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T2-B-DEMO",
+        "subtopicId": "S46-T2-B",
+        "environment": "local-python",
+        "description": "Demo: schedules, backfills y state recovery",
+        "why": "Hace observable `schedules, backfills y state recovery` con un caso local pequeño y deja como evidencia backfill acotado y reanudación ensayada; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T3-A-DEMO",
+        "subtopicId": "S46-T3-A",
+        "environment": "local-python",
+        "description": "Demo: contracts y freshness",
+        "why": "Hace observable `contracts y freshness` con un caso local pequeño y deja como evidencia schema break y stale data alertan; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T3-B-DEMO",
+        "subtopicId": "S46-T3-B",
+        "environment": "local-python",
+        "description": "Demo: lineage, observability y ownership",
+        "why": "Hace observable `lineage, observability y ownership` con un caso local pequeño y deja como evidencia incidente reconstruible por lineage; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T4-A-DEMO",
+        "subtopicId": "S46-T4-A",
+        "environment": "local-python",
+        "description": "Demo: partitions e incremental loads",
+        "why": "Hace observable `partitions e incremental loads` con un caso local pequeño y deja como evidencia segunda ejecución cambia cero filas; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S46-T4-B-DEMO",
+        "subtopicId": "S46-T4-B",
+        "environment": "local-python",
+        "description": "Demo: SLO, incidentes y data recovery",
+        "why": "Hace observable `SLO, incidentes y data recovery` con un caso local pequeño y deja como evidencia simulacro cumple RTO y postmortem tiene acciones; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?",
+      "options": [
+        "un print sin assert ni versión",
+        "fixtures en hora/desorden/tardío con resultado esperado",
+        "una captura de pantalla sin fuente",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido",
+        "emitir QUARANTINE_PARTITION y conservar evidencia"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?",
+      "options": [
+        "backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness",
+        "el archivo S46 existe, aunque no pruebe el gate",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "inferir fraude o parentesco desde ER"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S46-T1-A-E1",
+      "instruction": "S46-T1-A-E1 · Calcula el contrato de `ventanas, event time y watermarks` sobre `CASO-HYO-046-1A`. La entrada es el dict completo del starter; la operación debe demostrar event_time dentro de ventana y lateness permitido. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `SIDE_OUTPUT_LATE_EVENT` en E2.",
+      "hints": [
+        "Relaciona los campos `event_time`, `window_end`, `watermark`, `allowed_lateness` con la regla explicada en S46-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva fixtures en hora/desorden/tardío con resultado esperado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-1A` satisface un predicado de dominio real; imprime `S46-T1-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"]\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n"
+    },
+    {
+      "id": "S46-T1-A-E2",
+      "instruction": "S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adverso y registro sin `allowed_lateness`. Entrada: dict con case_id, event_time, window_end, watermark, allowed_lateness. Salidas exactas: `PASS`, `SIDE_OUTPUT_LATE_EVENT`, `MISSING:allowed_lateness`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a allowed_lateness debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T1-A: event_time dentro de ventana y lateness permitido. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `allowed_lateness` ausente y produce exactamente `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T1-A-E3",
+      "instruction": "S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos. `CASO-HYO-046-1A` debe continuar, el adverso debe devolver `SIDE_OUTPUT_LATE_EVENT` y la ausencia de `allowed_lateness` debe devolver `WAIT_FOR_WATERMARK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `WAIT_FOR_WATERMARK` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró event_time dentro de ventana y lateness permitido; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-1A`, adverso y sin `allowed_lateness` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T1-B-E1",
+      "instruction": "S46-T1-B-E1 · Compara el contrato de `late data y exactly-once como propiedad compuesta` sobre `CASO-HYO-046-1B`. La entrada es el dict completo del starter; la operación debe demostrar dedup sink, checkpoint y política de dato tardío. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REPLAY_IDEMPOTENTLY` en E2.",
+      "hints": [
+        "Relaciona los campos `event_ids`, `sink_ids`, `checkpoint`, `late_policy` con la regla explicada en S46-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva retry y late event no duplican agregado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-1B` satisface un predicado de dominio real; imprime `S46-T1-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"]\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n"
+    },
+    {
+      "id": "S46-T1-B-E2",
+      "instruction": "S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture válido, fixture adverso y registro sin `late_policy`. Entrada: dict con case_id, event_ids, sink_ids, checkpoint, late_policy. Salidas exactas: `PASS`, `REPLAY_IDEMPOTENTLY`, `MISSING:late_policy`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a late_policy debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T1-B: dedup sink, checkpoint y política de dato tardío. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `late_policy` ausente y produce exactamente `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T1-B-E3",
+      "instruction": "S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distintos. `CASO-HYO-046-1B` debe continuar, el adverso debe devolver `REPLAY_IDEMPOTENTLY` y la ausencia de `late_policy` debe devolver `CHOOSE_LATE_POLICY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `CHOOSE_LATE_POLICY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró dedup sink, checkpoint y política de dato tardío; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-1B`, adverso y sin `late_policy` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T2-A-E1",
+      "instruction": "S46-T2-A-E1 · Filtra el contrato de `DAG/assets y dependency` sobre `CASO-HYO-046-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo sin self-loop y todos los nodos declarados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_DAG` en E2.",
+      "hints": [
+        "Relaciona los campos `nodes`, `edges`, `typed_io` con la regla explicada en S46-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva grafo acíclico con inputs/outputs tipados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-2A` satisface un predicado de dominio real; imprime `S46-T2-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n"
+    },
+    {
+      "id": "S46-T2-A-E2",
+      "instruction": "S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y registro sin `typed_io`. Entrada: dict con case_id, nodes, edges, typed_io. Salidas exactas: `PASS`, `REJECT_DAG`, `MISSING:typed_io`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a typed_io debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T2-A: grafo sin self-loop y todos los nodos declarados. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `typed_io` ausente y produce exactamente `PASS REJECT_DAG MISSING:typed_io`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\ninvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\"},\"edges\":{(\"raw\",\"raw\"),(\"clean\",\"report\")},\"typed_io\":False}}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S46-T2-A-E3",
+      "instruction": "S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CASO-HYO-046-2A` debe continuar, el adverso debe devolver `REJECT_DAG` y la ausencia de `typed_io` debe devolver `DECLARE_ASSET_DEPENDENCY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `DECLARE_ASSET_DEPENDENCY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró grafo sin self-loop y todos los nodos declarados; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-2A`, adverso y sin `typed_io` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T2-B-E1",
+      "instruction": "S46-T2-B-E1 · Modela el contrato de `schedules, backfills y state recovery` sobre `CASO-HYO-046-2B`. La entrada es el dict completo del starter; la operación debe demostrar intervalos sin solape y reanudación desde checkpoint. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `STOP_OVERLAPPING_BACKFILL` en E2.",
+      "hints": [
+        "Relaciona los campos `intervals`, `overlap`, `checkpoint`, `resume_from` con la regla explicada en S46-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva backfill acotado y reanudación ensayada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-2B` satisface un predicado de dominio real; imprime `S46-T2-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"]\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n"
+    },
+    {
+      "id": "S46-T2-B-E2",
+      "instruction": "S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture adverso y registro sin `resume_from`. Entrada: dict con case_id, intervals, overlap, checkpoint, resume_from. Salidas exactas: `PASS`, `STOP_OVERLAPPING_BACKFILL`, `MISSING:resume_from`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a resume_from debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T2-B: intervalos sin solape y reanudación desde checkpoint. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `resume_from` ausente y produce exactamente `PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T2-B-E3",
+      "instruction": "S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos. `CASO-HYO-046-2B` debe continuar, el adverso debe devolver `STOP_OVERLAPPING_BACKFILL` y la ausencia de `resume_from` debe devolver `RECOVER_CHECKPOINT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RECOVER_CHECKPOINT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró intervalos sin solape y reanudación desde checkpoint; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-2B`, adverso y sin `resume_from` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T3-A-E1",
+      "instruction": "S46-T3-A-E1 · Verifica el contrato de `contracts y freshness` sobre `CASO-HYO-046-3A`. La entrada es el dict completo del starter; la operación debe demostrar schema exacto, freshness bajo SLO y owner. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `QUARANTINE_DATASET` en E2.",
+      "hints": [
+        "Relaciona los campos `schema`, `observed_schema`, `freshness_min`, `slo_min`, `owner` con la regla explicada en S46-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva schema break y stale data alertan; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-3A` satisface un predicado de dominio real; imprime `S46-T3-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n"
+    },
+    {
+      "id": "S46-T3-A-E2",
+      "instruction": "S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, schema, observed_schema, freshness_min, slo_min, owner. Salidas exactas: `PASS`, `QUARANTINE_DATASET`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T3-A: schema exacto, freshness bajo SLO y owner. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS QUARANTINE_DATASET MISSING:owner`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T3-A-E3",
+      "instruction": "S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CASO-HYO-046-3A` debe continuar, el adverso debe devolver `QUARANTINE_DATASET` y la ausencia de `owner` debe devolver `PAGE_DATA_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `PAGE_DATA_OWNER` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró schema exacto, freshness bajo SLO y owner; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-3A`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T3-B-E1",
+      "instruction": "S46-T3-B-E1 · Clasifica el contrato de `lineage, observability y ownership` sobre `CASO-HYO-046-3B`. La entrada es el dict completo del starter; la operación debe demostrar run conecta inputs/outputs/métricas/owner. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `OPEN_QUALITY_INCIDENT` en E2.",
+      "hints": [
+        "Relaciona los campos `run_id`, `inputs`, `outputs`, `metrics`, `owner` con la regla explicada en S46-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva incidente reconstruible por lineage; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-3B` satisface un predicado de dominio real; imprime `S46-T3-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n"
+    },
+    {
+      "id": "S46-T3-B-E2",
+      "instruction": "S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, run_id, inputs, outputs, metrics, owner. Salidas exactas: `PASS`, `OPEN_QUALITY_INCIDENT`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T3-B: run conecta inputs/outputs/métricas/owner. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS OPEN_QUALITY_INCIDENT MISSING:owner`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T3-B-E3",
+      "instruction": "S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos. `CASO-HYO-046-3B` debe continuar, el adverso debe devolver `OPEN_QUALITY_INCIDENT` y la ausencia de `owner` debe devolver `TRACE_LINEAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `TRACE_LINEAGE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró run conecta inputs/outputs/métricas/owner; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-3B`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T4-A-E1",
+      "instruction": "S46-T4-A-E1 · Audita el contrato de `partitions e incremental loads` sobre `CASO-HYO-046-4A`. La entrada es el dict completo del starter; la operación debe demostrar merge idempotente y small files bajo límite. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REBUILD_PARTITION` en E2.",
+      "hints": [
+        "Relaciona los campos `partition`, `source_keys`, `target_keys`, `second_run_changes`, `small_files`, `max_small_files` con la regla explicada en S46-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva segunda ejecución cambia cero filas; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-4A` satisface un predicado de dominio real; imprime `S46-T4-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n"
+    },
+    {
+      "id": "S46-T4-A-E2",
+      "instruction": "S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture adverso y registro sin `max_small_files`. Entrada: dict con case_id, partition, source_keys, target_keys, second_run_changes, small_files, max_small_files. Salidas exactas: `PASS`, `REBUILD_PARTITION`, `MISSING:max_small_files`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a max_small_files debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T4-A: merge idempotente y small files bajo límite. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `max_small_files` ausente y produce exactamente `PASS REBUILD_PARTITION MISSING:max_small_files`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T4-A-E3",
+      "instruction": "S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos. `CASO-HYO-046-4A` debe continuar, el adverso debe devolver `REBUILD_PARTITION` y la ausencia de `max_small_files` debe devolver `REVIEW_INCREMENTAL_KEY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_INCREMENTAL_KEY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró merge idempotente y small files bajo límite; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-4A`, adverso y sin `max_small_files` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T4-B-E1",
+      "instruction": "S46-T4-B-E1 · Decide el contrato de `SLO, incidentes y data recovery` sobre `CASO-HYO-046-4B`. La entrada es el dict completo del starter; la operación debe demostrar SLI/SLO, RTO, owner y acciones de postmortem. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S46-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `DECLARE_DATA_INCIDENT` en E2.",
+      "hints": [
+        "Relaciona los campos `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto_minutes`, `postmortem_actions`, `owner` con la regla explicada en S46-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva simulacro cumple RTO y postmortem tiene acciones; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-HYO-046-4B` satisface un predicado de dominio real; imprime `S46-T4-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n"
+    },
+    {
+      "id": "S46-T4-B-E2",
+      "instruction": "S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, freshness_sli, freshness_slo, rto_minutes, target_rto_minutes, postmortem_actions, owner. Salidas exactas: `PASS`, `DECLARE_DATA_INCIDENT`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S46-T4-B: SLI/SLO, RTO, owner y acciones de postmortem. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS DECLARE_DATA_INCIDENT MISSING:owner`.",
+      "starterCode": null
+    },
+    {
+      "id": "S46-T4-B-E3",
+      "instruction": "S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos. `CASO-HYO-046-4B` debe continuar, el adverso debe devolver `DECLARE_DATA_INCIDENT` y la ausencia de `owner` debe devolver `ACTIVATE_RECOVERY_RUNBOOK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `ACTIVATE_RECOVERY_RUNBOOK` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró SLI/SLO, RTO, owner y acciones de postmortem; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-HYO-046-4B`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    }
+  ],
+  "packet_sha": "7545b9e7cdaa742a",
+  "attempt_id": "agentic_F2"
+}

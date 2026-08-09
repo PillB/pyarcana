@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Mantenerse separados en la ficha de caso"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Error de matching; no es veredicto legal de fraude"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.6,
+    "correct_preview": "Encolar needs_review / abstenerse según política"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Privacy sheet, acceso, tests, demo y runbook"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.9,
+    "correct_preview": "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)"
+  }
+]

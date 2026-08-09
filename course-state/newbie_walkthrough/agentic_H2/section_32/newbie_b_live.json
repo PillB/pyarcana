@@ -1,0 +1,318 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-skeptic-s32-1784798022",
+  "production_note": "agentic_H2 dual-LLM Skeptic: solved from quiz_card+slim_packet only; independent of H1; packet-only; no stamps; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S32-T1-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amou`. Soporte: «S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entra». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else\"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S32-T1-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y ». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic E3 fail-closed from E2 sibling\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    return \"CONTINUE\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nuncertain = {**valid}\nfor _f in list(uncertain.keys()):\n    if _f != 'case_id':\n        uncertain.pop(_f); break\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S32-T1-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S32-T1-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}`. Soporte: «S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-0». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else\"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S32-T1-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fi». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else\"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S32-T1-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fi». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S32-T2-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}`. Soporte: «S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else\"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S32-T2-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture váli». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is False else\"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S32-T2-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con t». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S32-T2-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}`. Soporte: «S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es ». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else\"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S32-T2-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y regist». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is False else\"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S32-T2-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CAS». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S32-T3-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}`. Soporte: «S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else\"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S32-T3-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixtur». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is False else\"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S32-T3-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtur». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S32-T3-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}`. Soporte: «S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entr». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is True or not record[\"version\"] else\"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S32-T3-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"CONTINUE\" if record[\"versioned\"] is True or not record[\"version\"] else\"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S32-T3-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distinto». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] <= 0\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S32-T4-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}`. Soporte: «S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La en». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] <= 0 else\"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S32-T4-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"CONTINUE\" if record[\"overlap\"] <= 0 else\"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S32-T4-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distin». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S32-T4-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}`. Soporte: «S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else\"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S32-T4-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else\"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S32-T4-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixture». Intento agentic_H2 independiente de H1."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_option": "El instante t y el futuro",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q0: contrasté opciones del quiz_card; me quedo con «El instante t y el futuro» (idx 3) por soporte lexical en theory del paquete (ventana, half, open, excluye, instante). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_option": "Fallar de forma explícita",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q1: contrasté opciones del quiz_card; me quedo con «Fallar de forma explícita» (idx 1) por soporte lexical en theory del paquete (Transform, antes, debe, Fallar, forma). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_option": "Es leakage de identidad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q2: contrasté opciones del quiz_card; me quedo con «Es leakage de identidad» (idx 2) por soporte lexical en theory del paquete (Overlap, entidades, entre, train, test). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_option": "Es inofensivo",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q3: contrasté opciones del quiz_card; me quedo con «Es inofensivo» (idx 1) por soporte lexical en theory del paquete (nombre, feature, label, decision, inofensivo). Independiente de H1; solo H2 packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:14:03.072387+00:00",
+  "session_started_at": "2026-07-23T09:13:42.345029+00:00",
+  "session_ended_at": "2026-07-23T09:14:03.072387+00:00"
+}

@@ -1,0 +1,34 @@
+{
+  "credential_id": "architecture_decision_practice",
+  "version": "1.0.0",
+  "status": "active",
+  "credential_class": "B",
+  "credential_class_name": "Assessed Skill Badge",
+  "public_name": "Architecture Decision Practice",
+  "capability_statement": "El aprendiz demostró independientemente Architecture Decision mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+  "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
+  "market_task_mappings": [],
+  "prerequisites": [
+    "production_python_delivery_foundations",
+    "reliable_async_python_development"
+  ],
+  "required_sections": [
+    "S35",
+    "S40"
+  ],
+  "required_activities": [
+    "S35-YOUDO",
+    "S35-EXAM",
+    "S40-YOUDO",
+    "S40-EXAM"
+  ],
+  "critical_gates": [
+    "business_framing_judgment",
+    "communication_audience_tuned",
+    "reproducibility_determinism"
+  ],
+  "non_compensatory": true,
+  "minimum_overall_score": 85,
+  "verification_mode": "server_verified",
+  "specification_hash": "sha256:architecture_decision_practice:1.0.0"
+}

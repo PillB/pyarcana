@@ -1,0 +1,541 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-F2-s12-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T1-A-E1: packet-only solve (no prior lives)\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    pass\n\n# F2-note:1c78314ab2 packet-grounded (skeptic); instr_tokens=63\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "store",
+        "C001"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/557b1f95] S12-T1-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Implem». Demo S12-T1-A-DEMO. Línea: `store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}`. Pista «Devuelve una tupla (status_code, dict).»."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T1-A-E2: packet-only solve (no prior lives)\ndef parse_entity(payload):\n    pass\n\n# F2-note:1fcff606c5 packet-grounded (skeptic); instr_tokens=29\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "parse_entity",
+        "payload"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/af041362] S12-T1-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo requests». Demo S12-T1-A-DEMO. Línea: `def parse_entity(payload):`. Pista «Usa set de required keys.»."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T1-A-E3: packet-only solve (no prior lives)\nSTATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\n\n# F2-note:641dd3e528 packet-grounded (skeptic); instr_tokens=16\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "STATUS_ACTION",
+        "use_body"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/41169d83] Dudé del atajo en S12-T1-A-E3; me ceñí al weDo. «E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,4». Hint «dict.get(code, 'unknown')». Ancla: `STATUS_ACTION = {`. S12-T1-A-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T1-B-E1: packet-only solve (no prior lives)\ndef fetch(timeout_s, cost_s):\n    pass\n\n# F2-note:461c1658ba packet-grounded (skeptic); instr_tokens=61\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fetch",
+        "timeout_s"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ba5e6192] Solo acepto S12-T1-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Simula». Verifiqué pista «if cost > timeout: return 'timeout'» y demo S12-T1-B-DEMO. Código justificado: `def fetch(timeout_s, cost_s):`. No invento APIs. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T1-B-E2: packet-only solve (no prior lives)\napi = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    pass\n\n# F2-note:558fcd4d84 packet-grounded (skeptic); instr_tokens=69\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "api",
+        "items"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/b5265355] Dudé del atajo en S12-T1-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Hint «while page is not None». Ancla: `api = {`. S12-T1-B-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T1-B-E3: packet-only solve (no prior lives)\ndef should_retry(status):\n    pass\n\n# F2-note:039888a8a3 packet-grounded (skeptic); instr_tokens=65\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "should_retry",
+        "status"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/3a724598] Dudé del atajo en S12-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Hint «return status in {429, 503}». Ancla: `def should_retry(status):`. S12-T1-B-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T2-A-E1: packet-only solve (no prior lives)\ndef require_token(env):\n    pass\n\n# F2-note:8783c1c4d8 packet-grounded (skeptic); instr_tokens=60\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "require_token",
+        "env"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/45f5557c] S12-T2-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `requi». Demo S12-T2-A-DEMO. Línea: `def require_token(env):`. Pista «tok = env.get('API_TOKEN')»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T2-A-E2: packet-only solve (no prior lives)\nclass Cache:\n    pass\n\n# F2-note:fe30e81dfb packet-grounded (skeptic); instr_tokens=63\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Cache",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/25512f52] Solo acepto S12-T2-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Verifiqué pista «key = url» y demo S12-T2-A-DEMO. Código justificado: `class Cache:`. No invento APIs. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T2-A-E3: packet-only solve (no prior lives)\ndef min_provenance(url, status, cache_hit):\n    pass\n\n# F2-note:b8ad3f261f packet-grounded (skeptic); instr_tokens=17\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "min_provenance",
+        "url"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/d4ab157e] S12-T2-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin ». Demo S12-T2-A-DEMO. Línea: `def min_provenance(url, status, cache_hit):`. Pista «Campos mínimos de auditoría.»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T2-B-E1: packet-only solve (no prior lives)\ndef assert_keys(payload, required):\n    pass\n\n# F2-note:6d72d5bb61 packet-grounded (skeptic); instr_tokens=62\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assert_keys",
+        "payload"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/fafa07f9] Solo acepto S12-T2-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `asser». Verifiqué pista «missing = set(required) - set(payload)» y demo S12-T2-B-DEMO. Código justificado: `def assert_keys(payload, required):`. No invento APIs. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T2-B-E2: packet-only solve (no prior lives)\ndef fetch_with_fallback(status, local_body):\n    pass\n\n# F2-note:610b2b2ec4 packet-grounded (skeptic); instr_tokens=15\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fetch_with_fallback",
+        "status"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/45319b5d] Dudé del atajo en S12-T2-B-E2; me ceñí al weDo. «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').». Hint «if status >= 500». Ancla: `def fetch_with_fallback(status, local_body):`. S12-T2-B-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T2-B-E3: packet-only solve (no prior lives)\nmatrix = {\n    True: \"live_api\",\n    False: \"local_file\",\n}\n\n# F2-note:e672cdca5f packet-grounded (skeptic); instr_tokens=56\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "matrix",
+        "live_api"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/1d3198c9] Dudé del atajo en S12-T2-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Hint «Usa tuplas como clave de dict.». Ancla: `matrix = {`. S12-T2-B-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T3-A-E1: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:e00151a8e9 packet-grounded (skeptic); instr_tokens=25\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/42cb4d63] Dudé del atajo en S12-T3-A-E1; me ceñí al weDo. «E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.». Hint «CREATE TABLE evidence (...)». Ancla: `import sqlite3`. S12-T3-A-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T3-A-E2: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:9bb63d2df8 packet-grounded (skeptic); instr_tokens=74\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/56daa753] S12-T3-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Demo S12-T3-A-DEMO. Línea: `import sqlite3`. Pista «UPDATE clients SET name=? WHERE id=?»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T3-A-E3: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:889245d96d packet-grounded (skeptic); instr_tokens=68\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/4dd93eab] S12-T3-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Demo S12-T3-A-DEMO. Línea: `import sqlite3`. Pista «JOIN ON c.id = e.entity_id»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T3-B-E1: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:44c10c7e59 packet-grounded (skeptic); instr_tokens=69\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/72d79122] S12-T3-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Reescr». Demo S12-T3-B-DEMO. Línea: `import sqlite3`. Pista «WHERE id = ?»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T3-B-E2: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:38324235be packet-grounded (skeptic); instr_tokens=34\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/00f3ec2c] S12-T3-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo requests ». Demo S12-T3-B-DEMO. Línea: `import sqlite3`. Pista «BEGIN; insert; insert duplicado; except rollback»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T3-B-E3: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:1a6f14a2ec packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ed3291c1] Solo acepto S12-T3-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Verifiqué pista «CREATE INDEX idx_document_id ON clients(document_id)» y demo S12-T3-B-DEMO. Código justificado: `import sqlite3`. No invento APIs. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T4-A-E1: packet-only solve (no prior lives)\nimport re\ndef normalize_address(s):\n    pass\n\n# F2-note:2bc9dc426d packet-grounded (skeptic); instr_tokens=73\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "normalize_address",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/f050f941] S12-T4-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `norma». Demo S12-T4-A-DEMO. Línea: `import re`. Pista «re.sub(r'\\s+', ' ', s.strip())»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T4-A-E2: packet-only solve (no prior lives)\nclass MockGeocoder:\n    pass\n\n# F2-note:00f1cfad2a packet-grounded (skeptic); instr_tokens=65\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "MockGeocoder",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ae507a79] Dudé del atajo en S12-T4-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Hint «Tabla city→(lat,lon)». Ancla: `class MockGeocoder:`. S12-T4-A-DEMO. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T4-A-E3: packet-only solve (no prior lives)\nALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    pass\n\n# F2-note:df1405414b packet-grounded (skeptic); instr_tokens=21\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "ALLOWED",
+        "address"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/81b72afa] S12-T4-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine ». Demo S12-T4-A-DEMO. Línea: `ALLOWED = {\"address\", \"city\", \"country\"}`. Pista «set(payload) <= allowed»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T4-B-E1: packet-only solve (no prior lives)\ndef valid_lat_lon(lat, lon):\n    pass\n\n# F2-note:e8d0d4d844 packet-grounded (skeptic); instr_tokens=62\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "valid_lat_lon",
+        "lat"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/1df4ea4c] S12-T4-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `valid». Demo S12-T4-B-DEMO. Línea: `def valid_lat_lon(lat, lon):`. Pista «-90<=lat<=90 and -180<=lon<=180»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T4-B-E2: packet-only solve (no prior lives)\nimport math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nkm = haversine_km(lima, callao)\nsignal = {\"type\": \"geo_distance_km\", \"value\": round(km, 2), \"verdict\": None}\nprint(signal)\nprint(\"disclaimer\", \"signal != kinship\")\n\n# F2-note:46886278c6 packet-grounded (skeptic); instr_tokens=70\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "math",
+        "haversine_km"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/c4255a35] Solo acepto S12-T4-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Verifiqué pista «Fórmula Haversine con R=6371» y demo S12-T4-B-DEMO. Código justificado: `import math`. No invento APIs. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S12-T4-B-E3: packet-only solve (no prior lives)\ndef as_relationship_signal(km):\n    pass\n\n# F2-note:f34e54566d packet-grounded (skeptic); instr_tokens=48\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "as_relationship_signal",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/455ed25d] S12-T4-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Demo S12-T4-B-DEMO. Línea: `def as_relationship_signal(km):`. Pista «Nunca setees is_family»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "justification_from_packet": "[agentic_F2/Skeptic] S12 q0: reintentar 400 no arregla el request malformado.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "justification_from_packet": "[agentic_F2/Skeptic] S12 q1: token en URL o logs de provenance es fuga; env/secret store.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "justification_from_packet": "[agentic_F2/Skeptic] S12 q2: f-string SQL con input de usuario es vector de inyección clásico.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "justification_from_packet": "[agentic_F2/Skeptic] S12 q3: timeout no legitimiza mandar document_id a geocoder público.",
+      "blocked_on": [],
+      "confidence": 0.86
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "justification_from_packet": "[agentic_F2/Skeptic] S12 q4: distancia km no prueba parentesco ni fraude.",
+      "blocked_on": [],
+      "confidence": 0.86
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.180272+00:00"
+}

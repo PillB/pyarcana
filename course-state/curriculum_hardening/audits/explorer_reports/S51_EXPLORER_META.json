@@ -1,0 +1,15 @@
+{
+  "section": 51,
+  "id": "integrator-final",
+  "file": "src/lib/course/sections/s51-integrator-final.ts",
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "score_1_to_10": 6.1,
+  "issue_count": 20,
+  "meta_leak_count": 7,
+  "meta_leak_instances_caso_lim": 24,
+  "status": "complete",
+  "prior_gold_rejected": true,
+  "live_url": "https://pillb.github.io/pyarcana/#integrator-final",
+  "platform_mismatch": "SectionView playground still LangGraph/agentic for integrator-final",
+  "generated_at": "2026-07-24"
+}

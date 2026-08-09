@@ -1,0 +1,300 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s38-4e68a1d30a",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "id": "S38-T1-A-E1",
+      "code": "# CASO-LIM-038-1A — defect: wrong concurrency for CPU-bound features\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T1-A-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "id": "S38-T1-A-E2",
+      "code": "# CASO-LIM-038-1A2 — defect: processes for pure I/O\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T1-A-E2 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "id": "S38-T1-A-E3",
+      "code": "# defect: skip measurement\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T1-A-E3 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "id": "S38-T1-B-E1",
+      "code": "import json\npayload = {\"x\": 2}\n# defect: wrong serialization metric\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T1-B-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "id": "S38-T1-B-E2",
+      "code": "# defect: wrong GIL note\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T1-B-E2 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "id": "S38-T1-B-E3",
+      "code": "# defect: send full record between processes\nprint(\"full_record\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T1-B-E3 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "id": "S38-T2-A-E1",
+      "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(3)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T2-A-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "id": "S38-T2-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"backpressure\")\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T2-A-E2 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "id": "S38-T2-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"provider\")\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T2-A-E3 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "id": "S38-T2-B-E1",
+      "code": "policy = {\"seconds\": 0, \"on_fail\": \"ignore\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T2-B-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "id": "S38-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\nprint(close_in_finally)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T2-B-E2 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "id": "S38-T2-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T2-B-E3 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "id": "S38-T3-A-E1",
+      "code": "event = {\"event\": \"scored\", \"corr\": None}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T3-A-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "id": "S38-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T3-A-E2 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "id": "S38-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\nprint(pii_raw)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T3-A-E3 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "id": "S38-T3-B-E1",
+      "code": "phone = \"90000001\"\n# defect: raw phone in log\nprint(phone)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T3-B-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "id": "S38-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T3-B-E2 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "id": "S38-T3-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"error_budget\")\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T3-B-E3 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "id": "S38-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T4-A-E1 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "id": "S38-T4-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"case:step:ver\")\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T4-A-E2 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "id": "S38-T4-A-E3",
+      "code": "state = {\"step\": \"features\", \"status\": \"done\"}\nprint(\"intake\")\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T4-A-E3 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "id": "S38-T4-B-E1",
+      "code": "def backoff(attempt, base=0.1):\n    return base * attempt\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "justification_from_packet": "Completé prints/TODO de S38-T4-B-E1 según instruction y hints del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "id": "S38-T4-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"poison\")\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T4-B-E2 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "id": "S38-T4-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "justification_from_packet": "Completé el TODO del starter S38-T4-B-E3 con la forma del contrato del paquete.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "CPU bound en CPython: preferir procesos. Del quiz_card, cancelación, timeout y recursos sostiene: Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de… La elección refleja ese criterio, no un mapa externo.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Backpressure evita colas infinitas y OOM. Justificación de selfcheck anclada al material: Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un… (states, checkpoint e idempotencia).",
+      "confidence": 0.73,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Idempotencia: reejecutar sin side effects duplicados.",
+      "confidence": 0.76,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Logs de prod: redactar PII y correlacionar. Según el active packet: Los tres pilares de observabilidad: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo… Eso descarta alternativas que contradicen logs, metrics y traces.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Proveedor sin timeout: hang de workers y cola bloqueada.",
+      "confidence": 0.73,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:22.478132+00:00",
+  "session_started_at": "2026-07-23T14:37:01.608859+00:00",
+  "session_ended_at": "2026-07-23T14:38:05.728859+00:00",
+  "receipt_response_sha256": "0ebdac070699cdcf8c926a4e991ddf45301bad4942f79c16aa772640b5832506",
+  "receipt_exercises_sha256": "3194828b6bba47e5d5cd4ef8628e770eef04a64ba184114f011612e58786b758",
+  "receipt_selfcheck_sha256": "dbfe76920534ebcb9d0598894c4684e56d1368c2f07a3fcefe10453cc8aa3ec3"
+}

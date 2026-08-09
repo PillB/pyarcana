@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 48,
+  "packet_sha": "4ec906c66036aafc",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S48-T1-A-E1", "answer": "from_iDo_embeddings", "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["embeddings", "similarity"]},
+    {"exercise_id": "S48-T1-A-E2", "answer": "independent_synth_docs", "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["synthetic docs"]},
+    {"exercise_id": "S48-T1-A-E3", "answer": "transfer_embeddings_similarity", "code": "# Transfer: cosine sim on unit space; synthetic docs only.\nprint(\"synth_docs\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["embeddings"]},
+    {"exercise_id": "S48-T1-B-E1", "answer": "from_iDo_eval_version", "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["límites", "versiones", "evaluación"]},
+    {"exercise_id": "S48-T1-B-E2", "answer": "independent_ndcg", "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["retrieval eval"]},
+    {"exercise_id": "S48-T1-B-E3", "answer": "transfer_limits_versions_eval", "code": "# Transfer: version embeddings; nDCG@10; regression suite.\nprint(\"regression_suite\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["eval"]},
+    {"exercise_id": "S48-T2-A-E1", "answer": "from_iDo_chunking", "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["chunking", "metadata", "dedup"]},
+    {"exercise_id": "S48-T2-A-E2", "answer": "independent_dedup_sha1", "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\nprint(\"gate\", \"CP-N4-C (inicio)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["chunking"]},
+    {"exercise_id": "S48-T2-A-E3", "answer": "transfer_chunking_metadata_dedup", "code": "# Transfer: chunk_n 3; optional overlap; dedup sha1.\nprint(\"dedup_key\", \"sha1\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["indexing"]},
+    {"exercise_id": "S48-T2-B-E1", "answer": "from_iDo_acl_provenance", "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["ACL", "deletion", "provenance"]},
+    {"exercise_id": "S48-T2-B-E2", "answer": "independent_acl_enforce", "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["ACL"]},
+    {"exercise_id": "S48-T2-B-E3", "answer": "transfer_acl_deletion_provenance", "code": "# Transfer youDo: authorized docs only; acl_enforce; provenance.\nprint(\"acl_enforce\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["permissions"]},
+    {"exercise_id": "S48-T3-A-E1", "answer": "from_iDo_hybrid", "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["lexical", "vector", "hybrid", "rerank"]},
+    {"exercise_id": "S48-T3-A-E2", "answer": "independent_fuse_linear", "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["hybrid retrieval"]},
+    {"exercise_id": "S48-T3-A-E3", "answer": "transfer_lexical_vector_hybrid", "code": "# Transfer: bm25_like + cosine + linear fuse.\nprint(\"fuse\", \"linear\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["hybrid"]},
+    {"exercise_id": "S48-T3-B-E1", "answer": "from_iDo_cites_perms", "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["contexto", "citas", "permisos"]},
+    {"exercise_id": "S48-T3-B-E2", "answer": "independent_drop_denied", "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["citations"]},
+    {"exercise_id": "S48-T3-B-E3", "answer": "transfer_context_cites_perms", "code": "# Transfer youDo: cite fragments; drop_denied; context budget.\nprint(\"cites\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["grounded RAG"]},
+    {"exercise_id": "S48-T4-A-E1", "answer": "from_iDo_structured_grounding", "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["structured output", "grounding"]},
+    {"exercise_id": "S48-T4-A-E2", "answer": "independent_grounded_schema", "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["schema output"]},
+    {"exercise_id": "S48-T4-A-E3", "answer": "transfer_structured_grounding", "code": "# Transfer: structured decision+cites; grounded True.\nprint(\"grounded\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["grounding"]},
+    {"exercise_id": "S48-T4-B-E1", "answer": "from_iDo_eval_abstain", "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["retrieval eval", "cost", "abstención"]},
+    {"exercise_id": "S48-T4-B-E2", "answer": "independent_abstain_cost", "code": "print(\"answer\"); print(\"abstain\"); print(\"cost_tokens\", 1200)\nprint(\"eval\", \"answer_faithfulness\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["abstain"]},
+    {"exercise_id": "S48-T4-B-E3", "answer": "transfer_eval_cost_abstain", "code": "# Transfer youDo: abstain when retrieval insufficient; cost_cap; synthetic.\nprint(\"abstain\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["abstention"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "ai-governance", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id ai-governance preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-C (inicio)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-C (inicio)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id ai-governance vs RAG retheme"],
+  "retrospection": "RAG with cites/abstain from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

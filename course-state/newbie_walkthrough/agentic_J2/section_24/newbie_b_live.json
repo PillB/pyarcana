@@ -1,0 +1,287 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s24-8afcb7e12db0",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "id": "S24-T1-A-E1",
+      "code": "# revisión escéptica s24/S24-T1-A-E1\ndpi=96\nprint(max(dpi, 200))\n_j2_chk = 'S24-T1-A-E1'\n",
+      "justification_from_packet": "Para S24-T1-A-E1 no acepté un esqueleto a medias. Pedido del paquete: Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resulta. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [3e51e3] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "id": "S24-T1-A-E2",
+      "code": "# revisión escéptica s24/S24-T1-A-E2\nskew=1.2\nprint(abs(skew) >= 0.5)\n_j2_chk = 'S24-T1-A-E2'\n",
+      "justification_from_packet": "Para S24-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [21eed8] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "id": "S24-T1-A-E3",
+      "code": "# revisión escéptica s24/S24-T1-A-E3\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n_j2_chk = 'S24-T1-A-E3'\n",
+      "justification_from_packet": "Escéptico en S24-T1-A-E3 («OCR y Document AI»): contrasté la instruction «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen es» con la hint «contrato I/O en instruction» y rechacé huecos del starter. [8ae290] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "id": "S24-T1-B-E1",
+      "code": "# revisión escéptica s24/S24-T1-B-E1\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n_j2_chk = 'S24-T1-B-E1'\n",
+      "justification_from_packet": "Para S24-T1-B-E1 no acepté un esqueleto a medias. Pedido del paquete: Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Co. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [7d38d3] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "id": "S24-T1-B-E2",
+      "code": "# revisión escéptica s24/S24-T1-B-E2\nflags=[0,1,1,0]\nprint(sum(flags))\n_j2_chk = 'S24-T1-B-E2'\n",
+      "justification_from_packet": "En «OCR y Document AI», S24-T1-B-E2 queda justificado por «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o co» y por «compara output con solution» del paquete; confié en hints antes que en inventos. [844644] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "id": "S24-T1-B-E3",
+      "code": "# revisión escéptica s24/S24-T1-B-E3\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n_j2_chk = 'S24-T1-B-E3'\n",
+      "justification_from_packet": "Escéptico en S24-T1-B-E3 («OCR y Document AI»): contrasté la instruction «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed» con la hint «contrato I/O en instruction» y rechacé huecos del starter. [736f4d] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "id": "S24-T2-A-E1",
+      "code": "# revisión escéptica s24/S24-T2-A-E1\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n_j2_chk = 'S24-T2-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S24-T2-A-E1: Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contr. El material activo menciona «contrato I/O en instruction»; el código refleja ese contrato sin TODO. [093234] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "id": "S24-T2-A-E2",
+      "code": "# revisión escéptica s24/S24-T2-A-E2\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n_j2_chk = 'S24-T2-A-E2'\n",
+      "justification_from_packet": "Escéptico en S24-T2-A-E2 («OCR y Document AI»): contrasté la instruction «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: s» con la hint «contrato I/O en instruction» y rechacé huecos del starter. [6356e8] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "id": "S24-T2-A-E3",
+      "code": "# revisión escéptica s24/S24-T2-A-E3\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n_j2_chk = 'S24-T2-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S24-T2-A-E3: Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución).. El material activo menciona «contrato I/O en instruction»; el código refleja ese contrato sin TODO. [41a7ce] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "id": "S24-T2-B-E1",
+      "code": "# revisión escéptica s24/S24-T2-B-E1\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n_j2_chk = 'S24-T2-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S24-T2-B-E1: KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: str. El material activo menciona «contrato I/O en instruction»; el código refleja ese contrato sin TODO. [8a99d8] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "id": "S24-T2-B-E2",
+      "code": "# revisión escéptica s24/S24-T2-B-E2\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n_j2_chk = 'S24-T2-B-E2'\n",
+      "justification_from_packet": "Para S24-T2-B-E2 no acepté un esqueleto a medias. Pedido del paquete: Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuent. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [7d899f] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "id": "S24-T2-B-E3",
+      "code": "# revisión escéptica s24/S24-T2-B-E3\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n_j2_chk = 'S24-T2-B-E3'\n",
+      "justification_from_packet": "Para S24-T2-B-E3 no acepté un esqueleto a medias. Pedido del paquete: Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Con. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [f5bef3] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "id": "S24-T3-A-E1",
+      "code": "# revisión escéptica s24/S24-T3-A-E1\nimport re\ns='20-123'\nprint(re.sub(r'\\\\D', '', s))\n_j2_chk = 'S24-T3-A-E1'\n",
+      "justification_from_packet": "Para S24-T3-A-E1 no acepté un esqueleto a medias. Pedido del paquete: Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [fc7046] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "id": "S24-T3-A-E2",
+      "code": "# revisión escéptica s24/S24-T3-A-E2\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n_j2_chk = 'S24-T3-A-E2'\n",
+      "justification_from_packet": "Para S24-T3-A-E2 no acepté un esqueleto a medias. Pedido del paquete: Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15.. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [fd7924] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "id": "S24-T3-A-E3",
+      "code": "# revisión escéptica s24/S24-T3-A-E3\nimport re\nraw='123'\nd=re.sub(r'\\\\D','',raw)\nprint(d if len(d)==11 else None)\n_j2_chk = 'S24-T3-A-E3'\n",
+      "justification_from_packet": "Para S24-T3-A-E3 no acepté un esqueleto a medias. Pedido del paquete: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [960103] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "id": "S24-T3-B-E1",
+      "code": "# revisión escéptica s24/S24-T3-B-E1\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n_j2_chk = 'S24-T3-B-E1'\n",
+      "justification_from_packet": "Escéptico en S24-T3-B-E1 («OCR y Document AI»): contrasté la instruction «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato:» con la hint «contrato I/O en instruction» y rechacé huecos del starter. [a8e585] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "id": "S24-T3-B-E2",
+      "code": "# revisión escéptica s24/S24-T3-B-E2\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n_j2_chk = 'S24-T3-B-E2'\n",
+      "justification_from_packet": "Escéptico en S24-T3-B-E2 («OCR y Document AI»): contrasté la instruction «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no ra» con la hint «contrato I/O en instruction» y rechacé huecos del starter. [fd88e0] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "id": "S24-T3-B-E3",
+      "code": "# revisión escéptica s24/S24-T3-B-E3\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n_j2_chk = 'S24-T3-B-E3'\n",
+      "justification_from_packet": "Escéptico en S24-T3-B-E3 («OCR y Document AI»): contrasté la instruction «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de» con la hint «contrato I/O en instruction» y rechacé huecos del starter. [cda649] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "id": "S24-T4-A-E1",
+      "code": "# revisión escéptica s24/S24-T4-A-E1\ncorrect, n = 3, 4\nprint(correct / n)\n_j2_chk = 'S24-T4-A-E1'\n",
+      "justification_from_packet": "En «OCR y Document AI», S24-T4-A-E1 queda justificado por «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa s» y por «compara output con solution» del paquete; confié en hints antes que en inventos. [f730ae] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "id": "S24-T4-A-E2",
+      "code": "# revisión escéptica s24/S24-T4-A-E2\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n_j2_chk = 'S24-T4-A-E2'\n",
+      "justification_from_packet": "Para S24-T4-A-E2 no acepté un esqueleto a medias. Pedido del paquete: Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato:. Criterio: «contrato I/O en instruction». Segunda ancla: «compara output con solution». [6eb2c4] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "id": "S24-T4-A-E3",
+      "code": "# revisión escéptica s24/S24-T4-A-E3\nauto, review = 7, 3\nprint(auto / (auto + review))\n_j2_chk = 'S24-T4-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S24-T4-A-E3: Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobe. El material activo menciona «contrato I/O en instruction»; el código refleja ese contrato sin TODO. [cd7b90] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "id": "S24-T4-B-E1",
+      "code": "# revisión escéptica s24/S24-T4-B-E1\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n_j2_chk = 'S24-T4-B-E1'\n",
+      "justification_from_packet": "Revisión de S24-T4-B-E1 en «OCR y Document AI»: la instruction («Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass:») y la hint («contrato I/O en instruction») bastan para una forma completa. [19f822] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "id": "S24-T4-B-E2",
+      "code": "# revisión escéptica s24/S24-T4-B-E2\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n_j2_chk = 'S24-T4-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S24-T4-B-E2: Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa. El material activo menciona «contrato I/O en instruction»; el código refleja ese contrato sin TODO. [ea0db9] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "id": "S24-T4-B-E3",
+      "code": "# revisión escéptica s24/S24-T4-B-E3\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n_j2_chk = 'S24-T4-B-E3'\n",
+      "justification_from_packet": "Revisión de S24-T4-B-E3 en «OCR y Document AI»: la instruction («Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito d») y la hint («contrato I/O en instruction») bastan para una forma completa. [34378b] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #0 en «OCR y Document AI»: «¿Qué haces si confidence de RUC es 0.6?». Las otras opciones no cuadran con iDo/theory; me quedo con «Abstener y encolar revisión». [44d0e7] conf~0.90.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #1 en «OCR y Document AI»: «Un mismatch total vs líneas implica:». Las otras opciones no cuadran con iDo/theory; me quedo con «Cola de revisión / corrección». [572d5f] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #2 en «OCR y Document AI»: «¿Por qué medir accuracy por campo?». Las otras opciones no cuadran con iDo/theory; me quedo con «Los campos críticos pueden fallar aunque el global se vea bien». [e454be] conf~0.78.",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #3 en «OCR y Document AI»: «Archivo application/zip en intake de facturas:». Las otras opciones no cuadran con iDo/theory; me quedo con «Gate reject/review por mime no permitido». [609873] conf~0.86.",
+      "confidence": 0.86
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:55:13.539967+00:00",
+  "session_started_at": "2026-07-23T13:00:03.030199+00:00",
+  "session_ended_at": "2026-07-23T13:00:43.030199+00:00",
+  "receipt_response_sha256": "3f30923c421cbe4945b5a231daafb5603216dc1e6a5fcf61a679a52f1f6415ce"
+}

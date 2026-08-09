@@ -1,0 +1,273 @@
+{
+  "section": 9,
+  "title": "Excepciones, debugging y logging seguro",
+  "file": "s09-visualization.ts",
+  "n_required": 9,
+  "n_logged": 9,
+  "generated_at": "2026-07-24T05:02:09.394+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "never log full PII; redact email/phone; no fraud claims",
+    "v3_retarget": "exceptions logging not matplotlib viz",
+    "expert_pass_at": "2026-07-24T05:02:09.394+00:00"
+  },
+  "unique_foci": 9,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "specific exception types",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Errors tutorial",
+          "url": "https://docs.python.org/3/tutorial/errors.html",
+          "note": "exceptions"
+        },
+        {
+          "family": "Python",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "logging"
+        },
+        {
+          "family": "Python",
+          "title": "traceback",
+          "url": "https://docs.python.org/3/library/traceback.html",
+          "note": "stacks"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 1/9: «specific exception types» via Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «specific exception types».",
+      "expand_scope": "E1/E2/E3 + docs for «specific exception types»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 1/9: «specific exception types» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "raise from chaining",
+      "research": [
+        {
+          "family": "Python",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "logging"
+        },
+        {
+          "family": "Python",
+          "title": "traceback",
+          "url": "https://docs.python.org/3/library/traceback.html",
+          "note": "stacks"
+        },
+        {
+          "family": "Python",
+          "title": "pdb",
+          "url": "https://docs.python.org/3/library/pdb.html",
+          "note": "debugger"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 2/9: «raise from chaining» via Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «raise from chaining».",
+      "expand_scope": "E1/E2/E3 + docs for «raise from chaining»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 2/9: «raise from chaining» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "custom ValidationError",
+      "research": [
+        {
+          "family": "Python",
+          "title": "traceback",
+          "url": "https://docs.python.org/3/library/traceback.html",
+          "note": "stacks"
+        },
+        {
+          "family": "Python",
+          "title": "pdb",
+          "url": "https://docs.python.org/3/library/pdb.html",
+          "note": "debugger"
+        },
+        {
+          "family": "Python",
+          "title": "contextlib",
+          "url": "https://docs.python.org/3/library/contextlib.html",
+          "note": "with"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 3/9: «custom ValidationError» via Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «custom ValidationError».",
+      "expand_scope": "E1/E2/E3 + docs for «custom ValidationError»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 3/9: «custom ValidationError» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "try else finally with",
+      "research": [
+        {
+          "family": "Python",
+          "title": "pdb",
+          "url": "https://docs.python.org/3/library/pdb.html",
+          "note": "debugger"
+        },
+        {
+          "family": "Python",
+          "title": "contextlib",
+          "url": "https://docs.python.org/3/library/contextlib.html",
+          "note": "with"
+        },
+        {
+          "family": "PEP 3134",
+          "title": "Exception chaining",
+          "url": "https://peps.python.org/pep-3134/",
+          "note": "from e"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 4/9: «try else finally with» via PEP 3134, Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «try else finally with».",
+      "expand_scope": "E1/E2/E3 + docs for «try else finally with»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 4/9: «try else finally with» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "no bare except swallow",
+      "research": [
+        {
+          "family": "Python",
+          "title": "contextlib",
+          "url": "https://docs.python.org/3/library/contextlib.html",
+          "note": "with"
+        },
+        {
+          "family": "PEP 3134",
+          "title": "Exception chaining",
+          "url": "https://peps.python.org/pep-3134/",
+          "note": "from e"
+        },
+        {
+          "family": "Real Python",
+          "title": "Logging",
+          "url": "https://realpython.com/python-logging/",
+          "note": "structured logs"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 5/9: «no bare except swallow» via PEP 3134, Python, Real Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no bare except swallow».",
+      "expand_scope": "E1/E2/E3 + docs for «no bare except swallow»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 5/9: «no bare except swallow» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "fail fast config vs quarantine data",
+      "research": [
+        {
+          "family": "PEP 3134",
+          "title": "Exception chaining",
+          "url": "https://peps.python.org/pep-3134/",
+          "note": "from e"
+        },
+        {
+          "family": "Real Python",
+          "title": "Logging",
+          "url": "https://realpython.com/python-logging/",
+          "note": "structured logs"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "errors"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 6/9: «fail fast config vs quarantine data» via MIT, PEP 3134, Real Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fail fast config vs quarantine data».",
+      "expand_scope": "E1/E2/E3 + docs for «fail fast config vs quarantine data»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 6/9: «fail fast config vs quarantine data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "traceback useful frame",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Logging",
+          "url": "https://realpython.com/python-logging/",
+          "note": "structured logs"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "errors"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "exceptions"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 7/9: «traceback useful frame» via Harvard, MIT, Real Python (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «traceback useful frame».",
+      "expand_scope": "E1/E2/E3 + docs for «traceback useful frame»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 7/9: «traceback useful frame» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "breakpoint pdb demo",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "errors"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "exceptions"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 8/9: «breakpoint pdb demo» via Coursera, Harvard, MIT (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «breakpoint pdb demo».",
+      "expand_scope": "E1/E2/E3 + docs for «breakpoint pdb demo»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 8/9: «breakpoint pdb demo» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "never log secrets PII locals",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "exceptions"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "MOOC"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S9 «Excepciones, debugging y logging seguro» cycle 9/9: «never log secrets PII locals» via Coursera, Harvard, Live (CP-N1-C exceptions logging start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «never log secrets PII locals».",
+      "expand_scope": "E1/E2/E3 + docs for «never log secrets PII locals»; V3 roadmap; pair S09 observability → S10 CLI packaging.",
+      "re_synthesize": "Decision 9/9: «never log secrets PII locals» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

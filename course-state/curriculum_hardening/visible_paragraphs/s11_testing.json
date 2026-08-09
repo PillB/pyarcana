@@ -1,0 +1,495 @@
+{
+  "index": 11,
+  "id": "testing",
+  "title": "OOP y modelo de dominio",
+  "file": "s11-testing.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
+      "len": 55
+    },
+    {
+      "i": 1,
+      "text": "En V3, S11 no es el path principal de pytest fixtures/coverage/CI (ese material se reubica como soporte de calidad). Aquí modelas el dominio de familiaridad: ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 409
+    },
+    {
+      "i": 2,
+      "text": "Ninguna clase emite veredicto de fraude ni parentesco. Los scores son datos, no decisiones legales. Entorno local-python. Id de plataforma testing se conserva. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 432
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Objetos → T2 Encapsulación → T3 Diseño → T4 Límites (repos/tests). Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 338
+    },
+    {
+      "i": 4,
+      "text": "Clases, instancias y dataclass",
+      "len": 30
+    },
+    {
+      "i": 5,
+      "text": "Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 316
+    },
+    {
+      "i": 6,
+      "text": "Campos con type hints y default_factory para mutables (listas/dicts) evitan el clásico bug del default compartido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 387
+    },
+    {
+      "i": 7,
+      "text": "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Clases, instancias y dataclass»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 316
+    },
+    {
+      "i": 8,
+      "text": "Invariantes y estados válidos",
+      "len": 29
+    },
+    {
+      "i": 9,
+      "text": "__post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 320
+    },
+    {
+      "i": 10,
+      "text": "Método validate() reutilizable ayuda en factories from_dict. Sin side-effects de negocio externos (no llama APIs al validar). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 398
+    },
+    {
+      "i": 11,
+      "text": "Ejemplo: document_id no vacío; en Transaction, amount es Decimal positivo y currency pertenece al allowlist explícito {'PEN', 'USD'}. Nunca conviertas moneda en silencio. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Invariantes y estados válidos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 406
+    },
+    {
+      "i": 13,
+      "text": "@property expone campos calculados (display_name, masked_email) sin mutación peligrosa desde afuera. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 287
+    },
+    {
+      "i": 14,
+      "text": "Métodos de instancia encapsulan consultas (age_days_since). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 407
+    },
+    {
+      "i": 15,
+      "text": "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Propiedades y métodos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 332
+    },
+    {
+      "i": 16,
+      "text": "Igualdad, hash y mutabilidad consciente",
+      "len": 39
+    },
+    {
+      "i": 17,
+      "text": "La identidad de ResolvedEntity usa su entity_id estable, no document_id: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. frozen=True habilita hash seguro para sets/dicts. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 402
+    },
+    {
+      "i": 18,
+      "text": "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 380
+    },
+    {
+      "i": 19,
+      "text": "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Igualdad, hash y mutabilidad consciente»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 343
+    },
+    {
+      "i": 20,
+      "text": "Composición antes que herencia",
+      "len": 30
+    },
+    {
+      "i": 21,
+      "text": "has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 300
+    },
+    {
+      "i": 22,
+      "text": "Una evidencia usa un par canónico (left_id < right_id), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 421
+    },
+    {
+      "i": 23,
+      "text": "Herencia solo si hay subtipo real (is-a). Evita jerarquías frágiles Client(Person(BaseEntity...)) solo para reutilizar un campo. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Composición antes que herencia»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 365
+    },
+    {
+      "i": 24,
+      "text": "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 278
+    },
+    {
+      "i": 25,
+      "text": "Protocolos y polimorfismo con propósito",
+      "len": 39
+    },
+    {
+      "i": 26,
+      "text": "typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 294
+    },
+    {
+      "i": 27,
+      "text": "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 370
+    },
+    {
+      "i": 28,
+      "text": "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Protocolos y polimorfismo con propósito»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 333
+    },
+    {
+      "i": 29,
+      "text": "Repositorios, servicios y serialización",
+      "len": 39
+    },
+    {
+      "i": 30,
+      "text": "Repository light: get/save. Service light: orquesta dominio sin conocer CLI ni HTTP. to_dict/from_dict en el borde. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 302
+    },
+    {
+      "i": 31,
+      "text": "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 378
+    },
+    {
+      "i": 32,
+      "text": "CLI (S10) llama al service; el service no imprime ni parsea argparse. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Repositorios, servicios y serialización»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 315
+    },
+    {
+      "i": 33,
+      "text": "Dependencias y pruebas del dominio",
+      "len": 34
+    },
+    {
+      "i": 34,
+      "text": "Tests del dominio son puros: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+      "len": 264
+    },
+    {
+      "i": 35,
+      "text": "Assert de invariantes y de ausencia de APIs peligrosas (is_fraud, is_related_family). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+      "len": 358
+    },
+    {
+      "i": 36,
+      "text": "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias y pruebas del dominio»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 363
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
+      "text": "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 409,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S11 no es el path principal de pytest fixtures/coverage/CI (ese material se reubica como soporte de calidad). Aquí modelas el dominio de familiaridad: ClientRecord, Resolved",
+      "text": "En V3, S11 no es el path principal de pytest fixtures/coverage/CI (ese material se reubica como soporte de calidad). Aquí modelas el dominio de familiaridad: ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 2,
+      "len": 432,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ninguna clase emite veredicto de fraude ni parentesco. Los scores son datos, no decisiones legales. Entorno local-python. Id de plataforma testing se conserva. Contrato: entrada ex",
+      "text": "Ninguna clase emite veredicto de fraude ni parentesco. Los scores son datos, no decisiones legales. Entorno local-python. Id de plataforma testing se conserva. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 3,
+      "len": 338,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Objetos → T2 Encapsulación → T3 Diseño → T4 Límites (repos/tests). Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y l",
+      "text": "Orden: T1 Objetos → T2 Encapsulación → T3 Diseño → T4 Límites (repos/tests). Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 4,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Clases, instancias y dataclass",
+      "text": "Clases, instancias y dataclass"
+    },
+    {
+      "i": 5,
+      "len": 316,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el porqué es operativo: reduce ",
+      "text": "Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 387,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Campos con type hints y default_factory para mutables (listas/dicts) evitan el clásico bug del default compartido. Contrato: entrada explícita → transformación documentada → salida",
+      "text": "Campos con type hints y default_factory para mutables (listas/dicts) evitan el clásico bug del default compartido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 7,
+      "len": 316,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica ",
+      "text": "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Clases, instancias y dataclass»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Invariantes y estados válidos",
+      "text": "Invariantes y estados válidos"
+    },
+    {
+      "i": 9,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "__post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el porqué es operativo: red",
+      "text": "__post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 398,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Método validate() reutilizable ayuda en factories from_dict. Sin side-effects de negocio externos (no llama APIs al validar). Contrato: entrada explícita → transformación documenta",
+      "text": "Método validate() reutilizable ayuda en factories from_dict. Sin side-effects de negocio externos (no llama APIs al validar). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 11,
+      "len": 406,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ejemplo: document_id no vacío; en Transaction, amount es Decimal positivo y currency pertenece al allowlist explícito {'PEN', 'USD'}. Nunca conviertas moneda en silencio. Caso sint",
+      "text": "Ejemplo: document_id no vacío; en Transaction, amount es Decimal positivo y currency pertenece al allowlist explícito {'PEN', 'USD'}. Nunca conviertas moneda en silencio. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Invariantes y estados válidos»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 13,
+      "len": 287,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "@property expone campos calculados (display_name, masked_email) sin mutación peligrosa desde afuera. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines local",
+      "text": "@property expone campos calculados (display_name, masked_email) sin mutación peligrosa desde afuera. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 407,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Métodos de instancia encapsulan consultas (age_days_since). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras. Contrato: entrada explícita → transformación ",
+      "text": "Métodos de instancia encapsulan consultas (age_days_since). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 15,
+      "len": 332,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Doc",
+      "text": "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Propiedades y métodos»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Igualdad, hash y mutabilidad consciente",
+      "text": "Igualdad, hash y mutabilidad consciente"
+    },
+    {
+      "i": 17,
+      "len": 402,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La identidad de ResolvedEntity usa su entity_id estable, no document_id: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. frozen=True ha",
+      "text": "La identidad de ResolvedEntity usa su entity_id estable, no document_id: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. frozen=True habilita hash seguro para sets/dicts. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 380,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq. Contrato: entrada explícita → transformación documentada → salida medibl",
+      "text": "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 19,
+      "len": 343,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta ",
+      "text": "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Igualdad, hash y mutabilidad consciente»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Composición antes que herencia",
+      "text": "Composición antes que herencia"
+    },
+    {
+      "i": 21,
+      "len": 300,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pi",
+      "text": "has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 421,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una evidencia usa un par canónico (left_id < right_id), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación. Contrato: entrada explícita → t",
+      "text": "Una evidencia usa un par canónico (left_id < right_id), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 23,
+      "len": 365,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Herencia solo si hay subtipo real (is-a). Evita jerarquías frágiles Client(Person(BaseEntity...)) solo para reutilizar un campo. Caso sintético Perú: entidades sintéticas Cliente/C",
+      "text": "Herencia solo si hay subtipo real (is-a). Evita jerarquías frágiles Client(Person(BaseEntity...)) solo para reutilizar un campo. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Composición antes que herencia»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 278,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja ",
+      "text": "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 25,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Protocolos y polimorfismo con propósito",
+      "text": "Protocolos y polimorfismo con propósito"
+    },
+    {
+      "i": 26,
+      "len": 294,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipeline",
+      "text": "typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 27,
+      "len": 370,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta. Contrato: entrada explícita → transformación documentada → salida medible; si falt",
+      "text": "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 28,
+      "len": 333,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, ",
+      "text": "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Protocolos y polimorfismo con propósito»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 29,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Repositorios, servicios y serialización",
+      "text": "Repositorios, servicios y serialización"
+    },
+    {
+      "i": 30,
+      "len": 302,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Repository light: get/save. Service light: orquesta dominio sin conocer CLI ni HTTP. to_dict/from_dict en el borde. En OOP de dominio, el porqué es operativo: reduce ambigüedad en ",
+      "text": "Repository light: get/save. Service light: orquesta dominio sin conocer CLI ni HTTP. to_dict/from_dict en el borde. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 31,
+      "len": 378,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas. Contrato: entrada explícita → transformación documentada → salida medible;",
+      "text": "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 32,
+      "len": 315,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "CLI (S10) llama al service; el service no imprime ni parsea argparse. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite c",
+      "text": "CLI (S10) llama al service; el service no imprime ni parsea argparse. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Repositorios, servicios y serialización»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 33,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Dependencias y pruebas del dominio",
+      "text": "Dependencias y pruebas del dominio"
+    },
+    {
+      "i": 34,
+      "len": 264,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tests del dominio son puros: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditab",
+      "text": "Tests del dominio son puros: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 35,
+      "len": 358,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Assert de invariantes y de ausencia de APIs peligrosas (is_fraud, is_related_family). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia ",
+      "text": "Assert de invariantes y de ausencia de APIs peligrosas (is_fraud, is_related_family). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19."
+    },
+    {
+      "i": 36,
+      "len": 363,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto. Caso sintético Perú: entidades sintéticas Cliente/Caso co",
+      "text": "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias y pruebas del dominio»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 16333
+}

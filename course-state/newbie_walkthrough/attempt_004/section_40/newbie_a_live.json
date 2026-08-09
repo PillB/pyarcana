@@ -1,0 +1,252 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 40,
+  "packet_source": "course-state/newbie_walkthrough/attempt_004/section_40/packet.json",
+  "packet_sha": "2d49d21cdbcabdf3",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "guided_from_iDo_S40-T1-B-DEMO_quality_attrs",
+      "code": "# weDo placeholder was only TODO; Explorer reuses iDo demo for T1-A (FR/QA)\nqas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\nprint(\"synthetic\", True)",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["latency_p95_ms", "owners", "intake", "er", "quality attributes"],
+      "note": "Instruction/hints were generic (hint-a/hint-b); filled from iDo demo + theory FR/QA."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "independent_variant_of_QA_demo",
+      "code": "opts=[{\"n\":\"sync\",\"score\":3.8},{\"n\":\"async\",\"score\":2.2}]\nprint(\"best\", min(opts,key=lambda x:x[\"score\"])[\"n\"])\nprint(\"scores\", {o[\"n\"]:o[\"score\"] for o in opts})\nprint(\"criterion\", \"min_score\")\nprint(\"gate\", \"CP-N4-A (inicio)\")",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["trade-off scores", "min criterion", "CP-N4-A (inicio)"]
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "transfer_notes_FR_QA_map",
+      "code": "# Transfer (packet): requisitos funcionales + quality attributes\n# Mapa V3 S40: separa intake, ER, relación, triage, reporting e IA\n# Owners sintéticos: intake, er. Budget medible: latency_p95_ms <= 300\n# Gate: CP-N4-A (inicio). Datos sintéticos; sin PII real.\nprint(\"transfer\", \"FR+QA documented\")\nprint(\"pii\", False)",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["mapa arquitectura", "CP-N4-A (inicio)", "datos sintéticos"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "guided_from_iDo_risks_demo",
+      "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["risks", "severity", "measurable"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "independent_tradeoffs_layers_theory",
+      "code": "layers=[\"presentation\",\"application\",\"domain\",\"infrastructure\"]\nprint(\"layers\", layers)\nprint(\"domain_pure\", True)\nprint(\"skip_forbidden\", True)",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["layers", "domain pure"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "transfer_tradeoffs_risks_measurable",
+      "code": "# Transfer: trade-offs, riesgos y criterios medibles (theory heading)\n# Criterio medible = número/umbral (sev, latency), no opinión.\n# Riesgo top por severidad (demo R1). Sin secretos ni PII.\nprint(\"risk_top\", \"R1\")\nprint(\"criterion\", \"measurable\")",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["trade-offs", "riesgos medibles"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "guided_from_iDo_cohesion_layers",
+      "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["cohesión", "coupling", "bounded modules"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "independent_Repo_port_pattern_theory",
+      "code": "class Repo:\n    def get(self, cid): return {\"status\":\"open\"}\nprint(\"status\", Repo().get(\"CASE-1\")[\"status\"])\nprint(\"dep\", \"domain<-adapters\")\nprint(\"port_ok\", True)",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["Repo", "ports", "domain<-adapters"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "transfer_cohesion_coupling_layers",
+      "code": "# Transfer: capas presentation/application/domain/infrastructure\n# no_mixed=True en demos: no mezclar intake/er/reporting en un módulo\nprint(\"layers_ok\", True)\nprint(\"no_mixed\", True)",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["capas", "cohesión"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "guided_from_iDo_ports_adapters",
+      "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["ports/adapters", "fake adapter", "domain pure"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "independent_bounded_contexts_theory_code",
+      "code": "ctx={\"Intake\":[\"Case\"],\"ER\":[\"Record\",\"Score\"]}\nprint(\"contexts\", sorted(ctx))\nprint(\"er_terms\", ctx[\"ER\"])\nprint(\"case_not_in_er\", \"Case\" not in ctx[\"ER\"])",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["bounded contexts", "ubiquitous language"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "transfer_ports_adapters_domain_dep",
+      "code": "# Transfer: dependencia hacia dominio; adapters afuera; no SMTP en domain (demo)\nprint(\"dep\", \"domain<-adapters\")\nprint(\"no_smtp_in_domain\", True)",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["ports/adapters", "domain dependency"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "guided_from_iDo_bounded_contexts",
+      "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["bounded contexts", "acl", "no_leak"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "independent_ctx_terms",
+      "code": "ctx={\"Intake\":[\"Case\"],\"ER\":[\"Record\",\"Score\"]}\nprint(\"contexts\", sorted(ctx))\nprint(\"er_terms\", ctx[\"ER\"])\nprint(\"case_not_in_er\", \"Case\" not in ctx[\"ER\"])\nprint(\"synthetic\", True)",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["Intake", "ER", "Case vs Record"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "transfer_bounded_contexts_ubiquitous",
+      "code": "# Transfer: lenguaje ubicuo por contexto; Case vive en Intake, no en ER\n# jobRelevance: ER/matching no implica fraude ni parentesco\nprint(\"ubiq\", \"per-context\")\nprint(\"er_is_not_fraud\", True)",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["lenguaje ubicuo", "ER"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "guided_from_iDo_entities_vo",
+      "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["entities", "value objects", "services"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "independent_score_service",
+      "code": "score=0.7\nprint(\"merged\", score)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\nprint(\"raw_kept\", True)",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["score", "stateless service"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "transfer_entities_vo_services",
+      "code": "# Transfer: entity tiene identidad; VO es valor; service es stateless (demo not_entity)\n# Conservar evidencia score/raw; no afirmar parentesco por score\nprint(\"entity_vs_vo\", True)\nprint(\"no_parentesco_from_score\", True)",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["entity", "VO", "service"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "guided_from_iDo_C4_ADR",
+      "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["C4", "ADR", "flow"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "independent_api_compat_theory",
+      "code": "v1={\"case_id\":\"CASE-1\",\"status\":\"open\"}\nv11={**v1,\"priority\":\"normal\"}\nprint(\"v1\", \"CASE-1:open\")\nprint(\"compat\", \"CASE-1:open\")\nprint(\"additive\", \"priority\" in v11)",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["API evolution", "additive fields"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "transfer_c4_flow_adr",
+      "code": "# Transfer: documentar C4 + ADR; flujo intake -> validate -> enqueue\n# Responsables y contratos explícitos (tagline S40)\nprint(\"doc\", \"C4+ADR\")\nprint(\"contracts_explicit\", True)",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["C4", "ADR", "contratos"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "guided_from_iDo_apis_events_debt",
+      "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": ["deuda", "eventos", "async_job"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "independent_compat_additive",
+      "code": "v1={\"case_id\":\"CASE-1\",\"status\":\"open\"}\nv11={**v1,\"priority\":\"normal\"}\nprint(\"v1\", \"CASE-1:open\")\nprint(\"compat\", \"CASE-1:open\")\nprint(\"additive\", \"priority\" in v11)\nprint(\"events\", \"case.created\")",
+      "confidence": 0.5,
+      "blocked_on": [],
+      "concepts_used": ["compat", "events", "debt paydown"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "transfer_apis_events_debt_compat",
+      "code": "# Transfer: evolución compatible (campos aditivos); deuda D1 → paydown async_job\n# Evento case.created. Gate CP-N4-A (inicio). Datos sintéticos.\nprint(\"compat\", True)\nprint(\"paydown\", \"async_job\")",
+      "confidence": 0.45,
+      "blocked_on": [],
+      "concepts_used": ["evolución compatible", "eventos", "deuda"]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "agentic-architecture",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "active.id and theory: platform id `agentic-architecture` conservado (jobRelevance + Mapa V3 S40)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-A (inicio)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance/youDo/portfolioNote: incremento/gate CP-N4-A (inicio)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance + youDo: Datos sintéticos; sin PII real. Theory repeats sin PII real."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance: ER/matching no implica fraude ni parentesco → not Fraude/Parentesco; ER is about same entity when applicable (intake/ER contexts in theory)."
+    }
+  ],
+  "confusion_points": [
+    "All 24 weDo exercises have instruction Completa/Transfiere only, hints hint-a/hint-b, starter # TODO — no blanks to fill.",
+    "Theory paragraphs are thin blueprint stubs; real code lives mostly in iDo demos.",
+    "SelfCheck option garbage not present here; four clean options."
+  ],
+  "retrospection": "As Explorer I answered selfCheck from jobRelevance/id/gate/synthetic/ER wording. For weDo I mapped each T*-* exercise to the matching iDo demo / theory code blocks and adapted them, since starters were empty TODOs. No hard UNTAUGHT block — demos provide executable patterns. Confidence mid because tests say 'salida coincide con solution output' but solutions are stripped.",
+  "summary": {
+    "n_exercises": 24,
+    "n_exercises_answered": 24,
+    "n_blocked_exercises": 0,
+    "n_selfcheck": 4,
+    "n_blocked_selfcheck": 0,
+    "selfcheck_choice_indices": [0, 0, 1, 2]
+  }
+}

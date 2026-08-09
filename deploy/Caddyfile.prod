@@ -1,0 +1,105 @@
+# ─────────────────────────────────────────────────────────────────────
+# PyArcana — Caddyfile de producción (TEMPLATE)
+# ─────────────────────────────────────────────────────────────────────
+# QUÉ LOGRA: Reverse proxy con HTTPS automático (Let's Encrypt) para
+#   el LMS dinámico de PyArcana.
+#
+# QUÉ NECESITAS:
+#   - Caddy instalado: sudo apt install caddy
+#   - Dominio pyarcana.dev apuntando al VPS (DNS A record)
+#   - Puerto 80 y 443 abiertos en el firewall
+#   - PyArcana ejecutándose en localhost:3000 (systemd)
+#
+# USUARIO: root (para editar /etc/caddy/Caddyfile)
+#
+# DIRECTORIO: /etc/caddy/
+#
+# RIESGO: CAMBIO REVERSIBLE — se puede restaurar el Caddyfile anterior.
+#
+# INSTALACIÓN:
+#   sudo cp deploy/Caddyfile.prod /etc/caddy/Caddyfile
+#   sudo caddy validate --config /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# VERIFICACIÓN:
+#   sudo systemctl status caddy
+#   curl -sI https://pyarcana.dev | head -5
+#   # Debe mostrar: HTTP/2 200, strict-transport-security
+#
+# ERROR FRECUENTE: "certificate obtain error" — el DNS aún no propaga.
+#   Solución: esperar y verificar con: dig pyarcana.dev +short
+#   (debe mostrar la IP del VPS)
+#
+# ROLLBACK:
+#   sudo cp /etc/caddy/Caddyfile.bak /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# FUENTE: https://caddyserver.com/docs/caddyfile
+# FECHA DE CONSULTA: 2026-08-02
+# ─────────────────────────────────────────────────────────────────────
+
+# Dominio principal
+pyarcana.dev {
+	# Redirigir www al dominio principal (si se usa www.pyarcana.dev)
+	# redir www {
+	# 	https://pyarcana.dev{uri} permanent
+	# }
+
+	# Reverse proxy al servidor Next.js standalone (localhost:3000)
+	# El puerto 3000 NO debe estar expuesto públicamente — solo Caddy escucha en 80/443.
+	reverse_proxy localhost:3000 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+
+	# Headers de seguridad
+	header {
+		# HSTS — fuerza HTTPS por 1 año (aumentar a 2 años cuando se confirme estable)
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		# Prevenir MIME type sniffing
+		X-Content-Type-Options "nosniff"
+		# Prevenir clickjacking
+		X-Frame-Options "DENY"
+		# Referrer policy — solo enviar origin a otros sitios
+		Referrer-Policy "strict-origin-when-cross-origin"
+		# Permissions policy — deshabilitar cámara, micrófono, etc.
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+
+	# Compresión
+	encode gzip zstd
+
+	# Logging
+	log {
+		output file /var/log/caddy/pyarcana.dev.log {
+			roll_size 100mb
+			roll_keep 10
+			roll_keep_for 720h
+		}
+		format json
+	}
+
+	# Rate limiting básico para APIs (requiere Caddy con rate_limit plugin)
+	# rate_limit {
+	# 	zone api {
+	# 		key {remote_host}
+	# 		events 100
+	# 		window 1m
+	# 	}
+	# }
+}
+
+# Redirigir .com a .dev (si se usa pyarcana.com)
+# pyarcana.dev, www.pyarcana.dev, pyarcana.com, www.pyarcana.com {
+# 	tls pyarcana@pyarcana.dev
+# 	redir https://pyarcana.dev{uri} permanent
+# }
+
+# ─────────────────────────────────────────────────────────────────────
+# NOTA: Este Caddyfile reemplaza el Caddyfile de desarrollo (:81 con
+# XTransformPort) que está en la raíz del repo. El Caddyfile de la raíz
+# es para desarrollo local con múltiples servicios; este es para producción
+# con un solo servicio.
+# ─────────────────────────────────────────────────────────────────────

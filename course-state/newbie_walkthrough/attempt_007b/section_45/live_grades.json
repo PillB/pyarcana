@@ -1,0 +1,1119 @@
+{
+  "section_index": 45,
+  "section_id": "iac",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S45-T1-A-E1",
+          "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\n",
+          "note": "",
+          "concepts_used": [
+            "object",
+            "sql",
+            "cache",
+            "iDo_S45-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E2",
+          "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\n",
+          "note": "",
+          "concepts_used": [
+            "object",
+            "sql",
+            "cache",
+            "iDo_S45-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E3",
+          "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\n",
+          "note": "",
+          "concepts_used": [
+            "object",
+            "sql",
+            "cache",
+            "iDo_S45-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E1",
+          "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "lifecycle",
+            "backup",
+            "iDo_S45-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E2",
+          "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "lifecycle",
+            "backup",
+            "iDo_S45-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E3",
+          "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "lifecycle",
+            "backup",
+            "iDo_S45-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E1",
+          "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\n",
+          "note": "",
+          "concepts_used": [
+            "queue",
+            "delivery",
+            "iDo_S45-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E2",
+          "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\n",
+          "note": "",
+          "concepts_used": [
+            "queue",
+            "delivery",
+            "iDo_S45-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E3",
+          "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\n",
+          "note": "",
+          "concepts_used": [
+            "queue",
+            "delivery",
+            "iDo_S45-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E1",
+          "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\n",
+          "note": "",
+          "concepts_used": [
+            "dlq",
+            "dedup",
+            "iDo_S45-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E2",
+          "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\n",
+          "note": "",
+          "concepts_used": [
+            "dlq",
+            "dedup",
+            "iDo_S45-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E3",
+          "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\n",
+          "note": "",
+          "concepts_used": [
+            "dlq",
+            "dedup",
+            "iDo_S45-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E1",
+          "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "autoscale",
+            "private",
+            "iDo_S45-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E2",
+          "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "autoscale",
+            "private",
+            "iDo_S45-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E3",
+          "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "autoscale",
+            "private",
+            "iDo_S45-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E1",
+          "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")\n",
+          "note": "",
+          "concepts_used": [
+            "iam",
+            "egress",
+            "iDo_S45-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E2",
+          "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")\n",
+          "note": "",
+          "concepts_used": [
+            "iam",
+            "egress",
+            "iDo_S45-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E3",
+          "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")\n",
+          "note": "",
+          "concepts_used": [
+            "iam",
+            "egress",
+            "iDo_S45-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E1",
+          "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "iac",
+            "envs",
+            "iDo_S45-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E2",
+          "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "iac",
+            "envs",
+            "iDo_S45-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E3",
+          "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "iac",
+            "envs",
+            "iDo_S45-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E1",
+          "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "cost",
+            "recovery",
+            "iDo_S45-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E2",
+          "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "cost",
+            "recovery",
+            "iDo_S45-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E3",
+          "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "cost",
+            "recovery",
+            "iDo_S45-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S45-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blob s3_like\nsql jobs_table\ncache redis_like\n",
+          "expected_head": "blob s3_like\nsql jobs_table\ncache redis_like",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blob s3_like\nsql jobs_table\ncache redis_like\n",
+          "expected_head": "blob s3_like\nsql jobs_table\ncache redis_like",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blob s3_like\nsql jobs_table\ncache redis_like\n",
+          "expected_head": "blob s3_like\nsql jobs_table\ncache redis_like",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lifecycle True\nbackup daily\nrestore_tested True\n",
+          "expected_head": "lifecycle True\nbackup daily\nrestore_tested True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lifecycle True\nbackup daily\nrestore_tested True\n",
+          "expected_head": "lifecycle True\nbackup daily\nrestore_tested True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lifecycle True\nbackup daily\nrestore_tested True\n",
+          "expected_head": "lifecycle True\nbackup daily\nrestore_tested True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queue jobs\nevent job.finished\ndelivery at_least_once\n",
+          "expected_head": "queue jobs\nevent job.finished\ndelivery at_least_once",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queue jobs\nevent job.finished\ndelivery at_least_once\n",
+          "expected_head": "queue jobs\nevent job.finished\ndelivery at_least_once",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queue jobs\nevent job.finished\ndelivery at_least_once\n",
+          "expected_head": "queue jobs\nevent job.finished\ndelivery at_least_once",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "order per_partition\ndlq True\ndedup_store redis_or_db\n",
+          "expected_head": "order per_partition\ndlq True\ndedup_store redis_or_db",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "order per_partition\ndlq True\ndedup_store redis_or_db\n",
+          "expected_head": "order per_partition\ndlq True\ndedup_store redis_or_db",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "order per_partition\ndlq True\ndedup_store redis_or_db\n",
+          "expected_head": "order per_partition\ndlq True\ndedup_store redis_or_db",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scale_on lag\nprivate True\napi_edge True\n",
+          "expected_head": "scale_on lag\nprivate True\napi_edge True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scale_on lag\nprivate True\napi_edge True\n",
+          "expected_head": "scale_on lag\nprivate True\napi_edge True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scale_on lag\nprivate True\napi_edge True\n",
+          "expected_head": "scale_on lag\nprivate True\napi_edge True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist\n",
+          "expected_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist\n",
+          "expected_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist\n",
+          "expected_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env_parity True\nconfig_as_code True\ndrift_detect True\n",
+          "expected_head": "env_parity True\nconfig_as_code True\ndrift_detect True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env_parity True\nconfig_as_code True\ndrift_detect True\n",
+          "expected_head": "env_parity True\nconfig_as_code True\ndrift_detect True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env_parity True\nconfig_as_code True\ndrift_detect True\n",
+          "expected_head": "env_parity True\nconfig_as_code True\ndrift_detect True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "quota True\ncost_alert 0.8\nrecovery_drill True\n",
+          "expected_head": "quota True\ncost_alert 0.8\nrecovery_drill True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "quota True\ncost_alert 0.8\nrecovery_drill True\n",
+          "expected_head": "quota True\ncost_alert 0.8\nrecovery_drill True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "quota True\ncost_alert 0.8\nrecovery_drill True\n",
+          "expected_head": "quota True\ncost_alert 0.8\nrecovery_drill True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S45-T1-A-E1",
+          "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E2",
+          "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E3",
+          "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E1",
+          "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E2",
+          "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E3",
+          "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E1",
+          "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E2",
+          "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E3",
+          "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E1",
+          "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E2",
+          "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E3",
+          "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E1",
+          "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E2",
+          "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E3",
+          "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E1",
+          "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E2",
+          "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E3",
+          "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E1",
+          "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E2",
+          "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E3",
+          "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E1",
+          "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E2",
+          "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E3",
+          "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S45-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S45-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blob s3_like\nsql jobs_table\ncache redis_like\n",
+          "expected_head": "blob s3_like\nsql jobs_table\ncache redis_like",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blob s3_like\nsql jobs_table\ncache redis_like\n",
+          "expected_head": "blob s3_like\nsql jobs_table\ncache redis_like",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blob s3_like\nsql jobs_table\ncache redis_like\n",
+          "expected_head": "blob s3_like\nsql jobs_table\ncache redis_like",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lifecycle True\nbackup daily\nrestore_tested True\n",
+          "expected_head": "lifecycle True\nbackup daily\nrestore_tested True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lifecycle True\nbackup daily\nrestore_tested True\n",
+          "expected_head": "lifecycle True\nbackup daily\nrestore_tested True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lifecycle True\nbackup daily\nrestore_tested True\n",
+          "expected_head": "lifecycle True\nbackup daily\nrestore_tested True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queue jobs\nevent job.finished\ndelivery at_least_once\n",
+          "expected_head": "queue jobs\nevent job.finished\ndelivery at_least_once",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queue jobs\nevent job.finished\ndelivery at_least_once\n",
+          "expected_head": "queue jobs\nevent job.finished\ndelivery at_least_once",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queue jobs\nevent job.finished\ndelivery at_least_once\n",
+          "expected_head": "queue jobs\nevent job.finished\ndelivery at_least_once",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "order per_partition\ndlq True\ndedup_store redis_or_db\n",
+          "expected_head": "order per_partition\ndlq True\ndedup_store redis_or_db",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "order per_partition\ndlq True\ndedup_store redis_or_db\n",
+          "expected_head": "order per_partition\ndlq True\ndedup_store redis_or_db",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "order per_partition\ndlq True\ndedup_store redis_or_db\n",
+          "expected_head": "order per_partition\ndlq True\ndedup_store redis_or_db",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scale_on lag\nprivate True\napi_edge True\n",
+          "expected_head": "scale_on lag\nprivate True\napi_edge True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scale_on lag\nprivate True\napi_edge True\n",
+          "expected_head": "scale_on lag\nprivate True\napi_edge True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scale_on lag\nprivate True\napi_edge True\n",
+          "expected_head": "scale_on lag\nprivate True\napi_edge True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist\n",
+          "expected_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist\n",
+          "expected_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist\n",
+          "expected_head": "least_privilege True\nno_0_0_0_0_admin True\negress allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env_parity True\nconfig_as_code True\ndrift_detect True\n",
+          "expected_head": "env_parity True\nconfig_as_code True\ndrift_detect True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env_parity True\nconfig_as_code True\ndrift_detect True\n",
+          "expected_head": "env_parity True\nconfig_as_code True\ndrift_detect True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env_parity True\nconfig_as_code True\ndrift_detect True\n",
+          "expected_head": "env_parity True\nconfig_as_code True\ndrift_detect True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "quota True\ncost_alert 0.8\nrecovery_drill True\n",
+          "expected_head": "quota True\ncost_alert 0.8\nrecovery_drill True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "quota True\ncost_alert 0.8\nrecovery_drill True\n",
+          "expected_head": "quota True\ncost_alert 0.8\nrecovery_drill True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S45-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "quota True\ncost_alert 0.8\nrecovery_drill True\n",
+          "expected_head": "quota True\ncost_alert 0.8\nrecovery_drill True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

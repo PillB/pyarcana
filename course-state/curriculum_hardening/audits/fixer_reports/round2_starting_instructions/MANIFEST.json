@@ -1,0 +1,418 @@
+{
+  "1": {
+    "nn": "01",
+    "title": "Entorno reproducible y trabajo seguro",
+    "file": "s01-setup.ts",
+    "id": "setup",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S01_STARTING_INSTRUCTION.md",
+    "bytes": 33646
+  },
+  "2": {
+    "nn": "02",
+    "title": "Valores, tipos, operadores e I/O",
+    "file": "s02-basics.ts",
+    "id": "basics",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S02_STARTING_INSTRUCTION.md",
+    "bytes": 33640
+  },
+  "3": {
+    "nn": "03",
+    "title": "Decisiones y reglas de validación",
+    "file": "s03-data-structures.ts",
+    "id": "data-structures",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S03_STARTING_INSTRUCTION.md",
+    "bytes": 33680
+  },
+  "4": {
+    "nn": "04",
+    "title": "Iteración y resúmenes transaccionales",
+    "file": "s04-functions-modules.ts",
+    "id": "functions-modules",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S04_STARTING_INSTRUCTION.md",
+    "bytes": 33698
+  },
+  "5": {
+    "nn": "05",
+    "title": "Funciones, contratos y descomposición",
+    "file": "s05-oop.ts",
+    "id": "oop",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S05_STARTING_INSTRUCTION.md",
+    "bytes": 33640
+  },
+  "6": {
+    "nn": "06",
+    "title": "Colecciones y estructuras de datos",
+    "file": "s06-numpy.ts",
+    "id": "numpy",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S06_STARTING_INSTRUCTION.md",
+    "bytes": 33640
+  },
+  "7": {
+    "nn": "07",
+    "title": "Texto, Unicode y expresiones regulares",
+    "file": "s07-data-acquisition.ts",
+    "id": "data-acquisition",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S07_STARTING_INSTRUCTION.md",
+    "bytes": 33692
+  },
+  "8": {
+    "nn": "08",
+    "title": "Archivos, CSV, JSON y contratos de ingesta",
+    "file": "s08-pandas.ts",
+    "id": "pandas",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S08_STARTING_INSTRUCTION.md",
+    "bytes": 33660
+  },
+  "9": {
+    "nn": "09",
+    "title": "Excepciones, debugging y logging seguro",
+    "file": "s09-visualization.ts",
+    "id": "visualization",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S09_STARTING_INSTRUCTION.md",
+    "bytes": 33682
+  },
+  "10": {
+    "nn": "10",
+    "title": "Módulos, packaging y CLI profesional",
+    "file": "s10-sklearn.ts",
+    "id": "sklearn",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S10_STARTING_INSTRUCTION.md",
+    "bytes": 33676
+  },
+  "11": {
+    "nn": "11",
+    "title": "OOP y modelo de dominio",
+    "file": "s11-testing.ts",
+    "id": "testing",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S11_STARTING_INSTRUCTION.md",
+    "bytes": 33648
+  },
+  "12": {
+    "nn": "12",
+    "title": "APIs, SQL y geodatos responsables",
+    "file": "s12-performance.ts",
+    "id": "performance",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S12_STARTING_INSTRUCTION.md",
+    "bytes": 33684
+  },
+  "13": {
+    "nn": "13",
+    "title": "Familiarity Evidence Dashboard y cierre de nivel",
+    "file": "s13-rpa-automation.ts",
+    "id": "rpa-automation",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S13_STARTING_INSTRUCTION.md",
+    "bytes": 33726
+  },
+  "14": {
+    "nn": "14",
+    "title": "NumPy y cómputo vectorizado",
+    "file": "s14-security.ts",
+    "id": "security",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S14_STARTING_INSTRUCTION.md",
+    "bytes": 33662
+  },
+  "15": {
+    "nn": "15",
+    "title": "Pandas: ingesta, selección y tipos",
+    "file": "s15-stdlib-deep.ts",
+    "id": "stdlib-deep",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S15_STARTING_INSTRUCTION.md",
+    "bytes": 33688
+  },
+  "16": {
+    "nn": "16",
+    "title": "Calidad, limpieza y contratos de datos",
+    "file": "s16-wxpython-gui.ts",
+    "id": "wxpython-gui",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S16_STARTING_INSTRUCTION.md",
+    "bytes": 33698
+  },
+  "17": {
+    "nn": "17",
+    "title": "Joins, reshape, groupby y cierre analítico",
+    "file": "s17-packaging.ts",
+    "id": "packaging",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S17_STARTING_INSTRUCTION.md",
+    "bytes": 33696
+  },
+  "18": {
+    "nn": "18",
+    "title": "EDA, estadística descriptiva e incertidumbre",
+    "file": "s18-data-engineering.ts",
+    "id": "data-engineering",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S18_STARTING_INSTRUCTION.md",
+    "bytes": 33728
+  },
+  "19": {
+    "nn": "19",
+    "title": "Visualización y comunicación accesible",
+    "file": "s19-databases-orm.ts",
+    "id": "databases-orm",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S19_STARTING_INSTRUCTION.md",
+    "bytes": 33706
+  },
+  "20": {
+    "nn": "20",
+    "title": "Automatización robusta de Excel",
+    "file": "s20-rag.ts",
+    "id": "rag",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S20_STARTING_INSTRUCTION.md",
+    "bytes": 33650
+  },
+  "21": {
+    "nn": "21",
+    "title": "Documentos, plantillas y reportes trazables",
+    "file": "s21-fastapi.ts",
+    "id": "fastapi",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S21_STARTING_INSTRUCTION.md",
+    "bytes": 33688
+  },
+  "22": {
+    "nn": "22",
+    "title": "Email, identidad y aprobación humana",
+    "file": "s22-rapidfuzz-entity.ts",
+    "id": "rapidfuzz-entity",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S22_STARTING_INSTRUCTION.md",
+    "bytes": 33712
+  },
+  "23": {
+    "nn": "23",
+    "title": "Browser RPA con Playwright",
+    "file": "s23-computer-vision.ts",
+    "id": "computer-vision",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S23_STARTING_INSTRUCTION.md",
+    "bytes": 33686
+  },
+  "24": {
+    "nn": "24",
+    "title": "OCR y Document AI",
+    "file": "s24-rpa-advanced.ts",
+    "id": "rpa-advanced",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S24_STARTING_INSTRUCTION.md",
+    "bytes": 33656
+  },
+  "25": {
+    "nn": "25",
+    "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "file": "s25-streamlit-dashboards.ts",
+    "id": "streamlit-dashboards",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S25_STARTING_INSTRUCTION.md",
+    "bytes": 33754
+  },
+  "26": {
+    "nn": "26",
+    "title": "Orquestación y VP RPA + AI Analyst",
+    "file": "s26-integrator-phase1.ts",
+    "id": "integrator-phase1",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S26_STARTING_INSTRUCTION.md",
+    "bytes": 33712
+  },
+  "27": {
+    "nn": "27",
+    "title": "Estrategia de pruebas con pytest",
+    "file": "s27-async-concurrency.ts",
+    "id": "async-concurrency",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S27_STARTING_INSTRUCTION.md",
+    "bytes": 33706
+  },
+  "28": {
+    "nn": "28",
+    "title": "Pruebas de datos, propiedades e integración",
+    "file": "s28-llm-agents.ts",
+    "id": "llm-agents",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S28_STARTING_INSTRUCTION.md",
+    "bytes": 33702
+  },
+  "29": {
+    "nn": "29",
+    "title": "SQL avanzado y modelado relacional",
+    "file": "s29-mlops.ts",
+    "id": "mlops",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S29_STARTING_INSTRUCTION.md",
+    "bytes": 33662
+  },
+  "30": {
+    "nn": "30",
+    "title": "Entity resolution probabilístico",
+    "file": "s30-security-infra.ts",
+    "id": "security-infra",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S30_STARTING_INSTRUCTION.md",
+    "bytes": 33696
+  },
+  "31": {
+    "nn": "31",
+    "title": "Grafos y evidencia relacional",
+    "file": "s31-streaming-data.ts",
+    "id": "streaming-data",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S31_STARTING_INSTRUCTION.md",
+    "bytes": 33688
+  },
+  "32": {
+    "nn": "32",
+    "title": "Feature engineering y pipelines sin leakage",
+    "file": "s32-microservices.ts",
+    "id": "microservices",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S32_STARTING_INSTRUCTION.md",
+    "bytes": 33712
+  },
+  "33": {
+    "nn": "33",
+    "title": "ML supervisado y baselines responsables",
+    "file": "s33-advanced-models.ts",
+    "id": "advanced-models",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S33_STARTING_INSTRUCTION.md",
+    "bytes": 33712
+  },
+  "34": {
+    "nn": "34",
+    "title": "Métricas, desbalance, calibración y umbrales",
+    "file": "s34-cv-ai-integration.ts",
+    "id": "cv-ai-integration",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S34_STARTING_INSTRUCTION.md",
+    "bytes": 33734
+  },
+  "35": {
+    "nn": "35",
+    "title": "Explicabilidad, equidad e incertidumbre",
+    "file": "s35-system-design.ts",
+    "id": "system-design",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S35_STARTING_INSTRUCTION.md",
+    "bytes": 33704
+  },
+  "36": {
+    "nn": "36",
+    "title": "Clustering, anomalías y validación temporal",
+    "file": "s36-ai-apis-advanced.ts",
+    "id": "ai-apis-advanced",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S36_STARTING_INSTRUCTION.md",
+    "bytes": 33728
+  },
+  "37": {
+    "nn": "37",
+    "title": "Profiling, algoritmos y rendimiento",
+    "file": "s37-dbt-bigquery.ts",
+    "id": "dbt-bigquery",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S37_STARTING_INSTRUCTION.md",
+    "bytes": 33692
+  },
+  "38": {
+    "nn": "38",
+    "title": "Concurrencia, observabilidad y workflows resilientes",
+    "file": "s38-performance-extreme.ts",
+    "id": "performance-extreme",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S38_STARTING_INSTRUCTION.md",
+    "bytes": 33754
+  },
+  "39": {
+    "nn": "39",
+    "title": "Responsible ML Case Triage y cierre de nivel",
+    "file": "s39-integrator-phase2.ts",
+    "id": "integrator-phase2",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S39_STARTING_INSTRUCTION.md",
+    "bytes": 33730
+  },
+  "40": {
+    "nn": "40",
+    "title": "Arquitectura, DDD y decisiones técnicas",
+    "file": "s40-agentic-architecture.ts",
+    "id": "agentic-architecture",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S40_STARTING_INSTRUCTION.md",
+    "bytes": 33734
+  },
+  "41": {
+    "nn": "41",
+    "title": "APIs con FastAPI y contratos HTTP",
+    "file": "s41-llm-finetuning.ts",
+    "id": "llm-finetuning",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S41_STARTING_INSTRUCTION.md",
+    "bytes": 33696
+  },
+  "42": {
+    "nn": "42",
+    "title": "Schemas, seguridad y privacidad de servicios",
+    "file": "s42-graph-rag.ts",
+    "id": "graph-rag",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S42_STARTING_INSTRUCTION.md",
+    "bytes": 33698
+  },
+  "43": {
+    "nn": "43",
+    "title": "Contenedores y reproducibilidad operativa",
+    "file": "s43-llmops.ts",
+    "id": "llmops",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S43_STARTING_INSTRUCTION.md",
+    "bytes": 33680
+  },
+  "44": {
+    "nn": "44",
+    "title": "CI/CD y seguridad de la cadena de suministro",
+    "file": "s44-multimodal.ts",
+    "id": "multimodal",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S44_STARTING_INSTRUCTION.md",
+    "bytes": 33702
+  },
+  "45": {
+    "nn": "45",
+    "title": "Cloud, almacenamiento, colas e infraestructura",
+    "file": "s45-iac.ts",
+    "id": "iac",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S45_STARTING_INSTRUCTION.md",
+    "bytes": 33678
+  },
+  "46": {
+    "nn": "46",
+    "title": "Ingeniería de datos y orquestación de producción",
+    "file": "s46-gpu-computing.ts",
+    "id": "gpu-computing",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S46_STARTING_INSTRUCTION.md",
+    "bytes": 33728
+  },
+  "47": {
+    "nn": "47",
+    "title": "MLOps: experimentos, registro y serving",
+    "file": "s47-opensource.ts",
+    "id": "opensource",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S47_STARTING_INSTRUCTION.md",
+    "bytes": 33692
+  },
+  "48": {
+    "nn": "48",
+    "title": "LLM applications y RAG con evidencia",
+    "file": "s48-ai-governance.ts",
+    "id": "ai-governance",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S48_STARTING_INSTRUCTION.md",
+    "bytes": 33698
+  },
+  "49": {
+    "nn": "49",
+    "title": "Agentes, herramientas y context engineering",
+    "file": "s49-data-contracts.ts",
+    "id": "data-contracts",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S49_STARTING_INSTRUCTION.md",
+    "bytes": 33716
+  },
+  "50": {
+    "nn": "50",
+    "title": "Evals, red teaming y fiabilidad de IA",
+    "file": "s50-tech-leadership.ts",
+    "id": "tech-leadership",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S50_STARTING_INSTRUCTION.md",
+    "bytes": 33708
+  },
+  "51": {
+    "nn": "51",
+    "title": "Observabilidad, gobernanza y UX del copiloto",
+    "file": "s51-integrator-final.ts",
+    "id": "integrator-final",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S51_STARTING_INSTRUCTION.md",
+    "bytes": 33726
+  },
+  "52": {
+    "nn": "52",
+    "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+    "file": "s52-career-strategy.ts",
+    "id": "career-strategy",
+    "instruction": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2_starting_instructions/S52_STARTING_INSTRUCTION.md",
+    "bytes": 33782
+  }
+}

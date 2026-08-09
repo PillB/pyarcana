@@ -1,0 +1,456 @@
+{
+  "index": 4,
+  "id": "functions-modules",
+  "title": "Iteración y resúmenes transaccionales",
+  "file": "s04-functions-modules.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)",
+      "len": 69
+    },
+    {
+      "i": 1,
+      "text": "En V3, S04 no es el path principal de decorators, pathlib packaging ni datetime avanzado. Esos temas viven en S10 (módulos/CLI) y otras secciones. Aquí el estudiante domina lo que el cierre de CP-N1-A necesita: recorrer múltiples registros, acumular contadores, evitar loops infinitos y reportar tasas con denominadores correctos.",
+      "len": 330
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un script de intake por lotes: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por stdout un resumen y conserva el original de cada fila. Datos ficticios únicamente (example.com, teléfonos inventados). Nunca subas PII real al repo.",
+      "len": 329
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Recorrido (for/range → enumerate/zip) → T2 Repetición (while/centinelas → break/continue) → T3 Patrones (contadores/acumuladores → comprehensions) → T4 Razonamiento (trazado de estado → costo y off-by-one).",
+      "len": 227
+    },
+    {
+      "i": 5,
+      "text": "El bucle for x in secuencia: recorre cada elemento una vez, en orden. No necesitas un índice si solo te importa el valor. Las secuencias típicas de intake son: listas de registros (dicts), líneas de texto y range(n) cuando quieres un contador 0..n-1.",
+      "len": 250
+    },
+    {
+      "i": 6,
+      "text": "range(stop), range(start, stop), range(start, stop, step) producen enteros sin materializar una lista gigante. El stop es exclusivo: range(3) → 0,1,2. Eso evita el off-by-one clásico al numerar N filas.",
+      "len": 202
+    },
+    {
+      "i": 7,
+      "text": "En lotes de clientes sintéticos, el patrón base es for registro in filas: y dentro llamar a validate_record. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista.",
+      "len": 211
+    },
+    {
+      "i": 8,
+      "text": "enumerate y zip sin desalinear",
+      "len": 30
+    },
+    {
+      "i": 9,
+      "text": "enumerate(seq, start=0) te da (índice, valor) sin armar el índice a mano. Ideal para reportes “fila 1, fila 2…” (usa start=1 para humanos) y para localizar el registro que falló en un lote.",
+      "len": 189
+    },
+    {
+      "i": 10,
+      "text": "zip(a, b) empareja elementos en paralelo. Se detiene en la secuencia más corta. Si nombres tiene 3 y edades tiene 2, el tercer nombre desaparece en silencio — un bug de calidad de datos. En Python 3.10+ existe zip(..., strict=True); en cualquier versión puedes validar len(a)==len(b) antes de zipear (helper zip_strict en el demo).",
+      "len": 331
+    },
+    {
+      "i": 11,
+      "text": "Nunca asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline.",
+      "len": 116
+    },
+    {
+      "i": 12,
+      "text": "while, centinelas y terminación",
+      "len": 31
+    },
+    {
+      "i": 13,
+      "text": "while condicion: repite mientras la condición sea verdadera. Úsalo cuando no sabes de antemano cuántas iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar un stream.",
+      "len": 191
+    },
+    {
+      "i": 14,
+      "text": "Un centinela es un valor especial que marca el fin (p. ej. \"\", None, \"END\"). El bucle debe actualizar el estado en cada vuelta; si la condición nunca se vuelve falsa, tienes un loop infinito.",
+      "len": 191
+    },
+    {
+      "i": 15,
+      "text": "En demos de browser no usamos input() interactivo real; simulamos un buffer de líneas. El patrón es el mismo: leer siguiente, chequear centinela, procesar.",
+      "len": 155
+    },
+    {
+      "i": 16,
+      "text": "break, continue y prevención de loops infinitos",
+      "len": 47
+    },
+    {
+      "i": 17,
+      "text": "break sale del bucle actual de inmediato. continue salta al siguiente ciclo sin ejecutar el resto del cuerpo. En intake: continue para saltar filas vacías; break al encontrar un centinela o un error fatal de configuración.",
+      "len": 222
+    },
+    {
+      "i": 18,
+      "text": "Prevención de infinito: (1) actualiza la variable de control, (2) pon un máximo de iteraciones en prototipos (MAX = 10_000), (3) evita while True sin break garantizado, (4) no hagas i = i por error tipográfico.",
+      "len": 210
+    },
+    {
+      "i": 19,
+      "text": "Un while True con break en el centinela es legítimo si el break es obvio y testeado. Documenta la condición de salida.",
+      "len": 118
+    },
+    {
+      "i": 20,
+      "text": "Contadores, acumuladores y búsqueda",
+      "len": 35
+    },
+    {
+      "i": 21,
+      "text": "Un contador suma 1 por evento (n_reject += 1). Un acumulador suma cantidades (total_monto += m). Una búsqueda recorre hasta hallar (o no) un elemento y a menudo usa break o un flag.",
+      "len": 181
+    },
+    {
+      "i": 22,
+      "text": "Para tasas del gate CP-N1-A: tasa_error = n_error / n_total solo si n_total > 0. El denominador es el número de registros intentados, no solo los aceptados. Si no hay filas, reporta None o “N/A”, no dividas por cero.",
+      "len": 216
+    },
+    {
+      "i": 23,
+      "text": "Buscar el primer reject es O(n); contar todos también es O(n). No anides dos bucles sobre el mismo lote “por si acaso” sin necesidad.",
+      "len": 133
+    },
+    {
+      "i": 25,
+      "text": "Una ⟦TERM:list⟧list comprehension⟦/TERM⟧ [expr for x in xs if cond] construye una lista en una línea. Es idiomática cuando la transformación es simple. Si hay validación multi-rama o side effects (prints, I/O), usa un for explícito.",
+      "len": 232
+    },
+    {
+      "i": 26,
+      "text": "También existen dict y set comprehensions: {k: v for ...}, {x for ...}. No anides comprehensions de tres niveles “porque cabe”: la legibilidad del revisor manda.",
+      "len": 161
+    },
+    {
+      "i": 27,
+      "text": "En el resumen de intake, es útil: rejects = [r for r in results if r['status']=='reject']. El conteo sigue siendo len(rejects) con denominador len(results).",
+      "len": 156
+    },
+    {
+      "i": 29,
+      "text": "Trazar estado es escribir (o imaginar) una tabla: iteración | variables | salida. Es la herramienta #1 para depurar off-by-one y contadores mal actualizados.",
+      "len": 157
+    },
+    {
+      "i": 30,
+      "text": "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “Python raro”.",
+      "len": 193
+    },
+    {
+      "i": 31,
+      "text": "En demos usamos print de depuración con prefijo TRACE. En producción preferirás logging (S09); aquí el objetivo es razonar el bucle.",
+      "len": 132
+    },
+    {
+      "i": 32,
+      "text": "Costo lineal/cuadrático y off-by-one",
+      "len": 36
+    },
+    {
+      "i": 33,
+      "text": "Un solo for sobre n filas es O(n) (lineal). Dos bucles anidados sobre el mismo lote (for a in xs: for b in xs:) es O(n²) (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”.",
+      "len": 195
+    },
+    {
+      "i": 34,
+      "text": "Off-by-one: range(len(xs)) es correcto para índices 0..n-1; range(1, len(xs)) se salta el primero; range(len(xs)+1) explota con IndexError. Fronteras inclusivas/exclusivas en filtros (>= vs >) también son off-by-one de negocio.",
+      "len": 227
+    },
+    {
+      "i": 35,
+      "text": "Para el gate: cuenta registros con un contador O(n); no recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo i y len.",
+      "len": 138
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 69,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)",
+      "text": "De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 330,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S04 no es el path principal de decorators, pathlib packaging ni datetime avanzado. Esos temas viven en S10 (módulos/CLI) y otras secciones. Aquí el estudiante domina lo que ",
+      "text": "En V3, S04 no es el path principal de decorators, pathlib packaging ni datetime avanzado. Esos temas viven en S10 (módulos/CLI) y otras secciones. Aquí el estudiante domina lo que el cierre de CP-N1-A necesita: recorrer múltiples registros, acumular contadores, evitar loops infinitos y reportar tasas con denominadores correctos."
+    },
+    {
+      "i": 2,
+      "len": 329,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un script de intake por lotes: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por",
+      "text": "El hilo conductor es un script de intake por lotes: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por stdout un resumen y conserva el original de cada fila. Datos ficticios únicamente (example.com, teléfonos inventados). Nunca subas PII real al repo."
+    },
+    {
+      "i": 3,
+      "len": 227,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Recorrido (for/range → enumerate/zip) → T2 Repetición (while/centinelas → break/continue) → T3 Patrones (contadores/acumuladores → comprehensions) → T4 Razonam",
+      "text": "Orden pedagógico: T1 Recorrido (for/range → enumerate/zip) → T2 Repetición (while/centinelas → break/continue) → T3 Patrones (contadores/acumuladores → comprehensions) → T4 Razonamiento (trazado de estado → costo y off-by-one)."
+    },
+    {
+      "i": 5,
+      "len": 250,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El bucle for x in secuencia: recorre cada elemento una vez, en orden. No necesitas un índice si solo te importa el valor. Las secuencias típicas de intake son: listas de registros ",
+      "text": "El bucle for x in secuencia: recorre cada elemento una vez, en orden. No necesitas un índice si solo te importa el valor. Las secuencias típicas de intake son: listas de registros (dicts), líneas de texto y range(n) cuando quieres un contador 0..n-1."
+    },
+    {
+      "i": 6,
+      "len": 202,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "range(stop), range(start, stop), range(start, stop, step) producen enteros sin materializar una lista gigante. El stop es exclusivo: range(3) → 0,1,2. Eso evita el off-by-one clási",
+      "text": "range(stop), range(start, stop), range(start, stop, step) producen enteros sin materializar una lista gigante. El stop es exclusivo: range(3) → 0,1,2. Eso evita el off-by-one clásico al numerar N filas."
+    },
+    {
+      "i": 7,
+      "len": 211,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En lotes de clientes sintéticos, el patrón base es for registro in filas: y dentro llamar a validate_record. No mutes la lista mientras la recorres salvo que sepas lo que haces; ac",
+      "text": "En lotes de clientes sintéticos, el patrón base es for registro in filas: y dentro llamar a validate_record. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista."
+    },
+    {
+      "i": 8,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "enumerate y zip sin desalinear",
+      "text": "enumerate y zip sin desalinear"
+    },
+    {
+      "i": 9,
+      "len": 189,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "enumerate(seq, start=0) te da (índice, valor) sin armar el índice a mano. Ideal para reportes “fila 1, fila 2…” (usa start=1 para humanos) y para localizar el registro que falló en",
+      "text": "enumerate(seq, start=0) te da (índice, valor) sin armar el índice a mano. Ideal para reportes “fila 1, fila 2…” (usa start=1 para humanos) y para localizar el registro que falló en un lote."
+    },
+    {
+      "i": 10,
+      "len": 331,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "zip(a, b) empareja elementos en paralelo. Se detiene en la secuencia más corta. Si nombres tiene 3 y edades tiene 2, el tercer nombre desaparece en silencio — un bug de calidad de ",
+      "text": "zip(a, b) empareja elementos en paralelo. Se detiene en la secuencia más corta. Si nombres tiene 3 y edades tiene 2, el tercer nombre desaparece en silencio — un bug de calidad de datos. En Python 3.10+ existe zip(..., strict=True); en cualquier versión puedes validar len(a)==len(b) antes de zipear (helper zip_strict en el demo)."
+    },
+    {
+      "i": 11,
+      "len": 116,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Nunca asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline.",
+      "text": "Nunca asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline."
+    },
+    {
+      "i": 12,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "while, centinelas y terminación",
+      "text": "while, centinelas y terminación"
+    },
+    {
+      "i": 13,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "while condicion: repite mientras la condición sea verdadera. Úsalo cuando no sabes de antemano cuántas iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar",
+      "text": "while condicion: repite mientras la condición sea verdadera. Úsalo cuando no sabes de antemano cuántas iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar un stream."
+    },
+    {
+      "i": 14,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un centinela es un valor especial que marca el fin (p. ej. \"\", None, \"END\"). El bucle debe actualizar el estado en cada vuelta; si la condición nunca se vuelve falsa, tienes un loo",
+      "text": "Un centinela es un valor especial que marca el fin (p. ej. \"\", None, \"END\"). El bucle debe actualizar el estado en cada vuelta; si la condición nunca se vuelve falsa, tienes un loop infinito."
+    },
+    {
+      "i": 15,
+      "len": 155,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En demos de browser no usamos input() interactivo real; simulamos un buffer de líneas. El patrón es el mismo: leer siguiente, chequear centinela, procesar.",
+      "text": "En demos de browser no usamos input() interactivo real; simulamos un buffer de líneas. El patrón es el mismo: leer siguiente, chequear centinela, procesar."
+    },
+    {
+      "i": 16,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "break, continue y prevención de loops infinitos",
+      "text": "break, continue y prevención de loops infinitos"
+    },
+    {
+      "i": 17,
+      "len": 222,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "break sale del bucle actual de inmediato. continue salta al siguiente ciclo sin ejecutar el resto del cuerpo. En intake: continue para saltar filas vacías; break al encontrar un ce",
+      "text": "break sale del bucle actual de inmediato. continue salta al siguiente ciclo sin ejecutar el resto del cuerpo. En intake: continue para saltar filas vacías; break al encontrar un centinela o un error fatal de configuración."
+    },
+    {
+      "i": 18,
+      "len": 210,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prevención de infinito: (1) actualiza la variable de control, (2) pon un máximo de iteraciones en prototipos (MAX = 10_000), (3) evita while True sin break garantizado, (4) no haga",
+      "text": "Prevención de infinito: (1) actualiza la variable de control, (2) pon un máximo de iteraciones en prototipos (MAX = 10_000), (3) evita while True sin break garantizado, (4) no hagas i = i por error tipográfico."
+    },
+    {
+      "i": 19,
+      "len": 118,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un while True con break en el centinela es legítimo si el break es obvio y testeado. Documenta la condición de salida.",
+      "text": "Un while True con break en el centinela es legítimo si el break es obvio y testeado. Documenta la condición de salida."
+    },
+    {
+      "i": 20,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Contadores, acumuladores y búsqueda",
+      "text": "Contadores, acumuladores y búsqueda"
+    },
+    {
+      "i": 21,
+      "len": 181,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un contador suma 1 por evento (n_reject += 1). Un acumulador suma cantidades (total_monto += m). Una búsqueda recorre hasta hallar (o no) un elemento y a menudo usa break o un flag",
+      "text": "Un contador suma 1 por evento (n_reject += 1). Un acumulador suma cantidades (total_monto += m). Una búsqueda recorre hasta hallar (o no) un elemento y a menudo usa break o un flag."
+    },
+    {
+      "i": 22,
+      "len": 216,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para tasas del gate CP-N1-A: tasa_error = n_error / n_total solo si n_total > 0. El denominador es el número de registros intentados, no solo los aceptados. Si no hay filas, report",
+      "text": "Para tasas del gate CP-N1-A: tasa_error = n_error / n_total solo si n_total > 0. El denominador es el número de registros intentados, no solo los aceptados. Si no hay filas, reporta None o “N/A”, no dividas por cero."
+    },
+    {
+      "i": 23,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Buscar el primer reject es O(n); contar todos también es O(n). No anides dos bucles sobre el mismo lote “por si acaso” sin necesidad.",
+      "text": "Buscar el primer reject es O(n); contar todos también es O(n). No anides dos bucles sobre el mismo lote “por si acaso” sin necesidad."
+    },
+    {
+      "i": 25,
+      "len": 232,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una ⟦TERM:list⟧list comprehension⟦/TERM⟧ [expr for x in xs if cond] construye una lista en una línea. Es idiomática cuando la transformación es simple. Si hay validación multi-rama",
+      "text": "Una ⟦TERM:list⟧list comprehension⟦/TERM⟧ [expr for x in xs if cond] construye una lista en una línea. Es idiomática cuando la transformación es simple. Si hay validación multi-rama o side effects (prints, I/O), usa un for explícito."
+    },
+    {
+      "i": 26,
+      "len": 161,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "También existen dict y set comprehensions: {k: v for ...}, {x for ...}. No anides comprehensions de tres niveles “porque cabe”: la legibilidad del revisor manda.",
+      "text": "También existen dict y set comprehensions: {k: v for ...}, {x for ...}. No anides comprehensions de tres niveles “porque cabe”: la legibilidad del revisor manda."
+    },
+    {
+      "i": 27,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En el resumen de intake, es útil: rejects = [r for r in results if r['status']=='reject']. El conteo sigue siendo len(rejects) con denominador len(results).",
+      "text": "En el resumen de intake, es útil: rejects = [r for r in results if r['status']=='reject']. El conteo sigue siendo len(rejects) con denominador len(results)."
+    },
+    {
+      "i": 29,
+      "len": 157,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Trazar estado es escribir (o imaginar) una tabla: iteración | variables | salida. Es la herramienta #1 para depurar off-by-one y contadores mal actualizados.",
+      "text": "Trazar estado es escribir (o imaginar) una tabla: iteración | variables | salida. Es la herramienta #1 para depurar off-by-one y contadores mal actualizados."
+    },
+    {
+      "i": 30,
+      "len": 193,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “",
+      "text": "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “Python raro”."
+    },
+    {
+      "i": 31,
+      "len": 132,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En demos usamos print de depuración con prefijo TRACE. En producción preferirás logging (S09); aquí el objetivo es razonar el bucle.",
+      "text": "En demos usamos print de depuración con prefijo TRACE. En producción preferirás logging (S09); aquí el objetivo es razonar el bucle."
+    },
+    {
+      "i": 32,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Costo lineal/cuadrático y off-by-one",
+      "text": "Costo lineal/cuadrático y off-by-one"
+    },
+    {
+      "i": 33,
+      "len": 195,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un solo for sobre n filas es O(n) (lineal). Dos bucles anidados sobre el mismo lote (for a in xs: for b in xs:) es O(n²) (cuadrático). Con 10 filas no se nota; con 100_000, el scri",
+      "text": "Un solo for sobre n filas es O(n) (lineal). Dos bucles anidados sobre el mismo lote (for a in xs: for b in xs:) es O(n²) (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”."
+    },
+    {
+      "i": 34,
+      "len": 227,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Off-by-one: range(len(xs)) es correcto para índices 0..n-1; range(1, len(xs)) se salta el primero; range(len(xs)+1) explota con IndexError. Fronteras inclusivas/exclusivas en filtr",
+      "text": "Off-by-one: range(len(xs)) es correcto para índices 0..n-1; range(1, len(xs)) se salta el primero; range(len(xs)+1) explota con IndexError. Fronteras inclusivas/exclusivas en filtros (>= vs >) también son off-by-one de negocio."
+    },
+    {
+      "i": 35,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para el gate: cuenta registros con un contador O(n); no recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo i y len.",
+      "text": "Para el gate: cuenta registros con un contador O(n); no recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo i y len."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 11746
+}

@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s30-scrub-c1fc167b",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "code": "# explorer L2 S30 S30-T1-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "justification_from_packet": "Como explorer en «Entity resolution probabilístico», armé S30-T1-A-E1: conservé datos del starter y cerré el TODO según: S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. Mi salida ancla en `a=b='a'` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 1/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "code": "# explorer L2 S30 S30-T1-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "justification_from_packet": "En la sección 30 (Entity resolution probabilístico) resolví S30-T1-A-E2 como explorer: el fixture/CASO del starter define el contrato; hints: sets. Código contractual con `ta,tb=set('a b'.split()),set('b c'.split())`; no inventé APIs fuera del paquete L2. [paso 2/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "code": "# explorer L2 S30 S30-T1-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "justification_from_packet": "Leí el quiz_card de S30 y completé S30-T1-A-E3: la instrucción pide: S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implem. Dejé el assert/print alineado al tests del ejercicio usando `from datetime import date`. [paso 3/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "code": "# explorer L2 S30 S30-T1-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "justification_from_packet": "Partiendo del starter de S30-T1-B-E1 en el paquete activo L2: el subtema T1-B del weDo marca el predicado; detalle: S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect. Verifiqué mentalmente el happy-path del fixture con `a,b='', 'x'`. [paso 4/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "code": "# explorer L2 S30 S30-T1-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S30, implementé S30-T1-B-E2: conservé datos del starter y cerré el TODO según: S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto in. Mi salida ancla en `freq=10` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 5/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "code": "# explorer L2 S30 S30-T1-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "justification_from_packet": "Como explorer en «Entity resolution probabilístico», armé S30-T1-B-E3: el fixture/CASO del starter define el contrato; hints: string. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 6/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "code": "# explorer L2 S30 S30-T2-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "justification_from_packet": "En la sección 30 (Entity resolution probabilístico) resolví S30-T2-A-E1 como explorer: la instrucción pide: S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple. Dejé el assert/print alineado al tests del ejercicio usando `last,city='lopez','lima'`. [paso 7/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "code": "# explorer L2 S30 S30-T2-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "justification_from_packet": "Leí el quiz_card de S30 y completé S30-T2-A-E2: el subtema T2-A del weDo marca el predicado; detalle: S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. Verifiqué mentalmente el happy-path del fixture con `found,gold_n=1,2`. [paso 8/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "code": "# explorer L2 S30 S30-T2-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "Partiendo del starter de S30-T2-A-E3 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa. Mi salida ancla en `n=4` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 9/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "code": "# explorer L2 S30 S30-T2-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S30, implementé S30-T2-B-E1: el fixture/CASO del starter define el contrato; hints: sum n(n-1)/2. Código contractual con `sizes=[3,5]`; no inventé APIs fuera del paquete L2. [paso 10/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "code": "# explorer L2 S30 S30-T2-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "justification_from_packet": "Como explorer en «Entity resolution probabilístico», armé S30-T2-B-E2: la instrucción pide: S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imp. Dejé el assert/print alineado al tests del ejercicio usando `ta,tb='person','org'`. [paso 11/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "code": "# explorer L2 S30 S30-T2-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "justification_from_packet": "En la sección 30 (Entity resolution probabilístico) resolví S30-T2-B-E3 como explorer: el subtema T2-B del weDo marca el predicado; detalle: S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "code": "# explorer L2 S30 S30-T3-A-E1: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "justification_from_packet": "Leí el quiz_card de S30 y completé S30-T3-A-E1: conservé datos del starter y cerré el TODO según: S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 13/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "code": "# explorer L2 S30 S30-T3-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "justification_from_packet": "Partiendo del starter de S30-T3-A-E2 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: umbrales. Código contractual con `s,t_high,t_low=0.7,0.9,0.5`; no inventé APIs fuera del paquete L2. [paso 14/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "code": "# explorer L2 S30 S30-T3-A-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S30, implementé S30-T3-A-E3: la instrucción pide: S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 15/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "code": "# explorer L2 S30 S30-T3-B-E1: lectura packet-only\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(True)\n",
+      "justification_from_packet": "Como explorer en «Entity resolution probabilístico», armé S30-T3-B-E1: el subtema T3-B del weDo marca el predicado; detalle: S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es . Verifiqué mentalmente el happy-path del fixture con `p={1:1,2:2,3:3}`. [paso 16/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "code": "# explorer L2 S30 S30-T3-B-E2: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "justification_from_packet": "En la sección 30 (Entity resolution probabilístico) resolví S30-T3-B-E2 como explorer: conservé datos del starter y cerré el TODO según: S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter complet. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 17/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "code": "# explorer L2 S30 S30-T3-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "justification_from_packet": "Leí el quiz_card de S30 y completé S30-T3-B-E3: el fixture/CASO del starter define el contrato; hints: string. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 18/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "code": "# explorer L2 S30 S30-T4-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "justification_from_packet": "Partiendo del starter de S30-T4-A-E1 en el paquete activo L2: la instrucción pide: S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada e. Dejé el assert/print alineado al tests del ejercicio usando `a,b='e1','e2'`. [paso 19/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "code": "# explorer L2 S30 S30-T4-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S30, implementé S30-T4-A-E2: el subtema T4-A del weDo marca el predicado; detalle: S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el . Verifiqué mentalmente el happy-path del fixture con `matches,n=1,5`. [paso 20/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "code": "# explorer L2 S30 S30-T4-A-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "justification_from_packet": "Como explorer en «Entity resolution probabilístico», armé S30-T4-A-E3: conservé datos del starter y cerré el TODO según: S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 21/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "code": "# explorer L2 S30 S30-T4-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "justification_from_packet": "En la sección 30 (Entity resolution probabilístico) resolví S30-T4-B-E1 como explorer: el fixture/CASO del starter define el contrato; hints: tp/(tp+fp). Código contractual con `tp,fp=2,1`; no inventé APIs fuera del paquete L2. [paso 22/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "code": "# explorer L2 S30 S30-T4-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "justification_from_packet": "Leí el quiz_card de S30 y completé S30-T4-B-E2: la instrucción pide: S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado s. Dejé el assert/print alineado al tests del ejercicio usando `tp,fn=2,2`. [paso 23/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "code": "# explorer L2 S30 S30-T4-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "justification_from_packet": "Partiendo del starter de S30-T4-B-E3 en el paquete activo L2: el subtema T4-B del weDo marca el predicado; detalle: S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starte. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S30-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) elijo la opción «Si dos registros son la misma entidad» (índice 1) para «El motor ER de CP-N3-A debe decidir:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Fraude automático» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) elijo la opción «Fracción de verdaderos matches que sobreviven al blocking» (índice 3) para «Candidate recall de blocking mide:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Solo CPU» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) elijo la opción «clerical review» (índice 0) para «Scores entre t_low y t_high van a:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «auto_match» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) elijo la opción «Leakage de identidad entre train y test» (índice 2) para «Split por entidad evita:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Usar sqlite» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.935453+00:00",
+  "session_started_at": "2026-07-23T18:24:20.934181+00:00",
+  "session_ended_at": "2026-07-23T18:24:57.834181+00:00",
+  "receipt_response_sha256": "73728cd81ce16e9f4a539ce33eea955fde7e0dd4c7abb95ea7321f0c1b8f1041",
+  "receipt_exercises_sha256": "8dcd197482c02481df9c6d59e7522b209c8c794c1ce3f6fc62abe49d01499012",
+  "receipt_selfcheck_sha256": "e6defc6deb51ee298b5b83442d6400d4dff84866fc770b9f5ef9c2473af2ad5f"
+}

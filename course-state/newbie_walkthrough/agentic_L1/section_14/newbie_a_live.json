@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s14-63cc74d969",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "La teoría «ndarray, dtype y shape» define dtype como el tipo homogéneo y shape/ndim como la geometría del bloque. Creo flags con dtype=np.uint8 y shape (3, 2) e imprimo los tres atributos para cumplir el contrato uint8 (3, 2) 2."
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "El paquete explica que itemsize es bytes por elemento y nbytes el total del array. Con linspace(0, 1, 5, dtype=float64) cada valor ocupa 8 bytes y 5×8=40; la lista [0.0 … 1.0] confirma el muestreo uniforme de la teoría de creación."
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "code": "import numpy as np\n\ndef validar(arr):\n    if arr.ndim != 1 or arr.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    return f\"ok {arr.size}\"\n\npartes = []\ntry:\n    partes.append(validar(np.array([1.0, 2.0], dtype=np.float64)))\nexcept ValueError as e:\n    partes.append(f\"err {e}\")\ntry:\n    partes.append(validar(np.array([[1.0, 2.0]], dtype=np.float64)))\nexcept ValueError as e:\n    partes.append(f\"err {e}\")\nprint(\" | \".join(partes))\n",
+      "justification_from_packet": "El contrato de entrada del tema pide validar ndim y dtype al recibir un array: 1D float64 es válido (ok + size); una matriz 2D falla con ValueError('expected 1d float64'), alineado con «valida siempre arr.dtype, arr.shape y arr.ndim»."
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n",
+      "justification_from_packet": "En «creación, indexación y máscaras» una máscara booleana score >= umbral filtra posiciones; np.where(mask)[0] devuelve los índices 0-based [1, 3] donde el score supera 0.5, forma idiomática de calidad del paquete."
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n",
+      "justification_from_packet": "La teoría de máscaras muestra ids[mask] para seleccionar clientes bajo umbral. Uso la mediana de scores como corte y scores < med deja C001 y C003, el percentil inferior del fixture sintético C00x."
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "El fancy index a[[i,j,...]] reordena sin loop, como en el demo de score[[0,2]]. Con order=[2,0,3,1] el vector [10,20,30,40] pasa a [30,10,40,20] en una sola indexación vectorizada."
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "code": "import numpy as np\nM = np.array([[1.0, 0.0, 1.0], [1.0, 1.0, 0.0]])\npor_campo = np.round(M.mean(axis=0), 2).tolist()\npor_fila = np.round(M.mean(axis=1), 2).tolist()\nprint(por_campo, \"|\", por_fila)\n",
+      "justification_from_packet": "En ufuncs y reducciones, axis=0 colapsa filas (media por columna) y axis=1 colapsa columnas (media por fila). Redondeo a 2 decimales da [1.0, 0.5, 0.5] y [0.67, 0.67] sobre la matriz de completitud del starter."
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4).tolist())\n",
+      "justification_from_packet": "std es una reducción ufunc sobre el eje de filas: axis=0 agrega por columna con ddof=0 por defecto en NumPy. El resultado redondeado a 4 decimales [0.2055, 0.2625] mide dispersión de cada campo del fixture de scores."
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "code": "import numpy as np\nX = np.array([[1.0, 3.0], [10.0, 20.0], [2.0, 2.0]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 10).tolist())\n",
+      "justification_from_packet": "keepdims=True en mean(axis=1) preserva la dimensión para rebroadcast al restar la media de cada fila, tal como enseña la teoría de reducciones. Tras centrar, la media por fila es ~0: [0.0, 0.0, 0.0]."
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1.0, 2.0, 3.0])\nprint((M + w).tolist())\n",
+      "justification_from_packet": "Broadcasting alinea shapes de derecha a izquierda: (2,3)+(3,) estira el vector de pesos a cada fila. Sumar w a ceros produce [[1,2,3],[1,2,3]] sin bucles, como el demo scores * pesos del subtema."
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n",
+      "justification_from_packet": "newaxis/None inserta un eje de tamaño 1: a[:, None] pasa de (4,) a (4,1) y multiplica por b (3,) → (4,3). El producto exterior da las filas [0,0,0]…[0,3,6] que pide el contrato de compatibilidad de shapes."
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+      "justification_from_packet": "Si las dimensiones no son iguales ni 1, el broadcasting lanza ValueError. (2,3)+(2,4) es el caso clásico de incompatibilidad del paquete; lo capturo e imprimo 'incompatible' como señal de fallo controlado."
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "Un slice simple suele ser view que comparte memoria con el base: mutar vista[0]=9 cambia raw a [9,2,3]. La teoría de views/copies advierte que este es un bug típico en pipelines si no se controla."
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n",
+      "justification_from_packet": "Con .copy() la porción es independiente del original: al poner copia[0]=9, raw permanece [1,2,3] y la copia queda [9,2]. Contrasta con el view del ejercicio anterior, tal como muestra el demo raw_tras_copy."
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n",
+      "justification_from_packet": "flags.writeable controla la mutación del ndarray. Al desactivar escritura, la asignación a[0]=3.0 lanza ValueError; capturo el error e imprimo 'blocked' para documentar el candado de mutabilidad del subtema."
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "np.isnan produce una máscara booleana sobre NaN; sumarla cuenta cuántos faltantes hay. En [1, nan, 2, nan] hay 2 NaN, base del tema de estabilidad numérica antes de usar mean/sum clásicos."
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n",
+      "justification_from_packet": "mean clásico se rompe con NaN; nanmean ignora los faltantes y promedia 1 y 3 → 2.0. El paquete recomienda nansum/nanmean o filtrar con isfinite cuando hay datos sucios en el pipeline."
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "justification_from_packet": "inf también contamina sumas. El demo reemplaza inf por nan con np.where(np.isinf(x), np.nan, x) y luego nansum deja solo 1+2=3.0, patrón de limpieza numérica del subtema NaN/inf."
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns_loop = 0.0\nfor i in range(1000):\n    s_loop += a[i] * b[i]\ns_vec = float((a * b).sum())\nprint(abs(s_loop - s_vec) < 1e-6)\n",
+      "justification_from_packet": "La sección contrapone el loop Python elemento a elemento con la ufunc vectorizada (a*b).sum(). Aquí no mido tiempo: verifico equivalencia numérica abs(diff)<1e-6 → True, como pide el contrato de corrección."
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "justification_from_packet": "Vectorizar suma de cuadrados evita el intérprete por elemento: (a**2).sum() o np.dot(a,a) calcula 0+1+4+9+16=30.0 sobre arange(5), ejemplo mínimo del beneficio de ufuncs frente a loops."
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "code": "import numpy as np\nimport time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nr = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", bool(abs(float(r.mean()) - 1.0) < 1e-12))\n",
+      "justification_from_packet": "El benchmark honesto del paquete usa time.perf_counter alrededor de la operación vectorizada. Aquí a+b con a=0 y b=1 tiene media 1.0; imprimo 'timed True' para combinar medición y corrección sin inventar ratios engañosos."
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "justification_from_packet": "nbytes ≈ itemsize × size: float64 ocupa 8 bytes, 1000 elementos → 8000. Imprimo nbytes y la comparación booleana para anclar la medición de memoria del subtema antes de datasets grandes."
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "code": "import numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+      "justification_from_packet": "allclose compara floats con rtol/atol en lugar de igualdad exacta. Con atol=1e-8 la diferencia 1e-9 entre 1.0 y 1.0+1e-9 se acepta → True, tal como enseña la teoría de tests con tolerancia."
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+      "justification_from_packet": "assert_allclose falla con mensaje claro cuando la diferencia (0.1) supera atol=1e-3. Capturo AssertionError e imprimo 'fail' para documentar el camino de error del contrato de pruebas numéricas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "dtype es el atributo que fija el tipo homogéneo de los elementos (float64, int32, uint8…). shape es la geometría, ndim el número de ejes y base apunta al array dueño de la memoria; la pregunta pide el tipo, así que dtype."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Una máscara booleana a > 0.5 produce bools del mismo shape y a[mask] filtra o selecciona los que cumplen la condición. No cambia dtype ni fuerza copy por sí sola ni aumenta ndim; el uso principal en el paquete es filtrar."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En reducciones 2D, axis=0 colapsa filas y agrega por columna; axis=1 colapsa columnas y agrega por fila. Eso está explícito en el subtema de ufuncs/reducciones y en el demo de completitud_campo = M.mean(axis=0)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Un slice simple suele ser un view que comparte memoria: mutarlo puede mutar el array base. No 'nunca afecta', no convierte a object ni borra dtype; el demo raw_tras_view lo ilustra al poner vista[0]=99."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:39:00.315547+00:00",
+  "session_started_at": "2026-07-23T16:37:50+00:00",
+  "session_ended_at": "2026-07-23T16:38:32.300000+00:00",
+  "receipt_response_sha256": "ceaf86972de66950f493100faa8585a938e263514e8456ba16a48220d3a4485f",
+  "receipt_exercises_sha256": "cc09c0d966004e5b3baf5f1ccf57a74c3d289026383ce4f03b44a8bfb165b774",
+  "receipt_selfcheck_sha256": "8b4674c4958c311fa99ef2865770e9dfbb41a3e834fa7cc36eca02b8aeff79aa"
+}

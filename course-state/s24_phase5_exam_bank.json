@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S24",
+  "section_id": "rpa-advanced",
+  "phase": "PHASE_5",
+  "lane": "LANE-S22-S26-CLOSE",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "rpa-advanced",
+    "title_v3": "OCR y Document AI",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "aplicar-técnicas-anti-detecció",
+    "construir-rpas-resilientes-con",
+    "integrar-ai-en-automatizacione",
+    "orquestar-múltiples-bots-con-p"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S24 (OCR y Document AI).",
+  "families": [
+    {
+      "family_id": "S24-T1-A-EX",
+      "concept": "dpi-deskew-crop-contrast",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T1-B-EX",
+      "concept": "noise-orientation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T2-A-EX",
+      "concept": "langs-layout-confidence",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T2-B-EX",
+      "concept": "text-tables-kv-pairs",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T3-A-EX",
+      "concept": "schema-normalization",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T3-B-EX",
+      "concept": "crossfield-validation-review",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T4-A-EX",
+      "concept": "golden-field-accuracy-coverage",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S24-T4-B-EX",
+      "concept": "privacy-hostile-fallback",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (rpa-advanced key)",
+    "course-state/s24_phase5_exam_bank.json"
+  ]
+}

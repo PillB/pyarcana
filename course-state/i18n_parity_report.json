@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-07-22T17:33:09.212Z",
+  "counts": {
+    "es-PE": 184,
+    "es-ES": 184,
+    "en": 184
+  },
+  "missing": {
+    "es-PE": [],
+    "es-ES": [],
+    "en": []
+  },
+  "ok": true,
+  "hardcoded_chrome_candidates": [],
+  "hardcoded_ok": true
+}

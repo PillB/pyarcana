@@ -1,0 +1,77 @@
+{
+  "n_records": 170,
+  "n_words_total": 3838,
+  "n_sent_total": 290,
+  "wps_avg": 13.95,
+  "spw_avg": 2.01,
+  "fh_avg": 72.0,
+  "inflesz_avg": 67.7,
+  "findings_total": 53,
+  "sev_counts": {
+    "H": 0,
+    "M": 50,
+    "L": 3
+  },
+  "top10_longest_sentences": [
+    {
+      "words": 37,
+      "field": "feedback",
+      "line": 716,
+      "text": "S48-T1-B-E1: explica por qué candidate 0.81 supera baseline 0.72 y min 0.78, por qué el holdout train del adverso falla y por qué faltar reindex_cost_pen exige EVALUATE_ERROR_SLICES."
+    },
+    {
+      "words": 34,
+      "field": "instruction",
+      "line": 1731,
+      "text": "S48-T4-B-E2 · Gates separados de retrieval y respuesta: válido (recall 0.84, faith 0.91, costo 0.08, support True), adverso (recall/faith bajos, costo 0.3, support False) y sin X."
+    },
+    {
+      "words": 34,
+      "field": "feedback",
+      "line": 1692,
+      "text": "S48-T4-B-E1: explica por qué el fixture válido (support True y umbrales OK) responde, por qué el adverso activa ABSTAIN_WITH_REASON y por qué faltar support exige TUNE_RETRIEVAL_OR_BUDGET."
+    },
+    {
+      "words": 31,
+      "field": "feedback",
+      "line": 1371,
+      "text": "S48-T3-B-E1: explica claims ⊆ cited, por qué el adverso (claim sin cita o ACL False) activa ABSTAIN_UNCITED y por qué faltar max_context_tokens exige REQUEST_AUTHORIZED_CONTEXT."
+    },
+    {
+      "words": 31,
+      "field": "feedback",
+      "line": 549,
+      "text": "S48-T1-A-E1: explica cómo calculaste el top por dot product, por qué la versión emb-v2 es parte del contrato y por qué un adverso activa REJECT_EMBEDDING_RANK."
+    },
+    {
+      "words": 30,
+      "field": "jobRelevance",
+      "line": 15,
+      "text": "Se promueve solo cuando cada afirmación material está soportada por un fragmento permitido y la inyección de instrucciones en documentos se trata como data hostil, no como instrucción del sistema."
+    },
+    {
+      "words": 30,
+      "field": "instruction",
+      "line": 1238,
+      "text": "S48-T3-A-E2 · Fusión híbrida vs puro vector: válido (pesos 0.6/0.4 → top d1), adverso (d1 débil en ambos canales → no alcanza expected_top) y sin X."
+    },
+    {
+      "words": 29,
+      "field": "feedback",
+      "line": 1635,
+      "text": "S48-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGROUNDED_OUTPUT y por qué faltar injected_instruction_ignored exige VALIDATE_OUTPUT_SCHEMA."
+    },
+    {
+      "words": 29,
+      "field": "feedback",
+      "line": 1579,
+      "text": "S48-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGROUNDED_OUTPUT y por qué faltar injected_instruction_ignored exige VALIDATE_OUTPUT_SCHEMA."
+    },
+    {
+      "words": 29,
+      "field": "feedback",
+      "line": 1530,
+      "text": "S48-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGROUNDED_OUTPUT y por qué faltar injected_instruction_ignored exige VALIDATE_OUTPUT_SCHEMA."
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "section_index": 6,
+  "title": "Colecciones y estructuras de datos",
+  "outcomes": [
+    "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+    "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+    "Modelar registros con dict, get e índices id→fila",
+    "Deduplicar con set y reportar conflictos sin borrarlos",
+    "Navegar list[dict] anidados cliente→contactos→txs",
+    "Acceder campos opcionales sin KeyError; missing vs vacío",
+    "Ordenar con sorted(..., key=) de forma estable",
+    "Elegir list/dict/set y producir JSON determinista"
+  ],
+  "theory": [
+    {
+      "heading": "De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S06 no es el path principal de NumPy arrays ni broadcasting**. Ese material se reubica conceptualmente hacia el bloque numérico/DS (p. ej. S14+). Aquí construyes el **modelo tabular en memoria** que CP-N1-B necesita: listas, tuplas, dicts, sets y estructuras anidadas **cliente → contactos → transacciones** con salidas **deterministas**.",
+        "El hilo conductor es un **mini almacén en RAM** con datos sintéticos latam (`example.com`, ids `C00x`). Sin pandas ni NumPy en este incremento. En S08 ese modelo se conecta a CSV/JSON y cuarentena.",
+        "Orden: **T1 Secuencias** → **T2 Dicts/sets** → **T3 Anidado y missing** → **T4 Orden y elección de estructura**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Listas, tuplas y slicing",
+      "paragraphs": [
+        "Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente.",
+        "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones. El stop es exclusivo, igual que en `range`.",
+        "Membership `x in seq` es O(n) en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** en T2."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Unpacking, aliasing y copia",
+      "paragraphs": [
+        "**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruidosos. Falla si el largo no calza: eso es bueno (detecta shape roto).",
+        "**Aliasing**: `b = a` no copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug aparece al “clonar” clientes en memoria.",
+        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir. En intake, shallow basta si solo reordenas filas sin mutar campos compartidos."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Diccionarios y pertenencia",
+      "paragraphs": [
+        "Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1). Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave.",
+        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor.",
+        "`update` fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (env > defaults) para no “pisar sin querer” políticas de normalización."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Deduplicación y operaciones de set",
+      "paragraphs": [
+        "Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** deduplicados y para **unión/intersección/diferencia** de cohortes de dos lotes.",
+        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero montos distintos deben **reportarse**, no silenciarse. El patrón es `unique` + `conflicts`.",
+        "Sets no conservan orden de inserción de forma que debas depender para exports estables en todos los contextos pedagógicos: ordena con `sorted(...)` al exportar."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Estructuras anidadas y recorridos",
+      "paragraphs": [
+        "El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:`.",
+        "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08. **Contar** contactos por cliente valida integridad del grafo en memoria.",
+        "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a review — no asumas que todo dict llegó bien formado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Acceso seguro y valores faltantes",
+      "paragraphs": [
+        "Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.get` en anidados evita KeyError: `(c.get('profile') or {}).get('phone')`.",
+        "Distingue **missing** (`None` / clave ausente) de **vacío falsy** (`''`, `0`, `[]`). Un teléfono `''` no es lo mismo que “no vino el campo”: el reporte de calidad debe etiquetar distinto si la política lo exige.",
+        "Helpers `dig(obj, *path)` o `get_nested` centralizan la política y se testean una vez."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Ordenamiento y key",
+      "paragraphs": [
+        "`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)`.",
+        "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena estable por región y luego nombre. La estabilidad de Timsort preserva el orden relativo de empates.",
+        "Para montos, asegúrate de que el tipo sea numérico antes de ordenar; strings `'100' < '20'` rompen el ranking."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Estructura adecuada, complejidad y determinismo",
+      "paragraphs": [
+        "Elige estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple.",
+        "Complejidad: membership en list O(n); en set/dict O(1) promedio. No hagas `if x in big_list` dentro de un loop de n si puedes preindexar.",
+        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids produce el mismo string en cada corrida. Reproducibilidad es parte del gate de calidad."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S06-T1-B-DEMO",
+      "description": "Ventana de transacciones con slicing y tupla de keys estables",
+      "why": "Slicing da la ventana; la tupla de keys fija el contrato de columnas sin mutación accidental.",
+      "code": ""
+    },
+    {
+      "demoId": "S06-T2-A-DEMO",
+      "description": "Bug de alias al 'copiar' lista de dicts de clientes",
+      "why": "Alias muta el original; dict(c) por fila basta si el nivel 1 es plano; deepcopy para anidados.",
+      "code": ""
+    },
+    {
+      "demoId": "S06-T2-B-DEMO",
+      "description": "Índice id→cliente y lookup seguro",
+      "why": "El índice dict hace lookup O(1); get encadenado evita KeyError en demos de intake.",
+      "code": ""
+    },
+    {
+      "demoId": "S06-T3-A-DEMO",
+      "description": "ids únicos; intersección de lotes; conflictos = mismo id datos distintos",
+      "why": "Dedup preserva primera vista; conflictos se listan sin borrar filas del reporte.",
+      "code": "rows = [\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C002\", \"email\": \"b@ex.com\"},\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C001\", \"email\": \"otro@ex.com\"},\n]\nseen = {}\nunique = []\nconflicts = []\nfor r in rows:\n    rid = r[\"id\"]\n    if rid not in seen:\n        seen[rid] = r\n        unique.append(r)\n    elif seen[rid] != r:\n        conflicts.append({\"id\": rid, \"a\": seen[rid], \"b\": r})\nprint(\"unique ids:\", sorted(seen))\nprint(\"n_conflicts:\", len(conflicts))\nprint(\"conflict email"
+    },
+    {
+      "demoId": "S06-T3-B-DEMO",
+      "description": "Modelo en memoria Client con contacts[] y txs[]",
+      "why": "El grafo cliente→contactos/txs es el núcleo del modelo tabular CP-N1-B en RAM.",
+      "code": ""
+    },
+    {
+      "demoId": "S06-T4-A-DEMO",
+      "description": "Extraer teléfono opcional de contacto anidado",
+      "why": "dig() centraliza acceso seguro; etiquetas missing vs empty alimentan el reporte de calidad.",
+      "code": ""
+    },
+    {
+      "demoId": "S06-T4-B-DEMO",
+      "description": "Ordenar clientes por región luego nombre",
+      "why": "sorted no muta; key multi-campo da orden estable región→nombre para exports.",
+      "code": "clients = [\n    {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"},\n    {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\": \"Lima\"},\n    {\"id\": \"C002\", \"nombre\": \"Bruno\", \"region\": \"Cusco\"},\n]\nordered = sorted(clients, key=lambda r: (r[\"region\"], r[\"nombre\"]))\nfor r in ordered:\n    print(r[\"region\"], r[\"nombre\"], r[\"id\"])\nmutated = clients[:]\nmutated.sort(key=lambda r: r[\"id\"])\nprint(\"sort in-place retorna:\", clients[:0].sort(key=lambda r: r[\"id\"]))\nprint(\"ids mutados:\", [r[\"id\"] for r in mutated])"
+    },
+    {
+      "demoId": null,
+      "description": "Mismo input → mismo JSON dump con sort_keys",
+      "why": "sort de filas + sort_keys hace reproducible el artefacto de demo del modelo en memoria.",
+      "code": "import json\ndata = {\n    \"clients\": [\n        {\"id\": \"C002\", \"region\": \"Cusco\"},\n        {\"id\": \"C001\", \"region\": \"Lima\"},\n    ],\n    \"generated_by\": \"s06-demo\",\n}\ndata[\"clients\"] = sorted(data[\"clients\"], key=lambda c: c[\"id\"])\na = json.dumps(data, sort_keys=True, ensure_ascii=False)\nb = json.dumps(data, sort_keys=True, ensure_ascii=False)\nprint(a)\nprint(\"determinista:\", a == b)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+      "options": [
+        "[1,2]",
+        "[3,4]",
+        "[4]",
+        "Error"
+      ]
+    },
+    {
+      "question": "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+      "options": [
+        "a no cambia",
+        "a también ve el append (alias)",
+        "se lanza error",
+        "a se convierte en tuple"
+      ]
+    },
+    {
+      "question": "Para reportar dos filas con mismo id y payload distinto debes…",
+      "options": [
+        "Borrar ambas",
+        "Quedarte con la última sin traza",
+        "Listar conflicto en conflicts sin silenciar",
+        "Convertir a set de dicts"
+      ]
+    },
+    {
+      "question": "rows.sort(key=...) retorna…",
+      "options": [
+        "la lista ordenada",
+        "None (muta in-place)",
+        "una tuple",
+        "un set"
+      ]
+    },
+    {
+      "question": "json.dumps(..., sort_keys=True) ayuda a…",
+      "options": [
+        "comprimir el archivo",
+        "salidas deterministas/reproducibles",
+        "validar schema JSON Schema",
+        "encriptar PII"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición"
+  ]
+}

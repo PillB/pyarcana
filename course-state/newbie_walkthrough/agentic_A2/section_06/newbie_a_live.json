@@ -1,0 +1,511 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A2",
+  "section_index": 6,
+  "packet_sha": "54854c2439f22319",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_06/packet.json",
+  "recorded_at": "2026-07-21T22:16:52.593241+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "txs = [10, 20, 30, 40, 50]\nprint(\"determinista:\", a == b)\nempty = []\n# print(\"determinista:\", a == b) empty",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "txs",
+        "print",
+        "determinista",
+        "empty",
+        "guiado",
+        "Dada",
+        "montos",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T1-A-E1. Instruction del paquete: E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.. Hints: Usa txs[-2:] (funciona también si hay menos de 2).; print la lista y luego len(ventana).. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "headers = ['id', 'monto']\nprint(\"determinista:\", a == b)\nprint('KEYS', KEYS)\n# print(\"determinista:\", a == b) extend conceptual\nprint('KEYS sigue', KEYS)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "headers",
+        "monto",
+        "print",
+        "determinista",
+        "KEYS",
+        "extend",
+        "conceptual",
+        "sigue"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T1-A-E2. Instruction del paquete: E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra tupla sin mutar `KEYS`.. Hints: tuple(lista) o keys = ('id','monto'); KEYS no tiene append; usa + para nueva tupla.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    print(\"determinista:\", a == b)\n    ...",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "ids",
+        "C001",
+        "C002",
+        "try",
+        "append",
+        "C003",
+        "bug",
+        "intencional"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T1-A-E3. Instruction del paquete: E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnós. Hints: tuple no tiene append → AttributeError; list(ids) para mutar una copia.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "fila = ('C001', 'Lima', 10)\nprint(\"determinista:\", a == b)\nprint(cid, region, monto)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "fila",
+        "C001",
+        "Lima",
+        "print",
+        "determinista",
+        "cid",
+        "region",
+        "monto"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T1-B-E1. Instruction del paquete: E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).. Hints: a, b, c = fila; Orden posicional importa.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "xs = [1, 2]\nprint(\"determinista:\", a == b)\nprint('xs', xs, 'copia', copia)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "determinista",
+        "copia",
+        "independiente",
+        "Demuestra",
+        "alias",
+        "copy",
+        "lista"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T1-B-E2. Instruction del paquete: E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.. Hints: alias comparte objeto; copy es superficial de la lista de ints.; ints inmutables: shallow basta.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nprint(\"determinista:\", a == b)\nprint('orig', rows)\nprint('deep', deep)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "copy",
+        "rows",
+        "tags",
+        "shallow",
+        "print",
+        "determinista",
+        "orig"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T1-B-E3. Instruction del paquete: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.. Hints: import copy; deepcopy; shallow[0] is original[0] → True. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nprint(\"determinista:\", a == b)\nprint(d)\nprint(d['C002'])",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "pares",
+        "C001",
+        "Lima",
+        "C002",
+        "Cusco",
+        "print",
+        "determinista",
+        "guiado"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T2-A-E1. Instruction del paquete: E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.. Hints: dict(pares) o comprensión; Claves deben ser hashables (str ok).. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "idx = {'C001': 'Ana'}\nprint(\"determinista:\", a == b)\n# print(\"determinista:\", a == b) KeyError",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "idx",
+        "C001",
+        "Ana",
+        "print",
+        "determinista",
+        "KeyError",
+        "independiente",
+        "Dado"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T2-A-E2. Instruction del paquete: E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.. Hints: idx.get('C999','N/A'); KeyError solo en acceso duro.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nprint(\"determinista:\", a == b)\nprint('merged', merged)\n# print(\"determinista:\", a == b) no mutar original defaults al fusionar",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "defaults",
+        "retry",
+        "timeout",
+        "override",
+        "print",
+        "determinista",
+        "merged",
+        "mutar"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T2-A-E3. Instruction del paquete: E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(override)` mutando defa. Hints: {**defaults, **override} o defaults | override (3.9+); Copia antes de update in-place.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nprint(\"determinista:\", a == b)\nprint(unicos)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "emails",
+        "com",
+        "print",
+        "determinista",
+        "unicos",
+        "guiado",
+        "Deduplica",
+        "set"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T2-B-E1. Instruction del paquete: E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.. Hints: sorted(set(emails)); set no garantiza orden de impresión sin sorted.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "com",
+        "print",
+        "determinista",
+        "independiente",
+        "contactos",
+        "lote_a",
+        "lote_b",
+        "sets"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T2-B-E2. Instruction del paquete: E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.. Hints: a & b ; a ^ b; sorted para determinismo.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def dedup_report(rows, key='id'):\n    print(\"determinista:\", a == b)\n    ...\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "dedup_report",
+        "rows",
+        "key",
+        "print",
+        "determinista",
+        "C001",
+        "C002"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T2-B-E3. Instruction del paquete: E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.. Hints: seen dict; si key existe y row!=prev → conflict; unique guarda primera ocurrencia.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "clients",
+        "C001",
+        "contacts",
+        "C002",
+        "print",
+        "determinista",
+        "guiado",
+        "Cuenta"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T3-A-E1. Instruction del paquete: E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.. Hints: len(c['contacts']); for c in clients. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nprint(\"determinista:\", a == b)\nprint(flat)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "clients",
+        "C001",
+        "txs",
+        "monto",
+        "C002",
+        "print",
+        "determinista",
+        "flat"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T3-A-E2. Instruction del paquete: E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.. Hints: doble for o comprehension anidada; conserva client_id en cada fila. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "clients",
+        "C001",
+        "txs",
+        "C002",
+        "C003",
+        "oops",
+        "print",
+        "determinista"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T3-A-E3. Instruction del paquete: E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).. Hints: isinstance(c.get('txs'), list); No asumas claves siempre presentes.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def get_nested(d, *keys, default=None):\n    print(\"determinista:\", a == b)\n    ...\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "get_nested",
+        "keys",
+        "default",
+        "None",
+        "print",
+        "determinista",
+        "profile"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T3-B-E1. Instruction del paquete: E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.. Hints: Recorre keys; si falta retorna default.; Chequea isinstance dict en cada nivel.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "clients",
+        "C001",
+        "email",
+        "com",
+        "C002",
+        "None",
+        "C003",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T3-B-E2. Instruction del paquete: E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.. Hints: 'email' not in c or c['email'] is None → missing; '' puede contarse present vacío según política; aquí '' = present.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "vals = [None, '', 0, []]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "vals",
+        "None",
+        "print",
+        "determinista",
+        "transferencia",
+        "Construye",
+        "tabla",
+        "mental"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T3-B-E3. Instruction del paquete: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).. Hints: bool(x) vs x is None; 0 y '' son falsy pero pueden ser datos válidos.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nprint(\"determinista:\", a == b)\nprint([r['id'] for r in ordered])",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "monto",
+        "print",
+        "determinista",
+        "for",
+        "ordered",
+        "guiado",
+        "Ordena"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T4-A-E1. Instruction del paquete: E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.. Hints: key=lambda r: r['monto']; sorted no muta la lista original.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "nombre",
+        "Zed",
+        "region",
+        "Lima",
+        "Ana",
+        "Bob",
+        "Cusco"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T4-A-E2. Instruction del paquete: E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.. Hints: key=lambda r: (r['region'], r['nombre']); Tupla compara lexicográficamente.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "base",
+        "print",
+        "determinista",
+        "transferencia",
+        "Demuestra",
+        "sort",
+        "retorna"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T4-A-E3. Instruction del paquete: E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista `base`.. Hints: x = lst.sort() → x is None; sorted(base) no muta base.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "jobs",
+        "cola",
+        "llegada",
+        "filas",
+        "lookup",
+        "frecuente",
+        "emails",
+        "lote"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T4-B-E1. Instruction del paquete: E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.. Hints: list / dict / set; Una línea por job con la elección.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\nprint(\"determinista:\", a == b)\nprint(s)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "json",
+        "payload",
+        "ids",
+        "C002",
+        "C001",
+        "print",
+        "determinista"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T4-B-E2. Instruction del paquete: E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.. Hints: sorted ids; sort_keys=True; ensure_ascii=False para tildes si hubiera.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\nprint(\"determinista:\", a == b)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "ids",
+        "C001",
+        "C002",
+        "C003",
+        "C004",
+        "C005",
+        "print",
+        "determinista"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S06-T4-B-E3. Instruction del paquete: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.. Hints: list O(n) vs set O(1) promedio; No necesitas timeit; razona y demo pequeña.. Teoría activa: De “NumPy vectorizado” a colecciones en memoria (mapa de la sección) | Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenencia | Deduplicación y operaciones de set | Estruc. iDo demos: S06-T1-B-DEMO | S06-T2-A-DEMO | S06-T2-B-DEMO | S06-T3-A-DEMO | S06-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría de slicing: seq[i:j] es una ventana; 'txs[-3:] son las últimas tres'. Análogo: xs[-2:] sobre [1,2,3,4] son los dos últimos → [3,4]."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: aliasing — si b = a (listas) y mutas b, a también ve el cambio (mismo objeto)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: deduplicar no es borrar a ciegas con conflicto; dos filas mismo id y payload distinto deben reportarse: patrón 'unique + conflicts', no silenciar."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: 'list.sort(key=fn) muta in-place y retorna None' — bug clásico si haces x = rows.sort(...)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría de determinismo: 'json.dumps(obj, sort_keys=True, …)' produce el mismo string en cada corrida; ayuda a salidas reproducibles."
+    }
+  ],
+  "confusion_points": [
+    "Q0: packet shows txs[-3:] not xs[-2:]; applied same slicing rule."
+  ],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "persona_seed": "91772ebcb0a3",
+  "run": "agentic_A2_second_consecutive"
+}

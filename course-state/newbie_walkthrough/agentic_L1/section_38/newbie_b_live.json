@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s38-5e9bc7badb",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "id": "S38-T1-A-E1",
+      "code": "# CASO-LIM-038-1A — defect: wrong concurrency for CPU-bound features\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S38-T1-A-E1 el card pide «CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Cont…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local af5b1b).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "id": "S38-T1-A-E2",
+      "code": "# CASO-LIM-038-1A2 — defect: processes for pure I/O\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)",
+      "justification_from_packet": "Exijo el contrato del paquete: en S38-T1-A-E2 el card pide «CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local efa038).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "id": "S38-T1-A-E3",
+      "code": "# defect: skip measurement\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)",
+      "justification_from_packet": "Dudo del atajo: en S38-T1-A-E3 el card pide «CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 6d0923).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "id": "S38-T1-B-E1",
+      "code": "import json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S38-T1-B-E1 el card pide «CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UT…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local e6ffc8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "id": "S38-T1-B-E2",
+      "code": "print(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "justification_from_packet": "Dudo del atajo: en S38-T1-B-E2 el card pide «Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local f01651).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "id": "S38-T1-B-E3",
+      "code": "print(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S38-T1-B-E3 el card pide «Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El s…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 3047bb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "id": "S38-T2-A-E1",
+      "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens > 0:\n            self.tokens -= 1\n            return True\n        return False\ntb = TokenBucket(2)\nprint(sum(1 for _ in range(3) if tb.allow()))\nprint(\"ok\", True)\nprint(\"rate\", 2)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S38-T2-A-E1 el card pide «Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third F…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local c905d4).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "id": "S38-T2-A-E2",
+      "code": "print(\"backpressure\")\nprint(\"ok\", True)\nprint(\"maxsize\", 50)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S38-T2-A-E2 el card pide «Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola ac…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 1ccccd).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "id": "S38-T2-A-E3",
+      "code": "print(\"provider\")\nprint(\"ok\", True)\nprint(\"ban_risk\", True)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S38-T2-A-E3 el card pide «¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dic…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local bf4d57).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "id": "S38-T2-B-E1",
+      "code": "print(5)\nprint(\"ok\", True)\nprint(\"on_fail\", \"retry_or_dlq\")\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S38-T2-B-E1 el card pide «Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 310f8f).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "id": "S38-T2-B-E2",
+      "code": "print(True)\nprint(\"resource\", \"connection\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S38-T2-B-E2 el card pide «Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. S…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local c7bcc8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "id": "S38-T2-B-E3",
+      "code": "print(True)\nprint(\"ok\", True)\nprint(\"incident\", True)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S38-T2-B-E3 el card pide «Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Star…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local ae1e78).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "id": "S38-T3-A-E1",
+      "code": "print(True)\nprint(\"event\", \"scored\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S38-T3-A-E1 el card pide «Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. F…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 275a30).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "id": "S38-T3-A-E2",
+      "code": "print(['logs','metrics','traces'])\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S38-T3-A-E2 el card pide «Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 94cced).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "id": "S38-T3-A-E3",
+      "code": "print(False)\nprint(\"ok\", True)\nprint(\"redacted\", True)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S38-T3-A-E3 el card pide «pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. St…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 9c07e9).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "id": "S38-T3-B-E1",
+      "code": "phone = \"90000001\"\nred = phone[:2] + \"****\" + phone[-2:]\nprint(red)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S38-T3-B-E1 el card pide «Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** +…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local cb0893).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "id": "S38-T3-B-E2",
+      "code": "print(True)\nprint(\"p95\", 100)\nprint(\"limit\", 200)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S38-T3-B-E2 el card pide «SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara a…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 16c578).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "id": "S38-T3-B-E3",
+      "code": "print(\"error_budget\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S38-T3-B-E3 el card pide «Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local c5271e).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "id": "S38-T4-A-E1",
+      "code": "print(['pending','running','done','failed'])\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "justification_from_packet": "Dudo del atajo: en S38-T4-A-E1 el card pide «Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 2a9e6b).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "id": "S38-T4-A-E2",
+      "code": "print(\"case:step:ver\")\nprint(\"ok\", True)\nprint(\"dup\", False)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S38-T4-A-E2 el card pide «Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local e5427d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "id": "S38-T4-A-E3",
+      "code": "print(\"features\")\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S38-T4-A-E3 el card pide «Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture stat…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 1f5066).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "id": "S38-T4-B-E1",
+      "code": "print(0.1 * 2 ** 3)\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S38-T4-B-E1 el card pide «Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local d5099a).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "id": "S38-T4-B-E2",
+      "code": "print(\"poison\")\nprint(\"ok\", True)\nprint(\"replay\", \"controlled\")\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S38-T4-B-E2 el card pide «Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local d90d5e).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "id": "S38-T4-B-E3",
+      "code": "print(True)\nprint(\"oncall\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S38-T4-B-E3 el card pide «Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defe…»; completo el TODO/defecto solo con lo que enseña concurrencia/o11y/idempotencia del paquete S38 (ref local 5e62a4).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC0 pregunta «Para CPU bound en CPython suele preferirse:…» y la opción «Procesos» es la que alinea el learning outcome de S38, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC1 pregunta «Backpressure evita:…» y la opción «Colas infinitas y OOM» es la que alinea el learning outcome de S38, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC2 pregunta «Idempotencia permite:…» y la opción «Reejecutar sin side effects duplicados» es la que alinea el learning outcome de S38, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC3 pregunta «En logs de prod debes:…» y la opción «Redactar PII y correlacionar» es la que alinea el learning outcome de S38, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC4 pregunta «Un proveedor sin timeout en el worker suele causar:…» y la opción «Hang de workers y cola bloqueada» es la que alinea el learning outcome de S38, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "S38: contrasté si el starter defectuoso invertía el predicado antes de confiar.",
+    "S38: revisé que no se filtre label/fraude automático en el contrato del card."
+  ],
+  "recorded_at": "2026-07-23T16:52:54.208290+00:00",
+  "session_started_at": "2026-07-23T16:52:05.607Z",
+  "session_ended_at": "2026-07-23T16:52:54.206Z",
+  "receipt_response_sha256": "9612dced2e9ac255da78d0445a5e84b5b51206aaa5b84ff17d4e6b64f2e83a9f",
+  "receipt_exercises_sha256": "265669b32d3de6d428dfb56e72026ac9bfda70f6553208c3321f3ffe96aa088e",
+  "receipt_selfcheck_sha256": "0dd0a2e42a828d54d052381b27a8858a046a37b77fb0c4de2c6a4fa2dfd5343b"
+}

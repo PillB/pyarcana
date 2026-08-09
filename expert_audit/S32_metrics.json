@@ -1,0 +1,4750 @@
+{
+  "n_records": 200,
+  "n_sentences": 282,
+  "n_words": 3598,
+  "aggregate_fh": 80.96,
+  "aggregate_inflesz": 77.2,
+  "aggregate_wps": 12.76,
+  "aggregate_spw": 1.792,
+  "band_distribution": {
+    "muy_fácil": 108,
+    "fácil": 60,
+    "bastante_fácil": 41,
+    "normal": 27,
+    "bastante_difícil": 22,
+    "difícil": 14,
+    "muy_difícil": 10
+  },
+  "per_record": [
+    {
+      "line": 6,
+      "key": "title",
+      "preview": "Feature engineering y pipelines sin leakage",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 10.72,
+      "inflesz": 3.55,
+      "wps": 6.0,
+      "spw": 3.167,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Feature engineering y pipelines sin leakage"
+        }
+      ]
+    },
+    {
+      "line": 7,
+      "key": "shortTitle",
+      "preview": "Features sin leakage",
+      "n_sentences": 1,
+      "n_words": 3,
+      "fh": 23.78,
+      "inflesz": 16.94,
+      "wps": 3.0,
+      "spw": 3.0,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Features sin leakage"
+        }
+      ]
+    },
+    {
+      "line": 9,
+      "key": "tagline",
+      "preview": "tabla de features versionada con train≡serve, sin futuro ni labels de decisión · Ritmo sugerido: ~10–12 h núcleo (T1–T4 ",
+      "n_sentences": 1,
+      "n_words": 40,
+      "fh": 73.04,
+      "inflesz": 70.27,
+      "wps": 40.0,
+      "spw": 1.55,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 40,
+          "excerpt": "tabla de features versionada con train≡serve, sin futuro ni labels de decisión · Ritmo sugerido: ~10–12 h núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, "
+        },
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "s E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew/versionado hacia S33"
+        },
+        {
+          "rule": "single_sentence_paragraph",
+          "sev": "M",
+          "wc": 40
+        }
+      ]
+    },
+    {
+      "line": 16,
+      "key": "jobRelevance",
+      "preview": "Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. En esta sección construyes la **tabl",
+      "n_sentences": 3,
+      "n_words": 57,
+      "fh": 55.88,
+      "inflesz": 51.21,
+      "wps": 19.0,
+      "spw": 2.193,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 18,
+      "key": "text",
+      "preview": "Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; ",
+      "n_sentences": 1,
+      "n_words": 27,
+      "fh": 57.08,
+      "inflesz": 52.93,
+      "wps": 27.0,
+      "spw": 2.037,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "eys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys"
+        }
+      ]
+    },
+    {
+      "line": 19,
+      "key": "text",
+      "preview": "Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False",
+      "n_sentences": 1,
+      "n_words": 17,
+      "fh": 73.03,
+      "inflesz": 68.9,
+      "wps": 17.0,
+      "spw": 1.941,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "l con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False"
+        }
+      ]
+    },
+    {
+      "line": 20,
+      "key": "text",
+      "preview": "Construir features relacionales (shared_address, degree, min path) sin usar label de decisión como input",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 55.54,
+      "inflesz": 50.62,
+      "wps": 15.0,
+      "spw": 2.267,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "ionales (shared_address, degree, min path) sin usar label de decisión como input"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.133
+        }
+      ]
+    },
+    {
+      "line": 21,
+      "key": "text",
+      "preview": "Calcular conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 67.54,
+      "inflesz": 63.08,
+      "wps": 15.0,
+      "spw": 2.067,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "(): 0/1"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "[]: 1/0"
+        }
+      ]
+    },
+    {
+      "line": 22,
+      "key": "text",
+      "preview": "Componer transformers custom con fit→transform y cadena por tipo de columna (ruta numérica vs categórica)",
+      "n_sentences": 1,
+      "n_words": 16,
+      "fh": 59.27,
+      "inflesz": 54.55,
+      "wps": 16.0,
+      "spw": 2.188,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "tom con fit→transform y cadena por tipo de columna (ruta numérica vs categórica)"
+        },
+        {
+          "rule": "vs_without_period",
+          "sev": "L"
+        }
+      ]
+    },
+    {
+      "line": 23,
+      "key": "text",
+      "preview": "Persistir estado fit (mediana, vocab, version) como JSON fs-vN y reutilizarlo en el batch de serve",
+      "n_sentences": 1,
+      "n_words": 17,
+      "fh": 80.09,
+      "inflesz": 76.23,
+      "wps": 17.0,
+      "spw": 1.824,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "it (mediana, vocab, version) como JSON fs-vN y reutilizarlo en el batch de serve"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.118
+        }
+      ]
+    },
+    {
+      "line": 24,
+      "key": "text",
+      "preview": "Partir por tiempo y entidad con informe de split: n_train, n_test y overlap de entidades = 0",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 95.15,
+      "inflesz": 91.92,
+      "wps": 18.0,
+      "spw": 1.556,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "iempo y entidad con informe de split: n_train, n_test y overlap de entidades = 0"
+        }
+      ]
+    },
+    {
+      "line": 25,
+      "key": "text",
+      "preview": "Ejecutar scan de nombres leaky + alerta de skew train–serve y promover solo con feature_set id válido",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 71.81,
+      "inflesz": 67.7,
+      "wps": 18.0,
+      "spw": 1.944,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "res leaky + alerta de skew train–serve y promover solo con feature_set id válido"
+        }
+      ]
+    },
+    {
+      "line": 29,
+      "key": "heading",
+      "preview": "Tabla de features versionada sin leakage",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 40.72,
+      "inflesz": 34.7,
+      "wps": 6.0,
+      "spw": 2.667,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Tabla de features versionada sin leakage"
+        }
+      ]
+    },
+    {
+      "line": 39,
+      "key": "content",
+      "preview": "Train≡serve, sin leakage temporal ni de label. Solo PII sintético. Si hay timestamps futuros en features, la sección no ",
+      "n_sentences": 3,
+      "n_words": 23,
+      "fh": 71.19,
+      "inflesz": 66.44,
+      "wps": 7.67,
+      "spw": 2.13,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.087
+        }
+      ]
+    },
+    {
+      "line": 43,
+      "key": "heading",
+      "preview": "Diccionario mínimo de la sección",
+      "n_sentences": 1,
+      "n_words": 5,
+      "fh": 57.74,
+      "inflesz": 52.32,
+      "wps": 5.0,
+      "spw": 2.4,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Diccionario mínimo de la sección"
+        }
+      ]
+    },
+    {
+      "line": 51,
+      "key": "title",
+      "preview": "Cómo leer este diccionario",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 52.76,
+      "inflesz": 47.09,
+      "wps": 4.0,
+      "spw": 2.5,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Cómo leer este diccionario"
+        }
+      ]
+    },
+    {
+      "line": 53,
+      "key": "content",
+      "preview": "Vuelve aquí cuando veas train≡serve, half-open, fs-vN o skew. Cada subtema reutiliza estas definiciones con un mini-demo",
+      "n_sentences": 2,
+      "n_words": 22,
+      "fh": 72.89,
+      "inflesz": 68.4,
+      "wps": 11.0,
+      "spw": 2.045,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        }
+      ]
+    },
+    {
+      "line": 57,
+      "key": "heading",
+      "preview": "Features numéricas, categóricas y de texto",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 30.72,
+      "inflesz": 24.32,
+      "wps": 6.0,
+      "spw": 2.833,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Features numéricas, categóricas y de texto"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.167
+        }
+      ]
+    },
+    {
+      "line": 89,
+      "key": "content",
+      "preview": "S32-T1-A: catálogo + keys. Incumplimiento → REJECT_UNKNOWN_FEATURE; falta catálogo → REQUEST_CATALOG.",
+      "n_sentences": 2,
+      "n_words": 13,
+      "fh": 52.52,
+      "inflesz": 46.98,
+      "wps": 6.5,
+      "spw": 2.462,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 93,
+      "key": "heading",
+      "preview": "Missing indicators, escalamiento y encoding",
+      "n_sentences": 1,
+      "n_words": 5,
+      "fh": 21.74,
+      "inflesz": 14.94,
+      "wps": 5.0,
+      "spw": 3.0,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Missing indicators, escalamiento y encoding"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.2
+        }
+      ]
+    },
+    {
+      "line": 122,
+      "key": "content",
+      "preview": "S32-T1-B: indicator + stats de train. Incumplimiento → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN.",
+      "n_sentences": 2,
+      "n_words": 15,
+      "fh": 83.19,
+      "inflesz": 78.89,
+      "wps": 7.5,
+      "spw": 1.933,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Incumplimiento → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 126,
+      "key": "heading",
+      "preview": "Contacto compartido, distancia y features de grafo",
+      "n_sentences": 1,
+      "n_words": 7,
+      "fh": 45.41,
+      "inflesz": 39.63,
+      "wps": 7.0,
+      "spw": 2.571,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Contacto compartido, distancia y features de grafo"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.143
+        }
+      ]
+    },
+    {
+      "line": 161,
+      "key": "content",
+      "preview": "S32-T2-A: features de grafo. Incumplimiento → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT.",
+      "n_sentences": 2,
+      "n_words": 16,
+      "fh": 74.93,
+      "inflesz": 70.34,
+      "wps": 8.0,
+      "spw": 2.062,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Incumplimiento → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 165,
+      "key": "heading",
+      "preview": "Ventanas temporales y frecuencia",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 37.76,
+      "inflesz": 31.51,
+      "wps": 4.0,
+      "spw": 2.75,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Ventanas temporales y frecuencia"
+        }
+      ]
+    },
+    {
+      "line": 199,
+      "key": "heading",
+      "preview": "Transformers custom y cadena fit→transform",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 80.72,
+      "inflesz": 76.24,
+      "wps": 6.0,
+      "spw": 2.0,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Transformers custom y cadena fit→transform"
+        }
+      ]
+    },
+    {
+      "line": 264,
+      "key": "content",
+      "preview": "S32-T3-A: fit→transform + router por columnas. Incumplimiento → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_S",
+      "n_sentences": 2,
+      "n_words": 18,
+      "fh": 84.33,
+      "inflesz": 80.16,
+      "wps": 9.0,
+      "spw": 1.889,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Incumplimiento → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_STATE."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 268,
+      "key": "heading",
+      "preview": "Fit, transform y persistencia del estado",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 80.72,
+      "inflesz": 76.24,
+      "wps": 6.0,
+      "spw": 2.0,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Fit, transform y persistencia del estado"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.167
+        }
+      ]
+    },
+    {
+      "line": 303,
+      "key": "heading",
+      "preview": "Split por entidad, grupo y tiempo",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 100.72,
+      "inflesz": 97.0,
+      "wps": 6.0,
+      "spw": 1.667,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Split por entidad, grupo y tiempo"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.167
+        }
+      ]
+    },
+    {
+      "line": 335,
+      "key": "content",
+      "preview": "S32-T4-A: split temporal/por grupo. Incumplimiento → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS.",
+      "n_sentences": 2,
+      "n_words": 16,
+      "fh": 86.18,
+      "inflesz": 82.02,
+      "wps": 8.0,
+      "spw": 1.875,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Incumplimiento → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 339,
+      "key": "heading",
+      "preview": "Leakage, skew train–serve y versionado",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 70.72,
+      "inflesz": 65.85,
+      "wps": 6.0,
+      "spw": 2.167,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Leakage, skew train–serve y versionado"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.167
+        }
+      ]
+    },
+    {
+      "line": 366,
+      "key": "content",
+      "preview": "S32-T4-B: scan de leakage + skew + fs-vN. Incumplimiento → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID.",
+      "n_sentences": 2,
+      "n_words": 18,
+      "fh": 84.33,
+      "inflesz": 80.16,
+      "wps": 9.0,
+      "spw": 1.889,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Incumplimiento → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 371,
+      "key": "intro",
+      "preview": "S32 · **Yo hago**: te muestro catálogo, missing/scale, grafo (puente S31), ventanas half-open, transformers fit→transfor",
+      "n_sentences": 3,
+      "n_words": 55,
+      "fh": 79.05,
+      "inflesz": 75.23,
+      "wps": 18.33,
+      "spw": 1.818,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 377,
+      "key": "description",
+      "preview": "Valida keys del row contra el catálogo y reporta note_len como feature derivada.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 63.99,
+      "inflesz": 59.34,
+      "wps": 14.0,
+      "spw": 2.143,
+      "band": "normal",
+      "findings": []
+    },
+    {
+      "line": 397,
+      "key": "why",
+      "preview": "El catálogo es la fuente de verdad de dtypes: sin él, serve inventa columnas y rompe train≡serve.",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 85.15,
+      "inflesz": 81.54,
+      "wps": 18.0,
+      "spw": 1.722,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 403,
+      "key": "description",
+      "preview": "Missing indicator, fill mediana y z-score sobre la serie rellena con stats de train.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 87.54,
+      "inflesz": 83.85,
+      "wps": 15.0,
+      "spw": 1.733,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 421,
+      "key": "why",
+      "preview": "Indicator + μ/σ de train preservan la señal de ausencia y bloquean silent fill con stats de test.",
+      "n_sentences": 1,
+      "n_words": 16,
+      "fh": 89.27,
+      "inflesz": 85.7,
+      "wps": 16.0,
+      "spw": 1.688,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 427,
+      "key": "description",
+      "preview": "Shared address, degree y path con default 99 cuando falta la arista en el grafo sintético.",
+      "n_sentences": 1,
+      "n_words": 16,
+      "fh": 85.52,
+      "inflesz": 81.81,
+      "wps": 16.0,
+      "spw": 1.75,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 449,
+      "key": "why",
+      "preview": "Features de grafo (herencia S31) resumen evidencia relacional sin convertir matching en fraude ni parentesco.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 47.54,
+      "inflesz": 42.32,
+      "wps": 15.0,
+      "spw": 2.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "line": 455,
+      "key": "description",
+      "preview": "Cuenta eventos en ventana half-open [t-w,t), contrasta con el conteo cerrado (mal) e incluye_t=False.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 83.25,
+      "inflesz": 79.63,
+      "wps": 19.0,
+      "spw": 1.737,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "(): 1/2"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "[]: 1/0"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.105
+        }
+      ]
+    },
+    {
+      "line": 475,
+      "key": "why",
+      "preview": "Half-open elimina leakage temporal; el conteo cerrado infla features y el AUC offline (la historia del fallo del intro).",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 57.44,
+      "inflesz": 52.89,
+      "wps": 20.0,
+      "spw": 2.15,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 481,
+      "key": "description",
+      "preview": "Fit de moda, transform de None, fallo si no hay fit, y router numérico/categórico (análogo ColumnTransformer).",
+      "n_sentences": 1,
+      "n_words": 17,
+      "fh": 62.44,
+      "inflesz": 57.91,
+      "wps": 17.0,
+      "spw": 2.118,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.176
+        }
+      ]
+    },
+    {
+      "line": 522,
+      "key": "why",
+      "preview": "fit→transform ordenado + router por tipo es el contrato de un pipeline heterogéneo (idea de sklearn sin runtime extra).",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 57.99,
+      "inflesz": 53.4,
+      "wps": 19.0,
+      "spw": 2.158,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 528,
+      "key": "description",
+      "preview": "Round-trip JSON del state y apply de mediana versionada al batch de serve.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 98.27,
+      "inflesz": 94.94,
+      "wps": 14.0,
+      "spw": 1.571,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 544,
+      "key": "why",
+      "preview": "Persistir estado versionado (`fs-vN`) evita skew silencioso y es el artefacto que S33 debe citar.",
+      "n_sentences": 1,
+      "n_words": 16,
+      "fh": 66.77,
+      "inflesz": 62.34,
+      "wps": 16.0,
+      "spw": 2.062,
+      "band": "normal",
+      "findings": []
+    },
+    {
+      "line": 550,
+      "key": "description",
+      "preview": "Time split por cutoff y verificación de overlap de entidades desde filas reales.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 59.73,
+      "inflesz": 54.86,
+      "wps": 13.0,
+      "spw": 2.231,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 569,
+      "key": "why",
+      "preview": "Split por tiempo + entity isolation es la defensa principal contra leakage de identidad antes del baseline.",
+      "n_sentences": 1,
+      "n_words": 16,
+      "fh": 51.77,
+      "inflesz": 46.77,
+      "wps": 16.0,
+      "spw": 2.312,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 575,
+      "key": "description",
+      "preview": "Scan de nombres leaky, alerta de skew y feature_set fs-v2 listo para S33.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 91.54,
+      "inflesz": 88.0,
+      "wps": 15.0,
+      "spw": 1.667,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 594,
+      "key": "why",
+      "preview": "Scan de nombres + skew + `fs-vN` cierran el promote: sin gate limpio no se entrena el baseline S33.",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 91.81,
+      "inflesz": 88.46,
+      "wps": 18.0,
+      "spw": 1.611,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 599,
+      "key": "intro",
+      "preview": "S32 · **Hacemos juntos** (E1) → **tú validas** (E2) → **transfieres fail-closed** (E3): 24 retos sobre CP-N3-B. Cada lab",
+      "n_sentences": 3,
+      "n_words": 45,
+      "fh": 68.87,
+      "inflesz": 64.47,
+      "wps": 15.0,
+      "spw": 2.044,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.133
+        }
+      ]
+    },
+    {
+      "line": 605,
+      "key": "instruction",
+      "preview": "S32-T1-A-E1 · Sobre `CASO-LIM-032-1A`, calcula si las keys del row están ⊆ catálogo (union de numeric/categorical/text).",
+      "n_sentences": 4,
+      "n_words": 53,
+      "fh": 81.25,
+      "inflesz": 77.21,
+      "wps": 13.25,
+      "spw": 1.868,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "caso_lim_taxonomy",
+          "sev": "M",
+          "detail": "CASO-LIM-NNN visible"
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 606,
+      "key": "hint",
+      "preview": "Une las listas del schema en un set known y compara set(row) ⊆ known.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 111.13,
+      "inflesz": 108.29,
+      "wps": 14.0,
+      "spw": 1.357,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 608,
+      "key": "hints",
+      "preview": "Une las listas del schema en un set known y compara set(row) ⊆ known.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 111.13,
+      "inflesz": 108.29,
+      "wps": 14.0,
+      "spw": 1.357,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 609,
+      "key": "hints",
+      "preview": "catalog_ok es True solo si no hay keys desconocidas; no inviertas el booleano final.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 75.54,
+      "inflesz": 71.39,
+      "wps": 15.0,
+      "spw": 1.933,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 612,
+      "key": "tests",
+      "preview": "Con schema y row del starter, imprime `S32-T1-A PASS` y assert catalog_ok.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 103.54,
+      "inflesz": 100.46,
+      "wps": 15.0,
+      "spw": 1.467,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 613,
+      "key": "feedback",
+      "preview": "S32-T1-A-E1: sin keys desconocidas el catálogo pasa; una feature inventada en serve exige REJECT_UNKNOWN_FEATURE; sin sc",
+      "n_sentences": 1,
+      "n_words": 23,
+      "fh": 52.95,
+      "inflesz": 48.4,
+      "wps": 23.0,
+      "spw": 2.174,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 647,
+      "key": "instruction",
+      "preview": "S32-T1-A-E2 · Tres rutas: válido (keys ⊆ catálogo), adverso (`unknown_feat`) y sin `schema`. Implementa `assess` calcula",
+      "n_sentences": 3,
+      "n_words": 32,
+      "fh": 74.09,
+      "inflesz": 69.62,
+      "wps": 10.67,
+      "spw": 2.031,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Salidas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`."
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.094
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 648,
+      "key": "hint",
+      "preview": "Primero valida keys requeridas; solo si hay schema y row calculas unknown.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 74.6,
+      "inflesz": 70.24,
+      "wps": 12.0,
+      "spw": 2.0,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 650,
+      "key": "hints",
+      "preview": "Primero valida keys requeridas; solo si hay schema y row calculas unknown.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 74.6,
+      "inflesz": 70.24,
+      "wps": 12.0,
+      "spw": 2.0,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 651,
+      "key": "hints",
+      "preview": "El adverso falla por contenido (feature fuera del catálogo), no por schema ausente.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 59.73,
+      "inflesz": 54.86,
+      "wps": 13.0,
+      "spw": 2.231,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 655,
+      "key": "feedback",
+      "preview": "S32-T1-A-E2: el cálculo de unknown es la evidencia; el adverso no se resuelve cambiando el case_id.",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 87.44,
+      "inflesz": 84.04,
+      "wps": 20.0,
+      "spw": 1.65,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 705,
+      "key": "instruction",
+      "preview": "S32-T1-A-E3 · Fail-closed: válido → `CONTINUE`, adverso → `REJECT_UNKNOWN_FEATURE`, sin schema → `REQUEST_CATALOG`. El s",
+      "n_sentences": 2,
+      "n_words": 28,
+      "fh": 72.56,
+      "inflesz": 68.24,
+      "wps": 14.0,
+      "spw": 2.0,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 706,
+      "key": "hint",
+      "preview": "Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 64.71,
+      "inflesz": 59.91,
+      "wps": 11.0,
+      "spw": 2.182,
+      "band": "normal",
+      "findings": []
+    },
+    {
+      "line": 708,
+      "key": "hints",
+      "preview": "Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 64.71,
+      "inflesz": 59.91,
+      "wps": 11.0,
+      "spw": 2.182,
+      "band": "normal",
+      "findings": []
+    },
+    {
+      "line": 709,
+      "key": "hints",
+      "preview": "CONTINUE solo si known cubre todas las keys del row.",
+      "n_sentences": 1,
+      "n_words": 10,
+      "fh": 106.64,
+      "inflesz": 103.39,
+      "wps": 10.0,
+      "spw": 1.5,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 713,
+      "key": "feedback",
+      "preview": "S32-T1-A-E3: REQUEST_CATALOG protege el fit; REJECT solo cuando el catálogo existe y el row lo viola.",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 84.44,
+      "inflesz": 80.93,
+      "wps": 20.0,
+      "spw": 1.7,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 764,
+      "key": "instruction",
+      "preview": "S32-T1-B-E1 · Sobre `[1, None, 3]`, construye indicator, fill con mediana de train (=2) y z-score con μ=0, σ=2 **sobre l",
+      "n_sentences": 3,
+      "n_words": 56,
+      "fh": 98.87,
+      "inflesz": 95.83,
+      "wps": 18.67,
+      "spw": 1.482,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.143
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 765,
+      "key": "hint",
+      "preview": "z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 89.7,
+      "inflesz": 86.04,
+      "wps": 14.0,
+      "spw": 1.714,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 767,
+      "key": "hints",
+      "preview": "z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 89.7,
+      "inflesz": 86.04,
+      "wps": 14.0,
+      "spw": 1.714,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 768,
+      "key": "hints",
+      "preview": "silent_fill es False porque el indicator viaja con el valor relleno.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 84.6,
+      "inflesz": 80.62,
+      "wps": 12.0,
+      "spw": 1.833,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 771,
+      "key": "tests",
+      "preview": "Imprime `S32-T1-B PASS` cuando filled y z son correctos.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 102.89,
+      "inflesz": 99.55,
+      "wps": 11.0,
+      "spw": 1.545,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 772,
+      "key": "feedback",
+      "preview": "S32-T1-B-E1: escalar la serie rellena es el patrón de stats solo de train; silent fill sin indicator es REJECT_SILENT_FI",
+      "n_sentences": 1,
+      "n_words": 24,
+      "fh": 89.86,
+      "inflesz": 86.79,
+      "wps": 24.0,
+      "spw": 1.542,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 810,
+      "key": "instruction",
+      "preview": "S32-T1-B-E2 · `assess` recibe values, median e indicator. Construye fill con la mediana y comprueba que el indicator mar",
+      "n_sentences": 5,
+      "n_words": 42,
+      "fh": 79.7,
+      "inflesz": 75.32,
+      "wps": 8.4,
+      "spw": 1.976,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "meta_leak",
+          "sev": "H",
+          "detail": "todo"
+        },
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "S32-T1-B-E2 · `assess` recibe values, median e indicator."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 811,
+      "key": "hint",
+      "preview": "Falta median se detecta antes de construir filled; silent_fill si hay None y indicator no lo marca.",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 85.15,
+      "inflesz": 81.54,
+      "wps": 18.0,
+      "spw": 1.722,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 813,
+      "key": "hints",
+      "preview": "Falta median se detecta antes de construir filled; silent_fill si hay None y indicator no lo marca.",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 85.15,
+      "inflesz": 81.54,
+      "wps": 18.0,
+      "spw": 1.722,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 814,
+      "key": "hints",
+      "preview": "expected_ind = [v is None for v in values]; PASS si indicator == expected_ind y median no es None.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 92.72,
+      "inflesz": 89.47,
+      "wps": 19.0,
+      "spw": 1.579,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 818,
+      "key": "feedback",
+      "preview": "S32-T1-B-E2: la mediana de train es prerequisito; silent fill es incumplimiento de contrato, no un atajo de notebook.",
+      "n_sentences": 1,
+      "n_words": 21,
+      "fh": 73.99,
+      "inflesz": 70.14,
+      "wps": 21.0,
+      "spw": 1.857,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 884,
+      "key": "instruction",
+      "preview": "S32-T1-B-E3 · Fail-closed sobre `CASO-LIM-032-1B`: válido (median presente, indicator marca los None) → `CONTINUE`; indi",
+      "n_sentences": 2,
+      "n_words": 36,
+      "fh": 81.81,
+      "inflesz": 78.08,
+      "wps": 18.0,
+      "spw": 1.778,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "caso_lim_taxonomy",
+          "sev": "M",
+          "detail": "CASO-LIM-NNN visible"
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 885,
+      "key": "hint",
+      "preview": "REQUEST_MEDIAN antes de comparar indicator con values.",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 71.18,
+      "inflesz": 66.45,
+      "wps": 8.0,
+      "spw": 2.125,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 887,
+      "key": "hints",
+      "preview": "REQUEST_MEDIAN antes de comparar indicator con values.",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 71.18,
+      "inflesz": 66.45,
+      "wps": 8.0,
+      "spw": 2.125,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 888,
+      "key": "hints",
+      "preview": "CONTINUE solo con median presente e indicator == [v is None for v in values].",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 85.42,
+      "inflesz": 81.59,
+      "wps": 14.0,
+      "spw": 1.786,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 892,
+      "key": "feedback",
+      "preview": "S32-T1-B-E3: sin mediana no hay transform legítimo; pedirla es fail-closed, no rellenar con 0.",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 95.15,
+      "inflesz": 91.92,
+      "wps": 18.0,
+      "spw": 1.556,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 958,
+      "key": "instruction",
+      "preview": "S32-T2-A-E1 · Calcula shared (1 si mismas addr), degree (len vecinos de E1) y path (lookup o 99). El starter hardcodea p",
+      "n_sentences": 4,
+      "n_words": 51,
+      "fh": 109.13,
+      "inflesz": 106.13,
+      "wps": 12.75,
+      "spw": 1.412,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 959,
+      "key": "hint",
+      "preview": "path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 106.85,
+      "inflesz": 103.84,
+      "wps": 14.0,
+      "spw": 1.429,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 961,
+      "key": "hints",
+      "preview": "path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 106.85,
+      "inflesz": 103.84,
+      "wps": 14.0,
+      "spw": 1.429,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 965,
+      "key": "tests",
+      "preview": "Imprime `S32-T2-A PASS` con features calculadas y uses_label False.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 79.6,
+      "inflesz": 75.43,
+      "wps": 12.0,
+      "spw": 1.917,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 966,
+      "key": "feedback",
+      "preview": "S32-T2-A-E1: shared/degree/path son topología; label de decisión como feature es REJECT_LABEL_AS_FEATURE.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 67.46,
+      "inflesz": 63.24,
+      "wps": 19.0,
+      "spw": 2.0,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1006,
+      "key": "instruction",
+      "preview": "S32-T2-A-E2 · `assess` recibe attrs, neighbors y paths: calcula shared/degree/path y rechaza si `uses_label` es True. Vá",
+      "n_sentences": 2,
+      "n_words": 34,
+      "fh": 73.03,
+      "inflesz": 68.9,
+      "wps": 17.0,
+      "spw": 1.941,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1007,
+      "key": "hint",
+      "preview": "Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 89.6,
+      "inflesz": 85.81,
+      "wps": 12.0,
+      "spw": 1.75,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 1009,
+      "key": "hints",
+      "preview": "Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 89.6,
+      "inflesz": 85.81,
+      "wps": 12.0,
+      "spw": 1.75,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 1010,
+      "key": "hints",
+      "preview": "PASS requiere uses_label False, shared in {0,1} y degree >= 0 calculado.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 96.66,
+      "inflesz": 93.2,
+      "wps": 13.0,
+      "spw": 1.615,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.154
+        }
+      ]
+    },
+    {
+      "line": 1014,
+      "key": "feedback",
+      "preview": "S32-T2-A-E2: el grafo no autoriza parentesco/fraude; solo topología observada en t.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 71.54,
+      "inflesz": 67.24,
+      "wps": 15.0,
+      "spw": 2.0,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1076,
+      "key": "instruction",
+      "preview": "S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpi",
+      "n_sentences": 2,
+      "n_words": 47,
+      "fh": 66.7,
+      "inflesz": 62.71,
+      "wps": 23.5,
+      "spw": 1.936,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 39,
+          "excerpt": "S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpia y uses_label False → `CONTINUE`; label"
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1077,
+      "key": "hint",
+      "preview": "Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).",
+      "n_sentences": 2,
+      "n_words": 18,
+      "fh": 110.99,
+      "inflesz": 107.85,
+      "wps": 9.0,
+      "spw": 1.444,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1079,
+      "key": "hints",
+      "preview": "Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).",
+      "n_sentences": 2,
+      "n_words": 18,
+      "fh": 110.99,
+      "inflesz": 107.85,
+      "wps": 9.0,
+      "spw": 1.444,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1080,
+      "key": "hints",
+      "preview": "CONTINUE solo si uses_label es False, shared in {0,1} y degree >= 0 calculado (no prebakeado).",
+      "n_sentences": 1,
+      "n_words": 17,
+      "fh": 83.62,
+      "inflesz": 79.89,
+      "wps": 17.0,
+      "spw": 1.765,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.118
+        }
+      ]
+    },
+    {
+      "line": 1084,
+      "key": "feedback",
+      "preview": "S32-T2-A-E3: pedir la feature de grafo es mejor que inventar degree=0 silencioso; el CONTINUE se gana recalculando topol",
+      "n_sentences": 1,
+      "n_words": 26,
+      "fh": 67.24,
+      "inflesz": 63.42,
+      "wps": 26.0,
+      "spw": 1.885,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1148,
+      "key": "instruction",
+      "preview": "S32-T2-B-E1 · Con events=[1,2,3,5], t=5, w=3, corrige el conteo de ventana. El starter usa `<= t` (incluye el instante d",
+      "n_sentences": 4,
+      "n_words": 47,
+      "fh": 114.43,
+      "inflesz": 111.58,
+      "wps": 11.75,
+      "spw": 1.34,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "(): 1/2"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "[]: 2/1"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.149
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1149,
+      "key": "hint",
+      "preview": "Predicado correcto: t - w <= ts < t (estricto en t).",
+      "n_sentences": 1,
+      "n_words": 9,
+      "fh": 90.99,
+      "inflesz": 87.08,
+      "wps": 9.0,
+      "spw": 1.778,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1151,
+      "key": "hints",
+      "preview": "Predicado correcto: t - w <= ts < t (estricto en t).",
+      "n_sentences": 1,
+      "n_words": 9,
+      "fh": 90.99,
+      "inflesz": 87.08,
+      "wps": 9.0,
+      "spw": 1.778,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1152,
+      "key": "hints",
+      "preview": "includes_t se deriva del conteo half-open, no de un flag inventado.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 87.43,
+      "inflesz": 83.61,
+      "wps": 13.0,
+      "spw": 1.769,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 1155,
+      "key": "tests",
+      "preview": "Imprime `S32-T2-B PASS` con count 2 e includes_t False.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 114.6,
+      "inflesz": 111.77,
+      "wps": 12.0,
+      "spw": 1.333,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1156,
+      "key": "feedback",
+      "preview": "S32-T2-B-E1: incluir t es leakage temporal clásico; la política half-open es el contrato documentado.",
+      "n_sentences": 1,
+      "n_words": 18,
+      "fh": 68.48,
+      "inflesz": 64.24,
+      "wps": 18.0,
+      "spw": 2.0,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1188,
+      "key": "instruction",
+      "preview": "S32-T2-B-E2 · `assess` calcula count e includes_t desde events/t/w. Válido: half-open correcto. Adverso: flag includes_t",
+      "n_sentences": 4,
+      "n_words": 30,
+      "fh": 97.19,
+      "inflesz": 93.43,
+      "wps": 7.5,
+      "spw": 1.7,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "S32-T2-B-E2 · `assess` calcula count e includes_t desde events/t/w."
+        },
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Adverso: flag includes_t True (o conteo cerrado)."
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1189,
+      "key": "hint",
+      "preview": "Si falta w no intentes el conteo.",
+      "n_sentences": 1,
+      "n_words": 7,
+      "fh": 96.84,
+      "inflesz": 93.04,
+      "wps": 7.0,
+      "spw": 1.714,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1191,
+      "key": "hints",
+      "preview": "Si falta w no intentes el conteo.",
+      "n_sentences": 1,
+      "n_words": 7,
+      "fh": 96.84,
+      "inflesz": 93.04,
+      "wps": 7.0,
+      "spw": 1.714,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1192,
+      "key": "hints",
+      "preview": "PASS si count half-open es 2 e includes_t calculado es False (o el flag del record es False y w>0).",
+      "n_sentences": 1,
+      "n_words": 23,
+      "fh": 105.12,
+      "inflesz": 102.57,
+      "wps": 23.0,
+      "spw": 1.304,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1196,
+      "key": "feedback",
+      "preview": "S32-T2-B-E2: el adverso modela la ventana que filtra t; no es un schema roto.",
+      "n_sentences": 1,
+      "n_words": 17,
+      "fh": 97.74,
+      "inflesz": 94.55,
+      "wps": 17.0,
+      "spw": 1.529,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1241,
+      "key": "instruction",
+      "preview": "S32-T2-B-E3 · Fail-closed temporal: recompute includes_t y count con half-open `[t−w, t)`; si el flag o el cómputo marca",
+      "n_sentences": 2,
+      "n_words": 42,
+      "fh": 85.42,
+      "inflesz": 82.0,
+      "wps": 21.0,
+      "spw": 1.667,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 36,
+          "excerpt": "S32-T2-B-E3 · Fail-closed temporal: recompute includes_t y count con half-open `[t−w, t)`; si el flag o el cómputo marcan t incluido → `REJECT_FUTURE_TS`; sin w"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "(): 0/1"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "[]: 1/0"
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1242,
+      "key": "hint",
+      "preview": "Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).",
+      "n_sentences": 2,
+      "n_words": 15,
+      "fh": 91.19,
+      "inflesz": 87.2,
+      "wps": 7.5,
+      "spw": 1.8,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1244,
+      "key": "hints",
+      "preview": "Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).",
+      "n_sentences": 2,
+      "n_words": 15,
+      "fh": 91.19,
+      "inflesz": 87.2,
+      "wps": 7.5,
+      "spw": 1.8,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1245,
+      "key": "hints",
+      "preview": "CONTINUE solo si includes_t del record es False, el recompute half-open no incluye t, y w > 0.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 92.72,
+      "inflesz": 89.47,
+      "wps": 19.0,
+      "spw": 1.579,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.105
+        }
+      ]
+    },
+    {
+      "line": 1249,
+      "key": "feedback",
+      "preview": "S32-T2-B-E3: sin ancho de ventana no hay feature temporal legítima.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 82.81,
+      "inflesz": 78.82,
+      "wps": 13.0,
+      "spw": 1.846,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1303,
+      "key": "instruction",
+      "preview": "S32-T3-A-E1 · Completa ModeImputer: fit aprende la moda; transform rellena None. El starter transforma sin comprobar fit",
+      "n_sentences": 4,
+      "n_words": 40,
+      "fh": 99.14,
+      "inflesz": 95.6,
+      "wps": 10.0,
+      "spw": 1.625,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Tras fit(['app','app','web']), transform([None,'web']) debe ser ['app','web']."
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.125
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1304,
+      "key": "hint",
+      "preview": "En transform, si self.mode is None: raise RuntimeError('not fitted').",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 86.53,
+      "inflesz": 82.56,
+      "wps": 11.0,
+      "spw": 1.818,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        }
+      ]
+    },
+    {
+      "line": 1306,
+      "key": "hints",
+      "preview": "En transform, si self.mode is None: raise RuntimeError('not fitted').",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 86.53,
+      "inflesz": 82.56,
+      "wps": 11.0,
+      "spw": 1.818,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        }
+      ]
+    },
+    {
+      "line": 1307,
+      "key": "hints",
+      "preview": "fit usa max(set(xs), key=xs.count) para la moda.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 119.26,
+      "inflesz": 116.54,
+      "wps": 11.0,
+      "spw": 1.273,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        }
+      ]
+    },
+    {
+      "line": 1310,
+      "key": "tests",
+      "preview": "Imprime `S32-T3-A PASS` cuando el transform post-fit es correcto.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 104.6,
+      "inflesz": 101.39,
+      "wps": 12.0,
+      "spw": 1.5,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1311,
+      "key": "feedback",
+      "preview": "S32-T3-A-E1: el orden fit→transform es el contrato; transform silencioso sin fit es REJECT_TRANSFORM_BEFORE_FIT.",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 90.44,
+      "inflesz": 87.16,
+      "wps": 20.0,
+      "spw": 1.6,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1361,
+      "key": "instruction",
+      "preview": "S32-T3-A-E2 · `assess` recibe `train_xs` y `serve_xs`: haz fit de moda en train y transform en serve. Válido: train con ",
+      "n_sentences": 5,
+      "n_words": 51,
+      "fh": 99.97,
+      "inflesz": 96.47,
+      "wps": 10.2,
+      "spw": 1.608,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1362,
+      "key": "hint",
+      "preview": "Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 89.57,
+      "inflesz": 86.19,
+      "wps": 19.0,
+      "spw": 1.632,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.105
+        }
+      ]
+    },
+    {
+      "line": 1364,
+      "key": "hints",
+      "preview": "Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 89.57,
+      "inflesz": 86.19,
+      "wps": 19.0,
+      "spw": 1.632,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.105
+        }
+      ]
+    },
+    {
+      "line": 1365,
+      "key": "hints",
+      "preview": "mode = max(set(train_xs), key=train_xs.count); serve rellena None con mode.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 106.85,
+      "inflesz": 103.84,
+      "wps": 14.0,
+      "spw": 1.429,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1369,
+      "key": "feedback",
+      "preview": "S32-T3-A-E2: el state fitted se demuestra con fit real sobre train_xs; un flag no es evidencia.",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 99.44,
+      "inflesz": 96.5,
+      "wps": 20.0,
+      "spw": 1.45,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1439,
+      "key": "instruction",
+      "preview": "S32-T3-A-E3 · Fail-closed de transformers: con `train_xs`/`serve_xs`, fit real de moda y transform; ok → `CONTINUE`; `tr",
+      "n_sentences": 2,
+      "n_words": 43,
+      "fh": 95.61,
+      "inflesz": 92.61,
+      "wps": 21.5,
+      "spw": 1.488,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 37,
+          "excerpt": "S32-T3-A-E3 · Fail-closed de transformers: con `train_xs`/`serve_xs`, fit real de moda y transform; ok → `CONTINUE`; `try_before_fit` o train vacío → `REJECT_TR"
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1440,
+      "key": "hint",
+      "preview": "Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.",
+      "n_sentences": 2,
+      "n_words": 18,
+      "fh": 117.66,
+      "inflesz": 114.77,
+      "wps": 9.0,
+      "spw": 1.333,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.111
+        }
+      ]
+    },
+    {
+      "line": 1442,
+      "key": "hints",
+      "preview": "Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.",
+      "n_sentences": 2,
+      "n_words": 18,
+      "fh": 117.66,
+      "inflesz": 114.77,
+      "wps": 9.0,
+      "spw": 1.333,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.111
+        }
+      ]
+    },
+    {
+      "line": 1443,
+      "key": "hints",
+      "preview": "CONTINUE solo si mode aprendido y len(transform(serve_xs)) == len(serve_xs).",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 87.43,
+      "inflesz": 83.61,
+      "wps": 13.0,
+      "spw": 1.769,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 1447,
+      "key": "feedback",
+      "preview": "S32-T3-A-E3: pedir el state de fit evita silent defaults en serve; el CONTINUE se gana fitteando, no leyendo un flag.",
+      "n_sentences": 1,
+      "n_words": 23,
+      "fh": 86.86,
+      "inflesz": 83.61,
+      "wps": 23.0,
+      "spw": 1.609,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1516,
+      "key": "instruction",
+      "preview": "S32-T3-B-E1 · Serializa state a JSON, recarga y aplica mediana al batch [None, 4]. El starter omite version o no aplica ",
+      "n_sentences": 4,
+      "n_words": 40,
+      "fh": 103.64,
+      "inflesz": 100.27,
+      "wps": 10.0,
+      "spw": 1.55,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1517,
+      "key": "hint",
+      "preview": "json.loads(json.dumps(state)); fill None con state['median'].",
+      "n_sentences": 1,
+      "n_words": 10,
+      "fh": 106.64,
+      "inflesz": 103.39,
+      "wps": 10.0,
+      "spw": 1.5,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1519,
+      "key": "hints",
+      "preview": "json.loads(json.dumps(state)); fill None con state['median'].",
+      "n_sentences": 1,
+      "n_words": 10,
+      "fh": 106.64,
+      "inflesz": 103.39,
+      "wps": 10.0,
+      "spw": 1.5,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1523,
+      "key": "tests",
+      "preview": "Imprime `S32-T3-B PASS` con serve [2, 4] y version fs-v1.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 124.35,
+      "inflesz": 121.95,
+      "wps": 13.0,
+      "spw": 1.154,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1524,
+      "key": "feedback",
+      "preview": "S32-T3-B-E1: el round-trip JSON es el contrato de persistencia; servir sin version es REJECT_UNVERSIONED.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 92.72,
+      "inflesz": 89.47,
+      "wps": 19.0,
+      "spw": 1.579,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1560,
+      "key": "instruction",
+      "preview": "S32-T3-B-E2 · `assess` hace round-trip JSON del `state`, aplica mediana al `serve_batch` y exige version `fs-v*`. Válido",
+      "n_sentences": 5,
+      "n_words": 43,
+      "fh": 97.6,
+      "inflesz": 93.92,
+      "wps": 8.6,
+      "spw": 1.674,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1564,
+      "key": "hints",
+      "preview": "PASS si ver.startswith('fs-v') y serve resultante no tiene None.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 99.6,
+      "inflesz": 96.19,
+      "wps": 12.0,
+      "spw": 1.583,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1568,
+      "key": "feedback",
+      "preview": "S32-T3-B-E2: fs-vN es el id que S33 consumirá; el round-trip + apply mediana demuestran train≡serve.",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 99.44,
+      "inflesz": 96.5,
+      "wps": 20.0,
+      "spw": 1.45,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1641,
+      "key": "instruction",
+      "preview": "S32-T3-B-E3 · Fail-closed de persistencia: round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONT",
+      "n_sentences": 1,
+      "n_words": 37,
+      "fh": 70.18,
+      "inflesz": 67.12,
+      "wps": 37.0,
+      "spw": 1.649,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 37,
+          "excerpt": "S32-T3-B-E3 · Fail-closed de persistencia: round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONTINUE`; version vacía o serve con None si"
+        },
+        {
+          "rule": "single_sentence_paragraph",
+          "sev": "M",
+          "wc": 37
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1642,
+      "key": "hint",
+      "preview": "Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.",
+      "n_sentences": 2,
+      "n_words": 13,
+      "fh": 117.13,
+      "inflesz": 114.07,
+      "wps": 6.5,
+      "spw": 1.385,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1644,
+      "key": "hints",
+      "preview": "Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.",
+      "n_sentences": 2,
+      "n_words": 13,
+      "fh": 117.13,
+      "inflesz": 114.07,
+      "wps": 6.5,
+      "spw": 1.385,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1645,
+      "key": "hints",
+      "preview": "CONTINUE solo si ver.startswith('fs-v') y serve resultante == [2, 4] en el fixture.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 99.54,
+      "inflesz": 96.31,
+      "wps": 15.0,
+      "spw": 1.533,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1649,
+      "key": "feedback",
+      "preview": "S32-T3-B-E3: REQUEST_STATE_JSON es fail-closed cuando falta el artefacto; el CONTINUE se gana aplicando el state, no con",
+      "n_sentences": 1,
+      "n_words": 26,
+      "fh": 81.09,
+      "inflesz": 77.8,
+      "wps": 26.0,
+      "spw": 1.654,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1723,
+      "key": "instruction",
+      "preview": "S32-T4-A-E1 · A partir de filas con ts/entity y cutoff '2026-02-01', calcula n_train, n_test y overlap de entidades. El ",
+      "n_sentences": 4,
+      "n_words": 44,
+      "fh": 112.44,
+      "inflesz": 109.46,
+      "wps": 11.0,
+      "spw": 1.386,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "english_dominant",
+          "sev": "M",
+          "excerpt": "Pasa si n_train=1, n_test=1, overlap=0."
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        },
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1727,
+      "key": "hints",
+      "preview": "No devuelvas constantes: deriva tamaños de las listas.",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 71.18,
+      "inflesz": 66.45,
+      "wps": 8.0,
+      "spw": 2.125,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 1730,
+      "key": "tests",
+      "preview": "Imprime `S32-T4-A PASS` con overlap 0 calculado.",
+      "n_sentences": 1,
+      "n_words": 9,
+      "fh": 97.66,
+      "inflesz": 94.0,
+      "wps": 9.0,
+      "spw": 1.667,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1731,
+      "key": "feedback",
+      "preview": "S32-T4-A-E1: overlap de entidades infla métricas; el gate exige cero intersección.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 63.99,
+      "inflesz": 59.34,
+      "wps": 14.0,
+      "spw": 2.143,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1772,
+      "key": "instruction",
+      "preview": "S32-T4-A-E2 · `assess` recibe `rows` y `cut`: calcula n_train, n_test y overlap de entidades (no uses flags precomputado",
+      "n_sentences": 2,
+      "n_words": 37,
+      "fh": 84.19,
+      "inflesz": 80.57,
+      "wps": 18.5,
+      "spw": 1.73,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1776,
+      "key": "hints",
+      "preview": "PASS solo si ambos lados no vacíos y len(overlap)==0.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 108.35,
+      "inflesz": 105.22,
+      "wps": 11.0,
+      "spw": 1.455,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1780,
+      "key": "feedback",
+      "preview": "S32-T4-A-E2: el overlap se deriva de las filas; reportarlo es parte del informe de split, no un detalle opcional.",
+      "n_sentences": 1,
+      "n_words": 22,
+      "fh": 83.49,
+      "inflesz": 80.06,
+      "wps": 22.0,
+      "spw": 1.682,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1858,
+      "key": "instruction",
+      "preview": "S32-T4-A-E3 · Fail-closed de split: a partir de `rows` y `cut`, calcula n_train, n_test y overlap de entidades. Lados no",
+      "n_sentences": 3,
+      "n_words": 49,
+      "fh": 92.22,
+      "inflesz": 88.79,
+      "wps": 16.33,
+      "spw": 1.633,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1859,
+      "key": "hint",
+      "preview": "Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.",
+      "n_sentences": 2,
+      "n_words": 14,
+      "fh": 101.13,
+      "inflesz": 97.49,
+      "wps": 7.0,
+      "spw": 1.643,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1861,
+      "key": "hints",
+      "preview": "Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.",
+      "n_sentences": 2,
+      "n_words": 14,
+      "fh": 101.13,
+      "inflesz": 97.49,
+      "wps": 7.0,
+      "spw": 1.643,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1862,
+      "key": "hints",
+      "preview": "CONTINUE solo si len(train)>=1, len(test)>=1 y len(overlap)==0 — no confíes en n_train prebakeado.",
+      "n_sentences": 1,
+      "n_words": 19,
+      "fh": 105.35,
+      "inflesz": 102.58,
+      "wps": 19.0,
+      "spw": 1.368,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 1866,
+      "key": "feedback",
+      "preview": "S32-T4-A-E3: sin filas de split no se puede auditar el leakage de identidad; el overlap se recalcula, no se inventa.",
+      "n_sentences": 1,
+      "n_words": 23,
+      "fh": 79.03,
+      "inflesz": 75.49,
+      "wps": 23.0,
+      "spw": 1.739,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1943,
+      "key": "instruction",
+      "preview": "S32-T4-B-E1 · Escanea names con 'label'/'decision', calcula skew |serve_mean-train_mean|>0.5 y valida feature_set fs-v*.",
+      "n_sentences": 4,
+      "n_words": 42,
+      "fh": 98.99,
+      "inflesz": 95.47,
+      "wps": 10.5,
+      "spw": 1.619,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1950,
+      "key": "tests",
+      "preview": "Imprime `S32-T4-B PASS` con scan limpio y fs-v2.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 119.26,
+      "inflesz": 116.54,
+      "wps": 11.0,
+      "spw": 1.273,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1951,
+      "key": "feedback",
+      "preview": "S32-T4-B-E1: el scan de nombres + skew cierra el promote antes del baseline S33.",
+      "n_sentences": 1,
+      "n_words": 16,
+      "fh": 100.52,
+      "inflesz": 97.39,
+      "wps": 16.0,
+      "spw": 1.5,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1987,
+      "key": "instruction",
+      "preview": "S32-T4-B-E2 · `assess` escanea `names` (label/decision), calcula skew con means+tol y valida `feature_set`. Válido: name",
+      "n_sentences": 2,
+      "n_words": 37,
+      "fh": 69.59,
+      "inflesz": 65.42,
+      "wps": 18.5,
+      "spw": 1.973,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 1995,
+      "key": "feedback",
+      "preview": "S32-T4-B-E2: label_decision en el catálogo es red flag de leakage, no una feature útil; el skew se mide, no se intuye.",
+      "n_sentences": 1,
+      "n_words": 25,
+      "fh": 82.94,
+      "inflesz": 79.66,
+      "wps": 25.0,
+      "spw": 1.64,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 2071,
+      "key": "instruction",
+      "preview": "S32-T4-B-E3 · Fail-closed final del pipeline hacia S33: escanea `names`, mide skew con means+tol y valida `feature_set`.",
+      "n_sentences": 2,
+      "n_words": 41,
+      "fh": 77.64,
+      "inflesz": 73.89,
+      "wps": 20.5,
+      "spw": 1.805,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 2072,
+      "key": "hint",
+      "preview": "Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.",
+      "n_sentences": 2,
+      "n_words": 17,
+      "fh": 74.64,
+      "inflesz": 70.07,
+      "wps": 8.5,
+      "spw": 2.059,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 2074,
+      "key": "hints",
+      "preview": "Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.",
+      "n_sentences": 2,
+      "n_words": 17,
+      "fh": 74.64,
+      "inflesz": 70.07,
+      "wps": 8.5,
+      "spw": 2.059,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 2079,
+      "key": "feedback",
+      "preview": "S32-T4-B-E3: el feature_set id es el contrato que S33 debe citar; el promote se gana midiendo scan y skew, no leyendo un",
+      "n_sentences": 1,
+      "n_words": 28,
+      "fh": 79.71,
+      "inflesz": 76.49,
+      "wps": 28.0,
+      "spw": 1.643,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "subtopic_id_in_prose",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "line": 2153,
+      "key": "title",
+      "preview": "Feature table versionada sin leakage (CP-N3-B)",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 63.68,
+      "inflesz": 58.66,
+      "wps": 8.0,
+      "spw": 2.25,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Feature table versionada sin leakage (CP-N3-B)"
+        }
+      ]
+    },
+    {
+      "line": 2155,
+      "key": "context",
+      "preview": "Entrega un mini feature set para CASO-LIM-032 / run_id=cpn3b-feat: catálogo, ventanas half-open, state versionado, split",
+      "n_sentences": 2,
+      "n_words": 50,
+      "fh": 74.54,
+      "inflesz": 70.94,
+      "wps": 25.0,
+      "spw": 1.78,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "caso_lim_taxonomy",
+          "sev": "M",
+          "detail": "CASO-LIM-NNN visible"
+        }
+      ]
+    },
+    {
+      "line": 2236,
+      "key": "portfolioNote",
+      "preview": "Feature set fs-vN + anti-leakage checklist + informe de split (n_train, n_test, overlap 0) listos para el baseline S33. ",
+      "n_sentences": 2,
+      "n_words": 29,
+      "fh": 82.39,
+      "inflesz": 78.48,
+      "wps": 14.5,
+      "spw": 1.828,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 2238,
+      "key": "criterion",
+      "preview": "Train≡serve, sin leakage temporal/de label y feature set versionado",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 64.71,
+      "inflesz": 59.91,
+      "wps": 11.0,
+      "spw": 2.182,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Train≡serve, sin leakage temporal/de label y feature set versionado"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        }
+      ]
+    },
+    {
+      "line": 2239,
+      "key": "criterion",
+      "preview": "Correctitud técnica: ventanas half-open, stats de train, split con overlap 0",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 89.6,
+      "inflesz": 85.81,
+      "wps": 12.0,
+      "spw": 1.75,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Correctitud técnica: ventanas half-open, stats de train, split con overlap 0"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.167
+        }
+      ]
+    },
+    {
+      "line": 2240,
+      "key": "criterion",
+      "preview": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude",
+      "n_sentences": 1,
+      "n_words": 10,
+      "fh": 76.64,
+      "inflesz": 72.24,
+      "wps": 10.0,
+      "spw": 2.0,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude"
+        }
+      ]
+    },
+    {
+      "line": 2241,
+      "key": "criterion",
+      "preview": "Pruebas o casos de borde documentados (adverso includes_t, unknown feature)",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 53.8,
+      "inflesz": 48.58,
+      "wps": 11.0,
+      "spw": 2.364,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Pruebas o casos de borde documentados (adverso includes_t, unknown feature)"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.091
+        }
+      ]
+    },
+    {
+      "line": 2242,
+      "key": "criterion",
+      "preview": "Código legible y límites claros (REQUEST_* vs REJECT_*)",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 71.18,
+      "inflesz": 66.45,
+      "wps": 8.0,
+      "spw": 2.125,
+      "band": "bastante_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Código legible y límites claros (REQUEST_* vs REJECT_*)"
+        },
+        {
+          "rule": "vs_without_period",
+          "sev": "L"
+        }
+      ]
+    },
+    {
+      "line": 2243,
+      "key": "criterion",
+      "preview": "Documentación en español profesional",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": -7.24,
+      "inflesz": -15.21,
+      "wps": 4.0,
+      "spw": 3.5,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Documentación en español profesional"
+        }
+      ]
+    },
+    {
+      "line": 2250,
+      "key": "question",
+      "preview": "Una ventana half-open [t−w, t) excluye:",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 101.18,
+      "inflesz": 97.6,
+      "wps": 8.0,
+      "spw": 1.625,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "(): 0/1"
+        },
+        {
+          "rule": "unbalanced_delim",
+          "sev": "M",
+          "detail": "[]: 1/0"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.125
+        }
+      ]
+    },
+    {
+      "line": 2254,
+      "key": "explanation",
+      "preview": "Half-open evita leakage temporal al no contar el momento de decisión ni timestamps futuros.",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 59.54,
+      "inflesz": 54.78,
+      "wps": 15.0,
+      "spw": 2.2,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 2257,
+      "key": "question",
+      "preview": "Transform antes de fit debe:",
+      "n_sentences": 1,
+      "n_words": 5,
+      "fh": 105.74,
+      "inflesz": 102.16,
+      "wps": 5.0,
+      "spw": 1.6,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 2261,
+      "key": "explanation",
+      "preview": "El contrato fit→transform exige fallo explícito si no hay estado fitted.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 74.6,
+      "inflesz": 70.24,
+      "wps": 12.0,
+      "spw": 2.0,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 2264,
+      "key": "question",
+      "preview": "Overlap de entidades entre train y test:",
+      "n_sentences": 1,
+      "n_words": 7,
+      "fh": 88.27,
+      "inflesz": 84.14,
+      "wps": 7.0,
+      "spw": 1.857,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 2268,
+      "key": "explanation",
+      "preview": "La misma entidad en ambos lados infla métricas; overlap debe ser 0.",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 84.6,
+      "inflesz": 80.62,
+      "wps": 12.0,
+      "spw": 1.833,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 2271,
+      "key": "question",
+      "preview": "Un nombre de feature con 'label' o 'decision':",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 86.18,
+      "inflesz": 82.02,
+      "wps": 8.0,
+      "spw": 1.875,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 2275,
+      "key": "explanation",
+      "preview": "Features que embeden la decisión o el label contaminan el entrenamiento.",
+      "n_sentences": 1,
+      "n_words": 11,
+      "fh": 48.35,
+      "inflesz": 42.92,
+      "wps": 11.0,
+      "spw": 2.455,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "line": 2278,
+      "key": "question",
+      "preview": "Al estandarizar amount, μ y σ deben calcularse…",
+      "n_sentences": 1,
+      "n_words": 6,
+      "fh": 50.72,
+      "inflesz": 45.09,
+      "wps": 6.0,
+      "spw": 2.5,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Al estandarizar amount, μ y σ deben calcularse…"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.167
+        }
+      ]
+    },
+    {
+      "line": 2282,
+      "key": "explanation",
+      "preview": "Estadísticas de escalado/encoding se aprenden en fit (train) y se congelan; re-fit en test/serve es leakage o skew.",
+      "n_sentences": 1,
+      "n_words": 21,
+      "fh": 76.85,
+      "inflesz": 73.1,
+      "wps": 21.0,
+      "spw": 1.81,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 2285,
+      "key": "question",
+      "preview": "Si en serve aparece una key que no está en el feature catalog:",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 82.81,
+      "inflesz": 78.82,
+      "wps": 13.0,
+      "spw": 1.846,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 2289,
+      "key": "explanation",
+      "preview": "Train≡serve exige keys ⊆ catálogo; una feature inventada en serve rompe el contrato.",
+      "n_sentences": 1,
+      "n_words": 13,
+      "fh": 55.12,
+      "inflesz": 50.07,
+      "wps": 13.0,
+      "spw": 2.308,
+      "band": "bastante_difícil",
+      "findings": []
+    },
+    {
+      "line": 2292,
+      "key": "question",
+      "preview": "Un missing indicator junto al fill con mediana de train sirve para:",
+      "n_sentences": 1,
+      "n_words": 12,
+      "fh": 89.6,
+      "inflesz": 85.81,
+      "wps": 12.0,
+      "spw": 1.75,
+      "band": "fácil",
+      "findings": []
+    },
+    {
+      "line": 2296,
+      "key": "explanation",
+      "preview": "El indicator (1 si era None) viaja con el valor relleno; rellenar sin él es silent fill.",
+      "n_sentences": 1,
+      "n_words": 17,
+      "fh": 90.68,
+      "inflesz": 87.22,
+      "wps": 17.0,
+      "spw": 1.647,
+      "band": "muy_fácil",
+      "findings": []
+    },
+    {
+      "line": 2299,
+      "key": "question",
+      "preview": "Skew train–serve se detecta midiendo, por ejemplo:",
+      "n_sentences": 1,
+      "n_words": 8,
+      "fh": 86.18,
+      "inflesz": 82.02,
+      "wps": 8.0,
+      "spw": 1.875,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.125
+        }
+      ]
+    },
+    {
+      "line": 2303,
+      "key": "explanation",
+      "preview": "Divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea con umbral.",
+      "n_sentences": 1,
+      "n_words": 14,
+      "fh": 38.27,
+      "inflesz": 32.63,
+      "wps": 14.0,
+      "spw": 2.571,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "line": 2306,
+      "key": "question",
+      "preview": "Si el vocabulario de una categórica crece y cambias el schema del feature set, debes…",
+      "n_sentences": 1,
+      "n_words": 15,
+      "fh": 67.54,
+      "inflesz": 63.08,
+      "wps": 15.0,
+      "spw": 2.067,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": " vocabulario de una categórica crece y cambias el schema del feature set, debes…"
+        }
+      ]
+    },
+    {
+      "line": 2310,
+      "key": "explanation",
+      "preview": "Cambio de vocab/schema invalida el contrato congelado: version bump y el baseline S33 debe citar el fs-vN nuevo.",
+      "n_sentences": 1,
+      "n_words": 20,
+      "fh": 72.44,
+      "inflesz": 68.47,
+      "wps": 20.0,
+      "spw": 1.9,
+      "band": "bastante_fácil",
+      "findings": []
+    },
+    {
+      "line": 2313,
+      "key": "question",
+      "preview": "Falta el JSON de state fit en serve. La respuesta fail-closed correcta es…",
+      "n_sentences": 2,
+      "n_words": 14,
+      "fh": 105.41,
+      "inflesz": 101.94,
+      "wps": 7.0,
+      "spw": 1.571,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "La respuesta fail-closed correcta es…"
+        }
+      ]
+    },
+    {
+      "line": 2317,
+      "key": "explanation",
+      "preview": "Ausencia de prerequisito → REQUEST_*; incumplimiento detectado (futuro, label, overlap) → REJECT_*. No silent defaults.",
+      "n_sentences": 2,
+      "n_words": 13,
+      "fh": 38.67,
+      "inflesz": 32.6,
+      "wps": 6.5,
+      "spw": 2.692,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "density": 0.154
+        }
+      ]
+    },
+    {
+      "line": 2326,
+      "key": "note",
+      "preview": "fit/transform y ColumnTransformer",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 67.76,
+      "inflesz": 62.66,
+      "wps": 4.0,
+      "spw": 2.25,
+      "band": "normal",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "fit/transform y ColumnTransformer"
+        }
+      ]
+    },
+    {
+      "line": 2331,
+      "key": "note",
+      "preview": "Columnas heterogéneas",
+      "n_sentences": 1,
+      "n_words": 2,
+      "fh": -65.2,
+      "inflesz": -75.51,
+      "wps": 2.0,
+      "spw": 4.5,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Columnas heterogéneas"
+        }
+      ]
+    },
+    {
+      "line": 2336,
+      "key": "note",
+      "preview": "Train-serve y materialización",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 37.76,
+      "inflesz": 31.51,
+      "wps": 4.0,
+      "spw": 2.75,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Train-serve y materialización"
+        }
+      ]
+    },
+    {
+      "line": 2341,
+      "key": "note",
+      "preview": "Training-serving skew y leakage",
+      "n_sentences": 1,
+      "n_words": 5,
+      "fh": 81.74,
+      "inflesz": 77.24,
+      "wps": 5.0,
+      "spw": 2.0,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Training-serving skew y leakage"
+        }
+      ]
+    },
+    {
+      "line": 2360,
+      "key": "note",
+      "preview": "Leakage patterns y encodings",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 52.76,
+      "inflesz": 47.09,
+      "wps": 4.0,
+      "spw": 2.5,
+      "band": "bastante_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Leakage patterns y encodings"
+        }
+      ]
+    },
+    {
+      "line": 2361,
+      "key": "note",
+      "preview": "Feature stores y skew",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 82.76,
+      "inflesz": 78.24,
+      "wps": 4.0,
+      "spw": 2.0,
+      "band": "fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Feature stores y skew"
+        }
+      ]
+    },
+    {
+      "line": 2367,
+      "key": "note",
+      "preview": "Feature pipelines y producción",
+      "n_sentences": 1,
+      "n_words": 4,
+      "fh": 7.76,
+      "inflesz": 0.36,
+      "wps": 4.0,
+      "spw": 3.25,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Feature pipelines y producción"
+        }
+      ]
+    },
+    {
+      "line": 2372,
+      "key": "note",
+      "preview": "Pipelines de features",
+      "n_sentences": 1,
+      "n_words": 3,
+      "fh": 23.78,
+      "inflesz": 16.94,
+      "wps": 3.0,
+      "spw": 3.0,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Pipelines de features"
+        }
+      ]
+    },
+    {
+      "line": 2377,
+      "key": "note",
+      "preview": "Contratos y tests",
+      "n_sentences": 1,
+      "n_words": 3,
+      "fh": 103.78,
+      "inflesz": 100.0,
+      "wps": 3.0,
+      "spw": 1.667,
+      "band": "muy_fácil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "excerpt": "Contratos y tests"
+        }
+      ]
+    }
+  ],
+  "worst_sentences_by_fh": [
+    {
+      "line": 2331,
+      "key": "note",
+      "text": "Columnas heterogéneas",
+      "wc": 2,
+      "fh": -65.2,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 2243,
+      "key": "criterion",
+      "text": "Documentación en español profesional",
+      "wc": 4,
+      "fh": -7.24,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 2367,
+      "key": "note",
+      "text": "Feature pipelines y producción",
+      "wc": 4,
+      "fh": 7.76,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 6,
+      "key": "title",
+      "text": "Feature engineering y pipelines sin leakage",
+      "wc": 6,
+      "fh": 10.72,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 2317,
+      "key": "explanation",
+      "text": "Ausencia de prerequisito → REQUEST_*; incumplimiento detectado (futuro, label, overlap) → REJECT_*.",
+      "wc": 10,
+      "fh": 16.64,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 89,
+      "key": "content",
+      "text": "Incumplimiento → REJECT_UNKNOWN_FEATURE; falta catálogo → REQUEST_CATALOG.",
+      "wc": 8,
+      "fh": 18.68,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 93,
+      "key": "heading",
+      "text": "Missing indicators, escalamiento y encoding",
+      "wc": 5,
+      "fh": 21.74,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 810,
+      "key": "instruction",
+      "text": "Válido: indicator correcto + median.",
+      "wc": 4,
+      "fh": 22.76,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 7,
+      "key": "shortTitle",
+      "text": "Features sin leakage",
+      "wc": 3,
+      "fh": 23.78,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 2372,
+      "key": "note",
+      "text": "Pipelines de features",
+      "wc": 3,
+      "fh": 23.78,
+      "band": "muy_difícil"
+    },
+    {
+      "line": 57,
+      "key": "heading",
+      "text": "Features numéricas, categóricas y de texto",
+      "wc": 6,
+      "fh": 30.72,
+      "band": "difícil"
+    },
+    {
+      "line": 165,
+      "key": "heading",
+      "text": "Ventanas temporales y frecuencia",
+      "wc": 4,
+      "fh": 37.76,
+      "band": "difícil"
+    },
+    {
+      "line": 2336,
+      "key": "note",
+      "text": "Train-serve y materialización",
+      "wc": 4,
+      "fh": 37.76,
+      "band": "difícil"
+    },
+    {
+      "line": 2303,
+      "key": "explanation",
+      "text": "Divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea con umbral.",
+      "wc": 14,
+      "fh": 38.27,
+      "band": "difícil"
+    },
+    {
+      "line": 599,
+      "key": "intro",
+      "text": "Cada lab **recalcula** catálogo, escala, grafo, ventana, fit/persist o split desde datos sintéticos — no inviertes un booleano precomputado.",
+      "wc": 19,
+      "fh": 39.04,
+      "band": "difícil"
+    },
+    {
+      "line": 16,
+      "key": "jobRelevance",
+      "text": "En esta sección construyes la **tabla de features versionada** del workbench de investigación relacional (CP-N3-B): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión.",
+      "wc": 30,
+      "fh": 40.24,
+      "band": "difícil"
+    },
+    {
+      "line": 53,
+      "key": "content",
+      "text": "Cada subtema reutiliza estas definiciones con un mini-demo computable.",
+      "wc": 10,
+      "fh": 40.64,
+      "band": "difícil"
+    },
+    {
+      "line": 29,
+      "key": "heading",
+      "text": "Tabla de features versionada sin leakage",
+      "wc": 6,
+      "fh": 40.72,
+      "band": "difícil"
+    },
+    {
+      "line": 126,
+      "key": "heading",
+      "text": "Contacto compartido, distancia y features de grafo",
+      "wc": 7,
+      "fh": 45.41,
+      "band": "difícil"
+    },
+    {
+      "line": 1006,
+      "key": "instruction",
+      "text": "Válido: topología limpia; adverso: label de decisión como feature; sin neighbors → `MISSING:neighbors`.",
+      "wc": 13,
+      "fh": 45.89,
+      "band": "difícil"
+    },
+    {
+      "line": 1076,
+      "key": "instruction",
+      "text": "S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpia y uses_label False → `CONTINUE`; label de decisión como feature → `REJECT_LABEL_AS_FEATURE`; sin neighbors → `REQUEST_GRAPH_FEAT`.",
+      "wc": 39,
+      "fh": 47.06,
+      "band": "difícil"
+    },
+    {
+      "line": 449,
+      "key": "why",
+      "text": "Features de grafo (herencia S31) resumen evidencia relacional sin convertir matching en fraude ni parentesco.",
+      "wc": 15,
+      "fh": 47.54,
+      "band": "difícil"
+    },
+    {
+      "line": 2275,
+      "key": "explanation",
+      "text": "Features que embeden la decisión o el label contaminan el entrenamiento.",
+      "wc": 11,
+      "fh": 48.35,
+      "band": "difícil"
+    },
+    {
+      "line": 605,
+      "key": "instruction",
+      "text": "En E2 el adverso con feature desconocida debe activar `REJECT_UNKNOWN_FEATURE`.",
+      "wc": 12,
+      "fh": 49.6,
+      "band": "difícil"
+    },
+    {
+      "line": 2278,
+      "key": "question",
+      "text": "Al estandarizar amount, μ y σ deben calcularse…",
+      "wc": 6,
+      "fh": 50.72,
+      "band": "bastante_difícil"
+    }
+  ],
+  "longest_sentences": [
+    {
+      "line": 9,
+      "key": "tagline",
+      "text": "tabla de features versionada con train≡serve, sin futuro ni labels de decisión · Ritmo sugerido: ~10–12 h núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew/versionado hacia S33",
+      "wc": 40,
+      "fh": 73.04,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 1076,
+      "key": "instruction",
+      "text": "S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpia y uses_label False → `CONTINUE`; label de decisión como feature → `REJECT_LABEL_AS_FEATURE`; sin neighbors → `REQUEST_GRAPH_FEAT`.",
+      "wc": 39,
+      "fh": 47.06,
+      "band": "difícil"
+    },
+    {
+      "line": 1439,
+      "key": "instruction",
+      "text": "S32-T3-A-E3 · Fail-closed de transformers: con `train_xs`/`serve_xs`, fit real de moda y transform; ok → `CONTINUE`; `try_before_fit` o train vacío → `REJECT_TRANSFORM_BEFORE_FIT`; sin train_xs → `REQUEST_FIT_STATE`.",
+      "wc": 37,
+      "fh": 79.91,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 1641,
+      "key": "instruction",
+      "text": "S32-T3-B-E3 · Fail-closed de persistencia: round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONTINUE`; version vacía o serve con None sin apply → `REJECT_UNVERSIONED`; sin version → `REQUEST_STATE_JSON`.",
+      "wc": 37,
+      "fh": 70.18,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 1241,
+      "key": "instruction",
+      "text": "S32-T2-B-E3 · Fail-closed temporal: recompute includes_t y count con half-open `[t−w, t)`; si el flag o el cómputo marcan t incluido → `REJECT_FUTURE_TS`; sin w → `REQUEST_WINDOW`; válido → `CONTINUE`.",
+      "wc": 36,
+      "fh": 71.79,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 16,
+      "key": "jobRelevance",
+      "text": "En esta sección construyes la **tabla de features versionada** del workbench de investigación relacional (CP-N3-B): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión.",
+      "wc": 30,
+      "fh": 40.24,
+      "band": "difícil"
+    },
+    {
+      "line": 884,
+      "key": "instruction",
+      "text": "S32-T1-B-E3 · Fail-closed sobre `CASO-LIM-032-1B`: válido (median presente, indicator marca los None) → `CONTINUE`; indicator que oculta missing → `REJECT_SILENT_FILL`; sin median → `REQUEST_MEDIAN`.",
+      "wc": 30,
+      "fh": 66.24,
+      "band": "normal"
+    },
+    {
+      "line": 2079,
+      "key": "feedback",
+      "text": "S32-T4-B-E3: el feature_set id es el contrato que S33 debe citar; el promote se gana midiendo scan y skew, no leyendo un booleano previo.",
+      "wc": 28,
+      "fh": 79.71,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 18,
+      "key": "text",
+      "text": "Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys",
+      "wc": 27,
+      "fh": 57.08,
+      "band": "bastante_difícil"
+    },
+    {
+      "line": 764,
+      "key": "instruction",
+      "text": "S32-T1-B-E1 · Sobre `[1, None, 3]`, construye indicator, fill con mediana de train (=2) y z-score con μ=0, σ=2 **sobre la serie rellena**.",
+      "wc": 26,
+      "fh": 101.86,
+      "band": "muy_fácil"
+    },
+    {
+      "line": 1084,
+      "key": "feedback",
+      "text": "S32-T2-A-E3: pedir la feature de grafo es mejor que inventar degree=0 silencioso; el CONTINUE se gana recalculando topología, no leyendo un flag.",
+      "wc": 26,
+      "fh": 67.24,
+      "band": "normal"
+    },
+    {
+      "line": 1649,
+      "key": "feedback",
+      "text": "S32-T3-B-E3: REQUEST_STATE_JSON es fail-closed cuando falta el artefacto; el CONTINUE se gana aplicando el state, no con un flag versioned.",
+      "wc": 26,
+      "fh": 81.09,
+      "band": "fácil"
+    },
+    {
+      "line": 2155,
+      "key": "context",
+      "text": "Entrega un mini feature set para CASO-LIM-032 / run_id=cpn3b-feat: catálogo, ventanas half-open, state versionado, split sin overlap y scan de leakage.",
+      "wc": 26,
+      "fh": 67.24,
+      "band": "normal"
+    },
+    {
+      "line": 371,
+      "key": "intro",
+      "text": "S32 · **Yo hago**: te muestro catálogo, missing/scale, grafo (puente S31), ventanas half-open, transformers fit→transform y anti-leakage sobre `run_id=cpn3b-feat`.",
+      "wc": 25,
+      "fh": 70.94,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 1723,
+      "key": "instruction",
+      "text": "S32-T4-A-E1 · A partir de filas con ts/entity y cutoff '2026-02-01', calcula n_train, n_test y overlap de entidades.",
+      "wc": 25,
+      "fh": 99.74,
+      "band": "muy_fácil"
+    },
+    {
+      "line": 1995,
+      "key": "feedback",
+      "text": "S32-T4-B-E2: label_decision en el catálogo es red flag de leakage, no una feature útil; el skew se mide, no se intuye.",
+      "wc": 25,
+      "fh": 82.94,
+      "band": "fácil"
+    },
+    {
+      "line": 772,
+      "key": "feedback",
+      "text": "S32-T1-B-E1: escalar la serie rellena es el patrón de stats solo de train; silent fill sin indicator es REJECT_SILENT_FILL.",
+      "wc": 24,
+      "fh": 89.86,
+      "band": "fácil"
+    },
+    {
+      "line": 2155,
+      "key": "context",
+      "text": "El artefacto `fs-vN` (JSON con medianas, vocab y schema hash) es el **contrato de entrada del baseline S33**: sin él no se entrena.",
+      "wc": 24,
+      "fh": 82.36,
+      "band": "fácil"
+    },
+    {
+      "line": 613,
+      "key": "feedback",
+      "text": "S32-T1-A-E1: sin keys desconocidas el catálogo pasa; una feature inventada en serve exige REJECT_UNKNOWN_FEATURE; sin schema, REQUEST_CATALOG.",
+      "wc": 23,
+      "fh": 52.95,
+      "band": "bastante_difícil"
+    },
+    {
+      "line": 1192,
+      "key": "hints",
+      "text": "PASS si count half-open es 2 e includes_t calculado es False (o el flag del record es False y w>0).",
+      "wc": 23,
+      "fh": 105.12,
+      "band": "muy_fácil"
+    },
+    {
+      "line": 1447,
+      "key": "feedback",
+      "text": "S32-T3-A-E3: pedir el state de fit evita silent defaults en serve; el CONTINUE se gana fitteando, no leyendo un flag.",
+      "wc": 23,
+      "fh": 86.86,
+      "band": "fácil"
+    },
+    {
+      "line": 1858,
+      "key": "instruction",
+      "text": "S32-T4-A-E3 · Fail-closed de split: a partir de `rows` y `cut`, calcula n_train, n_test y overlap de entidades.",
+      "wc": 23,
+      "fh": 99.9,
+      "band": "muy_fácil"
+    },
+    {
+      "line": 1866,
+      "key": "feedback",
+      "text": "S32-T4-A-E3: sin filas de split no se puede auditar el leakage de identidad; el overlap se recalcula, no se inventa.",
+      "wc": 23,
+      "fh": 79.03,
+      "band": "bastante_fácil"
+    },
+    {
+      "line": 1943,
+      "key": "instruction",
+      "text": "S32-T4-B-E1 · Escanea names con 'label'/'decision', calcula skew |serve_mean-train_mean|>0.5 y valida feature_set fs-v*.",
+      "wc": 23,
+      "fh": 84.25,
+      "band": "fácil"
+    },
+    {
+      "line": 605,
+      "key": "instruction",
+      "text": "S32-T1-A-E1 · Sobre `CASO-LIM-032-1A`, calcula si las keys del row están ⊆ catálogo (union de numeric/categorical/text).",
+      "wc": 22,
+      "fh": 86.22,
+      "band": "fácil"
+    }
+  ],
+  "all_findings": [
+    {
+      "rule": "meta_leak",
+      "sev": "H",
+      "detail": "todo"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Feature engineering y pipelines sin leakage"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Features sin leakage"
+    },
+    {
+      "rule": "long_sentence",
+      "sev": "M",
+      "wc": 40,
+      "excerpt": "tabla de features versionada con train≡serve, sin futuro ni labels de decisión · Ritmo sugerido: ~10–12 h núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, "
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "s E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew/versionado hacia S33"
+    },
+    {
+      "rule": "single_sentence_paragraph",
+      "sev": "M",
+      "wc": 40
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "eys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "l con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "ionales (shared_address, degree, min path) sin usar label de decisión como input"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "(): 0/1"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "[]: 1/0"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "tom con fit→transform y cadena por tipo de columna (ruta numérica vs categórica)"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "it (mediana, vocab, version) como JSON fs-vN y reutilizarlo en el batch de serve"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "iempo y entidad con informe de split: n_train, n_test y overlap de entidades = 0"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "res leaky + alerta de skew train–serve y promover solo con feature_set id válido"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Tabla de features versionada sin leakage"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Diccionario mínimo de la sección"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Cómo leer este diccionario"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Features numéricas, categóricas y de texto"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Missing indicators, escalamiento y encoding"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Incumplimiento → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Contacto compartido, distancia y features de grafo"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Incumplimiento → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Ventanas temporales y frecuencia"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Transformers custom y cadena fit→transform"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Incumplimiento → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_STATE."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Fit, transform y persistencia del estado"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Split por entidad, grupo y tiempo"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Incumplimiento → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Leakage, skew train–serve y versionado"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Incumplimiento → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "(): 1/2"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "[]: 1/0"
+    },
+    {
+      "rule": "caso_lim_taxonomy",
+      "sev": "M",
+      "detail": "CASO-LIM-NNN visible"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Salidas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "S32-T1-B-E2 · `assess` recibe values, median e indicator."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "caso_lim_taxonomy",
+      "sev": "M",
+      "detail": "CASO-LIM-NNN visible"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "long_sentence",
+      "sev": "M",
+      "wc": 39,
+      "excerpt": "S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpia y uses_label False → `CONTINUE`; label"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "(): 1/2"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "[]: 2/1"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "S32-T2-B-E2 · `assess` calcula count e includes_t desde events/t/w."
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Adverso: flag includes_t True (o conteo cerrado)."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "long_sentence",
+      "sev": "M",
+      "wc": 36,
+      "excerpt": "S32-T2-B-E3 · Fail-closed temporal: recompute includes_t y count con half-open `[t−w, t)`; si el flag o el cómputo marcan t incluido → `REJECT_FUTURE_TS`; sin w"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "(): 0/1"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "[]: 1/0"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Tras fit(['app','app','web']), transform([None,'web']) debe ser ['app','web']."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "long_sentence",
+      "sev": "M",
+      "wc": 37,
+      "excerpt": "S32-T3-A-E3 · Fail-closed de transformers: con `train_xs`/`serve_xs`, fit real de moda y transform; ok → `CONTINUE`; `try_before_fit` o train vacío → `REJECT_TR"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "long_sentence",
+      "sev": "M",
+      "wc": 37,
+      "excerpt": "S32-T3-B-E3 · Fail-closed de persistencia: round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONTINUE`; version vacía o serve con None si"
+    },
+    {
+      "rule": "single_sentence_paragraph",
+      "sev": "M",
+      "wc": 37
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "english_dominant",
+      "sev": "M",
+      "excerpt": "Pasa si n_train=1, n_test=1, overlap=0."
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "subtopic_id_in_prose",
+      "sev": "M"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Feature table versionada sin leakage (CP-N3-B)"
+    },
+    {
+      "rule": "caso_lim_taxonomy",
+      "sev": "M",
+      "detail": "CASO-LIM-NNN visible"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Train≡serve, sin leakage temporal/de label y feature set versionado"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Correctitud técnica: ventanas half-open, stats de train, split con overlap 0"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Pruebas o casos de borde documentados (adverso includes_t, unknown feature)"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Código legible y límites claros (REQUEST_* vs REJECT_*)"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Documentación en español profesional"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "(): 0/1"
+    },
+    {
+      "rule": "unbalanced_delim",
+      "sev": "M",
+      "detail": "[]: 1/0"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Al estandarizar amount, μ y σ deben calcularse…"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": " vocabulario de una categórica crece y cambias el schema del feature set, debes…"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "La respuesta fail-closed correcta es…"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "fit/transform y ColumnTransformer"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Columnas heterogéneas"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Train-serve y materialización"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Training-serving skew y leakage"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Leakage patterns y encodings"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Feature stores y skew"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Feature pipelines y producción"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Pipelines de features"
+    },
+    {
+      "rule": "missing_terminal",
+      "sev": "M",
+      "excerpt": "Contratos y tests"
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.133
+    },
+    {
+      "rule": "vs_without_period",
+      "sev": "L"
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.118
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.087
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.167
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.2
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.143
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.167
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.167
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.167
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.105
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.176
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.133
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.094
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.143
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.154
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.118
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.149
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.105
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.125
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.105
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.105
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.111
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.111
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.167
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.091
+    },
+    {
+      "rule": "vs_without_period",
+      "sev": "L"
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.125
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.167
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.125
+    },
+    {
+      "rule": "high_comma_density",
+      "sev": "L",
+      "density": 0.154
+    }
+  ]
+}

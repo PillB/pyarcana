@@ -1,0 +1,3 @@
+# Git restore S38–S39
+2026-07-24T03:55:52.585606+00:00
+KEEP worktree (DEFECT>HEAD; S38 HEAD had 24 # TODO).

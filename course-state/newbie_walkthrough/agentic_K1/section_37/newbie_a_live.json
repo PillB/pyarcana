@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s37-184d55708a",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S37-T1-A-E1; pista: Todo wall_ms viaja con su n.."
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S37-T1-A-E2, dejo la salida contractual. Hint: Wall=reloj, CPU=procesador, memory=pico.."
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S37-T1-A-E3 y aplico solo el TODO/defecto del paquete. Performance sin same_result es regresión.."
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\n",
+      "justification_from_packet": "Hints + starter de S37-T1-B-E1: implemento el print/predicado del contrato. Pista: median es robusta a un outlier de run.."
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S37-T1-B-E2; pista: Descarta la primera corrida (cold start).."
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S37-T1-B-E3, dejo la salida contractual. Hint: Con N tiny, max es proxy pesimista de lab.."
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S37-T2-A-E1 y aplico solo el TODO/defecto del paquete. Pares no ordenados: n*(n-1)//2.."
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\n",
+      "justification_from_packet": "Hints + starter de S37-T2-A-E2: implemento el print/predicado del contrato. Pista: reduction = 1 - blocked/all.."
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S37-T2-A-E3; pista: Bajar pares O(n²) domina micro-optimizar.."
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S37-T2-B-E1, dejo la salida contractual. Hint: set/dict evitan scan lineal repetido.."
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city, _ in rows if city == \"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Según instruction/hints del packet en S37-T2-B-E2, corrijo el defecto del starter y dejo el print contractual."
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\n",
+      "justification_from_packet": "Hints + starter de S37-T2-B-E3: implemento el print/predicado del contrato. Pista: Primero reduces candidatos; luego features.."
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S37-T3-A-E1; pista: Ceil: (n+size-1)//size.."
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S37-T3-A-E2, dejo la salida contractual. Hint: Lee solo columnas usadas por el scorer.."
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\n",
+      "justification_from_packet": "Exploro el fixture sintético de S37-T3-A-E3 y aplico solo el TODO/defecto del paquete. Si el rango cabe en int32, ahorras memoria.."
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "key = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Según instruction/hints del packet en S37-T3-B-E1, corrijo el defecto del starter y dejo el print contractual."
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S37-T3-B-E2; pista: Al cambiar feature set, invalida.."
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S37-T3-B-E3, dejo la salida contractual. Hint: chunk/spill acotan RAM.."
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S37-T4-A-E1 y aplico solo el TODO/defecto del paquete. pass si measured <= budget.."
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\n",
+      "justification_from_packet": "Hints + starter de S37-T4-A-E2: implemento el print/predicado del contrato. Pista: El test debe poder fallar.."
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S37-T4-A-E3; pista: Latencia sola no basta.."
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S37-T4-B-E1, dejo la salida contractual. Hint: speedup = before_ms / after_ms.."
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\n",
+      "justification_from_packet": "Exploro el fixture sintético de S37-T4-B-E2 y aplico solo el TODO/defecto del paquete. Costo total incluye bugs y review.."
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\n",
+      "justification_from_packet": "Hints + starter de S37-T4-B-E3: implemento el print/predicado del contrato. Pista: Sin hardware/dataset el speedup no es comparable.."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S37: elijo «Estabilizar benches descartando cold start» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S37: elijo «Pares candidatos O(n²)» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S37: elijo «Falla si se rompe el límite acordado» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S37: elijo «Teatro; prioriza claridad y algos» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S37: elijo «No es comparable entre cambios de dataset» alineado a learning outcomes y theory del slim_packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:22.198223+00:00",
+  "session_started_at": "2026-07-23T14:36:02.191383+00:00",
+  "session_ended_at": "2026-07-23T14:36:54.061383+00:00",
+  "receipt_response_sha256": "1cf4a2d2686c5ff687fb68a53118047efa89e5857e9a7a226f9782a0d319368b",
+  "receipt_exercises_sha256": "28566770d2a4cd9f1a0fcd7767d5d94fda9d79e86107d9051eeae62ae41047dc",
+  "receipt_selfcheck_sha256": "0735ea64366d0885adf0bb808ec9011e411ff435aa0a3eaa4a78a5aeab31dbd8"
+}

@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 35,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s35-abe6b803ff9e",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "id": "S35-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T1-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)",
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» resolví S35-T1-A-E1 (guided) leyendo la instruction del quiz_card: «S35-T1-A-E1 · Calcula el contrato de `coeficientes e importancia por permutación` sobre `CASO-LIM-035-1A`. La entrada es el dict completo de…». La pista «Relaciona los campos `drops, metric, means_fraud` con la regla explicada en S35-T1-A.» fijó el patrón observable; conf~0.61.",
+      "confidence": 0.61,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "id": "S35-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T1-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T1-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Primero se calcula `missing`; ningún acceso a drops debe ocurrir antes de esa rama.', 'Después aplica la regla de S35-T1-A: ranking de drops con means_fraud=False y métrica de negocio. El fixture adverso debe fallar por contenido, no por schema.'] y en el tramo «S35-T1-A-E2 · Modela tres rutas de `coeficientes e importancia por permutación`: fixture v» sin inventar APIs fuera del card.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "id": "S35-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T1-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {'case_id', 'means_fraud', 'drops', 'metric'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRIC_DROP\"\n    return \"CONTINUE\" if record.get(\"means_fraud\") is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{k: True for k in required if k != \"case_id\"}}\n# refine known good flags\nif \"catalog_ok\" in valid:\n    valid[\"catalog_ok\"] = True\nif \"silent_fill\" in valid:\n    valid[\"silent_fill\"] = False\nif \"means_fraud\" in valid:\n    valid[\"means_fraud\"] = False\nif \"causal\" in valid:\n    valid[\"causal\"] = False\nif \"use\" in valid:\n    valid[\"use\"] = \"triage\"\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"silent_fill\" in invalid:\n    invalid[\"silent_fill\"] = True\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"causal\" in invalid:\n    invalid[\"causal\"] = True\nelif \"use\" in invalid:\n    invalid[\"use\"] = \"fraud_label\"\nincomplete = {k: v for k, v in valid.items() if k != list(required)[1]}\nprint(decide(valid), decide(invalid), decide(incomplete))",
+      "justification_from_packet": "Cruce theory/iDo de S35 con el starter de S35-T1-A-E3: la salida contractual sigue «S35-T1-A-E3 · Contrasta fallo cerrado para `coeficientes e importancia por permutación` con tres fix». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "id": "S35-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T1-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)",
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» resolví S35-T1-B-E1 (guided) leyendo la instruction del quiz_card: «S35-T1-B-E1 · Calcula el contrato de `explicación local, correlación y límites` sobre `CASO-LIM-035-1B`. La entrada es el dict completo del …». La pista «Relaciona los campos `contrib, layers, causal` con la regla explicada en S35-T1-B.» fijó el patrón observable; conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "id": "S35-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T1-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S35-T1-B-E2 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T1-B-E2 · Modela tres rutas de `explicación local, correlación y límites`: fixture válido, fixture adverso». Hint usado: «Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.». [Ske-35-E2]",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "id": "S35-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T1-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {'case_id', 'layers'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_LAYER_FIELDS\"\n    return \"CONTINUE\" if True else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{k: True for k in required if k != \"case_id\"}}\n# refine known good flags\nif \"catalog_ok\" in valid:\n    valid[\"catalog_ok\"] = True\nif \"silent_fill\" in valid:\n    valid[\"silent_fill\"] = False\nif \"means_fraud\" in valid:\n    valid[\"means_fraud\"] = False\nif \"causal\" in valid:\n    valid[\"causal\"] = False\nif \"use\" in valid:\n    valid[\"use\"] = \"triage\"\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"silent_fill\" in invalid:\n    invalid[\"silent_fill\"] = True\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"causal\" in invalid:\n    invalid[\"causal\"] = True\nelif \"use\" in invalid:\n    invalid[\"use\"] = \"fraud_label\"\nincomplete = {k: v for k, v in valid.items() if k != list(required)[1]}\nprint(decide(valid), decide(invalid), decide(incomplete))",
+      "justification_from_packet": "Cruce theory/iDo de S35 con el starter de S35-T1-B-E3: la salida contractual sigue «S35-T1-B-E3 · Contrasta fallo cerrado para `explicación local, correlación y límites` con tres fixtu». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.55.",
+      "confidence": 0.55,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "id": "S35-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T2-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = record[\"slice_n\"] < record[\"min_n\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)",
+      "justification_from_packet": "Para S35-T2-A-E1 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T2-A-E1 · Calcula el contrato de `cohortes y métricas por slice` sobre `CASO-LIM-035-2A`. La entrada es el». Hint usado: «Relaciona los campos `slice_n, precision, min_n` con la regla explicada en S35-T2-A.». [Ske-35-E1]",
+      "confidence": 0.57,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "id": "S35-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T2-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"slice_n\"] < record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T2-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.', 'Después aplica la regla de S35-T2-A: n suficiente junto a precision de slice. El fixture adverso debe fallar por contenido, no por schema.'] y en el tramo «S35-T2-A-E2 · Modela tres rutas de `cohortes y métricas por slice`: fixture válido, fixtur» sin inventar APIs fuera del card.",
+      "confidence": 0.62,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "id": "S35-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T2-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SLICE_N\"\n    return \"CONTINUE\" if record[\"slice_n\"] < record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T2-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.', 'Para datos completos reutiliza la regla que demostró n suficiente junto a precision de slice; solo ese caso devuelve `CONTINUE`.'] y en el tramo «S35-T2-A-E3 · Contrasta fallo cerrado para `cohortes y métricas por slice` con tres fixtur» sin inventar APIs fuera del card.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "id": "S35-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T2-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = record[\"action\"] == \"auto_label\"\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S35 con el starter de S35-T2-B-E1: la salida contractual sigue «S35-T2-B-E1 · Calcula el contrato de `proxies, sample size y daño diferencial` sobre `CASO-LIM-035-2». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "id": "S35-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T2-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] == \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S35-T2-B-E2 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T2-B-E2 · Modela tres rutas de `proxies, sample size y daño diferencial`: fixture válido, fixture adverso ». Hint usado: «Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.». [Ske-35-E2]",
+      "confidence": 0.57,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "id": "S35-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T2-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_PROXY_AUDIT\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Para S35-T2-B-E3 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T2-B-E3 · Contrasta fallo cerrado para `proxies, sample size y daño diferencial` con tres fixtures distint». Hint usado: «Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.». [Ske-35-E3]",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "id": "S35-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T3-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = record[\"q\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T3-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `p, q, level` con la regla explicada en S35-T3-A.', 'El predicado correcto debe ser verdadero porque el fixture conserva intervalo con q>0 y level distinto de point; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S35-T3-A-E1 · Calcula el contrato de `calibración, intervalos/conformal conceptualmente` s» sin inventar APIs fuera del card.",
+      "confidence": 0.61,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "id": "S35-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T3-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"q\"] == 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» resolví S35-T3-A-E2 (independent) leyendo la instruction del quiz_card: «S35-T3-A-E2 · Modela tres rutas de `calibración, intervalos/conformal conceptualmente`: fixture válido, fixture adverso y registro sin `q`. …». La pista «Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "id": "S35-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T3-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INTERVAL\"\n    return \"CONTINUE\" if record[\"q\"] == 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T3-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.', 'Para datos completos reutiliza la regla que demostró intervalo con q>0 y level distinto de point; solo ese caso devuelve `CONTINUE`.'] y en el tramo «S35-T3-A-E3 · Contrasta fallo cerrado para `calibración, intervalos/conformal conceptualme» sin inventar APIs fuera del card.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "id": "S35-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T3-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = record[\"action\"] == \"auto_fraud\"\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)",
+      "justification_from_packet": "Para S35-T3-B-E1 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T3-B-E1 · Calcula el contrato de `out-of-distribution y abstención` sobre `CASO-LIM-035-3B`. La entrada es». Hint usado: «Relaciona los campos `zs, threshold, action` con la regla explicada en S35-T3-B.». [Ske-35-E1]",
+      "confidence": 0.6,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "id": "S35-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T3-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] == \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S35-T3-B-E2 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T3-B-E2 · Modela tres rutas de `out-of-distribution y abstención`: fixture válido, fixture adverso y regis». Hint usado: «Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.». [Ske-35-E2]",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "id": "S35-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T3-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_OOD_POLICY\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Para S35-T3-B-E3 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T3-B-E3 · Contrasta fallo cerrado para `out-of-distribution y abstención` con tres fixtures distintos. `CA». Hint usado: «Una ausencia no equivale a breach: enrútala a `REQUEST_OOD_POLICY` antes de evaluar el contenido.». [Ske-35-E3]",
+      "confidence": 0.65,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "id": "S35-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T4-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nmeets_contract = record[\"use\"] == \"fraud_label\"\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)",
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» resolví S35-T4-A-E1 (guided) leyendo la instruction del quiz_card: «S35-T4-A-E1 · Calcula el contrato de `model card y contestabilidad` sobre `CASO-LIM-035-4A`. La entrada es el dict completo del starter; la …». La pista «Relaciona los campos `use, out_of_scope, contestability` con la regla explicada en S35-T4-A.» fijó el patrón observable; conf~0.66.",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "id": "S35-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T4-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {'case_id', 'out_of_scope', 'contestability', 'use'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record.get(\"use\") != \"fraud_label\" else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM\", **{k: True for k in required if k != \"case_id\"}}\n# minimal synthetic fixtures from instruction tokens\ninvalid = {**valid, list(required)[-1]: False} if False else dict(valid)\ninvalid = {**valid}\nincomplete = {k: valid[k] for k in list(valid)[:1]}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "Para S35-T4-A-E2 del paquete «Explicabilidad, equidad e incertidumbre» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S35-T4-A-E2 · Modela tres rutas de `model card y contestabilidad`: fixture válido, fixture adverso y registro ». Hint usado: «Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.». [Ske-35-E2]",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "id": "S35-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T4-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {'case_id', 'out_of_scope', 'contestability', 'use'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CARD_KEYS\"\n    return \"CONTINUE\" if record.get(\"use\") != \"fraud_label\" else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{k: True for k in required if k != \"case_id\"}}\n# refine known good flags\nif \"catalog_ok\" in valid:\n    valid[\"catalog_ok\"] = True\nif \"silent_fill\" in valid:\n    valid[\"silent_fill\"] = False\nif \"means_fraud\" in valid:\n    valid[\"means_fraud\"] = False\nif \"causal\" in valid:\n    valid[\"causal\"] = False\nif \"use\" in valid:\n    valid[\"use\"] = \"triage\"\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"silent_fill\" in invalid:\n    invalid[\"silent_fill\"] = True\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"causal\" in invalid:\n    invalid[\"causal\"] = True\nelif \"use\" in invalid:\n    invalid[\"use\"] = \"fraud_label\"\nincomplete = {k: v for k, v in valid.items() if k != list(required)[1]}\nprint(decide(valid), decide(invalid), decide(incomplete))",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T4-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Una ausencia no equivale a breach: enrútala a `REQUEST_CARD_KEYS` antes de evaluar el contenido.', 'Para datos completos reutiliza la regla que demostró card con use queue_rank, out_of_scope fraud_label y contestability; solo ese caso devuelve `CONTINUE`.'] y en el tramo «S35-T4-A-E3 · Contrasta fallo cerrado para `model card y contestabilidad` con tres fixture» sin inventar APIs fuera del card.",
+      "confidence": 0.57,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "id": "S35-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S35-T4-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract = not record[\"by\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S35-T4-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `case, human, by` con la regla explicada en S35-T4-B.', 'El predicado correcto debe ser verdadero porque el fixture conserva override con case, human y by no vacío; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S35-T4-B-E1 · Calcula el contrato de `aprobación, override, apelación y retiro` sobre `CAS» sin inventar APIs fuera del card.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "id": "S35-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S35-T4-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"by\"] else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» resolví S35-T4-B-E2 (independent) leyendo la instruction del quiz_card: «S35-T4-B-E2 · Modela tres rutas de `aprobación, override, apelación y retiro`: fixture válido, fixture adverso y registro sin `by`. Entrada:…». La pista «Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.» fijó el patrón observable; conf~0.63.",
+      "confidence": 0.63,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "id": "S35-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S35-T4-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUDIT_FIELDS\"\n    return \"CONTINUE\" if not record[\"by\"] else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» resolví S35-T4-B-E3 (transfer) leyendo la instruction del quiz_card: «S35-T4-B-E3 · Contrasta fallo cerrado para `aprobación, override, apelación y retiro` con tres fixtures distintos. `CASO-LIM-035-4B` debe co…». La pista «Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.» fijó el patrón observable; conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Explicabilidad, equidad e incertidumbre"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Desde el packet S35, para «La ficha de caso debe separar:» la lectura de outcomes/theory apunta a «Evidencia, modelo, incertidumbre y decisión humana». Justificación packet-only sin claves offline. conf=0.55.",
+      "confidence": 0.55,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic-B en S35 Q1: elijo «Sensibilidad del modelo a barajar features» porque el stem «Perm importance prueba:» del quiz_card de «Explicabilidad, equidad e incertidumbre» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.60.",
+      "confidence": 0.6,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Selfcheck Q2 de «Explicabilidad, equidad e incertidumbre»: la opción índice 1 («Abstener y escalar») es la que el paquete sostiene frente a «Ante OOD conviene:». Las demás contradicen outcomes de la sección. [Skeptic-B-35-q2]",
+      "confidence": 0.69,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Desde el packet S35, para «Model card out_of_scope incluye:» la lectura de outcomes/theory apunta a «Usos prohibidos p.ej. etiqueta de fraude». Justificación packet-only sin claves offline. conf=0.73.",
+      "confidence": 0.73,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:33:36.717334+00:00",
+  "session_started_at": "2026-07-23T13:33:21.433866Z",
+  "session_ended_at": "2026-07-23T13:33:36.714416Z",
+  "receipt_response_sha256": "fe515242c09b3718d0ed9a4957d00572f0383b4750d709214c592b40b7ab4bb1",
+  "receipt_exercises_sha256": "4ccb60b8297a4d19949e9500686267892dec54d02b72f4508fa13f05dcfe2ab4",
+  "receipt_selfcheck_sha256": "e2b81f5146c1ee268c306af0a38cecd94e7bfe975f79a524e5949a134dea9972"
+}

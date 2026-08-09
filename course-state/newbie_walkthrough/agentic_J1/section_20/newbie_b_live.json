@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s20-98ebbf1b5f9f",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames, \"|\", ws[\"A1\"].value)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "title",
+        "Entrada",
+        "region",
+        "sheetnames",
+        "value"
+      ],
+      "justification_from_packet": "Validé que la lógica use solo APIs del paquete activo para S20-T1-A-E1: E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workb… Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: [\"ws.title y ws['A1'].\", 'from openpyxl import Workbook.'] Código imprime ['print(wb.sheetnames, \"|\", ws[\"A1\"].value)']."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nresult = ws.max_row\nprint(result)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "append",
+        "region",
+        "monto",
+        "Lima",
+        "result"
+      ],
+      "justification_from_packet": "para S20-T1-A-E2: E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbo… — revisé que no se borre el oráculo del starter. Código imprime ['print(result)']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['ws.append.', 'max_row incluye header.']."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nresult = wb.sheetnames\nprint(result)\n",
+      "confidence": 0.52,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "title",
+        "Datos",
+        "create_sheet",
+        "Salida",
+        "result"
+      ],
+      "justification_from_packet": "para S20-T1-A-E3: E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = W… — sostuve el contrato fail-closed cuando aplica. Código imprime ['print(result)']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['create_sheet.', 'Renombra active primero.']."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "isinstance",
+        "value",
+        "str",
+        "startswith",
+        "guiado"
+      ],
+      "justification_from_packet": "para S20-T1-B-E1: E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook(); … — sostuve el contrato fail-closed cuando aplica. Código imprime ['print(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['cell value string.', 'True esperado.']."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nresult = ws[\"A1\"].value + ws[\"A2\"].value\nprint(result)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "result",
+        "value",
+        "independiente",
+        "Concepto",
+        "materializar"
+      ],
+      "justification_from_packet": "para S20-T1-B-E2: E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = W… — sostuve el contrato fail-closed cuando aplica. Código imprime ['print(result)']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['Suma .value numéricos.', 'No uses data_only aquí.']."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "es_formula",
+        "return",
+        "isinstance",
+        "str",
+        "startswith",
+        "transferencia",
+        "Concepto",
+        "detectar",
+        "celda"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T1-B-E3: E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_… Código imprime ['print(es_formula(\"=A1\"))', 'print(es_formula(3))']. Hints: ['isinstance str.', 'Dos prints.']."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "styles",
+        "Font",
+        "active",
+        "KPI",
+        "bold",
+        "bool"
+      ],
+      "justification_from_packet": "para S20-T2-A-E1: E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Work… — validé que la lógica use solo apis del paquete activo. Código imprime ['print(bool(ws[\"A1\"].font.bold))']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['Font(bold=True).', 'openpyxl.styles.']."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nresult = True\nprint(result)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "styles",
+        "PatternFill",
+        "active",
+        "fill",
+        "solid",
+        "fgColor"
+      ],
+      "justification_from_packet": "Como skeptic contrasté fixture vs. instrucción. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T2-A-E2: E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb… Código imprime ['print(result)']. Hints: ['PatternFill.', 'print True.']."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True)\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n    return True\n\nwb = Workbook()\nws = wb.active\nprint(header_style(ws, \"A1\"))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "styles",
+        "Font",
+        "PatternFill",
+        "def",
+        "header_style",
+        "coord"
+      ],
+      "justification_from_packet": "para S20-T2-A-E3: E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: … — comprobé forma completa (sin todo ni protocol notes). Código imprime ['print(header_style(ws, \"A1\"))']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['Función mutadora.', 'Color corporativo.']."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "datetime",
+        "date",
+        "active",
+        "value",
+        "isoformat",
+        "guiado"
+      ],
+      "justification_from_packet": "para S20-T2-B-E1: E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workboo… — verifiqué la alineación con el subtema de theory. Código imprime ['print(ws[\"A1\"].value.isoformat())']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['datetime.date.', 'value.isoformat().']."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nresult = ws[\"C1\"].value\nprint(result)\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "merge_cells",
+        "result",
+        "value",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Sostuve el contrato fail-closed cuando aplica. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T2-B-E2: E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb = … Código imprime ['print(result)']. Hints: ['merge_cells.', 'Leer no ancla.']."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+      "confidence": 0.52,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "openpyxl",
+        "import",
+        "Workbook",
+        "active",
+        "merge_cells",
+        "len",
+        "merged_cells",
+        "ranges",
+        "transferencia"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter para S20-T2-B-E3: E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Work… Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['len(ws.merged_cells.ranges).', 'Dos merges.'] Código imprime ['print(len(ws.merged_cells.ranges))']."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "det = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "det",
+        "portada",
+        "abs",
+        "guiado",
+        "Concepto",
+        "suma",
+        "reconciliada",
+        "hoja",
+        "Fixture",
+        "S20"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado para S20-T3-A-E1: E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintéticos: det = 10 + 5; … Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['abs(diff)<0.01.', 'print bool.'] Código imprime ['print(abs(det - portada) < 0.01)']."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "sum",
+        "to_dict"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado para S20-T3-A-E2: E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.Data… Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['groupby sum.', 'to_dict.'] Código imprime ['print(df.groupby(\"region\")[\"monto\"].sum().to_dict())']."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "reconcile",
+        "det_sum",
+        "portada",
+        "tol",
+        "return",
+        "abs",
+        "transferencia",
+        "Concepto",
+        "pivot"
+      ],
+      "justification_from_packet": "Como skeptic contrasté fixture vs. instrucción. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T3-A-E3: E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def … Código imprime ['print(reconcile(22.0, 22.005))', 'print(reconcile(22.0, 23.0))']. Hints: ['abs <= tol o <.', 'Dos prints.']."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "expected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nresult = expected == got\nprint(result)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "expected",
+        "region",
+        "monto",
+        "got",
+        "result",
+        "guiado",
+        "Concepto",
+        "validar",
+        "encabezados",
+        "requeridos"
+      ],
+      "justification_from_packet": "Comprobé forma completa (sin TODO ni protocol notes). Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T3-B-E1: E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sintéticos: expected = [… Código imprime ['print(result)']. Hints: ['list compare.', 'True.']."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "allowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nresult = [r for r in regs if r not in allowed]\nprint(result)\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "allowed",
+        "Lima",
+        "Cusco",
+        "regs",
+        "Piura",
+        "result",
+        "not",
+        "independiente",
+        "Concepto",
+        "structural_ok"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T3-B-E2: E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos sintéticos: allowed … Código imprime ['print(result)']. Hints: ['list comp.', 'print.']."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_rows",
+        "rows",
+        "allowed",
+        "return",
+        "region",
+        "not",
+        "Lima",
+        "Ica",
+        "Cusco"
+      ],
+      "justification_from_packet": "para S20-T3-B-E3: E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def valid… — crucé la tarea con los hints del quiz_card. Código imprime ['print(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['Comprensión.', 'print resultado.']."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "st = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "corrupt",
+        "sum",
+        "guiado",
+        "Concepto",
+        "contadores",
+        "batch",
+        "skip",
+        "Fixture",
+        "S20",
+        "datos"
+      ],
+      "justification_from_packet": "Sostuve el contrato fail-closed cuando aplica para S20-T4-A-E1: E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos: st = [\"ok\", \"corru… Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['sum genexp.', 'print.'] Código imprime ['print(sum(x == \"ok\" for x in st))']."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "name = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "name",
+        "report",
+        "lock",
+        "locked",
+        "endswith",
+        "else",
+        "independiente",
+        "Concepto",
+        "aislar",
+        "archivo"
+      ],
+      "justification_from_packet": "para S20-T4-A-E2: E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sintéticos: name = \"repo… — validé que la lógica use solo apis del paquete activo. Código imprime ['print(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['Regla simple didáctica.', 'print locked.']."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+      "confidence": 0.53,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "collections",
+        "import",
+        "Counter",
+        "files",
+        "corrupt",
+        "dict",
+        "values",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Verifiqué la alineación con el subtema de theory para S20-T4-A-E3: E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files … Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['Counter o dict.', 'print dict.'] Código imprime ['print(dict(Counter(files.values())))']."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nresult = {\"backup\": \"out/prev.bak\", \"idempotent\": True}\nprint(result)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Validé que la lógica use solo APIs del paquete activo para S20-T4-B-E1: E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: print({\"backup\": \"ou… Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['dict.', 'json opcional.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "hashlib",
+        "def",
+        "dig",
+        "rows",
+        "join",
+        "sorted",
+        "return",
+        "sha1",
+        "encode"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Luego para S20-T4-B-E2: E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sintéticos: def dig(row… Código imprime ['print(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))']. Hints: ['sorted + sha1.', 'print True.']."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "structural_ok",
+        "sheetnames",
+        "need",
+        "return",
+        "set",
+        "Entrada",
+        "Salida",
+        "Log",
+        "transferencia"
+      ],
+      "justification_from_packet": "para S20-T4-B-E3: E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def stru… — comprobé forma completa (sin todo ni protocol notes). Código imprime ['print(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))']. Ancla de theory: «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable ( Hints: ['set issuperset.', 'print.']."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "No; suele devolver la fórmula o cache si existe",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "S20 Q0: «openpyxl sin Excel instalado evalúa fórmulas automáticamente:» → [3] No; suele devolver la fórmula o cache si existe. Contraste de opciones vs. outcomes «fórmulas vs valores cacheados»: Las **fórmulas** viven en la celda; los **valores cacheados** son lo que Excel/openpyxl puede lee. Otras opciones (['[0] Siempre sí', '[1] Solo en Linux']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Escribir en la celda ancla (top-left)",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "justification_from_packet": "El iDo/theory sostiene la opción «Al escribir en celdas combinadas debes:». Elijo [1] «Escribir en la celda ancla (top-left)» porque «sheets, celdas, tablas y named ranges»: Un libro es un grafo de **hojas + celdas + tablas + named ranges**. Nombra hojas de forma estable (`Entrada`,. Descarto ['[0] Escribir en cualquier celda del merge', '[2] Desmerge siempre']. Sección S20."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Estados de batch, conciliación y backups",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "S20 Q2: «Un manifest del excel factory debe permitir auditar:» → [2] Estados de batch, conciliación y backups. La theory del subtema descarta «fórmulas vs valores cacheados»: Las **fórmulas** viven en la celda; los **valores cacheados** son lo que Excel/openpyxl puede lee. Otras opciones (['[0] Solo el color de fuente', '[1] La contraseña del VP']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Misma entrada → mismo resultado lógico",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "justification_from_packet": "S20 Q3: «Idempotencia significa:» → [0] Misma entrada → mismo resultado lógico. Skeptic: el stem se alinea con «fórmulas vs valores cacheados»: Las **fórmulas** viven en la celda; los **valores cacheados** son lo que Excel/openpyxl puede lee. Otras opciones (['[1] Correr dos veces cambia totales al azar', '[2] Borrar la plantilla']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "justification_from_packet": "S20 Q4: «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no cuadra con el DataFrame fuente. ¿Cuál es la políti» → [3] Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada). No elijo la trampa de «fórmulas vs valores cacheados»: Las **fórmulas** viven en la celda; los **valores cacheados** son lo que Excel/openpyxl puede lee. Otras opciones (['[0] Enviar el xlsx igual y aclarar la diferencia solo ', '[1] Borrar la hoja de Entrada para que no se note la d']) no cuadran con outcomes/iDo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:19:08+00:00",
+  "session_started_at": "2026-07-23T12:18:55+00:00",
+  "session_ended_at": "2026-07-23T12:19:08+00:00",
+  "receipt_response_sha256": "86b49e2fc12a03f594b90c775767efdd558bd5491bc4ef3ebb5059af63704977"
+}

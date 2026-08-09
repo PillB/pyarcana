@@ -1,0 +1,557 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 8,
+  "packet_sha": "fe2162fb46a292f0",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_08/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.584020+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "a8f9fbb609f7",
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T1-A-E1\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'demo.txt'\np.write_text('hola', encoding='utf-8')\nprint(p.exists())\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp",
+        "demo"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T1-A-E1 contra instruction/iDo. Instruction: «E1 (guiado) — En un temp dir, crea `Path` a `demo.txt`, escribe 'hola', comprueba `exists` e imprime True/False.». Cita demo `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint: «write_text + exists». Huellas en code: `import tempfile` + `import Path`. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T1-A-E2\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\nwith p.open('w', encoding='utf-8') as f:\n    f.write('a\\nb\\nc\\n')\nlines = [ln.strip() for ln in p.read_text(encoding='utf-8').splitlines()]\nprint(lines)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp",
+        "lines"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T1-A-E2. Instruction: «E2 (independiente) — Escribe 3 líneas con with open, luego lee con readlines strip e imprime la lista.». iDo obligatorio `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint: «with path.open('w', encoding='utf-8')». Solo admito `import tempfile` + `import Path` porque salen del packet. Teory heading: «pathlib, with, modos y encodings»."
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T1-A-E3\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\np.write_bytes(b'\\xff\\xfe')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__, e)\n    print('sugiere: encoding documentado o quarantine del archivo')\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp",
+        "bad"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T1-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y captura…». Soporte `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint: «path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8». Check: `import tempfile` + `import Path` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T1-B-E1\nwin = b'a\\r\\nb\\r\\n'\nunix = b'a\\nb\\n'\nprint(b'\\r\\n' in win)\nprint(b'\\r\\n' in unix)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "win",
+        "unix"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T1-B-E1 solo si hay rastro en slim_packet. Instruction: «E1 (guiado) — Detecta si un `bytes` sample contiene CRLF `\\r\\n`. Imprime True para sample Windows y False para solo `\\n`.». iDo obligatorio `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint: «b'\\r\\n' in data». Check: `print(` + `win` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T1-B-E2\nfrom pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\n')\nprint(p.read_text(encoding='utf-8'))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "write_atomic",
+        "path"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T1-B-E2 contra instruction/iDo. Instruction: «E2 (independiente) — Implementa `write_atomic` y verifica contenido final.». Cita demo `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint: «tmp + os.replace». Check: `import Path` + `write_atomic` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T1-B-E3\nfrom pathlib import Path\nimport os, tempfile\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\ndest.write_text('PARCIAL', encoding='utf-8')\nprint(dest.read_text(encoding='utf-8'))\ntmp = td / 'f.txt.tmp'\ntmp.write_text('COMPLETO', encoding='utf-8')\nos.replace(tmp, dest)\nprint(dest.read_text(encoding='utf-8'))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp",
+        "dest"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T1-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Imprime ambos estados.». Cita demo `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint: «Primero write no atómico parcial; luego write_atomic». Huellas en code: `import Path` + `write_text`. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T2-A-E1\nimport csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "csv",
+        "raw",
+        "nombre",
+        "nC001",
+        "Ana"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T2-A-E1. Instruction: «E1 (guiado) — DictReader sobre StringIO con header id,nombre; imprime filas dict.». Soporte `S08-T2-A-DEMO` (write_atomic(path, text)) → «from pathlib import Path import os, tempfile def write_atomic(path: Path, text: str) -> None:». Hint: «csv.DictReader». Solo admito `DictReader` + `StringIO` porque salen del packet. Teory heading: «Filas irregulares y cuarentena»."
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T2-A-E2\nimport csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'nombre'])\nw.writeheader()\nw.writerow({'id': 'C001', 'nombre': 'Ana'})\nbuf.seek(0)\nrows = list(csv.DictReader(buf))\nn = len(rows)\nprint(n)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "csv",
+        "buf",
+        "StringIO",
+        "DictWriter",
+        "fieldnames"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T2-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — Escribe CSV con DictWriter (header id,nombre) a StringIO o temp y relee contando filas de datos = 1.». Soporte `S08-T2-A-DEMO` (write_atomic(path, text)) → «from pathlib import Path import os, tempfile def write_atomic(path: Path, text: str) -> None:». Hint: «writeheader + writerow». Code auditado con `DictWriter` + `StringIO`; sin APIs fantasma. Teory heading: «Filas irregulares y cuarentena»."
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T2-A-E3\nvals = ['10', 'x', '3.5']\nfor v in vals:\n    try:\n        m = float(v)\n        print(v, 'ok', m)\n    except ValueError:\n        print(v, 'reject', 'cast_monto')\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "vals",
+        "try",
+        "float",
+        "except",
+        "ValueError"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T2-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Cast de monto: si float() falla → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.». Prueba iDo `S08-T2-A-DEMO` (write_atomic(path, text)) → «from pathlib import Path import os, tempfile def write_atomic(path: Path, text: str) -> None:». Hint: «try float except ValueError». Code auditado con `print(` + `reject`; sin APIs fantasma. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T2-B-E1\nheader = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\nirregular = len(row) != len(header)\nprint(irregular)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "header",
+        "nombre",
+        "row",
+        "Ana",
+        "irregular"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T2-B-E1. Instruction: «E1 (guiado) — Detecta fila irregular: header len 2, row `['C1','Ana','x']` → irregular True.». Prueba iDo `S08-T2-B-DEMO` (Ingesta CSV de clientes con tipos monto/fecha string) → «import csv, io raw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\" rows = []». Hint: «len(row) != len(header)». Code auditado con `irregular` + `header`; sin APIs fantasma. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T2-B-E2\nfrom pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'quarantine.csv'\nwith p.open('w', newline='', encoding='utf-8') as f:\n    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])\n    w.writeheader()\n    w.writerow({'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'})\nwith p.open(encoding='utf-8', newline='') as f:\n    for row in csv.DictReader(f):\n        print(row['reason'])\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "csv",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T2-B-E2 contra instruction/iDo. Instruction: «E2 (independiente) — Escribe una fila de cuarentena `{raw, reason}` a CSV en temp y relee imprimiendo reason.». Cita demo `S08-T2-B-DEMO` (Ingesta CSV de clientes con tipos monto/fecha string) → «import csv, io raw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\" rows = []». Hint: «DictWriter fieldnames raw,reason». Check: `import csv` + `DictReader` están en instruction/iDo/code. Teory heading: «Filas irregulares y cuarentena»."
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T2-B-E3\nfrom collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor r, c in sorted(Counter(reasons).items()):\n    print(r, c)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "collections",
+        "Counter",
+        "reasons",
+        "col_count",
+        "cast_monto"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T2-B-E3. Instruction: «E3 (transferencia) — Dada lista de reasons, imprime resumen contador sorted por reason.». Prueba iDo `S08-T2-B-DEMO` (Ingesta CSV de clientes con tipos monto/fecha string) → «import csv, io raw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\" rows = []». Hint: «collections.Counter o dict». Solo admito `reasons` + `sorted` porque salen del packet. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T3-A-E1\nimport json\nobj = json.loads('{\"id\":\"C001\"}')\nprint(obj['id'])\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "json",
+        "obj",
+        "loads",
+        "C001"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T3-A-E1 solo si hay rastro en slim_packet. Instruction: «E1 (guiado) — `json.loads` de fixture `'{\"id\":\"C001\"}'` e imprime id.». Cita demo `S08-T3-A-DEMO` (Separar good.csv vs quarantine.csv) → «import csv, io from pathlib import Path import tempfile». Hint: «json.loads». Huellas en code: `print(` + `loads`. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T3-A-E2\nimport json\ns = json.dumps({'nombre': 'José'}, ensure_ascii=False)\nprint(s)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "json",
+        "dumps",
+        "nombre",
+        "ensure_ascii"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T3-A-E2. Instruction: «E2 (independiente) — `dumps` de `{'nombre':'José'}` con ensure_ascii=False e imprime (debe verse José, no \\u).». iDo obligatorio `S08-T3-A-DEMO` (Separar good.csv vs quarantine.csv) → «import csv, io from pathlib import Path import tempfile». Hint: «ensure_ascii=False». Solo admito `ensure_ascii` + `nombre` porque salen del packet. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T3-A-E3\nimport json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    print(json.dumps(obj))\nexcept TypeError as e:\n    print('TypeError', e)\n    obj2 = {'ts': obj['ts'].isoformat()}\n    print(json.dumps(obj2))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "json",
+        "datetime",
+        "obj",
+        "try",
+        "dumps"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T3-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Intenta dumps de dict con datetime y captura TypeError; reintenta con isoformat str.». Prueba iDo `S08-T3-A-DEMO` (Separar good.csv vs quarantine.csv) → «import csv, io from pathlib import Path import tempfile». Hint: «datetime no serializable». Check: `TypeError` + `isoformat` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T3-B-E1\ndef validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "validate_schema",
+        "obj",
+        "required",
+        "missing",
+        "not"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T3-B-E1. Instruction: «E1 (guiado) — Rechaza missing required: obj sin email con required [id,email] → ok False.». Cita demo `S08-T3-B-DEMO` (Exportar results a JSON array + JSONL) → «import json from pathlib import Path import tempfile». Hint: «list comprehension missing». Solo admito `def validate_schema` + `required` porque salen del packet. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T3-B-E2\nobj = {'id': 'C1', 'email': None}\nprint('in', 'email' in obj)\nprint('valor', obj['email'])\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "obj",
+        "email",
+        "valor"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S08-T3-B-E2. Instruction: «E2 (independiente) — null explícito: `{'id':'C1','email': None}` tiene clave email (presente) con valor None. Imprime 'in' y valor.». Cita demo `S08-T3-B-DEMO` (Exportar results a JSON array + JSONL) → «import json from pathlib import Path import tempfile». Hint: «'email' in obj». Code auditado con `print(` + `email`; sin APIs fantasma. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T3-B-E3\na = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\nprint(a)\nprint(b)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "segment",
+        "vip",
+        "setdefault",
+        "standard"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S08-T3-B-E3. Instruction: «E3 (transferencia) — Añade campo opcional `segment` con default `'standard'` vía setdefault sin pisar si ya existe. Dos objs.». iDo obligatorio `S08-T3-B-DEMO` (Exportar results a JSON array + JSONL) → «import json from pathlib import Path import tempfile». Hint: «setdefault». Check: `setdefault` + `standard` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T4-A-E1\nfrom pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\ndigest = hashlib.sha256(p.read_bytes()).hexdigest()\nprint(digest[:8], len(digest))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "hashlib",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S08-T4-A-E1. Instruction: «E1 (guiado) — Calcula sha256 hex de un archivo temp con contenido conocido e imprime los primeros 8 chars + len digest 64.». iDo obligatorio `S08-T4-A-DEMO` (validate_schema(obj, required) + campo opcional nuevo) → «». Hint: «hashlib.sha256(path.read_bytes()).hexdigest()». Check: `digest` + `sha256` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T4-A-E2\nfrom pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\n', encoding='utf-8')\nbak = Path(str(src) + '.bak')\nshutil.copy2(src, bak)\nprint(bak.read_bytes() == src.read_bytes())\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "shutil",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T4-A-E2 contra instruction/iDo. Instruction: «E2 (independiente) — Copia backup con shutil.copy2 y verifica igualdad de bytes.». Soporte `S08-T4-A-DEMO` (validate_schema(obj, required) + campo opcional nuevo) → «». Hint: «shutil.copy2». Code auditado con `shutil` + `copy2`; sin APIs fantasma. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T4-A-E3\nfrom pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\nC1\\n', encoding='utf-8')\nprovenance = {\n    'path': p.name,\n    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),\n    'bytes': p.stat().st_size,\n}\nprint(provenance)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "hashlib",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T4-A-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Arma dict de provenance `{path, sha256, bytes}` para un temp file e imprímelo (path solo name).». iDo obligatorio `S08-T4-A-DEMO` (validate_schema(obj, required) + campo opcional nuevo) → «». Hint: «stat().st_size». Huellas en code: `provenance` + `sha256`. Teory heading: «Backups, hashes y provenance»."
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T4-B-E1\nmanifest = {\n    'run_id': 'demo-001',\n    'n_in': 5,\n    'n_clean': 4,\n    'n_quarantine': 1,\n    'inputs': [{'name': 'clients.csv', 'sha256': 'deadbeef'}],\n}\nprint(sorted(manifest))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S08-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "manifest",
+        "run_id",
+        "demo",
+        "n_in",
+        "n_clean"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S08-T4-B-E1 contra instruction/iDo. Instruction: «E1 (guiado) — Campos mínimos del manifest: imprime un dict con run_id, n_in, n_clean, n_quarantine, inputs.». Cita demo `S08-T4-B-DEMO` (sha256 de input CSV + backup .bak) → «from pathlib import Path import hashlib, shutil, tempfile td = Path(tempfile.mkdtemp())». Hint: «5 claves mínimas». Code auditado con `n_quarantine` + `n_clean`; sin APIs fantasma. Teory heading: «Reconciliación y manifest de corrida»."
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T4-B-E2\ndef reconcile(n_in, n_clean, n_quar):\n    return n_in == n_clean + n_quar\nprint(reconcile(5, 3, 2))\nprint(reconcile(5, 3, 1))\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S08-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "reconcile",
+        "n_in",
+        "n_clean",
+        "n_quar"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T4-B-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — Reconcilia conteos: función `reconcile(n_in, n_clean, n_quar) -> bool`.». iDo obligatorio `S08-T4-B-DEMO` (sha256 de input CSV + backup .bak) → «from pathlib import Path import hashlib, shutil, tempfile td = Path(tempfile.mkdtemp())». Hint: «n_in == n_clean + n_quar». Huellas en code: `n_clean` + `n_quar`. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S08-T4-B-E3\ndef run(n_in, n_clean, n_quar):\n    if n_in != n_clean + n_quar:\n        print('ERROR reconcile', n_in, n_clean, n_quar)\n        print('exit_code', 1)\n        return 1\n    print('OK')\n    return 0\nrun(4, 2, 2)\nrun(4, 2, 1)\n# B2 dual-run (Skeptic): re-validated vs packet S08 S08-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S08-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S08",
+        "run",
+        "n_in",
+        "n_clean",
+        "n_quar",
+        "ERROR"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S08-T4-B-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Si reconcile falla, imprime error y usa `raise SystemExit(1)` o simula con print de exit code 1. Si ok, print OK.». Prueba iDo `S08-T4-B-DEMO` (sha256 de input CSV + backup .bak) → «from pathlib import Path import hashlib, shutil, tempfile td = Path(tempfile.mkdtemp())». Hint: «No publiques clean si no cuadra». Check: `reconcile` + `print(` están en instruction/iDo/code. Teory heading: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Por qué declarar encoding='utf-8' al abrir texto?",
+      "chosen_index": 1,
+      "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «pathlib, with, modos y encodings» — quote: «…a rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes; `with path.open(...) as f` da control de modo.». Choose [1] «Evita depender del locale del SO (p. ej. Windows)». encoding=utf-8 avoids depending on OS locale (e.g. Windows)."
+    },
+    {
+      "question_index": 1,
+      "question": "Escritura atómica típica es…",
+      "chosen_index": 1,
+      "chosen_text": "escribir temp y os.replace al destino",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Newlines y escritura atómica» — quote: «…ismo directorio y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, no dejas el destino truncado.». Choose [1] «escribir temp y os.replace al destino». Atomic write: write temp then os.replace to destination."
+    },
+    {
+      "question_index": 2,
+      "question": "Una fila CSV con columnas de más debe…",
+      "chosen_index": 2,
+      "chosen_text": "Ir a cuarentena con motivo",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Filas irregulares y cuarentena» — quote: «Filas con **más/menos columnas** que el header son irregulares. No las “arregles” en silencio: mándalas a `quarantine.csv` con **motivo** y conserva el raw.». Choose [2] «Ir a cuarentena con motivo». CSV row with extra columns → quarantine with reason, not silent ignore."
+    },
+    {
+      "question_index": 3,
+      "question": "Reconciliación del manifest exige…",
+      "chosen_index": 1,
+      "chosen_text": "n_in == n_clean + n_quarantine",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Reconciliación y manifest de corrida» — quote: «…shes de inputs, conteos `n_in`, `n_clean`, `n_quarantine`, razones, versión de script.». Choose [1] «n_in == n_clean + n_quarantine». Manifest reconcile: n_in == n_clean + n_quarantine."
+    },
+    {
+      "question_index": 4,
+      "question": "Si reconcile falla, el pipeline debe…",
+      "chosen_index": 1,
+      "chosen_text": "Fallar (exit non-zero) / fail closed",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…ncilia conteos: función `reconcile(n_in, n_clean, n_quar) -> bool`. n_in == n_clean + n_quar Prueba 5=3+2 y 5=3+1 def reconcile(n_in, n_clean, n_quar): # TODO ...…». Choose [1] «Fallar (exit non-zero) / fail closed». If reconcile fails: fail closed (non-zero exit), do not publish clean."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

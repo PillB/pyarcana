@@ -1,0 +1,612 @@
+{
+  "index": 42,
+  "id": "graph-rag",
+  "title": "Schemas, seguridad y privacidad de servicios",
+  "file": "s42-graph-rag.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa: Schemas, seguridad y privacidad de servicios",
+      "len": 50
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S42. Schema: contrato de forma y tipos (Pydantic/JSON Schema). extra=forbid: rechaza campos desconocidos. Discriminated union: variantes por tag. RBAC: roles→permisos. Scope: capacidad acotada de un token/servicio. Deny-by-default: sin permiso explícito, deniega. SSRF: forzar al servidor a llamar hosts no permitidos. Minimización: solo campos necesarios al purpose. Pseudonimización: token en lugar de PII en audit.",
+      "len": 429
+    },
+    {
+      "i": 2,
+      "text": "Prerrequisito S41. El control plane sintético de Cusco protege casos y reportes: un usuario no lee el caso de otro ni des-redacta campos.",
+      "len": 137
+    },
+    {
+      "i": 3,
+      "text": "Contrato de sección. Entrada: payloads, identidad y purpose declarados. Salida: validación, authz y privacidad comprobables. Error: allow-by-default, secretos en repo o PII en audit → bloqueo.",
+      "len": 192
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 Schemas → T2 Identidad → T3 Seguridad de input/secretos → T4 Privacidad. Fixtures CASO-LIM-042. Gate: threat model + pruebas de permisos.",
+      "len": 147
+    },
+    {
+      "i": 5,
+      "text": "Pydantic, JSON Schema y validación de negocio",
+      "len": 45
+    },
+    {
+      "i": 6,
+      "text": "Un schema define forma, tipos y reglas de negocio (rangos, enums). extra='forbid' evita que un atacante cuelgue campos que el dominio ignora pero persiste. JSON Schema exporta el contrato a otros lenguajes.",
+      "len": 206
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: validas dict → modelo; si falta regla de negocio o hay extra, rechazas. valid_fixture y business_rule deben ser True juntos; solo tipos no bastan.",
+      "len": 157
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: extra_policy, json_schema, valid_fixture, business_rule. Salida: schema estricto con regla de negocio. Error: extra=allow en API pública. Por qué importa: si no fijas «extra_policy, json_schema, valid_fixture, business_rule» → «schema estricto con regla de negocio», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «extra=allow en API pública» para confirmar fail-closed.",
+      "len": 441
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-042-1A (Cusco): forbid + schema + fixtures. Control plane no acepta campos fantasma en create case.",
+      "len": 121
+    },
+    {
+      "i": 10,
+      "text": "Evolución, discriminated unions y compatibilidad",
+      "len": 48
+    },
+    {
+      "i": 11,
+      "text": "Evoluciona schemas con cambios aditivos (campos opcionales) cuando lectores viejos deben seguir pasando. Discriminated unions usan un tag (email/phone) y cada variante se valida por separado.",
+      "len": 191
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: change=='add_optional' y old_reader_passes; handled_tags == union_tags. Remover campos o renombrar sin versión rompe consumidores.",
+      "len": 141
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: change, old_reader_passes, union_tags, handled_tags. Salida: evolución compatible con uniones cubiertas. Error: remove_required sin major version. Por qué importa: si no fijas «change, old_reader_passes, union_tags, handled_tags» → «evolución compatible con uniones cubiertas», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «remove_required sin major version» para confirmar fail-closed.",
+      "len": 459
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-042-1B: add_optional, tags email/phone cubiertos. Canal de contact sintético Cusco.",
+      "len": 105
+    },
+    {
+      "i": 15,
+      "text": "Authn, authz y RBAC con ownership",
+      "len": 33
+    },
+    {
+      "i": 16,
+      "text": "Authn responde quién eres; authz qué puedes hacer. RBAC mapea roles a permisos; ownership exige actor == resource_owner para datos de caso. Deny-by-default: sin rol, deniega.",
+      "len": 174
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: authenticated y rol case:read y actor dueño. Cross-tenant (user-a lee recurso de user-b) es breach aunque el rol exista en abstracto.",
+      "len": 144
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: authenticated, actor, resource_owner, roles. Salida: acceso solo al propio caso. Error: IDOR por confiar solo en role global. Por qué importa: si no fijas «authenticated, actor, resource_owner, roles» → «acceso solo al propio caso», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «IDOR por confiar solo en role global» para confirmar fail-closed.",
+      "len": 417
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-042-2A: user-a lee su caso. Mesa Cusco no filtra casos ajenos.",
+      "len": 84
+    },
+    {
+      "i": 20,
+      "text": "Scopes y service identities",
+      "len": 27
+    },
+    {
+      "i": 21,
+      "text": "Los scopes acotan tokens de usuario/servicio. Las service identities (svc-reporter) solo llaman rutas declaradas. Un scope de lectura no implica escritura ni des-redacción.",
+      "len": 172
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: requested_scope in granted_scopes y service_id con prefijo svc- y route_declared. OAuth-style scopes en el laboratorio como sets.",
+      "len": 140
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: requested_scope, granted_scopes, service_id, route_declared. Salida: scope exacto y ruta declarada. Error: token con o servicio genérico. Por qué importa: si no fijas «requested_scope, granted_scopes, service_id, route_declared» → «scope exacto y ruta declarada», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «token con o servicio genérico» para confirmar fail-closed.",
+      "len": 441
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-042-2B: report:prepare para svc-reporter. Control plane Cusco.",
+      "len": 84
+    },
+    {
+      "i": 25,
+      "text": "Input limits, injection y SSRF/path traversal",
+      "len": 45
+    },
+    {
+      "i": 26,
+      "text": "Limita bytes de body, valida hosts permitidos (anti-SSRF) y resuelve paths bajo un root (anti-traversal). No confíes en el string crudo del cliente.",
+      "len": 148
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: bytes <= max_bytes, host in allowed_hosts, resolved_path.startswith(root). ../ o host metadata cloud = reject.",
+      "len": 121
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: bytes, max_bytes, host, allowed_hosts, resolved_path, root. Salida: input confinado. Error: fetch a 169.254.169.254 o path escape. Por qué importa: si no fijas «bytes, max_bytes, host, allowed_hosts, resolved_path, root» → «input confinado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «fetch a 169» para confirmar fail-closed.",
+      "len": 401
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-042-3A: 2048/4096, docs.local, path bajo /safe. Ingesta de reportes sintéticos Cusco.",
+      "len": 107
+    },
+    {
+      "i": 30,
+      "text": "Secretos, cifrado y dependency risk",
+      "len": 35
+    },
+    {
+      "i": 31,
+      "text": "Secretos fuera del repo y de logs; rotación probada; dependencias pineadas y sin CVE críticas abiertas. Cifrado en tránsito/reposo se asume en el control plane, no se inventa crypto casera.",
+      "len": 189
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: flags secret_in_repo/secret_in_log False, rotation_tested, dependency_pinned, critical_cves==0.",
+      "len": 106
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: esos flags. Salida: postura de secretos y deps limpia. Error: .env commiteado o log con token. Por qué importa: si no fijas «esos flags» → «postura de secretos y deps limpia», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «`» para confirmar fail-closed.",
+      "len": 325
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-042-3B: rotación y pin sin CVE críticas. Mesa Cusco.",
+      "len": 74
+    },
+    {
+      "i": 35,
+      "text": "Minimización, purpose y retención",
+      "len": 33
+    },
+    {
+      "i": 36,
+      "text": "Minimización: collected ⊆ needed. Purpose declarado (p. ej. status-report). Retención retention_days <= max_retention_days. Más datos ≠ mejor si no hay purpose legal/operativo sintético del lab.",
+      "len": 194
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: sets de campos y comparación de días. Purpose mismatch es breach aunque el set sea mínimo.",
+      "len": 101
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: collected, needed, purpose, retention. Salida: minimización con purpose y retención. Error: recolectar email “por si acaso”. Por qué importa: si no fijas «collected, needed, purpose, retention» → «minimización con purpose y retención», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «recolectar email “por si acaso”» para confirmar fail-closed.",
+      "len": 415
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-042-4A: {case_id, region}, purpose status-report, 30≤90. Dashboard Cusco pseudonimizado.",
+      "len": 110
+    },
+    {
+      "i": 40,
+      "text": "Audit, deletion y pseudonimización",
+      "len": 34
+    },
+    {
+      "i": 41,
+      "text": "El audit registra actor/acción/tiempo/token de caso — no PII cruda. Deletion borra primarios y derivados. La pseudonimización separa la clave de re-identificación.",
+      "len": 163
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: audit_fields disjunto de pii_fields; deleted y derived_deleted; key_separate.",
+      "len": 88
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: audit_fields, pii_fields, deleted flags. Salida: purge de derivados con audit limpio. Error: email en audit o soft-delete sin derivados. Por qué importa: si no fijas «audit_fields, pii_fields, deleted flags» → «purge de derivados con audit limpio», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «email en audit o soft-delete sin derivados» para confirmar fail-closed.",
+      "len": 439
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-042-4B: audit con case_token, delete completo. Derecho al olvido sintético Cusco.",
+      "len": 103
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa: Schemas, seguridad y privacidad de servicios",
+      "text": "Mapa: Schemas, seguridad y privacidad de servicios"
+    },
+    {
+      "i": 1,
+      "len": 429,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S42. Schema: contrato de forma y tipos (Pydantic/JSON Schema). extra=forbid: rechaza campos desconocidos. Discriminated union: variantes por tag. RBAC: roles→permisos. ",
+      "text": "Diccionario S42. Schema: contrato de forma y tipos (Pydantic/JSON Schema). extra=forbid: rechaza campos desconocidos. Discriminated union: variantes por tag. RBAC: roles→permisos. Scope: capacidad acotada de un token/servicio. Deny-by-default: sin permiso explícito, deniega. SSRF: forzar al servidor a llamar hosts no permitidos. Minimización: solo campos necesarios al purpose. Pseudonimización: token en lugar de PII en audit."
+    },
+    {
+      "i": 2,
+      "len": 137,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prerrequisito S41. El control plane sintético de Cusco protege casos y reportes: un usuario no lee el caso de otro ni des-redacta campos.",
+      "text": "Prerrequisito S41. El control plane sintético de Cusco protege casos y reportes: un usuario no lee el caso de otro ni des-redacta campos."
+    },
+    {
+      "i": 3,
+      "len": 192,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de sección. Entrada: payloads, identidad y purpose declarados. Salida: validación, authz y privacidad comprobables. Error: allow-by-default, secretos en repo o PII en audi",
+      "text": "Contrato de sección. Entrada: payloads, identidad y purpose declarados. Salida: validación, authz y privacidad comprobables. Error: allow-by-default, secretos en repo o PII en audit → bloqueo."
+    },
+    {
+      "i": 4,
+      "len": 147,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Schemas → T2 Identidad → T3 Seguridad de input/secretos → T4 Privacidad. Fixtures CASO-LIM-042. Gate: threat model + pruebas de permisos.",
+      "text": "Orden: T1 Schemas → T2 Identidad → T3 Seguridad de input/secretos → T4 Privacidad. Fixtures CASO-LIM-042. Gate: threat model + pruebas de permisos."
+    },
+    {
+      "i": 5,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Pydantic, JSON Schema y validación de negocio",
+      "text": "Pydantic, JSON Schema y validación de negocio"
+    },
+    {
+      "i": 6,
+      "len": 206,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un schema define forma, tipos y reglas de negocio (rangos, enums). extra='forbid' evita que un atacante cuelgue campos que el dominio ignora pero persiste. JSON Schema exporta el c",
+      "text": "Un schema define forma, tipos y reglas de negocio (rangos, enums). extra='forbid' evita que un atacante cuelgue campos que el dominio ignora pero persiste. JSON Schema exporta el contrato a otros lenguajes."
+    },
+    {
+      "i": 7,
+      "len": 157,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: validas dict → modelo; si falta regla de negocio o hay extra, rechazas. valid_fixture y business_rule deben ser True juntos; solo tipos no bastan.",
+      "text": "Mecanismo: validas dict → modelo; si falta regla de negocio o hay extra, rechazas. valid_fixture y business_rule deben ser True juntos; solo tipos no bastan."
+    },
+    {
+      "i": 8,
+      "len": 441,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: extra_policy, json_schema, valid_fixture, business_rule. Salida: schema estricto con regla de negocio. Error: extra=allow en API pública. Por qué impor",
+      "text": "Contrato operativo. Entrada: extra_policy, json_schema, valid_fixture, business_rule. Salida: schema estricto con regla de negocio. Error: extra=allow en API pública. Por qué importa: si no fijas «extra_policy, json_schema, valid_fixture, business_rule» → «schema estricto con regla de negocio», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «extra=allow en API pública» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-1A (Cusco): forbid + schema + fixtures. Control plane no acepta campos fantasma en create case.",
+      "text": "Aplicación a CASO-LIM-042-1A (Cusco): forbid + schema + fixtures. Control plane no acepta campos fantasma en create case."
+    },
+    {
+      "i": 10,
+      "len": 48,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Evolución, discriminated unions y compatibilidad",
+      "text": "Evolución, discriminated unions y compatibilidad"
+    },
+    {
+      "i": 11,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evoluciona schemas con cambios aditivos (campos opcionales) cuando lectores viejos deben seguir pasando. Discriminated unions usan un tag (email/phone) y cada variante se valida po",
+      "text": "Evoluciona schemas con cambios aditivos (campos opcionales) cuando lectores viejos deben seguir pasando. Discriminated unions usan un tag (email/phone) y cada variante se valida por separado."
+    },
+    {
+      "i": 12,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: change=='add_optional' y old_reader_passes; handled_tags == union_tags. Remover campos o renombrar sin versión rompe consumidores.",
+      "text": "Mecanismo: change=='add_optional' y old_reader_passes; handled_tags == union_tags. Remover campos o renombrar sin versión rompe consumidores."
+    },
+    {
+      "i": 13,
+      "len": 459,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: change, old_reader_passes, union_tags, handled_tags. Salida: evolución compatible con uniones cubiertas. Error: remove_required sin major version. Por ",
+      "text": "Contrato operativo. Entrada: change, old_reader_passes, union_tags, handled_tags. Salida: evolución compatible con uniones cubiertas. Error: remove_required sin major version. Por qué importa: si no fijas «change, old_reader_passes, union_tags, handled_tags» → «evolución compatible con uniones cubiertas», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «remove_required sin major version» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-1B: add_optional, tags email/phone cubiertos. Canal de contact sintético Cusco.",
+      "text": "Aplicación a CASO-LIM-042-1B: add_optional, tags email/phone cubiertos. Canal de contact sintético Cusco."
+    },
+    {
+      "i": 15,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Authn, authz y RBAC con ownership",
+      "text": "Authn, authz y RBAC con ownership"
+    },
+    {
+      "i": 16,
+      "len": 174,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Authn responde quién eres; authz qué puedes hacer. RBAC mapea roles a permisos; ownership exige actor == resource_owner para datos de caso. Deny-by-default: sin rol, deniega.",
+      "text": "Authn responde quién eres; authz qué puedes hacer. RBAC mapea roles a permisos; ownership exige actor == resource_owner para datos de caso. Deny-by-default: sin rol, deniega."
+    },
+    {
+      "i": 17,
+      "len": 144,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: authenticated y rol case:read y actor dueño. Cross-tenant (user-a lee recurso de user-b) es breach aunque el rol exista en abstracto.",
+      "text": "Mecanismo: authenticated y rol case:read y actor dueño. Cross-tenant (user-a lee recurso de user-b) es breach aunque el rol exista en abstracto."
+    },
+    {
+      "i": 18,
+      "len": 417,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: authenticated, actor, resource_owner, roles. Salida: acceso solo al propio caso. Error: IDOR por confiar solo en role global. Por qué importa: si no fi",
+      "text": "Contrato operativo. Entrada: authenticated, actor, resource_owner, roles. Salida: acceso solo al propio caso. Error: IDOR por confiar solo en role global. Por qué importa: si no fijas «authenticated, actor, resource_owner, roles» → «acceso solo al propio caso», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «IDOR por confiar solo en role global» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-2A: user-a lee su caso. Mesa Cusco no filtra casos ajenos.",
+      "text": "Aplicación a CASO-LIM-042-2A: user-a lee su caso. Mesa Cusco no filtra casos ajenos."
+    },
+    {
+      "i": 20,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Scopes y service identities",
+      "text": "Scopes y service identities"
+    },
+    {
+      "i": 21,
+      "len": 172,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los scopes acotan tokens de usuario/servicio. Las service identities (svc-reporter) solo llaman rutas declaradas. Un scope de lectura no implica escritura ni des-redacción.",
+      "text": "Los scopes acotan tokens de usuario/servicio. Las service identities (svc-reporter) solo llaman rutas declaradas. Un scope de lectura no implica escritura ni des-redacción."
+    },
+    {
+      "i": 22,
+      "len": 140,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: requested_scope in granted_scopes y service_id con prefijo svc- y route_declared. OAuth-style scopes en el laboratorio como sets.",
+      "text": "Mecanismo: requested_scope in granted_scopes y service_id con prefijo svc- y route_declared. OAuth-style scopes en el laboratorio como sets."
+    },
+    {
+      "i": 23,
+      "len": 441,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: requested_scope, granted_scopes, service_id, route_declared. Salida: scope exacto y ruta declarada. Error: token con o servicio genérico. Por qué impor",
+      "text": "Contrato operativo. Entrada: requested_scope, granted_scopes, service_id, route_declared. Salida: scope exacto y ruta declarada. Error: token con o servicio genérico. Por qué importa: si no fijas «requested_scope, granted_scopes, service_id, route_declared» → «scope exacto y ruta declarada», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «token con o servicio genérico» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-2B: report:prepare para svc-reporter. Control plane Cusco.",
+      "text": "Aplicación a CASO-LIM-042-2B: report:prepare para svc-reporter. Control plane Cusco."
+    },
+    {
+      "i": 25,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Input limits, injection y SSRF/path traversal",
+      "text": "Input limits, injection y SSRF/path traversal"
+    },
+    {
+      "i": 26,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Limita bytes de body, valida hosts permitidos (anti-SSRF) y resuelve paths bajo un root (anti-traversal). No confíes en el string crudo del cliente.",
+      "text": "Limita bytes de body, valida hosts permitidos (anti-SSRF) y resuelve paths bajo un root (anti-traversal). No confíes en el string crudo del cliente."
+    },
+    {
+      "i": 27,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: bytes <= max_bytes, host in allowed_hosts, resolved_path.startswith(root). ../ o host metadata cloud = reject.",
+      "text": "Mecanismo: bytes <= max_bytes, host in allowed_hosts, resolved_path.startswith(root). ../ o host metadata cloud = reject."
+    },
+    {
+      "i": 28,
+      "len": 401,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: bytes, max_bytes, host, allowed_hosts, resolved_path, root. Salida: input confinado. Error: fetch a 169.254.169.254 o path escape. Por qué importa: si ",
+      "text": "Contrato operativo. Entrada: bytes, max_bytes, host, allowed_hosts, resolved_path, root. Salida: input confinado. Error: fetch a 169.254.169.254 o path escape. Por qué importa: si no fijas «bytes, max_bytes, host, allowed_hosts, resolved_path, root» → «input confinado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «fetch a 169» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 107,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-3A: 2048/4096, docs.local, path bajo /safe. Ingesta de reportes sintéticos Cusco.",
+      "text": "Aplicación a CASO-LIM-042-3A: 2048/4096, docs.local, path bajo /safe. Ingesta de reportes sintéticos Cusco."
+    },
+    {
+      "i": 30,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Secretos, cifrado y dependency risk",
+      "text": "Secretos, cifrado y dependency risk"
+    },
+    {
+      "i": 31,
+      "len": 189,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Secretos fuera del repo y de logs; rotación probada; dependencias pineadas y sin CVE críticas abiertas. Cifrado en tránsito/reposo se asume en el control plane, no se inventa crypt",
+      "text": "Secretos fuera del repo y de logs; rotación probada; dependencias pineadas y sin CVE críticas abiertas. Cifrado en tránsito/reposo se asume en el control plane, no se inventa crypto casera."
+    },
+    {
+      "i": 32,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: flags secret_in_repo/secret_in_log False, rotation_tested, dependency_pinned, critical_cves==0.",
+      "text": "Mecanismo: flags secret_in_repo/secret_in_log False, rotation_tested, dependency_pinned, critical_cves==0."
+    },
+    {
+      "i": 33,
+      "len": 325,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: esos flags. Salida: postura de secretos y deps limpia. Error: .env commiteado o log con token. Por qué importa: si no fijas «esos flags» → «postura de ",
+      "text": "Contrato operativo. Entrada: esos flags. Salida: postura de secretos y deps limpia. Error: .env commiteado o log con token. Por qué importa: si no fijas «esos flags» → «postura de secretos y deps limpia», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «`» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-3B: rotación y pin sin CVE críticas. Mesa Cusco.",
+      "text": "Aplicación a CASO-LIM-042-3B: rotación y pin sin CVE críticas. Mesa Cusco."
+    },
+    {
+      "i": 35,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Minimización, purpose y retención",
+      "text": "Minimización, purpose y retención"
+    },
+    {
+      "i": 36,
+      "len": 194,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Minimización: collected ⊆ needed. Purpose declarado (p. ej. status-report). Retención retention_days <= max_retention_days. Más datos ≠ mejor si no hay purpose legal/operativo sint",
+      "text": "Minimización: collected ⊆ needed. Purpose declarado (p. ej. status-report). Retención retention_days <= max_retention_days. Más datos ≠ mejor si no hay purpose legal/operativo sintético del lab."
+    },
+    {
+      "i": 37,
+      "len": 101,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: sets de campos y comparación de días. Purpose mismatch es breach aunque el set sea mínimo.",
+      "text": "Mecanismo: sets de campos y comparación de días. Purpose mismatch es breach aunque el set sea mínimo."
+    },
+    {
+      "i": 38,
+      "len": 415,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: collected, needed, purpose, retention. Salida: minimización con purpose y retención. Error: recolectar email “por si acaso”. Por qué importa: si no fij",
+      "text": "Contrato operativo. Entrada: collected, needed, purpose, retention. Salida: minimización con purpose y retención. Error: recolectar email “por si acaso”. Por qué importa: si no fijas «collected, needed, purpose, retention» → «minimización con purpose y retención», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «recolectar email “por si acaso”» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-4A: {case_id, region}, purpose status-report, 30≤90. Dashboard Cusco pseudonimizado.",
+      "text": "Aplicación a CASO-LIM-042-4A: {case_id, region}, purpose status-report, 30≤90. Dashboard Cusco pseudonimizado."
+    },
+    {
+      "i": 40,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Audit, deletion y pseudonimización",
+      "text": "Audit, deletion y pseudonimización"
+    },
+    {
+      "i": 41,
+      "len": 163,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El audit registra actor/acción/tiempo/token de caso — no PII cruda. Deletion borra primarios y derivados. La pseudonimización separa la clave de re-identificación.",
+      "text": "El audit registra actor/acción/tiempo/token de caso — no PII cruda. Deletion borra primarios y derivados. La pseudonimización separa la clave de re-identificación."
+    },
+    {
+      "i": 42,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: audit_fields disjunto de pii_fields; deleted y derived_deleted; key_separate.",
+      "text": "Mecanismo: audit_fields disjunto de pii_fields; deleted y derived_deleted; key_separate."
+    },
+    {
+      "i": 43,
+      "len": 439,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: audit_fields, pii_fields, deleted flags. Salida: purge de derivados con audit limpio. Error: email en audit o soft-delete sin derivados. Por qué import",
+      "text": "Contrato operativo. Entrada: audit_fields, pii_fields, deleted flags. Salida: purge de derivados con audit limpio. Error: email en audit o soft-delete sin derivados. Por qué importa: si no fijas «audit_fields, pii_fields, deleted flags» → «purge de derivados con audit limpio», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «email en audit o soft-delete sin derivados» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 103,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-042-4B: audit con case_token, delete completo. Derecho al olvido sintético Cusco.",
+      "text": "Aplicación a CASO-LIM-042-4B: audit con case_token, delete completo. Derecho al olvido sintético Cusco."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 13139
+}

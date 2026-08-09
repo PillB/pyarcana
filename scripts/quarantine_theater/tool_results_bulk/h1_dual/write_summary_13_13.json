@@ -1,0 +1,21 @@
+[
+  {
+    "section": 13,
+    "agents": {
+      "newbie_a": {
+        "duration_s": 18.34,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_13/newbie_a_live.json",
+        "sha": "82305f7d918d"
+      },
+      "newbie_b": {
+        "duration_s": 23.45,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_13/newbie_b_live.json",
+        "sha": "300edad29832"
+      }
+    }
+  }
+]

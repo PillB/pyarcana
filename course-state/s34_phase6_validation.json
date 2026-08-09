@@ -1,0 +1,223 @@
+{
+  "version": "3.2",
+  "section": "S34",
+  "section_id": "cv-ai-integration",
+  "phase": "PHASE_6",
+  "lane": "LANE-S31-S39-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s34-cv-ai-integration.ts",
+    "prisma/seed.ts (cv-ai-integration)"
+  ],
+  "status": "passed",
+  "summary": "S34 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S34-T1-A",
+        "S34-T1-B",
+        "S34-T2-A",
+        "S34-T2-B",
+        "S34-T3-A",
+        "S34-T3-B",
+        "S34-T4-A",
+        "S34-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S34-T1-A-DEMO",
+        "S34-T1-B-DEMO",
+        "S34-T2-A-DEMO",
+        "S34-T2-B-DEMO",
+        "S34-T3-A-DEMO",
+        "S34-T3-B-DEMO",
+        "S34-T4-A-DEMO",
+        "S34-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S34-T1-A-E1",
+        "S34-T1-A-E2",
+        "S34-T1-A-E3",
+        "S34-T1-B-E1",
+        "S34-T1-B-E2",
+        "S34-T1-B-E3",
+        "S34-T2-A-E1",
+        "S34-T2-A-E2",
+        "S34-T2-A-E3",
+        "S34-T2-B-E1",
+        "S34-T2-B-E2",
+        "S34-T2-B-E3",
+        "S34-T3-A-E1",
+        "S34-T3-A-E2",
+        "S34-T3-A-E3",
+        "S34-T3-B-E1",
+        "S34-T3-B-E2",
+        "S34-T3-B-E3",
+        "S34-T4-A-E1",
+        "S34-T4-A-E2",
+        "S34-T4-A-E3",
+        "S34-T4-B-E1",
+        "S34-T4-B-E2",
+        "S34-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "tests": 24,
+        "feedback": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['cv-ai-integration']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "confusion-pr-f-prauc",
+        "topk-review-load",
+        "class-weights-resampling-cv",
+        "prevalence-misleading-metrics",
+        "reliability-brier",
+        "calibrators-oos",
+        "threshold-cost-capacity",
+        "abstention-slices-sensitivity"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 16,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S34-T1-A', 'S34-T1-B', 'S34-T2-A', 'S34-T2-B', 'S34-T3-A', 'S34-T3-B', 'S34-T4-A', 'S34-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S34-T1-A-DEMO', 'S34-T1-B-DEMO', 'S34-T2-A-DEMO', 'S34-T2-B-DEMO', 'S34-T3-A-DEMO', 'S34-T3-B-DEMO', 'S34-T4-A-DEMO', 'S34-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 starter=25 hints=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-CV_AI_INTEGRATION-8x3",
+      "pass": true,
+      "evidence": "24; ['confusion-pr-f-prauc', 'topk-review-load', 'class-weights-resampling-cv', 'prevalence-misleading-metrics', 'reliability-brier', 'calibrators-oos', 'threshold-cost-capacity', 'abstention-slices-sensitivity']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 16, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK; course uses sintéticos"
+    },
+    {
+      "id": "PRIVACY-SCORES-NOT-FRAUD",
+      "pass": true,
+      "evidence": "Exam + content: scores/centralidad/anomalías no implican fraude"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "SOL-1: print('tp', 1) → 'tp 1\\nfp 1\\nfn 0\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "SOL-2: P=R=0.5 → 'f1 0.5\\nP 0.5\\nR 0.5\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "SOL-3: print('acc', 0.9) → 'acc 0.9\\nprevalence 0.1\\nok True\\n'"
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "SOL-1",
+        "head": "print('tp', 1)",
+        "stdout_preview": "tp 1\nfp 1\nfn 0\n"
+      },
+      {
+        "label": "SOL-2",
+        "head": "P=R=0.5",
+        "stdout_preview": "f1 0.5\nP 0.5\nR 0.5\n"
+      },
+      {
+        "label": "SOL-3",
+        "head": "print('acc', 0.9)",
+        "stdout_preview": "acc 0.9\nprevalence 0.1\nok True\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports double quotes in section TS.",
+    "Hints ≥2 counted via hints: [ blocks.",
+    "solutionCode is object with nested code template; executed first 3 solutions with python3.",
+    "Scores, top-k y alertas no constituyen prueba de fraude; son priorización bajo costos.",
+    "Privacy: scores ≠ fraude/parentesco/colusión.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

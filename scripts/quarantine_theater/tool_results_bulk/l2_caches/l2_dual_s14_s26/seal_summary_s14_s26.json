@@ -1,0 +1,192 @@
+{
+  "attempt": "agentic_L2",
+  "range": "14-26",
+  "n_sealed": 26,
+  "results": [
+    {
+      "section": 14,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_14/newbie_a_live.json",
+      "latency_s": 45.55,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s14"
+    },
+    {
+      "section": 14,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_14/newbie_b_live.json",
+      "latency_s": 46.42,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s14"
+    },
+    {
+      "section": 15,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_15/newbie_a_live.json",
+      "latency_s": 24.08,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s15"
+    },
+    {
+      "section": 15,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_15/newbie_b_live.json",
+      "latency_s": 36.28,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s15"
+    },
+    {
+      "section": 16,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_16/newbie_a_live.json",
+      "latency_s": 22.58,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s16"
+    },
+    {
+      "section": 16,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_16/newbie_b_live.json",
+      "latency_s": 48.7,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s16"
+    },
+    {
+      "section": 17,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_17/newbie_a_live.json",
+      "latency_s": 32.56,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s17"
+    },
+    {
+      "section": 17,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_17/newbie_b_live.json",
+      "latency_s": 35.51,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s17"
+    },
+    {
+      "section": 18,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_18/newbie_a_live.json",
+      "latency_s": 28.57,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s18"
+    },
+    {
+      "section": 18,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_18/newbie_b_live.json",
+      "latency_s": 31.21,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s18"
+    },
+    {
+      "section": 19,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_19/newbie_a_live.json",
+      "latency_s": 59.47,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s19"
+    },
+    {
+      "section": 19,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_19/newbie_b_live.json",
+      "latency_s": 35.47,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s19"
+    },
+    {
+      "section": 20,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_20/newbie_a_live.json",
+      "latency_s": 34.21,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s20"
+    },
+    {
+      "section": 20,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_20/newbie_b_live.json",
+      "latency_s": 33.48,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s20"
+    },
+    {
+      "section": 21,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_21/newbie_a_live.json",
+      "latency_s": 27.58,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s21"
+    },
+    {
+      "section": 21,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_21/newbie_b_live.json",
+      "latency_s": 56.93,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s21"
+    },
+    {
+      "section": 22,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_22/newbie_a_live.json",
+      "latency_s": 46.86,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s22"
+    },
+    {
+      "section": 22,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_22/newbie_b_live.json",
+      "latency_s": 57.53,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s22"
+    },
+    {
+      "section": 23,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_23/newbie_a_live.json",
+      "latency_s": 24.72,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s23"
+    },
+    {
+      "section": 23,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_23/newbie_b_live.json",
+      "latency_s": 40.3,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s23"
+    },
+    {
+      "section": 24,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_24/newbie_a_live.json",
+      "latency_s": 23.93,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s24"
+    },
+    {
+      "section": 24,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_24/newbie_b_live.json",
+      "latency_s": 26.74,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s24"
+    },
+    {
+      "section": 25,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_25/newbie_a_live.json",
+      "latency_s": 34.46,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s25"
+    },
+    {
+      "section": 25,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_25/newbie_b_live.json",
+      "latency_s": 36.63,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s25"
+    },
+    {
+      "section": 26,
+      "agent": "newbie_a",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_26/newbie_a_live.json",
+      "latency_s": 50.47,
+      "session_id": "l2-explorer-a-7c91e2f4b8-s26"
+    },
+    {
+      "section": 26,
+      "agent": "newbie_b",
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_L2/section_26/newbie_b_live.json",
+      "latency_s": 58.76,
+      "session_id": "l2-skeptic-b-3a55d0c91e-s26"
+    }
+  ],
+  "wall_start": "2026-07-23T17:22:14.540823+00:00",
+  "wall_end": "2026-07-23T17:39:25.450212+00:00",
+  "note": "Honest dual-LLM from L2 packets only; no L1 lives; no SC_KEYS/phrase banks"
+}

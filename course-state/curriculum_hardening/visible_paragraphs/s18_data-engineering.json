@@ -1,0 +1,482 @@
+{
+  "index": 18,
+  "id": "data-engineering",
+  "title": "EDA, estadística descriptiva e incertidumbre",
+  "file": "s18-data-engineering.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección)",
+      "len": 78
+    },
+    {
+      "i": 1,
+      "text": "En V3, S18 no es el path principal de Prefect, Parquet ni Great Expectations (eso se reubica a ingeniería avanzada). El id de plataforma data-engineering se conserva, pero el camino del estudiante es el inicio de CP-N2-B: centro/dispersión, métricas robustas, sesgo muestral, intervalos básicos, correlación sin causalidad y notebooks con data notes reproducibles.",
+      "len": 364
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un dataset sintético de tickets/montos con regiones ficticias Lima, Arequipa y Cusco, ids T00x y montos en PEN. Cada hallazgo del portfolio debe citar un cálculo (n, métrica, IC o flag) y declarar incertidumbre: hallazgo ≠ hipótesis ≠ decisión de negocio.",
+      "len": 276
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Distribuciones (centro, cuantiles, robustez y escalas) → T2 Inferencia básica (población/muestra, IC y tamaño de efecto) → T3 Relaciones (correlación, confusión, segmentos y anomalías sin claim causal) → T4 Comunicación (plantilla Q→H→E y data notes). Solo numpy/pandas ya vistos; sin PII real.",
+      "len": 315
+    },
+    {
+      "i": 4,
+      "text": "centro, dispersión y cuantiles",
+      "len": 30
+    },
+    {
+      "i": 5,
+      "text": "El centro se resume con media (mean) o mediana (median); la dispersión con desviación estándar muestral (std, ddof=1) o IQR (Q3−Q1). En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero.",
+      "len": 275
+    },
+    {
+      "i": 6,
+      "text": "Contrato operativo: reporta siempre n, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma sin asumir normalidad — no digas “distribución normal” solo porque calculaste media y std.",
+      "len": 277
+    },
+    {
+      "i": 7,
+      "text": "Caso sintético: montos [12.5, 18, 22, 25.5, 30, 45, 120] PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier de 120” — no “el ticket promedio es 39 y representa al cliente típico”.",
+      "len": 258
+    },
+    {
+      "i": 8,
+      "text": "métricas robustas y escalas",
+      "len": 27
+    },
+    {
+      "i": 9,
+      "text": "Métricas robustas (mediana, IQR, MAD = mediana de |x − mediana|) resisten outliers mejor que media/std. Úsalas cuando la pregunta sea “típico” o cuando un solo valor extremo distorsione el resumen ejecutivo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 460
+    },
+    {
+      "i": 10,
+      "text": "Contrato de escala: log1p de montos reduce asimetría visual para EDA, pero no compares diferencias log como soles PEN sin transformar de vuelta. Si el eje está en log, dilo en el gráfico y en la conclusión; si el KPI es en PEN, reporta en PEN.",
+      "len": 243
+    },
+    {
+      "i": 11,
+      "text": "Elige métrica según la pregunta de negocio: “ticket típico web Lima” → mediana + IQR; “ingreso total esperado del día” → suma o media con cola documentada. Caso: x con un 200 PEN junto a tickets ~12 → media ~43 vs mediana ~12; el dashboard debe preferir mediana para “típico”.",
+      "len": 276
+    },
+    {
+      "i": 12,
+      "text": "población, muestra y sesgo",
+      "len": 26
+    },
+    {
+      "i": 13,
+      "text": "La población es el universo de interés (p. ej. todos los tickets del canal en el mes); la muestra es lo observado. El sesgo de selección aparece si el muestreo no es representativo — p. ej. solo Lima o solo canal web — aunque el mean esté bien calculado.",
+      "len": 254
+    },
+    {
+      "i": 14,
+      "text": "Contrato: compara shares de la muestra vs un marco conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal, monto>0). Calcula bias_pp = share_muestra − share_pob por segmento y reporta el máximo |bias| como riesgo de generalización.",
+      "len": 253
+    },
+    {
+      "i": 15,
+      "text": "Sin marco poblacional, declara cobertura limitada y no generalices a “todos los clientes del Perú”. Caso sintético: pob Lima 0.55 / Arequipa 0.25 / Cusco 0.20 vs muestra 80% Lima → bias Lima +0.25; cualquier KPI regional debe llevar esa nota en el data note.",
+      "len": 258
+    },
+    {
+      "i": 16,
+      "text": "intervalos básicos y tamaño de efecto",
+      "len": 37
+    },
+    {
+      "i": 17,
+      "text": "Un intervalo de confianza aproximado para la media con n grande: media ± z·(s/√n) (z≈1.96 para 95%). Con n pequeño o colas pesadas, sé cauteloso: reporta n, considera bootstrap simple y evita lenguaje de “probado al 95%”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 474
+    },
+    {
+      "i": 18,
+      "text": "El tamaño de efecto (Cohen's d ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica magnitud, no solo “significativo”. Un efecto chico con n enorme puede ser “significativo” y aún irrelevante para la decisión de negocio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 482
+    },
+    {
+      "i": 19,
+      "text": "Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso: media B 108 vs A 94, d≈1.1, IC95 de B — el insight es magnitud + incertidumbre, no un veredicto causal de campaña. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 483
+    },
+    {
+      "i": 21,
+      "text": "La correlación (Pearson lineal / Spearman monótona) mide asociación, no causa. Un confusor Z puede crear asociación espuria entre X e Y; residualizar Z (regresión simple) es un chequeo de EDA, no un diseño causal completo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 475
+    },
+    {
+      "i": 22,
+      "text": "Contrato de verbos: en EDA etiqueta asociación observada. Lista causas comunes y diseños que las romperían (experimento, instrumento) antes de cualquier claim causal en el informe de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 444
+    },
+    {
+      "i": 23,
+      "text": "Pearson es sensible a outliers; Spearman usa rangos y tolera monótonas no lineales leves. Caso sintético: X e Y generados por Z → r_xy alto, r residual ≈0; el notebook debe imprimir ambos y la nota “no causal”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 463
+    },
+    {
+      "i": 24,
+      "text": "segmentación, anomalías y causalidad no demostrada",
+      "len": 50
+    },
+    {
+      "i": 25,
+      "text": "Segmenta por región, canal o cohorte con reglas explícitas (no clusters opacos sin contrato). Las anomalías Tukey (fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son candidatos a revisión, nunca “fraudes demostrados” ni culpa de persona/región.",
+      "len": 232
+    },
+    {
+      "i": 26,
+      "text": "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Cusco genera outliers porque…” — eso es claim causal no soportado. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 451
+    },
+    {
+      "i": 27,
+      "text": "Caso sintético: montos con un 80 PEN en Cusco → flag anomalía en ese id; tasa Cusco 0.2 vs Lima 0.0 es hallazgo descriptivo. El portfolio lista ids_anom y el método; la decisión de investigación es humana y posterior. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 470
+    },
+    {
+      "i": 28,
+      "text": "preguntas, hipótesis y evidencia",
+      "len": 32
+    },
+    {
+      "i": 29,
+      "text": "Separa tres capas: pregunta de negocio, hipótesis comprobable, evidencia calculada. El hallazgo (número + n + límite) no es la decisión (lanzar campaña, bloquear cuenta, cambiar precio). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 439
+    },
+    {
+      "i": 30,
+      "text": "Plantilla operativa: Pregunta → Métrica → Resultado (n, punto, IC) → Límite de cobertura → Siguiente paso. Cada celda del insight en CP-N2-B debe poder rastrearse a un print/assert del script. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 445
+    },
+    {
+      "i": 31,
+      "text": "Caso: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|Lima)=27.5, n=40, IC bootstrap aprox., límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Lima; no “desplegar campaña nacional”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 471
+    },
+    {
+      "i": 32,
+      "text": "notebook reproducible y data notes",
+      "len": 34
+    },
+    {
+      "i": 33,
+      "text": "Un data note documenta origen, fecha de corte, filtros, n pre/post, seed y un hash o conteo de filas. Si otro agente no regenera los mismos n y métricas clave, el notebook no cierra el gate S18. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 447
+    },
+    {
+      "i": 34,
+      "text": "Contrato de reproducibilidad: versiones (pandas/numpy), rutas relativas, outputs en out/, seed fijo, sin celdas que muten estado global en orden opaco. Checklist mínima: seed, schema, n pre/post filtros, hash de payload, límites de generalización.",
+      "len": 247
+    },
+    {
+      "i": 35,
+      "text": "Caso sintético: CSV de 3 tickets → row_sha1_8, n=3, filtros monto>0, seed=42. El portfolio adjunta el JSON del note junto al resumen de medianas; es la base de trazabilidad hacia S19–S21 (dashboard y reporting factory). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 472
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 78,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección)",
+      "text": "De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 364,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S18 no es el path principal de Prefect, Parquet ni Great Expectations (eso se reubica a ingeniería avanzada). El id de plataforma data-engineering se conserva, pero el camin",
+      "text": "En V3, S18 no es el path principal de Prefect, Parquet ni Great Expectations (eso se reubica a ingeniería avanzada). El id de plataforma data-engineering se conserva, pero el camino del estudiante es el inicio de CP-N2-B: centro/dispersión, métricas robustas, sesgo muestral, intervalos básicos, correlación sin causalidad y notebooks con data notes reproducibles."
+    },
+    {
+      "i": 2,
+      "len": 276,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un dataset sintético de tickets/montos con regiones ficticias Lima, Arequipa y Cusco, ids T00x y montos en PEN. Cada hallazgo del portfolio debe citar un cálcu",
+      "text": "El hilo conductor es un dataset sintético de tickets/montos con regiones ficticias Lima, Arequipa y Cusco, ids T00x y montos en PEN. Cada hallazgo del portfolio debe citar un cálculo (n, métrica, IC o flag) y declarar incertidumbre: hallazgo ≠ hipótesis ≠ decisión de negocio."
+    },
+    {
+      "i": 3,
+      "len": 315,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Distribuciones (centro, cuantiles, robustez y escalas) → T2 Inferencia básica (población/muestra, IC y tamaño de efecto) → T3 Relaciones (correlación, confusió",
+      "text": "Orden pedagógico: T1 Distribuciones (centro, cuantiles, robustez y escalas) → T2 Inferencia básica (población/muestra, IC y tamaño de efecto) → T3 Relaciones (correlación, confusión, segmentos y anomalías sin claim causal) → T4 Comunicación (plantilla Q→H→E y data notes). Solo numpy/pandas ya vistos; sin PII real."
+    },
+    {
+      "i": 4,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "centro, dispersión y cuantiles",
+      "text": "centro, dispersión y cuantiles"
+    },
+    {
+      "i": 5,
+      "len": 275,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El centro se resume con media (mean) o mediana (median); la dispersión con desviación estándar muestral (std, ddof=1) o IQR (Q3−Q1). En montos de tickets peruanos sintéticos la med",
+      "text": "El centro se resume con media (mean) o mediana (median); la dispersión con desviación estándar muestral (std, ddof=1) o IQR (Q3−Q1). En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero."
+    },
+    {
+      "i": 6,
+      "len": 277,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo: reporta siempre n, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la",
+      "text": "Contrato operativo: reporta siempre n, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma sin asumir normalidad — no digas “distribución normal” solo porque calculaste media y std."
+    },
+    {
+      "i": 7,
+      "len": 258,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: montos [12.5, 18, 22, 25.5, 30, 45, 120] PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un o",
+      "text": "Caso sintético: montos [12.5, 18, 22, 25.5, 30, 45, 120] PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier de 120” — no “el ticket promedio es 39 y representa al cliente típico”."
+    },
+    {
+      "i": 8,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "métricas robustas y escalas",
+      "text": "métricas robustas y escalas"
+    },
+    {
+      "i": 9,
+      "len": 460,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Métricas robustas (mediana, IQR, MAD = mediana de |x − mediana|) resisten outliers mejor que media/std. Úsalas cuando la pregunta sea “típico” o cuando un solo valor extremo distor",
+      "text": "Métricas robustas (mediana, IQR, MAD = mediana de |x − mediana|) resisten outliers mejor que media/std. Úsalas cuando la pregunta sea “típico” o cuando un solo valor extremo distorsione el resumen ejecutivo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 10,
+      "len": 243,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de escala: log1p de montos reduce asimetría visual para EDA, pero no compares diferencias log como soles PEN sin transformar de vuelta. Si el eje está en log, dilo en el g",
+      "text": "Contrato de escala: log1p de montos reduce asimetría visual para EDA, pero no compares diferencias log como soles PEN sin transformar de vuelta. Si el eje está en log, dilo en el gráfico y en la conclusión; si el KPI es en PEN, reporta en PEN."
+    },
+    {
+      "i": 11,
+      "len": 276,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Elige métrica según la pregunta de negocio: “ticket típico web Lima” → mediana + IQR; “ingreso total esperado del día” → suma o media con cola documentada. Caso: x con un 200 PEN j",
+      "text": "Elige métrica según la pregunta de negocio: “ticket típico web Lima” → mediana + IQR; “ingreso total esperado del día” → suma o media con cola documentada. Caso: x con un 200 PEN junto a tickets ~12 → media ~43 vs mediana ~12; el dashboard debe preferir mediana para “típico”."
+    },
+    {
+      "i": 12,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "población, muestra y sesgo",
+      "text": "población, muestra y sesgo"
+    },
+    {
+      "i": 13,
+      "len": 254,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La población es el universo de interés (p. ej. todos los tickets del canal en el mes); la muestra es lo observado. El sesgo de selección aparece si el muestreo no es representativo",
+      "text": "La población es el universo de interés (p. ej. todos los tickets del canal en el mes); la muestra es lo observado. El sesgo de selección aparece si el muestreo no es representativo — p. ej. solo Lima o solo canal web — aunque el mean esté bien calculado."
+    },
+    {
+      "i": 14,
+      "len": 253,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: compara shares de la muestra vs un marco conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal, monto>0). Calcula bias_pp = share_muestra − share_p",
+      "text": "Contrato: compara shares de la muestra vs un marco conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal, monto>0). Calcula bias_pp = share_muestra − share_pob por segmento y reporta el máximo |bias| como riesgo de generalización."
+    },
+    {
+      "i": 15,
+      "len": 258,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Sin marco poblacional, declara cobertura limitada y no generalices a “todos los clientes del Perú”. Caso sintético: pob Lima 0.55 / Arequipa 0.25 / Cusco 0.20 vs muestra 80% Lima →",
+      "text": "Sin marco poblacional, declara cobertura limitada y no generalices a “todos los clientes del Perú”. Caso sintético: pob Lima 0.55 / Arequipa 0.25 / Cusco 0.20 vs muestra 80% Lima → bias Lima +0.25; cualquier KPI regional debe llevar esa nota en el data note."
+    },
+    {
+      "i": 16,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "intervalos básicos y tamaño de efecto",
+      "text": "intervalos básicos y tamaño de efecto"
+    },
+    {
+      "i": 17,
+      "len": 474,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un intervalo de confianza aproximado para la media con n grande: media ± z·(s/√n) (z≈1.96 para 95%). Con n pequeño o colas pesadas, sé cauteloso: reporta n, considera bootstrap sim",
+      "text": "Un intervalo de confianza aproximado para la media con n grande: media ± z·(s/√n) (z≈1.96 para 95%). Con n pequeño o colas pesadas, sé cauteloso: reporta n, considera bootstrap simple y evita lenguaje de “probado al 95%”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 18,
+      "len": 482,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El tamaño de efecto (Cohen's d ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica magnitud, no solo “significativo”. Un efecto chico con n enorme puede ser “significativ",
+      "text": "El tamaño de efecto (Cohen's d ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica magnitud, no solo “significativo”. Un efecto chico con n enorme puede ser “significativo” y aún irrelevante para la decisión de negocio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 19,
+      "len": 483,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso: media B 108 vs A 94, d≈1.1, IC95 de B — el insight es magnitud +",
+      "text": "Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso: media B 108 vs A 94, d≈1.1, IC95 de B — el insight es magnitud + incertidumbre, no un veredicto causal de campaña. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 21,
+      "len": 475,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La correlación (Pearson lineal / Spearman monótona) mide asociación, no causa. Un confusor Z puede crear asociación espuria entre X e Y; residualizar Z (regresión simple) es un che",
+      "text": "La correlación (Pearson lineal / Spearman monótona) mide asociación, no causa. Un confusor Z puede crear asociación espuria entre X e Y; residualizar Z (regresión simple) es un chequeo de EDA, no un diseño causal completo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 22,
+      "len": 444,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de verbos: en EDA etiqueta asociación observada. Lista causas comunes y diseños que las romperían (experimento, instrumento) antes de cualquier claim causal en el informe ",
+      "text": "Contrato de verbos: en EDA etiqueta asociación observada. Lista causas comunes y diseños que las romperían (experimento, instrumento) antes de cualquier claim causal en el informe de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 23,
+      "len": 463,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Pearson es sensible a outliers; Spearman usa rangos y tolera monótonas no lineales leves. Caso sintético: X e Y generados por Z → r_xy alto, r residual ≈0; el notebook debe imprimi",
+      "text": "Pearson es sensible a outliers; Spearman usa rangos y tolera monótonas no lineales leves. Caso sintético: X e Y generados por Z → r_xy alto, r residual ≈0; el notebook debe imprimir ambos y la nota “no causal”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 24,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "segmentación, anomalías y causalidad no demostrada",
+      "text": "segmentación, anomalías y causalidad no demostrada"
+    },
+    {
+      "i": 25,
+      "len": 232,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Segmenta por región, canal o cohorte con reglas explícitas (no clusters opacos sin contrato). Las anomalías Tukey (fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son candidatos a revisión, nun",
+      "text": "Segmenta por región, canal o cohorte con reglas explícitas (no clusters opacos sin contrato). Las anomalías Tukey (fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son candidatos a revisión, nunca “fraudes demostrados” ni culpa de persona/región."
+    },
+    {
+      "i": 26,
+      "len": 451,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Cusco genera outliers porque…” — eso es claim ca",
+      "text": "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Cusco genera outliers porque…” — eso es claim causal no soportado. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 27,
+      "len": 470,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: montos con un 80 PEN en Cusco → flag anomalía en ese id; tasa Cusco 0.2 vs Lima 0.0 es hallazgo descriptivo. El portfolio lista ids_anom y el método; la decisión de",
+      "text": "Caso sintético: montos con un 80 PEN en Cusco → flag anomalía en ese id; tasa Cusco 0.2 vs Lima 0.0 es hallazgo descriptivo. El portfolio lista ids_anom y el método; la decisión de investigación es humana y posterior. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 28,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "preguntas, hipótesis y evidencia",
+      "text": "preguntas, hipótesis y evidencia"
+    },
+    {
+      "i": 29,
+      "len": 439,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Separa tres capas: pregunta de negocio, hipótesis comprobable, evidencia calculada. El hallazgo (número + n + límite) no es la decisión (lanzar campaña, bloquear cuenta, cambiar pr",
+      "text": "Separa tres capas: pregunta de negocio, hipótesis comprobable, evidencia calculada. El hallazgo (número + n + límite) no es la decisión (lanzar campaña, bloquear cuenta, cambiar precio). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 30,
+      "len": 445,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Plantilla operativa: Pregunta → Métrica → Resultado (n, punto, IC) → Límite de cobertura → Siguiente paso. Cada celda del insight en CP-N2-B debe poder rastrearse a un print/assert",
+      "text": "Plantilla operativa: Pregunta → Métrica → Resultado (n, punto, IC) → Límite de cobertura → Siguiente paso. Cada celda del insight en CP-N2-B debe poder rastrearse a un print/assert del script. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 31,
+      "len": 471,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|Lima)=27.5, n=40, IC bootstrap aprox., límite “solo canal web”. Conclusión permitida: hipótesis provisional en web ",
+      "text": "Caso: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|Lima)=27.5, n=40, IC bootstrap aprox., límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Lima; no “desplegar campaña nacional”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 32,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "notebook reproducible y data notes",
+      "text": "notebook reproducible y data notes"
+    },
+    {
+      "i": 33,
+      "len": 447,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un data note documenta origen, fecha de corte, filtros, n pre/post, seed y un hash o conteo de filas. Si otro agente no regenera los mismos n y métricas clave, el notebook no cierr",
+      "text": "Un data note documenta origen, fecha de corte, filtros, n pre/post, seed y un hash o conteo de filas. Si otro agente no regenera los mismos n y métricas clave, el notebook no cierra el gate S18. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 34,
+      "len": 247,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de reproducibilidad: versiones (pandas/numpy), rutas relativas, outputs en out/, seed fijo, sin celdas que muten estado global en orden opaco. Checklist mínima: seed, sche",
+      "text": "Contrato de reproducibilidad: versiones (pandas/numpy), rutas relativas, outputs en out/, seed fijo, sin celdas que muten estado global en orden opaco. Checklist mínima: seed, schema, n pre/post filtros, hash de payload, límites de generalización."
+    },
+    {
+      "i": 35,
+      "len": 472,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: CSV de 3 tickets → row_sha1_8, n=3, filtros monto>0, seed=42. El portfolio adjunta el JSON del note junto al resumen de medianas; es la base de trazabilidad hacia S",
+      "text": "Caso sintético: CSV de 3 tickets → row_sha1_8, n=3, filtros monto>0, seed=42. El portfolio adjunta el JSON del note junto al resumen de medianas; es la base de trazabilidad hacia S19–S21 (dashboard y reporting factory). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 16884
+}

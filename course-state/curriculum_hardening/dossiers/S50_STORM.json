@@ -1,0 +1,1422 @@
+{
+  "section": 50,
+  "title": "Evals, red teaming y fiabilidad de IA",
+  "file": "s50-tech-leadership.ts",
+  "n_required": 50,
+  "n_logged": 50,
+  "generated_at": "2026-07-24T04:19:22.134+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ history (HEAD/ad5e235/6290f0c)",
+    "ethics": "holdout untouched; injection blocked; abstain unsupported; anomaly≠guilt",
+    "v3_retarget": "evals/red team not soft-skills only",
+    "expert_pass_at": "2026-07-24T04:19:22.134+00:00"
+  },
+  "unique_foci": 50,
+  "source_url_count": 15,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "task dataset versioned slices",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 1/50: «task dataset versioned slices» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «task dataset versioned slices».",
+      "expand_scope": "E1/E2/E3 + docs for «task dataset versioned slices»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 1/50: «task dataset versioned slices» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "rubric 0-3 observable anchors",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 2/50: «rubric 0-3 observable anchors» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rubric 0-3 observable anchors».",
+      "expand_scope": "E1/E2/E3 + docs for «rubric 0-3 observable anchors»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 2/50: «rubric 0-3 observable anchors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "holdout sealed never for tuning",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 3/50: «holdout sealed never for tuning» via NIST, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «holdout sealed never for tuning».",
+      "expand_scope": "E1/E2/E3 + docs for «holdout sealed never for tuning»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 3/50: «holdout sealed never for tuning» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "outcome process trajectory recovery",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 4/50: «outcome process trajectory recovery» via NIST, NVIDIA, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «outcome process trajectory recovery».",
+      "expand_scope": "E1/E2/E3 + docs for «outcome process trajectory recovery»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 4/50: «outcome process trajectory recovery» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "forbidden tool is P0 even if text ok",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 5/50: «forbidden tool is P0 even if text ok» via Google, NIST, NVIDIA (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «forbidden tool is P0 even if text ok».",
+      "expand_scope": "E1/E2/E3 + docs for «forbidden tool is P0 even if text ok»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 5/50: «forbidden tool is P0 even if text ok» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "deterministic graders contracts",
+      "research": [
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 6/50: «deterministic graders contracts» via Google, NVIDIA, Promptfoo (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deterministic graders contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «deterministic graders contracts»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 6/50: «deterministic graders contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "human graders nuance",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 7/50: «human graders nuance» via Google, Promptfoo, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «human graders nuance».",
+      "expand_scope": "E1/E2/E3 + docs for «human graders nuance»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 7/50: «human graders nuance» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "LLM judge calibration gold anchors",
+      "research": [
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 8/50: «LLM judge calibration gold anchors» via MIT, Promptfoo, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «LLM judge calibration gold anchors».",
+      "expand_scope": "E1/E2/E3 + docs for «LLM judge calibration gold anchors»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 8/50: «LLM judge calibration gold anchors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "agreement adjudication",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 9/50: «agreement adjudication» via Harvard, MIT, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «agreement adjudication».",
+      "expand_scope": "E1/E2/E3 + docs for «agreement adjudication»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 9/50: «agreement adjudication» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "order bias AB BA threshold",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 10/50: «order bias AB BA threshold» via Coursera, Harvard, MIT (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «order bias AB BA threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «order bias AB BA threshold»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 10/50: «order bias AB BA threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "injection direct prompt",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 11/50: «injection direct prompt» via Coursera, Harvard, NIST (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «injection direct prompt».",
+      "expand_scope": "E1/E2/E3 + docs for «injection direct prompt»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 11/50: «injection direct prompt» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "exfiltration secrets PII",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 12/50: «exfiltration secrets PII» via Coursera, NIST, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exfiltration secrets PII».",
+      "expand_scope": "E1/E2/E3 + docs for «exfiltration secrets PII»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 12/50: «exfiltration secrets PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "tool misuse allowlist",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 13/50: «tool misuse allowlist» via Live, NIST, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tool misuse allowlist».",
+      "expand_scope": "E1/E2/E3 + docs for «tool misuse allowlist»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 13/50: «tool misuse allowlist» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "indirect injection retrieved docs",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 14/50: «indirect injection retrieved docs» via Live, OpenAI, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «indirect injection retrieved docs».",
+      "expand_scope": "E1/E2/E3 + docs for «indirect injection retrieved docs»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 14/50: «indirect injection retrieved docs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "data poisoning corpus ACL",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 15/50: «data poisoning corpus ACL» via Live, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data poisoning corpus ACL».",
+      "expand_scope": "E1/E2/E3 + docs for «data poisoning corpus ACL»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 15/50: «data poisoning corpus ACL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "least privilege no elevate",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 16/50: «least privilege no elevate» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «least privilege no elevate».",
+      "expand_scope": "E1/E2/E3 + docs for «least privilege no elevate»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 16/50: «least privilege no elevate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "unsupported claims measure",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 17/50: «unsupported claims measure» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «unsupported claims measure».",
+      "expand_scope": "E1/E2/E3 + docs for «unsupported claims measure»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 17/50: «unsupported claims measure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "abstention quality by slice",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 18/50: «abstention quality by slice» via NIST, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «abstention quality by slice».",
+      "expand_scope": "E1/E2/E3 + docs for «abstention quality by slice»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 18/50: «abstention quality by slice» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "groundedness support threshold",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 19/50: «groundedness support threshold» via NIST, NVIDIA, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «groundedness support threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «groundedness support threshold»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 19/50: «groundedness support threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "latency p95 SLO",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 20/50: «latency p95 SLO» via Google, NIST, NVIDIA (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «latency p95 SLO».",
+      "expand_scope": "E1/E2/E3 + docs for «latency p95 SLO»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 20/50: «latency p95 SLO» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "cost per task budget",
+      "research": [
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 21/50: «cost per task budget» via Google, NVIDIA, Promptfoo (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost per task budget».",
+      "expand_scope": "E1/E2/E3 + docs for «cost per task budget»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 21/50: «cost per task budget» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "prefix cache with ACL",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 22/50: «prefix cache with ACL» via Google, Promptfoo, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prefix cache with ACL».",
+      "expand_scope": "E1/E2/E3 + docs for «prefix cache with ACL»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 22/50: «prefix cache with ACL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "incident freeze candidate",
+      "research": [
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 23/50: «incident freeze candidate» via MIT, Promptfoo, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «incident freeze candidate».",
+      "expand_scope": "E1/E2/E3 + docs for «incident freeze candidate»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 23/50: «incident freeze candidate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "redacted traces preserve",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 24/50: «redacted traces preserve» via Harvard, MIT, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «redacted traces preserve».",
+      "expand_scope": "E1/E2/E3 + docs for «redacted traces preserve»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 24/50: «redacted traces preserve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "rollback RTO evidence",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 25/50: «rollback RTO evidence» via Coursera, Harvard, MIT (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rollback RTO evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «rollback RTO evidence»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 25/50: «rollback RTO evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "P0 P1 block promote",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 26/50: «P0 P1 block promote» via Coursera, Harvard, NIST (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «P0 P1 block promote».",
+      "expand_scope": "E1/E2/E3 + docs for «P0 P1 block promote»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 26/50: «P0 P1 block promote» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "baseline candidate compare",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 27/50: «baseline candidate compare» via Coursera, NIST, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «baseline candidate compare».",
+      "expand_scope": "E1/E2/E3 + docs for «baseline candidate compare»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 27/50: «baseline candidate compare» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "slice language length tool-required",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 28/50: «slice language length tool-required» via Live, NIST, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «slice language length tool-required».",
+      "expand_scope": "E1/E2/E3 + docs for «slice language length tool-required»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 28/50: «slice language length tool-required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "adversarial slice coverage",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 29/50: «adversarial slice coverage» via Live, OpenAI, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «adversarial slice coverage».",
+      "expand_scope": "E1/E2/E3 + docs for «adversarial slice coverage»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 29/50: «adversarial slice coverage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "fail closed ethics Ica",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 30/50: «fail closed ethics Ica» via Live, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fail closed ethics Ica».",
+      "expand_scope": "E1/E2/E3 + docs for «fail closed ethics Ica»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 30/50: «fail closed ethics Ica» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "V3 retarget not soft skills",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 31/50: «V3 retarget not soft skills» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not soft skills».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not soft skills»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 31/50: «V3 retarget not soft skills» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "stdlib no paid model",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 32/50: «stdlib no paid model» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stdlib no paid model».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib no paid model»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 32/50: «stdlib no paid model» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "CASO-ICA-050 synthetic",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 33/50: «CASO-ICA-050 synthetic» via NIST, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-ICA-050 synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-ICA-050 synthetic»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 33/50: «CASO-ICA-050 synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "grader temperature not oracles",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 34/50: «grader temperature not oracles» via NIST, NVIDIA, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «grader temperature not oracles».",
+      "expand_scope": "E1/E2/E3 + docs for «grader temperature not oracles»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 34/50: «grader temperature not oracles» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "recovery after tool error",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 35/50: «recovery after tool error» via Google, NIST, NVIDIA (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «recovery after tool error».",
+      "expand_scope": "E1/E2/E3 + docs for «recovery after tool error»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 35/50: «recovery after tool error» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "process score independent outcome",
+      "research": [
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 36/50: «process score independent outcome» via Google, NVIDIA, Promptfoo (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «process score independent outcome».",
+      "expand_scope": "E1/E2/E3 + docs for «process score independent outcome»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 36/50: «process score independent outcome» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "exfil via logs sink",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 37/50: «exfil via logs sink» via Google, Promptfoo, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exfil via logs sink».",
+      "expand_scope": "E1/E2/E3 + docs for «exfil via logs sink»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 37/50: «exfil via logs sink» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "poisoning source attribution",
+      "research": [
+        {
+          "family": "Promptfoo",
+          "title": "Evals & red team",
+          "url": "https://www.promptfoo.dev/docs/intro/",
+          "note": "adversarial suite"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 38/50: «poisoning source attribution» via MIT, Promptfoo, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «poisoning source attribution».",
+      "expand_scope": "E1/E2/E3 + docs for «poisoning source attribution»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 38/50: «poisoning source attribution» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "promote only scorecard green",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "pedagogy"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 39/50: «promote only scorecard green» via Harvard, MIT, deeplearning.ai (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «promote only scorecard green».",
+      "expand_scope": "E1/E2/E3 + docs for «promote only scorecard green»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 39/50: «promote only scorecard green» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "human review on disagreement",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 40/50: «human review on disagreement» via Coursera, Harvard, MIT (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «human review on disagreement».",
+      "expand_scope": "E1/E2/E3 + docs for «human review on disagreement»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 40/50: «human review on disagreement» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "critical claim abstain",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 41/50: «critical claim abstain» via Coursera, Harvard, NIST (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «critical claim abstain».",
+      "expand_scope": "E1/E2/E3 + docs for «critical claim abstain»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 41/50: «critical claim abstain» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "pair bridge S49 agents to S51 ops",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "LLM evaluation",
+          "url": "https://www.coursera.org/courses?query=llm%20evaluation",
+          "note": "MOOC"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 42/50: «pair bridge S49 agents to S51 ops» via Coursera, NIST, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair bridge S49 agents to S51 ops».",
+      "expand_scope": "E1/E2/E3 + docs for «pair bridge S49 agents to S51 ops»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 42/50: «pair bridge S49 agents to S51 ops» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "eval harness reproducibility",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk mgmt"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 43/50: «eval harness reproducibility» via Live, NIST, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «eval harness reproducibility».",
+      "expand_scope": "E1/E2/E3 + docs for «eval harness reproducibility»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 43/50: «eval harness reproducibility» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "red team success is containment",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 44/50: «red team success is containment» via Live, OpenAI, Py4E (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «red team success is containment».",
+      "expand_scope": "E1/E2/E3 + docs for «red team success is containment»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 44/50: «red team success is containment» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "SLO rollback runbook",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 45/50: «SLO rollback runbook» via Live, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SLO rollback runbook».",
+      "expand_scope": "E1/E2/E3 + docs for «SLO rollback runbook»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 45/50: «SLO rollback runbook» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "order bias invalidate judge",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals design",
+          "url": "https://platform.openai.com/docs/guides/evals-design",
+          "note": "eval design"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 46/50: «order bias invalidate judge» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «order bias invalidate judge».",
+      "expand_scope": "E1/E2/E3 + docs for «order bias invalidate judge»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 46/50: «order bias invalidate judge» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 47,
+      "focus": "holdout leak = new holdout",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals harness",
+          "url": "https://github.com/openai/evals",
+          "note": "harness"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 47/50: «holdout leak = new holdout» via OWASP, OpenAI (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «holdout leak = new holdout».",
+      "expand_scope": "E1/E2/E3 + docs for «holdout leak = new holdout»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 47/50: «holdout leak = new holdout» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 48,
+      "focus": "trajectory forbidden tool fail",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 48/50: «trajectory forbidden tool fail» via NIST, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «trajectory forbidden tool fail».",
+      "expand_scope": "E1/E2/E3 + docs for «trajectory forbidden tool fail»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 48/50: «trajectory forbidden tool fail» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 49,
+      "focus": "rubric examples not adjectives",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 49/50: «rubric examples not adjectives» via NIST, NVIDIA, OWASP (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rubric examples not adjectives».",
+      "expand_scope": "E1/E2/E3 + docs for «rubric examples not adjectives»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 49/50: «rubric examples not adjectives» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 50,
+      "focus": "dataset id immutability",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF GenAI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "note": "GAI risk"
+        },
+        {
+          "family": "NVIDIA",
+          "title": "Garak",
+          "url": "https://github.com/NVIDIA/garak",
+          "note": "red team probes"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S50 «Evals, red teaming y fiabilidad de IA» cycle 50/50: «dataset id immutability» via Google, NIST, NVIDIA (CASO-ICA-050).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dataset id immutability».",
+      "expand_scope": "E1/E2/E3 + docs for «dataset id immutability»; V3 roadmap; pair S50 evals → S51 ops UX.",
+      "re_synthesize": "Decision 50/50: «dataset id immutability» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

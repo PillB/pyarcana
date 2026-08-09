@@ -1,0 +1,428 @@
+{
+  "section_index": 37,
+  "title": "Profiling, algoritmos y rendimiento",
+  "outcomes": [
+    "Profilear wall/CPU y memoria con n explícito",
+    "Benchmarkear con warmup, mediana y nota de variabilidad",
+    "Analizar complejidad O(n²) y medir reducción por blocking",
+    "Reducir candidatos con estructuras e índices invertidos",
+    "Aplicar dtypes, chunks y lectura columnar mínima",
+    "Diseñar cache con invalidación y estrategia out-of-core",
+    "Fijar performance budgets y tests de regresión en CI light",
+    "Priorizar costo total y claridad sobre microoptimización del 2%"
+  ],
+  "theory": [
+    {
+      "heading": "wall/CPU y memory profiling",
+      "paragraphs": [
+        "Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos `time.perf_counter` en wall. Un número sin el tamaño n del input no sirve para decidir.",
+        "Contrato operativo. Entrada: función del path caliente y n del fixture. Salida: wall_ms, result de correctitud y n. Error: reportar solo ms sin n, o optimizar un tramo frío. Criterio: el profile apunta al matching/grafo o features que dominan el batch sintético, y el resultado funcional se verifica en el mismo run.",
+        "Aplicación a `CASO-LIM-037-T1A`: sumamos un rango sintético como proxy de trabajo, anotamos wall_ms y confirmamos result True. En el path real del triage se sustituye por el scorer; la disciplina de medir wall+n se mantiene. Sin PII ni datasets productivos en el laboratorio del curso."
+      ],
+      "code": "import time\nt0 = time.perf_counter()\ns = sum(range(100000))\nwall = time.perf_counter() - t0\nprint(\"wall_ms\", round(wall * 1000, 3))\nprint(\"result\", s > 0)\nprint(\"n\", 100000)"
+    },
+    {
+      "heading": "benchmark fixture, warmup y variabilidad",
+      "paragraphs": [
+        "La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (robusta) y, con más muestras, un proxy de p95. El fixture fija dataset sintético y una nota de hardware del laboratorio.",
+        "Contrato operativo. Entrada: función work, N runs post-warmup. Salida: median_ms, n_runs, warmup=True. Error: publicar un solo run sin warmup como «verdad». Criterio: si la variabilidad es alta, subes N o aíslas ruido (otras apps, thermal); no inventas un speedup con un solo shot de medición.",
+        "Aplicación a `CASO-LIM-037-T1B`: work = sum de cuadrados en rango 5000; warmup + 5 runs; mediana en ms. El mismo fixture viaja a CI light más adelante. Datos inventados; reproducible en la laptop del estudiante sin credenciales externas."
+      ],
+      "code": "import time, statistics\ndef work():\n    return sum(i*i for i in range(5000))\nwork()  # warmup\ntimes = []\nfor _ in range(5):\n    t0 = time.perf_counter(); work(); times.append(time.perf_counter()-t0)\nprint(\"median_ms\", round(statistics.median(times)*1000, 3))\nprint(\"n_runs\", 5)\nprint(\"warmup\", True)"
+    },
+    {
+      "heading": "complejidad y blocking",
+      "paragraphs": [
+        "Comparar todos los pares es O(n²) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y solo genera candidatos dentro del bloque. La métrica de costo número uno es el conteo de pares antes y después del blocking.",
+        "Contrato operativo. Entrada: n y número de bloques (didáctico: bloques iguales). Salida: all_pairs, blocked_pairs, reduction. Error: bajar 1% el inner loop y dejar n² intacto. Criterio: la reducción de pares se mide y se reporta junto al mismo resultado de matching sobre el fixture sintético del triage.",
+        "Aplicación a `CASO-LIM-037-T2A`: n=100, 10 bloques → all_pairs=4950, blocked=450, reduction≈0.909. En producción las claves de blocking se validan por recall de pares útiles; aquí aprendemos a contar y a priorizar el algoritmo sobre micro-trucos de un porcentaje."
+      ],
+      "code": "n = 100\npairs_all = n * (n - 1) // 2\nblocks = 10\npairs_b = blocks * (n // blocks) * (n // blocks - 1) // 2\nprint(\"all_pairs\", pairs_all)\nprint(\"blocked_pairs\", pairs_b)\nprint(\"reduction\", round(1 - pairs_b / pairs_all, 3))"
+    },
+    {
+      "heading": "estructuras, vectorización y reducción de candidatos",
+      "paragraphs": [
+        "dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos antes de features caras. El orden correcto del path de escala es bloquear, indexar y recién después scorear con el modelo o reglas.",
+        "Contrato operativo. Entrada: filas (ciudad, entity_id) sintéticas. Salida: tamaños por bloque del inverted index y flag structure. Error: scorear el producto cartesiano y luego «optimizar» el scorer. Criterio: el índice se construye una vez y los candidatos salen del bloque, no de un scan global costoso.",
+        "Aplicación a `CASO-LIM-037-T2B`: filas Lima/Lima/Cusco → bloques {Lima:2, Cusco:1}. Solo comparamos dentro de Lima. Sin afirmar parentesco ni fraude a partir de la ciudad; es solo clave de blocking sintética de laboratorio."
+      ],
+      "code": "from collections import defaultdict\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ninv = defaultdict(list)\nfor city, e in rows:\n    inv[city].append(e)\nprint(\"blocks\", {k: len(v) for k, v in inv.items()})\nprint(\"structure\", \"inverted_index\")\nprint(\"ok\", True)"
+    },
+    {
+      "heading": "dtypes, chunking y columnar",
+      "paragraphs": [
+        "Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columnas usadas (id, amount) en lugar del registro ancho completo que arrastra blobs innecesarios.",
+        "Contrato operativo. Entrada: lista o tabla sintética y size de chunk. Salida: chunk_sizes y col_subset. Error: cargar todo en RAM «porque en mi laptop cabe». Criterio: el job declara un bound de memoria y el tamaño de chunk es un tradeoff medido entre overhead de bucle y pico de RAM.",
+        "Aplicación a `CASO-LIM-037-T3A`: range(10) en chunks de 3 → [3,3,3,1]; subset de columnas ['id','amount']. Didáctica pura con listas; el mismo criterio aplica a formatos columnares cuando el stack del curso lo permita en secciones previas."
+      ],
+      "code": "def chunks(xs, size):\n    for i in range(0, len(xs), size):\n        yield xs[i:i+size]\ndata = list(range(10))\nsizes = [len(c) for c in chunks(data, 3)]\nprint(\"chunk_sizes\", sizes)\nprint(\"col_subset\", [\"id\", \"amount\"])\nprint(\"ok\", True)"
+    },
+    {
+      "heading": "caching, invalidación y out-of-core",
+      "paragraphs": [
+        "Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core significa no asumir que todo cabe en RAM: chunk o spill a disco cuando n crece en el batch de triage.",
+        "Contrato operativo. Entrada: key (feature_set_version, cutoff). Salida: hit booleano y política de invalidación. Error: cache infinito sin versión de schema. Criterio: al cambiar fs-v3→fs-v4 o el cutoff, el hit cae y se recomputa; el diseño documenta ooc=chunk_if_needed de forma explícita.",
+        "Aplicación a `CASO-LIM-037-T3B`: key=('fs-v3','2026-01-01') almacena n_pairs; hit True. Invalidar por version_or_cutoff. Solo estructuras en memoria didácticas; sin Redis ni servicios externos en el ejercicio del estudiante."
+      ],
+      "code": "cache = {}\nkey = (\"fs-v3\", \"2026-01-01\")\ncache[key] = {\"n_pairs\": 1000}\nprint(\"hit\", key in cache)\nprint(\"invalidate_on\", \"version_or_cutoff\")\nprint(\"ooc\", \"chunk_if_needed\")"
+    },
+    {
+      "heading": "performance budget y tests",
+      "paragraphs": [
+        "Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el mismo fixture. CI light corre un bench corto; nightly puede ser más largo y estricto.",
+        "Contrato operativo. Entrada: budget_ms y measured_ms del fixture. Salida: pass booleano y ambos números. Error: «en mi máquina pasa» sin umbral en CI. Criterio: el budget se acuerda con el dueño del servicio de triage y se versiona junto al dataset de bench sintético del repositorio.",
+        "Aplicación a `CASO-LIM-037-T4A`: budget 50ms, measured 12ms → pass True. Si un cambio de scorer sube a 80ms, el test falla y se exige justificar o revertir. Sin red real; medición local del proxy de trabajo del laboratorio."
+      ],
+      "code": "budget_ms = 50\nmeasured_ms = 12\nprint(\"pass\", measured_ms <= budget_ms)\nprint(\"budget_ms\", budget_ms)\nprint(\"measured_ms\", measured_ms)"
+    },
+    {
+      "heading": "costo total, claridad y no microoptimización",
+      "paragraphs": [
+        "El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después con mismo resultado, dataset y límites — no un leaderboard de microbenchmarks vanidosos del autor.",
+        "Contrato operativo. Entrada: métricas before/after (ms, pairs). Salida: speedup y pair_reduction; micro_only=False cuando el ganador fue blocking/algo. Error: shaving 2% sin medición ni reporte. Criterio: claridad y reducción algorítmica ganan a trucos opacos; el PR explica el tradeoff en español profesional (es-PE).",
+        "Aplicación a `CASO-LIM-037-T4B`: before 100ms/1e6 pares → after 20ms/5e4 pares: speedup 5×, pair_reduction 20×. El equipo prefiere ese cambio al rewrite en C de un 2%. Datos sintéticos del path N3 de Red Andina ficticia."
+      ],
+      "code": "before = {\"ms\": 100, \"pairs\": 1_000_000}\nafter = {\"ms\": 20, \"pairs\": 50_000}\nprint(\"speedup\", before[\"ms\"] / after[\"ms\"])\nprint(\"pair_reduction\", before[\"pairs\"] // after[\"pairs\"])\nprint(\"micro_only\", False)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S37-T1-A-DEMO",
+      "description": "Demo: anotar wall del trabajo sintético con n.",
+      "why": "Muestra wall_ms + n; el ms exacto puede variar — el demo fija un output de referencia didáctico.",
+      "code": "import time\nt0=time.perf_counter(); sum(range(10000)); print(round((time.perf_counter()-t0)*1000,3))\nprint('n', 10000)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T1-B-DEMO",
+      "description": "Demo: mediana y flags de warmup.",
+      "why": "Higiene de bench: mediana, N y warmup visibles en el reporte.",
+      "code": "import statistics\nprint(statistics.median([3,1,2]))\nprint('warmup', True)\nprint('n_runs', 3)"
+    },
+    {
+      "demoId": "S37-T2-A-DEMO",
+      "description": "Demo: pares n=4 y blocked.",
+      "why": "Contar all_pairs vs blocked es la métrica #1 de escala ER.",
+      "code": "n=4; print(n*(n-1)//2)\nprint('blocked', 2)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T2-B-DEMO",
+      "description": "Demo: tamaño de bloque Lima en inverted index.",
+      "why": "El índice por ciudad sintética reduce candidatos antes del scorer.",
+      "code": "print({'Lima':2})\nprint('structure', 'inverted_index')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T3-A-DEMO",
+      "description": "Demo: tamaños de chunk size=3.",
+      "why": "Chunking acota memoria; el último chunk puede ser corto.",
+      "code": "print([3,3,3,1])\nprint('size', 3)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T3-B-DEMO",
+      "description": "Demo: cache hit por key de features.",
+      "why": "Hit/miss y versión de features son parte del diseño.",
+      "code": "print(True)\nprint('key', 'fs-v3')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T4-A-DEMO",
+      "description": "Demo: budget pass measured<=budget.",
+      "why": "El test de performance compara measured contra budget acordado.",
+      "code": "print(True)\nprint('budget', 50)\nprint('measured', 10)"
+    },
+    {
+      "demoId": "S37-T4-B-DEMO",
+      "description": "Demo: speedup 100→25 = 4.0.",
+      "why": "Before/after con ratio; micro_only False cuando ganó el algoritmo.",
+      "code": "print(4.0)\nprint('micro_only', False)\nprint('ok', True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Warmup sirve para:",
+      "options": [
+        "Estabilizar benches descartando cold start",
+        "Inflar métricas",
+        "Borrar cache siempre",
+        "Evitar tests"
+      ]
+    },
+    {
+      "question": "Blocking reduce:",
+      "options": [
+        "Solo logs",
+        "Privacidad automáticamente",
+        "Pares candidatos O(n²)",
+        "Seeds"
+      ]
+    },
+    {
+      "question": "Performance budget en CI:",
+      "options": [
+        "Es opcional teatro",
+        "Solo se mide en prod un año después",
+        "Reemplaza tests funcionales",
+        "Falla si se rompe el límite acordado"
+      ]
+    },
+    {
+      "question": "Microoptimizar 2% sin medición:",
+      "options": [
+        "Best practice",
+        "Teatro; prioriza claridad y algos",
+        "Obligatorio",
+        "Invalida blocking"
+      ]
+    },
+    {
+      "question": "Un wall_ms sin n en el reporte:",
+      "options": [
+        "No es comparable entre cambios de dataset",
+        "Es suficiente para el gate",
+        "Reemplaza same_result",
+        "Invalida el warmup"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S37-T1-A-E1",
+      "instruction": "S37-T1-A-E1 · CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: print n 1000, metric 'wall', ok True. El starter imprime n 0 y metric 'guess' (defect). Corrige el reporte de medición sintético.",
+      "hints": [
+        "Todo wall_ms viaja con su n.",
+        "metric wall distingue de cpu/memory."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"n\", 1000)\n"
+    },
+    {
+      "id": "S37-T1-A-E2",
+      "instruction": "S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). Completa el contrato de métricas de performance del triage sintético CASO-LIM-037.",
+      "hints": [
+        "Wall=reloj, CPU=procesador, memory=pico.",
+        "Las tres informan el bottleneck."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(metrics)\n"
+    },
+    {
+      "id": "S37-T1-A-E3",
+      "instruction": "S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el resultado). El gate de escala exige mismo resultado funcional en CASO-LIM-037.",
+      "hints": [
+        "Performance sin same_result es regresión.",
+        "Verifica asserts de matching en el mismo bench."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"same_result\", True)\n"
+    },
+    {
+      "id": "S37-T1-B-E1",
+      "instruction": "S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintético CASO-LIM-037-1B sin red real ni PII.",
+      "hints": [
+        "median es robusta a un outlier de run.",
+        "n_runs y warmup van en el reporte."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(statistics.median(vals))\n"
+    },
+    {
+      "id": "S37-T1-B-E2",
+      "instruction": "S37-T1-B-E2 · Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega warmup (defect). Contrato del fixture de CI light sintético del path de escala.",
+      "hints": [
+        "Descarta la primera corrida (cold start).",
+        "CI light también hace warmup."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"warmup\", True)\n"
+    },
+    {
+      "id": "S37-T1-B-E3",
+      "instruction": "S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). Nombra el proxy para no confundirlo con p95 real en prod.",
+      "hints": [
+        "Con N tiny, max es proxy pesimista de lab.",
+        "En prod usa percentil real con más muestras."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(max(xs))\n"
+    },
+    {
+      "id": "S37-T2-A-E1",
+      "instruction": "S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all_pairs del ER sintético CASO-LIM-037.",
+      "hints": [
+        "Pares no ordenados: n*(n-1)//2.",
+        "No cuentes n² ni n."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(n * (n - 1) // 2)\n"
+    },
+    {
+      "id": "S37-T2-A-E2",
+      "instruction": "S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocked/all (defect: no es reduction).",
+      "hints": [
+        "reduction = 1 - blocked/all.",
+        "Reporta reduction junto a all y blocked."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(round(1 - blocked / all_p, 3))\n"
+    },
+    {
+      "id": "S37-T2-A-E3",
+      "instruction": "S37-T2-A-E3 · Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'micro_loop' (defect). Complejidad y blocking ganan a shaving del 1% en CASO-LIM-037.",
+      "hints": [
+        "Bajar pares O(n²) domina micro-optimizar.",
+        "micro False cuando ganó el algo."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"prefer\", \"blocking\")\n"
+    },
+    {
+      "id": "S37-T2-B-E1",
+      "instruction": "S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Contrato de lookup del path de candidatos sintético.",
+      "hints": [
+        "set/dict evitan scan lineal repetido.",
+        "scan False documenta la intención."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"structure\", \"set\")\n"
+    },
+    {
+      "id": "S37-T2-B-E2",
+      "instruction": "S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin PII real ni parentesco inferido.",
+      "hints": [
+        "Cuenta entidades por clave de blocking.",
+        "Cusco no entra en el bloque Lima."
+      ],
+      "kind": "independent",
+      "starterCode": "rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = 0  # TODO count Lima\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S37-T2-B-E3",
+      "instruction": "S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Transferencia del pipeline de candidatos del triage.",
+      "hints": [
+        "Primero reduces candidatos; luego features.",
+        "Invertir el orden destruye el budget."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"order\", [\"block\", \"score\"])\n"
+    },
+    {
+      "id": "S37-T3-A-E1",
+      "instruction": "S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Starter usa n//size=2 (defect). Planifica el job out-of-core del fixture sintético.",
+      "hints": [
+        "Ceil: (n+size-1)//size.",
+        "Último chunk puede ser más corto."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print((n + size - 1) // size)\n"
+    },
+    {
+      "id": "S37-T3-A-E2",
+      "instruction": "S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura mínima del batch sintético CASO-LIM-037.",
+      "hints": [
+        "Lee solo columnas usadas por el scorer.",
+        "raw_blob fuera reduce I/O y riesgo."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"id\", \"amt\"])\n"
+    },
+    {
+      "id": "S37-T3-A-E3",
+      "instruction": "S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del fixture cuando el rango del dominio cabe en 32 bits.",
+      "hints": [
+        "Si el rango cabe en int32, ahorras memoria.",
+        "Documenta el bound del dominio."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"dtype\", \"int32\")\n"
+    },
+    {
+      "id": "S37-T3-B-E1",
+      "instruction": "S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). Fixture de features sintéticas versionadas.",
+      "hints": [
+        "Key = versión de features + cutoff.",
+        "Sin cutoff reutilizas scores viejos."
+      ],
+      "kind": "guided",
+      "starterCode": "key = (\"fs-v1\",)  # TODO include cutoff\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S37-T3-B-E2",
+      "instruction": "S37-T3-B-E2 · Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (defect). Contrato de diseño del cache del triage sintético Red Andina.",
+      "hints": [
+        "Al cambiar feature set, invalida.",
+        "stale True nombra el riesgo."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"version_change\")\n"
+    },
+    {
+      "id": "S37-T3-B-E3",
+      "instruction": "S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker sintético, chunk acota memoria.",
+      "hints": [
+        "chunk/spill acotan RAM.",
+        "load_all no escala con n."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"ooc\", \"chunk\")\n"
+    },
+    {
+      "id": "S37-T4-A-E1",
+      "instruction": "S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert del PR de performance sintético.",
+      "hints": [
+        "pass si measured <= budget.",
+        "Publica ambos números en el test."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(measured <= budget)\n"
+    },
+    {
+      "id": "S37-T4-A-E2",
+      "instruction": "S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre verde). El budget debe poder fallar.",
+      "hints": [
+        "El test debe poder fallar.",
+        "False aquí es salud del sistema."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(measured <= budget)\n"
+    },
+    {
+      "id": "S37-T4-A-E3",
+      "instruction": "S37-T4-A-E3 · Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. Starter solo ['latency_p95'] (defect). Contrato multi-dimensional del gate de escala CASO-LIM-037.",
+      "hints": [
+        "Latencia sola no basta.",
+        "Versiona los tres en CI."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"latency_p95\", \"memory\", \"pairs\"])\n"
+    },
+    {
+      "id": "S37-T4-B-E1",
+      "instruction": "S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after sintético del path N3.",
+      "hints": [
+        "speedup = before_ms / after_ms.",
+        "micro_only False si ganó el algo."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(before / after)\n"
+    },
+    {
+      "id": "S37-T4-B-E2",
+      "instruction": "S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política de costo total del equipo sintético Red Andina.",
+      "hints": [
+        "Costo total incluye bugs y review.",
+        "2% opaco suele ser pérdida neta."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"prefer\", \"clarity\")\n"
+    },
+    {
+      "id": "S37-T4-B-E3",
+      "instruction": "S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect). Entregable del gate de escala CASO-LIM-037.",
+      "hints": [
+        "Sin hardware/dataset el speedup no es comparable.",
+        "Cuatro claves mínimas del reporte."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"before\", \"after\", \"dataset\", \"hardware\"])\n"
+    }
+  ],
+  "packet_sha": "81a7eec15cd3e2f0"
+}

@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s15-4a9cabbd88",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+      "justification_from_packet": "Una Series/DataFrame se alinea por Index: set_index('cliente_id') convierte la columna en etiquetas del índice. index.tolist() devuelve ['C001','C002'], como en el demo del subtema Series/DataFrame/index."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(s[\"C002\"])\n",
+      "justification_from_packet": "La teoría define Series como vector con Index y name. Construyo scores con etiquetas C001/C002 y accedo por etiqueta s['C002'] → 0.9, sin posición iloc, tal como enseña el acceso por índice del paquete."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nprint(s1.add(s2, fill_value=0).sort_index().to_dict())\n",
+      "justification_from_packet": "Al sumar Series, pandas alinea por Index (unión). add(..., fill_value=0) evita NaN en C001 y sort_index ordena; el dict {'C001':1.0,'C002':2.5} muestra la alineación del índice del subtema."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"a,b\\n1,NA\\n2,3\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+      "justification_from_packet": "read_csv con na_values=['NA'] convierte el token NA en valor faltante. isna().sum() sobre b cuenta 1 NA, control de parser que evita object-dtypes silenciosos como indica la teoría de lectura CSV."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"fecha\\n2024-01-15\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "justification_from_packet": "parse_dates=['fecha'] pide al parser fechas nativas. str(dtype) da datetime64[ns], el tipo que el paquete recomienda para no dejar fechas como object y poder operar temporalmente después."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"cliente_id,monto,z\\nC001,1.0,extra\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "usecols limita columnas en la ingesta: solo cliente_id y monto entran; z no aparece. Es la opción de parser del subtema para no cargar ruido y fijar el schema mínimo del CSV."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())\n",
+      "justification_from_packet": "loc filtra por etiqueta/condición booleana: df.loc[score>=0.5, 'cliente_id'] deja C002. El demo del subtema usa el mismo patrón df.loc[df.score < 0.5, cols] para selección segura."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=lambda x: x[\"score\"] * 2)[\"doble\"].tolist())\n",
+      "justification_from_packet": "assign crea columnas derivadas sin depender de chained assignment: doble=score*2 produce [2.0,4.0]. La teoría de loc/filtros/assign recomienda este estilo funcional sobre mutar slices ambiguos."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+      "justification_from_packet": "iloc es selección por posición: fila 1, columna 0 del DF [[1,2],[3,4]] es 3. Complementa a loc (etiquetas) en el subtema de indexación pandas."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n",
+      "justification_from_packet": "Para evitar SettingWithCopy, se asigna con loc sobre el original: flag='x' donde score<0.5. fillna('') convierte el NaN de la fila alta en '' y la lista queda ['x',''], patrón seguro del subtema copy semantics."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsubset = df.loc[df[\"score\"] > 0.5].copy()\nsubset[\"ok\"] = True\nprint(subset[\"ok\"].tolist())\n",
+      "justification_from_packet": "El paquete enseña copy() explícita del subset antes de añadir columnas: así no se depende de un view ambiguo. Tras filtrar score>0.5, ok=True en las dos filas da [True, True]."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99\nprint(df[\"score\"].tolist())\n",
+      "justification_from_packet": "Un DataFrame.copy() es independiente: mutar c.iloc[0,0]=99 no toca el original, que permanece [1.0, 2.0]. Demuestra la semántica de copia del subtema frente a views peligrosas."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "justification_from_packet": "Strings + category: str.title() unifica casing y astype('category') reduce memoria y errores tipográficos. dtype.name es 'category', como en el demo region→category del subtema de dtypes."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint(s.tolist())\n",
+      "justification_from_packet": "to_numeric con errors='coerce' convierte inválidos a NaN en lugar de reventar: ['1','a','3'] → [1.0, nan, 3.0]. Es la coerción explícita que el paquete usa sobre montos sucios."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "to_datetime(..., errors='coerce') deja NaT en fechas ilegibles. isna().sum() cuenta 1 NaT en ['2024-01-01','no-fecha'], paralelo al manejo de montos con coerce en el subtema de fechas."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\nnum = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(num.isna().sum()) - before)\n",
+      "justification_from_packet": "El schema/coerción del paquete mide cuántos NaN nuevos introduce to_numeric: 'x' no es número → +1 NA. Comparar isna antes/después es el reporte mínimo del contrato de tipos."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+      "justification_from_packet": "Un schema dict declara columnas obligatorias: si 'monto' no está en df.columns, se falla en cerrado con KeyError. Imprimo 'missing' para señalar el hueco del contrato de schema del subtema."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "justification_from_packet": "El dtype string (nullable) de pandas es preferible a object para ids. astype('string') y str(dtype) → 'string', alineado con el schema del demo cliente_id: string."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n",
+      "justification_from_packet": "to_csv(..., index=False) exporta solo columnas de datos; releer con read_csv recupera ['a','b']. Es el round-trip CSV del subtema de exportación y contrato tabular."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+      "justification_from_packet": "to_excel con engine openpyxl escribe un libro real en BytesIO. Si getvalue() tiene bytes > 0 el artefacto existe → True, como pide el contrato de exportación Excel del paquete."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontrato = {c: str(t) for c, t in sorted(df.dtypes.items())}\nprint(contrato)\n",
+      "justification_from_packet": "Cuando no hay Parquet, el paquete exporta CSV + schema JSON {col: str(dtype)}. Ordeno por clave y obtengo {'cliente_id':'object','monto':'float64'} como contrato de tipos del artefacto."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n",
+      "justification_from_packet": "memory_usage(deep=True).sum() estima memoria del DF incluyendo strings. Un valor int > 0 confirma medición usable para el manifest de provenance/memoria del subtema."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "justification_from_packet": "El manifest mínimo registra filas y columnas: len(df)=3 y columns=['a']. Es la base de provenance que el paquete pide antes de hash y dtypes en exportaciones."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "code": "import pandas as pd\nimport hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode(\"utf-8\")\nprint(hashlib.sha1(blob).hexdigest()[:8])\n",
+      "justification_from_packet": "Un hash simple del CSV (sha1 del payload utf-8) deja rastro auditable del artefacto. Los primeros 8 hex del fixture {'a':[1]} son 462f48ef, como en el demo de manifest del subtema."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "loc selecciona por etiquetas de index/columnas; iloc es posicional. La teoría loc/iloc lo contrasta de forma explícita, así que la respuesta es loc."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SettingWithCopyWarning aparece al asignar sobre slices que pueden ser view o copy (chained assignment). El subtema de copy semantics lo trata como fuente de bugs; no es un tema de Parquet ni openpyxl."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "errors='coerce' en to_numeric convierte valores inválidos a NaN en lugar de lanzar siempre. El demo de monto_num y el ejercicio con 'a' lo muestran claramente."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Un manifest de export incluye filas, columnas, dtypes/memoria y provenance/hash del artefacto. No contraseñas, PII real ni solo el nombre del analista; es el contrato de trazabilidad del subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:40:24.751151+00:00",
+  "session_started_at": "2026-07-23T16:38:40+00:00",
+  "session_ended_at": "2026-07-23T16:39:15.800000+00:00",
+  "receipt_response_sha256": "c7f30dc5be683be4ac166d8a86912927e9d8ae19776186d0d04b53e7019b5852",
+  "receipt_exercises_sha256": "b43246d8ad776d223134715ab547728e0048a55d834e98982bc03eae4b5fc476",
+  "receipt_selfcheck_sha256": "026ffe30a245f0cb0aa39f28fd89d167ec124e8ff0bc75f73d7184ed612f8bdf"
+}

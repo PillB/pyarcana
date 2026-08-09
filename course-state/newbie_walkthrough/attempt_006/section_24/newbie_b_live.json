@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 24,
+  "recorded_at": "2026-07-21T22:20:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + iDo demos + weDo hints",
+      "notes": "OCR confidence abstention, cross-field review, mime gate all taught."
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Abstener y encolar revisión",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory low confidence → abstain; not invent digits."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Cola de revisión / corrección",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory mismatch → needs_review not fraude."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory accuracy per field."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Gate reject/review por mime no permitido",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory gate_file ALLOWED mimes."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S24-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "dpi = 96\ndpi = max(dpi, 200)\nprint(dpi)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["dpi floor 200"],
+        "note": "Demo max(dpi,200)."
+      },
+      {
+        "exercise_id": "S24-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "skew = 1.2\nprint(abs(skew) >= 0.5)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["deskew_applied"],
+        "note": "Theory deskew threshold 0.5."
+      },
+      {
+        "exercise_id": "S24-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "w = h = 1000\nbox = (int(0.05 * w), int(0.05 * h), int(0.95 * w), int(0.95 * h))\nprint(box)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["crop margins"],
+        "note": "Hints 5% margins tuple."
+      },
+      {
+        "exercise_id": "S24-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "s = {0: 0.1, 90: 0.8}\nprint(max(s, key=s.get))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["orientation max score"],
+        "note": "S24-T2-A-DEMO max scores."
+      },
+      {
+        "exercise_id": "S24-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "flags = [0, 1, 1, 0]\nprint(sum(flags))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["noise count"],
+        "note": "Hints sum of noise flags."
+      },
+      {
+        "exercise_id": "S24-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "score = 0.4\nprint(\"manual_orient\" if score < 0.5 else \"auto\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["orient threshold"],
+        "note": "Hints score_orient umbral."
+      },
+      {
+        "exercise_id": "S24-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "toks = [{\"text\": \"A\", \"conf\": 0.9}, {\"text\": \"B\", \"conf\": 0.5}]\nprint([t[\"text\"] for t in toks if t[\"conf\"] >= 0.85])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["conf filter"],
+        "note": "S24-T2-B-DEMO conf threshold."
+      },
+      {
+        "exercise_id": "S24-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "def ocr(lang=\"spa\"):\n    return {\"lang\": lang, \"text\": \"\"}\n\nprint(ocr()[\"lang\"])\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["lang spa default"],
+        "note": "Theory idiomas spa+eng."
+      },
+      {
+        "exercise_id": "S24-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "confs = [0.9, 0.75, 0.95]\nstatus = \"review\" if min(confs) < 0.8 else \"auto\"\nprint(status)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["min conf review"],
+        "note": "Theory field critical low conf."
+      },
+      {
+        "exercise_id": "S24-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "s = \"Total: 12.5\"\nk, v = s.split(\":\", 1)\nprint(k.strip(), v.strip())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["KV parse"],
+        "note": "S24-T3-A-DEMO split lines."
+      },
+      {
+        "exercise_id": "S24-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "t = [[\"H1\", \"H2\"], [\"a\", \"b\"]]\nprint(len(t) - 1)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["table data rows"],
+        "note": "Hints len-1 for header."
+      },
+      {
+        "exercise_id": "S24-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "field = {\"name\": \"RUC\", \"value\": \"20123456789\", \"bbox\": [0, 0, 10, 10]}\nprint(field)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["bbox evidence"],
+        "note": "Theory field value conf bbox."
+      },
+      {
+        "exercise_id": "S24-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import re\ns = \"20-123\"\nprint(re.sub(r\"\\D\", \"\", s))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["digits only"],
+        "note": "S24-T3-B-DEMO re.sub digits."
+      },
+      {
+        "exercise_id": "S24-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from datetime import datetime\ndt = datetime.strptime(\"15/01/2026\", \"%d/%m/%Y\")\nprint(dt.date().isoformat())\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["date ISO"],
+        "note": "Hints strptime %d/%m/%Y."
+      },
+      {
+        "exercise_id": "S24-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import re\nraw = \"123\"\nd = re.sub(r\"\\D\", \"\", raw)\nprint(d if len(d) == 11 else None)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["RUC len 11"],
+        "note": "Demo len==11 guard."
+      },
+      {
+        "exercise_id": "S24-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "total, lines = 10.0, [4.0, 5.0]\nif abs(sum(lines) - total) > 0.01:\n    print(\"needs_review\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["cross-field total"],
+        "note": "S24-T4-A-DEMO total vs lines."
+      },
+      {
+        "exercise_id": "S24-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "ruc = None\nreasons = []\nif ruc is None:\n    reasons.append(\"missing_ruc\")\nprint(reasons)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["reasons list"],
+        "note": "Theory reasons for needs_review."
+      },
+      {
+        "exercise_id": "S24-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "mismatch = True\nif mismatch:\n    print(\"review_not_fraud\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["policy string"],
+        "note": "Theory mismatch not fraude."
+      },
+      {
+        "exercise_id": "S24-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "correct, n = 3, 4\nprint(correct / n)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["accuracy"],
+        "note": "S24-T4-B-DEMO accuracy."
+      },
+      {
+        "exercise_id": "S24-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "rows = [{\"ruc_pred\": \"1\", \"ruc_true\": \"1\"}, {\"ruc_pred\": \"2\", \"ruc_true\": \"1\"}]\nacc = sum(1 for r in rows if r[\"ruc_pred\"] == r[\"ruc_true\"]) / len(rows)\nprint(acc)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["acc per field"],
+        "note": "Theory per-field accuracy."
+      },
+      {
+        "exercise_id": "S24-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "auto, review = 7, 3\nprint(auto / (auto + review))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["coverage_auto"],
+        "note": "Hints auto/(auto+review)."
+      },
+      {
+        "exercise_id": "S24-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "mime = \"application/zip\"\nallowed = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\nprint(\"reject\" if mime not in allowed else \"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["mime gate"],
+        "note": "Theory ALLOWED mimes."
+      },
+      {
+        "exercise_id": "S24-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "n = 6_000_000\nprint(\"reject\" if n > 5_000_000 else \"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["size gate"],
+        "note": "Theory MAX_BYTES 5e6."
+      },
+      {
+        "exercise_id": "S24-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "status = \"ocr_fail\"\nfallback = {\"ocr_fail\": \"human_rescan\"}\nprint(fallback.get(status, \"retry\"))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["fallback map"],
+        "note": "Theory fallback human_rescan."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet.",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "blocked_selfcheck_ids": []
+    }
+  }
+}

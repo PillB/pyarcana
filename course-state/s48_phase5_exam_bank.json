@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S48",
+  "section_id": "ai-governance",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "ai-governance",
+    "title_v3": "LLM applications y RAG con evidencia",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "entender-eu-ai-act-(2026):-cat",
+    "aplicar-iso-42001-(ai-manageme",
+    "construir-un-ai-governance-fra",
+    "implementar-fairness-metrics-c"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S48 (LLM applications y RAG con evidencia).",
+  "families": [
+    {
+      "family_id": "S48-T1-A-EX",
+      "concept": "embeddings-similarity",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T1-B-EX",
+      "concept": "limits-versions-eval",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T2-A-EX",
+      "concept": "chunking-metadata-dedup",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T2-B-EX",
+      "concept": "acl-deletion-provenance",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T3-A-EX",
+      "concept": "lexical-vector-hybrid-rerank",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T3-B-EX",
+      "concept": "context-cites-permissions",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T4-A-EX",
+      "concept": "structured-grounding",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S48-T4-B-EX",
+      "concept": "retrieval-answer-eval-cost-abstain",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (ai-governance key)",
+    "course-state/s48_phase5_exam_bank.json"
+  ]
+}

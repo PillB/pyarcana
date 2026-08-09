@@ -1,0 +1,126 @@
+{
+  "research_notes": {
+    "fernandez_huerta": "Spanish Flesch adaptation (1959); uses syllables/word and words/sentence.",
+    "szigriszt_pazos_inflesz": "Spanish perspicuity; related INFLESZ scale (Barrio-Cantalejo et al.).",
+    "structure_heuristics": "Length, punctuation pairing, delimiters, monotony, meta-leaks.",
+    "languagetool": "Open-source multilingual grammar/style checker; Spanish rules via public API.",
+    "sources": [
+      "https://readabilityformulas.com/readability-formulas-to-score-spanish-texts/",
+      "https://languagetool.org/spellchecking-spanish",
+      "https://github.com/languagetool-org/languagetool",
+      "INFLESZ validation literature (Spanish medical/education readability)"
+    ]
+  },
+  "sections_audited": 1,
+  "total_sentences": 344,
+  "total_paragraphs": 201,
+  "total_findings": 104,
+  "severity": {
+    "low": 100,
+    "medium": 4
+  },
+  "mean_quality_score": 9.19,
+  "min_quality_score": 9.19,
+  "mean_fernandez_huerta": 83.5,
+  "mean_fh_label": "fácil",
+  "mean_wps": 9.36,
+  "languagetool": false,
+  "top_rules": [
+    [
+      "fragment",
+      90
+    ],
+    [
+      "lowercase_after_period",
+      6
+    ],
+    [
+      "repeated_word",
+      3
+    ],
+    [
+      "long_sentence",
+      1
+    ],
+    [
+      "comma_density",
+      1
+    ],
+    [
+      "possible_plural_det_singular_noun",
+      1
+    ],
+    [
+      "space_before_punct",
+      1
+    ],
+    [
+      "missing_terminal_punct",
+      1
+    ]
+  ],
+  "improvement_playbook": [
+    {
+      "rule": "fragment",
+      "count": 90,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "lowercase_after_period",
+      "count": 6,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "repeated_word",
+      "count": 3,
+      "cause": "Typo o pegado doble.",
+      "fix": "Eliminar duplicado."
+    },
+    {
+      "rule": "long_sentence",
+      "count": 1,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "possible_plural_det_singular_noun",
+      "count": 1,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 1,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
+      "rule": "missing_terminal_punct",
+      "count": 1,
+      "cause": "Frases colgadas tras edición o plantillas.",
+      "fix": "Toda oración asertiva cierra con punto."
+    }
+  ],
+  "sections_ranked": [
+    {
+      "section": 7,
+      "file": "s07-data-acquisition.ts",
+      "quality_score_0_10": 9.19,
+      "fernandez_huerta": 83.5,
+      "avg_words_per_sentence": 9.36,
+      "findings_by_severity": {
+        "low": 100,
+        "medium": 4
+      },
+      "findings_total": 104
+    }
+  ]
+}

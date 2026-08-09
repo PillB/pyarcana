@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S17",
+  "section_id": "packaging",
+  "phase": "PHASE_5",
+  "lane": "LANE-S14-S17-CLOSE",
+  "generated_at": "2026-07-20T20:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "packaging"
+  },
+  "retired_from_bank": [
+    "crear-paquetes-python-modernos",
+    "publicar-en-pypi-con-twine-y-a",
+    "construir-clis-profesionales-c",
+    "entender-wheels-vs-source-dist"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S17 (Joins, reshape, groupby y cierre analítico).",
+  "families": [
+    {
+      "family_id": "S17-T1-A-EX",
+      "concept": "keys-cardinality-joins",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T1-B-EX",
+      "concept": "validate-dup-antijoin",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T2-A-EX",
+      "concept": "concat-melt-pivot",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T2-B-EX",
+      "concept": "long-wide-stable-names",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T3-A-EX",
+      "concept": "groupby-agg-transform",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T3-B-EX",
+      "concept": "windows-dates-cohorts",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T4-A-EX",
+      "concept": "denominators-totals",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S17-T4-B-EX",
+      "concept": "temporal-leakage-controls",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (packaging key)",
+    "course-state/s17_phase5_exam_bank.json"
+  ]
+}

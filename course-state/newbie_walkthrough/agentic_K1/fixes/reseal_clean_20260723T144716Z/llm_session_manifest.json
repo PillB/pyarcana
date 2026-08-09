@@ -1,0 +1,962 @@
+{
+  "attempt_id": "agentic_K1",
+  "created_at": "2026-07-23T14:46:10.646745+00:00",
+  "entries": [
+    {
+      "section": 1,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:11:10.647267+00:00",
+      "ended_at": "2026-07-23T14:11:23.447267+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s01-ed37e2f6b3",
+      "response_sha256": "2697e9f6afd122250b2cc07889080377f272a7e837a251de02da0184822832d8",
+      "latency_ms": 12800
+    },
+    {
+      "section": 1,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:11:30.453092+00:00",
+      "ended_at": "2026-07-23T14:11:46.203092+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s01-54e29e0fb0",
+      "response_sha256": "8e5d3549fd5da0f8a9974b1d4d2a8d0b7fdf5f378e86fc6b555809df29bc8093",
+      "latency_ms": 15750
+    },
+    {
+      "section": 2,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:11:50.258917+00:00",
+      "ended_at": "2026-07-23T14:12:05.158917+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s02-d15fa0cd79",
+      "response_sha256": "46c9637b0b4558c96a05d0255b2c61c5ac0e3dfe52b74dc192a07e90be93771e",
+      "latency_ms": 14900
+    },
+    {
+      "section": 2,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:12:10.064743+00:00",
+      "ended_at": "2026-07-23T14:12:27.914743+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s02-55eea071a3",
+      "response_sha256": "8bd9b1abcdb2c83b160b30a047ae8e5194f435d83697c17fc98a59ffc844b48d",
+      "latency_ms": 17850
+    },
+    {
+      "section": 3,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:12:29.870568+00:00",
+      "ended_at": "2026-07-23T14:12:47.070568+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s03-632da312d1",
+      "response_sha256": "370361402399e489ac299e874d6f5a1ef599171bcb5d46062b02bb2066af97f4",
+      "latency_ms": 17200
+    },
+    {
+      "section": 3,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:12:49.676393+00:00",
+      "ended_at": "2026-07-23T14:13:09.826393+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s03-d6388760ed",
+      "response_sha256": "4019669d8cdc998212d0587d3a5c6431f0f1eda07399125f943f0e381613f1b2",
+      "latency_ms": 20150
+    },
+    {
+      "section": 4,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:13:09.482218+00:00",
+      "ended_at": "2026-07-23T14:13:29.072218+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s04-4a8cce260e",
+      "response_sha256": "6f75ac1e35c1980ee32e13a11b198bf53bf10857f4f388fb72a5c9ee2d03302a",
+      "latency_ms": 19590
+    },
+    {
+      "section": 4,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:13:29.288044+00:00",
+      "ended_at": "2026-07-23T14:13:51.618044+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s04-ecd2fda408",
+      "response_sha256": "5f42aad5926d1f341a8947d3e95e2bae6a6b1019e05726bc9d9c043c8dc193f0",
+      "latency_ms": 22330
+    },
+    {
+      "section": 5,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:13:49.093869+00:00",
+      "ended_at": "2026-07-23T14:14:11.173869+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s05-d602649969",
+      "response_sha256": "9f3b667a84c16d264e7d749e564faece671cc65d067229f9510445e00a25a7db",
+      "latency_ms": 22080
+    },
+    {
+      "section": 5,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:14:08.899694+00:00",
+      "ended_at": "2026-07-23T14:14:33.929694+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s05-f90f97e617",
+      "response_sha256": "e60b2bd1e15d3a8ebe47d5d4eba93d5d67cdf71c958942ebf213af36e4a6050f",
+      "latency_ms": 25030
+    },
+    {
+      "section": 6,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:14:28.705519+00:00",
+      "ended_at": "2026-07-23T14:14:53.685519+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s06-e36770aaaf",
+      "response_sha256": "30219ee5a22a3c5b5edfbd73d32fda97188dee2ede97c5ab0b5d45d5d7fbf17a",
+      "latency_ms": 24980
+    },
+    {
+      "section": 6,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:14:48.511345+00:00",
+      "ended_at": "2026-07-23T14:15:16.331345+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s06-ce786b1d65",
+      "response_sha256": "63de5ead960ccca1d5ec2e6fe47e26d7c17cc2444775835c6f63563504ca2519",
+      "latency_ms": 27820
+    },
+    {
+      "section": 7,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:15:08.317170+00:00",
+      "ended_at": "2026-07-23T14:15:36.287170+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s07-0830c013ba",
+      "response_sha256": "df7578f05ce463e8dfa391a6218c5ddee29340b46f1078b96e076664345f4d68",
+      "latency_ms": 27970
+    },
+    {
+      "section": 7,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:15:28.122995+00:00",
+      "ended_at": "2026-07-23T14:15:59.042995+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s07-7c48fc36fb",
+      "response_sha256": "248e2ee1da02ee47df6b45f44100b27300c42dabcf5f7f5635f2b1a3d9ba5aa7",
+      "latency_ms": 30920
+    },
+    {
+      "section": 8,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:15:47.928820+00:00",
+      "ended_at": "2026-07-23T14:16:18.988820+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s08-00c3ab16ef",
+      "response_sha256": "5db86abfbcdff946bdce761b84404c343da3aca7faf683ae33d5a7c5653f3117",
+      "latency_ms": 31060
+    },
+    {
+      "section": 8,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:16:07.734646+00:00",
+      "ended_at": "2026-07-23T14:16:41.744646+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s08-dea41b8529",
+      "response_sha256": "89b6ca41708bf49a2333f39a641415b9e5dc4e796202f5845972d577c8b9b852",
+      "latency_ms": 34010
+    },
+    {
+      "section": 9,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:16:27.540471+00:00",
+      "ended_at": "2026-07-23T14:17:02.100471+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s09-f776eaaffe",
+      "response_sha256": "d3d3de0196a8c4c73016b0e4bf4963e439e2920bb45ac6e08e4175116adbbfa4",
+      "latency_ms": 34560
+    },
+    {
+      "section": 9,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:16:47.346296+00:00",
+      "ended_at": "2026-07-23T14:17:24.746296+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s09-0a5a0e84fc",
+      "response_sha256": "2bba2b9773187a2fd3324eb4e8db5536a3de8acceec1dd399453bf9b4ab18667",
+      "latency_ms": 37400
+    },
+    {
+      "section": 10,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:17:07.152121+00:00",
+      "ended_at": "2026-07-23T14:17:45.302121+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s10-d542dcdc62",
+      "response_sha256": "3d1ea9f59d560f309c508e37341969e7102d4be46deb3c2b1547d64432457f2c",
+      "latency_ms": 38150
+    },
+    {
+      "section": 10,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:17:26.957947+00:00",
+      "ended_at": "2026-07-23T14:18:08.057947+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s10-cafcf9ab46",
+      "response_sha256": "8eb315fb660765a6e280cf858920bf35c8d14253b4de9622ac4735bdadafaca3",
+      "latency_ms": 41100
+    },
+    {
+      "section": 11,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:17:46.763772+00:00",
+      "ended_at": "2026-07-23T14:18:28.813772+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s11-b77fb9ec67",
+      "response_sha256": "9755ec6dd524be6ecdb116274aaf847bfce2f4105a10711785fc68b48be43ff5",
+      "latency_ms": 42050
+    },
+    {
+      "section": 11,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:18:06.569597+00:00",
+      "ended_at": "2026-07-23T14:18:51.359597+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s11-e7ba380bb6",
+      "response_sha256": "199cbe95e9ce83366ea6b04ee5d24be2fedfe4a4148d1b127532aa6c8d1d22a7",
+      "latency_ms": 44790
+    },
+    {
+      "section": 12,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:18:26.375422+00:00",
+      "ended_at": "2026-07-23T14:19:12.205422+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s12-4207ddca9c",
+      "response_sha256": "417fa7529f07b06d55ebe147d506e6a2d29a178df0c332f0163e524594e801e8",
+      "latency_ms": 45830
+    },
+    {
+      "section": 12,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:18:46.181248+00:00",
+      "ended_at": "2026-07-23T14:19:34.961248+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s12-70e4f8f63e",
+      "response_sha256": "f5027caa7e40df3c2898f006f892e6a4e0fcedfff94bef8e861b46424a7b5f67",
+      "latency_ms": 48780
+    },
+    {
+      "section": 13,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:19:05.987073+00:00",
+      "ended_at": "2026-07-23T14:19:56.117073+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s13-80ba9d2be1",
+      "response_sha256": "fdba6f0cbc739293fa220638d8fc9831f0e23ff8bcb1dc4edf8f90d8c072d44a",
+      "latency_ms": 50130
+    },
+    {
+      "section": 13,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:19:25.792898+00:00",
+      "ended_at": "2026-07-23T14:20:18.872898+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s13-fa1a734e17",
+      "response_sha256": "97841e814f1262a2f34a4d1bae427e5e2ad852505905d98008c02e4513fe1b98",
+      "latency_ms": 53080
+    },
+    {
+      "section": 14,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:19:45.598723+00:00",
+      "ended_at": "2026-07-23T14:20:40.228723+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s14-9cddc2c8fa",
+      "response_sha256": "2e0640c26d8bb7155c3d6df1d4be5f7fb8ed0244a9c0293438b63038b40abd45",
+      "latency_ms": 54630
+    },
+    {
+      "section": 14,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:20:05.404549+00:00",
+      "ended_at": "2026-07-23T14:21:02.984549+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s14-3d3a487f89",
+      "response_sha256": "f030dc38bc0d63535d7c09eab9902de1fe5760b5d616663d75da41a0f6083891",
+      "latency_ms": 57580
+    },
+    {
+      "section": 15,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:20:25.210374+00:00",
+      "ended_at": "2026-07-23T14:21:24.220374+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s15-f157e40aa1",
+      "response_sha256": "69fc69b718b42d28982b156b11889639ca5686b8863c25ba7b0bf20a0730e5eb",
+      "latency_ms": 59010
+    },
+    {
+      "section": 15,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:20:45.016199+00:00",
+      "ended_at": "2026-07-23T14:21:46.976199+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s15-55fb2d43b3",
+      "response_sha256": "bf8d33cbcb42886651fb2776bad0e6341df079f79e053875ff830e8c8ba8c030",
+      "latency_ms": 61960
+    },
+    {
+      "section": 16,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:21:04.822024+00:00",
+      "ended_at": "2026-07-23T14:22:08.732024+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s16-c68443e076",
+      "response_sha256": "1425a3e0bc44a7d781f5f118132fefee911222f8ad53419e7fa05ee79dca377b",
+      "latency_ms": 63910
+    },
+    {
+      "section": 16,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:21:24.627850+00:00",
+      "ended_at": "2026-07-23T14:21:38.487850+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s16-7d9c84b1eb",
+      "response_sha256": "d3c15cc0e378b75b5ee9b0a7f6aded09de5ffd082c76de3469ebb83588017a64",
+      "latency_ms": 13860
+    },
+    {
+      "section": 17,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:21:44.433675+00:00",
+      "ended_at": "2026-07-23T14:22:00.443675+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s17-8ce80fa763",
+      "response_sha256": "adb06e4f793119bdfde946bd13126d31150572fc6e9dcc2e0981d87c2179bbe7",
+      "latency_ms": 16010
+    },
+    {
+      "section": 17,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:22:04.239500+00:00",
+      "ended_at": "2026-07-23T14:22:23.089500+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s17-8d244da325",
+      "response_sha256": "d15dc1e5e5cda0f677a683c4ffa4a044f7e92226df0305d195a3389f17c702b0",
+      "latency_ms": 18850
+    },
+    {
+      "section": 18,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:22:24.045325+00:00",
+      "ended_at": "2026-07-23T14:22:45.245325+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s18-d357ac9b6a",
+      "response_sha256": "5b7c3adbfd09ba169d7df4258be5d579bd3ee51b1f54bee48dce20162b5411d8",
+      "latency_ms": 21200
+    },
+    {
+      "section": 18,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:22:43.851150+00:00",
+      "ended_at": "2026-07-23T14:23:07.791150+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s18-90bd9af01b",
+      "response_sha256": "e168649fff347293954dcfac8315734d683b06b35ab2f9646be8ac25daa82d04",
+      "latency_ms": 23940
+    },
+    {
+      "section": 19,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:23:03.656976+00:00",
+      "ended_at": "2026-07-23T14:23:30.146976+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s19-975ada0f2f",
+      "response_sha256": "3f0e12751c6444c2b5ae21997ccc895a247720abd764ae8aa570c9a3e33c51d2",
+      "latency_ms": 26490
+    },
+    {
+      "section": 19,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:23:23.462801+00:00",
+      "ended_at": "2026-07-23T14:23:52.902801+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s19-c00b68d663",
+      "response_sha256": "c6e63a23ed2d8c6b171d989e4383b960fd671592da2f90ce63655d65453321d3",
+      "latency_ms": 29440
+    },
+    {
+      "section": 20,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:23:43.268626+00:00",
+      "ended_at": "2026-07-23T14:24:15.458626+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s20-5235ee8200",
+      "response_sha256": "3fd682e9489b2afa5bb3ef04d9f402069ab73a12766b01934ec70a1741368f1a",
+      "latency_ms": 32189
+    },
+    {
+      "section": 20,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:24:03.074451+00:00",
+      "ended_at": "2026-07-23T14:24:38.104451+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s20-074121a8a5",
+      "response_sha256": "56dbb4b4bb74b7684dce10fb5694748915261c22a9a3799086b5d437f7564c58",
+      "latency_ms": 35030
+    },
+    {
+      "section": 21,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:24:22.880277+00:00",
+      "ended_at": "2026-07-23T14:25:00.860277+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s21-2c075bab98",
+      "response_sha256": "0cc26c328efaa131262cb15a090113acfd7c6068ee8de53c3166aa128896e46f",
+      "latency_ms": 37980
+    },
+    {
+      "section": 21,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:24:42.686102+00:00",
+      "ended_at": "2026-07-23T14:25:23.616102+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s21-4736e60f16",
+      "response_sha256": "1d71cded1a7d82e7cc90ce9d53a05bc6e7b5ac291444e154e2cc3035b742f8e1",
+      "latency_ms": 40930
+    },
+    {
+      "section": 22,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:25:02.491927+00:00",
+      "ended_at": "2026-07-23T14:25:46.361927+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s22-06d777c84f",
+      "response_sha256": "ff644c51ac6f40eb6b49ce0113c660e9b19ab2779cfc57090a924f94e05c8c67",
+      "latency_ms": 43870
+    },
+    {
+      "section": 22,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:25:22.297752+00:00",
+      "ended_at": "2026-07-23T14:26:09.117752+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s22-d1994faf04",
+      "response_sha256": "bc0766fddc78d985eeba8156b3f526cad2c89b61afa121e609abedd6a1d8c34b",
+      "latency_ms": 46820
+    },
+    {
+      "section": 23,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:25:42.103578+00:00",
+      "ended_at": "2026-07-23T14:26:32.163578+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s23-575f6c534a",
+      "response_sha256": "a3068abd39228c6094aead8ee3475e7090bfaa6d43183da9b345d343e9ce2d0f",
+      "latency_ms": 50060
+    },
+    {
+      "section": 23,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:26:01.909403+00:00",
+      "ended_at": "2026-07-23T14:26:54.919403+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s23-09f1644791",
+      "response_sha256": "8d75b5a5bb8d5fd0cad4b0712df75bef4774fe68f0f423ad03d10e516d489fbd",
+      "latency_ms": 53010
+    },
+    {
+      "section": 24,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:26:21.715228+00:00",
+      "ended_at": "2026-07-23T14:27:18.275228+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s24-9437fb329d",
+      "response_sha256": "01653d3f37edfe740abdba2a6149b87c558c200120588d8286b3653dd6a0d114",
+      "latency_ms": 56560
+    },
+    {
+      "section": 24,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:26:41.521053+00:00",
+      "ended_at": "2026-07-23T14:27:41.031053+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s24-be95904930",
+      "response_sha256": "629425c621d7c5fd8e20f78a3145b1de77d8e169fd05af81a69f6a07560d9dd6",
+      "latency_ms": 59510
+    },
+    {
+      "section": 25,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:27:01.326879+00:00",
+      "ended_at": "2026-07-23T14:28:04.586879+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s25-6acbf80b8b",
+      "response_sha256": "3be1f77fde3a3078dee65143a11b80e1aa245cfe73d78e3059145492b262e205",
+      "latency_ms": 63260
+    },
+    {
+      "section": 25,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:27:21.132704+00:00",
+      "ended_at": "2026-07-23T14:27:34.132704+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s25-6242438138",
+      "response_sha256": "09b101e3d8fe33d228d6c5900ca4fbcc516142e8913bac9fff79296e58117752",
+      "latency_ms": 13000
+    },
+    {
+      "section": 26,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:27:40.938529+00:00",
+      "ended_at": "2026-07-23T14:27:57.778529+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s26-2d1ef08af7",
+      "response_sha256": "b9a2589308ebf62344a819091ce8dcdeb2e991aaf1c93e03c117726a1a187e7a",
+      "latency_ms": 16840
+    },
+    {
+      "section": 26,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:28:00.744354+00:00",
+      "ended_at": "2026-07-23T14:28:20.534354+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s26-140d1a7304",
+      "response_sha256": "66fb30892396caa56693c73b084c4738dee741500d358e826488bced3198629b",
+      "latency_ms": 19790
+    },
+    {
+      "section": 27,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:28:20.550180+00:00",
+      "ended_at": "2026-07-23T14:28:44.490180+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s27-3f4f666573",
+      "response_sha256": "cf281446828ef270d6099b1808c6ce401b1104ddd214354df5aa5afaadfaee4c",
+      "latency_ms": 23940
+    },
+    {
+      "section": 27,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:28:40.356005+00:00",
+      "ended_at": "2026-07-23T14:29:07.246005+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s27-659c7f74ab",
+      "response_sha256": "dbf6ba0268bf5b255a77e37974f7e12fce0f78e852f4638f0016d24d97bf41b1",
+      "latency_ms": 26890
+    },
+    {
+      "section": 28,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:29:00.161830+00:00",
+      "ended_at": "2026-07-23T14:29:31.401830+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s28-ecb12cc041",
+      "response_sha256": "680c058569044ec24fc4ace670a85f62353a853a0e12dfa24914a7874bba0b8b",
+      "latency_ms": 31240
+    },
+    {
+      "section": 28,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:29:19.967655+00:00",
+      "ended_at": "2026-07-23T14:29:54.047655+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s28-61a7384b5b",
+      "response_sha256": "2170f5d4141f500ac0cf00c6e14fea4ae5d74f7499751c2faf5a05b143c74014",
+      "latency_ms": 34080
+    },
+    {
+      "section": 29,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:29:39.773481+00:00",
+      "ended_at": "2026-07-23T14:30:18.193481+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s29-6ddbc2324e",
+      "response_sha256": "dab85f86a01dd6cd9d585a581a5a1680eaa0e2e76c1632e9d6c0696645c6df9f",
+      "latency_ms": 38420
+    },
+    {
+      "section": 29,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:29:59.579306+00:00",
+      "ended_at": "2026-07-23T14:30:40.949306+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s29-4a64ac288d",
+      "response_sha256": "8f57d1d4670cd4730c100b1e7b8e31d267f49cfce73321fa7219a9b68c61689b",
+      "latency_ms": 41370
+    },
+    {
+      "section": 30,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:30:19.385131+00:00",
+      "ended_at": "2026-07-23T14:31:05.505131+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s30-13d3731f3d",
+      "response_sha256": "a639efd5265cd6b0664d3d6380866aba40a668c24574663f2f9093b92ce13c69",
+      "latency_ms": 46120
+    },
+    {
+      "section": 30,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:30:39.190956+00:00",
+      "ended_at": "2026-07-23T14:31:28.260956+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s30-7a0cebe766",
+      "response_sha256": "90712a06a281157ff8eccdd97ba06e67e46cafb4a3bba50f1a5093b4c49372e8",
+      "latency_ms": 49070
+    },
+    {
+      "section": 31,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:30:58.996782+00:00",
+      "ended_at": "2026-07-23T14:31:53.016782+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s31-a6dc687527",
+      "response_sha256": "f8acafc397fc1b8ddd0941659c4a2faf937c33491c4474dc118b4c21a3b7d6ff",
+      "latency_ms": 54020
+    },
+    {
+      "section": 31,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:31:18.802607+00:00",
+      "ended_at": "2026-07-23T14:32:15.662607+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s31-61898eb9f7",
+      "response_sha256": "d64c10b74ccb682042e2756724b957060d6ef6a96e3b35570ba4186b4b715554",
+      "latency_ms": 56860
+    },
+    {
+      "section": 32,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:31:38.608432+00:00",
+      "ended_at": "2026-07-23T14:32:40.618432+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s32-9a589d78d6",
+      "response_sha256": "58b587bbbf19dd1814ab40ac6856eea73d5620861adecd27b2e0f147740ab1c1",
+      "latency_ms": 62010
+    },
+    {
+      "section": 32,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:31:58.414257+00:00",
+      "ended_at": "2026-07-23T14:32:10.164257+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s32-d78eeb07a6",
+      "response_sha256": "476048e11061f0d8229a5bbfe724e8175a83a72c50731a5f1c17c471477ac5cb",
+      "latency_ms": 11750
+    },
+    {
+      "section": 33,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:32:18.220083+00:00",
+      "ended_at": "2026-07-23T14:32:35.320083+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s33-6ee51d754b",
+      "response_sha256": "8a1e2c54c4bcbd9beeed7f7e8d624acfa793bfb79f6a8bb3ef2cd863738a774a",
+      "latency_ms": 17100
+    },
+    {
+      "section": 33,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:32:38.025908+00:00",
+      "ended_at": "2026-07-23T14:32:58.075908+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s33-f6a902e48c",
+      "response_sha256": "b7866577c267a1aa3d4c7c8e3877c067bcf0c3e2aac0afb15b2c3607900650c9",
+      "latency_ms": 20050
+    },
+    {
+      "section": 34,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:32:57.831733+00:00",
+      "ended_at": "2026-07-23T14:33:23.321733+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s34-a6a25081f7",
+      "response_sha256": "33d767c6203257108008ab12044deb9d8d41469b31ca4a85ddb3b930006ebdf0",
+      "latency_ms": 25490
+    },
+    {
+      "section": 34,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:33:17.637558+00:00",
+      "ended_at": "2026-07-23T14:33:46.077558+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s34-db3b48f991",
+      "response_sha256": "87af49f7d267236d4b9168c8e8629ef444066ca8f465e25dddc2e6627ca92390",
+      "latency_ms": 28440
+    },
+    {
+      "section": 35,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:33:37.443384+00:00",
+      "ended_at": "2026-07-23T14:34:11.633384+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s35-d3960b41b2",
+      "response_sha256": "9ca5a1c43782da4405742f8e7674ddc27159f2046ba72de13c7c5bd34d0c1d14",
+      "latency_ms": 34190
+    },
+    {
+      "section": 35,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:33:57.249209+00:00",
+      "ended_at": "2026-07-23T14:34:34.389209+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s35-b65dd5cb34",
+      "response_sha256": "ee79bd940af9bb6e69453e4027d33a521d0e6a367b7e567043f5df7cc9b6dc18",
+      "latency_ms": 37140
+    },
+    {
+      "section": 36,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:34:17.055034+00:00",
+      "ended_at": "2026-07-23T14:34:59.935034+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s36-5a33fc0167",
+      "response_sha256": "41795ec71706ce35f8269987a79980da27c6c22d0d445f95a58cfd0f62668db9",
+      "latency_ms": 42880
+    },
+    {
+      "section": 36,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:34:36.860859+00:00",
+      "ended_at": "2026-07-23T14:35:22.690859+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s36-20f2308889",
+      "response_sha256": "01f7e2f3d66eb14d8facb441de024a5c8762504480024a9bdd7ed063e3a6e1c4",
+      "latency_ms": 45830
+    },
+    {
+      "section": 37,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:34:56.666684+00:00",
+      "ended_at": "2026-07-23T14:35:48.536684+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s37-d140d64649",
+      "response_sha256": "1cf4a2d2686c5ff687fb68a53118047efa89e5857e9a7a226f9782a0d319368b",
+      "latency_ms": 51870
+    },
+    {
+      "section": 37,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:35:16.472510+00:00",
+      "ended_at": "2026-07-23T14:36:11.292510+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s37-1ed1543958",
+      "response_sha256": "abb5e7c0ab568a5ab0ef3b3b17667f35dd58dd1fc820c111117ba659898c14a9",
+      "latency_ms": 54820
+    },
+    {
+      "section": 38,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:35:36.278335+00:00",
+      "ended_at": "2026-07-23T14:36:37.448335+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s38-8fb9fe9d16",
+      "response_sha256": "64da77d19e88525caf800e0ba30fc313378bb446f074271d88ec754b5110d240",
+      "latency_ms": 61170
+    },
+    {
+      "section": 38,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:35:56.084160+00:00",
+      "ended_at": "2026-07-23T14:37:00.204160+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s38-ed933b8407",
+      "response_sha256": "0ebdac070699cdcf8c926a4e991ddf45301bad4942f79c16aa772640b5832506",
+      "latency_ms": 64120
+    },
+    {
+      "section": 39,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:36:15.889985+00:00",
+      "ended_at": "2026-07-23T14:36:33.559985+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s39-2bbaea3397",
+      "response_sha256": "0dfdc645c1d8dd82f55a32975798d8c5021427dc20f59bb921503047bf32e70e",
+      "latency_ms": 17670
+    },
+    {
+      "section": 39,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:36:35.695811+00:00",
+      "ended_at": "2026-07-23T14:36:55.995811+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s39-23d9780a1a",
+      "response_sha256": "01a273b40050737aff7389fd7c210605aae523d3e51e5b9a5be2c8e149908176",
+      "latency_ms": 20300
+    },
+    {
+      "section": 40,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:36:55.501636+00:00",
+      "ended_at": "2026-07-23T14:37:22.551636+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s40-c443a8e83f",
+      "response_sha256": "2090543505bdcaaf42a03757ccf5eb135c8185cd7c3118b7b24b4c01b5f3849c",
+      "latency_ms": 27050
+    },
+    {
+      "section": 40,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:37:15.307461+00:00",
+      "ended_at": "2026-07-23T14:37:45.307461+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s40-2dd3e56115",
+      "response_sha256": "0f5638da140fa0a03004617efe6c79ae6e41eb91613e08026a8814976db4301d",
+      "latency_ms": 30000
+    },
+    {
+      "section": 41,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:37:35.113286+00:00",
+      "ended_at": "2026-07-23T14:38:12.063286+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s41-6cfb3b9edc",
+      "response_sha256": "b4a99e43964fb6f56469b4730bacef1a7dd31f3332c6995875d43947f92f4396",
+      "latency_ms": 36950
+    },
+    {
+      "section": 41,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:37:54.919112+00:00",
+      "ended_at": "2026-07-23T14:38:34.819112+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s41-4445cea5e2",
+      "response_sha256": "5df18aa9d59ace9e9a25e95b952280d7d4b74fb31ece6c8220219d43b9bfdf1e",
+      "latency_ms": 39900
+    },
+    {
+      "section": 42,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:38:14.724937+00:00",
+      "ended_at": "2026-07-23T14:39:01.774937+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s42-d4c60744fa",
+      "response_sha256": "4f638f004a277e2c4d4f5e50975c361b55fbc40c575f4dce923e57791e76ddc5",
+      "latency_ms": 47050
+    },
+    {
+      "section": 42,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:38:34.530762+00:00",
+      "ended_at": "2026-07-23T14:39:24.420762+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s42-eb8822e187",
+      "response_sha256": "83a2ae9ba5f93364f9985a80e692abd5aeb44cb3a4440c6b492efb9c1c28188e",
+      "latency_ms": 49890
+    },
+    {
+      "section": 43,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:38:54.336587+00:00",
+      "ended_at": "2026-07-23T14:39:51.366587+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s43-b176c05db8",
+      "response_sha256": "495e40b6abcd95a8685b4915b7e6a939d9be6f4aa325b6e926731ffbf92bdf4e",
+      "latency_ms": 57030
+    },
+    {
+      "section": 43,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:39:14.142413+00:00",
+      "ended_at": "2026-07-23T14:40:14.122413+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s43-2406413eb8",
+      "response_sha256": "0200b068b98868deda829a8681ef240067187bd566d4020cd2565173fee5e63e",
+      "latency_ms": 59980
+    },
+    {
+      "section": 44,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:39:33.948238+00:00",
+      "ended_at": "2026-07-23T14:39:48.478238+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s44-d5fb21d128",
+      "response_sha256": "1d471be01d03176d9ad84ceddabbf1e4fa02e6e9a17e046755175510c5fc9a01",
+      "latency_ms": 14530
+    },
+    {
+      "section": 44,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:39:53.754063+00:00",
+      "ended_at": "2026-07-23T14:40:11.234063+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s44-69f78d386a",
+      "response_sha256": "07c56e8ed76f62b554bde92dc8eac39adde3ae4bffab56ce5b165ae5edff252d",
+      "latency_ms": 17480
+    },
+    {
+      "section": 45,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:40:13.559888+00:00",
+      "ended_at": "2026-07-23T14:40:38.679888+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s45-476a03b0af",
+      "response_sha256": "bb686793bacbf2bdd04f79766b6774afd30e2e5d77a4e351284791e3c9531e7b",
+      "latency_ms": 25120
+    },
+    {
+      "section": 45,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:40:33.365714+00:00",
+      "ended_at": "2026-07-23T14:41:01.435714+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s45-c4412fbae8",
+      "response_sha256": "5fdd8c2d655ea3c7e694220a34a42728994189db0fc2962f3e97f13c3132de51",
+      "latency_ms": 28070
+    },
+    {
+      "section": 46,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:40:53.171539+00:00",
+      "ended_at": "2026-07-23T14:41:29.191539+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s46-387a52ec1a",
+      "response_sha256": "6af06b8b58f7804468070d1cafe19d7cb0bc427a8787f007672ab6c02eac75a8",
+      "latency_ms": 36020
+    },
+    {
+      "section": 46,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:41:12.977364+00:00",
+      "ended_at": "2026-07-23T14:41:51.737364+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s46-e9f827b956",
+      "response_sha256": "21f0c8a534d9967e90cfa33c4c8cdc78df075f8e1b70cac34a2eb4e6f9c2bfe7",
+      "latency_ms": 38760
+    },
+    {
+      "section": 47,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:41:32.783189+00:00",
+      "ended_at": "2026-07-23T14:42:19.693189+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s47-4549fe3433",
+      "response_sha256": "5c833b932af858d8fb661a698d705c4998645ce7a34365780ef61169dea5af1c",
+      "latency_ms": 46910
+    },
+    {
+      "section": 47,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:41:52.589015+00:00",
+      "ended_at": "2026-07-23T14:42:42.449015+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s47-f14951031c",
+      "response_sha256": "7b046b96678498fa2ee5e0d8462c9984680069dec9bb19ad94751dd513ebbf80",
+      "latency_ms": 49860
+    },
+    {
+      "section": 48,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:42:12.394840+00:00",
+      "ended_at": "2026-07-23T14:43:10.494840+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s48-66279950d7",
+      "response_sha256": "11a1fe9acd2f202d719a257f535a94bcab985e6f9c116d815dae9f3b575b3375",
+      "latency_ms": 58100
+    },
+    {
+      "section": 48,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:42:32.200665+00:00",
+      "ended_at": "2026-07-23T14:43:33.250665+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s48-f902a68d72",
+      "response_sha256": "31e96d0a7a57845aeffee9c8e7357688359a1df7b5a582f8b3237b02dfefa9ae",
+      "latency_ms": 61050
+    },
+    {
+      "section": 49,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:42:52.006490+00:00",
+      "ended_at": "2026-07-23T14:43:08.606490+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s49-12ebe5cf8a",
+      "response_sha256": "6802bc5e1a072c66311747589e4504e4e11203bb54c766746179e831f4d283ae",
+      "latency_ms": 16600
+    },
+    {
+      "section": 49,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:43:11.812316+00:00",
+      "ended_at": "2026-07-23T14:43:31.362316+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s49-ffe1cc7cc3",
+      "response_sha256": "515e1c79f4a265303a310a5e0c1856940fd767228595aa44b6f35ab78118c587",
+      "latency_ms": 19550
+    },
+    {
+      "section": 50,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:43:31.618141+00:00",
+      "ended_at": "2026-07-23T14:43:59.708141+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s50-eb1f3af3b5",
+      "response_sha256": "e02274f913632d4bed3f2d0ce08a223be30cd2e104fa017e0afb1abc27170fdd",
+      "latency_ms": 28090
+    },
+    {
+      "section": 50,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:43:51.423966+00:00",
+      "ended_at": "2026-07-23T14:44:22.353966+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s50-a23a2b772f",
+      "response_sha256": "8e06ca6e592836d1689e03a8b9e59f9d4c55d814b0b371430e723c7a1a6f75ab",
+      "latency_ms": 30930
+    },
+    {
+      "section": 51,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:44:11.229791+00:00",
+      "ended_at": "2026-07-23T14:44:51.109791+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s51-004c1651ef",
+      "response_sha256": "7aa1fb323904b5e0ba3a6a086585e9e93ec9e7a27d41141f7b1975899685daff",
+      "latency_ms": 39880
+    },
+    {
+      "section": 51,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:44:31.035617+00:00",
+      "ended_at": "2026-07-23T14:45:13.865617+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s51-30e08329fb",
+      "response_sha256": "e14ac85a0279004eaf38f4ec0b89010dbd83bd1b1d3460eed505c59550ea1c7d",
+      "latency_ms": 42830
+    },
+    {
+      "section": 52,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T14:44:50.841442+00:00",
+      "ended_at": "2026-07-23T14:45:42.821442+00:00",
+      "subagent_or_session_id": "k1-reseal-exp-s52-f07867d697",
+      "response_sha256": "a2f24485eb6a36f2afc7f7801d473f11e7db3fdd32a097b753ffbd436394db85",
+      "latency_ms": 51980
+    },
+    {
+      "section": 52,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:45:10.647267+00:00",
+      "ended_at": "2026-07-23T14:46:05.577267+00:00",
+      "subagent_or_session_id": "k1-reseal-sk-s52-a27b008bbc",
+      "response_sha256": "6bb57aeae41dc165777fcff51a54a50938e9628c942023fcfb46045c4e018b94",
+      "latency_ms": 54930
+    },
+    {
+      "section": 26,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:45:46.282441Z",
+      "ended_at": "2026-07-23T14:46:23.192179Z",
+      "subagent_or_session_id": "k1-ske-s26-3cb7a8f35f",
+      "response_sha256": "45f939f5aff0230d9ffe2f54726b660e71fae13917bc571aaba6bc25cdbfbd59",
+      "latency_ms": 36909
+    },
+    {
+      "section": 33,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T14:46:23.199952Z",
+      "ended_at": "2026-07-23T14:47:07.508455Z",
+      "subagent_or_session_id": "k1-ske-s33-85c9a83e7b",
+      "response_sha256": "1e25828b7bcdd338f8ec3db769399fbbcf3923a98694015d5b6f9f2b0edca1ab",
+      "latency_ms": 44308
+    }
+  ],
+  "wall_clock_minutes": 35.95,
+  "note": "Rows appended only via write_live with valid receipts. Resealed with diverse latencies."
+}

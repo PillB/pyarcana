@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 28,
+  "packet_sha": "827050d249512742",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_28/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s28-be71eaea5acb",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Con",
+        "seed",
+        "genera",
+        "random",
+        "random",
+        "verif",
+        "calo"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T1-A-E1: del starter/instruction «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` …» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Invariante",
+        "score",
+        "Imprime",
+        "True",
+        "para",
+        "scores",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T1-A-E2: del starter/instruction «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter comple…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Idempotencia",
+        "strip",
+        "para",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T1-A-E3: del starter/instruction «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s=' x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Simetr",
+        "igualdad",
+        "imprime",
+        "para",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T1-B-E1: del starter/instruction «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Metamorphic",
+        "upper",
+        "debe",
+        "cambiar",
+        "casefold",
+        "equality",
+        "entre"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T1-B-E2: del starter/instruction «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starte…» completé el contrato usando print, casefold, casefold alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Imprime",
+        "True",
+        "sim",
+        "conceptual",
+        "idempotente",
+        "reorden",
+        "args"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T1-B-E3: del starter/instruction «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el st…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "falta",
+        "dict",
+        "imprime",
+        "requerido",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T2-A-E1: del starter/instruction «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo e…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "score",
+        "fuera",
+        "rango",
+        "imprime",
+        "score",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T2-A-E2: del starter/instruction «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Cuenta",
+        "ntos",
+        "registros",
+        "fallan",
+        "validaci",
+        "simple",
+        "vac"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T2-A-E3: del starter/instruction «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter c…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Imprime",
+        "drift",
+        "golden",
+        "current",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T2-B-E1: del starter/instruction «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/de…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Reconcile",
+        "bloqueado",
+        "approved",
+        "False",
+        "hay",
+        "diff",
+        "blocked"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T2-B-E2: del starter/instruction «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Imprime",
+        "version",
+        "del",
+        "golden",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T2-B-E3: del starter/instruction «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Fake",
+        "dict",
+        "get",
+        "name",
+        "Ana",
+        "imprime",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T3-A-E1: del starter/instruction «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo e…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Fake",
+        "clock",
+        "devuelve",
+        "fecha",
+        "imprime",
+        "iso",
+        "date"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T3-A-E2: del starter/instruction «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implem…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Fake",
+        "HTTP",
+        "status",
+        "imprime",
+        "retry",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T3-A-E3: del starter/instruction «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TOD…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Contrato",
+        "match",
+        "real",
+        "True",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T3-B-E1: del starter/instruction «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/d…» completé el contrato usando print, casefold, casefold alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Detecta",
+        "overmock",
+        "funci",
+        "siempre",
+        "True",
+        "imprime",
+        "weak"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T3-B-E2: del starter/instruction «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; imp…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Imprime",
+        "efecto",
+        "observable",
+        "rows_written",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T3-B-E3: del starter/instruction «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el …» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "sqlite",
+        "memoria",
+        "CREATE",
+        "INSERT",
+        "row",
+        "COUNT",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T4-A-E1: del starter/instruction «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa s…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Cardinalidad",
+        "pares",
+        "para",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T4-A-E2: del starter/instruction «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el …» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Checkpoint",
+        "ids",
+        "hechos",
+        "items",
+        "pendientes",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T4-A-E3: del starter/instruction «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "sorted",
+        "debe",
+        "ser",
+        "estable",
+        "imprime",
+        "resultado",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T4-B-E1: del starter/instruction «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; impleme…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Pol",
+        "tica",
+        "imprime",
+        "fail_job",
+        "flake_rate",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T4-B-E2: del starter/instruction «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa so…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S28",
+        "Imprime",
+        "pipeline",
+        "unit",
+        "data",
+        "integration",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer A sobre S28-T4-B-E3: del starter/instruction «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el…» completé el contrato usando print alineado a theory/iDo (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «Relaciones predecibles entre entradas transformadas y salidas» porque la theory del paquete (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación) responde a «Un test metamórfico verifica:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «Riesgo de ocultar regresiones» porque la theory del paquete (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación) responde a «Actualizar un golden con drift sin review es:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «Acoplar el test a detalles internos y ocultar bugs» porque la theory del paquete (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación) responde a «Sobre-mocking típico:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «Con determinismo (seed/reloj/sort) y fallo de job si persisten» porque la theory del paquete (invariantes y generación de casos | idempotencia, simetría y metamorphic tests | schema y quality contracts | golden datasets, drift y reconciliación) responde a «Flakes en la suite gate de ER se manejan:» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "invariantes y generación de casos",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T12:53:17+00:00",
+  "session_started_at": "2026-07-23T12:52:35.890000+00:00",
+  "session_ended_at": "2026-07-23T12:53:17+00:00"
+}

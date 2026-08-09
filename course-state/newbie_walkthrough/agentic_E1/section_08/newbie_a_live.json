@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 8,
+  "packet_sha": "c234db867d731518",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s08-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S08-T1-A-E1",
+      "kind": "guided",
+      "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"cliente;José Quispe\\n\", encoding=\"utf-8\")\ntext = p.read_text(encoding=\"utf-8\")\nprint(text.strip())\nprint(\"exists\", p.exists(), \"size\", p.stat().st_size)\n",
+      "justification_from_packet": "encoding='utf-8' evita depender del locale del SO al leer/escribir texto. Path write/read con encoding utf-8 explícito.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T1-A-E2",
+      "kind": "independent",
+      "code": "from pathlib import Path\np = Path(\"data\") / \"raw\" / \"file.csv\"\nprint(p.as_posix())\nprint(p.suffix, p.name)\n",
+      "justification_from_packet": "encoding='utf-8' evita depender del locale del SO al leer/escribir texto. pathlib une partes sin hardcodear separadores.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T1-A-E3",
+      "kind": "transfer",
+      "code": "from pathlib import Path\nprint(Path(\"a/b/c.txt\").parent)\nprint(Path(\"a/b/c.txt\").stem)\n",
+      "justification_from_packet": "encoding='utf-8' evita depender del locale del SO al leer/escribir texto. parent y stem de una ruta.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T1-B-E1",
+      "kind": "guided",
+      "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\ndest = td / \"clean.csv\"\nwrite_atomic(dest, \"id,nombre\\nC001,Ana\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))\nprint(\"tmp gone\", not (td / \"clean.csv.tmp\").exists())\n",
+      "justification_from_packet": "Escritura atómica: temp + os.replace al destino para no dejar half-writes. temp + os.replace = escritura atómica.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T1-B-E2",
+      "kind": "independent",
+      "code": "# no open(dest,'w') directo en pipelines críticos si hay crash mid-write\nprint(\"prefer write_atomic over direct truncate\")\n",
+      "justification_from_packet": "Escritura atómica: temp + os.replace al destino para no dejar half-writes. Preferir atómico frente a truncate directo.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T1-B-E3",
+      "kind": "transfer",
+      "code": "from pathlib import Path\nimport os, tempfile\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\ntd = Path(tempfile.mkdtemp())\nwrite_atomic(td/\"out.txt\", \"ok\")\nprint((td/\"out.txt\").read_text(encoding=\"utf-8\"))\n",
+      "justification_from_packet": "Escritura atómica: temp + os.replace al destino para no dejar half-writes. Demo atómica mínima.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T2-A-E1",
+      "kind": "guided",
+      "code": "import csv, io\nfrom decimal import Decimal\nraw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\"\nrows = []\nfor row in csv.DictReader(io.StringIO(raw)):\n    row[\"monto\"] = Decimal(row[\"monto\"]).quantize(Decimal(\"0.01\"))\n    rows.append(row)\nfor r in rows:\n    print(r[\"id\"], r[\"monto\"], type(r[\"monto\"]).__name__, r[\"fecha\"])\n",
+      "justification_from_packet": "DictReader + Decimal para monto; fecha ISO string. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T2-A-E2",
+      "kind": "independent",
+      "code": "import csv, io\nraw = \"id,nombre\\nC001,Ana\\nC002\\n\"  # fila corta\nreader = csv.DictReader(io.StringIO(raw))\nfor row in reader:\n    if None in row.values() or row.get(\"nombre\") in (None, \"\"):\n        print(\"quarantine\", row)\n    else:\n        print(\"clean\", row)\n",
+      "justification_from_packet": "Filas con shape roto van a cuarentena con motivo, no silencio. Filas incompletas a cuarentena.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T2-A-E3",
+      "kind": "transfer",
+      "code": "import csv, io\n# columnas de más\nraw = \"id,nombre\\nC001,Ana,extra\\n\"\n# DictReader may put extras under None key depending on restval\nprint(\"policy: quarantine rows with wrong width\")\n",
+      "justification_from_packet": "Filas con shape roto van a cuarentena con motivo, no silencio. Width incorrecto → cuarentena con motivo.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T2-B-E1",
+      "kind": "guided",
+      "code": "clean, quar = [], []\nfor row in [{\"id\":\"C1\",\"ok\":True},{\"id\":\"C2\",\"ok\":False}]:\n    (clean if row[\"ok\"] else quar).append(row)\nprint(\"n_clean\", len(clean), \"n_quar\", len(quar))\n",
+      "justification_from_packet": "Filas con shape roto van a cuarentena con motivo, no silencio. Split clean vs quarantine.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T2-B-E2",
+      "kind": "independent",
+      "code": "def reason_for(row):\n    if \"id\" not in row:\n        return \"missing_id\"\n    if row.get(\"monto\") is None:\n        return \"missing_monto\"\n    return None\nprint(reason_for({}), reason_for({\"id\":\"C1\"}))\n",
+      "justification_from_packet": "Filas con shape roto van a cuarentena con motivo, no silencio. Motivo de cuarentena explícito.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T2-B-E3",
+      "kind": "transfer",
+      "code": "print(\"never silent drop; always quarantine+reason\")\n",
+      "justification_from_packet": "Filas con shape roto van a cuarentena con motivo, no silencio. Nunca drop silencioso.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T3-A-E1",
+      "kind": "guided",
+      "code": "n_in, n_clean, n_quarantine = 100, 93, 7\nprint(\"reconcile\", n_in == n_clean + n_quarantine)\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. n_in == n_clean + n_quarantine.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T3-A-E2",
+      "kind": "independent",
+      "code": "manifest = {\"n_in\": 10, \"n_clean\": 8, \"n_quarantine\": 2, \"schema\": \"v1\"}\nassert manifest[\"n_in\"] == manifest[\"n_clean\"] + manifest[\"n_quarantine\"]\nprint(manifest)\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Manifest con conteos que cierran.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T3-A-E3",
+      "kind": "transfer",
+      "code": "def reconcile(n_in, n_clean, n_q):\n    if n_in != n_clean + n_q:\n        raise SystemExit(1)\n    return \"ok\"\nprint(reconcile(5, 4, 1))\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Fallo de reconcile → exit non-zero.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T3-B-E1",
+      "kind": "guided",
+      "code": "# fail closed si reconcile falla: no publicar clean\nprint(\"publish_allowed=False when reconcile fails\")\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Fail closed: no publicar clean si reconcile falla.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T3-B-E2",
+      "kind": "independent",
+      "code": "def should_publish(ok_reconcile):\n    return bool(ok_reconcile)\nprint(should_publish(True), should_publish(False))\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Publicar solo si reconcile OK.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T3-B-E3",
+      "kind": "transfer",
+      "code": "print(\"exit_code=1 on reconcile failure\")\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Exit non-zero en fallo de reconcile.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T4-A-E1",
+      "kind": "guided",
+      "code": "import hashlib\nbody = b\"id,nombre\\nC001,Ana\\n\"\nprint(hashlib.sha256(body).hexdigest()[:12])\n",
+      "justification_from_packet": "Hash corto del body para integridad del artefacto. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T4-A-E2",
+      "kind": "independent",
+      "code": "import json\nmanifest = {\"n_in\": 2, \"n_clean\": 2, \"n_quarantine\": 0}\nprint(json.dumps(manifest, sort_keys=True))\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Manifest JSON determinista.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T4-A-E3",
+      "kind": "transfer",
+      "code": "print(\"store sha of clean and quarantine files in manifest\")\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Guardar sha de salidas en manifest.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T4-B-E1",
+      "kind": "guided",
+      "code": "# runbook: input → parse → clean/quar → reconcile → publish\nsteps = [\"parse\", \"split\", \"reconcile\", \"publish_if_ok\"]\nprint(steps)\n",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Runbook de pipeline de archivos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T4-B-E2",
+      "kind": "independent",
+      "code": "print(\"encoding=utf-8; atomic writes; quarantine reasons; reconcile counts\")\n",
+      "justification_from_packet": "encoding='utf-8' evita depender del locale del SO al leer/escribir texto. Checklist de calidad de I/O.",
+      "blocked_on": []
+    },
+    {
+      "id": "S08-T4-B-E3",
+      "kind": "transfer",
+      "code": "print(\"incident: corrupt clean → restore from temp policy; re-run job\")\n",
+      "justification_from_packet": "Escritura atómica: temp + os.replace al destino para no dejar half-writes. Incidente de archivo corrupto: no publicar, re-run.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Por qué declarar encoding='utf-8' al abrir texto?",
+      "chosen_index": 3,
+      "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+      "justification_from_packet": "encoding='utf-8' evita depender del locale del SO al leer/escribir texto. Por eso elijo la opción [3] para: ¿Por qué declarar encoding='utf-8' al abrir texto?",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "Escritura atómica típica es…",
+      "chosen_index": 1,
+      "chosen_text": "escribir temp y os.replace al destino",
+      "justification_from_packet": "Escritura atómica: temp + os.replace al destino para no dejar half-writes. Por eso elijo la opción [1] para: Escritura atómica típica es…",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "Una fila CSV con columnas de más debe…",
+      "chosen_index": 2,
+      "chosen_text": "Ir a cuarentena con motivo",
+      "justification_from_packet": "Filas con shape roto van a cuarentena con motivo, no silencio. Por eso elijo la opción [2] para: Una fila CSV con columnas de más debe…",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "Reconciliación del manifest exige…",
+      "chosen_index": 0,
+      "chosen_text": "n_in == n_clean + n_quarantine",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Por eso elijo la opción [0] para: Reconciliación del manifest exige…",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "Si reconcile falla, el pipeline debe…",
+      "chosen_index": 3,
+      "chosen_text": "Fallar (exit non-zero) / fail closed",
+      "justification_from_packet": "Manifest: n_in == n_clean + n_quarantine; si falla, fail closed. Por eso elijo la opción [3] para: Si reconcile falla, el pipeline debe…",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

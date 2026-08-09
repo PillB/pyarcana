@@ -1,0 +1,9 @@
+{
+  "section": 15,
+  "id": "stdlib-deep",
+  "file": "s15-stdlib-deep.ts",
+  "score_1_to_10": 6.2,
+  "issue_count": 19,
+  "meta_leak_count": 9,
+  "status": "complete"
+}

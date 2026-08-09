@@ -1,0 +1,8 @@
+{
+  "capstone_id": "CP-N4-B",
+  "version": "2.0.0",
+  "execution_status": "pass",
+  "demo_exits_zero": true,
+  "tests_pass": true,
+  "verified_at": "2026-07-29"
+}

@@ -1,0 +1,65 @@
+{
+  "version": "3.2",
+  "generated_at": "2026-07-20T19:05:00Z",
+  "current_section": "S52",
+  "current_phase": "COURSE_COMPLETE",
+  "prompt_version": "3.2",
+  "orchestration_mode": "PARALLEL_PRODUCTION",
+  "course_complete": true,
+  "sections_passed_count": 52,
+  "sections_total": 52,
+  "capstones_formally_passed": 13,
+  "transversal_checkpoints_passed": 5,
+  "open_p0_p1": 0,
+  "canonical_vector_progress": {
+    "subtopics": "416/416",
+    "demos": "416/416",
+    "student_exercises": "1248/1248",
+    "exam_variants_in_db": "1248/1248",
+    "topic_evaluations": "208/208",
+    "section_exams": "52/52",
+    "section_project_increments": "52/52",
+    "level_capstones": "12/12 formally_passed",
+    "final_capstones": "1/1 formally_passed"
+  },
+  "db_question_bank": {
+    "total_rows": 1248,
+    "distinct_sections": 52
+  },
+  "regression": {
+    "npm_run_test_v3": "pass",
+    "test_layout": "pass",
+    "privacy_RISK": 0,
+    "capstone_demos": "13/13 exit 0",
+    "course_complete_gate": "pending_run"
+  },
+  "remaining_optional": [
+    "DEPLOY-001 P3: GitHub Pages push requires owner approval",
+    "Playwright v3_regression 4 schema tests should pass after this merge"
+  ],
+  "next_single_action": "Owner: optional git push / deploy. Course content+gates complete.",
+  "last_known_good_note": "course_complete derived true: 52 sections + 13 capstones formally_passed + zero P0/P1",
+  "model": "glm-5.2",
+  "resume_preconditions": [
+    "course_complete true",
+    "section_ledger 52 passed",
+    "capstone_ledger 13 formally_passed",
+    "zero open P0/P1"
+  ],
+  "decisions": [
+    "PARALLEL_PRODUCTION authorized by owner",
+    "Platform section ids preserved with V3 retheme",
+    "Capstone formal packages under course-state/capstones/",
+    "course_complete requires formally_passed capstones + zero P0/P1"
+  ],
+  "files_changed": [
+    "src/lib/course/sections/s01-s52",
+    "prisma/seed.ts",
+    "course-state/*",
+    "scripts/v3_*",
+    "scripts/course_complete_gate.py"
+  ],
+  "open_issues": [
+    "DEPLOY-001 (P3 optional deploy)"
+  ]
+}

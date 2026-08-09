@@ -1,0 +1,268 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_4_IN_PROGRESS",
+  "block": "S01-T2-B..S01-T4-B",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T06:15:00Z",
+  "prompt_version": "3.2",
+  "lane": "LANE-S01",
+  "mode": "PARALLEL_PRODUCTION",
+
+  "preamble": {
+    "objective": "Author remaining S01 PHASE 4 subtopics T2-B, T3-A, T3-B, T4-A, T4-B with executed local-python evidence where possible.",
+    "scope_in": [
+      "S01-T2-B pip-install",
+      "S01-T3-A commit-message",
+      "S01-T3-B git-branch-pr",
+      "S01-T4-A ruff-config",
+      "S01-T4-B gitignore",
+      "You Do → CP-N1-A skeleton",
+      "Topic evaluations structured data"
+    ],
+    "scope_out": [
+      "course-state/checkpoint.json",
+      "course-state/section_ledger.json",
+      "course-state/issue_registry.json",
+      "course-state/parallel_orchestration.json",
+      "S02+",
+      "PHASE 5 exam bank A/B/C stems"
+    ]
+  },
+
+  "blocks": [
+    {
+      "subtopic_id": "S01-T2-B",
+      "slug": "pip-install",
+      "status": "COMPLETE",
+      "theory": {
+        "heading": "pip, freeze y requirements.txt",
+        "covers": [
+          "python -m pip",
+          "pin ==",
+          "freeze > requirements.txt",
+          "install -r",
+          "límites freeze vs poetry/uv lock",
+          "stdlib vs terceros"
+        ]
+      },
+      "demo": {
+        "demoId": "S01-T2-B-DEMO",
+        "environment": "local-python",
+        "executed": true
+      },
+      "exercises": [
+        { "id": "S01-T2-B-E1", "kind": "guided", "complete": true },
+        { "id": "S01-T2-B-E2", "kind": "independent", "complete": true },
+        { "id": "S01-T2-B-E3", "kind": "transfer", "complete": true }
+      ]
+    },
+    {
+      "subtopic_id": "S01-T3-A",
+      "slug": "commit-message",
+      "status": "COMPLETE",
+      "theory": {
+        "heading": "Git: commits y lectura de diffs",
+        "covers": [
+          "git init",
+          "status/add/commit",
+          "Conventional Commits",
+          "git diff / git show",
+          "mensaje imperativo"
+        ]
+      },
+      "demo": {
+        "demoId": "S01-T3-A-DEMO",
+        "environment": "local-python",
+        "executed": true
+      },
+      "exercises": [
+        { "id": "S01-T3-A-E1", "kind": "guided", "complete": true },
+        { "id": "S01-T3-A-E2", "kind": "independent", "complete": true },
+        { "id": "S01-T3-A-E3", "kind": "transfer", "complete": true }
+      ]
+    },
+    {
+      "subtopic_id": "S01-T3-B",
+      "slug": "git-branch-pr",
+      "status": "COMPLETE",
+      "theory": {
+        "heading": "Ramas, Pull Requests y recuperación segura",
+        "covers": [
+          "git switch -c",
+          "push -u",
+          "PR en GitHub",
+          "conflicto simple (concepto)",
+          "git restore / stash",
+          "prohibir force-push a main"
+        ]
+      },
+      "demo": {
+        "demoId": "S01-T3-B-DEMO",
+        "environment": "local-python",
+        "executed": true,
+        "note": "Branch/restore/stash executed in /tmp; remote PR UI steps documented (no GitHub auth in agent env)"
+      },
+      "exercises": [
+        { "id": "S01-T3-B-E1", "kind": "guided", "complete": true },
+        { "id": "S01-T3-B-E2", "kind": "independent", "complete": true },
+        { "id": "S01-T3-B-E3", "kind": "transfer", "complete": true }
+      ]
+    },
+    {
+      "subtopic_id": "S01-T4-A",
+      "slug": "ruff-config",
+      "status": "COMPLETE",
+      "theory": {
+        "heading": "VS Code y Ruff como calidad mínima",
+        "covers": [
+          "Pylance + Ruff extension",
+          "pyproject.toml [tool.ruff]",
+          "ruff check / format",
+          "line-length 88",
+          "select E/F/I básico"
+        ]
+      },
+      "demo": {
+        "demoId": "S01-T4-A-DEMO",
+        "environment": "local-python",
+        "executed": true,
+        "ruff_version": "0.15.22"
+      },
+      "exercises": [
+        { "id": "S01-T4-A-E1", "kind": "guided", "complete": true },
+        { "id": "S01-T4-A-E2", "kind": "independent", "complete": true },
+        { "id": "S01-T4-A-E3", "kind": "transfer", "complete": true }
+      ]
+    },
+    {
+      "subtopic_id": "S01-T4-B",
+      "slug": "gitignore",
+      "status": "COMPLETE",
+      "theory": {
+        "heading": "Archivos de calidad: ignore, secretos y README",
+        "covers": [
+          ".gitignore plantilla Python",
+          ".venv/ y venv/",
+          ".env vs .env.example",
+          "git rm --cached",
+          "README install/run",
+          "datos sintéticos CP-N1-A"
+        ]
+      },
+      "demo": {
+        "demoId": "S01-T4-B-DEMO",
+        "environment": "local-python",
+        "executed": true
+      },
+      "exercises": [
+        { "id": "S01-T4-B-E1", "kind": "guided", "complete": true },
+        { "id": "S01-T4-B-E2", "kind": "independent", "complete": true },
+        { "id": "S01-T4-B-E3", "kind": "transfer", "complete": true }
+      ]
+    }
+  ],
+
+  "you_do_update": {
+    "title": "Esqueleto CP-N1-A — Reproducible Client Intake Repo",
+    "maps_to": "CP-N1-A Client Intake & Data Quality Script (gate S04)",
+    "includes": [
+      "data/clients_synthetic.csv",
+      "data/data_dictionary.md",
+      "scripts/hello_env.py",
+      ".env.example",
+      "pyproject.toml Ruff",
+      ".venv/ and venv/ in gitignore"
+    ]
+  },
+
+  "execution_evidence": {
+    "environment": "local-python",
+    "host_python": "Python 3.9.6",
+    "labs": [
+      {
+        "id": "T2-B",
+        "workdir": "/tmp/s01_t2b_verify",
+        "commands": [
+          { "cmd": "python3 -m venv .venv; python -m pip install requests==2.32.3", "status": "PASS" },
+          { "cmd": "python -m pip freeze > requirements.txt", "status": "PASS", "sample": "requests==2.32.3 + transitive deps" },
+          { "cmd": "fresh .venv2 + install -r; import requests", "status": "PASS", "result": "2.32.3" }
+        ]
+      },
+      {
+        "id": "T3-A",
+        "workdir": "/tmp/s01_t3a_verify",
+        "commands": [
+          { "cmd": "git init; two docs: commits; git log --oneline; git show", "status": "PASS" }
+        ]
+      },
+      {
+        "id": "T3-B",
+        "workdir": "/tmp/s01_t3b_verify",
+        "commands": [
+          { "cmd": "git switch -c feat/hello; commit", "status": "PASS" },
+          { "cmd": "git restore app.txt after edit", "status": "PASS" },
+          { "cmd": "git stash push/pop", "status": "PASS" },
+          { "cmd": "force-push", "status": "NOT_RUN_BY_DESIGN" }
+        ],
+        "unverified": [
+          {
+            "item": "git push -u + GitHub PR UI",
+            "cause": "No GitHub credentials / remote in agent sandbox; steps documented in content"
+          }
+        ]
+      },
+      {
+        "id": "T4-A",
+        "workdir": "/tmp/s01_t4a_verify",
+        "commands": [
+          { "cmd": "python -m pip install ruff", "status": "PASS", "version": "0.15.22" },
+          { "cmd": "ruff check hello_bad.py", "status": "PASS", "result": "F401 unused imports reported" },
+          { "cmd": "ruff check after fix", "status": "PASS", "result": "All checks passed!" }
+        ]
+      },
+      {
+        "id": "T4-B",
+        "workdir": "/tmp/s01_t4b_verify",
+        "commands": [
+          { "cmd": "git check-ignore -v .env", "status": "PASS" },
+          { "cmd": "git check-ignore -v .venv", "status": "PASS" },
+          { "cmd": ".env.example staged; .env not staged", "status": "PASS" }
+        ]
+      }
+    ]
+  },
+
+  "phase_4_progress_after_block": {
+    "subtopics_done": [
+      "S01-T1-A",
+      "S01-T1-B",
+      "S01-T2-A",
+      "S01-T2-B",
+      "S01-T3-A",
+      "S01-T3-B",
+      "S01-T4-A",
+      "S01-T4-B"
+    ],
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "demos_done": 8,
+    "demos_target": 8,
+    "theory_blocks_with_subtopicId": 8
+  },
+
+  "content_file": "src/lib/course/sections/s01-setup.ts",
+  "related_artifacts": [
+    "course-state/s01_phase4_t2b.json",
+    "course-state/s01_phase4_t3a.json",
+    "course-state/s01_phase4_t3b.json",
+    "course-state/s01_phase4_t4a.json",
+    "course-state/s01_phase4_t4b.json",
+    "course-state/s01_topic_evaluations.json",
+    "course-state/lanes/LANE-S01.status.json"
+  ],
+
+  "next_single_action": "PHASE 5: Author parallel exam bank A/B/C (8 families × 3) OR Implementer extend platform for topic evaluations rendering.",
+  "blocked": false
+}

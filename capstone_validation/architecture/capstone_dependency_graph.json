@@ -1,286 +1,271 @@
 {
+  "version": "1.0.0",
   "nodes": [
     {
-      "capstoneId": "CP-N1-A",
+      "id": "CP-N1-A",
       "level": 1,
-      "gate": "S04"
+      "gate": "S04",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N1-B",
+      "id": "CP-N1-B",
       "level": 1,
-      "gate": "S08"
+      "gate": "S08",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N1-C",
+      "id": "CP-N1-C",
       "level": 1,
-      "gate": "S13"
+      "gate": "S13",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N2-A",
+      "id": "CP-N2-A",
       "level": 2,
-      "gate": "S17"
+      "gate": "S17",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N2-B",
+      "id": "CP-N2-B",
       "level": 2,
-      "gate": "S21"
+      "gate": "S21",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N2-C",
+      "id": "CP-N2-C",
       "level": 2,
-      "gate": "S26"
+      "gate": "S26",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N3-A",
+      "id": "CP-N3-A",
       "level": 3,
-      "gate": "S30"
+      "gate": "S30",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N3-B",
+      "id": "CP-N3-B",
       "level": 3,
-      "gate": "S34"
+      "gate": "S34",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N3-C",
+      "id": "CP-N3-C",
       "level": 3,
-      "gate": "S39"
+      "gate": "S39",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N4-A",
+      "id": "CP-N4-A",
       "level": 4,
-      "gate": "S43"
+      "gate": "S43",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N4-B",
+      "id": "CP-N4-B",
       "level": 4,
-      "gate": "S47"
+      "gate": "S47",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-N4-C",
+      "id": "CP-N4-C",
       "level": 4,
-      "gate": "S51"
+      "gate": "S51",
+      "isFinal": false
     },
     {
-      "capstoneId": "CP-FINAL",
+      "id": "CP-FINAL",
       "level": 4,
-      "gate": "S52"
+      "gate": "S52",
+      "isFinal": true
     }
   ],
   "edges": [
     {
       "from": "CP-N1-A",
-      "to": "CP-FINAL",
-      "type": "final-integration"
+      "to": "CP-N1-B",
+      "type": "depends_on"
     },
     {
-      "from": "B-N1-A",
-      "to": "CP-N1-B",
-      "type": "badge-dependency"
+      "from": "CP-N1-A",
+      "to": "CP-N1-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-B",
+      "to": "CP-N1-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-C",
+      "to": "CP-N2-A",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-A",
+      "to": "CP-N2-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-B",
+      "to": "CP-N2-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-C",
+      "to": "CP-N3-A",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-A",
+      "to": "CP-N3-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-B",
+      "to": "CP-N3-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-C",
+      "to": "CP-N4-A",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-N4-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-N4-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-B",
+      "to": "CP-N4-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-A",
+      "to": "CP-FINAL",
+      "type": "depends_on"
     },
     {
       "from": "CP-N1-B",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N1-A",
-      "to": "CP-N1-C",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N1-B",
-      "to": "CP-N1-C",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N1-C",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N1-A",
-      "to": "CP-N2-A",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N1-B",
-      "to": "CP-N2-A",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N1-C",
-      "to": "CP-N2-A",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N2-A",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N2-A",
-      "to": "CP-N2-B",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N2-B",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N2-A",
-      "to": "CP-N2-C",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N2-B",
-      "to": "CP-N2-C",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N2-C",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N1-C",
-      "to": "CP-N3-A",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N3-A",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N3-A",
-      "to": "CP-N3-B",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N3-B",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N3-A",
-      "to": "CP-N3-C",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N3-B",
-      "to": "CP-N3-C",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N3-C",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N3-A",
-      "to": "CP-N4-A",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N3-B",
-      "to": "CP-N4-A",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N3-C",
-      "to": "CP-N4-A",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N4-A",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N4-A",
-      "to": "CP-N4-B",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N4-B",
       "to": "CP-FINAL",
-      "type": "final-integration"
-    },
-    {
-      "from": "B-N4-A",
-      "to": "CP-N4-C",
-      "type": "badge-dependency"
-    },
-    {
-      "from": "B-N4-B",
-      "to": "CP-N4-C",
-      "type": "badge-dependency"
+      "type": "depends_on"
     },
     {
       "from": "CP-N4-C",
       "to": "CP-FINAL",
-      "type": "final-integration"
+      "type": "depends_on"
     },
     {
-      "from": "B-N1-A",
+      "from": "CP-N1-A",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N1-B",
+      "from": "CP-N1-B",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N1-C",
+      "from": "CP-N1-C",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N2-A",
+      "from": "CP-N2-A",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N2-B",
+      "from": "CP-N2-B",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N2-C",
+      "from": "CP-N2-C",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N3-A",
+      "from": "CP-N3-A",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N3-B",
+      "from": "CP-N3-B",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N3-C",
+      "from": "CP-N3-C",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N4-A",
+      "from": "CP-N4-A",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N4-B",
+      "from": "CP-N4-B",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     },
     {
-      "from": "B-N4-C",
+      "from": "CP-N4-C",
       "to": "CP-FINAL",
-      "type": "badge-dependency"
+      "type": "final_integrates"
     }
-  ]
+  ],
+  "finalIntegratesCount": 12
 }

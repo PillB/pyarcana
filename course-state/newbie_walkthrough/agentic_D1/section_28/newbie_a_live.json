@@ -1,0 +1,524 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 28,
+  "packet_sha": "827050d249512742",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "random",
+        "seed",
+        "S28",
+        "Con",
+        "genera",
+        "reproducible",
+        "segunda",
+        "llamada"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «invariantes y generación de casos» del paquete indica: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.… Resolví S28-T1-A-E1 (guided) completando el starter sin reescribir fixtures: print(a == b). Las pistas del card (seed antes de cada random; compara) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "scores"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «invariantes y generación de casos» del paquete indica: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.… Resolví S28-T1-A-E2 (independent) completando el starter sin reescribir fixtures: print(all(0 <= s <= 1 for s in scores). Las pistas del card (all; rango) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "lambda"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «invariantes y generación de casos» del paquete indica: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.… Resolví S28-T1-A-E3 (transfer) completando el starter sin reescribir fixtures: print(f(f(s). Las pistas del card (doble aplicación; assert blando print) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "S28"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «idempotencia, simetría y metamorphic tests» del paquete indica: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schema y matching en … Resolví S28-T1-B-E1 (guided) completando el starter sin reescribir fixtures: print((a == b). Las pistas del card (comparar; simetría) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «idempotencia, simetría y metamorphic tests» del paquete indica: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schema y matching en … Resolví S28-T1-B-E2 (independent) completando el starter sin reescribir fixtures: print('Ana'.casefold(). Las pistas del card (casefold; True) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "S28"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «idempotencia, simetría y metamorphic tests» del paquete indica: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schema y matching en … Resolví S28-T1-B-E3 (transfer) completando el starter sin reescribir fixtures: print((a == b). Las pistas del card (swap; propiedad) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "requerido"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «schema y quality contracts» del paquete indica: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Lo… Resolví S28-T2-A-E1 (guided) completando el starter sin reescribir fixtures: print('id requerido' if not r.get('id'). Las pistas del card (get; guard) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "score"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «schema y quality contracts» del paquete indica: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Lo… Resolví S28-T2-A-E2 (independent) completando el starter sin reescribir fixtures: print('score' if not (0 <= score <= 1). Las pistas del card (0<=s<=1; etiqueta error) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "rows"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «schema y quality contracts» del paquete indica: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Lo… Resolví S28-T2-A-E3 (transfer) completando el starter sin reescribir fixtures: print(sum(1 for r in rows if not r.get('id'). Las pistas del card (sum; lista) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "golden"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «golden datasets, drift y reconciliación» del paquete indica: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de schema y match… Resolví S28-T2-B-E1 (guided) completando el starter sin reescribir fixtures: print('drift' if golden != current else 'ok'). Las pistas del card (!=; strings/dicts) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "diff"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «golden datasets, drift y reconciliación» del paquete indica: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de schema y match… Resolví S28-T2-B-E2 (independent) completando el starter sin reescribir fixtures: print('blocked' if diff and not approved else 'ok'). Las pistas del card (and; política) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «golden datasets, drift y reconciliación» del paquete indica: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de schema y match… Resolví S28-T2-B-E3 (transfer) completando el starter sin reescribir fixtures: print({'golden_version': 3}['golden_version']). Las pistas del card (literal/dict; versionado) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "name"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «mocks/fakes de HTTP, DB y reloj» del paquete indica: **Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matching en… Resolví S28-T3-A-E1 (guided) completando el starter sin reescribir fixtures: print(db['e1']['name']). Las pistas del card (dict get; fake) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "datetime"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «mocks/fakes de HTTP, DB y reloj» del paquete indica: **Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matching en… Resolví S28-T3-A-E2 (independent) completando el starter sin reescribir fixtures: print(date(2026, 7, 20). Las pistas del card (datetime; inyección) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "retry"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «mocks/fakes de HTTP, DB y reloj» del paquete indica: **Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matching en… Resolví S28-T3-A-E3 (transfer) completando el starter sin reescribir fixtures: print('retry' if status >= 500 else 'ok'). Las pistas del card (status; rama) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «contract tests sin sobre-mocking» del paquete indica: El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos de sch… Resolví S28-T3-B-E1 (guided) completando el starter sin reescribir fixtures: print('A'.casefold(). Las pistas del card (casefold; sin mock) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "lambda"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «contract tests sin sobre-mocking» del paquete indica: El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos de sch… Resolví S28-T3-B-E2 (independent) completando el starter sin reescribir fixtures: print('weak' if f('x','y'). Las pistas del card (propiedad; siempre True) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «contract tests sin sobre-mocking» del paquete indica: El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos de sch… Resolví S28-T3-B-E3 (transfer) completando el starter sin reescribir fixtures: print({'rows_written': 1}['rows_written']). Las pistas del card (dict; borde) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create",
+        "table",
+        "int",
+        "insert"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «integración/E2E y test containers» del paquete indica: Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten supues… Resolví S28-T4-A-E1 (guided) completando el starter sin reescribir fixtures: print(c.execute('select count(*). Las pistas del card (sqlite3; fetchone) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "S28"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «integración/E2E y test containers» del paquete indica: Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten supues… Resolví S28-T4-A-E2 (independent) completando el starter sin reescribir fixtures: print(n * (n - 1). Las pistas del card (n*(n-1)//2; candidatos) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "done"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «integración/E2E y test containers» del paquete indica: Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten supues… Resolví S28-T4-A-E3 (transfer) completando el starter sin reescribir fixtures: print([i for i in items if i not in done]). Las pistas del card (list comp; reanudación) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «flakes, determinismo y CI» del paquete indica: Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schem… Resolví S28-T4-B-E1 (guided) completando el starter sin reescribir fixtures: print(sorted(['b', 'a']). Las pistas del card (sorted; orden) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "flake_rate"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «flakes, determinismo y CI» del paquete indica: Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schem… Resolví S28-T4-B-E2 (independent) completando el starter sin reescribir fixtures: print('fail_job' if flake_rate > 0 else 'ok'). Las pistas del card (umbral; gate) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S28 la teoría «flakes, determinismo y CI» del paquete indica: Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schem… Resolví S28-T4-B-E3 (transfer) completando el starter sin reescribir fixtures: print('unit→data→integration'). Las pistas del card (string; orden) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S28 («invariantes y generación de casos»), elijo «Relaciones predecibles entre entradas transformadas y salidas» (chosen_index=3) para «Un test metamórfico verifica:». Fragmento enseñado: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S28 («idempotencia, simetría y metamorphic tests»), elijo «Riesgo de ocultar regresiones» (chosen_index=1) para «Actualizar un golden con drift sin review es:». Fragmento enseñado: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de s… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S28 («schema y quality contracts»), elijo «Acoplar el test a detalles internos y ocultar bugs» (chosen_index=2) para «Sobre-mocking típico:». Fragmento enseñado: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardin… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S28 («golden datasets, drift y reconciliación»), elijo «Con determinismo (seed/reloj/sort) y fallo de job si persisten» (chosen_index=0) para «Flakes en la suite gate de ER se manejan:». Fragmento enseñado: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuest… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:40:13.339027+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s28-live"
+}

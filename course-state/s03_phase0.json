@@ -1,0 +1,278 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T12:00:00Z",
+  "lane": "LANE-S03",
+  "prompt_version": "3.2",
+
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 Definiciones de conteo / learning_roadmap_52_V3.md",
+        "acceptance_test": "Contar temas en blueprint de S03 = 4",
+        "status": "pass",
+        "evidence": "V3 roadmap S3 define T1–T4: Booleanos, Control, Reglas, Verificación"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S03 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Contenido existente tiene 6 learningOutcomes y 4 bloques de teoría sobre estructuras/archivos, no estructurado como 4×2 de decisiones/validación."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S03",
+        "status": "blocked",
+        "evidence": "S03 actual: 3 pasos I Do, 1 We Do, 1 You Do (pipeline ETL). Falta expansión a 8 demos + 24 ejercicios."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8 subtemas × 3) para S03",
+        "status": "blocked",
+        "evidence": "seed.ts 'data-structures': 4 conceptos × 3 = 12 variantes (json-load-vs-loads, with-statement, defaultdict, exception-type). Roadmap lista 5 slugs; seed no incluye dict-iteration-idiom."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S03",
+        "status": "partial",
+        "evidence": "selfCheck (5 MCQ) + youDo (Sales Log Parser). Faltan 4 evaluaciones por tema."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3 Restricciones invariantes",
+        "acceptance_test": "Contenido de S03 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Contenido usa regiones peruanas (Lima, Arequipa, Cusco), soles S/, tono profesional."
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S03 no involucra entity resolution o relationship scoring",
+        "status": "pass",
+        "evidence": "Contenido actual es ETL de ventas; V3 target es motor de reglas de validación de campos — sin ER."
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S03 ejecutado en entorno declarado",
+        "status": "partial",
+        "evidence": "I Do/We Do incluyen output esperado embebido; re-verificación formal pendiente en PHASE 7. Entorno: browser/local."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S03 no usa datos reales de personas",
+        "status": "pass",
+        "evidence": "CSV de muestra sintético (regiones/productos). You Do permite Superstore Kaggle o sintético; V3 preferirá sintético de intake sin PII real."
+      }
+    ],
+
+    "section_requirements": [
+      {
+        "id": "REQ-S03-001",
+        "requirement": "S03 cubre: Booleanos (comparaciones y pertenencia; truthiness y short-circuit)",
+        "source": "V3 roadmap S3 T1",
+        "acceptance_test": "Contenido de S03 incluye comparaciones, in/not in, truthiness y and/or short-circuit",
+        "status": "fail",
+        "evidence": "s03-data-structures.ts no enseña booleanos/truthiness/short-circuit como tema. Fragmentos de truthiness viven en s02-basics.ts y en el exam bank de 'basics' (slug truthiness)."
+      },
+      {
+        "id": "REQ-S03-002",
+        "requirement": "S03 cubre: Control (if/elif/else; guard clauses, anidamiento y ramas alcanzables)",
+        "source": "V3 roadmap S3 T2",
+        "acceptance_test": "Contenido incluye if/elif/else, early return/guard clauses y diseño de ramas",
+        "status": "fail",
+        "evidence": "if/elif/else está en s02-basics.ts (teoría 'Condicionales'). S03 usa if solo de forma incidental en validación de filas. No hay guard clauses ni análisis de ramas alcanzables."
+      },
+      {
+        "id": "REQ-S03-003",
+        "requirement": "S03 cubre: Reglas (rangos, listas permitidas y combinaciones; decision tables y match cuando aporta claridad)",
+        "source": "V3 roadmap S3 T3",
+        "acceptance_test": "Contenido incluye allowlists/rangos, tablas de decisión y match/case introductorio",
+        "status": "fail",
+        "evidence": "No hay decision tables, allowlists de dominio ni match/case en s03. Validación actual es keys obligatorias en JSON config (We Do), no motor de reglas de campo."
+      },
+      {
+        "id": "REQ-S03-004",
+        "requirement": "S03 cubre: Verificación (invariantes y ejemplos; mensajes accionables y pruebas de ramas)",
+        "source": "V3 roadmap S3 T4",
+        "acceptance_test": "Contenido incluye invariantes, mensajes de error accionables y pruebas por rama",
+        "status": "partial",
+        "evidence": "Hay mensajes de error en try/except y saltar filas inválidas; no hay framework de invariantes, decisión accept/reject/review ni pruebas sistemáticas de ramas."
+      },
+      {
+        "id": "REQ-S03-005",
+        "requirement": "S03 incremento/gate: reglas explicables que aceptan, rechazan o ponen en revisión un campo; ninguna ausencia se confunde con valor falso válido",
+        "source": "V3 roadmap S3 Incremento/gate",
+        "acceptance_test": "You Do / project produce motor de reglas con estados accept|reject|review y distingue None/ausente de False/0/''",
+        "status": "fail",
+        "evidence": "You Do actual es 'Sales Log Parser' (ETL CSV→JSON). No modela estados de decisión de campo ni el trío accept/reject/review."
+      },
+      {
+        "id": "REQ-S03-006",
+        "requirement": "S03 proyecto: motor de reglas del intake (contribuye a CP-N1-A que cierra en S4)",
+        "source": "V3 roadmap S3 Proyecto + CP-N1-A gate S4",
+        "acceptance_test": "Incremento de proyecto documenta reglas de validación reutilizables para el intake de cliente",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma es Sales Log Parser. CP-N1-A (Client Intake & Data Quality Script) se cierra en S4; S3 debe aportar el motor de reglas."
+      },
+      {
+        "id": "REQ-S03-007",
+        "requirement": "S03 entorno: browser/local",
+        "source": "V3 roadmap S3",
+        "acceptance_test": "Demos ejecutan en browser-pyodide y/o local-python según declaración",
+        "status": "pass",
+        "evidence": "Código es stdlib puro (if/bool/match); apto para browser-pyodide y local-python. Contenido legado de archivos CSV también es local-friendly."
+      },
+      {
+        "id": "REQ-S03-008",
+        "requirement": "S03 prerrequisitos: S2",
+        "source": "V3 roadmap S3",
+        "acceptance_test": "S03 asume valores, tipos, operadores e I/O de S2",
+        "status": "pass",
+        "evidence": "V3: Prerrequisito S2. Plataforma: index 3 después de basics."
+      },
+      {
+        "id": "REQ-S03-009",
+        "requirement": "Contenido legado de estructuras/CSV/JSON no se elimina; se inventaría y se reubica en el plan V3 (p.ej. S6 colecciones)",
+        "source": "Instrucciones LANE-S03 + course_requirements authority",
+        "acceptance_test": "Contradicción documentada; archivo s03-data-structures.ts intacto en PHASE 0–2",
+        "status": "pass",
+        "evidence": "PHASE 0–2 solo investigan y documentan. No se borra contenido. V3 S6 = 'Colecciones y estructuras de datos' es destino natural del material actual."
+      }
+    ],
+
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S03 carga en la plataforma con id estable 'data-structures'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id data-structures registrado en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "section03 exportado como section03 from s03-data-structures.ts; id: 'data-structures'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S03 tiene especificación de examen en learning_roadmap.md",
+        "source": "learning_roadmap.md §3",
+        "acceptance_test": "Tabla de conceptos y configuración de examen presente",
+        "status": "partial",
+        "evidence": "Roadmap lista 5 conceptos de estructuras/archivos; seed implementa 4. Ninguno alinea con V3 decisiones/reglas."
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan para la sección",
+        "source": "CourseSection shape + SectionView",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "s03-data-structures.ts incluye todos los campos del shape actual."
+      }
+    ]
+  },
+
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S03-001",
+      "issue": "V3 define S3 como 'Decisiones y reglas de validación' (Booleanos, Control, Reglas, Verificación). El activo de plataforma s03-data-structures.ts y learning_roadmap.md §3 se titulan 'Data Structures & File Handling' (list/dict/set, anidados, CSV/JSON, try/except).",
+      "resolution": "Autoridad de id/título de plataforma: learning_roadmap.md → section_id 'data-structures' se MANTIENE. Autoridad de estructura de conteo y outcomes V3: learning_roadmap_52_V3.md → TARGET de producción (4×2 de decisiones). El contenido legado se conserva y se planifica reubicar hacia V3 S6 (Colecciones y estructuras de datos) / S4–S7 según plan de reescritura; NO se elimina en research.",
+      "authority": "learning_roadmap.md = primary para section title/ID; V3 = primary para counting + topics target; contenido existente se inventaría sin borrar.",
+      "impact": "No bloquea PHASE 1–2. Bloquea claim de 'section passed'. PHASE 3–5 deben producir contenido V3 dentro del slot S03 sin borrar el archivo hasta migración controlada.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S03-002",
+      "issue": "V3 S2 ya no es 'condicionales + loops'; es 'Valores, tipos, operadores e I/O'. Condicionales/truthiness se mueven a V3 S3. Pero s02-basics.ts YA enseña if/elif/else y truthiness; s03 no.",
+      "resolution": "En producción V3: S02 se reenfoca a valores/tipos/I/O; S03 absorbe decisiones/reglas. Material de condicionales en S02 se trata como overlap provisional a recortar/migrar cuando se produzca S02; S03 research asume ownership canónico de truthiness + control flow + reglas.",
+      "authority": "V3 topic boundaries; no editar s02 en esta lane.",
+      "impact": "Riesgo de duplicación temporal S02/S03 hasta reescritura. Exam slug 'truthiness' hoy vive en 'basics'.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S03-003",
+      "issue": "V3 S3 project = motor de reglas del intake (CP-N1-A). You Do actual = Sales Log Parser (ETL ventas).",
+      "resolution": "Mapear Sales Log Parser como contenido legado inventariado. TARGET de incremento S03: reglas accept/reject/review sobre campos de intake sintético. ETL de ventas reubicable a S4 (iteración/resúmenes) o S6 según blueprint posterior.",
+      "authority": "V3 Incremento/gate S3 + CP-N1-A @ S4",
+      "impact": "You Do debe reescribirse en PHASE 4; no borrar hasta tener reemplazo verificado.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S03-004",
+      "issue": "learning_roadmap.md exam de S03: 5 conceptos de archivos/estructuras. seed.ts: 4 conceptos (falta dict-iteration-idiom). V3 requiere 8 subtemas de decisiones.",
+      "resolution": "Banco actual se conserva como provisional. PHASE 5 introducirá 8 familias A/B/C nuevas alineadas a V3; conceptos legacy se retiran o reasignan a la sección destino (S6) en una pasada de seed coordinada (no en esta lane).",
+      "authority": "V3 counting contract = target; seed actual = provisional",
+      "impact": "12 variantes actuales vs 24 objetivo; 0 cobertura de skills V3 S3.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S03-005",
+      "issue": "V3 S6 se llama 'Colecciones y estructuras de datos' — solapa temáticamente con el S03 de plataforma actual.",
+      "resolution": "Registrar destino preferido del contenido legacy de s03-data-structures.ts → V3 S6 (y partes de I/O archivo a secciones posteriores). Lane S03 no reescribe S6.",
+      "authority": "V3 roadmap S6",
+      "impact": "Informativo para orquestación multi-sección.",
+      "status": "recorded"
+    }
+  ],
+
+  "v3_section_snapshot": {
+    "v3_label": "S3 — Decisiones y reglas de validación",
+    "prerequisite": "S2",
+    "environment": "browser/local",
+    "project": "motor de reglas del intake",
+    "topics": {
+      "T1": "Booleanos: comparaciones y pertenencia; truthiness y short-circuit",
+      "T2": "Control: if/elif/else; guard clauses, anidamiento y ramas alcanzables",
+      "T3": "Reglas: rangos, listas permitidas y combinaciones; decision tables y match cuando aporta claridad",
+      "T4": "Verificación: invariantes y ejemplos; mensajes accionables y pruebas de ramas"
+    },
+    "increment_gate": "reglas explicables que aceptan, rechazan o ponen en revisión un campo; ninguna ausencia se confunde con valor falso válido"
+  },
+
+  "platform_section_snapshot": {
+    "section_id": "data-structures",
+    "index": 3,
+    "title": "Data Structures & File Handling",
+    "shortTitle": "Estructuras & Archivos",
+    "file": "src/lib/course/sections/s03-data-structures.ts",
+    "roadmap_anchor": "learning_roadmap.md §3",
+    "youDo": "Sales Log Parser — Tu primer pipeline ETL",
+    "exam_concepts_roadmap": [
+      "json-load-vs-loads",
+      "context-manager",
+      "defaultdict-use-case",
+      "file-error-handling",
+      "dict-iteration-idiom"
+    ],
+    "exam_concepts_seed": [
+      "json-load-vs-loads",
+      "with-statement",
+      "defaultdict",
+      "exception-type"
+    ]
+  },
+
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

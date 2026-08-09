@@ -1,0 +1,479 @@
+{
+  "agent": "b",
+  "section_index": 18,
+  "recorded_at": "2026-08-01T15:19:53.349496+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Mediana (y opcionalmente IQR)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Asociación observada (no causal por sí sola)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Origen, filtros, n y límites de cobertura",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "La muestra no representa la población de interés",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          4.15,
+          0.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.3,
+          9.15,
+          7.0,
+          8.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          7.0,
+          2.0,
+          6.0,
+          7.15
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "Hallazgo descriptivo de anomalías univariadas; la decisión de investigación es humana",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          2.15,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "Una magnitud de diferencia estandarizada en la muestra; aún hace falta IC, n y límites de cobertura",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          2.0,
+          8.0,
+          6.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S18-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · mean vs median\n# Bug a corregir: solo mean; omite median y n\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"mean\", round(float(montos.mean()), 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "abre",
+          "redondea",
+          "tres",
+          "nombrado",
+          "añade",
+          "etiquetas"
+        ]
+      },
+      {
+        "exercise_id": "S18-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · IQR\n# Bug a corregir: usa percentiles 10/90 no Q1/Q3\nimport numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.10, 0.90])\nprint(\"Q1\", round(float(q1), 2))\nprint(\"Q3\", round(float(q3), 2))\nprint(\"IQR\", round(float(q3 - q1), 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "revisa",
+          "imprime",
+          "alteres",
+          "etiquetas",
+          "exactas",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S18-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · resumen dict portfolio (transferencia)\nimport numpy as np\n\ndef resumen(x):\n x = np.asarray(x, dtype=float)\n # Completa: n, mean, median, std(ddof=1) redondeados a 4 dec.\n return {}\nprint(resumen([1, 2, 3, 4, 5]))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "starter",
+          "int",
+          "redondea",
+          "prueba",
+          "deja",
+          "devuelve",
+          "convierte"
+        ]
+      },
+      {
+        "exercise_id": "S18-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · mean/median ratio\n# Bug a corregir: ratio median/mean invertido\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", round(m, 2))\nprint(\"median\", med)\nprint(\"ratio\", round(med / m, 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "usa",
+          "mantén",
+          "alteres",
+          "etiquetas",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S18-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · MAD\n# Bug a corregir: MAD con mean no median\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nm = float(x.mean())\nmad = float(np.mean(np.abs(x - m)))\nprint(\"MAD\", mad)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "valor",
+          "revisa",
+          "absolutos",
+          "imprime",
+          "promedio",
+          "solo",
+          "renombres"
+        ]
+      },
+      {
+        "exercise_id": "S18-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · escala log honesta (transferencia)\n# Montos sintéticos con cero: elige la transformación correcta y lista a 3 dec.\nimport numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\n# Completa: transforma x e imprime lista redondeada a 3 decimales\nprint([])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "starter",
+          "valor",
+          "aplica",
+          "redondea",
+          "transformadores",
+          "inventes",
+          "otros"
+        ]
+      },
+      {
+        "exercise_id": "S18-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · sample share\n# Bug a corregir: cuenta Madrid en lugar de Lima\nmuestra = [\"Lima\", \"Lima\", \"Lima\", \"Madrid\"]\nshare_lima = muestra.count(\"Madrid\") / len(muestra)\nprint(\"share_Lima\", round(share_lima, 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "hace",
+          "imprime",
+          "cambia",
+          "uses",
+          "divide",
+          "falta",
+          "etiqueta"
+        ]
+      },
+      {
+        "exercise_id": "S18-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · bias pp\n# Bug a corregir: pob - share invertido\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(pob - share, 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "valores",
+          "imprime",
+          "corrige",
+          "cambies",
+          "mantén",
+          "etiqueta"
+        ]
+      },
+      {
+        "exercise_id": "S18-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · max_bias de cobertura (transferencia)\ndef max_bias(pob, counts):\n n = sum(counts.values())\n # Completa: peor |count/n − pob| entre claves de pob\n raise NotImplementedError\n\nprint(round(max_bias({\"Lima\": 0.5, \"Madrid\": 0.5}, {\"Lima\": 9, \"Madrid\": 1}), 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "max",
+          "hoy",
+          "prueba",
+          "deja",
+          "cuerpo",
+          "share_pob"
+        ]
+      },
+      {
+        "exercise_id": "S18-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · SE margin\n# Bug a corregir: sin /sqrt(n)\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s\nprint(\"margen\", round(margen, 3))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "fijos",
+          "deja",
+          "dividir",
+          "redondeado",
+          "divide"
+        ]
+      },
+      {
+        "exercise_id": "S18-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · Cohen d\n# Bug a corregir: (10-13)/2 signo/orden wrong\n# medias sintéticas: A=10, B=13; s_pooled=2\nd = (10 - 13) / 2\nprint(\"d\", round(d, 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "imprime",
+          "corrige",
+          "cambies"
+        ]
+      },
+      {
+        "exercise_id": "S18-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · bootstrap de la media (transferencia)\nimport numpy as np\nx = np.array([10.0, 12.0, 11.0, 13.0, 50.0])\nrng = np.random.default_rng(42)\nB = 100\n# Completa: B medias remuestreadas; percentiles 2.5 y 97.5\nprint(\"boot_ic95\", None)\nprint(\"n\", len(x))\nprint(\"nota\", \"???\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bloque",
+          "exacta",
+          "bootstrap_simple",
+          "imprime",
+          "redondeado",
+          "boots"
+        ]
+      },
+      {
+        "exercise_id": "S18-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · corrcoef\n# Bug a corregir: r de y vs y no x vs y\nimport numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 5, 5, 10], dtype=float)\nprint(\"r\", round(float(np.corrcoef(y, y)[0, 1]), 3))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "arrays",
+          "alteres",
+          "etiqueta",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S18-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · Spearman via rangos\n# Bug a corregir: Pearson en escala original (no rangos)\nimport numpy as np\nx = np.array([1.0, 2.0, 3.0, 10.0])\ny = np.array([1.0, 4.0, 9.0, 100.0])  # monótona no lineal\nprint(\"spearman\", round(float(np.corrcoef(x, y)[0, 1]), 3))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "crudos",
+          "redondeado",
+          "construye"
+        ]
+      },
+      {
+        "exercise_id": "S18-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · confusor y residuales (transferencia)\nimport numpy as np\nrng = np.random.default_rng(1)\nz = rng.normal(0, 1, 80)\nx = 0.8 * z + rng.normal(0, 0.3, 80)\ny = 0.7 * z + rng.normal(0, 0.3, 80)\nr_raw = float(np.corrcoef(x, y)[0, 1])\nprint(\"r_raw\", round(r_raw, 3))\n# Completa: residualiza x,y vs z; imprime r_residual (3 dec) y claim no causal\nprint(\"r_residual\", None)\nprint(\"claim\", \"???\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pearson",
+          "exacto",
+          "está",
+          "predicción",
+          "resta"
+        ]
+      },
+      {
+        "exercise_id": "S18-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · upper fence outliers\n# Bug a corregir: hi = q3 + 0.5*iqr\nimport numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 0.5 * iqr\nprint(\"n_hi\", int((m > hi).sum()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "usa",
+          "cuenta",
+          "etiqueta",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S18-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · tasa por región\n# Bug a corregir: tasa global en lugar de solo Lima\nimport numpy as np\nregion = np.array([\"Lima\", \"Madrid\", \"Bogota\"])\nflag = np.array([True, True, False])\nprint(\"tasa_Lima\", float(flag.mean()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "arrays",
+          "enmascara",
+          "alteres",
+          "etiqueta"
+        ]
+      },
+      {
+        "exercise_id": "S18-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · máscara Tukey bilateral (transferencia)\nimport numpy as np\nm = np.array([-20.0, 2.0, 3.0, 4.0, 100.0], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\n# Completa: lista de booleans fuera de [lo, hi]\nprint([])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "cambies",
+          "calculados"
+        ]
+      },
+      {
+        "exercise_id": "S18-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · evidencia pregunta\n# Bug a corregir: imprime hipotesis no pregunta\nevidencia = {\n \"pregunta\": \"¿Cuál es el ticket mediano?\",\n \"hipotesis\": \"mediana >= 5\",\n \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"hipotesis\"])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "starter",
+          "clave",
+          "mutes",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S18-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · hallazgo vs decision\n# Bug a corregir: umbral invertido\nmedian = 12\nprint(\"solo_hallazgo\" if median > 15 else \"candidato_decision\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "cambies",
+          "usa",
+          "condición",
+          "revés",
+          "correcta",
+          "etiqueta"
+        ]
+      },
+      {
+        "exercise_id": "S18-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · traza P→M→V→L (transferencia)\ndef traza(pregunta, metrica, valor, limite):\n # Completa: imprime P, M, V y L con esos prefijos\n pass\n\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "función",
+          "intacta",
+          "deja",
+          "orden",
+          "exactos"
+        ]
+      },
+      {
+        "exercise_id": "S18-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · note filtros\n# Bug a corregir: note vacío\nnote = {}\nprint(note)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "tres",
+          "llena"
+        ]
+      },
+      {
+        "exercise_id": "S18-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · sha1 short\n# Bug a corregir: usa md5 y el digest completo (no sha1[:8])\nimport hashlib\n# CSV sintético con saltos de línea reales (chr(10)), no la secuencia de dos chars \\ + n\nlines = [\"a,b\", \"1,2\"]\npayload = (chr(10).join(lines) + chr(10)).encode(\"utf-8\")\nprint(hashlib.md5(payload).hexdigest())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "starter",
+          "armado",
+          "mantén",
+          "solo",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S18-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-018 · data note post-filtro (transferencia)\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\n# Completa: note con n_raw, n_final y seed 42\nnote = {}\nprint(note)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "borres",
+          "imprime",
+          "está",
+          "dict",
+          "filtra"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d23dd511e0a0dcc8"
+  }
+}

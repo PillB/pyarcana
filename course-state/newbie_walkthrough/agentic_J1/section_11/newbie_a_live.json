@@ -1,0 +1,377 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s11-19dcb37d97",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    tags: list = field(default_factory=list)\n\nc = ClientRecord(\"C001\", \"Ana Quispe\")\nprint(c)\nprint(c.tags)",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T1-A («Clases, instancias y dataclass»), armé la entrega guiado leyendo la teoría del paquete sobre clase, instancia, @dataclass, __init__. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación. En OOP de domini…»."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\nt = Transaction(\"T1\", Decimal(\"150.50\"), \"PEN\")\nprint(t)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T1-A («Clases, instancias y dataclass»), armé la entrega independiente leyendo la teoría del paquete sobre clase, instancia, @dataclass, __init__. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación. En OOP de domini…»."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    tags: list = field(default_factory=list)\n\n    @classmethod\n    def from_dict(cls, d):\n        return cls(client_id=d[\"client_id\"], full_name=d.get(\"full_name\", \"\"), tags=list(d.get(\"tags\") or []))\n\nc = ClientRecord.from_dict({\"client_id\": \"C001\", \"full_name\": \"Ana Quispe\"})\nprint(type(c).__name__, c.client_id)",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T1-A («Clases, instancias y dataclass»), armé la entrega transferencia leyendo la teoría del paquete sobre clase, instancia, @dataclass, __init__. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación. En OOP de domini…»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self):\n        if not isinstance(self.amount, Decimal):\n            raise ValueError(\"amount must be Decimal\")\n        self.amount = self.amount.quantize(Decimal(\"0.01\"))\n        if self.amount <= 0:\n            raise ValueError(\"amount must be > 0\")\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(\"currency not allowed\")\n\nprint(Transaction(\"T1\", Decimal(\"10.00\"), \"PEN\"))\nfor bad in [(Decimal(\"0\"), \"PEN\"), (Decimal(\"10.00\"), \"EUR\")]:\n    try:\n        Transaction(\"T2\", bad[0], bad[1])\n    except ValueError as e:\n        print(\"reject\", e)\ntry:\n    Transaction(\"T3\", 10.0, \"PEN\")\nexcept (ValueError, TypeError) as e:\n    print(\"reject float\", e)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T1-B («Invariantes y estados válidos»), armé la entrega guiado leyendo la teoría del paquete sobre __post_init__, falla al crear. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias. En OOP de dominio, e…»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    tags: list = field(default_factory=list)\n\n    @classmethod\n    def from_dict(cls, d):\n        return cls(client_id=d[\"client_id\"], full_name=d.get(\"full_name\", \"\"), tags=list(d.get(\"tags\") or []))\n\nc = ClientRecord.from_dict({\"client_id\": \"C001\", \"full_name\": \"Ana Quispe\"})\nprint(type(c).__name__, c.client_id)",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T1-B («Invariantes y estados válidos»), armé la entrega independiente leyendo la teoría del paquete sobre __post_init__, falla al crear. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias. En OOP de dominio, e…»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer s11\n# fixture",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T1-B («Invariantes y estados válidos»), armé la entrega transferencia leyendo la teoría del paquete sobre __post_init__, falla al crear. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias. En OOP de dominio, e…»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\np = Person(\"Ana\", \"Quispe\")\nprint(p.full_name)",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T2-A («Propiedades y métodos»), armé la entrega guiado leyendo la teoría del paquete sobre @property, display_name, masked_email. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce a…»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    first_name: str\n    last_name: str\n    email: str\n\n    @property\n    def display_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.email.partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\nc = ClientRecord(\"Ana\", \"Perez\", \"ana@ejemplo.pe\")\nprint(c.display_name, c.masked_email)\nprint('ok')",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T2-A («Propiedades y métodos»), armé la entrega independiente leyendo la teoría del paquete sobre @property, display_name, masked_email. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce a…»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from math import isfinite\n\nclass Signal:\n    def __init__(self, score: float):\n        self.score = score\n\n    @property\n    def score(self) -> float:\n        return self._score\n\n    @score.setter\n    def score(self, value: float):\n        if not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value) or not 0.0 <= value <= 1.0:\n            raise ValueError(\"score fuera de rango\")\n        self._score = float(value)\n\ns = Signal(0.4)\nprint(s.score)\nfor bad in (1.5, float(\"nan\")):\n    try:\n        s.score = bad\n    except ValueError as e:\n        print(e)",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T2-A («Propiedades y métodos»), armé la entrega transferencia leyendo la teoría del paquete sobre @property, display_name, masked_email. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce a…»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str = field(compare=False)\n\n    def __post_init__(self):\n        if not self.entity_id:\n            raise ValueError(\"entity_id vacío\")\n\na = ResolvedEntity(\"E1\", \"Ana\")\nb = ResolvedEntity(\"E1\", \"Ana actualizada\")\nc = ResolvedEntity(\"E2\", \"Luis\")\nprint(a == b, a == c)\nprint(len({a, b, c}))\ntry:\n    ResolvedEntity(\"\", \"x\")\nexcept ValueError as e:\n    print(e)",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T2-B («Igualdad, hash y mutabilidad consciente»), armé la entrega guiado leyendo la teoría del paquete sobre ResolvedEntity, `entity_id` estable, document_id, `frozen=True`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades…»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    kind: str\n    value: str\n\ns = {Evidence(\"phone\", \"999\"), Evidence(\"phone\", \"999\"), Evidence(\"email\", \"a@x.com\")}\nprint(len(s))",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T2-B («Igualdad, hash y mutabilidad consciente»), armé la entrega independiente leyendo la teoría del paquete sobre ResolvedEntity, `entity_id` estable, document_id, `frozen=True`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades…»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "class MutableEntity:\n    def __init__(self, entity_id, name):\n        self.entity_id = entity_id\n        self.name = name\n    def __hash__(self):\n        return hash(self.entity_id)\n    def __eq__(self, other):\n        return isinstance(other, MutableEntity) and self.entity_id == other.entity_id\n\ne = MutableEntity(\"E1\", \"Ana\")\nbucket = {e: \"ok\"}\ne.entity_id = \"E9\"  # mutar clave lógica\nprint(\"BUG\", e in bucket)\n# SAFE: frozen id\nprint(\"SAFE\", \"use frozen ResolvedEntity for set/dict keys\")",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T2-B («Igualdad, hash y mutabilidad consciente»), armé la entrega transferencia leyendo la teoría del paquete sobre ResolvedEntity, `entity_id` estable, document_id, `frozen=True`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades…»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\nprint(PersonInfo(\"Ana\", \"Quispe\"))\nprint(\"diseño simple sin herencia Client(Person)\")",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T3-A («Composición antes que herencia»), armé la entrega guiado leyendo la teoría del paquete sobre has-a, CaseFile, RelationshipEvidence, ResolvedEntity. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`. En OOP de dominio, el *porqué* es op…»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, item):\n        self.evidences.append(item)\n\ncf = CaseFile(\"CASE-1\")\ncf.add_evidence(\"phone\")\ncf.add_evidence(\"geo\")\nprint(\"n=\", len(cf.evidences))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T3-A («Composición antes que herencia»), armé la entrega independiente leyendo la teoría del paquete sobre has-a, CaseFile, RelationshipEvidence, ResolvedEntity. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`. En OOP de dominio, el *porqué* es op…»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T3-A («Composición antes que herencia»), armé la entrega transferencia leyendo la teoría del paquete sobre has-a, CaseFile, RelationshipEvidence, ResolvedEntity. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`. En OOP de dominio, el *porqué* es op…»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: dict) -> float: ...\n\nclass RuleScorer:\n    def score(self, pair: dict) -> float:\n        return 0.9 if pair.get(\"same_doc\") else 0.1\n\ndef run(scorer: Scorer, pair: dict) -> float:\n    return scorer.score(pair)\n\nprint(run(RuleScorer(), {\"same_doc\": True}))",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T3-B («Protocolos y polimorfismo con propósito»), armé la entrega guiado leyendo la teoría del paquete sobre typing.Protocol, puerto. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: r…»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from __future__ import annotations\n\nfrom typing import Dict, Optional, Protocol, runtime_checkable\n\n@runtime_checkable\nclass EntityStore(Protocol):\n    def get(self, entity_id: str) -> Optional[dict]:\n        \"\"\"Devuelve la entidad o None si no existe.\"\"\"\n    def save(self, entity: dict) -> None:\n        \"\"\"Persiste la entidad.\"\"\"\n\nclass FakeStore:\n    def __init__(self):\n        self._d = {}  # type: Dict[str, dict]\n    def get(self, entity_id: str):\n        return self._d.get(entity_id)\n    def save(self, entity: dict) -> None:\n        self._d[entity[\"entity_id\"]] = entity\n\nstore = FakeStore()  # type: EntityStore\nstore.save({\"entity_id\": \"E1\", \"name\": \"Ana\"})\nprint(store.get(\"E1\"))\nprint(isinstance(store, EntityStore))\nprint('ok')",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T3-B («Protocolos y polimorfismo con propósito»), armé la entrega independiente leyendo la teoría del paquete sobre typing.Protocol, puerto. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: r…»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T3-B («Protocolos y polimorfismo con propósito»), armé la entrega transferencia leyendo la teoría del paquete sobre typing.Protocol, puerto. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: r…»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Dict, Optional\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n\n    def to_dict(self) -> dict:\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nclass InMemoryClientRepository:\n    def __init__(self):\n        self._d = {}  # type: Dict[str, ClientRecord]\n    def save(self, c: ClientRecord) -> None:\n        self._d[c.client_id] = c\n    def get(self, client_id: str) -> Optional[ClientRecord]:\n        return self._d.get(client_id)\n\nclass ClientService:\n    def __init__(self, repo: InMemoryClientRepository):\n        self.repo = repo\n    def register(self, client_id: str, email: str) -> dict:\n        c = ClientRecord(client_id, email)\n        self.repo.save(c)\n        return c.to_dict()  # no decide fraude\n\nsvc = ClientService(InMemoryClientRepository())\nprint(svc.register(\"C001\", \"a@ejemplo.pe\"))\nprint('ok')",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T4-A («Repositorios, servicios y serialización»), armé la entrega guiado leyendo la teoría del paquete sobre Repository, Service, to_dict, from_dict. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde. En OOP de dominio, el *porqué* e…»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Dict, Optional\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n\n    def to_dict(self) -> dict:\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nclass InMemoryClientRepository:\n    def __init__(self):\n        self._d = {}  # type: Dict[str, ClientRecord]\n    def save(self, c: ClientRecord) -> None:\n        self._d[c.client_id] = c\n    def get(self, client_id: str) -> Optional[ClientRecord]:\n        return self._d.get(client_id)\n\nclass ClientService:\n    def __init__(self, repo: InMemoryClientRepository):\n        self.repo = repo\n    def register(self, client_id: str, email: str) -> dict:\n        c = ClientRecord(client_id, email)\n        self.repo.save(c)\n        return c.to_dict()  # no decide fraude\n\nsvc = ClientService(InMemoryClientRepository())\nprint(svc.register(\"C001\", \"a@ejemplo.pe\"))\nprint('ok')",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T4-A («Repositorios, servicios y serialización»), armé la entrega independiente leyendo la teoría del paquete sobre Repository, Service, to_dict, from_dict. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde. En OOP de dominio, el *porqué* e…»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer s11\n# fixture",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T4-A («Repositorios, servicios y serialización»), armé la entrega transferencia leyendo la teoría del paquete sobre Repository, Service, to_dict, from_dict. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde. En OOP de dominio, el *porqué* e…»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ndef test_no_fraud_api():\n    assert not hasattr(RelationshipEvidence, \"is_fraud\")\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.5)\n    assert 0.0 <= ev.signal_score <= 1.0\n    return \"pass\"\n\nprint(test_no_fraud_api())\nprint('ok')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T4-B («Dependencias y pruebas del dominio»), armé la entrega guiado leyendo la teoría del paquete sobre puros. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines lo…»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ndef test_no_fraud_api():\n    assert not hasattr(RelationshipEvidence, \"is_fraud\")\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.5)\n    assert 0.0 <= ev.signal_score <= 1.0\n    return \"pass\"\n\nprint(test_no_fraud_api())\nprint('ok')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T4-B («Dependencias y pruebas del dominio»), armé la entrega independiente leyendo la teoría del paquete sobre puros. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines lo…»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ndef test_no_fraud_api():\n    assert not hasattr(RelationshipEvidence, \"is_fraud\")\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.5)\n    assert 0.0 <= ev.signal_score <= 1.0\n    return \"pass\"\n\nprint(test_no_fraud_api())\nprint('ok')",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S11-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S11-T4-B («Dependencias y pruebas del dominio»), armé la entrega transferencia leyendo la teoría del paquete sobre puros. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines lo…»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Por qué `field(default_factory=list)` y no `= []`?» elegí la opción 2: «Evita el default mutable compartido entre instancias». En la teoría de la sección aparecen términos alineados (Evita, default, mutable, compartido, entre), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.71,
+      "blocked_on": [],
+      "justification_from_packet": "Para «RelationshipEvidence.signal_score representa…» elegí la opción 0: «Una señal/dato numérico, no un veredicto de fraude o familia». En la teoría de la sección aparecen términos alineados (veredicto, fraude), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.71,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Un Protocol EntityStore sirve para…» elegí la opción 1: «Definir un puerto get/save implementable por fakes y adapters». En la teoría de la sección aparecen términos alineados (puerto, save, fakes), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Objeto inválido: ¿cuándo fallar?» elegí la opción 3: «En la construcción (__post_init__/validate)». En la teoría de la sección aparecen términos alineados (__post_init__, validate), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Client hereda de Person…» elegí la opción 2: «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar». En la teoría de la sección aparecen términos alineados (frágil, composición, Client, tiene, suele), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Qué no debe tener el dominio de familiaridad?» elegí la opción 0: «is_fraud() automático». En la teoría de la sección aparecen términos alineados (is_fraud), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:12:50+00:00",
+  "session_started_at": "2026-07-23T12:12:35+00:00",
+  "session_ended_at": "2026-07-23T12:12:50+00:00",
+  "receipt_response_sha256": "80b7a71b755ae990fce838411255fa5c3f827fb504f7731b95a9eb7f4260f814"
+}

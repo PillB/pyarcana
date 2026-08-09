@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 52,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-ske-s52-5282b0ae09a7",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"]))\nstatus = (\"PASS\" if meets_contract else \"REOPEN_CF1\")\nprint(\"S52-T1-A\", status)\n",
+      "justification_from_packet": "En S52-T1-A-E1 contrasté el fixture válido contra el adverso del mismo subtema «stakeholders, jobs y success metrics de CF-1». La regla stakeholders/jobs/métricas y baseline revalidados solo aprueba CASO-PER-052-1A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "code": "REQUIRED = {'baseline_frozen', 'case_id', 'jobs', 'metrics', 'stakeholders'}\nREJECT = 'REOPEN_CF1'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('baseline_frozen', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S52-T1-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «stakeholders, jobs y success metrics de CF-1». La regla el contrato del subtema solo aprueba CASO-PER-052-1A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "code": "REQUIRED = {'baseline_frozen', 'case_id', 'jobs', 'metrics', 'stakeholders'}\nBREACH = 'REOPEN_CF1'\nUNCERTAIN = 'INTERVIEW_STAKEHOLDER'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\nbad = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\ngap = {k: good[k] for k in good if k != 'baseline_frozen'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S52-T1-A-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-PER-052-1A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"]))\nstatus = (\"PASS\" if meets_contract else \"DECLARE_NO_GO\")\nprint(\"S52-T1-B\", status)\n",
+      "justification_from_packet": "Auditoría de S52-T1-B-E1: el starter fallaba a propósito. Apliqué constraints, riesgos con owner y no-go explícitos con trazas del caso CASO-PER-052-1B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "code": "REQUIRED = {'case_id', 'constraints', 'no_go', 'residual_risk_accepted', 'risks_with_owner'}\nREJECT = 'DECLARE_NO_GO'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': set(), 'residual_risk_accepted': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('residual_risk_accepted', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S52-T1-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «cambios, constraints, riesgos y no-go». La regla el contrato del subtema solo aprueba CASO-PER-052-1B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "code": "REQUIRED = {'case_id', 'constraints', 'no_go', 'residual_risk_accepted', 'risks_with_owner'}\nBREACH = 'DECLARE_NO_GO'\nUNCERTAIN = 'INDEPENDENT_RISK_REVIEW'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}}\nbad = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': set(), 'residual_risk_accepted': True}}\ngap = {k: good[k] for k in good if k != 'residual_risk_accepted'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S52-T1-B-E3 contrasté el fixture válido contra el adverso del mismo subtema «cambios, constraints, riesgos y no-go». La regla el contrato del subtema solo aprueba CASO-PER-052-1B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\nrecord = payload\nmeets_contract = bool(not (record[\"shared_database\"] or not record[\"apis_versioned\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\")\nprint(\"S52-T2-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S52-T2-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar cinco contexts, contratos versionados y sin DB compartida en CASO-PER-052-2A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «bounded contexts, APIs y eventos».",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "code": "REQUIRED = {'apis_versioned', 'case_id', 'contexts', 'contract_tests', 'events_versioned', 'shared_database'}\nREJECT = 'STOP_INTEGRATION_RELEASE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('contract_tests', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S52-T2-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «bounded contexts, APIs y eventos». La regla el contrato del subtema solo aprueba CASO-PER-052-2A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "code": "REQUIRED = {'apis_versioned', 'case_id', 'contexts', 'contract_tests', 'events_versioned', 'shared_database'}\nBREACH = 'STOP_INTEGRATION_RELEASE'\nUNCERTAIN = 'MAP_BOUNDED_CONTEXTS'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"shared_database\"] or not record[\"apis_versioned\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\nbad = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\ngap = {k: good[k] for k in good if k != 'contract_tests'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S52-T2-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-PER-052-2A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «bounded contexts, APIs y eventos».",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}}\nrecord = payload\nmeets_contract = bool(not (record[\"infers_fraud\"] or not record[\"human_decides\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\")\nprint(\"S52-T2-B\", status)\n",
+      "justification_from_packet": "En S52-T2-B-E1 contrasté el fixture válido contra el adverso del mismo subtema «datos, modelos, RPA, RAG y human workflow». La regla ER/triage/RPA/RAG apoyan y persona decide solo aprueba CASO-PER-052-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "code": "REQUIRED = {'case_id', 'er_proposes_match', 'human_decides', 'infers_fraud', 'rag_cites', 'rpa_prepares_draft', 'triage_prioritizes'}\nREJECT = 'BLOCK_AUTOMATED_RISK_DECISION'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('infers_fraud', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S52-T2-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «datos, modelos, RPA, RAG y human workflow». La regla el contrato del subtema solo aprueba CASO-PER-052-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "code": "REQUIRED = {'case_id', 'er_proposes_match', 'human_decides', 'infers_fraud', 'rag_cites', 'rpa_prepares_draft', 'triage_prioritizes'}\nBREACH = 'BLOCK_AUTOMATED_RISK_DECISION'\nUNCERTAIN = 'REQUEST_HUMAN_REVIEW'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"infers_fraud\"] or not record[\"human_decides\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}}\nbad = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}}\ngap = {k: good[k] for k in good if k != 'infers_fraud'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S52-T2-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-PER-052-2B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\nrecord = payload\nmeets_contract = bool(not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\")\nprint(\"S52-T3-A\", status)\n",
+      "justification_from_packet": "Auditoría de S52-T3-A-E1: el starter fallaba a propósito. Apliqué seis capas de verificación y cero P0/P1 con trazas del caso CASO-PER-052-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "code": "REQUIRED = {'case_id', 'contract', 'evals', 'integration', 'open_p0', 'open_p1', 'performance', 'red_team', 'unit'}\nREJECT = 'BLOCK_FINAL_ON_P0_P1'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('open_p1', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S52-T3-A-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-PER-052-3A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «tests/evals/red team y performance».",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "code": "REQUIRED = {'case_id', 'contract', 'evals', 'integration', 'open_p0', 'open_p1', 'performance', 'red_team', 'unit'}\nBREACH = 'BLOCK_FINAL_ON_P0_P1'\nUNCERTAIN = 'FIX_AND_RERUN_REGRESSION'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\nbad = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\ngap = {k: good[k] for k in good if k != 'open_p1'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S52-T3-A-E3 contrasté el fixture válido contra el adverso del mismo subtema «tests/evals/red team y performance». La regla el contrato del subtema solo aprueba CASO-PER-052-3A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-3B', **{'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"]))\nstatus = (\"PASS\" if meets_contract else \"NO_GO_RESILIENCE\")\nprint(\"S52-T3-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S52-T3-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar SLO/RPO/RTO y disaster drill aprobados en CASO-PER-052-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «SLO, backup, rollback y disaster exercise».",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "code": "REQUIRED = {'availability', 'backup_age_h', 'case_id', 'disaster_exercise', 'rollback_min', 'rpo_h', 'rto_min', 'slo'}\nREJECT = 'NO_GO_RESILIENCE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-3B', **{'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-3B', **{'availability': -0.0010000000000000009, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('disaster_exercise', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S52-T3-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-PER-052-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «SLO, backup, rollback y disaster exercise».",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "code": "REQUIRED = {'availability', 'backup_age_h', 'case_id', 'disaster_exercise', 'rollback_min', 'rpo_h', 'rto_min', 'slo'}\nBREACH = 'NO_GO_RESILIENCE'\nUNCERTAIN = 'RUN_DISASTER_EXERCISE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-3B', **{'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\nbad = {\"case_id\": 'CASO-PER-052-3B', **{'availability': -0.0010000000000000009, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\ngap = {k: good[k] for k in good if k != 'disaster_exercise'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S52-T3-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-PER-052-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «SLO, backup, rollback y disaster exercise».",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]))\nstatus = (\"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\")\nprint(\"S52-T4-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S52-T4-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar mejora vs baseline sintético y narrativa atribuible en CASO-PER-052-4A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «demo y narrativa CV».",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "code": "REQUIRED = {'baseline_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'demo_minutes', 'personal_contribution', 'result_ttr_min'}\nREJECT = 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 0, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('personal_contribution', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S52-T4-A-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-PER-052-4A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "code": "REQUIRED = {'baseline_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'demo_minutes', 'personal_contribution', 'result_ttr_min'}\nBREACH = 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\nUNCERTAIN = 'RECORD_PERSONAL_CONTRIBUTION'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\nbad = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 0, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\ngap = {k: good[k] for k in good if k != 'personal_contribution'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S52-T4-A-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-PER-052-4A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\nrecord = payload\nmeets_contract = bool(not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\")\nprint(\"S52-T4-B\", status)\n",
+      "justification_from_packet": "Auditoría de S52-T4-B-E1: el starter fallaba a propósito. Apliqué ocho artefactos, ejecución, trade-offs y rúbrica independiente con trazas del caso CASO-PER-052-4B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "code": "REQUIRED = {'artifacts', 'case_id', 'cpn4c_independent', 'reproducible_command', 'tradeoffs_defended'}\nREJECT = 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\nadverse_fx = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': set(), 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('cpn4c_independent', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S52-T4-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «arquitectura, READMEs, cards, licencia, video y defensa». La regla el contrato del subtema solo aprueba CASO-PER-052-4B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "code": "REQUIRED = {'artifacts', 'case_id', 'cpn4c_independent', 'reproducible_command', 'tradeoffs_defended'}\nBREACH = 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\nUNCERTAIN = 'SCHEDULE_TECHNICAL_DEFENSE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\nbad = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': set(), 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\ngap = {k: good[k] for k in good if k != 'cpn4c_independent'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S52-T4-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-PER-052-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «arquitectura, READMEs, cards, licencia, video y defensa».",
+      "status": "answered",
+      "confidence": 0.74
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q0/S52. La opción «matriz stakeholder/job/métrica con evidencia» es la única que preserva auditoría según el texto del paquete: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. .",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S52 Q1: «emitir NO_GO_RELEASE y conservar evidencia» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. .",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q2/S52. La opción «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C» es la única que preserva auditoría según el texto del paquete: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. .",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q3/S52. La opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que preserva auditoría según el texto del paquete: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. .",
+      "status": "answered",
+      "confidence": 0.81
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:05:43.803168+00:00",
+  "session_started_at": "2026-07-23T18:04:35.423692+00:00",
+  "session_ended_at": "2026-07-23T18:05:43.800626+00:00",
+  "receipt_response_sha256": "7233994fec91e372766e7676d90e9933935db85b4c4747704ce086d009c97a27",
+  "receipt_exercises_sha256": "e645aedefba5edd713456d4552b674001ff00cb530e6bde6364ebdb255e37864",
+  "receipt_selfcheck_sha256": "e2b239912e81400afee9503898c4deee27e24ae550325b1e7b16130aef53e3d8"
+}

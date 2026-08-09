@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "Relaciones predecibles entre entradas transformadas y salidas"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "Riesgo de ocultar regresiones"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Acoplar el test a detalles internos y ocultar bugs"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Con determinismo (seed/reloj/sort) y fallo de job si persisten"
+  }
+]

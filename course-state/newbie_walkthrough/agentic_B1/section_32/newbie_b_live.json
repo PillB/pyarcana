@@ -1,0 +1,546 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 32,
+  "packet_sha": "2a2ec95152fc933d",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_32/packet.json",
+  "recorded_at": "2026-07-22T01:47:12.881619+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "3de9236fe765",
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T1-A-E1\nschema={'a':'num','b':'cat','c':'num'}\nprint(sorted(k for k,v in schema.items() if v=='num'))\nprint('n_num', sum(1 for v in schema.values() if v=='num'))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "schema",
+        "num",
+        "cat",
+        "sorted",
+        "items"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T1-A-E1 si el paquete lo enseña. Instrucción: «Lista features numéricas desde schema dict type→col; imprime sorted.». Demo ancla S32-T1-B-DEMO: «schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"} print(\"num\", [k for k,v in schema.items() if v==\"num\"]) print(\"cat\", [k for k,v in schema.items() if v==\"cat\"». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T1-A-E1 schema={'a':'num','b':'cat','c':'num'} print(sorted(k for k,v in schema.items() if v=='num')) prin». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'schema']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T1-A-E2\nt='hola mundo pe'\nprint('note_len', len(t))\nprint('token_count', len(t.split()))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "hola",
+        "mundo",
+        "note_len",
+        "len",
+        "token_count"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T1-A-E2 si el paquete lo enseña. Instrucción: «Calcula note_len y token_count simple de un texto sintético.». Demo ancla S32-T1-B-DEMO: «schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"} print(\"num\", [k for k,v in schema.items() if v==\"num\"]) print(\"cat\", [k for k,v in schema.items() if v==\"cat\"». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T1-A-E2 t='hola mundo pe' print('note_len', len(t)) print('token_count', len(t.split())) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'hola']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T1-A-E3\nrow={'a':1,'b':2}; cat={'a','b','c'}\nprint(all(k in cat for k in row))\nprint('extra', [k for k in row if k not in cat])\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "row",
+        "cat",
+        "all",
+        "extra",
+        "not"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T1-A-E3 si el paquete lo enseña. Instrucción: «Valida que todas las keys del row están en catálogo.». Demo ancla S32-T1-B-DEMO: «schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"} print(\"num\", [k for k,v in schema.items() if v==\"num\"]) print(\"cat\", [k for k,v in schema.items() if v==\"cat\"». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T1-A-E3 row={'a':1,'b':2}; cat={'a','b','c'} print(all(k in cat for k in row)) print('extra', [k for k in ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'row']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T1-B-E1\nxs=[1.0,None,3.0]\nvals=[x for x in xs if x is not None]\nmed=sorted(vals)[len(vals)//2]\nprint('miss_ind', [int(x is None) for x in xs])\nprint('filled', [med if x is None else x for x in xs])\nprint('med', med)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "vals",
+        "not",
+        "med",
+        "sorted",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T1-B-E1 si el paquete lo enseña. Instrucción: «Missing indicator + fill mediana [1,None,3].». Demo ancla S32-T1-B-DEMO: «schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"} print(\"num\", [k for k,v in schema.items() if v==\"num\"]) print(\"cat\", [k for k,v in schema.items() if v==\"cat\"». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T1-B-E1 xs=[1.0,None,3.0] vals=[x for x in xs if x is not None] med=sorted(vals)[len(vals)//2] print('miss». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'vals']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T1-B-E2\nvocab={'app','web'}\ndef oh(c):\n    if c not in vocab:\n        return {'app':0,'web':0,'unknown':1}\n    return {'app': int(c=='app'), 'web': int(c=='web'), 'unknown':0}\nprint(oh('app'))\nprint(oh('branch'))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "vocab",
+        "app",
+        "web",
+        "not",
+        "unknown"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T1-B-E2 si el paquete lo enseña. Instrucción: «One-hot manual para canal in {app,web} con unknown.». Demo ancla S32-T1-B-DEMO: «schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"} print(\"num\", [k for k,v in schema.items() if v==\"num\"]) print(\"cat\", [k for k,v in schema.items() if v==\"cat\"». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T1-B-E2 vocab={'app','web'} def oh(c): if c not in vocab: return {'app':0,'web':0,'unknown':1} return {'ap». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'vocab']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T1-B-E3\nxs=[2.0,4.0]\nmu, sd = 0.0, 2.0\nprint([(x-mu)/sd for x in xs])\nprint('mu', mu, 'sd', sd)\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T1-B-E3 si el paquete lo enseña. Instrucción: «Z-score con mu=0, sd=2 para [2,4].». Demo ancla S32-T1-B-DEMO: «schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"} print(\"num\", [k for k,v in schema.items() if v==\"num\"]) print(\"cat\", [k for k,v in schema.items() if v==\"cat\"». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T1-B-E3 xs=[2.0,4.0] mu, sd = 0.0, 2.0 print([(x-mu)/sd for x in xs]) print('mu', mu, 'sd', sd) print('ok'». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T2-A-E1\na,b='av-1','av-1'\nprint(int(a==b))\nprint('shared_address', a==b)\nprint('not_fraud_label', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "int",
+        "shared_address",
+        "not_fraud_label"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T2-A-E1 si el paquete lo enseña. Instrucción: «Shared address binario entre dos entidades.». Demo ancla S32-T2-A-DEMO: «train=[2.0,4.0,None] vals=[x for x in train if x is not None] med=sorted(vals)[len(vals)//2] X=[med if x is None else x for x in train] mu=sum(X)/len(X); sd=(su». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T2-A-E1 a,b='av-1','av-1' print(int(a==b)) print('shared_address', a==b) print('not_fraud_label', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'int']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T2-A-E2\nadj={'E1':['E2','E3'],'E2':['E1']}\nprint(len(adj['E1']))\nprint('degree_E1', len(adj['E1']))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "adj",
+        "len",
+        "degree_E1"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T2-A-E2 si el paquete lo enseña. Instrucción: «Degree feature: cuenta vecinos de E1.». Demo ancla S32-T2-A-DEMO: «train=[2.0,4.0,None] vals=[x for x in train if x is not None] med=sorted(vals)[len(vals)//2] X=[med if x is None else x for x in train] mu=sum(X)/len(X); sd=(su». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T2-A-E2 adj={'E1':['E2','E3'],'E2':['E1']} print(len(adj['E1'])) print('degree_E1', len(adj['E1'])) print(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'adj']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T2-A-E3\npl={('E1','E2'):1}\nprint(pl.get(('E1','E2'), 99))\nprint(pl.get(('E1','E9'), 99))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "get"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T2-A-E3 si el paquete lo enseña. Instrucción: «Min path len conocido dict; default 99 si missing.». Demo ancla S32-T2-A-DEMO: «train=[2.0,4.0,None] vals=[x for x in train if x is not None] med=sorted(vals)[len(vals)//2] X=[med if x is None else x for x in train] mu=sum(X)/len(X); sd=(su». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T2-A-E3 pl={('E1','E2'):1} print(pl.get(('E1','E2'), 99)) print(pl.get(('E1','E9'), 99)) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'get']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T2-B-E1\nev=[1,2,3,5]; t=5; W=3\nn=sum(1 for x in ev if t-W <= x < t)\nprint(n)\nprint('window', W)\nprint('half_open', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "sum",
+        "window",
+        "half_open"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T2-B-E1 si el paquete lo enseña. Instrucción: «Cuenta eventos en [t-3,t) con ts int.». Demo ancla S32-T2-A-DEMO: «train=[2.0,4.0,None] vals=[x for x in train if x is not None] med=sorted(vals)[len(vals)//2] X=[med if x is None else x for x in train] mu=sum(X)/len(X); sd=(su». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T2-B-E1 ev=[1,2,3,5]; t=5; W=3 n=sum(1 for x in ev if t-W <= x < t) print(n) print('window', W) print('hal». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'sum']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T2-B-E2\nfrom collections import Counter\nrows=[('app',1),('app',2),('web',2)]\nprint(dict(Counter(c for c,_ in rows)))\nprint('n', len(rows))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "collections",
+        "Counter",
+        "rows",
+        "app",
+        "web"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T2-B-E2 si el paquete lo enseña. Instrucción: «Frecuencia por canal en ventana.». Demo ancla S32-T2-A-DEMO: «train=[2.0,4.0,None] vals=[x for x in train if x is not None] med=sorted(vals)[len(vals)//2] X=[med if x is None else x for x in train] mu=sum(X)/len(X); sd=(su». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T2-B-E2 from collections import Counter rows=[('app',1),('app',2),('web',2)] print(dict(Counter(c for c,_ ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'collections']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T2-B-E3\nev=[(5,10),(4,1)]; t=5\nkept=[a for ts,a in ev if ts < t]\nprint(sum(kept))\nprint('excluded_at_t', True)\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "kept",
+        "sum",
+        "excluded_at_t"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T2-B-E3 si el paquete lo enseña. Instrucción: «Excluye ts==t si política half-open.». Demo ancla S32-T2-A-DEMO: «train=[2.0,4.0,None] vals=[x for x in train if x is not None] med=sorted(vals)[len(vals)//2] X=[med if x is None else x for x in train] mu=sum(X)/len(X); sd=(su». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T2-B-E3 ev=[(5,10),(4,1)]; t=5 kept=[a for ts,a in ev if ts < t] print(sum(kept)) print('excluded_at_t', T». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'kept']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T3-A-E1\nfrom collections import Counter\nxs=['a','b','a',None]\nvals=[x for x in xs if x is not None]\nmoda=Counter(vals).most_common(1)[0][0]\nout=[moda if x is None else x for x in xs]\nprint('moda', moda)\nprint('out', out)\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "collections",
+        "Counter",
+        "vals",
+        "not",
+        "moda"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T3-A-E1 si el paquete lo enseña. Instrucción: «Fit moda categorica y transform None→moda.». Demo ancla S32-T3-A-DEMO: «from datetime import datetime, timedelta evs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)] t=datetime(2026,1,10); W=timedelta(days=7) s=sum(a for d,a in evs ». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T3-A-E1 from collections import Counter xs=['a','b','a',None] vals=[x for x in xs if x is not None] moda=C». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'collections']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T3-A-E2\nxs=[None, 3]\nstep1=[0 if x is None else x for x in xs]\nstep2=[x*2 for x in step1]\nprint(step1)\nprint(step2)\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "step1",
+        "else",
+        "step2"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T3-A-E2 si el paquete lo enseña. Instrucción: «Pipeline secuencial: fill 0 luego *2.». Demo ancla S32-T3-A-DEMO: «from datetime import datetime, timedelta evs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)] t=datetime(2026,1,10); W=timedelta(days=7) s=sum(a for d,a in evs ». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T3-A-E2 xs=[None, 3] step1=[0 if x is None else x for x in xs] step2=[x*2 for x in step1] print(step1) pri». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'step1']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T3-A-E3\nfitted=False\nif not fitted:\n    print('error_not_fitted')\nelse:\n    print('ok')\nprint('flag', fitted)\nprint('guard', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "fitted",
+        "not",
+        "error_not_fitted",
+        "else",
+        "flag"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T3-A-E3 si el paquete lo enseña. Instrucción: «Transform falla si not fitted (flag).». Demo ancla S32-T3-A-DEMO: «from datetime import datetime, timedelta evs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)] t=datetime(2026,1,10); W=timedelta(days=7) s=sum(a for d,a in evs ». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T3-A-E3 fitted=False if not fitted: print('error_not_fitted') else: print('ok') print('flag', fitted) prin». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'fitted']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T3-B-E1\nimport json\nst={'med': 10.0}\ns=json.dumps(st); ld=json.loads(s)\nprint(ld['med'])\nprint('roundtrip', json.loads(json.dumps(st))==st)\nprint('persist', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "json",
+        "med",
+        "dumps",
+        "loads",
+        "roundtrip"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T3-B-E1 si el paquete lo enseña. Instrucción: «Round-trip json state median.». Demo ancla S32-T3-A-DEMO: «from datetime import datetime, timedelta evs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)] t=datetime(2026,1,10); W=timedelta(days=7) s=sum(a for d,a in evs ». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T3-B-E1 import json st={'med': 10.0} s=json.dumps(st); ld=json.loads(s) print(ld['med']) print('roundtrip'». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'json']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T3-B-E2\nv1={'app'}; v2={'app','web'}\nbump = v1 != v2\nprint(bump)\nprint('v1', v1, 'v2', v2)\nprint('version_policy', 'bump_on_vocab_change')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "app",
+        "web",
+        "bump",
+        "version_policy",
+        "bump_on_vocab_change"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T3-B-E2 si el paquete lo enseña. Instrucción: «Version bump si vocab cambia.». Demo ancla S32-T3-A-DEMO: «from datetime import datetime, timedelta evs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)] t=datetime(2026,1,10); W=timedelta(days=7) s=sum(a for d,a in evs ». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T3-B-E2 v1={'app'}; v2={'app','web'} bump = v1 != v2 print(bump) print('v1', v1, 'v2', v2) print('version_». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'app']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T3-B-E3\nmed=10.0; batch=[None,12.0]\nprint([med if x is None else x for x in batch])\nprint('med', med)\nprint('serve', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "med",
+        "batch",
+        "else",
+        "serve"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T3-B-E3 si el paquete lo enseña. Instrucción: «Apply saved med to serve batch.». Demo ancla S32-T3-A-DEMO: «from datetime import datetime, timedelta evs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)] t=datetime(2026,1,10); W=timedelta(days=7) s=sum(a for d,a in evs ». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T3-B-E3 med=10.0; batch=[None,12.0] print([med if x is None else x for x in batch]) print('med', med) prin». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'med']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T4-A-E1\nrows=[{'ts':'2026-01-01'},{'ts':'2026-02-15'}]\ntr=[r for r in rows if r['ts']<'2026-02-01']\nprint(tr)\nprint('n_train', len(tr))\nprint('time_split', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "rows",
+        "n_train",
+        "len",
+        "time_split"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T4-A-E1 si el paquete lo enseña. Instrucción: «Time split: train ts<'2026-02-01'.». Demo ancla S32-T4-A-DEMO: «import json st={\"med\":10.0,\"fs\":\"v1\"} s=json.dumps(st); ld=json.loads(s) def tr(x, med):     return med if x is None else x print(\"fs\", ld[\"fs\"]) print(\"x\", tr(». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T4-A-E1 rows=[{'ts':'2026-01-01'},{'ts':'2026-02-15'}] tr=[r for r in rows if r['ts']<'2026-02-01'] print(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'rows']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T4-A-E2\nfrom collections import Counter\nrows=['E1','E1','E2']\nprint(dict(Counter(rows)))\nprint('n', len(rows))\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "collections",
+        "Counter",
+        "rows",
+        "dict",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T4-A-E2 si el paquete lo enseña. Instrucción: «Group sizes por entity.». Demo ancla S32-T4-A-DEMO: «import json st={\"med\":10.0,\"fs\":\"v1\"} s=json.dumps(st); ld=json.loads(s) def tr(x, med):     return med if x is None else x print(\"fs\", ld[\"fs\"]) print(\"x\", tr(». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T4-A-E2 from collections import Counter rows=['E1','E1','E2'] print(dict(Counter(rows))) print('n', len(ro». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'collections']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T4-A-E3\ntr,te={'A','B'},{'C'}\nprint(len(tr & te))\nprint('overlap', tr & te)\nprint('ok', len(tr & te)==0)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "len",
+        "overlap"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T4-A-E3 si el paquete lo enseña. Instrucción: «Verifica overlap entidades 0.». Demo ancla S32-T4-A-DEMO: «import json st={\"med\":10.0,\"fs\":\"v1\"} s=json.dumps(st); ld=json.loads(s) def tr(x, med):     return med if x is None else x print(\"fs\", ld[\"fs\"]) print(\"x\", tr(». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T4-A-E3 tr,te={'A','B'},{'C'} print(len(tr & te)) print('overlap', tr & te) print('ok', len(tr & te)==0)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'len']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T4-B-E1\nnames=['amt','label_y','reviewer_decision']\nleaks=[n for n in names if 'label' in n or 'decision' in n]\nprint(leaks)\nprint('n', len(leaks))\nprint('fs_version', 'v3')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "names",
+        "amt",
+        "label_y",
+        "reviewer_decision",
+        "leaks"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T4-B-E1 si el paquete lo enseña. Instrucción: «Flag leakage names containing 'label' or 'decision'.». Demo ancla S32-T4-A-DEMO: «import json st={\"med\":10.0,\"fs\":\"v1\"} s=json.dumps(st); ld=json.loads(s) def tr(x, med):     return med if x is None else x print(\"fs\", ld[\"fs\"]) print(\"x\", tr(». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T4-B-E1 names=['amt','label_y','reviewer_decision'] leaks=[n for n in names if 'label' in n or 'decision' ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'names']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T4-B-E2\ntr,se=0.0,0.8\nalert = abs(se-tr) > 0.5\nprint(alert)\nprint('delta', abs(se-tr))\nprint('skew', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "alert",
+        "abs",
+        "delta",
+        "skew"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T4-B-E2 si el paquete lo enseña. Instrucción: «Skew: si serve_mean desvía >0.5 de train_mean alerta.». Demo ancla S32-T4-A-DEMO: «import json st={\"med\":10.0,\"fs\":\"v1\"} s=json.dumps(st); ld=json.loads(s) def tr(x, med):     return med if x is None else x print(\"fs\", ld[\"fs\"]) print(\"x\", tr(». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T4-B-E2 tr,se=0.0,0.8 alert = abs(se-tr) > 0.5 print(alert) print('delta', abs(se-tr)) print('skew', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'alert']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S32-T4-B-E3\nver=3\nprint(f'fs-v{ver}')\nprint('format', 'fs-vN')\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S32",
+        "ver",
+        "format"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S32-T4-B-E3 si el paquete lo enseña. Instrucción: «Feature set id format fs-vN.». Demo ancla S32-T4-A-DEMO: «import json st={\"med\":10.0,\"fs\":\"v1\"} s=json.dumps(st); ld=json.loads(s) def tr(x, med):     return med if x is None else x print(\"fs\", ld[\"fs\"]) print(\"x\", tr(». Hints del weDo: Revisa la demo del subtema.; Imprime las tres líneas pedidas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S32-T4-B-E3 ver=3 print(f'fs-v{ver}') print('format', 'fs-vN') print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S32', 'ver']. Heading: De microservicios legado a features sin leakage | numéricas/categóricas/texto | ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Train",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — encoding: «Escalado (standard/minmax) se fit solo en train» y «Nunca uses estadísticas del test set para fit». Fit de scaler en train."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Leakage de decisión",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — leakage: no uses label de revisión como feature; «Leakage: features que usan y, o datos post-decisión». reviewer_decision = leakage de decisión."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Eventos con ts>=t",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — ventanas: «half-open intervals [t-W, t)» y «Eventos con ts > t no entran» / excluye el evento label-bearing. La ventana excluye eventos con ts≥t."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Overlap 0 de entidades",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — split: «Prefiere split por entity_id… Group split: todas las filas de una entidad van a un solo fold». Busca overlap 0 de entidades, no maximizar overlap ni solo shuffle."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

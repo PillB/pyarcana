@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 31,
+  "packet_sha": "a9458715256e6ce4",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s31-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T1-A-E1\nnodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"n_nodes\", len(nodes))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "dst",
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T1-A-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True. Fixture sintético `CASO-LIM-031…». Hints: Usa literales de dict/list.; Cuenta con sum(1 for e in edges if e['directed']).. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T1-A-E2\nedges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "value",
+        "dst",
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "saliente"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T1-A-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor. Fixture sintético `CASO-LIM-031` (run_…». Hints: Acumula en un dict.; Usa max(out, key=out.get).. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T1-A-E3\nedges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "clasifica",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T1-A-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entra…». Hints: sets para etypes.; sorted(set(...)).. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T1-B-E1\nfrom collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "dst",
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T1-B-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter…». Hints: tuple (src,dst) como clave.; Counter o dict.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import Counter`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T1-B-E2\nedges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "todas",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T1-B-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter comp…». Hints: Compara strings ISO fecha ordenables.; all('record_id' in e for e in filtered).. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'}…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T1-B-E3\nedges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "provenance",
+        "cpn3b",
+        "print",
+        "defecto",
+        "source",
+        "run_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T1-B-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el s…». Hints: strip de strings.; n_bad = sum(...).. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T2-A-E1\naccounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "genera",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "ordenada",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T2-A-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo;…». Hints: list comprehension.; sorted por owner luego id.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T2-A-E2\nfrom collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "set",
+        "detecta",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "shared"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T2-A-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starte…». Hints: groupby por value.; filtra len(entities)>=2.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import defaultdict`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T2-A-E3\nentities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "set",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "select"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T2-A-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa s…». Hints: sets.; union de tres conjuntos.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `entities=['e1','e2']; accounts=['a1']; contacts=['900','901']`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T2-B-E1\ncanon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "únicas",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T2-B-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el start…». Hints: map.get(x,x).; set de tuples.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `canon = {'r1':'E1','r2':'E1','r3':'E2'}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T2-B-E2\nfrom collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "dst",
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "records",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T2-B-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; …». Hints: defaultdict.; append record_id.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import defaultdict`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T2-B-E3\ndetail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T2-B-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implem…». Hints: sum v['n'].; assert conceptual con print.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `detail_n=5`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T3-A-E1\nfrom collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "deg",
+        "grados",
+        "print",
+        "defecto",
+        "run_id",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T3-A-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; impl…». Hints: undirected: cuenta ambos extremos.; dict sorted items via sorted keys.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import defaultdict`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T3-A-E2\nfrom collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "set",
+        "cpn3b",
+        "print",
+        "defecto",
+        "while",
+        "run_id",
+        "ordenada"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T3-A-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el…». Hints: DFS o BFS.; sort componentes.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import defaultdict`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T3-A-E3\nfrom collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "set",
+        "cpn3b",
+        "print",
+        "defecto",
+        "while",
+        "run_id",
+        "hops"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T3-A-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/…». Hints: deque BFS.; hops = len(path)-1.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import defaultdict, deque`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T3-B-E1\ndeg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decimales",
+        "cpn3b",
+        "deg",
+        "print",
+        "defecto",
+        "run_id",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T3-B-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el s…». Hints: score = deg/max_deg.; round(score, 2).. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `deg={'H':3,'A':1,'B':1,'C':1}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T3-B-E2\nhub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "person",
+        "startswith",
+        "clasifica",
+        "centrality_not_guilt"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T3-B-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada…». Hints: startswith.; disclaimer fijo.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `hub='INF-PAY'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T3-B-E3\nincident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "only_transfer",
+        "print",
+        "shared_phone",
+        "nodos",
+        "grafo",
+        "s31",
+        "true",
+        "list"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T3-B-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T3-B-E3 · Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_transfer False si hay otros tipos en el grafo del hub.». Hints: revisa edge types incidentes.; set de etypes.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `incident={'H':['transfer','transfer','shared_phone']}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T4-A-E1\nfrom collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "set",
+        "cpn3b",
+        "seed",
+        "print",
+        "defecto",
+        "run_id",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T4-A-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrad…». Hints: expansión por capas.; sets.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from collections import defaultdict`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T4-A-E2\nedges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "dst",
+        "provenance",
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T4-A-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; imp…». Hints: any self loop.; all weights.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T4-A-E3\nraw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "set",
+        "cpn3b",
+        "raw",
+        "print",
+        "defecto",
+        "run_id",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T4-A-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada…». Hints: función build → frozenset.; compara.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `raw=[('a','b'),('b','c')]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T4-B-E1\nemail='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "primeras",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T4-B-E1 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter c…». Hints: partition @.; local[:2].. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `email='ana@example.pe'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T4-B-E2\npath=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cpn3b",
+        "print",
+        "defecto",
+        "run_id",
+        "records",
+        "consecutivo",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T4-B-E2 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la en…». Hints: zip path path[1:].; get evidence.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `path=['E1','E2','E3']`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S31-T4-B-E3\nmax_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\nprint(\"n_nodes\", len(nodes))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "decisión",
+        "entrada",
+        "summarize",
+        "cpn3b",
+        "print",
+        "defecto",
+        "escala",
+        "run_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S31-T4-B-E3 solo con el paquete activo S31 (Grafos y evidencia relacional). Instruction: «S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe)…». Hints: comparar.; dos prints.. Teoría/iDo: «nodos, aristas, dirección y peso Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opci…». Demos: S31-T1-A-DEMO | S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `max_n=500`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Posición estructural que requiere contexto, no culpa",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «Posición estructural que requiere contexto, no culpa» para la pregunta «En CP-N3-B, un score alto de centralidad significa:» porque el paquete activo S31 (Grafos y evidencia relacional) enseña: «**Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relacional se us…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Auditar source/record_id del hecho relacional",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «Auditar source/record_id del hecho relacional» para la pregunta «Provenance en una arista sirve para:» porque el paquete activo S31 (Grafos y evidencia relacional) enseña: «Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuenci…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Conservar detalle o punteros además del agregado",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «Conservar detalle o punteros además del agregado» para la pregunta «Al agregar transferencias entre el mismo par debes:» porque el paquete activo S31 (Grafos y evidencia relacional) enseña: «Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura relaciona…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «Un hecho de contacto compartido a investigar con evidencia, no veredicto» para la pregunta «Shared phone entre dos entidades implica:» porque el paquete activo S31 (Grafos y evidencia relacional) enseña: «Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuenci…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.492118+00:00"
+}

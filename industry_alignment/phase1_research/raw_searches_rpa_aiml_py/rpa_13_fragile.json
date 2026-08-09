@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.uipath.com",
+    "name": "The UiPath Platform™ for Business Orchestration and",
+    "snippet": "Transform enterprise operations with the UiPath Platform™ for business orchestration and automation, enabling AI agents, robots, and people to deliver ...",
+    "host_name": "www.uipath.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://finance.yahoo.com/quote/PATH",
+    "name": "UiPath, Inc. (PATH) Stock Price, News, Quote & History",
+    "snippet": "UiPath (PATH) its stock is down 37.8% year-to-date. provides an automation platform that offers a range of robotic process automation",
+    "host_name": "finance.yahoo.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/UiPath",
+    "name": "r/UiPath",
+    "snippet": "UiPath is a leader in the Intelligent Automation Industry . UiPath is officially inside VS Code! build, debug, and ship your workflows",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/company/uipath",
+    "name": "UiPath",
+    "snippet": "UiPath develops AI technology that mirrors human intelligence with ever-increasing sophistication, transforming how businesses operate, innovate, and compete. Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://x.com/UiPath?lang=en",
+    "name": "UiPath (@UiPath) / Posts / X",
+    "snippet": "Dedicated to shaping a world in which AI enhances human potential & transforms how businesses operate, via #agentic automation.",
+    "host_name": "x.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://thesunflowerlab.com/why-your-uipath-bot-broke-after-a-ui-update-and-how-to-build-resilient-rpa-that-doesnt",
+    "name": "Why Your UiPath Bot Broke After a UI Update? - Sunflower Lab",
+    "snippet": "~60% of RPA failures trace back to UI changes , selector breaks , or unhandled exceptions … may suddenly look completely unrecognizable.",
+    "host_name": "thesunflowerlab.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.uipath.com/t/bot-performance/5671189",
+    "name": "Bot Performance - RPA Discussions",
+    "snippet": "Oct 30, 2025 — Use stable selectors and anchors so small UI changes don't break your bot . Avoid attributes like indexes or long, changing selectors.",
+    "host_name": "forum.uipath.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=vWcVqajq1S0",
+    "name": "UiPath Auto-Healing: Let Your Bots Fix Themselves!",
+    "snippet": "Tired of bots failing due to app crashes or unexpected changes ? Meet UiPath Auto-Healing—your automation's self- repair feature!",
+    "host_name": "www.youtube.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

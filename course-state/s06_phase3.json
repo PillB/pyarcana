@@ -1,0 +1,1061 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S06 blueprint: 4×2 subtopics, 24 exercises, 8 demos, 24 A/B/C, project increment.",
+    "scope_in": [
+      "S06",
+      "blueprint IDs",
+      "count validation",
+      "capstone increment",
+      "platform gap notes"
+    ],
+    "scope_out": [
+      "full theory/exercise bodies",
+      "full A/B/C stems",
+      "editing section .ts",
+      "marking passed",
+      "editing checkpoint/ledger/seed/s01-s03"
+    ],
+    "stop_criterion": "counts match canonical vector slice; gate authorizes PHASE 4 only"
+  },
+  "section_meta": {
+    "id": "numpy",
+    "index": 6,
+    "title_platform": "NumPy: Vectorized Computing",
+    "title_v3": "Colecciones y estructuras de datos",
+    "title_decision": "KEEP platform id 'numpy'. Production content rethemes to V3 'Colecciones y estructuras de datos'.",
+    "tagline_target": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+    "estimatedHours": 6,
+    "level": "Intermedio",
+    "prerequisites": [
+      "S5"
+    ],
+    "environment": "browser/local",
+    "project_capstone": "CP-N1-B",
+    "gate": null
+  },
+  "learning_outcomes_section": [
+    "El estudiante usa list/tuple y slicing para ventanas de registros sin copiar de más.",
+    "El estudiante desempaqueta secuencias y distingue alias vs copia superficial/profunda al nivel necesario.",
+    "El estudiante modela registros con dict, accede con get, y usa keys de forma idiomática.",
+    "El estudiante deduplica claves con set y usa unión/intersección para comparar cohortes sin borrar conflictos.",
+    "El estudiante navega list[dict] y dict anidados representando cliente→contactos→transacciones.",
+    "El estudiante accede campos opcionales sin KeyError y modela missing vs vacío explícito.",
+    "El estudiante ordena registros con sorted(..., key=) de forma estable y explicable.",
+    "El estudiante elige list/dict/set según operación dominante y produce salidas deterministas (ordenar ids)."
+  ],
+  "topics": [
+    {
+      "topic_id": "S06-T1",
+      "title": "Secuencias",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S06-T1-A",
+          "slug": "list-tuple-slicing",
+          "title": "Listas, tuplas y slicing",
+          "outcome": "El estudiante usa list/tuple y slicing para ventanas de registros sin copiar de más.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Listas, tuplas y slicing",
+              "must_cover": [
+                "list mutable",
+                "tuple inmutable",
+                "slicing [i:j:k]",
+                "concat/extend",
+                "in membership"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T1-A-DEMO",
+              "title": "Ventana de transacciones con slicing y tupla de keys estables",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T1-A-E1",
+                "kind": "guided",
+                "title": "Slice de últimos N",
+                "skill": "Listas, tuplas y slicing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T1-A-E2",
+                "kind": "independent",
+                "title": "Convertir list↔tuple con motivo",
+                "skill": "Listas, tuplas y slicing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T1-A-E3",
+                "kind": "transfer",
+                "title": "Corregir mutación accidental de tupla intentada",
+                "skill": "Listas, tuplas y slicing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S06-T1-B",
+          "slug": "unpacking-aliasing-copy",
+          "title": "Unpacking, aliasing y copia",
+          "outcome": "El estudiante desempaqueta secuencias y distingue alias vs copia superficial/profunda al nivel necesario.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Unpacking, aliasing y copia",
+              "must_cover": [
+                "a,b = ",
+                "*rest",
+                "alias L2=L1",
+                "list.copy / [:]",
+                "copy.deepcopy intro",
+                "cuando shallow basta"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T1-B-DEMO",
+              "title": "Bug de alias al 'copiar' lista de dicts de clientes",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T1-B-E1",
+                "kind": "guided",
+                "title": "Unpacking de fila",
+                "skill": "Unpacking, aliasing y copia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T1-B-E2",
+                "kind": "independent",
+                "title": "Demostrar alias vs copy",
+                "skill": "Unpacking, aliasing y copia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T1-B-E3",
+                "kind": "transfer",
+                "title": "Elegir shallow vs deep en caso anidado",
+                "skill": "Unpacking, aliasing y copia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S06-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S06-T1-EVAL-1",
+            "title": "Modelar lista de clientes con slicing de página",
+            "authentic": true
+          },
+          {
+            "id": "S06-T1-EVAL-2",
+            "title": "Explicar y corregir bug de aliasing",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S06-T2",
+      "title": "Mapeos y conjuntos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S06-T2-A",
+          "slug": "dicts-membership",
+          "title": "Diccionarios y pertenencia",
+          "outcome": "El estudiante modela registros con dict, accede con get, y usa keys de forma idiomática.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Diccionarios y pertenencia",
+              "must_cover": [
+                "dict literal",
+                "get/default",
+                "keys/values/items",
+                "in keys",
+                "setdefault/update intro"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T2-A-DEMO",
+              "title": "Índice id→cliente y lookup seguro",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T2-A-E1",
+                "kind": "guided",
+                "title": "Construir dict desde pares",
+                "skill": "Diccionarios y pertenencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T2-A-E2",
+                "kind": "independent",
+                "title": "get vs KeyError",
+                "skill": "Diccionarios y pertenencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T2-A-E3",
+                "kind": "transfer",
+                "title": "Fusionar configs con update sin pisar sin querer",
+                "skill": "Diccionarios y pertenencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S06-T2-B",
+          "slug": "sets-dedup",
+          "title": "Deduplicación y operaciones de set",
+          "outcome": "El estudiante deduplica claves con set y usa unión/intersección para comparar cohortes sin borrar conflictos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Deduplicación y operaciones de set",
+              "must_cover": [
+                "set",
+                "add/discard",
+                "| & -",
+                "frozenset intro",
+                "dedup no ordenado",
+                "estabilidad: ordenar para salida determinista"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T2-B-DEMO",
+              "title": "ids únicos; intersección de dos lotes; conflictos = duplicados con datos distintos",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T2-B-E1",
+                "kind": "guided",
+                "title": "Deduplicar lista de emails",
+                "skill": "Deduplicación y operaciones de set",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T2-B-E2",
+                "kind": "independent",
+                "title": "Intersección de contactos",
+                "skill": "Deduplicación y operaciones de set",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T2-B-E3",
+                "kind": "transfer",
+                "title": "Reportar conflictos sin eliminar filas",
+                "skill": "Deduplicación y operaciones de set",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S06-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S06-T2-EVAL-1",
+            "title": "Índice dict + set de ids vistos",
+            "authentic": true
+          },
+          {
+            "id": "S06-T2-EVAL-2",
+            "title": "Reporte de duplicados y conflictos",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S06-T3",
+      "title": "Composición",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S06-T3-A",
+          "slug": "nested-traversal",
+          "title": "Estructuras anidadas y recorridos",
+          "outcome": "El estudiante navega list[dict] y dict anidados representando cliente→contactos→transacciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Estructuras anidadas y recorridos",
+              "must_cover": [
+                "list[dict]",
+                "dict de listas",
+                "for anidado controlado",
+                "paths de acceso",
+                "normalizar a filas planas intro"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T3-A-DEMO",
+              "title": "Modelo en memoria Client con contacts[] y txs[]",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T3-A-E1",
+                "kind": "guided",
+                "title": "Contar contactos por cliente",
+                "skill": "Estructuras anidadas y recorridos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T3-A-E2",
+                "kind": "independent",
+                "title": "Aplanar transacciones a filas",
+                "skill": "Estructuras anidadas y recorridos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T3-A-E3",
+                "kind": "transfer",
+                "title": "Detectar shape inconsistente",
+                "skill": "Estructuras anidadas y recorridos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S06-T3-B",
+          "slug": "safe-access-missing",
+          "title": "Acceso seguro y valores faltantes",
+          "outcome": "El estudiante accede campos opcionales sin KeyError y modela missing vs vacío explícito.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Acceso seguro y valores faltantes",
+              "must_cover": [
+                "get encadenado",
+                "sentinels",
+                "None vs ''",
+                "schema mínimo",
+                "no confundir missing con 0"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T3-B-DEMO",
+              "title": "Extraer teléfono opcional de contacto anidado",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T3-B-E1",
+                "kind": "guided",
+                "title": "get anidado helper",
+                "skill": "Acceso seguro y valores faltantes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T3-B-E2",
+                "kind": "independent",
+                "title": "Marcar missing en reporte",
+                "skill": "Acceso seguro y valores faltantes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T3-B-E3",
+                "kind": "transfer",
+                "title": "Tabla missing vs falsy",
+                "skill": "Acceso seguro y valores faltantes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S06-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S06-T3-EVAL-1",
+            "title": "Construir modelo anidado sintético de 5 clientes",
+            "authentic": true
+          },
+          {
+            "id": "S06-T3-EVAL-2",
+            "title": "Helpers de acceso seguro con tests",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S06-T4",
+      "title": "Elección",
+      "bloom_focus": [
+        "Analizar",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S06-T4-A",
+          "slug": "sort-key",
+          "title": "Ordenamiento y key",
+          "outcome": "El estudiante ordena registros con sorted(..., key=) de forma estable y explicable.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Ordenamiento y key",
+              "must_cover": [
+                "sorted vs sort",
+                "key=lambda / itemgetter",
+                "reverse",
+                "estabilidad",
+                "orden multi-criterio tuple"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T4-A-DEMO",
+              "title": "Ordenar clientes por región luego nombre",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T4-A-E1",
+                "kind": "guided",
+                "title": "sorted por monto",
+                "skill": "Ordenamiento y key",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T4-A-E2",
+                "kind": "independent",
+                "title": "key multi-campo",
+                "skill": "Ordenamiento y key",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T4-A-E3",
+                "kind": "transfer",
+                "title": "Explicar por qué sort in-place muta",
+                "skill": "Ordenamiento y key",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S06-T4-B",
+          "slug": "structure-choice-determinism",
+          "title": "Estructura adecuada, complejidad y determinismo",
+          "outcome": "El estudiante elige list/dict/set según operación dominante y produce salidas deterministas (ordenar ids).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Estructura adecuada, complejidad y determinismo",
+              "must_cover": [
+                "lookup O(1) dict/set vs O(n) list",
+                "cuándo list ordenada",
+                "determinismo: sorted(keys)",
+                "no depender de hash randomization para tests"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S06-T4-B-DEMO",
+              "title": "Mismo input → mismo JSON dump con sort_keys",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S06-T4-B-E1",
+                "kind": "guided",
+                "title": "Elegir estructura para 3 jobs",
+                "skill": "Estructura adecuada, complejidad y determinismo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S06-T4-B-E2",
+                "kind": "independent",
+                "title": "Hacer salida determinista",
+                "skill": "Estructura adecuada, complejidad y determinismo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S06-T4-B-E3",
+                "kind": "transfer",
+                "title": "Justificar tradeoff memoria/tiempo",
+                "skill": "Estructura adecuada, complejidad y determinismo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S06-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S06-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S06-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S06-T4-EVAL-1",
+            "title": "sorted estable multi-key sobre transacciones",
+            "authentic": true
+          },
+          {
+            "id": "S06-T4-EVAL-2",
+            "title": "Documento de decisión list vs dict vs set para el modelo",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S06-PROJ",
+    "title": "Modelo tabular en memoria (CP-N1-B)",
+    "capstone_link": "CP-N1-B",
+    "replaces_legacy": "Student Exam Score Analyzer",
+    "objectives": [
+      "Representar clientes, contactos y transacciones en estructuras Python puras",
+      "Deduplicar por clave de negocio sin eliminar conflictos (reportarlos)",
+      "Producir resultados estables/deterministas",
+      "Preparar shape para ingesta archivo en S08"
+    ],
+    "requirements": [
+      "Tipos: list[dict] o dict índices documentados",
+      "Función dedup_report(rows, key_fn) → {unique, conflicts}",
+      "sorted determinista en exports",
+      "Datos sintéticos latam",
+      "Sin NumPy/pandas en este incremento V3 (legacy NumPy se archiva)"
+    ],
+    "rubric": [
+      {
+        "criterion": "Modelo completo cliente/contacto/tx",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Dedup sin borrar conflictos",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Determinismo de salida",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Acceso seguro a faltantes",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Elección de estructuras justificada",
+        "weight": "15%"
+      }
+    ]
+  },
+  "planned_ids": {
+    "subtopic_slugs_4x2": [
+      "list-tuple-slicing",
+      "unpacking-aliasing-copy",
+      "dicts-membership",
+      "sets-dedup",
+      "nested-traversal",
+      "safe-access-missing",
+      "sort-key",
+      "structure-choice-determinism"
+    ],
+    "demo_ids": [
+      "S06-T1-A-DEMO",
+      "S06-T1-B-DEMO",
+      "S06-T2-A-DEMO",
+      "S06-T2-B-DEMO",
+      "S06-T3-A-DEMO",
+      "S06-T3-B-DEMO",
+      "S06-T4-A-DEMO",
+      "S06-T4-B-DEMO"
+    ],
+    "exercise_ids": [
+      "S06-T1-A-E1",
+      "S06-T1-A-E2",
+      "S06-T1-A-E3",
+      "S06-T1-B-E1",
+      "S06-T1-B-E2",
+      "S06-T1-B-E3",
+      "S06-T2-A-E1",
+      "S06-T2-A-E2",
+      "S06-T2-A-E3",
+      "S06-T2-B-E1",
+      "S06-T2-B-E2",
+      "S06-T2-B-E3",
+      "S06-T3-A-E1",
+      "S06-T3-A-E2",
+      "S06-T3-A-E3",
+      "S06-T3-B-E1",
+      "S06-T3-B-E2",
+      "S06-T3-B-E3",
+      "S06-T4-A-E1",
+      "S06-T4-A-E2",
+      "S06-T4-A-E3",
+      "S06-T4-B-E1",
+      "S06-T4-B-E2",
+      "S06-T4-B-E3"
+    ],
+    "exercise_count": 24,
+    "demo_count": 8,
+    "slug_count": 8
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "Legacy file src/lib/course/sections/s06-numpy.ts retained until PHASE 4 replacement",
+    "seed.ts concepts ['vectorization-speed', 'boolean-masking', 'broadcasting-shape', 'axis-arg'] provisional; replace in PHASE 5",
+    "Legacy content destination: Todo NumPy de plataforma → V3 S14 (NumPy y cómputo vectorizado). Contenido list/dict de s03-data-structures.ts también alimenta este slot V3.",
+    "CourseSection shape may need extension for 24 exercises / 8 demos / topic evals"
+  ],
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "gate_acceptance_specified": false,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint for S06. Do not mark passed. S04/S08 include CP gate acceptance when applicable."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 map cleanly to 8 slugs with Spanish titles",
+    "risk": "Display title still 'NumPy: Vectorized Computing' until UI pass",
+    "next_single_action": "PHASE 4 — author S06-T1-A first"
+  }
+}

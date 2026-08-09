@@ -1,0 +1,612 @@
+{
+  "index": 28,
+  "id": "llm-agents",
+  "title": "Pruebas de datos, propiedades e integración",
+  "file": "s28-llm-agents.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S28 — propiedades, datos e integración (QA ER)",
+      "len": 51
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S28. Invariante: propiedad que siempre debe valer (idempotencia, simetría). Property test: genera casos y falla al primer contraejemplo. Metamorphic: relación entre I/O bajo transformación. Golden: snapshot aprobado. Drift: divergencia vs golden. Fake/mock: doble de HTTP/DB/reloj. Flake: pasa/falla sin cambio de código.",
+      "len": 333
+    },
+    {
+      "i": 2,
+      "text": "Prerrequisito S27. El proyecto es QA del motor ER: la suite debe encontrar encoding, cardinalidad, orden, timeout y reanudación con fixtures sintéticas mínimas. Id llm-agents es legacy; path V3 es pruebas de datos/propiedades/integración.",
+      "len": 238
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: funciones de normalize/match y almacén de pares sintéticos CASO-LIM-028. Salida: properties verdes, schema validado, goldens reconciliados, dobles sin sobre-mock, CI determinista. Error: flake silencioso o mock que prueba el mock.",
+      "len": 249
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 Propiedades → T2 Datos/goldens → T3 Dobles → T4 Sistema/CI. Stack stdlib + sqlite memoria + random.seed.",
+      "len": 114
+    },
+    {
+      "i": 5,
+      "text": "Invariantes, generación e idempotencia",
+      "len": 38
+    },
+    {
+      "i": 6,
+      "text": "Una propiedad afirma algo universal: normalize es idempotente; exact_match es simétrico. La generación de casos (random con seed) busca contraejemplos más barato que listas manuales solas.",
+      "len": 188
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: normalize(normalize(s)) == normalize(s); match(a,b) == match(b,a). Si un generador encuentra un fallo, lo minimizas y lo promueves a regresión fija (S27).",
+      "len": 165
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: generador seed=0 y predicado. Salida: property_ok y n_trials. Error: seed no fijada → flake. Caso CASO-LIM-028-T1A.",
+      "len": 134
+    },
+    {
+      "i": 9,
+      "text": "Aplicación: 20 strings sintéticas; idempotencia de normalize. Matching simétrico no prueba parentesco.",
+      "len": 102
+    },
+    {
+      "i": 10,
+      "text": "Simetría y pruebas metamórficas",
+      "len": 31
+    },
+    {
+      "i": 11,
+      "text": "La simetría de match es un invariante de dominio. Una prueba metamórfica relaciona salidas: si subes score de ambos lados igual, la decisión relativa no se invierte sin causa.",
+      "len": 175
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: para pares (a,b), score(a,b)==score(b,a); metamorphic: normalizar input no empeora exactitud del oráculo de referencia.",
+      "len": 130
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: pares sintéticos. Salida: symmetric True. Error: comparador direccional accidental. CASO-LIM-028-T1B.",
+      "len": 120
+    },
+    {
+      "i": 14,
+      "text": "Aplicación: 'Ana'/'ANA' simétrico. No uses la simetría para inferir riesgo o familia.",
+      "len": 85
+    },
+    {
+      "i": 15,
+      "text": "Schema y quality contracts",
+      "len": 26
+    },
+    {
+      "i": 16,
+      "text": "Un schema contract declara campos requeridos y tipos. Un quality contract añade reglas (email con @, score en [0,1]). Fallar schema es fail-closed antes de matching.",
+      "len": 165
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: required - row.keys(); validar tipos y rangos; devolver codes estables.",
+      "len": 82
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: row dict. Salida: PASS o MISSING/TYPE/RANGE. Caso CASO-LIM-028-T2A.",
+      "len": 86
+    },
+    {
+      "i": 19,
+      "text": "Aplicación: par candidato sin entity_id → MISSING. Datos sintéticos Lima.",
+      "len": 73
+    },
+    {
+      "i": 20,
+      "text": "Golden datasets, drift y reconciliación",
+      "len": 39
+    },
+    {
+      "i": 21,
+      "text": "Un golden es la salida aprobada de un fixture. Drift es diff no autorizado. Reconciliar es aceptar un cambio con justificación o restaurar el golden.",
+      "len": 149
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: diff = [(k, old, new) for k in keys if old!=new]; drift_ok solo con flag aprobado.",
+      "len": 93
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: golden vs actual. Salida: drift bool y n_changes. CASO-LIM-028-T2B.",
+      "len": 86
+    },
+    {
+      "i": 24,
+      "text": "Aplicación: golden de pares sintéticos; cambio de score sin approval → falla CI.",
+      "len": 80
+    },
+    {
+      "i": 25,
+      "text": "Mocks y fakes de HTTP, DB y reloj",
+      "len": 33
+    },
+    {
+      "i": 26,
+      "text": "Un fake es implementación simplificada (dict DB). Un mock verifica interacciones. Sobre-mockear acopla el test a detalles irrelevantes; sub-mockear deja red real.",
+      "len": 162
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: FakeClock fijo; FakeHTTP mapa url→status/body; assert sobre resultado de dominio, no solo call count.",
+      "len": 112
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: url y clock. Salida: body determinista y now fijo. CASO-LIM-028-T3A.",
+      "len": 87
+    },
+    {
+      "i": 29,
+      "text": "Aplicación: GET /health → 200 sin red. El reloj fijo elimina flakes de timeout.",
+      "len": 79
+    },
+    {
+      "i": 30,
+      "text": "Contract tests sin sobre-mocking",
+      "len": 32
+    },
+    {
+      "i": 31,
+      "text": "Un contract test valida la forma del mensaje entre consumidor y proveedor (status, keys). No reimplementa todo el proveedor; no mockea hasta vaciar el significado.",
+      "len": 163
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: response debe tener keys mínimas; status en conjunto permitido.",
+      "len": 74
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: response dict. Salida: contract_ok. CASO-LIM-028-T3B.",
+      "len": 72
+    },
+    {
+      "i": 34,
+      "text": "Aplicación: API de pares candidatos devuelve pair_id y score. Sin PII en el contrato de test.",
+      "len": 93
+    },
+    {
+      "i": 35,
+      "text": "Integración, E2E y test containers (concepto)",
+      "len": 45
+    },
+    {
+      "i": 36,
+      "text": "La integración ejercita frontera real (sqlite memoria). E2E cubre el camino del revisor. Testcontainers es el patrón de DB efímera; aquí usamos sqlite :memory: por progressive disclosure.",
+      "len": 187
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: insert pares → query anti-join de review queue → assert cardinalidad.",
+      "len": 80
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: schema + rows. Salida: n_review y deterministic True. CASO-LIM-028-T4A.",
+      "len": 90
+    },
+    {
+      "i": 39,
+      "text": "Aplicación: 2 pares, 1 en review. Sin Docker obligatorio en el lab del curso.",
+      "len": 77
+    },
+    {
+      "i": 40,
+      "text": "Flakes, determinismo y CI",
+      "len": 25
+    },
+    {
+      "i": 41,
+      "text": "Un flake pasa/falla sin cambio de código: orden de set, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Pipeline: lint → unit → property/data → integration.",
+      "len": 177
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: seed fija; sort de salidas; reloj fake; reintentos solo en capa marcada non-gate.",
+      "len": 92
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: random trials con seed. Salida: estable entre dos corridas. CASO-LIM-028-T4B.",
+      "len": 96
+    },
+    {
+      "i": 44,
+      "text": "Aplicación: seed=0 produce el mismo primer float en dos runs. Falla el job si hay drift de golden no aprobado.",
+      "len": 110
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 51,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S28 — propiedades, datos e integración (QA ER)",
+      "text": "Mapa S28 — propiedades, datos e integración (QA ER)"
+    },
+    {
+      "i": 1,
+      "len": 333,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S28. Invariante: propiedad que siempre debe valer (idempotencia, simetría). Property test: genera casos y falla al primer contraejemplo. Metamorphic: relación entre I/O",
+      "text": "Diccionario S28. Invariante: propiedad que siempre debe valer (idempotencia, simetría). Property test: genera casos y falla al primer contraejemplo. Metamorphic: relación entre I/O bajo transformación. Golden: snapshot aprobado. Drift: divergencia vs golden. Fake/mock: doble de HTTP/DB/reloj. Flake: pasa/falla sin cambio de código."
+    },
+    {
+      "i": 2,
+      "len": 238,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prerrequisito S27. El proyecto es QA del motor ER: la suite debe encontrar encoding, cardinalidad, orden, timeout y reanudación con fixtures sintéticas mínimas. Id llm-agents es le",
+      "text": "Prerrequisito S27. El proyecto es QA del motor ER: la suite debe encontrar encoding, cardinalidad, orden, timeout y reanudación con fixtures sintéticas mínimas. Id llm-agents es legacy; path V3 es pruebas de datos/propiedades/integración."
+    },
+    {
+      "i": 3,
+      "len": 249,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: funciones de normalize/match y almacén de pares sintéticos CASO-LIM-028. Salida: properties verdes, schema validado, goldens reconciliados, dobles sin sobre-mock",
+      "text": "Contrato. Entrada: funciones de normalize/match y almacén de pares sintéticos CASO-LIM-028. Salida: properties verdes, schema validado, goldens reconciliados, dobles sin sobre-mock, CI determinista. Error: flake silencioso o mock que prueba el mock."
+    },
+    {
+      "i": 4,
+      "len": 114,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Propiedades → T2 Datos/goldens → T3 Dobles → T4 Sistema/CI. Stack stdlib + sqlite memoria + random.seed.",
+      "text": "Orden: T1 Propiedades → T2 Datos/goldens → T3 Dobles → T4 Sistema/CI. Stack stdlib + sqlite memoria + random.seed."
+    },
+    {
+      "i": 5,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Invariantes, generación e idempotencia",
+      "text": "Invariantes, generación e idempotencia"
+    },
+    {
+      "i": 6,
+      "len": 188,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una propiedad afirma algo universal: normalize es idempotente; exact_match es simétrico. La generación de casos (random con seed) busca contraejemplos más barato que listas manuale",
+      "text": "Una propiedad afirma algo universal: normalize es idempotente; exact_match es simétrico. La generación de casos (random con seed) busca contraejemplos más barato que listas manuales solas."
+    },
+    {
+      "i": 7,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: normalize(normalize(s)) == normalize(s); match(a,b) == match(b,a). Si un generador encuentra un fallo, lo minimizas y lo promueves a regresión fija (S27).",
+      "text": "Mecanismo: normalize(normalize(s)) == normalize(s); match(a,b) == match(b,a). Si un generador encuentra un fallo, lo minimizas y lo promueves a regresión fija (S27)."
+    },
+    {
+      "i": 8,
+      "len": 134,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: generador seed=0 y predicado. Salida: property_ok y n_trials. Error: seed no fijada → flake. Caso CASO-LIM-028-T1A.",
+      "text": "Contrato. Entrada: generador seed=0 y predicado. Salida: property_ok y n_trials. Error: seed no fijada → flake. Caso CASO-LIM-028-T1A."
+    },
+    {
+      "i": 9,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 20 strings sintéticas; idempotencia de normalize. Matching simétrico no prueba parentesco.",
+      "text": "Aplicación: 20 strings sintéticas; idempotencia de normalize. Matching simétrico no prueba parentesco."
+    },
+    {
+      "i": 10,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Simetría y pruebas metamórficas",
+      "text": "Simetría y pruebas metamórficas"
+    },
+    {
+      "i": 11,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La simetría de match es un invariante de dominio. Una prueba metamórfica relaciona salidas: si subes score de ambos lados igual, la decisión relativa no se invierte sin causa.",
+      "text": "La simetría de match es un invariante de dominio. Una prueba metamórfica relaciona salidas: si subes score de ambos lados igual, la decisión relativa no se invierte sin causa."
+    },
+    {
+      "i": 12,
+      "len": 130,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: para pares (a,b), score(a,b)==score(b,a); metamorphic: normalizar input no empeora exactitud del oráculo de referencia.",
+      "text": "Mecanismo: para pares (a,b), score(a,b)==score(b,a); metamorphic: normalizar input no empeora exactitud del oráculo de referencia."
+    },
+    {
+      "i": 13,
+      "len": 120,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: pares sintéticos. Salida: symmetric True. Error: comparador direccional accidental. CASO-LIM-028-T1B.",
+      "text": "Contrato. Entrada: pares sintéticos. Salida: symmetric True. Error: comparador direccional accidental. CASO-LIM-028-T1B."
+    },
+    {
+      "i": 14,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 'Ana'/'ANA' simétrico. No uses la simetría para inferir riesgo o familia.",
+      "text": "Aplicación: 'Ana'/'ANA' simétrico. No uses la simetría para inferir riesgo o familia."
+    },
+    {
+      "i": 15,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Schema y quality contracts",
+      "text": "Schema y quality contracts"
+    },
+    {
+      "i": 16,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un schema contract declara campos requeridos y tipos. Un quality contract añade reglas (email con @, score en [0,1]). Fallar schema es fail-closed antes de matching.",
+      "text": "Un schema contract declara campos requeridos y tipos. Un quality contract añade reglas (email con @, score en [0,1]). Fallar schema es fail-closed antes de matching."
+    },
+    {
+      "i": 17,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: required - row.keys(); validar tipos y rangos; devolver codes estables.",
+      "text": "Mecanismo: required - row.keys(); validar tipos y rangos; devolver codes estables."
+    },
+    {
+      "i": 18,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: row dict. Salida: PASS o MISSING/TYPE/RANGE. Caso CASO-LIM-028-T2A.",
+      "text": "Contrato. Entrada: row dict. Salida: PASS o MISSING/TYPE/RANGE. Caso CASO-LIM-028-T2A."
+    },
+    {
+      "i": 19,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: par candidato sin entity_id → MISSING. Datos sintéticos Lima.",
+      "text": "Aplicación: par candidato sin entity_id → MISSING. Datos sintéticos Lima."
+    },
+    {
+      "i": 20,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Golden datasets, drift y reconciliación",
+      "text": "Golden datasets, drift y reconciliación"
+    },
+    {
+      "i": 21,
+      "len": 149,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un golden es la salida aprobada de un fixture. Drift es diff no autorizado. Reconciliar es aceptar un cambio con justificación o restaurar el golden.",
+      "text": "Un golden es la salida aprobada de un fixture. Drift es diff no autorizado. Reconciliar es aceptar un cambio con justificación o restaurar el golden."
+    },
+    {
+      "i": 22,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: diff = [(k, old, new) for k in keys if old!=new]; drift_ok solo con flag aprobado.",
+      "text": "Mecanismo: diff = [(k, old, new) for k in keys if old!=new]; drift_ok solo con flag aprobado."
+    },
+    {
+      "i": 23,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: golden vs actual. Salida: drift bool y n_changes. CASO-LIM-028-T2B.",
+      "text": "Contrato. Entrada: golden vs actual. Salida: drift bool y n_changes. CASO-LIM-028-T2B."
+    },
+    {
+      "i": 24,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: golden de pares sintéticos; cambio de score sin approval → falla CI.",
+      "text": "Aplicación: golden de pares sintéticos; cambio de score sin approval → falla CI."
+    },
+    {
+      "i": 25,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mocks y fakes de HTTP, DB y reloj",
+      "text": "Mocks y fakes de HTTP, DB y reloj"
+    },
+    {
+      "i": 26,
+      "len": 162,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un fake es implementación simplificada (dict DB). Un mock verifica interacciones. Sobre-mockear acopla el test a detalles irrelevantes; sub-mockear deja red real.",
+      "text": "Un fake es implementación simplificada (dict DB). Un mock verifica interacciones. Sobre-mockear acopla el test a detalles irrelevantes; sub-mockear deja red real."
+    },
+    {
+      "i": 27,
+      "len": 112,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: FakeClock fijo; FakeHTTP mapa url→status/body; assert sobre resultado de dominio, no solo call count.",
+      "text": "Mecanismo: FakeClock fijo; FakeHTTP mapa url→status/body; assert sobre resultado de dominio, no solo call count."
+    },
+    {
+      "i": 28,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: url y clock. Salida: body determinista y now fijo. CASO-LIM-028-T3A.",
+      "text": "Contrato. Entrada: url y clock. Salida: body determinista y now fijo. CASO-LIM-028-T3A."
+    },
+    {
+      "i": 29,
+      "len": 79,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: GET /health → 200 sin red. El reloj fijo elimina flakes de timeout.",
+      "text": "Aplicación: GET /health → 200 sin red. El reloj fijo elimina flakes de timeout."
+    },
+    {
+      "i": 30,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Contract tests sin sobre-mocking",
+      "text": "Contract tests sin sobre-mocking"
+    },
+    {
+      "i": 31,
+      "len": 163,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un contract test valida la forma del mensaje entre consumidor y proveedor (status, keys). No reimplementa todo el proveedor; no mockea hasta vaciar el significado.",
+      "text": "Un contract test valida la forma del mensaje entre consumidor y proveedor (status, keys). No reimplementa todo el proveedor; no mockea hasta vaciar el significado."
+    },
+    {
+      "i": 32,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: response debe tener keys mínimas; status en conjunto permitido.",
+      "text": "Mecanismo: response debe tener keys mínimas; status en conjunto permitido."
+    },
+    {
+      "i": 33,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: response dict. Salida: contract_ok. CASO-LIM-028-T3B.",
+      "text": "Contrato. Entrada: response dict. Salida: contract_ok. CASO-LIM-028-T3B."
+    },
+    {
+      "i": 34,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: API de pares candidatos devuelve pair_id y score. Sin PII en el contrato de test.",
+      "text": "Aplicación: API de pares candidatos devuelve pair_id y score. Sin PII en el contrato de test."
+    },
+    {
+      "i": 35,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Integración, E2E y test containers (concepto)",
+      "text": "Integración, E2E y test containers (concepto)"
+    },
+    {
+      "i": 36,
+      "len": 187,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La integración ejercita frontera real (sqlite memoria). E2E cubre el camino del revisor. Testcontainers es el patrón de DB efímera; aquí usamos sqlite :memory: por progressive disc",
+      "text": "La integración ejercita frontera real (sqlite memoria). E2E cubre el camino del revisor. Testcontainers es el patrón de DB efímera; aquí usamos sqlite :memory: por progressive disclosure."
+    },
+    {
+      "i": 37,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: insert pares → query anti-join de review queue → assert cardinalidad.",
+      "text": "Mecanismo: insert pares → query anti-join de review queue → assert cardinalidad."
+    },
+    {
+      "i": 38,
+      "len": 90,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: schema + rows. Salida: n_review y deterministic True. CASO-LIM-028-T4A.",
+      "text": "Contrato. Entrada: schema + rows. Salida: n_review y deterministic True. CASO-LIM-028-T4A."
+    },
+    {
+      "i": 39,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 2 pares, 1 en review. Sin Docker obligatorio en el lab del curso.",
+      "text": "Aplicación: 2 pares, 1 en review. Sin Docker obligatorio en el lab del curso."
+    },
+    {
+      "i": 40,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Flakes, determinismo y CI",
+      "text": "Flakes, determinismo y CI"
+    },
+    {
+      "i": 41,
+      "len": 177,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un flake pasa/falla sin cambio de código: orden de set, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Pipeline: lint → unit → property/data → integration.",
+      "text": "Un flake pasa/falla sin cambio de código: orden de set, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Pipeline: lint → unit → property/data → integration."
+    },
+    {
+      "i": 42,
+      "len": 92,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: seed fija; sort de salidas; reloj fake; reintentos solo en capa marcada non-gate.",
+      "text": "Mecanismo: seed fija; sort de salidas; reloj fake; reintentos solo en capa marcada non-gate."
+    },
+    {
+      "i": 43,
+      "len": 96,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: random trials con seed. Salida: estable entre dos corridas. CASO-LIM-028-T4B.",
+      "text": "Contrato. Entrada: random trials con seed. Salida: estable entre dos corridas. CASO-LIM-028-T4B."
+    },
+    {
+      "i": 44,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: seed=0 produce el mismo primer float en dos runs. Falla el job si hay drift de golden no aprobado.",
+      "text": "Aplicación: seed=0 produce el mismo primer float en dos runs. Falla el job si hay drift de golden no aprobado."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 10009
+}

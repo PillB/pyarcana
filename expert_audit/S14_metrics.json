@@ -1,0 +1,3526 @@
+{
+  "global": {
+    "n_blocks": 229,
+    "n_sentences": 325,
+    "n_words": 3706,
+    "WPS": 11.4,
+    "SPW": 1.99,
+    "FH": 75.6,
+    "INFLESZ": 71.3,
+    "issue_count": {
+      "H": 0,
+      "M": 129,
+      "L": 5
+    }
+  },
+  "blocks": [
+    {
+      "bi": 1,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "NumPy y cómputo vectorizado"
+        }
+      ],
+      "preview": "NumPy y cómputo vectorizado"
+    },
+    {
+      "bi": 2,
+      "key": "tagline",
+      "n_sent": 1,
+      "wps": 18.0,
+      "spw": 2.44,
+      "FH": 41.8,
+      "INFLESZ": 36.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al basel"
+        }
+      ],
+      "preview": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al basel"
+    },
+    {
+      "bi": 3,
+      "key": "jobRelevance",
+      "n_sent": 2,
+      "wps": 21.0,
+      "spw": 1.93,
+      "FH": 69.7,
+      "INFLESZ": 65.7,
+      "issues": [],
+      "preview": "En data quality y analytics de banca, fintech y retail en Perú, el **cómputo vectorizado con NumPy** es la base de métri"
+    },
+    {
+      "bi": 4,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.78,
+      "FH": 91.0,
+      "INFLESZ": 87.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Construir y validar ndarrays con dtype y shape correctos"
+        }
+      ],
+      "preview": "Construir y validar ndarrays con dtype y shape correctos"
+    },
+    {
+      "bi": 5,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.33,
+      "FH": 57.7,
+      "INFLESZ": 52.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Indexar y filtrar con máscaras booleanas de forma segura"
+        }
+      ],
+      "preview": "Indexar y filtrar con máscaras booleanas de forma segura"
+    },
+    {
+      "bi": 6,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.5,
+      "FH": 46.6,
+      "INFLESZ": 41.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Aplicar ufuncs y reducciones por eje (completitud, unicidad con np.unique)"
+        }
+      ],
+      "preview": "Aplicar ufuncs y reducciones por eje (completitud, unicidad con np.unique)"
+    },
+    {
+      "bi": 7,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 3.0,
+      "FH": 19.7,
+      "INFLESZ": 12.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Resolver broadcasting y documentar compatibilidad de shapes"
+        }
+      ],
+      "preview": "Resolver broadcasting y documentar compatibilidad de shapes"
+    },
+    {
+      "bi": 8,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.29,
+      "FH": 62.6,
+      "INFLESZ": 57.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Distinguir views de copies y controlar mutabilidad"
+        }
+      ],
+      "preview": "Distinguir views de copies y controlar mutabilidad"
+    },
+    {
+      "bi": 9,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 3.0,
+      "FH": 20.7,
+      "INFLESZ": 13.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Manejar NaN/inf y evaluar estabilidad numérica"
+        }
+      ],
+      "preview": "Manejar NaN/inf y evaluar estabilidad numérica"
+    },
+    {
+      "bi": 10,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.14,
+      "FH": 71.1,
+      "INFLESZ": 66.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Vectorizar frente a loops con benchmark honesto"
+        }
+      ],
+      "preview": "Vectorizar frente a loops con benchmark honesto"
+    },
+    {
+      "bi": 11,
+      "key": "text",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.57,
+      "FH": 45.4,
+      "INFLESZ": 39.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Medir memoria y probar equivalencia con tolerancia"
+        }
+      ],
+      "preview": "Medir memoria y probar equivalencia con tolerancia"
+    },
+    {
+      "bi": 12,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.7,
+      "FH": 94.6,
+      "INFLESZ": 90.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Mapa de la sección: NumPy para un tablero de calidad"
+        }
+      ],
+      "preview": "Mapa de la sección: NumPy para un tablero de calidad"
+    },
+    {
+      "bi": 13,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 29.5,
+      "spw": 2.22,
+      "FH": 43.5,
+      "INFLESZ": 39.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "41 words",
+          "sent": "Diccionario rápido: ndarray (bloque homogéneo), dtype (tipo de cada elemento), shape (dimensiones), máscara (filtro bool"
+        },
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "7 commas / 41w",
+          "sent": "Diccionario rápido: ndarray (bloque homogéneo), dtype (tipo de cada elemento), shape (dimensiones), máscara (filtro bool"
+        }
+      ],
+      "preview": "**Diccionario rápido:** **ndarray** (bloque homogéneo), **dtype** (tipo de cada elemento), **shape** (dimensiones), **má"
+    },
+    {
+      "bi": 14,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 19.33,
+      "spw": 1.79,
+      "FH": 79.5,
+      "INFLESZ": 75.8,
+      "issues": [],
+      "preview": "**Puente desde S13:** el dashboard de evidencia de S13 trabaja reglas y scores **por caso**, con listas y dicts de Pytho"
+    },
+    {
+      "bi": 15,
+      "key": "paragraphs",
+      "n_sent": 4,
+      "wps": 13.75,
+      "spw": 2.02,
+      "FH": 71.7,
+      "INFLESZ": 67.4,
+      "issues": [],
+      "preview": "El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) en NumPy. Solo datos s"
+    },
+    {
+      "bi": 16,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 16.67,
+      "spw": 2.3,
+      "FH": 51.8,
+      "INFLESZ": 46.9,
+      "issues": [],
+      "preview": "Orden: **T1 Arrays** (dtype/shape → máscaras) → **T2 Operaciones** (ufuncs/reducciones → broadcast) → **T3 Semántica** ("
+    },
+    {
+      "bi": 17,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Límite de esta sección"
+        }
+      ],
+      "preview": "Límite de esta sección"
+    },
+    {
+      "bi": 18,
+      "key": "content",
+      "n_sent": 4,
+      "wps": 11.0,
+      "spw": 1.86,
+      "FH": 83.8,
+      "INFLESZ": 79.7,
+      "issues": [],
+      "preview": "Solo NumPy sobre datos sintéticos. No uses pandas (S15), sklearn ni PII real. Si el contrato dtype/shape falla, reporta "
+    },
+    {
+      "bi": 19,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ndarray, dtype y shape"
+        }
+      ],
+      "preview": "ndarray, dtype y shape"
+    },
+    {
+      "bi": 20,
+      "key": "paragraphs",
+      "n_sent": 4,
+      "wps": 16.5,
+      "spw": 1.86,
+      "FH": 78.2,
+      "INFLESZ": 74.2,
+      "issues": [],
+      "preview": "Tras S01–S13 trabajaste con listas y dicts de Python. Un **ndarray** es distinto: un bloque contiguo (o strided) de dato"
+    },
+    {
+      "bi": 21,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 17.0,
+      "spw": 1.88,
+      "FH": 76.6,
+      "INFLESZ": 72.6,
+      "issues": [],
+      "preview": "Crear con dtype **explícito** evita sorpresas (`int` vs `float` en divisiones, o `object` lento y no vectorizable). Vali"
+    },
+    {
+      "bi": 22,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 16.33,
+      "spw": 1.8,
+      "FH": 82.4,
+      "INFLESZ": 78.6,
+      "issues": [],
+      "preview": "En calidad de datos, flags de completitud suelen ser `bool`/`uint8` (1 = presente); scores en [0, 1] son `float64`. Docu"
+    },
+    {
+      "bi": 23,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.2,
+      "FH": 69.7,
+      "INFLESZ": 64.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Documenta el contrato del array"
+        }
+      ],
+      "preview": "Documenta el contrato del array"
+    },
+    {
+      "bi": 24,
+      "key": "content",
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 2.14,
+      "FH": 64.0,
+      "INFLESZ": 59.3,
+      "issues": [],
+      "preview": "Cada función que recibe un ndarray debe documentar dtype y shape esperados (o asertarlos)."
+    },
+    {
+      "bi": 25,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.75,
+      "FH": 37.8,
+      "INFLESZ": 31.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Creación, indexación y máscaras"
+        }
+      ],
+      "preview": "Creación, indexación y máscaras"
+    },
+    {
+      "bi": 26,
+      "key": "paragraphs",
+      "n_sent": 4,
+      "wps": 13.75,
+      "spw": 2.16,
+      "FH": 63.0,
+      "INFLESZ": 58.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "2 vs 1",
+          "sent": "Indexación clásica (code, code) y fancy index (indexación avanzada con lista de enteros, p."
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "0 vs 1",
+          "sent": "ej. code) seleccionan elementos sin un loop Python por cliente."
+        }
+      ],
+      "preview": "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fan"
+    },
+    {
+      "bi": 27,
+      "key": "paragraphs",
+      "n_sent": 4,
+      "wps": 15.5,
+      "spw": 2.03,
+      "FH": 69.1,
+      "INFLESZ": 64.7,
+      "issues": [],
+      "preview": "Una **máscara booleana** `a > umbral` produce un array `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática "
+    },
+    {
+      "bi": 28,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 21.5,
+      "spw": 1.93,
+      "FH": 69.1,
+      "INFLESZ": 65.1,
+      "issues": [],
+      "preview": "Filtrar con máscara suele devolver **copia** (o un 1D nuevo); no asumas que es un view ni mutes el padre por accidente. "
+    },
+    {
+      "bi": 29,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.67,
+      "FH": 43.8,
+      "INFLESZ": 37.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Máscaras y longitudes"
+        }
+      ],
+      "preview": "Máscaras y longitudes"
+    },
+    {
+      "bi": 30,
+      "key": "content",
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 2.0,
+      "FH": 71.5,
+      "INFLESZ": 67.2,
+      "issues": [],
+      "preview": "La máscara debe tener la misma shape que el eje indexado; de lo contrario ValueError."
+    },
+    {
+      "bi": 31,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Ufuncs y reducciones"
+        }
+      ],
+      "preview": "Ufuncs y reducciones"
+    },
+    {
+      "bi": 32,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 27.5,
+      "spw": 1.96,
+      "FH": 61.0,
+      "INFLESZ": 57.0,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "4 commas / 20w",
+          "sent": "Las ufuncs (code, code, operadores code, code) aplican elemento a elemento en código compilado, sin un code Python por c"
+        },
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "35 words",
+          "sent": "Las reducciones (code, code, code, code, code) colapsan uno o más ejes y son el corazón de las métricas de calidad del t"
+        }
+      ],
+      "preview": "Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado, sin un `for` "
+    },
+    {
+      "bi": 33,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 14.33,
+      "spw": 2.02,
+      "FH": 70.8,
+      "INFLESZ": 66.5,
+      "issues": [],
+      "preview": "`axis=0` agrega por columna (campo); `axis=1` por fila (cliente). `keepdims=True` preserva dimensiones para rebroadcast "
+    },
+    {
+      "bi": 34,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 18.0,
+      "spw": 1.91,
+      "FH": 74.0,
+      "INFLESZ": 70.0,
+      "issues": [],
+      "preview": "Métricas del tablero: `mean(flags, axis=0)` = completitud por campo; `mean` por fila = completitud del cliente; `std(sco"
+    },
+    {
+      "bi": 35,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 3.0,
+      "FH": 23.8,
+      "INFLESZ": 16.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "keepdims para rebroadcast"
+        }
+      ],
+      "preview": "keepdims para rebroadcast"
+    },
+    {
+      "bi": 36,
+      "key": "content",
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 2.42,
+      "FH": 49.6,
+      "INFLESZ": 44.3,
+      "issues": [],
+      "preview": "Usa keepdims cuando vayas a restar/dividir el agregado contra la matriz original."
+    },
+    {
+      "bi": 37,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.8,
+      "FH": 33.7,
+      "INFLESZ": 27.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Broadcasting y compatibilidad de shapes"
+        }
+      ],
+      "preview": "Broadcasting y compatibilidad de shapes"
+    },
+    {
+      "bi": 38,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 29.5,
+      "spw": 2.0,
+      "FH": 56.8,
+      "INFLESZ": 52.7,
+      "issues": [],
+      "preview": "El **broadcasting** alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o "
+    },
+    {
+      "bi": 39,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 23.0,
+      "spw": 1.85,
+      "FH": 72.5,
+      "INFLESZ": 68.7,
+      "issues": [],
+      "preview": "`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas o columnas (pesos por variable, umbral por "
+    },
+    {
+      "bi": 40,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 24.5,
+      "spw": 1.88,
+      "FH": 69.2,
+      "INFLESZ": 65.4,
+      "issues": [],
+      "preview": "Documenta el shape esperado en el docstring y, si el batch puede cambiar de tamaño, aserta la compatibilidad antes de op"
+    },
+    {
+      "bi": 41,
+      "key": "content",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.29,
+      "FH": 62.6,
+      "INFLESZ": 57.4,
+      "issues": [],
+      "preview": "Shapes “casi” compatibles pueden broadcastar mal. Valida shape antes de operar en pipelines."
+    },
+    {
+      "bi": 42,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 3.0,
+      "FH": 23.8,
+      "INFLESZ": 16.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Views/copies y mutabilidad"
+        }
+      ],
+      "preview": "Views/copies y mutabilidad"
+    },
+    {
+      "bi": 43,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 18.33,
+      "spw": 1.93,
+      "FH": 72.5,
+      "INFLESZ": 68.4,
+      "issues": [],
+      "preview": "Un **view** comparte memoria con el array base (`arr.base is not None` a menudo); un **copy** es un bloque independiente"
+    },
+    {
+      "bi": 44,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 14.67,
+      "spw": 2.0,
+      "FH": 71.9,
+      "INFLESZ": 67.6,
+      "issues": [],
+      "preview": "`arr.flags.writeable` controla si se puede mutar. Mutar un view muta el original — clásico cuando una función “solo norm"
+    },
+    {
+      "bi": 45,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 16.0,
+      "spw": 2.16,
+      "FH": 61.1,
+      "INFLESZ": 56.5,
+      "issues": [],
+      "preview": "Regla operativa del tablero CP-N2-A: **copia antes de mutar** si el array crudo se reutiliza (reprocess, logs, tests). C"
+    },
+    {
+      "bi": 46,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Side effects por view"
+        }
+      ],
+      "preview": "Side effects por view"
+    },
+    {
+      "bi": 47,
+      "key": "content",
+      "n_sent": 2,
+      "wps": 9.0,
+      "spw": 2.0,
+      "FH": 77.7,
+      "INFLESZ": 73.2,
+      "issues": [],
+      "preview": "Si pasas un slice a una función que escribe, puede corromper el array padre. Copia o marca writeable=False."
+    },
+    {
+      "bi": 48,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "NaN, inf y estabilidad numérica"
+        }
+      ],
+      "preview": "NaN, inf y estabilidad numérica"
+    },
+    {
+      "bi": 49,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 24.0,
+      "spw": 1.9,
+      "FH": 68.6,
+      "INFLESZ": 64.7,
+      "issues": [],
+      "preview": "`np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una"
+    },
+    {
+      "bi": 50,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 18.0,
+      "spw": 1.89,
+      "FH": 75.1,
+      "INFLESZ": 71.2,
+      "issues": [],
+      "preview": "`np.finfo(float).eps` acota el ruido de redondeo cuando comparas con tolerancia (`allclose`). Un overflow en float produ"
+    },
+    {
+      "bi": 51,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 18.33,
+      "spw": 1.8,
+      "FH": 80.1,
+      "INFLESZ": 76.4,
+      "issues": [],
+      "preview": "En calidad de datos, un NaN **no es cero**: es **ausencia de medición**. Reporta la tasa de no-finitos aparte de la medi"
+    },
+    {
+      "bi": 52,
+      "key": "content",
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 1.87,
+      "FH": 79.5,
+      "INFLESZ": 75.5,
+      "issues": [],
+      "preview": "Filtra con np.isfinite antes de reducciones de negocio si inf no es un valor válido."
+    },
+    {
+      "bi": 53,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Vectorización frente a loops"
+        }
+      ],
+      "preview": "Vectorización frente a loops"
+    },
+    {
+      "bi": 54,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 20.33,
+      "spw": 1.93,
+      "FH": 70.0,
+      "INFLESZ": 66.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "38 words",
+          "sent": "Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud — el núme"
+        }
+      ],
+      "preview": "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado ("
+    },
+    {
+      "bi": 55,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 22.5,
+      "spw": 2.04,
+      "FH": 61.2,
+      "INFLESZ": 57.0,
+      "issues": [],
+      "preview": "Benchmark **honesto**: mismo input, mismo dtype, `time.perf_counter` (no `time.time`), reporta `ratio_loop_over_vec` y v"
+    },
+    {
+      "bi": 56,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 17.67,
+      "spw": 1.83,
+      "FH": 79.0,
+      "INFLESZ": 75.1,
+      "issues": [],
+      "preview": "A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N"
+    },
+    {
+      "bi": 57,
+      "key": "content",
+      "n_sent": 2,
+      "wps": 10.0,
+      "spw": 1.75,
+      "FH": 91.6,
+      "INFLESZ": 87.8,
+      "issues": [],
+      "preview": "Reporta N, dtype y máquina. Un ratio en laptop no es SLA de producción; el valor exacto varía entre equipos."
+    },
+    {
+      "bi": 58,
+      "key": "heading",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.17,
+      "FH": 70.7,
+      "INFLESZ": 65.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Memoria, medición y tests con tolerancia"
+        }
+      ],
+      "preview": "Memoria, medición y tests con tolerancia"
+    },
+    {
+      "bi": 59,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 17.0,
+      "spw": 1.75,
+      "FH": 84.8,
+      "INFLESZ": 81.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "code y code estiman la memoria del array en bytes (p."
+        }
+      ],
+      "preview": "`nbytes` y `itemsize * size` estiman la memoria del array en bytes (p. ej. 1000 float64 → 8000). En el tablero de calida"
+    },
+    {
+      "bi": 60,
+      "key": "paragraphs",
+      "n_sent": 3,
+      "wps": 15.33,
+      "spw": 2.0,
+      "FH": 71.2,
+      "INFLESZ": 66.9,
+      "issues": [],
+      "preview": "`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia relativa y absoluta. `np.testing.assert_allclose` lanza "
+    },
+    {
+      "bi": 61,
+      "key": "paragraphs",
+      "n_sent": 2,
+      "wps": 23.0,
+      "spw": 2.07,
+      "FH": 59.5,
+      "INFLESZ": 55.2,
+      "issues": [],
+      "preview": "El baseline en loop y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**; sin ese check, un ratio de "
+    },
+    {
+      "bi": 62,
+      "key": "content",
+      "n_sent": 2,
+      "wps": 8.0,
+      "spw": 1.94,
+      "FH": 82.4,
+      "INFLESZ": 78.1,
+      "issues": [],
+      "preview": "rtol escala con la magnitud; atol cubre cercanos a cero. Elige según la métrica de negocio."
+    },
+    {
+      "bi": 63,
+      "key": "intro",
+      "n_sent": 3,
+      "wps": 14.67,
+      "spw": 2.41,
+      "FH": 47.3,
+      "INFLESZ": 42.1,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "6 commas / 29w",
+          "sent": "Yo demuestro (I Do): 8 demos trabajados de punta a punta — contrato dtype/shape, máscaras, reducciones y unicidad, broad"
+        }
+      ],
+      "preview": "Yo demuestro (I Do): 8 demos trabajados de punta a punta — contrato dtype/shape, máscaras, reducciones y unicidad, broad"
+    },
+    {
+      "bi": 64,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 1.92,
+      "FH": 79.6,
+      "INFLESZ": 75.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Crear arrays de flags y scores con dtype/shape documentados y validar ndim"
+        }
+      ],
+      "preview": "Crear arrays de flags y scores con dtype/shape documentados y validar ndim"
+    },
+    {
+      "bi": 65,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.2,
+      "FH": 64.6,
+      "INFLESZ": 59.8,
+      "issues": [],
+      "preview": "Fija el contrato dtype/shape antes de calcular métricas de calidad."
+    },
+    {
+      "bi": 66,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.62,
+      "FH": 41.2,
+      "INFLESZ": 35.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Indexar y filtrar clientes sintéticos con máscara booleana"
+        }
+      ],
+      "preview": "Indexar y filtrar clientes sintéticos con máscara booleana"
+    },
+    {
+      "bi": 67,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.38,
+      "FH": 56.2,
+      "INFLESZ": 50.9,
+      "issues": [],
+      "preview": "Máscaras combinadas expresan reglas de calidad sin loops."
+    },
+    {
+      "bi": 68,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.4,
+      "FH": 52.6,
+      "INFLESZ": 47.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Reducir métricas de completitud y unicidad por campo/cliente con ufuncs"
+        }
+      ],
+      "preview": "Reducir métricas de completitud y unicidad por campo/cliente con ufuncs"
+    },
+    {
+      "bi": 69,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 2.2,
+      "FH": 59.5,
+      "INFLESZ": 54.8,
+      "issues": [],
+      "preview": "Reducciones por eje y unicidad con np.unique son el núcleo del tablero de calidad vectorizado."
+    },
+    {
+      "bi": 70,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.0,
+      "FH": 75.6,
+      "INFLESZ": 71.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Alinear scores de clientes con pesos de campos vía broadcast explícito"
+        }
+      ],
+      "preview": "Alinear scores de clientes con pesos de campos vía broadcast explícito"
+    },
+    {
+      "bi": 71,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.78,
+      "FH": 31.0,
+      "INFLESZ": 24.8,
+      "issues": [],
+      "preview": "Broadcast documentado evita ValueError y fan-out silencioso de shapes."
+    },
+    {
+      "bi": 72,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.0,
+      "FH": 77.7,
+      "INFLESZ": 73.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Demostrar mutación vía view y aislar normalización con copy"
+        }
+      ],
+      "preview": "Demostrar mutación vía view y aislar normalización con copy"
+    },
+    {
+      "bi": 73,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.09,
+      "FH": 70.2,
+      "INFLESZ": 65.6,
+      "issues": [],
+      "preview": "Copia antes de mutar cuando el raw alimenta auditoría o reprocess."
+    },
+    {
+      "bi": 74,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.75,
+      "FH": 33.7,
+      "INFLESZ": 27.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Calcular media robusta de scores ignorando NaN/inf documentados"
+        }
+      ],
+      "preview": "Calcular media robusta de scores ignorando NaN/inf documentados"
+    },
+    {
+      "bi": 75,
+      "key": "output",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.25,
+      "FH": 127.8,
+      "INFLESZ": 125.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "n_valid 4 de 6"
+        }
+      ],
+      "preview": "n_valid 4 de 6"
+    },
+    {
+      "bi": 76,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.38,
+      "FH": 56.2,
+      "INFLESZ": 50.9,
+      "issues": [],
+      "preview": "Métricas de calidad deben declarar política ante NaN/inf."
+    },
+    {
+      "bi": 77,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.5,
+      "FH": 46.6,
+      "INFLESZ": 41.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Comparar loop vs vectorizado para score ponderado con timing honesto"
+        }
+      ],
+      "preview": "Comparar loop vs vectorizado para score ponderado con timing honesto"
+    },
+    {
+      "bi": 78,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 18.0,
+      "spw": 2.22,
+      "FH": 55.1,
+      "INFLESZ": 50.4,
+      "issues": [],
+      "preview": "Equivalencia + ratio de tiempo (el número exacto depende de la máquina) justifican la vectorización en el portfolio."
+    },
+    {
+      "bi": 79,
+      "key": "description",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.0,
+      "FH": 75.6,
+      "INFLESZ": 71.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Test con np.allclose y presupuesto de memoria para matriz de señales"
+        }
+      ],
+      "preview": "Test con np.allclose y presupuesto de memoria para matriz de señales"
+    },
+    {
+      "bi": 80,
+      "key": "why",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.0,
+      "FH": 75.6,
+      "INFLESZ": 71.2,
+      "issues": [],
+      "preview": "Presupuesto de memoria + allclose cierran el incremento S14 de CP-N2-A."
+    },
+    {
+      "bi": 81,
+      "key": "intro",
+      "n_sent": 4,
+      "wps": 10.25,
+      "spw": 2.02,
+      "FH": 74.9,
+      "INFLESZ": 70.5,
+      "issues": [],
+      "preview": "Lo hacemos juntos (We Do): 24 micro-ejercicios (E1 guiado → E2 independiente → E3 transferencia) en los 8 subtemas. Cada"
+    },
+    {
+      "bi": 82,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 15.0,
+      "spw": 1.77,
+      "FH": 85.5,
+      "INFLESZ": 81.8,
+      "issues": [],
+      "preview": "E1 (guiado) — Crea un ndarray `flags` de shape `(3, 2)`, dtype `uint8`, con valores `[[1,0],[1,1],[0,1]]` e imprime `dty"
+    },
+    {
+      "bi": 83,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "dtype incorrecto (int64 por defecto)"
+        }
+      ],
+      "preview": "dtype incorrecto (int64 por defecto)"
+    },
+    {
+      "bi": 84,
+      "key": "tests",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "bi": 85,
+      "key": "feedback",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "issues": [],
+      "preview": "Compara tu salida con la solución."
+    },
+    {
+      "bi": 86,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 13.0,
+      "spw": 1.81,
+      "FH": 85.1,
+      "INFLESZ": 81.2,
+      "issues": [],
+      "preview": "E2 (independiente) — Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` e imprime `itemsize`, `nbytes` y la lis"
+    },
+    {
+      "bi": 87,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [],
+      "preview": "linspace con dtype=float64."
+    },
+    {
+      "bi": 88,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "float32 por accidente"
+        }
+      ],
+      "preview": "float32 por accidente"
+    },
+    {
+      "bi": 89,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "endpoint de linspace"
+        }
+      ],
+      "preview": "endpoint de linspace"
+    },
+    {
+      "bi": 90,
+      "key": "instruction",
+      "n_sent": 4,
+      "wps": 10.5,
+      "spw": 1.83,
+      "FH": 86.1,
+      "INFLESZ": 82.1,
+      "issues": [],
+      "preview": "E3 (transferencia) — Valida un contrato: si un array no es 1D float64, lanza `ValueError`; si es válido imprime `ok` y e"
+    },
+    {
+      "bi": 91,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [],
+      "preview": "Comprueba ndim y dtype."
+    },
+    {
+      "bi": 92,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [],
+      "preview": "raise ValueError con mensaje corto."
+    },
+    {
+      "bi": 93,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no validar ndim"
+        }
+      ],
+      "preview": "no validar ndim"
+    },
+    {
+      "bi": 94,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 12.0,
+      "spw": 1.83,
+      "FH": 84.6,
+      "INFLESZ": 80.6,
+      "issues": [],
+      "preview": "E1 (guiado) — Dado `score = [0.2, 0.8, 0.4, 0.9]`, imprime los índices (0-based) donde `score >= 0.5` con máscara y `np."
+    },
+    {
+      "bi": 95,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.67,
+      "FH": 43.8,
+      "INFLESZ": 37.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "comparación estricta >"
+        }
+      ],
+      "preview": "comparación estricta >"
+    },
+    {
+      "bi": 96,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "olvidar [0] en where"
+        }
+      ],
+      "preview": "olvidar [0] en where"
+    },
+    {
+      "bi": 97,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 13.5,
+      "spw": 1.81,
+      "FH": 84.2,
+      "INFLESZ": 80.3,
+      "issues": [],
+      "preview": "E2 (independiente) — Con ids `C001..C004` y sus scores, imprime los ids con score bajo la mediana (`score < mediana`). S"
+    },
+    {
+      "bi": 98,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "usar mean en vez de median"
+        }
+      ],
+      "preview": "usar mean en vez de median"
+    },
+    {
+      "bi": 99,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 2.0,
+      "spw": 3.5,
+      "FH": -5.2,
+      "INFLESZ": -13.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "máscara invertida"
+        }
+      ],
+      "preview": "máscara invertida"
+    },
+    {
+      "bi": 100,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 14.0,
+      "spw": 1.79,
+      "FH": 85.4,
+      "INFLESZ": 81.6,
+      "issues": [],
+      "preview": "E3 (transferencia) — Fancy index: reordena el vector `[10, 20, 30, 40]` con el orden de índices `[2, 0, 3, 1]` e imprime"
+    },
+    {
+      "bi": 101,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "issues": [],
+      "preview": "a[order] con lista de índices."
+    },
+    {
+      "bi": 102,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [],
+      "preview": "No uses un loop."
+    },
+    {
+      "bi": 103,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "copia accidental del orden"
+        }
+      ],
+      "preview": "copia accidental del orden"
+    },
+    {
+      "bi": 104,
+      "key": "instruction",
+      "n_sent": 3,
+      "wps": 13.0,
+      "spw": 1.95,
+      "FH": 76.7,
+      "INFLESZ": 72.4,
+      "issues": [],
+      "preview": "E1 (guiado) — Matriz 2×3 de unos y ceros: calcula `mean` por `axis=0` y por `axis=1`; imprime ambas listas redondeadas a"
+    },
+    {
+      "bi": 105,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [],
+      "preview": "M.mean(axis=0) y axis=1."
+    },
+    {
+      "bi": 106,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 2.0,
+      "spw": 2.5,
+      "FH": 54.8,
+      "INFLESZ": 49.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no redondear"
+        }
+      ],
+      "preview": "no redondear"
+    },
+    {
+      "bi": 107,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 17.0,
+      "spw": 1.88,
+      "FH": 76.6,
+      "INFLESZ": 72.6,
+      "issues": [],
+      "preview": "E2 (independiente) — Con ids sintéticos `['C001','C002','C001','C003','C002']`, calcula la **tasa de unicidad** `np.uniq"
+    },
+    {
+      "bi": 108,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.8,
+      "FH": 88.6,
+      "INFLESZ": 84.7,
+      "issues": [],
+      "preview": "Redondea con round(..., 4) o imprime el float exacto 0.6."
+    },
+    {
+      "bi": 109,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.33,
+      "FH": 117.7,
+      "INFLESZ": 114.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "contar con set de Python en vez de np.unique"
+        }
+      ],
+      "preview": "contar con set de Python en vez de np.unique"
+    },
+    {
+      "bi": 110,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "dividir por n_unique"
+        }
+      ],
+      "preview": "dividir por n_unique"
+    },
+    {
+      "bi": 111,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 16.5,
+      "spw": 1.73,
+      "FH": 86.4,
+      "INFLESZ": 82.7,
+      "issues": [],
+      "preview": "E3 (transferencia) — Centra cada fila restando su media con `keepdims=True` e imprime la media de cada fila tras centrar"
+    },
+    {
+      "bi": 112,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.8,
+      "FH": 33.7,
+      "INFLESZ": 27.4,
+      "issues": [],
+      "preview": "Verifica con mean axis=1 redondeado."
+    },
+    {
+      "bi": 113,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 18.0,
+      "spw": 1.64,
+      "FH": 90.1,
+      "INFLESZ": 86.7,
+      "issues": [],
+      "preview": "E1 (guiado) — Suma el vector de pesos `[1, 2, 3]` a cada fila de una matriz 2×3 de ceros con broadcast e imprime la matr"
+    },
+    {
+      "bi": 114,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [],
+      "preview": "Broadcast alinea por la derecha."
+    },
+    {
+      "bi": 115,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 20.5,
+      "spw": 1.88,
+      "FH": 73.2,
+      "INFLESZ": 69.3,
+      "issues": [],
+      "preview": "E2 (independiente) — Con `a` de shape `(4,)` crea columna `(4, 1)` con `newaxis` y multiplica por `b` de shape `(3,)`; i"
+    },
+    {
+      "bi": 116,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.38,
+      "FH": 116.2,
+      "INFLESZ": 113.2,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "double space",
+          "ev": "",
+          "sent": "a[:, None]  b[None, :] o a[:, None]  b."
+        },
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "a[:, None]  b[None, :] o a[:, None]  b."
+        }
+      ],
+      "preview": "a[:, None] * b[None, :] o a[:, None] * b."
+    },
+    {
+      "bi": 117,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 17.5,
+      "spw": 2.09,
+      "FH": 63.8,
+      "INFLESZ": 59.4,
+      "issues": [],
+      "preview": "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueErro"
+    },
+    {
+      "bi": 118,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.71,
+      "FH": 96.8,
+      "INFLESZ": 93.0,
+      "issues": [],
+      "preview": "try/except ValueError con shapes (2,3) y (2,4)."
+    },
+    {
+      "bi": 119,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.62,
+      "FH": 101.2,
+      "INFLESZ": 97.6,
+      "issues": [],
+      "preview": "Cambia el segundo array a shape (2, 4)."
+    },
+    {
+      "bi": 120,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no capturar excepción"
+        }
+      ],
+      "preview": "no capturar excepción"
+    },
+    {
+      "bi": 121,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "shapes que sí broadcastan"
+        }
+      ],
+      "preview": "shapes que sí broadcastan"
+    },
+    {
+      "bi": 122,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 16.5,
+      "spw": 1.82,
+      "FH": 80.9,
+      "INFLESZ": 77.1,
+      "issues": [],
+      "preview": "E1 (guiado) — Con `raw=[1,2,3]`, crea una **view** de los dos primeros elementos, asigna `vista[0]=9` e imprime `raw` (d"
+    },
+    {
+      "bi": 123,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "issues": [],
+      "preview": "raw[:2] es view."
+    },
+    {
+      "bi": 124,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "usar copy por error"
+        }
+      ],
+      "preview": "usar copy por error"
+    },
+    {
+      "bi": 125,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 13.5,
+      "spw": 1.78,
+      "FH": 86.4,
+      "INFLESZ": 82.6,
+      "issues": [],
+      "preview": "E2 (independiente) — Repite el escenario con `.copy()`: muta la copia y demuestra que `raw` queda `[1, 2, 3]`. Salida es"
+    },
+    {
+      "bi": 126,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [],
+      "preview": "Imprime raw y copia."
+    },
+    {
+      "bi": 127,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.38,
+      "FH": 116.2,
+      "INFLESZ": 113.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "slice que no es view en todos backends"
+        }
+      ],
+      "preview": "slice que no es view en todos backends"
+    },
+    {
+      "bi": 128,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 12.0,
+      "spw": 2.04,
+      "FH": 72.1,
+      "INFLESZ": 67.6,
+      "issues": [],
+      "preview": "E3 (transferencia) — Marca un array como no escribible (`flags.writeable=False`), intenta asignar y captura `ValueError`"
+    },
+    {
+      "bi": 129,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 3.0,
+      "FH": 23.8,
+      "INFLESZ": 16.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no desactivar writeable"
+        }
+      ],
+      "preview": "no desactivar writeable"
+    },
+    {
+      "bi": 130,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "capturar Exception genérica sin print"
+        }
+      ],
+      "preview": "capturar Exception genérica sin print"
+    },
+    {
+      "bi": 131,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 11.0,
+      "spw": 1.68,
+      "FH": 94.7,
+      "INFLESZ": 91.1,
+      "issues": [],
+      "preview": "E1 (guiado) — Cuenta cuántos `NaN` hay en `[1, nan, 2, nan]` con `np.isnan` e imprime el entero. Salida esperada: `2`. S"
+    },
+    {
+      "bi": 132,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 11.0,
+      "spw": 1.91,
+      "FH": 81.1,
+      "INFLESZ": 76.9,
+      "issues": [],
+      "preview": "E2 (independiente) — Calcula `np.nanmean` de `[1, nan, 3]` e imprime con 2 decimales. Salida esperada: `2.0`. Solo NumPy"
+    },
+    {
+      "bi": 133,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 13.0,
+      "spw": 1.85,
+      "FH": 82.8,
+      "INFLESZ": 78.8,
+      "issues": [],
+      "preview": "E3 (transferencia) — En `[1, inf, 2]`, reemplaza `inf` por `nan` y luego usa `nansum`; imprime el resultado. Salida espe"
+    },
+    {
+      "bi": 134,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.0,
+      "FH": 141.7,
+      "INFLESZ": 139.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "sum con inf da inf"
+        }
+      ],
+      "preview": "sum con inf da inf"
+    },
+    {
+      "bi": 135,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no convertir inf"
+        }
+      ],
+      "preview": "no convertir inf"
+    },
+    {
+      "bi": 137,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 13.0,
+      "spw": 1.73,
+      "FH": 89.7,
+      "INFLESZ": 86.0,
+      "issues": [],
+      "preview": "E1 (guiado) — Suma `a*b` con un loop y con `(a*b).sum()` para `a=b=arange(1000)`; imprime si `abs(diff) < 1e-6`. Salida "
+    },
+    {
+      "bi": 138,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [],
+      "preview": "Compara resultados no tiempos."
+    },
+    {
+      "bi": 139,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "int overflow en loop"
+        }
+      ],
+      "preview": "int overflow en loop"
+    },
+    {
+      "bi": 140,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 14.0,
+      "spw": 1.96,
+      "FH": 74.7,
+      "INFLESZ": 70.5,
+      "issues": [],
+      "preview": "E2 (independiente) — Implementa la suma de cuadrados vectorizada de `arange(5)` e imprime el total. Salida esperada: `30"
+    },
+    {
+      "bi": 141,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "issues": [],
+      "preview": "(a**2).sum() o np.dot(a,a)."
+    },
+    {
+      "bi": 142,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.25,
+      "FH": 127.8,
+      "INFLESZ": 125.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "sumar a no a**2"
+        }
+      ],
+      "preview": "sumar a no a**2"
+    },
+    {
+      "bi": 143,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 18.5,
+      "spw": 1.78,
+      "FH": 80.9,
+      "INFLESZ": 77.2,
+      "issues": [],
+      "preview": "E3 (transferencia) — Mide con `time.perf_counter` un `(a+b)` vectorizado de `n=10000` (a=ceros, b=unos) e imprime `timed"
+    },
+    {
+      "bi": 144,
+      "key": "hint",
+      "n_sent": 1,
+      "wps": 2.0,
+      "spw": 4.5,
+      "FH": -65.2,
+      "INFLESZ": -75.5,
+      "issues": [],
+      "preview": "time.perf_counter antes/después."
+    },
+    {
+      "bi": 145,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.25,
+      "FH": 63.7,
+      "INFLESZ": 58.7,
+      "issues": [],
+      "preview": "No necesitas ratio; solo demostrar timing + correctness."
+    },
+    {
+      "bi": 146,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no crear arrays"
+        }
+      ],
+      "preview": "no crear arrays"
+    },
+    {
+      "bi": 147,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 13.0,
+      "spw": 1.73,
+      "FH": 89.7,
+      "INFLESZ": 86.0,
+      "issues": [],
+      "preview": "E1 (guiado) — Imprime `nbytes` de `np.zeros(1000, dtype=np.float64)` y verifica que sea `8000`. Salida esperada: `8000 T"
+    },
+    {
+      "bi": 148,
+      "key": "hints",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [],
+      "preview": "print nbytes y comparación."
+    },
+    {
+      "bi": 149,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 15.5,
+      "spw": 1.94,
+      "FH": 74.9,
+      "INFLESZ": 70.8,
+      "issues": [],
+      "preview": "E2 (independiente) — Usa `np.allclose` entre `[1.0, 2.0]` y `[1.0+1e-9, 2.0]` con `atol=1e-8` e imprime el booleano. Sal"
+    },
+    {
+      "bi": 150,
+      "key": "instruction",
+      "n_sent": 2,
+      "wps": 16.0,
+      "spw": 1.91,
+      "FH": 76.1,
+      "INFLESZ": 72.1,
+      "issues": [],
+      "preview": "E3 (transferencia) — `assert_allclose` debe fallar entre `[0, 0]` y `[0, 0.1]` con `atol=1e-3`; captura `AssertionError`"
+    },
+    {
+      "bi": 151,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "atol que pasa el test"
+        }
+      ],
+      "preview": "atol que pasa el test"
+    },
+    {
+      "bi": 152,
+      "key": "edgeCases",
+      "n_sent": 1,
+      "wps": 2.0,
+      "spw": 2.0,
+      "FH": 84.8,
+      "INFLESZ": 80.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no capturar"
+        }
+      ],
+      "preview": "no capturar"
+    },
+    {
+      "bi": 153,
+      "key": "title",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.3,
+      "FH": 58.6,
+      "INFLESZ": 53.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)"
+        }
+      ],
+      "preview": "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)"
+    },
+    {
+      "bi": 154,
+      "key": "context",
+      "n_sent": 2,
+      "wps": 23.5,
+      "spw": 2.06,
+      "FH": 59.0,
+      "INFLESZ": 54.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "42 words",
+          "sent": "Eres analista de data quality en una fintech peruana: con arrays sintéticos de flags de completitud e ids/scores por cli"
+        }
+      ],
+      "preview": "Tú lo haces (You Do). Eres analista de data quality en una fintech peruana: con arrays sintéticos de flags de completitu"
+    },
+    {
+      "bi": 155,
+      "key": "objectives",
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 2.43,
+      "FH": 46.8,
+      "INFLESZ": 41.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Implementar métricas de calidad vectorizadas (completitud por campo, unicidad de ids, tasa en rango)"
+        }
+      ],
+      "preview": "Implementar métricas de calidad vectorizadas (completitud por campo, unicidad de ids, tasa en rango)"
+    },
+    {
+      "bi": 156,
+      "key": "objectives",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.44,
+      "FH": 51.0,
+      "INFLESZ": 45.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Calcular señales por pares con broadcasting documentado (matriz n×n)"
+        }
+      ],
+      "preview": "Calcular señales por pares con broadcasting documentado (matriz n×n)"
+    },
+    {
+      "bi": 157,
+      "key": "objectives",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.75,
+      "FH": 33.7,
+      "INFLESZ": 27.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Benchmark loop vs vectorizado con equivalencia numérica (code)"
+        }
+      ],
+      "preview": "Benchmark loop vs vectorizado con equivalencia numérica (`allclose`)"
+    },
+    {
+      "bi": 158,
+      "key": "objectives",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.67,
+      "FH": 37.7,
+      "INFLESZ": 31.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Presupuesto de memoria y tests reproducibles sobre fixtures sintéticos"
+        }
+      ],
+      "preview": "Presupuesto de memoria y tests reproducibles sobre fixtures sintéticos"
+    },
+    {
+      "bi": 159,
+      "key": "requirements",
+      "n_sent": 1,
+      "wps": 16.0,
+      "spw": 1.62,
+      "FH": 93.0,
+      "INFLESZ": 89.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Fixtures sintéticos (ids C00x; flags 0/1; scores en [0,1] con posibles NaN/inf en tests de borde)"
+        }
+      ],
+      "preview": "Fixtures sintéticos (ids C00x; flags 0/1; scores en [0,1] con posibles NaN/inf en tests de borde)"
+    },
+    {
+      "bi": 160,
+      "key": "requirements",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 1.82,
+      "FH": 86.5,
+      "INFLESZ": 82.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Suite de asserts en _run_tests() que demuestre correctitud (no solo prints)"
+        }
+      ],
+      "preview": "Suite de asserts en _run_tests() que demuestre correctitud (no solo prints)"
+    },
+    {
+      "bi": 161,
+      "key": "requirements",
+      "n_sent": 1,
+      "wps": 19.0,
+      "spw": 2.0,
+      "FH": 67.5,
+      "INFLESZ": 63.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Documentación en español profesional: shapes, dtypes, rtol/atol y nota de que el ratio de tiempo depende de la máquina"
+        }
+      ],
+      "preview": "Documentación en español profesional: shapes, dtypes, rtol/atol y nota de que el ratio de tiempo depende de la máquina"
+    },
+    {
+      "bi": 162,
+      "key": "requirements",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.43,
+      "FH": 114.0,
+      "INFLESZ": 110.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Sin PII real; sin pandas ni sklearn"
+        }
+      ],
+      "preview": "Sin PII real; sin pandas ni sklearn"
+    },
+    {
+      "bi": 163,
+      "key": "portfolioNote",
+      "n_sent": 2,
+      "wps": 23.5,
+      "spw": 1.83,
+      "FH": 73.1,
+      "INFLESZ": 69.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "39 words",
+          "sent": "En el README del repo: documenta shapes y dtypes de cada métrica, el rtol/atol de allclose, el presupuesto de memoria si"
+        }
+      ],
+      "preview": "Este incremento abre CP-N2-A (Executive Data Quality & EDA). En el README del repo: documenta shapes y dtypes de cada mé"
+    },
+    {
+      "bi": 164,
+      "key": "criterion",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 3.22,
+      "FH": 4.3,
+      "INFLESZ": -2.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Métricas vectorizadas correctas (completitud, unicidad, rangos) con shapes documentados"
+        }
+      ],
+      "preview": "Métricas vectorizadas correctas (completitud, unicidad, rangos) con shapes documentados"
+    },
+    {
+      "bi": 165,
+      "key": "criterion",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.44,
+      "FH": 51.0,
+      "INFLESZ": 45.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Señales por pares y benchmark con equivalencia allclose demostrada"
+        }
+      ],
+      "preview": "Señales por pares y benchmark con equivalencia allclose demostrada"
+    },
+    {
+      "bi": 166,
+      "key": "criterion",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.38,
+      "FH": 56.2,
+      "INFLESZ": 50.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Privacidad: sin PII real, sin secretos, fixtures sintéticos"
+        }
+      ],
+      "preview": "Privacidad: sin PII real, sin secretos, fixtures sintéticos"
+    },
+    {
+      "bi": 167,
+      "key": "criterion",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.0,
+      "FH": 77.7,
+      "INFLESZ": 73.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Pruebas (_run_tests) y casos de borde (NaN, shapes) documentados"
+        }
+      ],
+      "preview": "Pruebas (_run_tests) y casos de borde (NaN, shapes) documentados"
+    },
+    {
+      "bi": 168,
+      "key": "criterion",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.43,
+      "FH": 54.0,
+      "INFLESZ": 48.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Código legible, contratos dtype/shape y límites claros"
+        }
+      ],
+      "preview": "Código legible, contratos dtype/shape y límites claros"
+    },
+    {
+      "bi": 169,
+      "key": "criterion",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.71,
+      "FH": 36.8,
+      "INFLESZ": 30.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Documentación en español profesional (memo de portfolio)"
+        }
+      ],
+      "preview": "Documentación en español profesional (memo de portfolio)"
+    },
+    {
+      "bi": 170,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.27,
+      "FH": 59.3,
+      "INFLESZ": 54.2,
+      "issues": [],
+      "preview": "¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?"
+    },
+    {
+      "bi": 171,
+      "key": "explanation",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.7,
+      "FH": 94.6,
+      "INFLESZ": 90.9,
+      "issues": [],
+      "preview": "dtype fija el tipo de cada elemento (float64, int32, etc.)."
+    },
+    {
+      "bi": 172,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.3,
+      "FH": 58.6,
+      "INFLESZ": 53.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Una máscara booleana a > 0.5 se usa principalmente para:"
+        }
+      ],
+      "preview": "Una máscara booleana a > 0.5 se usa principalmente para:"
+    },
+    {
+      "bi": 173,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.33,
+      "FH": 123.8,
+      "INFLESZ": 120.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Cambiar el dtype"
+        }
+      ],
+      "preview": "Cambiar el dtype"
+    },
+    {
+      "bi": 174,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Forzar una copy siempre"
+        }
+      ],
+      "preview": "Forzar una copy siempre"
+    },
+    {
+      "bi": 175,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.25,
+      "FH": 63.7,
+      "INFLESZ": 58.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Filtrar o seleccionar elementos que cumplen la condición"
+        }
+      ],
+      "preview": "Filtrar o seleccionar elementos que cumplen la condición"
+    },
+    {
+      "bi": 176,
+      "key": "explanation",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 3.29,
+      "FH": 2.6,
+      "INFLESZ": -4.9,
+      "issues": [],
+      "preview": "Las máscaras booleanas filtran/seleccionan de forma vectorizada."
+    },
+    {
+      "bi": 177,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.0,
+      "FH": 76.6,
+      "INFLESZ": 72.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "axis=0 en una reducción sobre una matriz 2D suele agregar:"
+        }
+      ],
+      "preview": "axis=0 en una reducción sobre una matriz 2D suele agregar:"
+    },
+    {
+      "bi": 178,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Por columna (colapsa filas)"
+        }
+      ],
+      "preview": "Por columna (colapsa filas)"
+    },
+    {
+      "bi": 179,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Por fila (colapsa columnas)"
+        }
+      ],
+      "preview": "Por fila (colapsa columnas)"
+    },
+    {
+      "bi": 180,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Solo el elemento [0,0]"
+        }
+      ],
+      "preview": "Solo el elemento [0,0]"
+    },
+    {
+      "bi": 181,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Nada; axis solo existe en pandas"
+        }
+      ],
+      "preview": "Nada; axis solo existe en pandas"
+    },
+    {
+      "bi": 182,
+      "key": "explanation",
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 1.62,
+      "FH": 96.7,
+      "INFLESZ": 93.2,
+      "issues": [],
+      "preview": "axis=0 reduce a lo largo de las filas → un valor por columna."
+    },
+    {
+      "bi": 183,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.88,
+      "FH": 86.2,
+      "INFLESZ": 82.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Mutar un slice simple de un ndarray normalmente:"
+        }
+      ],
+      "preview": "Mutar un slice simple de un ndarray normalmente:"
+    },
+    {
+      "bi": 184,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Nunca afecta al original"
+        }
+      ],
+      "preview": "Nunca afecta al original"
+    },
+    {
+      "bi": 185,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Convierte todo a object"
+        }
+      ],
+      "preview": "Convierte todo a object"
+    },
+    {
+      "bi": 186,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.6,
+      "FH": 100.6,
+      "INFLESZ": 97.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Puede mutar el array base porque suele ser un view"
+        }
+      ],
+      "preview": "Puede mutar el array base porque suele ser un view"
+    },
+    {
+      "bi": 187,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.33,
+      "FH": 123.8,
+      "INFLESZ": 120.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Borra el dtype"
+        }
+      ],
+      "preview": "Borra el dtype"
+    },
+    {
+      "bi": 188,
+      "key": "explanation",
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.78,
+      "FH": 91.0,
+      "INFLESZ": 87.1,
+      "issues": [],
+      "preview": "Los slices simples suelen ser views que comparten memoria."
+    },
+    {
+      "bi": 189,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 1.36,
+      "FH": 113.8,
+      "INFLESZ": 110.9,
+      "issues": [],
+      "preview": "¿Por qué np.mean([1, np.nan]) no es lo mismo que np.nanmean([1, np.nan])?"
+    },
+    {
+      "bi": 190,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Son idénticos siempre"
+        }
+      ],
+      "preview": "Son idénticos siempre"
+    },
+    {
+      "bi": 191,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "nanmean solo funciona con int"
+        }
+      ],
+      "preview": "nanmean solo funciona con int"
+    },
+    {
+      "bi": 192,
+      "key": "explanation",
+      "n_sent": 3,
+      "wps": 7.67,
+      "spw": 2.09,
+      "FH": 73.8,
+      "INFLESZ": 69.2,
+      "issues": [],
+      "preview": "np.mean propaga NaN (el resultado es nan). np.nanmean omite NaNs y promedia el resto. En calidad de datos usa isfinite/n"
+    },
+    {
+      "bi": 193,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.29,
+      "FH": 62.6,
+      "INFLESZ": 57.4,
+      "issues": [],
+      "preview": "¿Cuándo son compatibles dos shapes para broadcasting?"
+    },
+    {
+      "bi": 194,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Solo si son idénticos"
+        }
+      ],
+      "preview": "Solo si son idénticos"
+    },
+    {
+      "bi": 195,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.0,
+      "FH": 79.7,
+      "INFLESZ": 75.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Si el producto de las dimensiones coincide"
+        }
+      ],
+      "preview": "Si el producto de las dimensiones coincide"
+    },
+    {
+      "bi": 196,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Solo con keepdims=True"
+        }
+      ],
+      "preview": "Solo con keepdims=True"
+    },
+    {
+      "bi": 197,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 1.73,
+      "FH": 87.5,
+      "INFLESZ": 83.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Si, de derecha a izquierda, cada dimensión es igual o una es 1 (o ausente)"
+        }
+      ],
+      "preview": "Si, de derecha a izquierda, cada dimensión es igual o una es 1 (o ausente)"
+    },
+    {
+      "bi": 198,
+      "key": "explanation",
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 2.5,
+      "FH": 44.6,
+      "INFLESZ": 39.1,
+      "issues": [],
+      "preview": "El broadcasting alinea de derecha a izquierda; si no hay compatibilidad, ValueError."
+    },
+    {
+      "bi": 199,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.43,
+      "FH": 54.0,
+      "INFLESZ": 48.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "np.allclose(a, b, rtol=…, atol=…) sirve principalmente para:"
+        }
+      ],
+      "preview": "np.allclose(a, b, rtol=…, atol=…) sirve principalmente para:"
+    },
+    {
+      "bi": 200,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.2,
+      "FH": 69.7,
+      "INFLESZ": 64.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Comparar floats con tolerancia (p."
+        }
+      ],
+      "preview": "Comparar floats con tolerancia (p. ej. loop vs vectorizado)"
+    },
+    {
+      "bi": 201,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Cambiar el dtype a float32"
+        }
+      ],
+      "preview": "Cambiar el dtype a float32"
+    },
+    {
+      "bi": 202,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Forzar una view"
+        }
+      ],
+      "preview": "Forzar una view"
+    },
+    {
+      "bi": 203,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 4.0,
+      "FH": -36.2,
+      "INFLESZ": -45.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Eliminar NaN automáticamente"
+        }
+      ],
+      "preview": "Eliminar NaN automáticamente"
+    },
+    {
+      "bi": 204,
+      "key": "explanation",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 3.12,
+      "FH": 11.2,
+      "INFLESZ": 4.1,
+      "issues": [],
+      "preview": "allclose/assert_allclose validan equivalencia numérica con rtol y atol."
+    },
+    {
+      "bi": 205,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.25,
+      "FH": 63.7,
+      "INFLESZ": 58.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Un benchmark honesto loop vs vectorizado debe incluir:"
+        }
+      ],
+      "preview": "Un benchmark honesto loop vs vectorizado debe incluir:"
+    },
+    {
+      "bi": 206,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.43,
+      "FH": 114.0,
+      "INFLESZ": 110.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Solo N=10 y el tiempo del loop"
+        }
+      ],
+      "preview": "Solo N=10 y el tiempo del loop"
+    },
+    {
+      "bi": 207,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Solo el ratio sin chequear igualdad"
+        }
+      ],
+      "preview": "Solo el ratio sin chequear igualdad"
+    },
+    {
+      "bi": 208,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.88,
+      "FH": 26.2,
+      "INFLESZ": 19.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Mismo input/dtype, timing y verificación de equivalencia numérica"
+        }
+      ],
+      "preview": "Mismo input/dtype, timing y verificación de equivalencia numérica"
+    },
+    {
+      "bi": 209,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.86,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Usar print en cada iteración del loop"
+        }
+      ],
+      "preview": "Usar print en cada iteración del loop"
+    },
+    {
+      "bi": 210,
+      "key": "explanation",
+      "n_sent": 2,
+      "wps": 10.5,
+      "spw": 2.14,
+      "FH": 67.6,
+      "INFLESZ": 62.8,
+      "issues": [],
+      "preview": "Sin equivalencia, un ratio de tiempo no demuestra que la versión vectorizada sea correcta. El ratio exacto además varía "
+    },
+    {
+      "bi": 211,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.2,
+      "FH": 69.7,
+      "INFLESZ": 64.8,
+      "issues": [],
+      "preview": "¿Cuántos bytes ocupa np.zeros(1000, dtype=np.float64)?"
+    },
+    {
+      "bi": 212,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.5,
+      "FH": 108.7,
+      "INFLESZ": 105.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Depende solo de la forma, no del dtype"
+        }
+      ],
+      "preview": "Depende solo de la forma, no del dtype"
+    },
+    {
+      "bi": 213,
+      "key": "explanation",
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.74,
+      "FH": 92.9,
+      "INFLESZ": 89.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Úsalo para presupuestos de memoria del tablero (p."
+        }
+      ],
+      "preview": "float64 usa 8 bytes por elemento; 1000 × 8 = 8000. nbytes = itemsize × size. Úsalo para presupuestos de memoria del tabl"
+    },
+    {
+      "bi": 214,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 1.82,
+      "FH": 86.5,
+      "INFLESZ": 82.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Si marcas a.flags.writeable = False e intentas a[0] = 3.0, NumPy:"
+        }
+      ],
+      "preview": "Si marcas a.flags.writeable = False e intentas a[0] = 3.0, NumPy:"
+    },
+    {
+      "bi": 215,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Ignora la asignación en silencio"
+        }
+      ],
+      "preview": "Ignora la asignación en silencio"
+    },
+    {
+      "bi": 216,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.5,
+      "FH": 50.7,
+      "INFLESZ": 45.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Convierte el array a copy automáticamente"
+        }
+      ],
+      "preview": "Convierte el array a copy automáticamente"
+    },
+    {
+      "bi": 217,
+      "key": "options",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Cambia el dtype a object"
+        }
+      ],
+      "preview": "Cambia el dtype a object"
+    },
+    {
+      "bi": 218,
+      "key": "explanation",
+      "n_sent": 2,
+      "wps": 11.0,
+      "spw": 2.45,
+      "FH": 48.3,
+      "INFLESZ": 42.9,
+      "issues": [],
+      "preview": "writeable=False protege entradas de solo lectura; la asignación lanza ValueError. Es una defensa útil cuando pasas array"
+    },
+    {
+      "bi": 219,
+      "key": "question",
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 2.15,
+      "FH": 64.3,
+      "INFLESZ": 59.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "La tasa de unicidad de ids sintéticos se calcula de forma idiomática como:"
+        }
+      ],
+      "preview": "La tasa de unicidad de ids sintéticos se calcula de forma idiomática como:"
+    },
+    {
+      "bi": 220,
+      "key": "explanation",
+      "n_sent": 2,
+      "wps": 12.0,
+      "spw": 1.83,
+      "FH": 84.6,
+      "INFLESZ": 80.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "3 vs 2",
+          "sent": "len(ids)/len(ids) es un truco que siempre da 1.0 y no detecta duplicados (p."
+        }
+      ],
+      "preview": "np.unique devuelve los valores distintos; la tasa es n_únicos / n. len(ids)/len(ids) es un truco que siempre da 1.0 y no"
+    },
+    {
+      "bi": 221,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ndarray, dtype, creación"
+        }
+      ],
+      "preview": "ndarray, dtype, creación"
+    },
+    {
+      "bi": 222,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.2,
+      "FH": 69.7,
+      "INFLESZ": 64.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Reglas de alineación de shapes"
+        }
+      ],
+      "preview": "Reglas de alineación de shapes"
+    },
+    {
+      "bi": 223,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "máscaras, fancy index, views"
+        }
+      ],
+      "preview": "máscaras, fancy index, views"
+    },
+    {
+      "bi": 224,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Capítulos de ndarray y vectorización"
+        }
+      ],
+      "preview": "Capítulos de ndarray y vectorización"
+    },
+    {
+      "bi": 225,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 3.0,
+      "FH": 22.8,
+      "INFLESZ": 15.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Tutoriales oficiales del proyecto"
+        }
+      ],
+      "preview": "Tutoriales oficiales del proyecto"
+    },
+    {
+      "bi": 226,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Bases de estructuras y eficiencia"
+        }
+      ],
+      "preview": "Bases de estructuras y eficiencia"
+    },
+    {
+      "bi": 227,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 3.0,
+      "FH": 21.7,
+      "INFLESZ": 14.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Fundamentos previos al cómputo vectorizado"
+        }
+      ],
+      "preview": "Fundamentos previos al cómputo vectorizado"
+    },
+    {
+      "bi": 228,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.12,
+      "FH": 71.2,
+      "INFLESZ": 66.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Edición pública del curso (progreso en el navegador)"
+        }
+      ],
+      "preview": "Edición pública del curso (progreso en el navegador)"
+    },
+    {
+      "bi": 229,
+      "key": "note",
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Práctica de Python previo a NumPy"
+        }
+      ],
+      "preview": "Práctica de Python previo a NumPy"
+    }
+  ],
+  "worst": [
+    {
+      "bi": 13,
+      "key": "paragraphs",
+      "wc": 41,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ],
+        [
+          "L",
+          "high comma density"
+        ]
+      ],
+      "sent": "Diccionario rápido: ndarray (bloque homogéneo), dtype (tipo de cada elemento), shape (dimensiones), máscara (filtro booleano), ufunc (operación elemento a elemento), broadcast (alinear shapes), view vs copy (compartir o no la memoria), NaN/inf (ausencia o no-finito — no son ceros de negocio)."
+    },
+    {
+      "bi": 32,
+      "key": "paragraphs",
+      "wc": 35,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Las reducciones (code, code, code, code, code) colapsan uno o más ejes y son el corazón de las métricas de calidad del tablero: convierten una matriz de flags en un vector de completitud por campo."
+    },
+    {
+      "bi": 54,
+      "key": "paragraphs",
+      "wc": 38,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud — el número exacto depende de tu máquina, por eso el demo reporta code y no un SLA fijo."
+    },
+    {
+      "bi": 154,
+      "key": "context",
+      "wc": 42,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Eres analista de data quality en una fintech peruana: con arrays sintéticos de flags de completitud e ids/scores por cliente (Lima/Arequipa/Cusco, code), implementas el núcleo vectorizado del tablero de calidad — métricas, señales por pares, benchmark loop vs code y tests code."
+    },
+    {
+      "bi": 163,
+      "key": "portfolioNote",
+      "wc": 39,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "En el README del repo: documenta shapes y dtypes de cada métrica, el rtol/atol de allclose, el presupuesto de memoria si calculas matrices n×n, y aclara que el ratio de tiempo depende de la máquina (no es un SLA)."
+    }
+  ]
+}

@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 31,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s31-165b54362c",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"n_nodes\", len(nodes))\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S31-T1-A-E1; pista: Usa literales de dict/list.."
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\nprint(\"top\", top)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S31-T1-A-E2, dejo la salida contractual. Hint: Acumula en un dict.."
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\n",
+      "justification_from_packet": "Exploro el fixture sintético de S31-T1-A-E3 y aplico solo el TODO/defecto del paquete. sets para etypes.."
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"n\", n)\nprint(\"pairs\", len(c))\nprint(\"pair\", pair)\n",
+      "justification_from_packet": "Hints + starter de S31-T1-B-E1: implemento el print/predicado del contrato. Pista: tuple (src,dst) como clave.."
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\nprint(\"n\", len(f))\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S31-T1-B-E2; pista: Compara strings ISO fecha ordenables.."
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\nprint(\"ok\", n_bad == 0)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S31-T1-B-E3, dejo la salida contractual. Hint: strip de strings.."
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\nprint(\"owns\", owns)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S31-T2-A-E1 y aplico solo el TODO/defecto del paquete. list comprehension.."
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\nprint(\"shared\", shared)\n",
+      "justification_from_packet": "Hints + starter de S31-T2-A-E2: implemento el print/predicado del contrato. Pista: groupby por value.."
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\nprint(\"n_nodes\", len(nodes))\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S31-T2-A-E3; pista: sets.."
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\nprint(\"canon_edges\", ce)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S31-T2-B-E1, dejo la salida contractual. Hint: map.get(x,x).."
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[('A','B')]['sum'])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"n_pairs\", len(agg))\n",
+      "justification_from_packet": "Exploro el fixture sintético de S31-T2-B-E2 y aplico solo el TODO/defecto del paquete. defaultdict.."
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\nprint(\"ok\", total == detail_n)\n",
+      "justification_from_packet": "Hints + starter de S31-T2-B-E3: implemento el print/predicado del contrato. Pista: sum v['n'].."
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\nprint(\"deg\", {k: deg[k] for k in sorted(deg)})\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S31-T3-A-E1; pista: undirected: cuenta ambos extremos.."
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\nprint(\"comps\", comps)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S31-T3-A-E2, dejo la salida contractual. Hint: DFS o BFS.."
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\nprint(\"path\", path)\nprint(\"hops\", len(path)-1 if path else None)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S31-T3-A-E3 y aplico solo el TODO/defecto del paquete. deque BFS.."
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "deg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\nprint(\"top\", top)\n",
+      "justification_from_packet": "Hints + starter de S31-T3-B-E1: implemento el print/predicado del contrato. Pista: score = deg/max_deg.."
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "hub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\nprint(\"class\", kind)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S31-T3-B-E2; pista: startswith.."
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "incident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\nprint(\"high\", high)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S31-T3-B-E3, dejo la salida contractual. Hint: revisa edge types incidentes.."
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\nprint(\"k1\", sorted(ego(\"A\", 1)))\nprint(\"k2\", sorted(ego(\"A\", 2)))\n",
+      "justification_from_packet": "Exploro el fixture sintético de S31-T4-A-E1 y aplico solo el TODO/defecto del paquete. expansión por capas.."
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\nprint(\"no_self\", no_self)\n",
+      "justification_from_packet": "Hints + starter de S31-T4-A-E2: implemento el print/predicado del contrato. Pista: any self loop.."
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "raw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\nprint(\"equal\", build(raw) == build(raw))\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S31-T4-A-E3; pista: función build → frozenset.."
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\nprint(\"redacted\", red)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S31-T4-B-E1, dejo la salida contractual. Hint: partition @.."
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\nprint(\"evidence\", records)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S31-T4-B-E2 y aplico solo el TODO/defecto del paquete. zip path path[1:].."
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "max_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\nprint(\"n5000\", decide(5000))\n",
+      "justification_from_packet": "Hints + starter de S31-T4-B-E3: implemento el print/predicado del contrato. Pista: comparar.."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S31: elijo «Posición estructural que requiere contexto, no culpa» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S31: elijo «Auditar source/record_id del hecho relacional» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S31: elijo «Conservar detalle o punteros además del agregado» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S31: elijo «Un hecho de contacto compartido a investigar con evidencia, no veredicto» alineado a learning outcomes y theory del slim_packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:21.200832+00:00",
+  "session_started_at": "2026-07-23T14:32:04.521481+00:00",
+  "session_ended_at": "2026-07-23T14:32:58.541481+00:00",
+  "receipt_response_sha256": "f8acafc397fc1b8ddd0941659c4a2faf937c33491c4474dc118b4c21a3b7d6ff",
+  "receipt_exercises_sha256": "f2a1311463797563d9cdf116c6050f6bc4be74b6d5f8e1377bc6ad63c5a13716",
+  "receipt_selfcheck_sha256": "53ce6a63f24b30cca3232568ca87dfe5153445d4d0c635a627f6967b23b8fad5"
+}

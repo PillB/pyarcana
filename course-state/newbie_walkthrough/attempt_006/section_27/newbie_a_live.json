@@ -1,0 +1,275 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 27,
+  "packet_source": "course-state/newbie_walkthrough/attempt_006/packets/section_27.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "score product impact*likelihood",
+      "code": "impact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": ["impact", "likelihood", "score", "print"],
+      "note": "From theory risk scoring: score = impact * likelihood"
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "names ordered by score desc",
+      "code": "rows = [('e2e', 2, 1), ('unit', 5, 5)]\nordered = sorted(rows, key=lambda r: r[1] * r[2], reverse=True)\nprint([name for name, _i, _l in ordered])\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["sorted", "reverse", "key product"],
+      "note": "iDo scored order; unit 25 beats e2e 2"
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "top layer unit is True",
+      "code": "top_layer = 'unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["pirámide", "unit layer"],
+      "note": "Pyramid top/base prioritizes unit"
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "normalize casefold join split",
+      "code": "s = ' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["casefold", "split", "join"],
+      "note": "iDo normalize_name pattern"
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "AAA assert ANA -> ana then pass",
+      "code": "raw = 'ANA'\noracle = 'ana'\ngot = ' '.join(raw.casefold().split())\nassert got == oracle\nprint('pass')\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["AAA", "assert", "oracle"],
+      "note": "Arrange Act Assert from theory"
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "exact match after normalize both",
+      "code": "a, b = 'X Y', 'x  y'\nna = ' '.join(a.casefold().split())\nnb = ' '.join(b.casefold().split())\nprint(na == nb)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["exact_match", "normalize both"],
+      "note": "exact_match contract after normalize"
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "filter test_ prefix",
+      "code": "names = ['test_a', 'helper', 'test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["startswith", "discovery test_*"],
+      "note": "pytest discovers test_* names"
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "soft assert fail when unequal",
+      "code": "left, right = 'a', 'b'\nprint('fail' if left != right else 'ok')\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["ternary", "soft assert"],
+      "note": "left!=right → fail"
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "parametrize table strip",
+      "code": "table = [(' x ', 'x')]\nprint(table)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["parametrize", "table"],
+      "note": "mental parametrize table for strip"
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "deepcopy keeps original n=1",
+      "code": "from copy import deepcopy\norig = [{'n': 1}]\nc = deepcopy(orig)\nc[0]['n'] = 99\nprint(orig[0]['n'])\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["deepcopy", "isolation"],
+      "note": "iDo contacts_fx isolation"
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "default fixture scope function",
+      "code": "print('function')\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["fixture scope", "function"],
+      "note": "theory: function is default scope"
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "factory make(n) length 3",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["factory fixture", "list comp"],
+      "note": "factory returns n synthetic contacts"
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "math.isclose for floats",
+      "code": "import math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["math.isclose", "floats"],
+      "note": "theory float tolerance"
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "catch ValueError from int('x')",
+      "code": "try:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["try/except", "ValueError"],
+      "note": "exception path taught in theory/iDo"
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "NamedTemporaryFile write ok and read strip",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', encoding='utf-8', delete=False) as f:\n    f.write('ok')\n    path = f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": ["NamedTemporaryFile", "delete=False", "utf-8", "Path.read_text"],
+      "note": "NamedTemporaryFile taught in S27 theory (temp files heading)"
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "raise ValueError email vacío",
+      "code": "email = ''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(str(e))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["raise", "ValueError", "except"],
+      "note": "negative case with message"
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "guard @ presence",
+      "code": "s = 'sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["in", "guard"],
+      "note": "email shape guard"
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "f-string !r without PII",
+      "code": "v = -1\nprint(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["f-string", "!r"],
+      "note": "useful message pattern from theory"
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "branch hi/lo",
+      "code": "def f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["if/else", "branches"],
+      "note": "two branches covered"
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "missing non branch",
+      "code": "hit = {'auto', 'review'}\nprint('non' not in hit)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["membership", "branch coverage"],
+      "note": "non not covered → True"
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "branch percent 66",
+      "code": "k, n = 2, 3\nprint(int(100 * k / n))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["int", "branch %"],
+      "note": "2/3 → 66"
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "mutant without strip fails",
+      "code": "raw = ' a '\ndef good(s):\n    return s.strip()\ndef mutant(s):\n    return s\nprint(mutant(raw) != 'a' or good(raw) == 'a')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["mutation", "kill mutant"],
+      "note": "conceptual mutation: weak strip"
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "useful failure dict",
+      "code": "print({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["useful failure", "dict"],
+      "note": "expected vs actual for CI"
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "regression policy string",
+      "code": "print('bug_repro → regression_test')\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["regression policy", "CP-N3-A"],
+      "note": "each bug → regression test"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Pruebas unitarias",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory pirámide: base más ancha = muchas pruebas unitarias baratas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory AAA: oráculo = fuente de verdad del assert (valor fijo o invariante)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "Theory mutación: si quitas casefold y ningún test falla, el mutante sobrevivió."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance + theory: matching no implica fraude ni parentesco."
+    }
+  ],
+  "confusion_points": [
+    "Platform id still async-concurrency while title is pytest strategy.",
+    "NamedTemporaryFile is in S27 theory alongside TemporaryDirectory."
+  ],
+  "retrospection": "S27 attempt_006 explorer: NamedTemporaryFile taught in theory; all 24 weDo + 4 selfcheck answerable from packet. blocked_count=0.",
+  "summary": {
+    "n_exercises": 24,
+    "n_exercises_answered": 24,
+    "n_exercises_blocked": 0,
+    "n_selfcheck": 4,
+    "n_selfcheck_blocked": 0,
+    "blocked_count": 0
+  }
+}

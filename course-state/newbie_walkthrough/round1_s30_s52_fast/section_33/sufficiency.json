@@ -1,0 +1,44 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Ser needs_review con horizonte"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Dummy/regla y costos"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Features scaled y causal=False"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Leakage de la misma entidad entre folds"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.88,
+    "correct_preview": "Válido si está bien logueado: la comparación honesta incluye derrotas"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "La configuración de entrenamiento: penalty=\"l2\" y la fuerza (C o λ) en el log"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Contra el dummy y la regla determinista (el mejor baseline simple), idealmente t"
+  }
+]

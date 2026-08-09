@@ -1,0 +1,265 @@
+{
+  "lane": "LANE-N1-FACTORY",
+  "mode": "PARALLEL_PRODUCTION",
+  "updated_at": "2026-07-20T16:00:00Z",
+  "status": "FACTORY_BLUEPRINTS_COMPLETE",
+  "sections_in_scope": [
+    "S04",
+    "S05",
+    "S06",
+    "S07",
+    "S08"
+  ],
+  "section_passed": false,
+  "note": "No section marked passed. No large .ts rewrites. Checkpoint/ledger/seed/s01-s03 not edited.",
+  "mapping_authority": {
+    "platform_ids_stable": true,
+    "v3_topics_are_production_target": true,
+    "map": {
+      "S04": {
+        "platform_id": "functions-modules",
+        "platform_title": "Functions, Modules & Packaging",
+        "v3_title": "Iteración y resúmenes transaccionales",
+        "gate": "CP-N1-A"
+      },
+      "S05": {
+        "platform_id": "oop",
+        "platform_title": "Object-Oriented Programming (OOP)",
+        "v3_title": "Funciones, contratos y descomposición",
+        "gate": null
+      },
+      "S06": {
+        "platform_id": "numpy",
+        "platform_title": "NumPy: Vectorized Computing",
+        "v3_title": "Colecciones y estructuras de datos",
+        "gate": null
+      },
+      "S07": {
+        "platform_id": "data-acquisition",
+        "platform_title": "Adquisición de Datos para Data Science",
+        "v3_title": "Texto, Unicode y expresiones regulares",
+        "gate": null,
+        "orphan_file": "s07-pandas.ts"
+      },
+      "S08": {
+        "platform_id": "pandas",
+        "platform_title": "Pandas: Data Cleaning & EDA",
+        "v3_title": "Archivos, CSV, JSON y contratos de ingesta",
+        "gate": "CP-N1-B"
+      }
+    }
+  },
+  "count_validation_per_section": {
+    "S04": {
+      "section_id": "functions-modules",
+      "v3_title": "Iteración y resúmenes transaccionales",
+      "platform_title": "Functions, Modules & Packaging",
+      "count_validation": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "student_exercises": 24,
+        "topic_evaluations": 4,
+        "topic_eval_tasks": 8,
+        "exam_families": 8,
+        "exam_variants": 24,
+        "section_exam": 1,
+        "project_increments": 1,
+        "matches_canonical_vector_slice": true,
+        "formula_check": {
+          "subtopics": "4 topics × 2 = 8",
+          "demos": "8 × 1 = 8",
+          "exercises": "8 × 3 = 24",
+          "variants": "8 × 3 = 24",
+          "topic_evals": "4 × 1 = 4"
+        }
+      },
+      "planned_slug_count": 8,
+      "planned_exercise_count": 24,
+      "planned_demo_count": 8,
+      "gate": "CP-N1-A",
+      "counts_ok": true,
+      "section_passed": false
+    },
+    "S05": {
+      "section_id": "oop",
+      "v3_title": "Funciones, contratos y descomposición",
+      "platform_title": "Object-Oriented Programming (OOP)",
+      "count_validation": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "student_exercises": 24,
+        "topic_evaluations": 4,
+        "topic_eval_tasks": 8,
+        "exam_families": 8,
+        "exam_variants": 24,
+        "section_exam": 1,
+        "project_increments": 1,
+        "matches_canonical_vector_slice": true,
+        "formula_check": {
+          "subtopics": "4 topics × 2 = 8",
+          "demos": "8 × 1 = 8",
+          "exercises": "8 × 3 = 24",
+          "variants": "8 × 3 = 24",
+          "topic_evals": "4 × 1 = 4"
+        }
+      },
+      "planned_slug_count": 8,
+      "planned_exercise_count": 24,
+      "planned_demo_count": 8,
+      "gate": null,
+      "counts_ok": true,
+      "section_passed": false
+    },
+    "S06": {
+      "section_id": "numpy",
+      "v3_title": "Colecciones y estructuras de datos",
+      "platform_title": "NumPy: Vectorized Computing",
+      "count_validation": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "student_exercises": 24,
+        "topic_evaluations": 4,
+        "topic_eval_tasks": 8,
+        "exam_families": 8,
+        "exam_variants": 24,
+        "section_exam": 1,
+        "project_increments": 1,
+        "matches_canonical_vector_slice": true,
+        "formula_check": {
+          "subtopics": "4 topics × 2 = 8",
+          "demos": "8 × 1 = 8",
+          "exercises": "8 × 3 = 24",
+          "variants": "8 × 3 = 24",
+          "topic_evals": "4 × 1 = 4"
+        }
+      },
+      "planned_slug_count": 8,
+      "planned_exercise_count": 24,
+      "planned_demo_count": 8,
+      "gate": null,
+      "counts_ok": true,
+      "section_passed": false
+    },
+    "S07": {
+      "section_id": "data-acquisition",
+      "v3_title": "Texto, Unicode y expresiones regulares",
+      "platform_title": "Adquisición de Datos para Data Science",
+      "count_validation": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "student_exercises": 24,
+        "topic_evaluations": 4,
+        "topic_eval_tasks": 8,
+        "exam_families": 8,
+        "exam_variants": 24,
+        "section_exam": 1,
+        "project_increments": 1,
+        "matches_canonical_vector_slice": true,
+        "formula_check": {
+          "subtopics": "4 topics × 2 = 8",
+          "demos": "8 × 1 = 8",
+          "exercises": "8 × 3 = 24",
+          "variants": "8 × 3 = 24",
+          "topic_evals": "4 × 1 = 4"
+        }
+      },
+      "planned_slug_count": 8,
+      "planned_exercise_count": 24,
+      "planned_demo_count": 8,
+      "gate": null,
+      "counts_ok": true,
+      "section_passed": false
+    },
+    "S08": {
+      "section_id": "pandas",
+      "v3_title": "Archivos, CSV, JSON y contratos de ingesta",
+      "platform_title": "Pandas: Data Cleaning & EDA",
+      "count_validation": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "student_exercises": 24,
+        "topic_evaluations": 4,
+        "topic_eval_tasks": 8,
+        "exam_families": 8,
+        "exam_variants": 24,
+        "section_exam": 1,
+        "project_increments": 1,
+        "matches_canonical_vector_slice": true,
+        "formula_check": {
+          "subtopics": "4 topics × 2 = 8",
+          "demos": "8 × 1 = 8",
+          "exercises": "8 × 3 = 24",
+          "variants": "8 × 3 = 24",
+          "topic_evals": "4 × 1 = 4"
+        }
+      },
+      "planned_slug_count": 8,
+      "planned_exercise_count": 24,
+      "planned_demo_count": 8,
+      "gate": "CP-N1-B",
+      "counts_ok": true,
+      "section_passed": false
+    }
+  },
+  "artifacts_written": [
+    "course-state/s04_phase0.json",
+    "course-state/s04_phase1.json",
+    "course-state/s04_phase2.json",
+    "course-state/s04_phase3.json",
+    "course-state/s05_phase0.json",
+    "course-state/s05_phase1.json",
+    "course-state/s05_phase2.json",
+    "course-state/s05_phase3.json",
+    "course-state/s06_phase0.json",
+    "course-state/s06_phase1.json",
+    "course-state/s06_phase2.json",
+    "course-state/s06_phase3.json",
+    "course-state/s07_phase0.json",
+    "course-state/s07_phase1.json",
+    "course-state/s07_phase2.json",
+    "course-state/s07_phase3.json",
+    "course-state/s08_phase0.json",
+    "course-state/s08_phase1.json",
+    "course-state/s08_phase2.json",
+    "course-state/s08_phase3.json",
+    "course-state/lanes/LANE-N1-FACTORY.status.json"
+  ],
+  "do_not_edit_respected": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/capstone_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "prisma/seed.ts",
+    "src/lib/course/sections/s01-setup.ts",
+    "src/lib/course/sections/s02-basics.ts",
+    "src/lib/course/sections/s03-data-structures.ts"
+  ],
+  "phases_per_section": {
+    "PHASE_0": "COMPLETE",
+    "PHASE_1": "COMPLETE",
+    "PHASE_2": "COMPLETE (condensed research ≥4 official sources)",
+    "PHASE_3": "COMPLETE (full blueprint + count_validation)",
+    "PHASE_4": "NOT_STARTED",
+    "PHASE_5": "NOT_STARTED"
+  },
+  "capstone_gates": {
+    "CP-N1-A": {
+      "section": "S04",
+      "specified_in": "course-state/s04_phase3.json project_increment.gate_acceptance",
+      "state": "SPECIFIED_NOT_PASSED"
+    },
+    "CP-N1-B": {
+      "section": "S08",
+      "specified_in": "course-state/s08_phase3.json project_increment.gate_acceptance",
+      "state": "SPECIFIED_NOT_PASSED"
+    }
+  },
+  "next_for_orchestrator": "Merge factory status. Schedule PHASE 4 authorship per section (T1-A first). Do not mark S04–S08 passed. Coordinate legacy migration destinations (OOP→S11, NumPy→S14, pandas→L2, APIs→S12).",
+  "blocked": false
+}

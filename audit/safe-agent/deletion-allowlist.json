@@ -1,0 +1,11 @@
+{
+  "description": "Explicit reviewed deletions only. Empty by default — deletion budget is zero.",
+  "allowlist": [],
+  "schema": {
+    "path": "tracked path relative to repo root",
+    "request_id": "DestructiveChangeRequest ID",
+    "authorized_by": "human handle",
+    "authorized_at": "ISO-8601",
+    "reason": "short reason"
+  }
+}

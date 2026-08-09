@@ -1,14 +1,31 @@
+# PyArcana robots.txt
+# The course content (under /capstones/) and credential verification page
+# (/verify) are intended for direct-link use by learners and credential
+# verifiers, not for search-engine indexing. Disallowing them keeps the capstone
+# rubrics/briefs (which contain grading criteria) out of public search results
+# and prevents credential verification IDs from being crawled.
+
 User-agent: Googlebot
 Allow: /
+Disallow: /capstones/
+Disallow: /verify
 
 User-agent: Bingbot
 Allow: /
+Disallow: /capstones/
+Disallow: /verify
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /capstones/
+Disallow: /verify
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /capstones/
+Disallow: /verify
 
 User-agent: *
 Allow: /
+Disallow: /capstones/
+Disallow: /verify

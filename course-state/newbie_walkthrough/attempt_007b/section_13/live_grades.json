@@ -1,0 +1,1081 @@
+{
+  "section_index": 13,
+  "section_id": "rpa-automation",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S13-T1-A-E1",
+          "code": "import re\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\nprint(norm_name(\" Ana  QUISPE \"))\nprint(norm_doc(\"D-12.34\"))",
+          "note": "",
+          "concepts_used": [
+            "norm name/doc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-A-E2",
+          "code": "def blocking_key(rec):\n    toks = rec[\"name\"].casefold().split()\n    ap = toks[1] if len(toks) >= 2 else toks[0]\n    return f\"{ap}|{rec['region'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))",
+          "note": "",
+          "concepts_used": [
+            "blocking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-A-E3",
+          "code": "import re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef bkey(r):\n    ap = r[\"name\"].casefold().split()[-1]\n    return f\"{ap}|{r['region'].casefold()}\"\ndef er_score(a, b):\n    same_doc = norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"])\n    same_block = bkey(a) == bkey(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc:\n        return 0.5\n    return 0.0\nA = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nB = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nC = {\"name\": \"Ana Other\", \"document_id\": \"X1\", \"region\": \"Cusco\"}\nD = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"region\": \"Lima\"}\nprint(er_score(A, B), er_score(A, C), er_score(A, D))",
+          "note": "",
+          "concepts_used": [
+            "ER score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-B-E1",
+          "code": "tp, fp, fn = 8, 2, 2\nprint(\"precision\", round(tp / (tp + fp), 3))\nprint(\"recall\", round(tp / (tp + fn), 3))",
+          "note": "",
+          "concepts_used": [
+            "precision recall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-B-E2",
+          "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\nprint(clerical_queue(pairs))",
+          "note": "",
+          "concepts_used": [
+            "cola clerical"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-B-E3",
+          "code": "print(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")\nprint(\"ops_action:\", \"needs_review\")",
+          "note": "",
+          "concepts_used": [
+            "FP no fraude"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-A-E1",
+          "code": "def shared_email(a, b):\n    return bool(a) and bool(b) and a.casefold() == b.casefold()\nprint(shared_email(\"Ana@Example.com\", \"ana@example.com\"))\nprint(shared_email(\"\", \"\"))\nprint(shared_email(\"a@x.com\", \"b@x.com\"))",
+          "note": "",
+          "concepts_used": [
+            "shared email"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-A-E2",
+          "code": "def rel_score(km, surname_jaccard):\n    return round(0.6 * (1 if km < 2 else 0) + 0.4 * surname_jaccard, 3)\nprint(rel_score(1.2, 0.5))\nprint(rel_score(5.0, 0.5))",
+          "note": "",
+          "concepts_used": [
+            "rel_score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-A-E3",
+          "code": "print(\"relationship_signal_score no implica parentesco ni colusión\")",
+          "note": "",
+          "concepts_used": [
+            "disclaimer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-B-E1",
+          "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    ends = {a, b}\n    return [m for x, y, m in txs if {x, y} == ends]\nprint(direct_txs(txs, \"A\", \"B\"))",
+          "note": "",
+          "concepts_used": [
+            "direct txs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-B-E2",
+          "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c) - {a, c})\nprint(common_counterparties(txs, \"A\", \"C\"))",
+          "note": "",
+          "concepts_used": [
+            "common counterparties"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-B-E3",
+          "code": "print(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")",
+          "note": "",
+          "concepts_used": [
+            "disclaimers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-A-E1",
+          "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing_fields={missing}\",\n    ]\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))",
+          "note": "",
+          "concepts_used": [
+            "explanation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-A-E2",
+          "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))",
+          "note": "",
+          "concepts_used": [
+            "uncertainty"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-A-E3",
+          "code": "er, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 3)\nconflict = abs(er - rel) > 0.5\nprint(\"evidence_score\", score)\nprint(\"uncertainty\", \"high\" if conflict else \"low\")\nprint(\"note\", \"señales conflictivas\")",
+          "note": "",
+          "concepts_used": [
+            "conflict score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-B-E1",
+          "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n    \"review_high\": 0.7,\n}\nprint(sorted(thresholds.items()))",
+          "note": "",
+          "concepts_used": [
+            "thresholds"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-B-E2",
+          "code": "th = {\"accept_min\": 0.8, \"review_low\": 0.4, \"review_high\": 0.7}\ndef decide_ops_status(score, unc, th):\n    if unc == \"high\" or th[\"review_low\"] <= score <= th[\"review_high\"]:\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score >= th[\"accept_min\"]:\n        return \"accept_pair\"\n    return \"needs_review\"\nfor s, u in [(0.9, \"low\"), (0.55, \"med\"), (0.2, \"low\"), (0.85, \"high\")]:\n    print(s, u, decide_ops_status(s, u, th))",
+          "note": "",
+          "concepts_used": [
+            "decide_ops"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-B-E3",
+          "code": "out = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}\nforbidden = {\"is_family\", \"auto_fraud\"}\nclean = {k: v for k, v in out.items() if k not in forbidden}\nprint(sorted(clean.keys()))",
+          "note": "",
+          "concepts_used": [
+            "strip forbidden"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-A-E1",
+          "code": "def pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\nprint(pseudonymize(\"Ana Quispe Rojas\"))",
+          "note": "",
+          "concepts_used": [
+            "pseudonymize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-A-E2",
+          "code": "def case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\nprint(case_sheet(0.9, 0.4))",
+          "note": "",
+          "concepts_used": [
+            "ER != REL"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-A-E3",
+          "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat} lon={lon} geo_distance_km={km} source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))",
+          "note": "",
+          "concepts_used": [
+            "tooltip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-B-E1",
+          "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\nprint(privacy[\"pii_real\"])",
+          "note": "",
+          "concepts_used": [
+            "privacy CF-1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-B-E2",
+          "code": "def demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\nprint(demo_command())",
+          "note": "",
+          "concepts_used": [
+            "demo cmd"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-B-E3",
+          "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-check S01-S13 critical paths after incident\")",
+          "note": "",
+          "concepts_used": [
+            "incident runbook"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S13-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ana quispe\nd1234\n",
+          "expected_head": "ana quispe\nd1234",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "huamán|cusco\n",
+          "expected_head": "huamán|cusco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0 0.5 0.0\n",
+          "expected_head": "1.0 0.5 0.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "precision 0.8\nrecall 0.8\n",
+          "expected_head": "precision 0.8\nrecall 0.8",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['P2', 'P3']\n",
+          "expected_head": "['P2', 'P3']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fp_not_fraud: False positive de matching no es evidencia de delito\nops_action: needs_review\n",
+          "expected_head": "fp_not_fraud: False positive de matching no es evidencia de delito\nops_action: needs_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nFalse\n",
+          "expected_head": "True\nFalse\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.8\n0.2\n",
+          "expected_head": "0.8\n0.2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "relationship_signal_score no implica parentesco ni colusión\n",
+          "expected_head": "relationship_signal_score no implica parentesco ni colusión",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[10, 5]\n",
+          "expected_head": "[10, 5]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['D']\n",
+          "expected_head": "['D']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_collusion: contraparte común no prueba acuerdo ilícito\nno_kinship: contraparte común no prueba parentesco\n",
+          "expected_head": "no_collusion: contraparte común no prueba acuerdo ilícito\nno_kinship: contraparte común no prueba parentesco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['entity_resolution_score=0.9', 'relationship_signal_score=0.4', \"missing_fields=['phone']\"]\n",
+          "expected_head": "['entity_resolution_score=0.9', 'relationship_signal_score=0.4', \"missing=['phone']\"]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "low\nmed\nhigh\nhigh\n",
+          "expected_head": "low\nmed\nhigh\nhigh",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "evidence_score 0.58\nuncertainty high\nnote señales conflictivas\n",
+          "expected_head": "evidence_score 0.58\nuncertainty high\nnote señales conflictivas",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[('accept_min', 0.8), ('review_high', 0.7), ('review_low', 0.4)]\n",
+          "expected_head": "[('accept_min', 0.8), ('review_high', 0.7), ('review_low', 0.4)]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9 low accept_pair\n0.55 med needs_review\n0.2 low abstain\n0.85 high needs_review\n",
+          "expected_head": "0.9 low accept_pair\n0.55 med needs_review\n0.2 low abstain\n0.85 high needs_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['score', 'status']\n",
+          "expected_head": "['score', 'status']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "A*** Q*** R***\n",
+          "expected_head": "A*** Q*** R***",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'entity_resolution_score': 0.9, 'relationship_signal_score': 0.4}\n",
+          "expected_head": "{'entity_resolution_score': 0.9, 'relationship_signal_score': 0.4}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lat=-12.04 lon=-77.04 geo_distance_km=1.2 source=mock\n",
+          "expected_head": "lat=-12.04,lon=-77.04,geo_distance_km=1.2,source=mock",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['data_class', 'pii_real', 'roles']\nFalse\n",
+          "expected_head": "['data_class', 'pii_real', 'roles']\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "python -m demo_n1_dashboard --synthetic\n",
+          "expected_head": "python -m demo_n1_dashboard --synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rotate_secret|redact_logs|postmortem\nlevel1_regression: re-check S01-S13 critical paths after incident\n",
+          "expected_head": "rotate_secret|redact_logs|postmortem\nlevel1_regression: re-check S01-S13 critical paths after incident",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S13-T1-A-E1",
+          "code": "import re\ndef norm_name(n):\n    return re.sub(r'\\s+', ' ', n.casefold().strip())\ndef norm_doc(d):\n    return re.sub(r'[^a-z0-9]', '', d.casefold())\nprint(norm_name(\" Ana  QUISPE \"))\nprint(norm_doc(\"D-12.34\"))",
+          "note": "",
+          "concepts_used": [
+            "norm_name",
+            "norm_doc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-A-E2",
+          "code": "def blocking_key(rec):\n    toks = rec['name'].casefold().split()\n    ap = toks[1] if len(toks) >= 2 else toks[0]\n    return f\"{ap}|{rec['region'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))",
+          "note": "",
+          "concepts_used": [
+            "blocking key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-A-E3",
+          "code": "import re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef bkey(r):\n    ap = r[\"name\"].casefold().split()[-1]\n    return f\"{ap}|{r['region'].casefold()}\"\ndef er_score(a, b):\n    same_doc = norm_doc(a['document_id']) == norm_doc(b['document_id'])\n    same_block = bkey(a) == bkey(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc:\n        return 0.5\n    return 0.0\nA = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nB = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nC = {\"name\": \"Ana Other\", \"document_id\": \"X1\", \"region\": \"Cusco\"}\nD = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"region\": \"Lima\"}\nprint(er_score(A, B), er_score(A, C), er_score(A, D))",
+          "note": "",
+          "concepts_used": [
+            "deterministic ER"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-B-E1",
+          "code": "tp, fp, fn = 8, 2, 2\nprint(\"precision\", round(tp / (tp + fp), 3))\nprint(\"recall\", round(tp / (tp + fn), 3))",
+          "note": "",
+          "concepts_used": [
+            "precision recall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-B-E2",
+          "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p['id'] for p in pairs if low <= p['score'] <= high]\nprint(clerical_queue(pairs))",
+          "note": "",
+          "concepts_used": [
+            "clerical queue"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T1-B-E3",
+          "code": "print(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")\nprint(\"ops_action:\", \"needs_review\")",
+          "note": "",
+          "concepts_used": [
+            "FP not fraud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-A-E1",
+          "code": "def shared_email(a, b):\n    return bool(a and b and a.casefold() == b.casefold())\nprint(shared_email(\"Ana@Example.com\", \"ana@example.com\"))\nprint(shared_email(\"\", \"\"))\nprint(shared_email(\"a@x.com\", \"b@x.com\"))",
+          "note": "",
+          "concepts_used": [
+            "shared email"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-A-E2",
+          "code": "def rel_score(km, surname_jaccard):\n    return round(0.6 * (1 if km < 2 else 0) + 0.4 * surname_jaccard, 3)\nprint(rel_score(1.2, 0.5))\nprint(rel_score(5.0, 0.5))",
+          "note": "",
+          "concepts_used": [
+            "rel score weights"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-A-E3",
+          "code": "print(\"relationship_signal_score no implica parentesco ni colusión\")",
+          "note": "",
+          "concepts_used": [
+            "disclaimer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-B-E1",
+          "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    out = []\n    for x, y, m in txs:\n        if {x, y} == {a, b}:\n            out.append(m)\n    return out\nprint(direct_txs(txs, \"A\", \"B\"))",
+          "note": "",
+          "concepts_used": [
+            "direct txs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-B-E2",
+          "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\ndef common_counterparties(txs, a, c):\n    return sorted((neighbors(txs, a) & neighbors(txs, c)) - {a, c})\nprint(common_counterparties(txs, \"A\", \"C\"))",
+          "note": "",
+          "concepts_used": [
+            "common counterparties"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T2-B-E3",
+          "code": "print(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")",
+          "note": "",
+          "concepts_used": [
+            "disclaimers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-A-E1",
+          "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing={missing}\",\n    ]\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))",
+          "note": "",
+          "concepts_used": [
+            "explanation bullets"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-A-E2",
+          "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return 'high'\n    if missing:\n        return 'med'\n    return 'low'\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))",
+          "note": "",
+          "concepts_used": [
+            "uncertainty bands"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-A-E3",
+          "code": "er, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 3)\nconflict = abs(er - rel) > 0.5\nprint(\"evidence_score\", score)\nprint(\"uncertainty\", \"high\" if conflict else \"low\")\nprint(\"note\", \"señales conflictivas\")",
+          "note": "",
+          "concepts_used": [
+            "conflict honest"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-B-E1",
+          "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n    \"review_high\": 0.7,\n}\nprint(sorted(thresholds.items()))",
+          "note": "",
+          "concepts_used": [
+            "thresholds"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-B-E2",
+          "code": "th = {\"accept_min\": 0.8, \"review_low\": 0.4, \"review_high\": 0.7}\ndef decide_ops_status(score, unc, th):\n    if unc == 'high' or th['review_low'] <= score <= th['review_high']:\n        return 'needs_review'\n    if score < th['review_low']:\n        return 'abstain'\n    if score >= th['accept_min']:\n        return 'accept_pair'\n    return 'needs_review'\nfor s, u in [(0.9, \"low\"), (0.55, \"med\"), (0.2, \"low\"), (0.85, \"high\")]:\n    print(s, u, decide_ops_status(s, u, th))",
+          "note": "",
+          "concepts_used": [
+            "ops status"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T3-B-E3",
+          "code": "out = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}\nforbidden = {\"is_family\", \"auto_fraud\"}\nclean = {k: v for k, v in out.items() if k not in forbidden}\nprint(sorted(clean.keys()))",
+          "note": "",
+          "concepts_used": [
+            "strip forbidden"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-A-E1",
+          "code": "def pseudonymize(name):\n    return ' '.join(p[0] + '***' for p in name.split() if p)\nprint(pseudonymize(\"Ana Quispe Rojas\"))",
+          "note": "",
+          "concepts_used": [
+            "pseudonymize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-A-E2",
+          "code": "def case_sheet(er, rel):\n    return {\n        'entity_resolution_score': er,\n        'relationship_signal_score': rel,\n    }\nprint(case_sheet(0.9, 0.4))",
+          "note": "",
+          "concepts_used": [
+            "separate scores"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-A-E3",
+          "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat}, lon={lon}, geo_distance_km={km}, source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))",
+          "note": "",
+          "concepts_used": [
+            "map tooltip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-B-E1",
+          "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\nprint(privacy[\"pii_real\"])",
+          "note": "",
+          "concepts_used": [
+            "CF-1 privacy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-B-E2",
+          "code": "def demo_command():\n    return 'python -m demo_n1_dashboard --synthetic'\nprint(demo_command())",
+          "note": "",
+          "concepts_used": [
+            "demo command"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S13-T4-B-E3",
+          "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-check S01-S13 critical paths after incident\")",
+          "note": "",
+          "concepts_used": [
+            "PII incident runbook"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S13-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ana quispe\nd1234\n",
+          "expected_head": "ana quispe\nd1234",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "huamán|cusco\n",
+          "expected_head": "huamán|cusco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0 0.5 0.0\n",
+          "expected_head": "1.0 0.5 0.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "precision 0.8\nrecall 0.8\n",
+          "expected_head": "precision 0.8\nrecall 0.8",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['P2', 'P3']\n",
+          "expected_head": "['P2', 'P3']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fp_not_fraud: False positive de matching no es evidencia de delito\nops_action: needs_review\n",
+          "expected_head": "fp_not_fraud: False positive de matching no es evidencia de delito\nops_action: needs_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nFalse\n",
+          "expected_head": "True\nFalse\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.8\n0.2\n",
+          "expected_head": "0.8\n0.2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "relationship_signal_score no implica parentesco ni colusión\n",
+          "expected_head": "relationship_signal_score no implica parentesco ni colusión",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[10, 5]\n",
+          "expected_head": "[10, 5]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['D']\n",
+          "expected_head": "['D']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_collusion: contraparte común no prueba acuerdo ilícito\nno_kinship: contraparte común no prueba parentesco\n",
+          "expected_head": "no_collusion: contraparte común no prueba acuerdo ilícito\nno_kinship: contraparte común no prueba parentesco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['entity_resolution_score=0.9', 'relationship_signal_score=0.4', \"missing=['phone']\"]\n",
+          "expected_head": "['entity_resolution_score=0.9', 'relationship_signal_score=0.4', \"missing=['phone']\"]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "low\nmed\nhigh\nhigh\n",
+          "expected_head": "low\nmed\nhigh\nhigh",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "evidence_score 0.58\nuncertainty high\nnote señales conflictivas\n",
+          "expected_head": "evidence_score 0.58\nuncertainty high\nnote señales conflictivas",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[('accept_min', 0.8), ('review_high', 0.7), ('review_low', 0.4)]\n",
+          "expected_head": "[('accept_min', 0.8), ('review_high', 0.7), ('review_low', 0.4)]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9 low accept_pair\n0.55 med needs_review\n0.2 low abstain\n0.85 high needs_review\n",
+          "expected_head": "0.9 low accept_pair\n0.55 med needs_review\n0.2 low abstain\n0.85 high needs_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['score', 'status']\n",
+          "expected_head": "['score', 'status']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "A*** Q*** R***\n",
+          "expected_head": "A*** Q*** R***",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'entity_resolution_score': 0.9, 'relationship_signal_score': 0.4}\n",
+          "expected_head": "{'entity_resolution_score': 0.9, 'relationship_signal_score': 0.4}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lat=-12.04, lon=-77.04, geo_distance_km=1.2, source=mock\n",
+          "expected_head": "lat=-12.04,lon=-77.04,geo_distance_km=1.2,source=mock",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['data_class', 'pii_real', 'roles']\nFalse\n",
+          "expected_head": "['data_class', 'pii_real', 'roles']\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "python -m demo_n1_dashboard --synthetic\n",
+          "expected_head": "python -m demo_n1_dashboard --synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S13-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rotate_secret|redact_logs|postmortem\nlevel1_regression: re-check S01-S13 critical paths after incident\n",
+          "expected_head": "rotate_secret|redact_logs|postmortem\nlevel1_regression: re-check S01-S13 critical paths after incident",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

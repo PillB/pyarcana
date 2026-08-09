@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 41,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-s41-newbie_a-55a8a366306c",
+  "production_note": "agentic_G1 dual-LLM Explorer: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S41-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\nmeets_contract = record[\"method\"] == \"POST\" and record[\"status\"] == 201 and record.get(\"created\") is True\nstatus = \"PASS\" if meets_contract else \"RETURN_CORRECT_HTTP_STATUS\"\nprint(\"S41-T1-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T1-A-E1: instruction del paquete «S41-T1-A-E1 · Calcula el contrato de `recursos, métodos y status` sobre `CASO-ARE-041-1A`. La entrada es el dict completo del starter; la operación debe demostr…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S41-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"method\", \"resource\", \"created\", \"status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"method\"] == \"POST\" and record[\"status\"] == 201 and record.get(\"created\") is True) else \"RETURN_CORRECT_HTTP_STATUS\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\ninvalid = {**valid, **{\"status\": 200, \"method\": \"GET\"}}\nincomplete = {k: v for k, v in valid.items() if k != \"status\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T1-A-E2: instruction del paquete «S41-T1-A-E2 · Modela tres rutas de `recursos, métodos y status`: fixture válido, fixture adverso y registro sin `status`. Entrada: dict con case_id, method, res…». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S41-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"method\", \"resource\", \"created\", \"status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RESOURCE_SEMANTICS\"\n    if record[\"method\"] == \"POST\" and record[\"status\"] == 201 and record.get(\"created\") is True:\n        return \"CONTINUE\"\n    return \"RETURN_CORRECT_HTTP_STATUS\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\ninvalid = {**valid, **{\"status\": 200, \"method\": \"GET\"}}\nincomplete = {k: v for k, v in valid.items() if k != \"status\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T1-A-E3: instruction del paquete «S41-T1-A-E3 · Simula fallo cerrado para `recursos, métodos y status` con tres fixtures distintos. `CASO-ARE-041-1A` debe continuar, el adverso debe devolver `RE…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S41-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-1B\", **{\"key\":\"idem-are-1\",\"request_hash\":\"abc\",\"stored_hash\":\"abc\",\"effects\":1,\"cursor\":\"job-020\",\"version\":\"v1\"}}\nmeets_contract = record[\"effects\"] == 1 and record[\"request_hash\"] == record[\"stored_hash\"] and bool(record.get(\"version\"))\nstatus = \"PASS\" if meets_contract else \"RETURN_IDEMPOTENCY_CONFLICT\"\nprint(\"S41-T1-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T1-B-E1: instruction del paquete «S41-T1-B-E1 · Compara el contrato de `idempotencia, paginación y versionado` sobre `CASO-ARE-041-1B`. La entrada es el dict completo del starter; la operación d…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-1B\", **{\"key\":\"idem-are-1\",\"request`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S41-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"key\", \"request_hash\", \"stored_hash\", \"effects\", \"cursor\", \"version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"effects\"] == 1 and record[\"request_hash\"] == record[\"stored_hash\"] and bool(record.get(\"version\"))) else \"RETURN_IDEMPOTENCY_CONFLICT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-1B\", **{\"key\":\"idem-are-1\",\"request_hash\":\"abc\",\"stored_hash\":\"abc\",\"effects\":1,\"cursor\":\"job-020\",\"version\":\"v1\"}}\ninvalid = {**valid, **{\"effects\": 2}}\nincomplete = {k: v for k, v in valid.items() if k != \"version\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T1-B-E2: instruction del paquete «S41-T1-B-E2 · Verifica tres rutas de `idempotencia, paginación y versionado`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_i…». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S41-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"key\", \"request_hash\", \"stored_hash\", \"effects\", \"cursor\", \"version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REPLAY_STORED_RESPONSE\"\n    if record[\"effects\"] == 1 and record[\"request_hash\"] == record[\"stored_hash\"] and bool(record.get(\"version\")):\n        return \"CONTINUE\"\n    return \"RETURN_IDEMPOTENCY_CONFLICT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-1B\", **{\"key\":\"idem-are-1\",\"request_hash\":\"abc\",\"stored_hash\":\"abc\",\"effects\":1,\"cursor\":\"job-020\",\"version\":\"v1\"}}\ninvalid = {**valid, **{\"effects\": 2}}\nincomplete = {k: v for k, v in valid.items() if k != \"version\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T1-B-E3: instruction del paquete «S41-T1-B-E3 · Extiende fallo cerrado para `idempotencia, paginación y versionado` con tres fixtures distintos. `CASO-ARE-041-1B` debe continuar, el adverso debe…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S41-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-2A\", **{\"handler_lines\":4,\"dependency_injectable\":True,\"domain_imports_http\":False,\"domain_called\":True}}\nmeets_contract = record[\"handler_lines\"] <= 20 and record.get(\"dependency_injectable\") and not record.get(\"domain_imports_http\") and record.get(\"domain_called\")\nstatus = \"PASS\" if meets_contract else \"THIN_THE_HANDLER\"\nprint(\"S41-T2-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T2-A-E1: instruction del paquete «S41-T2-A-E1 · Filtra el contrato de `routing, dependencies y modelos` sobre `CASO-ARE-041-2A`. La entrada es el dict completo del starter; la operación debe dem…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-2A\", **{\"handler_lines\":4,\"dependen`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S41-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"handler_lines\", \"dependency_injectable\", \"domain_imports_http\", \"domain_called\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"handler_lines\"] <= 20 and record.get(\"dependency_injectable\") and not record.get(\"domain_imports_http\") and record.get(\"domain_called\")) else \"THIN_THE_HANDLER\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-2A\", **{\"handler_lines\":4,\"dependency_injectable\":True,\"domain_imports_http\":False,\"domain_called\":True}}\ninvalid = {**valid, **{\"handler_lines\": 80, \"domain_imports_http\": True}}\nincomplete = {k: v for k, v in valid.items() if k != \"domain_called\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T2-A-E2: instruction del paquete «S41-T2-A-E2 · Clasifica tres rutas de `routing, dependencies y modelos`: fixture válido, fixture adverso y registro sin `domain_called`. Entrada: dict con case_…». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S41-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"handler_lines\", \"dependency_injectable\", \"domain_imports_http\", \"domain_called\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_DEPENDENCY_BOUNDARY\"\n    if record[\"handler_lines\"] <= 20 and record.get(\"dependency_injectable\") and not record.get(\"domain_imports_http\") and record.get(\"domain_called\"):\n        return \"CONTINUE\"\n    return \"THIN_THE_HANDLER\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-2A\", **{\"handler_lines\":4,\"dependency_injectable\":True,\"domain_imports_http\":False,\"domain_called\":True}}\ninvalid = {**valid, **{\"handler_lines\": 80, \"domain_imports_http\": True}}\nincomplete = {k: v for k, v in valid.items() if k != \"domain_called\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T2-A-E3: instruction del paquete «S41-T2-A-E3 · Defiende fallo cerrado para `routing, dependencies y modelos` con tres fixtures distintos. `CASO-ARE-041-2A` debe continuar, el adverso debe devol…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S41-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-2B\", **{\"input_valid\":False,\"status\":422,\"response_fields\":{\"job_id\",\"status\"},\"internal_fields\":{\"secret\",\"db_pk\"},\"openapi_matches\":True}}\nmeets_contract = (record.get(\"input_valid\") is True or record[\"status\"] == 422) and not (record[\"response_fields\"] & record[\"internal_fields\"]) and record.get(\"openapi_matches\")\nstatus = \"PASS\" if meets_contract else \"REJECT_AND_REDACT\"\nprint(\"S41-T2-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T2-B-E1: instruction del paquete «S41-T2-B-E1 · Modela el contrato de `validación, serialización y documentación` sobre `CASO-ARE-041-2B`. La entrada es el dict completo del starter; la operació…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-2B\", **{\"input_valid\":False,\"status`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S41-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"input_valid\", \"status\", \"response_fields\", \"openapi_matches\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((record.get(\"input_valid\") is True or record[\"status\"] == 422) and not (record[\"response_fields\"] & record[\"internal_fields\"]) and record.get(\"openapi_matches\")) else \"REJECT_AND_REDACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-2B\", **{\"input_valid\":False,\"status\":422,\"response_fields\":{\"job_id\",\"status\"},\"internal_fields\":{\"secret\",\"db_pk\"},\"openapi_matches\":True}}\ninvalid = {**valid, **{\"status\": 200, \"response_fields\": {\"job_id\", \"secret\"}}}\nincomplete = {k: v for k, v in valid.items() if k != \"openapi_matches\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T2-B-E2: instruction del paquete «S41-T2-B-E2 · Audita tres rutas de `validación, serialización y documentación`: fixture válido, fixture adverso y registro sin `openapi_matches`. Entrada: dict …». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S41-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"input_valid\", \"status\", \"response_fields\", \"openapi_matches\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGENERATE_OPENAPI\"\n    if (record.get(\"input_valid\") is True or record[\"status\"] == 422) and not (record[\"response_fields\"] & record[\"internal_fields\"]) and record.get(\"openapi_matches\"):\n        return \"CONTINUE\"\n    return \"REJECT_AND_REDACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-2B\", **{\"input_valid\":False,\"status\":422,\"response_fields\":{\"job_id\",\"status\"},\"internal_fields\":{\"secret\",\"db_pk\"},\"openapi_matches\":True}}\ninvalid = {**valid, **{\"status\": 200, \"response_fields\": {\"job_id\", \"secret\"}}}\nincomplete = {k: v for k, v in valid.items() if k != \"openapi_matches\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T2-B-E3: instruction del paquete «S41-T2-B-E3 · Recupera fallo cerrado para `validación, serialización y documentación` con tres fixtures distintos. `CASO-ARE-041-2B` debe continuar, el adverso …». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S41-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-3A\", **{\"work_kind\":\"io\",\"uses_await\":True,\"cpu_offloaded\":True,\"durable_job\":True}}\nmeets_contract = ((record[\"work_kind\"] == \"io\" and record.get(\"uses_await\")) or (record[\"work_kind\"] == \"cpu\" and record.get(\"cpu_offloaded\"))) and record.get(\"durable_job\")\nstatus = \"PASS\" if meets_contract else \"MOVE_WORK_OFF_EVENT_LOOP\"\nprint(\"S41-T3-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T3-A-E1: instruction del paquete «S41-T3-A-E1 · Verifica el contrato de `sync/async y background boundaries` sobre `CASO-ARE-041-3A`. La entrada es el dict completo del starter; la operación deb…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-3A\", **{\"work_kind\":\"io\",\"uses_awai`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S41-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"work_kind\", \"uses_await\", \"cpu_offloaded\", \"durable_job\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (((record[\"work_kind\"] == \"io\" and record.get(\"uses_await\")) or (record[\"work_kind\"] == \"cpu\" and record.get(\"cpu_offloaded\"))) and record.get(\"durable_job\")) else \"MOVE_WORK_OFF_EVENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-3A\", **{\"work_kind\":\"io\",\"uses_await\":True,\"cpu_offloaded\":True,\"durable_job\":True}}\ninvalid = {**valid, **{\"work_kind\": \"cpu\", \"cpu_offloaded\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"durable_job\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T3-A-E2: instruction del paquete «S41-T3-A-E2 · Decide tres rutas de `sync/async y background boundaries`: fixture válido, fixture adverso y registro sin `durable_job`. Entrada: dict con case_id…». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S41-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"work_kind\", \"uses_await\", \"cpu_offloaded\", \"durable_job\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CHOOSE_BACKGROUND_BOUNDARY\"\n    if ((record[\"work_kind\"] == \"io\" and record.get(\"uses_await\")) or (record[\"work_kind\"] == \"cpu\" and record.get(\"cpu_offloaded\"))) and record.get(\"durable_job\"):\n        return \"CONTINUE\"\n    return \"MOVE_WORK_OFF_EVENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-3A\", **{\"work_kind\":\"io\",\"uses_await\":True,\"cpu_offloaded\":True,\"durable_job\":True}}\ninvalid = {**valid, **{\"work_kind\": \"cpu\", \"cpu_offloaded\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"durable_job\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T3-A-E3: instruction del paquete «S41-T3-A-E3 · Contrasta fallo cerrado para `sync/async y background boundaries` con tres fixtures distintos. `CASO-ARE-041-3A` debe continuar, el adverso debe d…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S41-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"service_budget_ms\":700,\"db_budget_ms\":450,\"error_code\":\"UPSTREAM_TIMEOUT\",\"resource_closed\":True}}\nmeets_contract = record[\"db_budget_ms\"] < record[\"service_budget_ms\"] < record[\"client_timeout_ms\"] and record.get(\"resource_closed\") and bool(record.get(\"error_code\"))\nstatus = \"PASS\" if meets_contract else \"CANCEL_AND_CLOSE\"\nprint(\"S41-T3-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T3-B-E1: instruction del paquete «S41-T3-B-E1 · Clasifica el contrato de `errores, timeouts y lifecycle` sobre `CASO-ARE-041-3B`. La entrada es el dict completo del starter; la operación debe de…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"se`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S41-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"client_timeout_ms\", \"service_budget_ms\", \"db_budget_ms\", \"error_code\", \"resource_closed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"db_budget_ms\"] < record[\"service_budget_ms\"] < record[\"client_timeout_ms\"] and record.get(\"resource_closed\") and bool(record.get(\"error_code\"))) else \"CANCEL_AND_CLOSE\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"service_budget_ms\":700,\"db_budget_ms\":450,\"error_code\":\"UPSTREAM_TIMEOUT\",\"resource_closed\":True}}\ninvalid = {**valid, **{\"db_budget_ms\": 1000, \"resource_closed\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"resource_closed\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T3-B-E2: instruction del paquete «S41-T3-B-E2 · Calcula tres rutas de `errores, timeouts y lifecycle`: fixture válido, fixture adverso y registro sin `resource_closed`. Entrada: dict con case_id…». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S41-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"client_timeout_ms\", \"service_budget_ms\", \"db_budget_ms\", \"error_code\", \"resource_closed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RECALCULATE_TIMEOUT_BUDGET\"\n    if record[\"db_budget_ms\"] < record[\"service_budget_ms\"] < record[\"client_timeout_ms\"] and record.get(\"resource_closed\") and bool(record.get(\"error_code\")):\n        return \"CONTINUE\"\n    return \"CANCEL_AND_CLOSE\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"service_budget_ms\":700,\"db_budget_ms\":450,\"error_code\":\"UPSTREAM_TIMEOUT\",\"resource_closed\":True}}\ninvalid = {**valid, **{\"db_budget_ms\": 1000, \"resource_closed\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"resource_closed\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T3-B-E3: instruction del paquete «S41-T3-B-E3 · Instrumenta fallo cerrado para `errores, timeouts y lifecycle` con tres fixtures distintos. `CASO-ARE-041-3B` debe continuar, el adverso debe devo…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S41-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\",\"integration\"},\"rule_unit\":True,\"http_contract\":True,\"adapter_integration\":True,\"seeded_failure_detected\":True}}\nmeets_contract = record[\"layers\"] >= {\"unit\", \"contract\", \"integration\"} and record.get(\"seeded_failure_detected\") and record.get(\"rule_unit\") and record.get(\"http_contract\") and record.get(\"adapter_integration\")\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNTESTED_CONTRACT\"\nprint(\"S41-T4-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T4-A-E1: instruction del paquete «S41-T4-A-E1 · Audita el contrato de `unit/contract/integration` sobre `CASO-ARE-041-4A`. La entrada es el dict completo del starter; la operación debe demostrar…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\"`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S41-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"seeded_failure_detected\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"layers\"] >= {\"unit\", \"contract\", \"integration\"} and record.get(\"seeded_failure_detected\") and record.get(\"rule_unit\") and record.get(\"http_contract\") and record.get(\"adapter_integration\")) else \"BLOCK_UNTESTED_CONTRACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\",\"integration\"},\"rule_unit\":True,\"http_contract\":True,\"adapter_integration\":True,\"seeded_failure_detected\":True}}\ninvalid = {**valid, **{\"layers\": {\"unit\"}, \"seeded_failure_detected\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"seeded_failure_detected\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T4-A-E2: instruction del paquete «S41-T4-A-E2 · Compara tres rutas de `unit/contract/integration`: fixture válido, fixture adverso y registro sin `seeded_failure_detected`. Entrada: dict con cas…». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S41-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"seeded_failure_detected\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_REVIEW\"\n    if record[\"layers\"] >= {\"unit\", \"contract\", \"integration\"} and record.get(\"seeded_failure_detected\") and record.get(\"rule_unit\") and record.get(\"http_contract\") and record.get(\"adapter_integration\"):\n        return \"CONTINUE\"\n    return \"BLOCK_UNTESTED_CONTRACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\",\"integration\"},\"rule_unit\":True,\"http_contract\":True,\"adapter_integration\":True,\"seeded_failure_detected\":True}}\ninvalid = {**valid, **{\"layers\": {\"unit\"}, \"seeded_failure_detected\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"seeded_failure_detected\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T4-A-E3: instruction del paquete «S41-T4-A-E3 · Aísla fallo cerrado para `unit/contract/integration` con tres fixtures distintos. `CASO-ARE-041-4A` debe continuar, el adverso debe devolver `BLOC…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S41-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-4B\", **{\"old_consumer_passes\":True,\"limit\":100,\"used\":73,\"trace_id\":\"tr-are-041\",\"pii_in_log\":False}}\nmeets_contract = record[\"used\"] <= record[\"limit\"] and not record.get(\"pii_in_log\") and record.get(\"old_consumer_passes\") and bool(record.get(\"trace_id\"))\nstatus = \"PASS\" if meets_contract else \"THROTTLE_AND_REDACT\"\nprint(\"S41-T4-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T4-B-E1: instruction del paquete «S41-T4-B-E1 · Decide el contrato de `compatibility, rate limit y observabilidad` sobre `CASO-ARE-041-4B`. La entrada es el dict completo del starter; la operaci…». Completé prints/predicado según hints e iDo. Código: `record = {\"case_id\": \"CASO-ARE-041-4B\", **{\"old_consumer_passes\":True,`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S41-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"old_consumer_passes\", \"limit\", \"used\", \"trace_id\", \"pii_in_log\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"used\"] <= record[\"limit\"] and not record.get(\"pii_in_log\") and record.get(\"old_consumer_passes\") and bool(record.get(\"trace_id\"))) else \"THROTTLE_AND_REDACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-4B\", **{\"old_consumer_passes\":True,\"limit\":100,\"used\":73,\"trace_id\":\"tr-are-041\",\"pii_in_log\":False}}\ninvalid = {**valid, **{\"used\": 150, \"pii_in_log\": True}}\nincomplete = {k: v for k, v in valid.items() if k != \"pii_in_log\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T4-B-E2: instruction del paquete «S41-T4-B-E2 · Filtra tres rutas de `compatibility, rate limit y observabilidad`: fixture válido, fixture adverso y registro sin `pii_in_log`. Entrada: dict con …». Completé prints/predicado según hints e iDo. Código: `def assess(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S41-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"old_consumer_passes\", \"limit\", \"used\", \"trace_id\", \"pii_in_log\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_COMPATIBILITY\"\n    if record[\"used\"] <= record[\"limit\"] and not record.get(\"pii_in_log\") and record.get(\"old_consumer_passes\") and bool(record.get(\"trace_id\")):\n        return \"CONTINUE\"\n    return \"THROTTLE_AND_REDACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-4B\", **{\"old_consumer_passes\":True,\"limit\":100,\"used\":73,\"trace_id\":\"tr-are-041\",\"pii_in_log\":False}}\ninvalid = {**valid, **{\"used\": 150, \"pii_in_log\": True}}\nincomplete = {k: v for k, v in valid.items() if k != \"pii_in_log\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41-T4-B-E3: instruction del paquete «S41-T4-B-E3 · Demuestra fallo cerrado para `compatibility, rate limit y observabilidad` con tres fixtures distintos. `CASO-ARE-041-4B` debe continuar, el advers…». Completé prints/predicado según hints e iDo. Código: `def decide(record: dict) -> str:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41 Q0: elijo [0] «matriz método/recurso/status probada» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41 Q1: elijo [2] «emitir REJECT_REQUEST y conservar evidencia» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41 Q2: elijo [3] «crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S41 Q3: elijo [1] «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    }
+  ],
+  "confusion_points": [
+    {
+      "note": "Explorer repaired form contracts S41"
+    }
+  ],
+  "recorded_at": "2026-07-23T06:29:05.511815+00:00",
+  "session_started_at": "2026-07-23T06:29:05.505260+00:00",
+  "session_ended_at": "2026-07-23T06:29:05.511832+00:00"
+}

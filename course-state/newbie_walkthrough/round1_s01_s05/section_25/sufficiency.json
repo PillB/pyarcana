@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Cuando el problema es determinista y la auditabilidad importa"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Descartarse o ir a human_review (fail-closed)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Tratando el texto como no confiable, sin tools por defecto y sin elevarlo a syst"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Nunca; solo aporta evidencia y borradores para un humano"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.89,
+    "correct_preview": "Abrir el circuit breaker, enrutar a fallback (rules_or_human) y dejar de martill"
+  }
+]

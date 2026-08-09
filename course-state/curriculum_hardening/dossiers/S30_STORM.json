@@ -1,0 +1,861 @@
+{
+  "section": 30,
+  "title": "Entity resolution probabilístico",
+  "file": "s30-security-infra.ts",
+  "n_required": 30,
+  "n_logged": 30,
+  "generated_at": "2026-07-24T04:34:50.504+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "ER=same entity only; score≠fraud; auto_fraud=False; synthetic gold",
+    "v3_retarget": "probabilistic ER not security infra servers",
+    "expert_pass_at": "2026-07-24T04:34:50.504+00:00"
+  },
+  "unique_foci": 30,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "exact edit token date comparators",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        },
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 1/30: «exact edit token date comparators» via Wikipedia, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exact edit token date comparators».",
+      "expand_scope": "E1/E2/E3 + docs for «exact edit token date comparators»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 1/30: «exact edit token date comparators» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "scores unit interval ordinal",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        },
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        },
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 2/30: «scores unit interval ordinal» via Wikipedia, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «scores unit interval ordinal».",
+      "expand_scope": "E1/E2/E3 + docs for «scores unit interval ordinal»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 2/30: «scores unit interval ordinal» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "explain field function contribution",
+      "research": [
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        },
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        },
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 3/30: «explain field function contribution» via RapidFuzz, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «explain field function contribution».",
+      "expand_scope": "E1/E2/E3 + docs for «explain field function contribution»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 3/30: «explain field function contribution» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "missingness not agree disagree",
+      "research": [
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        },
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        },
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 4/30: «missingness not agree disagree» via RapidFuzz, dedupe, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «missingness not agree disagree».",
+      "expand_scope": "E1/E2/E3 + docs for «missingness not agree disagree»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 4/30: «missingness not agree disagree» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "informative missing by source",
+      "research": [
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        },
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        },
+        {
+          "family": "Coursera",
+          "title": "Entity resolution",
+          "url": "https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 5/30: «informative missing by source» via Coursera, RapidFuzz, dedupe (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «informative missing by source».",
+      "expand_scope": "E1/E2/E3 + docs for «informative missing by source»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 5/30: «informative missing by source» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "frequency downweight common values",
+      "research": [
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        },
+        {
+          "family": "Coursera",
+          "title": "Entity resolution",
+          "url": "https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "data quality"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 6/30: «frequency downweight common values» via Coursera, dedupe, deeplearning.ai (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «frequency downweight common values».",
+      "expand_scope": "E1/E2/E3 + docs for «frequency downweight common values»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 6/30: «frequency downweight common values» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "blocking keys email phone surname",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Entity resolution",
+          "url": "https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "data quality"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 7/30: «blocking keys email phone surname» via Coursera, MIT, deeplearning.ai (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «blocking keys email phone surname».",
+      "expand_scope": "E1/E2/E3 + docs for «blocking keys email phone surname»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 7/30: «blocking keys email phone surname» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "candidate recall measured on gold",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "data quality"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 8/30: «candidate recall measured on gold» via Harvard, MIT, deeplearning.ai (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «candidate recall measured on gold».",
+      "expand_scope": "E1/E2/E3 + docs for «candidate recall measured on gold»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 8/30: «candidate recall measured on gold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "OR rules recall AND cost",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Christen",
+          "title": "Data Matching concepts",
+          "url": "https://link.springer.com/book/10.1007/978-3-642-31164-2",
+          "note": "blocking eval"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 9/30: «OR rules recall AND cost» via Christen, Harvard, MIT (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OR rules recall AND cost».",
+      "expand_scope": "E1/E2/E3 + docs for «OR rules recall AND cost»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 9/30: «OR rules recall AND cost» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "block size O n squared cost",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Christen",
+          "title": "Data Matching concepts",
+          "url": "https://link.springer.com/book/10.1007/978-3-642-31164-2",
+          "note": "blocking eval"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 10/30: «block size O n squared cost» via Christen, Harvard, Py4E (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «block size O n squared cost».",
+      "expand_scope": "E1/E2/E3 + docs for «block size O n squared cost»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 10/30: «block size O n squared cost» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "impossible pairs filters",
+      "research": [
+        {
+          "family": "Christen",
+          "title": "Data Matching concepts",
+          "url": "https://link.springer.com/book/10.1007/978-3-642-31164-2",
+          "note": "blocking eval"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 11/30: «impossible pairs filters» via Christen, Live, Py4E (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «impossible pairs filters».",
+      "expand_scope": "E1/E2/E3 + docs for «impossible pairs filters»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 11/30: «impossible pairs filters» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "Fellegi Sunter didactic weights",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 12/30: «Fellegi Sunter didactic weights» via Live, Py4E, Wikipedia (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Fellegi Sunter didactic weights».",
+      "expand_scope": "E1/E2/E3 + docs for «Fellegi Sunter didactic weights»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 12/30: «Fellegi Sunter didactic weights» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "thresholds auto review nonmatch",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 13/30: «thresholds auto review nonmatch» via Live, Wikipedia (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «thresholds auto review nonmatch».",
+      "expand_scope": "E1/E2/E3 + docs for «thresholds auto review nonmatch»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 13/30: «thresholds auto review nonmatch» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "no auto fraud label",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        },
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 14/30: «no auto fraud label» via Wikipedia, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no auto fraud label».",
+      "expand_scope": "E1/E2/E3 + docs for «no auto fraud label»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 14/30: «no auto fraud label» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "clerical review actor timestamp",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        },
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        },
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 15/30: «clerical review actor timestamp» via Wikipedia, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «clerical review actor timestamp».",
+      "expand_scope": "E1/E2/E3 + docs for «clerical review actor timestamp»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 15/30: «clerical review actor timestamp» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "Union Find cluster consistency",
+      "research": [
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        },
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        },
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 16/30: «Union Find cluster consistency» via RapidFuzz, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Union Find cluster consistency».",
+      "expand_scope": "E1/E2/E3 + docs for «Union Find cluster consistency»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 16/30: «Union Find cluster consistency» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "labeled pairs synthetic only",
+      "research": [
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        },
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        },
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 17/30: «labeled pairs synthetic only» via RapidFuzz, dedupe, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «labeled pairs synthetic only».",
+      "expand_scope": "E1/E2/E3 + docs for «labeled pairs synthetic only»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 17/30: «labeled pairs synthetic only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "entity level train test split no leakage",
+      "research": [
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        },
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        },
+        {
+          "family": "Coursera",
+          "title": "Entity resolution",
+          "url": "https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 18/30: «entity level train test split no leakage» via Coursera, RapidFuzz, dedupe (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «entity level train test split no leakage».",
+      "expand_scope": "E1/E2/E3 + docs for «entity level train test split no leakage»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 18/30: «entity level train test split no leakage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "pairwise precision recall F1",
+      "research": [
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        },
+        {
+          "family": "Coursera",
+          "title": "Entity resolution",
+          "url": "https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "data quality"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 19/30: «pairwise precision recall F1» via Coursera, dedupe, deeplearning.ai (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pairwise precision recall F1».",
+      "expand_scope": "E1/E2/E3 + docs for «pairwise precision recall F1»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 19/30: «pairwise precision recall F1» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "cluster metrics pair quality",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Entity resolution",
+          "url": "https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "data quality"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 20/30: «cluster metrics pair quality» via Coursera, MIT, deeplearning.ai (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cluster metrics pair quality».",
+      "expand_scope": "E1/E2/E3 + docs for «cluster metrics pair quality»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 20/30: «cluster metrics pair quality» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "error slices by source missing",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "data quality"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 21/30: «error slices by source missing» via Harvard, MIT, deeplearning.ai (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «error slices by source missing».",
+      "expand_scope": "E1/E2/E3 + docs for «error slices by source missing»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 21/30: «error slices by source missing» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "report no fraud accusations",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Christen",
+          "title": "Data Matching concepts",
+          "url": "https://link.springer.com/book/10.1007/978-3-642-31164-2",
+          "note": "blocking eval"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 22/30: «report no fraud accusations» via Christen, Harvard, MIT (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «report no fraud accusations».",
+      "expand_scope": "E1/E2/E3 + docs for «report no fraud accusations»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 22/30: «report no fraud accusations» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CP-N3-A gate close",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Christen",
+          "title": "Data Matching concepts",
+          "url": "https://link.springer.com/book/10.1007/978-3-642-31164-2",
+          "note": "blocking eval"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 23/30: «CP-N3-A gate close» via Christen, Harvard, Py4E (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N3-A gate close».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-A gate close»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 23/30: «CP-N3-A gate close» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "V3 not security infra",
+      "research": [
+        {
+          "family": "Christen",
+          "title": "Data Matching concepts",
+          "url": "https://link.springer.com/book/10.1007/978-3-642-31164-2",
+          "note": "blocking eval"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 24/30: «V3 not security infra» via Christen, Live, Py4E (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not security infra».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not security infra»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 24/30: «V3 not security infra» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "pair from S29 SQL",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 25/30: «pair from S29 SQL» via Live, Py4E, Wikipedia (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S29 SQL».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S29 SQL»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 25/30: «pair from S29 SQL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "auto_match conservative",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 26/30: «auto_match conservative» via Live, Wikipedia (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auto_match conservative».",
+      "expand_scope": "E1/E2/E3 + docs for «auto_match conservative»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 26/30: «auto_match conservative» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "benchmark required",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Record linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage",
+          "note": "overview"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        },
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 27/30: «benchmark required» via Wikipedia, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «benchmark required».",
+      "expand_scope": "E1/E2/E3 + docs for «benchmark required»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 27/30: «benchmark required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "exportable evidence vector",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Probabilistic linkage",
+          "url": "https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage",
+          "note": "Fellegi-Sunter"
+        },
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        },
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 28/30: «exportable evidence vector» via Wikipedia, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exportable evidence vector».",
+      "expand_scope": "E1/E2/E3 + docs for «exportable evidence vector»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 28/30: «exportable evidence vector» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "sim not parentesco",
+      "research": [
+        {
+          "family": "splink",
+          "title": "Docs",
+          "url": "https://moj-analytical-services.github.io/splink/",
+          "note": "modern linkage"
+        },
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        },
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 29/30: «sim not parentesco» via RapidFuzz, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sim not parentesco».",
+      "expand_scope": "E1/E2/E3 + docs for «sim not parentesco»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 29/30: «sim not parentesco» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "review queue product",
+      "research": [
+        {
+          "family": "splink",
+          "title": "Blocking rules",
+          "url": "https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html",
+          "note": "blocking recall"
+        },
+        {
+          "family": "RapidFuzz",
+          "title": "GitHub",
+          "url": "https://github.com/rapidfuzz/RapidFuzz",
+          "note": "similarity"
+        },
+        {
+          "family": "dedupe",
+          "title": "Docs",
+          "url": "https://docs.dedupe.io/",
+          "note": "active learning"
+        }
+      ],
+      "synthesize": "S30 «Entity resolution probabilístico» cycle 30/30: «review queue product» via RapidFuzz, dedupe, splink (CASO-LIM-030 / CP-N3-A Testable ER Engine).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «review queue product».",
+      "expand_scope": "E1/E2/E3 + docs for «review queue product»; V3 roadmap; pair S30 closes CP-N3-A → S31 next.",
+      "re_synthesize": "Decision 30/30: «review queue product» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

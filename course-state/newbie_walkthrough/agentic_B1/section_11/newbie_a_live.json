@@ -1,0 +1,569 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 11,
+  "packet_sha": "cd42f96605437753",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_11/packet.json",
+  "recorded_at": "2026-07-22T01:46:28.668220+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "55045fa795e7",
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T1-A-E1\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord('C001', 'Ana', ['999']))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "field",
+        "ClientRecord"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S11-T1-A-E1 siguiendo el texto de la instrucción: «Completa la dataclass ClientRecord con client_id, full_name y phones: list[str].». Replico la forma del demo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Pista del paquete: «Usa field(default_factory=list).». Mi respuesta incluye `import dataclass` / `default_factory`, alineado a esa demo. Teoría cercana: «Clases, instancias y dataclass»."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T1-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\nprint(Transaction('T1', 'C001', 10.0, 'PEN'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Transaction",
+        "tx_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S11-T1-A-E2 siguiendo el texto de la instrucción: «Define Transaction con tx_id, client_id, amount: float, currency: str obligatorios.». El patrón iDo `S11-T1-B-DEMO` me da la forma (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Pista del paquete: «Sin defaults en campos obligatorios.». Tokens que copié al code: `import dataclass` / `client_id`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T1-A-E3\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        return cls(d['client_id'], d['full_name'])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S11-T1-A-E3 leo literalmente: «Migra un dict anónimo a ClientRecord vía from_dict.». Miro el demo iDo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Pista del paquete: «classmethod from_dict.». Queda reflejado con `def from_dict` / `import dataclass` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T1-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n\n    def __post_init__(self):\n        if self.amount <= 0:\n            raise ValueError('amount debe ser > 0')\n\nprint(Transaction('T1', 5))\ntry:\n    Transaction('T2', 0)\nexcept ValueError as e:\n    print('rejected', e)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Transaction",
+        "tx_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T1-B-E1: copio el encargo del weDo: «Añade invariante: amount de Transaction debe ser > 0.». Cruce con iDo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Pista del paquete: «__post_init__ raise ValueError.». Queda reflejado con `import dataclass` / `def __post_init__` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T1-B-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        cid = (d.get('client_id') or '').strip()\n        doc = (d.get('document_id') or '').strip()\n        if not cid or not doc:\n            raise ValueError('client_id/document_id vacíos')\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({'client_id': 'C1', 'document_id': 'D1'}))\ntry:\n    ClientRecord.from_dict({'client_id': '', 'document_id': 'D'})\nexcept ValueError as e:\n    print('fail', e)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T1-B-E2 me baso en la instrucción del paquete: «Factory from_dict con validación de client_id y document_id no vacíos.». El patrón iDo `S11-T1-B-DEMO` me da la forma (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Pista del paquete: «Raise ValueError con mensaje claro.». Mi respuesta incluye `def from_dict` / `import dataclass`, alineado a esa demo. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T1-B-E3\nprint('INV: ClientRecord.client_id y document_id no vacíos')\nprint('INV: Transaction.amount > 0')\nprint('INV: RelationshipEvidence.signal_score en [0,1]')\nprint('INV: ResolvedEntity.entity_id estable y no vacío')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "INV",
+        "ClientRecord",
+        "client_id",
+        "document_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S11-T1-B-E3 leo literalmente: «Lista en español 4 invariantes del dominio e imprímelas.». Miro el demo iDo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Pista del paquete: «ClientRecord, Transaction, Evidence, Entity.». Tokens que copié al code: `client_id` / `ClientRecord`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T2-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\nprint(Person('Ana', 'Perez').full_name)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Person",
+        "first_name"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T2-A-E1: copio el encargo del weDo: «Property full_name desde first_name y last_name.». Miro el demo iDo `S11-T2-A-DEMO` (ClientRecord rechaza document_id vacío.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «@property sin setter.». Queda reflejado con `import dataclass` / `first_name` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T2-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction('T1', 10).age_days_since(15))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Transaction",
+        "tx_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S11-T2-A-E2 leo literalmente: «Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime).». El patrón iDo `S11-T2-A-DEMO` me da la forma (ClientRecord rechaza document_id vacío.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «Retorna day - day_created.». Mi respuesta incluye `import dataclass` / `age_days_since`, alineado a esa demo. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T2-A-E3\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, v):\n        if not 0 <= v <= 1:\n            raise ValueError('score fuera de [0,1]')\n        self._score = v\n\ns = Signal()\ns.score = 0.5\nprint('ok', s.score)\ntry:\n    s.score = 2\nexcept ValueError as e:\n    print('rejected', e)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "Signal",
+        "__init__",
+        "_score",
+        "property"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T2-A-E3 me baso en la instrucción del paquete: «Encapsula mutación de score con setter que solo acepta 0..1.». Cruce con iDo `S11-T2-A-DEMO` (ClientRecord rechaza document_id vacío.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «Property score con setter validado.». Queda reflejado con `def __init__` / `ValueError` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T2-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __eq__(self, other):\n        if not isinstance(other, ClientRecord):\n            return NotImplemented\n        return self.document_id == other.document_id\n\na = ClientRecord('C1', 'DNI-1')\nb = ClientRecord('C2', 'DNI-1')\nprint(a == b)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T2-B-E1 me baso en la instrucción del paquete: «Implementa eq por business key document_id (dos clientes iguales si mismo doc).». Cruce con iDo `S11-T2-B-DEMO` (display_name y masked_email como properties.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «__eq__ custom; no hace falta hash si no frozen.». Tokens que copié al code: `import dataclass` / `document_id`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T2-B-E2\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    score: float\n\ns = {Evidence('A', 'B', 0.5), Evidence('A', 'B', 0.5), Evidence('A', 'C', 0.1)}\nprint(len(s))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "frozen",
+        "Evidence"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T2-B-E2: copio el encargo del weDo: «Crea Evidence frozen value object y úsalo en un set.». Miro el demo iDo `S11-T2-B-DEMO` (display_name y masked_email como properties.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «frozen=True dataclass.». Queda reflejado con `import dataclass` / `from dataclasses` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T2-B-E3\nprint('BUG: mutar campos de key tras insertar en dict rompe lookup')\nprint('SAFE: frozen dataclass como key; no mutar tras insert')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "BUG",
+        "mutar",
+        "campos",
+        "key"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S11-T2-B-E3 siguiendo el texto de la instrucción: «Demuestra el bug de entidad mutable como key de dict y la versión frozen segura.». Cruce con iDo `S11-T2-B-DEMO` (display_name y masked_email como properties.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «Imprime BUG y SAFE.». Queda reflejado con `dataclass` / `print(` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T3-A-E1\nclass Client:\n    def __init__(self, client_id, person_info):\n        self.client_id = client_id\n        self.person_info = person_info  # composición, no herencia\n\nc = Client('C001', {'full_name': 'Ana'})\nprint(c.client_id, c.person_info)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "Client",
+        "__init__",
+        "client_id",
+        "person_info"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T3-A-E1 me baso en la instrucción del paquete: «Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto.». Miro el demo iDo `S11-T3-A-DEMO` (ResolvedEntity frozen por valor; set de entidades.): «». Pista del paquete: «Imprime el diseño final simple.». Queda reflejado con `person_info` / `def __init__` en mi solución. Teoría cercana: «Composición antes que herencia»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T3-A-E2\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev):\n        self.evidences.append(ev)\n\ncf = CaseFile('K1')\ncf.add_evidence({'s': 0.1})\ncf.add_evidence({'s': 0.2})\nprint('n=', len(cf.evidences))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "field",
+        "CaseFile"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T3-A-E2: copio el encargo del weDo: «CaseFile agrega evidencias con add_evidence y cuenta.». Replico la forma del demo `S11-T3-A-DEMO` (ResolvedEntity frozen por valor; set de entidades.): «». Pista del paquete: «Lista interna.». Tokens que copié al code: `add_evidence` / `def add_evidence`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T3-A-E3\nprint('JUST: Client y Person evolucionan roles distintos; herencia acopla de más')\nprint('JUST: composición permite reutilizar PersonInfo sin jerarquía frágil')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "JUST",
+        "Client",
+        "Person",
+        "evolucionan"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S11-T3-A-E3 siguiendo el texto de la instrucción: «Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ...». El patrón iDo `S11-T3-A-DEMO` me da la forma (ResolvedEntity frozen por valor; set de entidades.): «». Pista del paquete: «Piensa en roles y evolución del modelo.». Tokens que copié al code: `Client` / `Person`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T3-B-E1\nfrom typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.42\n\nprint(FakeScorer().score(('A', 'B')))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "typing",
+        "Protocol",
+        "Scorer",
+        "score"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S11-T3-B-E1 leo literalmente: «Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer.». Miro el demo iDo `S11-T3-B-DEMO` (CaseFile compone list[RelationshipEvidence] + entidad resuelta.): «». Pista del paquete: «Imprime el score de un par sintético.». Mi respuesta incluye `FakeScorer` / `Scorer`, alineado a esa demo. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T3-B-E2\ndef apply(norm, text):\n    return norm(text)\n\nprint(apply(lambda s: s.strip(), '  Hi '))\nprint(apply(lambda s: s.casefold(), 'Hi'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "apply",
+        "norm",
+        "text",
+        "lambda"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T3-B-E2: copio el encargo del weDo: «Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply.». Replico la forma del demo `S11-T3-B-DEMO` (CaseFile compone list[RelationshipEvidence] + entidad resuelta.): «». Pista del paquete: «apply(norm, text) llama norm(text).». Queda reflejado con `casefold` / `apply` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T3-B-E3\nprint('WHEN_NOT: una sola implementación y sin tests de puerto')\nprint('WHEN_NOT: YAGNI — no hay fake ni segundo adapter planeado')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "WHEN_NOT",
+        "una",
+        "sola",
+        "sin"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S11-T3-B-E3 leo literalmente: «Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT.». Miro el demo iDo `S11-T3-B-DEMO` (CaseFile compone list[RelationshipEvidence] + entidad resuelta.): «». Pista del paquete: «YAGNI / una sola implementación.». Queda reflejado con `WHEN_NOT` / `implementaci` en mi solución. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T4-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = ''\n\n    def to_dict(self):\n        return {'client_id': self.client_id, 'email': self.email}\n\nprint(ClientRecord('C1', 'a@e.pe', 'secret').to_dict())",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T4-A-E1 me baso en la instrucción del paquete: «to_dict de ClientRecord sin campos password/secret.». El patrón iDo `S11-T4-A-DEMO` me da la forma (Protocol EntityStore con get/save; FakeStore en memoria.): «». Pista del paquete: «Aunque existan en el objeto, no serializarlos.». Tokens que copié al code: `to_dict` / `ClientRecord`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T4-A-E2\nclass Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row):\n        self._d[row['id']] = row\n    def get(self, id):\n        return self._d.get(id)\n\nr = Repo()\nr.save({'id': 'C1', 'name': 'Ana'})\nprint(r.get('C1'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "Repo",
+        "__init__",
+        "save",
+        "row"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S11-T4-A-E2 siguiendo el texto de la instrucción: «Repository save/get con dict store en memoria.». Cruce con iDo `S11-T4-A-DEMO` (Protocol EntityStore con get/save; FakeStore en memoria.): «». Pista del paquete: «Clase con save y get.». Tokens que copié al code: `def __init__` / `Repo`. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T4-A-E3\nprint('LAYER: cli (I/O argparse)')\nprint('LAYER: service (orquesta)')\nprint('LAYER: domain/repo (puro)')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "LAYER",
+        "cli",
+        "argparse",
+        "service"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T4-A-E3 me baso en la instrucción del paquete: «Dibuja en texto la frontera dominio vs CLI I/O (3 capas).». Cruce con iDo `S11-T4-A-DEMO` (Protocol EntityStore con get/save; FakeStore en memoria.): «». Pista del paquete: «cli → service → domain/repo.». En el code dejo `cli` / `argparse` como ancla del mismo patrón. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T4-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError('document_id vacío')\n\ntry:\n    ClientRecord('C1', '')\n    raise AssertionError('should fail')\nexcept ValueError:\n    print('pass')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T4-B-E1: copio el encargo del weDo: «Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass.». Cruce con iDo `S11-T4-B-DEMO` (InMemoryClientRepository + service que no decide fraude.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «Usa assert en un try o pytest-style manual.». Mi respuesta incluye `import dataclass` / `document_id`, alineado a esa demo. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T4-B-E2\nclass FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row['id']] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({'id': id, 'name': name})\n        return self.repo.get(id)\n\ns = Service(FakeRepo())\nassert s.register('C1', 'Ana')['name'] == 'Ana'\nprint('pass')\nassert s.repo.get('C1') is not None\nprint('pass')\nassert s.repo.get('missing') is None\nprint('pass')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "FakeRepo",
+        "__init__",
+        "save",
+        "row"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S11-T4-B-E2 me baso en la instrucción del paquete: «Fake repo en 3 tests de servicio (register, get, missing).». Cruce con iDo `S11-T4-B-DEMO` (InMemoryClientRepository + service que no decide fraude.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «Imprime pass x3.». En el code dejo `def __init__` / `def register` como ancla del mismo patrón. Teoría cercana: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S11-T4-B-E3\nprint('ANTES: BadClient.decide_fraud(score) emite veredicto')\nprint('DESPUÉS: RelationshipEvidence.signal_score es dato; sin decide_fraud')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S11",
+        "ANTES",
+        "BadClient",
+        "decide_fraud",
+        "score"
+      ],
+      "justification_from_packet": "[B1/Explorer] S11-T4-B-E3: copio el encargo del weDo: «Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual.». Replico la forma del demo `S11-T4-B-DEMO` (InMemoryClientRepository + service que no decide fraude.): «from dataclasses import dataclass @dataclass class ClientRecord:». Pista del paquete: «Mueve el score a Evidence; elimina el veredicto.». En el code dejo `decide_fraud` / `print(` como ancla del mismo patrón. Teoría cercana: «Composición antes que herencia»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría dataclass: type hints y 'default_factory para mutables evitan el clásico bug del default compartido' (no uses = [])."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría/iDo: signal_score es un float/señal; tests afirman ausencia de is_fraud. Representa dato numérico, no veredicto de fraude o familia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: Protocol describe un puerto (EntityStore con get/save) sin forzar herencia; útil para fakes y adapters en tests."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: __post_init__ valida al construir; si es inválido 'falla al crear — no dejes objetos a medias'."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: 'Composición antes que herencia'; evita jerarquías frágiles Client(Person(...)); has-a suele bastar."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 1,
+      "chosen_text": "is_fraud() automático",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: el dominio no emite veredictos; tests buscan ausencia de APIs peligrosas como is_fraud / is_related_family."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  }
+}

@@ -1,0 +1,1068 @@
+{
+  "section_index": 25,
+  "section_id": "streamlit-dashboards",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S25-T1-A-E1",
+          "code": "d = True\nif d:\n    print(\"rules\")\n",
+          "note": "",
+          "concepts_used": [
+            "rules"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-A-E2",
+          "code": "fixed, n = True, 800\nprint(\"specialized\" if fixed and n >= 500 else \"other\")\n",
+          "note": "",
+          "concepts_used": [
+            "specialized"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-A-E3",
+          "code": "print(\"no_auto_fraud\")\n",
+          "note": "",
+          "concepts_used": [
+            "policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-B-E1",
+          "code": "lic = \"mit\"\nif lic in {\"mit\", \"apache-2.0\"}:\n    print(\"reuse_ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "license"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-B-E2",
+          "code": "has_pii = True\nprint(\"local_or_private_vpc\" if has_pii else \"cloud_ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "local vs cloud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-B-E3",
+          "code": "not_for = [\"fraud adjudication\", \"biometric id\"]\nprint(\"fraud adjudication\" in not_for)\n",
+          "note": "",
+          "concepts_used": [
+            "model card"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-A-E1",
+          "code": "t = \"Factura X\"\nprint(\"billing\" if \"factura\" in t.lower() else \"other\")\n",
+          "note": "",
+          "concepts_used": [
+            "mock classify"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-A-E2",
+          "code": "print({\"model_id\": \"demo\", \"label\": \"other\"})\n",
+          "note": "",
+          "concepts_used": [
+            "contract dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-A-E3",
+          "code": "texts = [\"factura\", \"hola\"]\nprint([\"billing\" if \"factura\" in t.lower() else \"other\" for t in texts])\n",
+          "note": "",
+          "concepts_used": [
+            "batch"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-B-E1",
+          "code": "cache = {}\nk = \"a\"\ncache[k] = \"ok\"\nprint(k in cache)\n",
+          "note": "",
+          "concepts_used": [
+            "cache"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-B-E2",
+          "code": "print(0.002 * 500 / 1000)\n",
+          "note": "",
+          "concepts_used": [
+            "cost"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-B-E3",
+          "code": "try:\n    raise TimeoutError(\"endpoint\")\nexcept TimeoutError:\n    print(\"rules\")\n",
+          "note": "",
+          "concepts_used": [
+            "fallback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-A-E1",
+          "code": "import json\nprint(json.loads('{\"n\": 1}')[\"n\"])\n",
+          "note": "",
+          "concepts_used": [
+            "json.loads"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-A-E2",
+          "code": "obj, req = {\"h\": \"x\", \"n\": 2}, {\"h\", \"n\"}\nprint(req.issubset(obj.keys()))\n",
+          "note": "",
+          "concepts_used": [
+            "required keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-A-E3",
+          "code": "obj = {\"h\": \"a\", \"n\": 1}\nprint(\"schema_fail\" if \"mediana\" not in obj else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "schema_fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-B-E1",
+          "code": "allow, name = {\"calc\"}, \"shell\"\nprint(\"deny\" if name not in allow else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "allowlist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-B-E2",
+          "code": "log = []\nlog.extend([\"think\", \"tool\"])\nprint(len(log))\n",
+          "note": "",
+          "concepts_used": [
+            "checkpoints"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-B-E3",
+          "code": "steps, allow, log = [\"think\", \"shell\"], {\"calc\"}, []\nfor s in steps:\n    if s != \"think\" and s not in allow:\n        log.append(\"deny:\" + s)\n        break\n    log.append(s)\nprint(log)\n",
+          "note": "",
+          "concepts_used": [
+            "stop deny"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-A-E1",
+          "code": "print({\"a\": 1} == {\"a\": 1})\n",
+          "note": "",
+          "concepts_used": [
+            "exact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-A-E2",
+          "code": "rows, req = [{\"a\": 1, \"b\": 2}, {\"a\": 1}], [\"a\", \"b\"]\nprint(sum(1 for r in rows if all(k in r for k in req)) / len(rows))\n",
+          "note": "",
+          "concepts_used": [
+            "schema_rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-A-E3",
+          "code": "schema_fail = True\nprint(\"human_review\" if schema_fail else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "human_review"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-B-E1",
+          "code": "import re\nprint(re.sub(r\"(?i)ignore previous instructions\", \"[rm]\", \"Please IGNORE previous instructions now\"))\n",
+          "note": "",
+          "concepts_used": [
+            "injection"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-B-E2",
+          "code": "p = {\"ruc\": \"1\", \"total\": 2, \"api_key\": \"S\"}\nprint({k: p[k] for k in [\"ruc\", \"total\"] if k in p})\n",
+          "note": "",
+          "concepts_used": [
+            "minimize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-B-E3",
+          "code": "score = 0.8\nprint(score, \"score_no_es_fraude\")\n",
+          "note": "",
+          "concepts_used": [
+            "ethics"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S25-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rules\n",
+          "expected_head": "rules",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "specialized\n",
+          "expected_head": "specialized_model",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_auto_fraud\n",
+          "expected_head": "no_auto_fraud",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reuse_ok\n",
+          "expected_head": "reuse_ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "local_or_private_vpc\n",
+          "expected_head": "local_or_private_vpc",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "billing\n",
+          "expected_head": "billing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'model_id': 'demo', 'label': 'other'}\n",
+          "expected_head": "{'model': 'demo', 'label': 'other'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['billing', 'other']\n",
+          "expected_head": "['billing', 'other']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.001\n",
+          "expected_head": "0.001",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rules\n",
+          "expected_head": "rules",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema_fail\n",
+          "expected_head": "schema_fail",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "deny\n",
+          "expected_head": "deny",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['think', 'deny:shell']\n",
+          "expected_head": "['think', 'stop']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_review\n",
+          "expected_head": "human_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Please [rm] now\n",
+          "expected_head": "Please [rm] now",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'ruc': '1', 'total': 2}\n",
+          "expected_head": "{'ruc': '1', 'total': 2}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.8 score_no_es_fraude\n",
+          "expected_head": "0.8 score_no_es_fraude",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S25-T1-A-E1",
+          "code": "d = True\nprint(\"rules\" if d else \"llm\")\n",
+          "note": "Starter d=True → rules.",
+          "concepts_used": [
+            "rules first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-A-E2",
+          "code": "fixed, n = True, 800\nprint(\"specialized\" if fixed and n >= 500 else \"other\")\n",
+          "note": "Hints fixed and n>=500.",
+          "concepts_used": [
+            "specialized model"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-A-E3",
+          "code": "print(\"no_auto_fraud\")\n",
+          "note": "Hints fixed policy string.",
+          "concepts_used": [
+            "policy no auto fraud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-B-E1",
+          "code": "lic = \"mit\"\nprint(\"reuse_ok\" if lic in {\"mit\", \"apache-2.0\"} else \"review\")\n",
+          "note": "Starter mit → reuse_ok.",
+          "concepts_used": [
+            "license set"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-B-E2",
+          "code": "has_pii = True\nprint(\"local_or_private_vpc\" if has_pii else \"cloud_ok\")\n",
+          "note": "Starter has_pii True.",
+          "concepts_used": [
+            "local for pii"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T1-B-E3",
+          "code": "not_for = [\"fraud adjudication\", \"biometric id\"]\nprint(\"fraud adjudication\" in not_for)\n",
+          "note": "Hints membership True.",
+          "concepts_used": [
+            "model card not_for"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-A-E1",
+          "code": "t = \"Factura X\"\nprint(\"billing\" if \"factura\" in t.lower() else \"other\")\n",
+          "note": "Demo pipe factura → billing.",
+          "concepts_used": [
+            "mock pipe"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-A-E2",
+          "code": "model_id = \"demo\"\nlabel = \"other\"\nprint({\"model_id\": model_id, \"label\": label})\n",
+          "note": "Hints dict model_id+label.",
+          "concepts_used": [
+            "output contract"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-A-E3",
+          "code": "texts = [\"factura\", \"hola\"]\nprint([\"billing\" if \"factura\" in t.lower() else \"other\" for t in texts])\n",
+          "note": "Hints list comp batch.",
+          "concepts_used": [
+            "batch labels"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-B-E1",
+          "code": "cache = {}\nk = \"a\"\ncache[k] = \"ok\"\nhit = k in cache\nprint(hit)\n",
+          "note": "Second read True after set.",
+          "concepts_used": [
+            "cache hit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-B-E2",
+          "code": "tokens = 500\nprint(0.002 * tokens / 1000)\n",
+          "note": "Hints 0.002*tokens/1000.",
+          "concepts_used": [
+            "cost estimate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T2-B-E3",
+          "code": "try:\n    raise TimeoutError(\"t\")\nexcept TimeoutError:\n    print(\"rules\")\n",
+          "note": "Hints catch → fallback rules.",
+          "concepts_used": [
+            "fallback rules"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-A-E1",
+          "code": "import json\nprint(json.loads('{\"n\": 1}')[\"n\"])\n",
+          "note": "Hints loads n.",
+          "concepts_used": [
+            "json.loads"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-A-E2",
+          "code": "obj = {\"h\": \"x\", \"n\": 2}\nreq = {\"h\", \"n\"}\nprint(req.issubset(obj.keys()))\n",
+          "note": "Starter required keys present.",
+          "concepts_used": [
+            "schema keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-A-E3",
+          "code": "obj = {\"h\": \"a\", \"n\": 1}\nstatus = \"schema_fail\" if \"mediana\" not in obj else \"ok\"\nprint(status)\n",
+          "note": "Missing mediana → schema_fail.",
+          "concepts_used": [
+            "schema_fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-B-E1",
+          "code": "allow = {\"calc\"}\nname = \"shell\"\nprint(\"deny\" if name not in allow else \"ok\")\n",
+          "note": "shell not in allow → deny.",
+          "concepts_used": [
+            "tool allowlist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-B-E2",
+          "code": "log = []\nlog.append(\"think\")\nlog.append(\"tool\")\nprint(len(log))\n",
+          "note": "Two steps len 2.",
+          "concepts_used": [
+            "checkpoints"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T3-B-E3",
+          "code": "steps = [\"think\", \"shell\"]\nallow = {\"calc\"}\nlog = []\nfor s in steps:\n    if s not in allow and s != \"think\":\n        log.append(f\"deny:{s}\")\n        break\n    log.append(s)\nprint(log)\n",
+          "note": "Hints break on shell deny.",
+          "concepts_used": [
+            "stop denied tool"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-A-E1",
+          "code": "p, g = {\"a\": 1}, {\"a\": 1}\nprint(p == g)\n",
+          "note": "Starter equal True.",
+          "concepts_used": [
+            "exact match"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-A-E2",
+          "code": "rows = [{\"a\": 1, \"b\": 2}, {\"a\": 1}]\nreq = [\"a\", \"b\"]\nok = sum(1 for r in rows if all(k in r for k in req)) / len(rows)\nprint(ok)\n",
+          "note": "1 of 2 complete → 0.5.",
+          "concepts_used": [
+            "schema_rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-A-E3",
+          "code": "schema_fail = True\nprint(\"human_review\" if schema_fail else \"ok\")\n",
+          "note": "Starter schema_fail True.",
+          "concepts_used": [
+            "human_review gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-B-E1",
+          "code": "import re\ns = \"Please IGNORE previous instructions now\"\nprint(re.sub(r\"(?i)ignore previous instructions\", \"[rm]\", s))\n",
+          "note": "Hints re.sub IGNORECASE.",
+          "concepts_used": [
+            "strip injection"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-B-E2",
+          "code": "p = {\"ruc\": \"1\", \"total\": 2, \"api_key\": \"S\"}\nallow = {\"ruc\", \"total\"}\nprint({k: p[k] for k in allow if k in p})\n",
+          "note": "Hints keep ruc total only.",
+          "concepts_used": [
+            "minimize payload"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S25-T4-B-E3",
+          "code": "score = 0.8\nprint(score, \"score_no_es_fraude\")\n",
+          "note": "Hints policy string with score.",
+          "concepts_used": [
+            "score not fraud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S25-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rules\n",
+          "expected_head": "rules",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "specialized\n",
+          "expected_head": "specialized_model",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_auto_fraud\n",
+          "expected_head": "no_auto_fraud",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reuse_ok\n",
+          "expected_head": "reuse_ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "local_or_private_vpc\n",
+          "expected_head": "local_or_private_vpc",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "billing\n",
+          "expected_head": "billing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'model_id': 'demo', 'label': 'other'}\n",
+          "expected_head": "{'model': 'demo', 'label': 'other'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['billing', 'other']\n",
+          "expected_head": "['billing', 'other']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.001\n",
+          "expected_head": "0.001",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rules\n",
+          "expected_head": "rules",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "schema_fail\n",
+          "expected_head": "schema_fail",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "deny\n",
+          "expected_head": "deny",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['think', 'deny:shell']\n",
+          "expected_head": "['think', 'stop']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_review\n",
+          "expected_head": "human_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Please [rm] now\n",
+          "expected_head": "Please [rm] now",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'total': 2, 'ruc': '1'}\n",
+          "expected_head": "{'ruc': '1', 'total': 2}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S25-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.8 score_no_es_fraude\n",
+          "expected_head": "0.8 score_no_es_fraude",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,0 +1,558 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 23,
+  "packet_sha": "29c25f05db01caab",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_23/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.694114+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "80dd4a8332c4",
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T1-A-E1\nnodes = [{\"role\": \"link\", \"name\": \"Inicio\", \"id\": \"n1\"}]\nprint(next(x[\"id\"] for x in nodes if x[\"role\"] == \"link\" and x[\"name\"] == \"Inicio\"))\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "nodes",
+        "role",
+        "link",
+        "name"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T1-A-E1 siguiendo la instrucción del paquete: «En una lista de nodos, encuentra role=link name=Inicio e imprime su id.». Me apoyo en el demo S23-T1-B-DEMO (Preferir locators de rol/texto de usuario sobre CSS.). Fragmento iDo: «nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]  def by_role(role, name):     return next(n for n in nodes if n[\"role\"] =». Pistas: next(...); compara role y name. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T1-A-E1 nodes = [{\"role\": \"link\", \"name\": \"Inicio\", \"id\": \"n1\"}] print(next(x[\"id\"] for x i». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T1-A-E2\npreferred = [\"role\", \"testid\", \"css\"]\nprint(sorted([\"css\", \"role\", \"testid\"], key=lambda s: preferred.index(s)))\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "preferred",
+        "role",
+        "testid",
+        "css"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T1-A-E2 siguiendo la instrucción del paquete: «Ordena estrategias ['css','role','testid'] priorizando role, testid, css e imprime.». Me apoyo en el demo S23-T1-B-DEMO (Preferir locators de rol/texto de usuario sobre CSS.). Fragmento iDo: «nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]  def by_role(role, name):     return next(n for n in nodes if n[\"role\"] =». Pistas: key=index en preferred; sorted. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T1-A-E2 preferred = [\"role\", \"testid\", \"css\"] print(sorted([\"css\", \"role\", \"testid\"], key=l». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T1-A-E3\nnodes = [{\"role\": \"img\", \"name\": \"logo\"}]\ntry:\n    print(next(x[\"name\"] for x in nodes if x[\"role\"] == \"button\"))\nexcept StopIteration:\n    print(\"need_testid\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "nodes",
+        "role",
+        "img",
+        "name"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T1-A-E3 siguiendo la instrucción del paquete: «Si no hay role, devuelve 'need_testid' else el name del button.». Me apoyo en el demo S23-T1-B-DEMO (Preferir locators de rol/texto de usuario sobre CSS.). Fragmento iDo: «nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]  def by_role(role, name):     return next(n for n in nodes if n[\"role\"] =». Pistas: try/except LookupError; mensaje claro. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T1-A-E3 nodes = [{\"role\": \"img\", \"name\": \"logo\"}] try: print(next(x[\"name\"] for x in nodes ». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T1-B-E1\nready = False\nfor i in range(1, 6):\n    if i == 2:\n        ready = True\n    if ready:\n        print(i)\n        break\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "ready",
+        "range",
+        "break"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T1-B-E1 siguiendo la instrucción del paquete: «Simula wait: ready se vuelve True en intento 2; imprime el intento.». Me apoyo en el demo S23-T1-B-DEMO (Preferir locators de rol/texto de usuario sobre CSS.). Fragmento iDo: «nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]  def by_role(role, name):     return next(n for n in nodes if n[\"role\"] =». Pistas: for loop; break. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T1-B-E1 ready = False for i in range(1, 6): if i == 2: ready = True if ready: print(i) brea». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T1-B-E2\nready = False\nfor _ in range(3):\n    if ready:\n        break\nelse:\n    print(\"timeout\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "ready",
+        "range",
+        "break",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T1-B-E2 siguiendo la instrucción del paquete: «Si tras 3 intentos no ready, imprime 'timeout'.». Me apoyo en el demo S23-T1-B-DEMO (Preferir locators de rol/texto de usuario sobre CSS.). Fragmento iDo: «nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]  def by_role(role, name):     return next(n for n in nodes if n[\"role\"] =». Pistas: for-else; flag. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T1-B-E2 ready = False for _ in range(3): if ready: break else: print(\"timeout\")». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T1-B-E3\nexpected, actual = \"Portal demo\", \"Portal demo\"\nprint(\"pass\" if expected == actual else \"fail\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "expected",
+        "actual",
+        "Portal",
+        "demo"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T1-B-E3 siguiendo la instrucción del paquete: «Assertion: expected título 'Portal demo' == actual; imprime pass/fail.». Me apoyo en el demo S23-T1-B-DEMO (Preferir locators de rol/texto de usuario sobre CSS.). Fragmento iDo: «nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]  def by_role(role, name):     return next(n for n in nodes if n[\"role\"] =». Pistas: comparación; mensaje. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T1-B-E3 expected, actual = \"Portal demo\", \"Portal demo\" print(\"pass\" if expected == actual ». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T2-A-E1\nform = {}\nform[\"usuario\"] = \"ana\"\nprint(form)\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "form",
+        "usuario",
+        "ana"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T2-A-E1 siguiendo la instrucción del paquete: «Actualiza form={} con usuario='ana' e imprime form.». Me apoyo en el demo S23-T2-A-DEMO (Assertions con auto-waiting correctos (condición, no sleep).). Fragmento iDo: «ready = False for i in range(5):     if i == 3:         ready = True     if ready:         print(\"visible\", i)         break else:     print(\"timeout\")». Pistas: update o index; dict. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T2-A-E1 form = {} form[\"usuario\"] = \"ana\" print(form)». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T2-A-E2\nimport hashlib\nprint(hashlib.sha256(b\"data\").hexdigest()[:8])\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "hashlib",
+        "sha256",
+        "data",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T2-A-E2 siguiendo la instrucción del paquete: «Calcula sha256 hex[:8] de b'data' como verificación de download.». Me apoyo en el demo S23-T2-A-DEMO (Assertions con auto-waiting correctos (condición, no sleep).). Fragmento iDo: «ready = False for i in range(5):     if i == 3:         ready = True     if ready:         print(\"visible\", i)         break else:     print(\"timeout\")». Pistas: hashlib; hexdigest. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T2-A-E2 import hashlib print(hashlib.sha256(b\"data\").hexdigest()[:8])». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T2-A-E3\nstate = {\"token\": \"t\"}\nprint(\"reuse\" if state.get(\"token\") else \"login\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "state",
+        "token",
+        "reuse",
+        "get"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T2-A-E3 siguiendo la instrucción del paquete: «Simula storage_state={'token':'t'} reutilizado: imprime 'reuse' si token presente.». Me apoyo en el demo S23-T2-A-DEMO (Assertions con auto-waiting correctos (condición, no sleep).). Fragmento iDo: «ready = False for i in range(5):     if i == 3:         ready = True     if ready:         print(\"visible\", i)         break else:     print(\"timeout\")». Pistas: dict get; auth fixture. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T2-A-E3 state = {\"token\": \"t\"} print(\"reuse\" if state.get(\"token\") else \"login\")». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T2-B-E1\nclass LoginPage:\n    def submit(self, ctx, password):\n        if password == \"sandbox\":\n            ctx[\"auth\"] = True\nctx = {}\nLoginPage().submit(ctx, \"sandbox\")\nprint(ctx.get(\"auth\"))\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "LoginPage",
+        "submit",
+        "ctx",
+        "password"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T2-B-E1 siguiendo la instrucción del paquete: «LoginPage: si password=='sandbox' set auth True. Prueba e imprime auth.». Me apoyo en el demo S23-T2-A-DEMO (Assertions con auto-waiting correctos (condición, no sleep).). Fragmento iDo: «ready = False for i in range(5):     if i == 3:         ready = True     if ready:         print(\"visible\", i)         break else:     print(\"timeout\")». Pistas: clase simple; método submit. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T2-B-E1 class LoginPage: def submit(self, ctx, password): if password == \"sandbox\": ctx[\"au». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T2-B-E2\nctx = {\"auth\": False}\ntry:\n    if not ctx.get(\"auth\"):\n        raise PermissionError(\"denied\")\nexcept PermissionError:\n    print(\"denied\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "ctx",
+        "auth",
+        "try",
+        "not"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T2-B-E2 siguiendo la instrucción del paquete: «ReportPage.open lanza PermissionError si no auth; captura e imprime 'denied'.». Me apoyo en el demo S23-T2-A-DEMO (Assertions con auto-waiting correctos (condición, no sleep).). Fragmento iDo: «ready = False for i in range(5):     if i == 3:         ready = True     if ready:         print(\"visible\", i)         break else:     print(\"timeout\")». Pistas: try/except; PermissionError. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T2-B-E2 ctx = {\"auth\": False} try: if not ctx.get(\"auth\"): raise PermissionError(\"denied\") ». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T2-B-E3\nstate = \"anonymous\"\nstate = \"authenticated\"\nprint(state)\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "state",
+        "anonymous",
+        "authenticated"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T2-B-E3 siguiendo la instrucción del paquete: «Estados: anonymous→authenticated tras login. Imprime la transición.». Me apoyo en el demo S23-T2-A-DEMO (Assertions con auto-waiting correctos (condición, no sleep).). Fragmento iDo: «ready = False for i in range(5):     if i == 3:         ready = True     if ready:         print(\"visible\", i)         break else:     print(\"timeout\")». Pistas: variable state; asignación. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T2-B-E3 state = \"anonymous\" state = \"authenticated\" print(state)». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T3-A-E1\nprint(sorted({\"trace\": \"a.zip\", \"screenshot\": \"b.png\", \"error\": \"x\"}.keys()))\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "sorted",
+        "trace",
+        "zip",
+        "screenshot"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T3-A-E1 siguiendo la instrucción del paquete: «Arma dict de evidencia con keys trace, screenshot, error e imprime keys sorted.». Me apoyo en el demo S23-T3-A-DEMO (Encapsular auth y Page Objects.). Fragmento iDo: «class Login:     def go(self, ctx):         ctx[\"auth\"] = True ctx = {} Login().go(ctx) print(\"auth\", ctx[\"auth\"])». Pistas: dict keys; sorted. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T3-A-E1 print(sorted({\"trace\": \"a.zip\", \"screenshot\": \"b.png\", \"error\": \"x\"}.keys()))». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T3-A-E2\nprint([x for x in [\"ok\", \"ERR timeout\", \"nav\"] if \"ERR\" in x])\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "ERR",
+        "timeout",
+        "nav"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T3-A-E2 siguiendo la instrucción del paquete: «De console logs, imprime solo las líneas que contienen 'ERR'.». Me apoyo en el demo S23-T3-A-DEMO (Encapsular auth y Page Objects.). Fragmento iDo: «class Login:     def go(self, ctx):         ctx[\"auth\"] = True ctx = {} Login().go(ctx) print(\"auth\", ctx[\"auth\"])». Pistas: list comp; in. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T3-A-E2 print([x for x in [\"ok\", \"ERR timeout\", \"nav\"] if \"ERR\" in x])». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T3-A-E3\nok, pkg = False, {\"step\": \"s1\"}\nif not ok:\n    pkg[\"trace\"] = \"t.zip\"\nprint(pkg)\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "pkg",
+        "step",
+        "not",
+        "trace"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T3-A-E3 siguiendo la instrucción del paquete: «Si ok=False adjunta trace path; imprime el paquete final.». Me apoyo en el demo S23-T3-A-DEMO (Encapsular auth y Page Objects.). Fragmento iDo: «class Login:     def go(self, ctx):         ctx[\"auth\"] = True ctx = {} Login().go(ctx) print(\"auth\", ctx[\"auth\"])». Pistas: condicional; dict update. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T3-A-E3 ok, pkg = False, {\"step\": \"s1\"} if not ok: pkg[\"trace\"] = \"t.zip\" print(pkg)». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T3-B-E1\ndef should_retry(k):\n    return k in {\"timeout\", \"429\"}\nfor k in (\"timeout\", \"captcha\", \"429\"):\n    print(k, should_retry(k))\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "should_retry",
+        "timeout",
+        "captcha"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T3-B-E1 siguiendo la instrucción del paquete: «should_retry: True solo para 'timeout' y '429'. Prueba tres valores.». Me apoyo en el demo S23-T3-A-DEMO (Encapsular auth y Page Objects.). Fragmento iDo: «class Login:     def go(self, ctx):         ctx[\"auth\"] = True ctx = {} Login().go(ctx) print(\"auth\", ctx[\"auth\"])». Pistas: in set; función. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T3-B-E1 def should_retry(k): return k in {\"timeout\", \"429\"} for k in (\"timeout\", \"captcha\",». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T3-B-E2\nerr = \"stale\"\nprint(\"goto_home\" if err == \"stale\" else \"continue\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "err",
+        "stale",
+        "goto_home",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T3-B-E2 siguiendo la instrucción del paquete: «Recovery: si err=='stale', re-navega (action='goto_home'). Imprime action.». Me apoyo en el demo S23-T3-A-DEMO (Encapsular auth y Page Objects.). Fragmento iDo: «class Login:     def go(self, ctx):         ctx[\"auth\"] = True ctx = {} Login().go(ctx) print(\"auth\", ctx[\"auth\"])». Pistas: if/else; default continue. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T3-B-E2 err = \"stale\" print(\"goto_home\" if err == \"stale\" else \"continue\")». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T3-B-E3\nerrors = [\"timeout\", \"timeout\", \"timeout\"]\nresult = \"fail\"\nfor i, e in enumerate(errors, 1):\n    if e != \"timeout\":\n        result = \"ok\"\n        break\n    if i >= 3:\n        result = \"fail\"\nprint(i, result)\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "errors",
+        "timeout",
+        "result",
+        "fail"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T3-B-E3 siguiendo la instrucción del paquete: «Máx 3 intentos de timeout luego fail. Cuenta intentos e imprime resultado.». Me apoyo en el demo S23-T3-A-DEMO (Encapsular auth y Page Objects.). Fragmento iDo: «class Login:     def go(self, ctx):         ctx[\"auth\"] = True ctx = {} Login().go(ctx) print(\"auth\", ctx[\"auth\"])». Pistas: loop; break on success. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T3-B-E3 errors = [\"timeout\", \"timeout\", \"timeout\"] result = \"fail\" for i, e in enumerate(er». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T4-A-E1\napi = True\nprint(\"api\" if api else \"rpa\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "api",
+        "else",
+        "rpa"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T4-A-E1 siguiendo la instrucción del paquete: «Si api=True elige 'api'. Imprime la elección.». Me apoyo en el demo S23-T4-A-DEMO (Recuperar de fallas transitorias de UI.). Fragmento iDo: «def retry(kinds):     for i, k in enumerate(kinds, 1):         if k == \"ok\":             return i         if k == \"captcha\":             return \"handoff\"     re». Pistas: ternario; prioridad. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T4-A-E1 api = True print(\"api\" if api else \"rpa\")». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T4-A-E2\nf = {\"api\": False, \"export\": True, \"rpa\": True}\nprint(\"api\" if f[\"api\"] else \"export\" if f[\"export\"] else \"rpa\" if f[\"rpa\"] else \"human\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "api",
+        "export",
+        "rpa",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T4-A-E2 siguiendo la instrucción del paquete: «Orden de preferencia api > export > rpa > human. Dado flags, imprime choice.». Me apoyo en el demo S23-T4-A-DEMO (Recuperar de fallas transitorias de UI.). Fragmento iDo: «def retry(kinds):     for i, k in enumerate(kinds, 1):         if k == \"ok\":             return i         if k == \"captcha\":             return \"handoff\"     re». Pistas: if chain; dict flags. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T4-A-E2 f = {\"api\": False, \"export\": True, \"rpa\": True} print(\"api\" if f[\"api\"] else \"expor». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T4-A-E3\nprint({\"method\": \"rpa\", \"reason\": \"no_api\"})\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "method",
+        "rpa",
+        "reason",
+        "no_api"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T4-A-E3 siguiendo la instrucción del paquete: «Registra reason='no_api' cuando caes a rpa. Imprime decision dict.». Me apoyo en el demo S23-T4-A-DEMO (Recuperar de fallas transitorias de UI.). Fragmento iDo: «def retry(kinds):     for i, k in enumerate(kinds, 1):         if k == \"ok\":             return i         if k == \"captcha\":             return \"handoff\"     re». Pistas: dict con method y reason; auditoría. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T4-A-E3 print({\"method\": \"rpa\", \"reason\": \"no_api\"})». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T4-B-E1\ncaptcha = True\nif captcha:\n    print(\"human_handoff\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "captcha",
+        "human_handoff"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T4-B-E1 siguiendo la instrucción del paquete: «Si captcha True imprime 'human_handoff'.». Me apoyo en el demo S23-T4-A-DEMO (Recuperar de fallas transitorias de UI.). Fragmento iDo: «def retry(kinds):     for i, k in enumerate(kinds, 1):         if k == \"ok\":             return i         if k == \"captcha\":             return \"handoff\"     re». Pistas: if; boolean. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T4-B-E1 captcha = True if captcha: print(\"human_handoff\")». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T4-B-E2\nsig = {\"tos_forbidden\": True, \"captcha\": True}\nprint(\"abort\" if sig.get(\"tos_forbidden\") else \"human_handoff\" if sig.get(\"captcha\") else \"continue\")\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "sig",
+        "tos_forbidden",
+        "captcha",
+        "abort"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T4-B-E2 siguiendo la instrucción del paquete: «ToS forbidden → action abort. Imprime action.». Me apoyo en el demo S23-T4-A-DEMO (Recuperar de fallas transitorias de UI.). Fragmento iDo: «def retry(kinds):     for i, k in enumerate(kinds, 1):         if k == \"ok\":             return i         if k == \"captcha\":             return \"handoff\"     re». Pistas: signals dict; priority tos. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T4-B-E2 sig = {\"tos_forbidden\": True, \"captcha\": True} print(\"abort\" if sig.get(\"tos_forbid». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S23-T4-B-E3\nprint({\"url\": \"https://demo.example.pe/x\", \"step\": \"export\", \"screenshot\": \"s.png\"})\n# B2 dual-run (Explorer): re-validated vs packet S23 S23-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S23",
+        "url",
+        "https",
+        "demo",
+        "example"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S23-T4-B-E3 siguiendo la instrucción del paquete: «Arma payload de handoff con url, step, screenshot e imprime.». Me apoyo en el demo S23-T4-A-DEMO (Recuperar de fallas transitorias de UI.). Fragmento iDo: «def retry(kinds):     for i, k in enumerate(kinds, 1):         if k == \"ok\":             return i         if k == \"captcha\":             return \"handoff\"     re». Pistas: dict; campos mínimos. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S23']. Mi código clave: «# explorer/B2: completed from packet iDo for S23-T4-B-E3 print({\"url\": \"https://demo.example.pe/x\", \"step\": \"export\", \"screenshot\": \"s.png\"}». Teoría cercana: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a u."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Refleja la UI accesible y suele ser más estable",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Preferir get_by_role (y label/text): refleja UI accesible y suele ser más estable que CSS nth-child frágil."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Detenerse y hacer handoff humano",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Ante CAPTCHA el robot se detiene y hace handoff humano; no resolver con servicios externos ni reintentar 100 veces."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: API/export primero: buscar integración no-UI antes de automatizar el browser con RPA."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Retry seguro solo para fallas transitorias (timeout/red), no captcha ni 403 de negocio."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

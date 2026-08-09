@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s06-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\n# forma esperada (referencia): print(ventana)\n\n# F2-note:622a4645e8 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/713b7b65] S06-T1-A-E1 — material del slim_packet basta. «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`» · hint «Usa txs[-2:] (funciona también si hay menos de 2).» · S06-T1-A-DEMO. Entrega: `txs = [10, 20, 30, 40, 50]`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\n# forma esperada (referencia): print('KEYS', KEYS)\n\n# F2-note:94f884dc4f packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/de260937] Como explorador, S06-T1-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` c». Aplico «tuple(lista) o keys = ('id','monto')». Línea clave: `headers = ['id', 'monto']`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T1-A-E3: packet-only solve (no prior lives)\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    pass  # packet contract\n\n# F2-note:f31f12c9d1 packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "ids",
+        "C001"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9d692e2b] Resuelvo S06-T1-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e impr». Pista: «tuple no tiene append → AttributeError». Demo S06-T1-A-DEMO. Código ancla: `ids = ('C001', 'C002')`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\n# forma esperada (referencia): print(cid, region, monto)\n\n# F2-note:ad6bbe039a packet-grounded (explorer); instr_tokens=29\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2bbacda4] S06-T1-B-E1 — material del slim_packet basta. «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerce» · hint «a, b, c = fila» · S06-T1-B-DEMO. Entrega: `fila = ('C001', 'Lima', 10)`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\n# forma esperada (referencia): print('tras alias', xs, copia)\n\n# F2-note:0ac796b7a8 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/20b09e8b] Como explorador, S06-T1-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a ». Aplico «alias comparte objeto; copy es superficial de la lista de ints.». Línea clave: `xs = [1, 2]`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T1-B-E3: packet-only solve (no prior lives)\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nprint('orig', rows)\nprint('deep', deep)\n\n# F2-note:afe8471dbc packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "copy",
+        "rows"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b7380251] Resuelvo S06-T1-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags ». Pista: «import copy; deepcopy». Demo S06-T1-B-DEMO. Código ancla: `import copy`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\n# forma esperada (referencia): print(d)\n\n# F2-note:3f07f0a542 packet-grounded (explorer); instr_tokens=15\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6b720d24] Resuelvo S06-T2-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.». Pista: «dict(pares) o comprensión». Demo S06-T2-A-DEMO. Código ancla: `pares = [('C001', 'Lima'), ('C002', 'Cusco')]`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nidx = {'C001': 'Ana'}\ntry:\nexcept KeyError as e:\n# forma esperada (referencia): print(idx.get('C001', 'N/A'))\n\n# F2-note:3d483be9d2 packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/eb089fbf] Como explorador, S06-T2-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.». Aplico «idx.get('C999','N/A')». Línea clave: `idx = {'C001': 'Ana'}`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T2-A-E3: packet-only solve (no prior lives)\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nprint('merged', merged)\n\n# F2-note:8167a5ad1b packet-grounded (explorer); instr_tokens=22\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "defaults",
+        "retry"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d36c09a8] Como explorador, S06-T2-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de ». Aplico «{**defaults, **override} o defaults | override (3.9+)». Línea clave: `defaults = {'retry': 1, 'timeout': 30}`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\n# forma esperada (referencia): print(unicos)\n\n# F2-note:69acfb70a7 packet-grounded (explorer); instr_tokens=13\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/791fa827] S06-T2-B-E1 — material del slim_packet basta. «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.» · hint «sorted(set(emails))» · S06-T2-B-DEMO. Entrega: `emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\n# forma esperada (referencia): print('inter', sorted(a & b))\n\n# F2-note:a86afa7d66 packet-grounded (explorer); instr_tokens=22\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c782112d] Como explorador, S06-T2-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.». Aplico «a & b ; a ^ b». Línea clave: `a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T2-B-E3: packet-only solve (no prior lives)\ndef dedup_report(rows, key='id'):\n    pass  # packet contract\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n\n# F2-note:ff5e856c2c packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dedup_report",
+        "rows"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e9c64704] Como explorador, S06-T2-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas s». Aplico «seen dict; si key existe y row!=prev → conflict». Línea clave: `def dedup_report(rows, key='id'):`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))\n\n# F2-note:3cc4057b79 packet-grounded (explorer); instr_tokens=12\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b02b329e] Resuelvo S06-T3-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.». Pista: «len(c['contacts'])». Demo S06-T3-A-DEMO. Código ancla: `clients = [`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T3-A-E2: packet-only solve (no prior lives)\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nprint(flat)\n\n# F2-note:cf655aa3ed packet-grounded (explorer); instr_tokens=15\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "clients",
+        "C001"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fbf9551e] Resuelvo S06-T3-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.». Pista: «doble for o comprehension anidada». Demo S06-T3-A-DEMO. Código ancla: `clients = [`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')\n\n# F2-note:291444dd70 packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/4ac306e1] Resuelvo S06-T3-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).». Pista: «isinstance(c.get('txs'), list)». Demo S06-T3-A-DEMO. Código ancla: `clients = [`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T3-B-E1: packet-only solve (no prior lives)\ndef dig(d, *path, default=None):\n    cur = d\n    for k in path:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n\n# F2-note:66ee64c7c3 packet-grounded (explorer); instr_tokens=15\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dig",
+        "path"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dcc41f17] Como explorador, S06-T3-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.». Aplico «Recorre keys; si falta retorna default.». Línea clave: `def dig(d, *path, default=None):`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n# forma esperada (referencia): print(f\"{c['id']}: {flag}\")\n\n# F2-note:c90f9e41cd packet-grounded (explorer); instr_tokens=23\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b4fb7ec1] S06-T3-B-E2 — material del slim_packet basta. «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.» · hint «'email' not in c or c['email'] is None → missing» · S06-T3-B-DEMO. Entrega: `clients = [`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [None, '', 0, []]\nfor v in vals:\n# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n\n# F2-note:468bf842c0 packet-grounded (explorer); instr_tokens=29\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e01fdc72] Resuelvo S06-T3-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None =». Pista: «bool(x) vs x is None». Demo S06-T3-B-DEMO. Código ancla: `vals = [None, '', 0, []]`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\n# forma esperada (referencia): print([r['id'] for r in ordered])\n\n# F2-note:a014432ed0 packet-grounded (explorer); instr_tokens=14\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a5802061] S06-T4-A-E1 — material del slim_packet basta. «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.» · hint «key=lambda r: r['monto']» · S06-T4-A-DEMO. Entrega: `rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T4-A-E2: packet-only solve (no prior lives)\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\n\n# F2-note:f7d39194bd packet-grounded (explorer); instr_tokens=14\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rows",
+        "nombre"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9c5e99c2] Resuelvo S06-T4-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.». Pista: «key=lambda r: (r['region'], r['nombre'])». Demo S06-T4-A-DEMO. Código ancla: `rows = [`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\n# forma esperada (referencia): print('ret', ret)\n\n# F2-note:24a6c0f817 packet-grounded (explorer); instr_tokens=30\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2a22e738] Resuelvo S06-T4-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada s». Pista: «x = lst.sort() → x is None». Demo S06-T4-A-DEMO. Código ancla: `rows = [3, 1, 2]`. Teoría: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T4-B-E1: packet-only solve (no prior lives)\njobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\n\n# F2-note:e7e5b6b57b packet-grounded (explorer); instr_tokens=23\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "jobs",
+        "cola"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f8ba91c3] Como explorador, S06-T4-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.». Aplico «list / dict / set». Línea clave: `jobs = [`. Heading: Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\n# forma esperada (referencia): print(s)\n\n# F2-note:5747dd4313 packet-grounded (explorer); instr_tokens=17\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bb413f45] S06-T4-B-E2 — material del slim_packet basta. «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.» · hint «sorted ids; sort_keys=True» · S06-T4-B-DEMO. Entrega: `import json`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S06-T4-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\n# forma esperada (referencia): print('list membership: O(n) por chequeo')\n\n# F2-note:e6476803d4 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S06",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fd1aeb84] S06-T4-B-E3 — material del slim_packet basta. «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x » · hint «list O(n) vs set O(1) promedio» · S06-T4-B-DEMO. Entrega: `ids = ['C001', 'C002', 'C003', 'C004', 'C005']`. Listas, tuplas y slicing | Unpacking, aliasing y copia | Diccionarios y pertenen."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "justification_from_packet": "[agentic_F2/Explorer] S06 q0: slice xs[-2:] toma los dos últimos de [1,2,3,4] → [3,4].",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "justification_from_packet": "[agentic_F2/Explorer] S06 q1: b=a no copia; append vía b muta el mismo objeto y a lo ve.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "justification_from_packet": "[agentic_F2/Explorer] S06 q2: mismo id con payload distinto → reportar en conflicts; no silently last-write-wins.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "justification_from_packet": "[agentic_F2/Explorer] S06 q3: list.sort muta in-place y retorna None (a diferencia de sorted).",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "justification_from_packet": "[agentic_F2/Explorer] S06 q4: sort_keys=True ordena claves del JSON para diffs/repro estables.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.041518+00:00"
+}

@@ -1,0 +1,536 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-explorer-s19-045b32f953",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T1-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / da…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(chart)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nmeta = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(meta)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "meta",
+        "pregunta",
+        "totales",
+        "por",
+        "regi",
+        "audiencia",
+        "ejecutivo",
+        "chart",
+        "bar",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T1-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / …»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(meta)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "elige_chart",
+        "pregunta",
+        "return",
+        "line",
+        "tendencia",
+        "lower",
+        "else",
+        "bar",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T1-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / …»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(elige_chart(\"tendencia mensual\"))', 'print(elige_chart(\"comparar regiones\"))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "truco",
+        "hon",
+        "print",
+        "factor",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T1-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / d…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(\"factor\", round(truco / hon, 2))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "ylim_bottom",
+        "print",
+        "honesto",
+        "else",
+        "revisar"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T1-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(\"honesto\" if ylim_bottom == 0 else \"revisar\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "encoding",
+        "dual_axis",
+        "print",
+        "riesgo_alto",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T1-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / da…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "bar",
+        "set_ylim"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T2-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintétic…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(ax.get_ylim()[0] == 0)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "set_ylabel",
+        "PEN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T2-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sinté…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(ax.get_ylabel())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Lima\", \"Cusco\"], [28, 22])\nax.set_xlabel(\"region\")\nax.set_ylabel(\"PEN\")\nprint(ax.get_xlabel(), ax.get_ylabel())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "bar",
+        "Lima"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T2-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sint…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(ax.get_xlabel(), ax.get_ylabel())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T2-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintétic…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "version",
+        "print",
+        "fig_cpn2b_v",
+        "png"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T2-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos …»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(f\"fig_cpn2b_v{version}.png\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([a.get_title() for a in axes])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "axes",
+        "subplots",
+        "set_title"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T2-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sin…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print([a.get_title() for a in axes])']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco",
+        "print",
+        "for"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T3-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintético…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T3-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sinté…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(f\"Lima: {28} PEN (n={40})\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "tooltip",
+        "row",
+        "return",
+        "region",
+        "median",
+        "PEN",
+        "print",
+        "Cusco"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T3-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéti…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "chart",
+        "Lima",
+        "table",
+        "region",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T3-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: char…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(chart[\"Lima\"] == table[0][\"v\"])']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "json",
+        "print",
+        "dumps",
+        "filtro_region",
+        "Lima",
+        "ensure_ascii",
+        "False"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T3-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / …»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(sum(r[\"v\"] for r in table), len(table))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "print",
+        "sum",
+        "for",
+        "len"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T3-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéti…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(sum(r[\"v\"] for r in table), len(table))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T4-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéti…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(\"unidad=PEN | fuente=sintetico\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(sorted(cap.keys()))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion",
+        "web",
+        "print",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T4-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / da…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(sorted(cap.keys()))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "pie",
+        "cap",
+        "return",
+        "join",
+        "for",
+        "items",
+        "print",
+        "unidad",
+        "PEN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T4-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos si…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(pie({\"unidad\": \"PEN\", \"n\": 10}))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "claim",
+        "Lima",
+        "mejor",
+        "del",
+        "Per",
+        "print",
+        "RECHAZADO",
+        "and",
+        "muestra",
+        "not"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T4-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sint…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "alt",
+        "Lima",
+        "PEN",
+        "print",
+        "replace"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T4-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos s…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "classify_claim",
+        "text",
+        "return",
+        "PERMITIDO",
+        "muestra",
+        "else",
+        "RECHAZADO",
+        "print",
+        "lidera"
+      ],
+      "justification_from_packet": "[G2-Explorer] S19-T4-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` /…»). Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones. Código usa ['print(classify_claim(\"lidera en la muestra web\"))', 'print(classify_claim(\"es la mejor del país\"))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S19 Q0: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia. Opts vistas: ['Pie 3D', 'Dual axis sin escala', 'Barras con baseline 0', 'Word cloud']."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S19 Q1: «Una alternativa accesible debe:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia. Opts vistas: ['Repetir los mismos números clave del cha', 'Ser opcional siempre', 'Solo ser una imagen más grande', 'Eliminar las unidades']."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S19 Q2: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia. Opts vistas: ['Un claim permitido', 'Sobreclaim / generalización indebida', 'Un alt text correcto', 'Una unidad']."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S19 Q3: «El caption de un gráfico de portfolio debe incluir:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia. Opts vistas: ['Solo el color favorito', 'La contraseña del BI', 'Nada', 'Unidad, fuente y limitaciones']."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S19 Q4: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integri». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia. Opts vistas: ['Aceptarlo si los colores tienen buen con', 'Convertirlo automáticamente a dual-axis ', 'Marcarlo como riesgo de inflación visual', 'Eliminar las etiquetas de ejes para que ']."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.837292+00:00",
+  "session_started_at": "2026-07-23T07:01:42.831778+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.837308+00:00"
+}

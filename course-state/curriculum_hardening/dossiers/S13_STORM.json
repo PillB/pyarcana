@@ -1,0 +1,401 @@
+{
+  "section": 13,
+  "title": "Familiarity Evidence Dashboard y cierre de nivel",
+  "file": "s13-rpa-automation.ts",
+  "n_required": 13,
+  "n_logged": 13,
+  "generated_at": "2026-07-24T05:12:42.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT 28 > HEAD 0",
+    "ethics": "no auto_fraud/is_family; ER≠relationship; synthetic only; human review",
+    "v3_retarget": "Evidence Dashboard + CP-N1-C/CF-1 not RPA Playwright",
+    "expert_pass_at": "2026-07-24T05:12:42.000+00:00",
+    "theater_strip": "removed Stack permitido / Documenta decisión / porqué operativo"
+  },
+  "unique_foci": 13,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget Evidence Dashboard not RPA core",
+      "research": [
+        {
+          "family": "Python",
+          "title": "re",
+          "url": "https://docs.python.org/3/library/re.html",
+          "note": "normalization"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "case export"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "local evidence store"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 1/13: «V3 retarget Evidence Dashboard not RPA core» via Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget Evidence Dashboard not RPA core».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget Evidence Dashboard not RPA core»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 1/13: «V3 retarget Evidence Dashboard not RPA core» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "normalize document_id and name casefold",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "case export"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "local evidence store"
+        },
+        {
+          "family": "Python",
+          "title": "math",
+          "url": "https://docs.python.org/3/library/math.html",
+          "note": "isfinite scores"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 2/13: «normalize document_id and name casefold» via Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «normalize document_id and name casefold».",
+      "expand_scope": "E1/E2/E3 + docs for «normalize document_id and name casefold»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 2/13: «normalize document_id and name casefold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "blocking apellido region reduce pairs",
+      "research": [
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "local evidence store"
+        },
+        {
+          "family": "Python",
+          "title": "math",
+          "url": "https://docs.python.org/3/library/math.html",
+          "note": "isfinite scores"
+        },
+        {
+          "family": "NIST",
+          "title": "800-63 digital identity",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "identity vs proof"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 3/13: «blocking apellido region reduce pairs» via Python, NIST (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «blocking apellido region reduce pairs».",
+      "expand_scope": "E1/E2/E3 + docs for «blocking apellido region reduce pairs»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 3/13: «blocking apellido region reduce pairs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "deterministic entity_resolution_score",
+      "research": [
+        {
+          "family": "Python",
+          "title": "math",
+          "url": "https://docs.python.org/3/library/math.html",
+          "note": "isfinite scores"
+        },
+        {
+          "family": "NIST",
+          "title": "800-63 digital identity",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "identity vs proof"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 4/13: «deterministic entity_resolution_score» via Python, NIST, Live (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «deterministic entity_resolution_score».",
+      "expand_scope": "E1/E2/E3 + docs for «deterministic entity_resolution_score»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 4/13: «deterministic entity_resolution_score» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "precision recall synthetic labels clerical queue",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "800-63 digital identity",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "identity vs proof"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "strings data"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 5/13: «precision recall synthetic labels clerical queue» via NIST, Live, Coursera (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «precision recall synthetic labels clerical queue».",
+      "expand_scope": "E1/E2/E3 + docs for «precision recall synthetic labels clerical queue»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 5/13: «precision recall synthetic labels clerical queue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "FP of ER is not fraud",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "strings data"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic tests"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 6/13: «FP of ER is not fraud» via Live, Coursera, MIT (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «FP of ER is not fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «FP of ER is not fraud»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 6/13: «FP of ER is not fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "relationship_signal_score separate from ER",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "strings data"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic tests"
+        },
+        {
+          "family": "GitHub",
+          "title": "PillB/pyarcana",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-N1-C delivery"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 7/13: «relationship_signal_score separate from ER» via Coursera, MIT, GitHub (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «relationship_signal_score separate from ER».",
+      "expand_scope": "E1/E2/E3 + docs for «relationship_signal_score separate from ER»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 7/13: «relationship_signal_score separate from ER» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "shared contact geo surname weights",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic tests"
+        },
+        {
+          "family": "GitHub",
+          "title": "PillB/pyarcana",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-N1-C delivery"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "learning map"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 8/13: «shared contact geo surname weights» via MIT, GitHub (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «shared contact geo surname weights».",
+      "expand_scope": "E1/E2/E3 + docs for «shared contact geo surname weights»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 8/13: «shared contact geo surname weights» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "direct_tx and common_counterparty graphlets",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "PillB/pyarcana",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-N1-C delivery"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "learning map"
+        },
+        {
+          "family": "Python",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "batch aggregates"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 9/13: «direct_tx and common_counterparty graphlets» via GitHub, Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «direct_tx and common_counterparty graphlets».",
+      "expand_scope": "E1/E2/E3 + docs for «direct_tx and common_counterparty graphlets»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 9/13: «direct_tx and common_counterparty graphlets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "evidence_score uncertainty explanation bullets",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "learning map"
+        },
+        {
+          "family": "Python",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "batch aggregates"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 10/13: «evidence_score uncertainty explanation bullets» via GitHub, Python, Harvard (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «evidence_score uncertainty explanation bullets».",
+      "expand_scope": "E1/E2/E3 + docs for «evidence_score uncertainty explanation bullets»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 10/13: «evidence_score uncertainty explanation bullets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "thresholds accept review abstain never auto_fraud",
+      "research": [
+        {
+          "family": "Python",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "batch aggregates"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 11/13: «thresholds accept review abstain never auto_fraud» via Python, Harvard, GitHub (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «thresholds accept review abstain never auto_fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «thresholds accept review abstain never auto_fraud»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 11/13: «thresholds accept review abstain never auto_fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "pseudonymized dashboard case cards",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "re",
+          "url": "https://docs.python.org/3/library/re.html",
+          "note": "normalization"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 12/13: «pseudonymized dashboard case cards» via Harvard, GitHub, Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «pseudonymized dashboard case cards».",
+      "expand_scope": "E1/E2/E3 + docs for «pseudonymized dashboard case cards»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 12/13: «pseudonymized dashboard case cards» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "privacy sheet CF-1 level1 regression runbook",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "re",
+          "url": "https://docs.python.org/3/library/re.html",
+          "note": "normalization"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "case export"
+        }
+      ],
+      "synthesize": "S13 «Familiarity Evidence Dashboard y cierre de nivel» cycle 13/13: «privacy sheet CF-1 level1 regression runbook» via GitHub, Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «privacy sheet CF-1 level1 regression runbook».",
+      "expand_scope": "E1/E2/E3 + docs for «privacy sheet CF-1 level1 regression runbook»; V3 roadmap; pair S13.",
+      "re_synthesize": "Decision 13/13: «privacy sheet CF-1 level1 regression runbook» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://docs.python.org/3/library/re.html",
+    "https://docs.python.org/3/library/json.html",
+    "https://docs.python.org/3/library/sqlite3.html",
+    "https://docs.python.org/3/library/math.html",
+    "https://pages.nist.gov/800-63-3/",
+    "https://pillb.github.io/pyarcana/",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://github.com/PillB/pyarcana",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://docs.python.org/3/library/statistics.html",
+    "https://cs50.harvard.edu/python/",
+    "https://github.com/sersavn/python-for-everybody-resources"
+  ]
+}

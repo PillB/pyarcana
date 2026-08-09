@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-ske-s13-cf1d811b38",
+  "production_note": "agentic_G2 dual-LLM skeptic: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "code": "import re\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\nprint(norm_name(\"  Ana   Quispe \"), norm_doc(\"D-12.34\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T1-A-E1] blocking prep. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "norm"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "code": "def blocking_key(rec):\n    ap = rec[\"name\"].casefold().strip().split()[-1]\n    return f\"{ap}|{rec['region'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán\", \"region\": \"Cusco\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T1-A-E2] huamán|cusco. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "blocking"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "code": "import re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef block_key(r):\n    ap = r[\"name\"].casefold().strip().split()[-1]\n    return f\"{ap}|{r['region'].casefold()}\"\ndef er_score(a, b):\n    if norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) and block_key(a) == block_key(b):\n        return 1.0\n    if block_key(a) == block_key(b):\n        return 0.5\n    return 0.0\na = {\"name\": \"Ana Quispe\", \"document_id\": \"D-12.34\", \"region\": \"Lima\"}\nb = {\"name\": \"ANA QUISPE\", \"document_id\": \"d1234\", \"region\": \"Lima\"}\nc = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"region\": \"Lima\"}\nd = {\"name\": \"Luis Rojas\", \"document_id\": \"Z9\", \"region\": \"Cusco\"}\nprint(er_score(a, b), er_score(a, c), er_score(a, d))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T1-A-E3] ER determinista. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "ER"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(round(precision, 1), round(recall, 1))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T1-B-E1] metricas etiquetadas. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "P/R"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\nprint(clerical_queue(pairs))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T1-B-E2] incluye fronteras. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "clerical"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "code": "note = \"Un false positive de ER es error de matching; no es veredicto legal de fraude.\"\ndecision = \"needs_review\"\nprint(note)\nprint(decision)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T1-B-E3] FP != fraude. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "FP"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "code": "def shared_email(a, b):\n    return bool(a.get(\"email\") and a.get(\"email\") == b.get(\"email\"))\nprint(shared_email({\"email\": \"a@x.com\"}, {\"email\": \"a@x.com\"}))\nprint(shared_email({\"email\": \"a@x.com\"}, {\"email\": \"b@x.com\"}))\nprint(shared_email({\"email\": None}, {\"email\": \"a@x.com\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T2-A-E1] requiere ambos presentes e iguales. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "shared"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "code": "def rel_score(km, surname_jaccard):\n    geo = 1.0 if km <= 2 else 0.0\n    return round(0.5 * geo + 0.5 * surname_jaccard, 1)\nprint(rel_score(1.2, 1.0), rel_score(5.0, 0.4))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T2-A-E2] mezcla geo + apellido. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "rel_score"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "code": "print(\"relationship_signal_score es evidencia, no parentesco legal ni fraude\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T2-A-E3] senal != veredicto. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "disclaimer"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    return [amt for x, y, amt in txs if {x, y} == {a, b}]\nprint(direct_txs(txs, \"A\", \"B\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T2-B-E1] pares no dirigidos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "direct_tx"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\nprint(sorted(neighbors(txs, \"A\") & neighbors(txs, \"C\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T2-B-E2] interseccion vecinos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "common"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "code": "print(\"disclaimer1: txs no prueban parentesco\")\nprint(\"disclaimer2: grafo es evidencia operacional sintetica\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T2-B-E3] limites de inferencia. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "disclaimer"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing={missing or 'none'}\",\n    ]\nprint(len(explanation_bullets(0.9, 0.4, [\"email\"])))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T3-A-E1] ER y rel separados. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "explain"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\nprint(uncertainty_band([], False), uncertainty_band([\"e\"], False),\n      uncertainty_band([\"e\",\"p\"], False), uncertainty_band([], True))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T3-A-E2] missing/conflict. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "uncertainty"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "code": "er, rel = 0.9, 0.1\nconflict = abs(er - rel) > 0.5\nevidence_score = round(0.6 * er + 0.4 * rel, 2)\nunc = \"high\" if conflict else \"low\"\nprint(\"score\", evidence_score, unc)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T3-A-E3] incertidumbre. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "blend"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "code": "thresholds = {\"accept_min\": 0.8, \"review_low\": 0.4}\nprint(sorted(thresholds.items()))\nassert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T3-B-E1] invariante orden. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "thresholds"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "code": "from math import isfinite\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\ndef decide_ops_status(score, unc, th):\n    if isinstance(score, bool) or not isinstance(score, (int, float)):\n        return \"invalid_input\"\n    if not isfinite(score) or not 0.0 <= score <= 1.0 or unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\nfor s, u in [(-0.1, \"low\"), (0.399, \"low\"), (0.4, \"low\"), (0.799, \"low\"), (0.8, \"low\"), (1.0, \"low\"), (0.9, \"high\")]:\n    print(s, u, decide_ops_status(s, u, th))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T3-B-E2] high fuerza review. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "decide"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "code": "card = {\"score\": 0.85, \"status\": \"accept_pair\"}\nprint(sorted(card.keys()))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T3-B-E3] ficha operativa. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "card"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "code": "def pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\nprint(pseudonymize(\"Ana Quispe Rojas\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T4-A-E1] dashboard sin nombre claro. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "pseudo"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "code": "def case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\nprint(sorted(case_sheet(0.9, 0.4).keys()))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T4-A-E2] no fusionar. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "sheet"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat}; lon={lon}; geo_distance_km={km}; source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T4-A-E3] geo explicable. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "tooltip"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()), privacy[\"pii_real\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T4-B-E1] CF-1 sheet. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "privacy"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "code": "def demo_command():\n    return \"python -m demo_n1_dashboard\"\nprint(demo_command())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T4-B-E2] runbook CF-1. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "demo"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(actions)\nprint(\"level-1 regression: re-check critical paths S01-S13 in runbook (no ledger edit here)\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S13-T4-B-E3] cierre de nivel. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "runbook"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Dashboard no fusiona ER y rel en un solo numero sin etiqueta."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "FP != fraude confirmado. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Politica de abstencion/revision en banda gris."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Checklist CF-1 del cierre de nivel. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Regresion de nivel 1 documentada, sin editar ledger aqui."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.969614+00:00",
+  "session_started_at": "2026-07-23T07:07:24.327422+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.969614+00:00"
+}

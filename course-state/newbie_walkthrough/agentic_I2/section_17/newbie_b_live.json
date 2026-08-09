@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_b",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I2",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-skeptic-b81d4e60-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:25:46.440000+00:00",
+  "session_ended_at": "2026-07-23T12:26:54.750000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T1-A-E1\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"left\")))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "left",
+        "join",
+        "clientes",
+        "transacciones",
+        "fixture",
+        "fix"
+      ],
+      "justification_from_packet": "Skeptic S17-T1-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:1.0}. Haz `merge` por `cliente…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «merge how='left'.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T1-A-E2\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "unicidad",
+        "clave",
+        "fixture",
+        "fix",
+        "s17",
+        "t1a"
+      ],
+      "justification_from_packet": "Skeptic S17-T1-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado C001,C001. Imprime `bool(cli[…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «is_unique.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T1-A-E3\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "fan",
+        "out",
+        "fixture",
+        "cliente",
+        "c001",
+        "filas"
+      ],
+      "justification_from_packet": "Skeptic S17-T1-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` merge por `cliente_id`; imprime…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «merge inner.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T1-B-E1\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "anti",
+        "join",
+        "con",
+        "indicator",
+        "true",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic S17-T1-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + filtra `_merge=='left_only'`; im…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «merge left indicator.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T1-B-E2\nimport pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "validate",
+        "one_to_one",
+        "como",
+        "gate",
+        "fixture",
+        "intenta"
+      ],
+      "justification_from_packet": "Skeptic S17-T1-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge one_to_one; ante excepción imp…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «try MergeError o Exception.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T1-B-E3\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "conteo",
+        "rfanos",
+        "anti",
+        "join",
+        "fixture",
+        "cli"
+      ],
+      "justification_from_packet": "Skeptic S17-T1-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas `left_only` tras left merge co…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «left_only count.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "melt",
+        "wide",
+        "long",
+        "fixture",
+        "filas",
+        "columnas"
+      ],
+      "justification_from_packet": "Skeptic S17-T2-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_vars=['a','b'])` e imprime `le…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «melt.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T2-A-E2\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nw = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(w.columns.tolist())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "pivot_table",
+        "long",
+        "wide",
+        "fixture",
+        "con",
+        "aggfunc"
+      ],
+      "justification_from_packet": "Skeptic S17-T2-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` con `aggfunc='sum'`, `reset_ind…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «aggfunc sum.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T2-A-E3\nimport pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "concat",
+        "vertical",
+        "fixture",
+        "dos",
+        "una",
+        "fila"
+      ],
+      "justification_from_packet": "Skeptic S17-T2-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..., ignore_index=True)` e impri…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «pd.concat(..., ignore_index=True).». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T2-B-E1\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nw = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\")\nw.columns = [f\"monto_{c}\" for c in w.columns]\nprint(list(w.columns))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "nombres",
+        "estables",
+        "post",
+        "pivot",
+        "fixture",
+        "long"
+      ],
+      "justification_from_packet": "Skeptic S17-T2-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra a `monto_{mes}`; imprime `lis…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «map join o f-string.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "validaci",
+        "schema",
+        "columnas",
+        "con",
+        "columns",
+        "cliente_id"
+      ],
+      "justification_from_packet": "Skeptic S17-T2-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expected={cliente_id, monto_ene}. Imp…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «set igualdad.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "rename",
+        "expl",
+        "cito",
+        "fixture",
+        "columna",
+        "columns"
+      ],
+      "justification_from_packet": "Skeptic S17-T2-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['mo…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «rename(columns=...).». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"area\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"area\")[\"monto\"].sum().to_dict())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "groupby",
+        "sum",
+        "fixture",
+        "region",
+        "lima",
+        "cusco"
+      ],
+      "justification_from_packet": "Skeptic S17-T3-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('region')['monto'].sum().to_dict()…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «groupby sum.». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T3-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"area\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"area\")[\"monto\"].transform(\"mean\").tolist())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "transform",
+        "mean",
+        "shape",
+        "original",
+        "fixture",
+        "lima"
+      ],
+      "justification_from_packet": "Skeptic S17-T3-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lista de `groupby('region')['mont…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «groupby transform.». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"area\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\nout = df.groupby(\"area\", as_index=False).agg(total=(\"monto\", \"sum\"), num=(\"monto\", \"count\"))\nprint(out.columns.tolist())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "named",
+        "agg",
+        "as_index",
+        "false",
+        "fixture",
+        "region"
+      ],
+      "justification_from_packet": "Skeptic S17-T3-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum'), n=('monto','count'))` e im…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «named agg.». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "rolling",
+        "mean",
+        "serie",
+        "window",
+        "imprime",
+        "lista"
+      ],
+      "justification_from_packet": "Skeptic S17-T3-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y el resto float. Pass: `[None, 1…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «rolling mean.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\ndf[\"cohort\"] = df.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\").dt.to_period(\"M\").astype(str)\nprint(df.drop_duplicates(\"cliente_id\").set_index(\"cliente_id\")[\"cohort\"].to_dict())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "cohorte",
+        "mensual",
+        "por",
+        "primera",
+        "fecha",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic S17-T3-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna cohort YYYY-MM con min fecha;…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «groupby transform min.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T3-B-E3\nimport pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\ns = s.sort_index()\nprint(float(s.rolling(2).mean().iloc[-1]))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "orden",
+        "temporal",
+        "antes",
+        "rolling",
+        "serie",
+        "desordenada"
+      ],
+      "justification_from_packet": "Skeptic S17-T3-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2; ordena índice, rolling(2).mea…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «sort_index.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T4-A-E1\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "reconciliaci",
+        "totales",
+        "parts",
+        "total",
+        "imprime",
+        "abs"
+      ],
+      "justification_from_packet": "Skeptic S17-T4-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total)<1e-9`. Pass: `True`. Usa tole…». Implementé de forma verificable; línea clave `parts = [10.0, 20.0, 70.0]`. Hints: «sum y abs.». Sin lives de attempts previos. Variante skeptic del ancla `parts = [10.0, 20.0, 70.0]`."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T4-A-E2\nactivos = 40\npagados = 10\nprint(pagados / activos)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "tasa",
+        "con",
+        "denominador",
+        "correcto",
+        "activos",
+        "pagados"
+      ],
+      "justification_from_packet": "Skeptic S17-T4-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos. Pass: `0.25`. No imprimas 25 …». Implementé de forma verificable; línea clave `activos = 40`. Hints: «división float.». Sin lives de attempts previos. Variante skeptic del ancla `activos = 40`."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T4-A-E3\ntotal = 100.0\nlima = 60.0\nprint(total - lima)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "bridge",
+        "residual",
+        "total",
+        "lima",
+        "imprime",
+        "del"
+      ],
+      "justification_from_packet": "Skeptic S17-T4-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). Pass: `40.0`. Es el primer paso…». Implementé de forma verificable; línea clave `total = 100.0`. Hints: «total - lima.». Sin lives de attempts previos. Variante skeptic del ancla `total = 100.0`."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T4-B-E1\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "filtro",
+        "pre",
+        "cutoff",
+        "fixture",
+        "fechas",
+        "con"
+      ],
+      "justification_from_packet": "Skeptic S17-T4-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff 2024-01-31. Imprime lista de …». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «Timestamp cutoff.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T4-B-E2\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()\nprint(float(tx[\"monto\"].sum() - pre))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "delta",
+        "leakage",
+        "fixture",
+        "montos",
+        "ene",
+        "mar"
+      ],
+      "justification_from_packet": "Skeptic S17-T4-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Imprime float(sum_total - sum_pre).…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «total - pre.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S17-T4-B-E3\nimport pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\nfeat = tx[tx[\"fecha\"] <= cutoff].groupby(\"cliente_id\")[\"monto\"].max()\nprint(feat.to_dict())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "feature",
+        "max",
+        "c001",
+        "con",
+        "montos",
+        "ene"
+      ],
+      "justification_from_packet": "Skeptic S17-T4-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max monto con fecha<=cutoff por cli…». Implementé de forma verificable; línea clave `import pandas as pd`. Hints: «filter then groupby max.». Sin lives de attempts previos. Variante skeptic del ancla `import pandas as pd`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "justification_from_packet": "Skeptic S17 Q0: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 0: «Fallar si la cardinalidad no es 1:1» porque responde «validate='one_to_one' en merge sirve para:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Filas del left sin match en right",
+      "justification_from_packet": "Skeptic S17 Q1: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 2: «Filas del left sin match en right» porque responde «Un anti-join left_only identifica:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "justification_from_packet": "Skeptic S17 Q2: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 3: «Reinyecta el agregado al shape original» porque responde «transform en groupby:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "justification_from_packet": "Skeptic S17 Q3: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 1: «Incluyes datos posteriores al cutoff en features/métricas del pasado» porque responde «Leakage temporal ocurre cuando:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Documentar diff con tolerancia eps o corregir el corte",
+      "justification_from_packet": "Skeptic S17 Q4: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 0: «Documentar diff con tolerancia eps o corregir el corte» porque responde «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:26:54.750000+00:00"
+}

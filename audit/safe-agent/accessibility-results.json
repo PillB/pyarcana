@@ -1,0 +1,13 @@
+{
+  "automated_axe_full_curriculum": "not_run_this_round",
+  "manual_smoke": {
+    "keyboard_tab_reaches_chrome": "pass (safe_agent_journeys)",
+    "mobile_reflow_overflow_lt_40px": "pass (safe_agent_journeys)",
+    "semantic_heading_h1_PyArcana": "pass"
+  },
+  "existing_repo_gates": [
+    "scripts/a11y_contrast_check.mjs",
+    "scripts/e2e_max/07_glossary_i18n_a11y.spec.ts"
+  ],
+  "suppression": "none added"
+}

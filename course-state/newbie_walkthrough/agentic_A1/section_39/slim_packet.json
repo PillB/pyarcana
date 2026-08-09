@@ -1,0 +1,1159 @@
+{
+  "attempt_id": "agentic_A1",
+  "section_index": 39,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar estructuras tipo DOCX/PDF con secciones",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    },
+    {
+      "index": 27,
+      "id": "async-concurrency",
+      "title": "Estrategia de pruebas con pytest",
+      "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+      "learningOutcomes": [
+        "Priorizar pruebas según riesgo y pirámide",
+        "Escribir tests AAA con oráculos confiables",
+        "Usar discovery y assertions de pytest",
+        "Aislar estado con fixtures y scopes",
+        "Cubrir excepciones, floats, fechas y tmp files",
+        "Diseñar casos negativos con mensajes útiles",
+        "Medir cobertura por rama y riesgo",
+        "Interpretar mutación conceptual y fallas útiles"
+      ]
+    },
+    {
+      "index": 28,
+      "id": "llm-agents",
+      "title": "Pruebas de datos, propiedades e integración",
+      "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+      "learningOutcomes": [
+        "Generar casos desde invariantes",
+        "Aplicar tests metamórficos y de simetría",
+        "Validar contratos de schema/calidad",
+        "Detectar drift y reconciliar goldens",
+        "Doblar HTTP/DB/reloj con control",
+        "Escribir contract tests sin sobre-mocking",
+        "Montar integración/E2E con containers (concepto)",
+        "Eliminar flakes y fijar determinismo en CI"
+      ]
+    },
+    {
+      "index": 29,
+      "id": "mlops",
+      "title": "SQL avanzado y modelado relacional",
+      "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+      "learningOutcomes": [
+        "Modelar claves y constraints correctos",
+        "Preservar temporalidad y provenance",
+        "Escribir CTEs, windows y anti-joins",
+        "Razonar cardinalidad, NULL y planes",
+        "Elegir isolation y garantizar ACID",
+        "Implementar upserts y recuperación",
+        "Diseñar índices y migrations seguras",
+        "Aplicar repository, pooling y tests"
+      ]
+    },
+    {
+      "index": 30,
+      "id": "security-infra",
+      "title": "Entity resolution probabilístico",
+      "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+      "learningOutcomes": [
+        "Comparar exact/edit/token/fecha",
+        "Tratar missingness y frecuencia",
+        "Diseñar blocking con recall medido",
+        "Controlar costo y pares imposibles",
+        "Estimar pesos y umbrales",
+        "Operar review y consistencia de cluster",
+        "Partir datos por entidad sin leakage",
+        "Reportar métricas pairwise/cluster y slices"
+      ]
+    },
+    {
+      "index": 31,
+      "id": "streaming-data",
+      "title": "Grafos y evidencia relacional",
+      "tagline": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+      "learningOutcomes": [
+        "Modelar nodos/aristas con peso y dirección",
+        "Representar multigrafo temporal con provenance",
+        "Construir grafo desde entidades y transacciones",
+        "Agregar sin borrar detalle fuente",
+        "Calcular grado, componentes y caminos",
+        "Interpretar centralidad con límites",
+        "Extraer subgrafos y probarlos",
+        "Visualizar con privacidad y evidencia por arista"
+      ]
+    },
+    {
+      "index": 32,
+      "id": "microservices",
+      "title": "Feature engineering y pipelines sin leakage",
+      "tagline": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+      "learningOutcomes": [
+        "Diseñar features numéricas/categóricas/texto",
+        "Aplicar missing indicators, scale y encoding",
+        "Crear features relacionales y de grafo",
+        "Calcular ventanas y frecuencias sin leakage",
+        "Componer transformers reutilizables",
+        "Persistir fit y reutilizar en inferencia",
+        "Partir por entidad/grupo/tiempo",
+        "Detectar leakage y versionar features"
+      ]
+    },
+    {
+      "index": 33,
+      "id": "advanced-models",
+      "title": "ML supervisado y baselines responsables",
+      "tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+      "learningOutcomes": [
+        "Definir unidad, target y horizonte",
+        "Fijar baseline de regla y dummy",
+        "Entrenar modelos lineales regularizados",
+        "Interpretar coeficientes y supuestos",
+        "Entrenar árboles y ensambles",
+        "Controlar overfit y reproducibilidad",
+        "Registrar experimentos mínimos",
+        "Hacer CV y análisis de errores"
+      ]
+    },
+    {
+      "index": 34,
+      "id": "cv-ai-integration",
+      "title": "Métricas, desbalance, calibración y umbrales",
+      "tagline": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+      "learningOutcomes": [
+        "Elegir métricas para desbalance",
+        "Dimensionar top-k y carga de revisión",
+        "Balancear clases sin leakage en CV",
+        "Evitar métricas engañosas por prevalencia",
+        "Evaluar calibración con Brier/reliability",
+        "Calibrar y evaluar fuera de muestra",
+        "Elegir umbral por costo y capacidad",
+        "Aplicar abstención y sensibilidad por slice"
+      ]
+    },
+    {
+      "index": 35,
+      "id": "system-design",
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+      "learningOutcomes": [
+        "Explicar con coeficientes e importancia",
+        "Delimitar explicación local y correlación",
+        "Medir equidad por cohorte/slice",
+        "Detectar proxies y daño diferencial",
+        "Comunicar incertidumbre y conformal",
+        "Abstener ante OOD",
+        "Documentar model card y contestabilidad",
+        "Operar aprobación, override y retiro"
+      ]
+    },
+    {
+      "index": 36,
+      "id": "ai-apis-advanced",
+      "title": "Clustering, anomalías y validación temporal",
+      "tagline": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+      "learningOutcomes": [
+        "Aplicar clustering con escalamiento",
+        "Elegir k y reportar límites de métricas",
+        "Proyectar con PCA para explorar",
+        "Interpretar proyecciones con prudencia",
+        "Detectar anomalías con IF/LOF/reglas",
+        "Distinguir novelty vs outlier",
+        "Validar con backtests temporales",
+        "Evaluar con labels escasos y review"
+      ]
+    },
+    {
+      "index": 37,
+      "id": "dbt-bigquery",
+      "title": "Profiling, algoritmos y rendimiento",
+      "tagline": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
+      "learningOutcomes": [
+        "Profilear wall/CPU y memoria",
+        "Benchmarkear con warmup y variabilidad",
+        "Analizar complejidad y blocking",
+        "Reducir candidatos con estructuras/vectorización",
+        "Optimizar dtypes, chunks y columnar",
+        "Diseñar cache e invalidación OOC",
+        "Fijar budgets y tests de performance",
+        "Priorizar costo total sobre microoptimización"
+      ]
+    },
+    {
+      "index": 38,
+      "id": "performance-extreme",
+      "title": "Concurrencia, observabilidad y workflows resilientes",
+      "tagline": "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+      "learningOutcomes": [
+        "Elegir threads/processes/async",
+        "Razonar I/O vs CPU y serialización",
+        "Aplicar pools y backpressure",
+        "Cancelar, timeout y liberar recursos",
+        "Emitir logs/metrics/traces",
+        "Correlacionar, redactar y definir SLI/SLO",
+        "Checkpoint e idempotencia de workflows",
+        "Operar retry/DLQ/replay con runbook"
+      ]
+    }
+  ],
+  "active": {
+    "id": "integrator-phase2",
+    "index": 39,
+    "title": "Responsible ML Case Triage y cierre de nivel",
+    "tagline": "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
+    "jobRelevance": "Cierras **CP-N3-C** con **Responsible ML Case Triage**: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. Id `integrator-phase2` conservado. Promoción de nivel requiere CP-N3-A/B/C, **regresión S27–S39** y **CF-3** (otra lane califica PASS). ER≠fraude≠parentesco.",
+    "learningOutcomes": [
+      "Ensamblar el flujo intake→modelo",
+      "Versionar contratos y ownership",
+      "Armar cola y evidence packet",
+      "Operar decisión, override y apelación",
+      "Mitigar privacidad/fairness/seguridad",
+      "Monitoreo, incidentes y control humano",
+      "Cumplir aceptación y demo",
+      "Publicar cards, valor y postmortem"
+    ],
+    "theory": [
+      {
+        "heading": "Cierre CP-N3-C + regresión N3 + CF-3",
+        "paragraphs": [
+          "En V3, **S39 cierra el nivel 3** con **Responsible ML Case Triage**. Integra S27–S38 en un sistema demoable.",
+          "**Promoción (conceptual):** CP-N3-A, CP-N3-B, CP-N3-C, **regresión S27–S39**, **CF-3**. CF-3 integra contratos ER/grafo/triage y regresión cruzada. **Esta lane de autoría no marca PASS** ni edita ledger/checkpoint/seed.",
+          "Orden: **T1 Arquitectura** → **T2 Revisor** → **T3 Riesgo** → **T4 Producto**."
+        ],
+        "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\"run_id\": \"n3-reg-001\", \"stage\": \"model_score\", \"score\": 0.66, \"label_space\": \"needs_review\"}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", False)",
+        "code_output": "pipeline intake > er > relation_graph > features > model_score > queue\nlabel_space needs_review\nauto_fraud False"
+      },
+      {
+        "heading": "intake → ER → relación → features → modelo",
+        "paragraphs": [
+          "Flujo canónico N3: intake de registros → ER (misma entidad) → grafo relacional → features sin leakage → score de prioridad.",
+          "Cada etapa tiene contrato de I/O y version. Fallas se aíslan.",
+          "ER no infiere relación familiar ni fraude; grafo no culpa; score no es veredicto legal."
+        ],
+        "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\"run_id\": \"n3-reg-001\", \"stage\": \"model_score\", \"score\": 0.66, \"label_space\": \"needs_review\"}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", False)",
+        "code_output": "pipeline intake > er > relation_graph > features > model_score > queue\nlabel_space needs_review\nauto_fraud False"
+      },
+      {
+        "heading": "contratos, versiones y ownership",
+        "paragraphs": [
+          "Cada artefacto: owner, version, compatibility policy. feature_set, model, thr, graph_schema.",
+          "Breaking change → bump major y plan de migración.",
+          "Ownership claro evita 'nadie on-call'."
+        ],
+        "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\"},\n}\nprint(sorted(registry))\nprint(\"owners\", len({v[\"owner\"] for v in registry.values()}))\nprint(\"compat\", \"semver\")",
+        "code_output": "['er_engine', 'feature_set', 'graph_schema', 'ranker']\nowners 4\ncompat semver"
+      },
+      {
+        "heading": "queue, evidence packet y explicación",
+        "paragraphs": [
+          "Cola ordenada por score calibrado/capacidad. Evidence packet: hechos, path de grafo, features top, incertidumbre.",
+          "Explicación en 4 capas (S35). UI/CLI didáctica en dicts.",
+          "El revisor ve evidencia, no solo un número."
+        ],
+        "code": "packet = {\n    \"case_id\": \"case-77\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\", \"tx_path_len_2\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n    \"model_contrib\": {\"shared_phone\": 0.4},\n}\nprint(packet[\"case_id\"], packet[\"score\"])\nprint(\"path\", packet[\"graph_path\"])\nprint(\"layers\", 4)",
+        "code_output": "case-77 0.81\npath ['E1', 'ph:900', 'E2']\nlayers 4"
+      },
+      {
+        "heading": "decisión, override, feedback y apelación",
+        "paragraphs": [
+          "Decisiones: queue_action, skip, escalate. Override humano gana y se loguea.",
+          "Feedback reentrena o corrige reglas con cuidado (sin leakage).",
+          "Apelación reabre con nuevo reviewer o supervisor."
+        ],
+        "code": "log = []\ndef decide(case_id, score, human=None):\n    auto = \"queue\" if score >= 0.7 else \"skip\"\n    final = human or auto\n    log.append({\"case_id\": case_id, \"auto\": auto, \"final\": final, \"override\": human is not None})\n    return final\nprint(decide(\"c1\", 0.9))\nprint(decide(\"c2\", 0.9, human=\"skip\"))\nprint(\"overrides\", sum(1 for e in log if e[\"override\"]))",
+        "code_output": "queue\nskip\noverrides 1"
+      },
+      {
+        "heading": "privacidad, fairness y seguridad",
+        "paragraphs": [
+          "Minimización PII, RBAC al packet, sin secretos en repo. Fairness: slices de daño de revisión.",
+          "Seguridad: validar inputs, límites de tamaño, no SSRF a URLs de evidence.",
+          "Checklist de release del triage."
+        ],
+        "code": "checklist = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nprint(\"release_ok\", all([\n    checklist[\"pii_minimized\"], checklist[\"rbac\"], not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"], checklist[\"input_limits\"],\n]))\nprint(\"items\", len(checklist))\nprint(\"fraud_auto\", False)",
+        "code_output": "release_ok True\nitems 5\nfraud_auto False"
+      },
+      {
+        "heading": "drift, incidentes, rollback y human control",
+        "paragraphs": [
+          "Monitorea score dist, prevalencia proxy, calibration, latency. Drift → alerta.",
+          "Incidente: severidad, rollback de model/thr, human-only mode.",
+          "Control humano nunca se 'optimiza' fuera del sistema."
+        ],
+        "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\nprint(mode(False, True))\nprint(mode(True, False))\nprint(\"rollback\", \"model_previous\")",
+        "code_output": "human_only\nabstain_more\nrollback model_previous"
+      },
+      {
+        "heading": "aceptación y demo",
+        "paragraphs": [
+          "Criterios de aceptación: flujo e2e sintético, baseline visible, abstención, audit log, sin auto-fraude.",
+          "Demo: un caso feliz, un override, un OOD abstain, métricas de cola.",
+          "Regresión N3: smoke de contratos S27–S39 (lista de checks)."
+        ],
+        "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nprint(\"n_criteria\", len(acceptance))\nprint(\"demo_paths\", [\"happy\", \"override\", \"ood_abstain\"])\nprint(\"cf3_note\", \"separate_lane_for_pass\")",
+        "code_output": "n_criteria 6\ndemo_paths ['happy', 'override', 'ood_abstain']\ncf3_note separate_lane_for_pass"
+      },
+      {
+        "heading": "model/data/system cards, métricas de valor y postmortem",
+        "paragraphs": [
+          "Cards de modelo, datos y sistema. Métricas de valor: tiempo de review, precisión de cola, % overrides.",
+          "Postmortem blameless tras incidentes: timeline, causas, acciones.",
+          "Cierre de nivel: documentación lista para CF-3 y regresión formal."
+        ],
+        "code": "value = {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}\npostmortem = {\"severity\": \"T0-T3\", \"root_cause\": \"calib_drift\", \"actions\": [\"rollback\", \"recalibrate\"]}\nprint(value)\nprint(postmortem[\"root_cause\"])\nprint(\"cards\", [\"model\", \"data\", \"system\"])",
+        "code_output": "{'precision_at_k': 0.55, 'override_rate': 0.12, 'median_review_s': 90}\ncalib_drift\ncards ['model', 'data', 'system']"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S39-T1-B-DEMO",
+          "description": "Pipeline stages join.",
+          "why": "Flujo N3.",
+          "code": "print(' > '.join(['intake','er','graph','features','model','queue']))\nprint('label_space', 'needs_review')\nprint('auto_fraud', False)",
+          "language": "python",
+          "output": "intake > er > graph > features > model > queue\nlabel_space needs_review\nauto_fraud False"
+        },
+        {
+          "demoId": "S39-T2-A-DEMO",
+          "description": "Registry owners count.",
+          "why": "Ownership.",
+          "code": "print(2)\nprint('semver', True)\nprint('ok', True)",
+          "language": "python",
+          "output": "2\nsemver True\nok True"
+        },
+        {
+          "demoId": "S39-T2-B-DEMO",
+          "description": "Evidence packet keys.",
+          "why": "Packet.",
+          "code": "print(sorted(['case_id','score','evidence','graph_path']))\nprint('layers', 4)\nprint('ok', True)",
+          "language": "python",
+          "output": "['case_id', 'evidence', 'graph_path', 'score']\nlayers 4\nok True"
+        },
+        {
+          "demoId": "S39-T3-A-DEMO",
+          "description": "Override logged.",
+          "why": "Decision log.",
+          "code": "print({'final':'skip','override':True})\nprint('n_overrides', 1)\nprint('ok', True)",
+          "language": "python",
+          "output": "{'final': 'skip', 'override': True}\nn_overrides 1\nok True"
+        },
+        {
+          "demoId": "S39-T3-B-DEMO",
+          "description": "Release checklist ok.",
+          "why": "Riesgo.",
+          "code": "print(True)\nprint('secrets_in_repo', False)\nprint('auto_fraud', False)",
+          "language": "python",
+          "output": "True\nsecrets_in_repo False\nauto_fraud False"
+        },
+        {
+          "demoId": "S39-T4-A-DEMO",
+          "description": "human_only on incident.",
+          "why": "Modos ops.",
+          "code": "print('human_only')\nprint('rollback', 'prev_model')\nprint('ok', True)",
+          "language": "python",
+          "output": "human_only\nrollback prev_model\nok True"
+        },
+        {
+          "demoId": "S39-T4-B-DEMO",
+          "description": "Acceptance count + regression note.",
+          "why": "Aceptación y regresión.",
+          "code": "print(6)\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')",
+          "language": "python",
+          "output": "6\nregression S27-S39\ncf3_pass_lane separate"
+        },
+        {
+          "demoId": null,
+          "description": "Value metrics + cards.",
+          "why": "Valor y cards.",
+          "code": "print(['precision_at_k','override_rate','median_review_s'])\nprint(sorted(['model','data','system']))\nprint('postmortem', True)",
+          "language": "python",
+          "output": "['precision_at_k', 'override_rate', 'median_review_s']\n['data', 'model', 'system']\npostmortem True"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S39-T1-A-E1",
+          "instruction": "Lista stages en orden.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T1-A-E2",
+          "instruction": "label_space needs_review.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T1-A-E3",
+          "instruction": "ER no parentesco.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T1-B-E1",
+          "instruction": "semver major bump on break.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T1-B-E2",
+          "instruction": "owner required.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T1-B-E3",
+          "instruction": "registry size.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T2-A-E1",
+          "instruction": "packet must include graph_path.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T2-A-E2",
+          "instruction": "score alone insufficient.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T2-A-E3",
+          "instruction": "4 capas explicación.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T2-B-E1",
+          "instruction": "override final skip.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T2-B-E2",
+          "instruction": "appeal reopens.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T2-B-E3",
+          "instruction": "feedback logged.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T3-A-E1",
+          "instruction": "secrets_in_repo false required.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T3-A-E2",
+          "instruction": "rbac on packet.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T3-A-E3",
+          "instruction": "fairness slices present.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T3-B-E1",
+          "instruction": "incident → human_only.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T3-B-E2",
+          "instruction": "drift → abstain_more.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T3-B-E3",
+          "instruction": "rollback target.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T4-A-E1",
+          "instruction": "acceptance includes no_auto_fraud.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T4-A-E2",
+          "instruction": "regression scope S27-S39.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T4-A-E3",
+          "instruction": "demo paths 3.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T4-B-E1",
+          "instruction": "three cards.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T4-B-E2",
+          "instruction": "value metric override_rate.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S39-T4-B-E3",
+          "instruction": "postmortem blameless flag.",
+          "hints": [
+            "Revisa la demo.",
+            "Alinea prints."
+          ],
+          "kind": "apply",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Responsible ML Case Triage (cierre CP-N3-C) + notas regresión N3/CF-3",
+      "context": "Entrega el sistema e2e sintético de triage: contratos versionados, evidence packet, decisiones/overrides, checklist de riesgo, modos human_only, demo de aceptación, cards y postmortem. Incluye **checklist de regresión S27–S39** y referencia a **CF-3**. No auto-fraude. Platform id integrator-phase2 conservado. **No** marcar section_passed ni editar seed/checkpoint/ledger; PASS de gates es otra lane.",
+      "objectives": [
+        "Pipeline intake→queue con label_space needs_review",
+        "Registry de versiones/owners",
+        "Evidence packet + overrides auditados",
+        "Privacidad/fairness/seguridad checklist",
+        "Drift/incident modes + rollback",
+        "Aceptación, demo, cards, valor, postmortem",
+        "Notas de regresión N3 y CF-3 (sin auto-PASS)"
+      ],
+      "requirements": [
+        "E2e sintético reproducible",
+        "Cero auto-label fraude/parentesco",
+        "Audit log de decisiones",
+        "Checklist regresión S27–S39 documentado",
+        "es-PE; sin secretos/PII real",
+        "section_passed permanece false en esta lane"
+      ],
+      "portfolioNote": "Cierre CP-N3-C + artefactos para regresión N3/CF-3. No escribe PASS en ledger/checkpoint; calificación es lane separada.",
+      "starterCode": "# CP-N3-C CLOSE — Responsible ML Case Triage\nSTAGES = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef evidence_packet(case_id, score, path, evidence):\n    return {\n        \"case_id\": case_id,\n        \"score\": score,\n        \"graph_path\": path,\n        \"evidence\": evidence,\n        \"label_space\": \"needs_review\",\n        \"auto_fraud\": False,\n    }\n\ndef regression_smoke():\n    # placeholders — formal PASS is a separate qualification lane\n    return {\n        \"CP-N3-A\": \"PLANNED_NOT_PASSED\",\n        \"CP-N3-B\": \"PLANNED_NOT_PASSED\",\n        \"CP-N3-C\": \"PLANNED_NOT_PASSED\",\n        \"regression_S27_S39\": \"PLANNED_NOT_PASSED\",\n        \"CF-3\": \"PLANNED_NOT_PASSED\",\n    }\n\nif __name__ == \"__main__\":\n    print(STAGES[0], evidence_packet(\"c1\", 0.8, [\"E1\", \"E2\"], [\"shared_phone\"])[\"auto_fraud\"])\n    print(regression_smoke()[\"CF-3\"])\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "El label_space del triage N3 es preferentemente:",
+        "options": [
+          "fraud_certainty",
+          "needs_review / prioridad de cola",
+          "parentesco",
+          "culpable"
+        ]
+      },
+      {
+        "question": "CF-3 y regresión S27–S39 en esta lane de autoría:",
+        "options": [
+          "Marcan PASS solos",
+          "Se documentan; PASS lo califica otra lane",
+          "Se borran",
+          "Solo aplican a S01"
+        ]
+      },
+      {
+        "question": "Evidence packet debe incluir:",
+        "options": [
+          "Solo el score",
+          "Evidencia y path además del score",
+          "Solo el owner del repo",
+          "Claves de API"
+        ]
+      },
+      {
+        "question": "Ante incidente grave el modo seguro es:",
+        "options": [
+          "Ignorar",
+          "human_only / rollback",
+          "Subir contamination",
+          "Etiquetar fraude masivo"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "1896f5babb765090"
+}

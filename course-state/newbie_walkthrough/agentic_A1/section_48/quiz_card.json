@@ -1,0 +1,234 @@
+{
+  "section_index": 48,
+  "title": "LLM applications y RAG con evidencia",
+  "outcomes": [
+    "Calcula embeddings y similarity",
+    "Versiona embeddings y evalúa límites",
+    "Chunking con metadata y dedup",
+    "Respeta ACL, deletion y provenance",
+    "Recupera hybrid y rerankea",
+    "Arma contexto con citas y permisos",
+    "Genera structured grounded output",
+    "Evalúa retrieval/answer y se abstiene"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S48: LLM applications y RAG con evidencia",
+      "paragraphs": [
+        "En V3, **S48** retematiza el archivo de plataforma `ai-governance` hacia **LLM applications y RAG con evidencia**.",
+        "Incremento: asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "embeddings y similarity",
+      "paragraphs": [
+        "**embeddings y similarity** — outcome del blueprint phase3 para `embeddings-similarity`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "límites, versiones y evaluación",
+      "paragraphs": [
+        "**límites, versiones y evaluación** — outcome del blueprint phase3 para `limits-versions-eval`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "chunking, metadata y dedup",
+      "paragraphs": [
+        "**chunking, metadata y dedup** — outcome del blueprint phase3 para `chunking-metadata-dedup`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ACL, deletion y provenance",
+      "paragraphs": [
+        "**ACL, deletion y provenance** — outcome del blueprint phase3 para `acl-deletion-provenance`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "lexical/vector/hybrid y reranking",
+      "paragraphs": [
+        "**lexical/vector/hybrid y reranking** — outcome del blueprint phase3 para `lexical-vector-hybrid-rerank`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "contexto, citas y permisos",
+      "paragraphs": [
+        "**contexto, citas y permisos** — outcome del blueprint phase3 para `context-cites-permissions`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "structured output y grounding",
+      "paragraphs": [
+        "**structured output y grounding** — outcome del blueprint phase3 para `structured-grounding`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"answer\"); print(\"abstain\"); print(\"cost_tokens\", 1200)"
+    },
+    {
+      "heading": "retrieval/answer eval, costo y abstención",
+      "paragraphs": [
+        "**retrieval/answer eval, costo y abstención** — outcome del blueprint phase3 para `retrieval-answer-eval-cost-abstain`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"answer\"); print(\"abstain\"); print(\"cost_tokens\", 1200)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S48-T1-B-DEMO",
+      "description": "Demo: embeddings y similarity",
+      "why": "Demuestra el outcome de S48-T1-A con Python verificable.",
+      "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)"
+    },
+    {
+      "demoId": "S48-T2-A-DEMO",
+      "description": "Demo: límites, versiones y evaluación",
+      "why": "Demuestra el outcome de S48-T1-B con Python verificable.",
+      "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)"
+    },
+    {
+      "demoId": "S48-T2-B-DEMO",
+      "description": "Demo: chunking, metadata y dedup",
+      "why": "Demuestra el outcome de S48-T2-A con Python verificable.",
+      "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")"
+    },
+    {
+      "demoId": "S48-T3-A-DEMO",
+      "description": "Demo: ACL, deletion y provenance",
+      "why": "Demuestra el outcome de S48-T2-B con Python verificable.",
+      "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")"
+    },
+    {
+      "demoId": "S48-T3-B-DEMO",
+      "description": "Demo: lexical/vector/hybrid y reranking",
+      "why": "Demuestra el outcome de S48-T3-A con Python verificable.",
+      "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")"
+    },
+    {
+      "demoId": "S48-T4-A-DEMO",
+      "description": "Demo: contexto, citas y permisos",
+      "why": "Demuestra el outcome de S48-T3-B con Python verificable.",
+      "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)"
+    },
+    {
+      "demoId": "S48-T4-B-DEMO",
+      "description": "Demo: structured output y grounding",
+      "why": "Demuestra el outcome de S48-T4-A con Python verificable.",
+      "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: retrieval/answer eval, costo y abstención",
+      "why": "Demuestra el outcome de S48-T4-B con Python verificable.",
+      "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S48 que se preserva es:",
+      "options": [
+        "ai-governance",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S48 pertenece a:",
+      "options": [
+        "CP-N4-C (inicio)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura",
+    "Ingeniería de datos y orquestación de producción",
+    "MLOps: experimentos, registro y serving"
+  ]
+}

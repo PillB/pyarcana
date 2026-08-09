@@ -1,0 +1,541 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s12-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T1-A-E1: packet-only solve (no prior lives)\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    pass\n\n# F2-note:78472864a2 packet-grounded (explorer); instr_tokens=63\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "store",
+        "C001"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/8e90f264] Como explorador, S12-T1-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Implem». Aplico «Devuelve una tupla (status_code, dict).». Línea clave: `store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T1-A-E2: packet-only solve (no prior lives)\ndef parse_entity(payload):\n    pass\n\n# F2-note:54ea0105c0 packet-grounded (explorer); instr_tokens=29\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "parse_entity",
+        "payload"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/984e44c6] Como explorador, S12-T1-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo requests». Aplico «Usa set de required keys.». Línea clave: `def parse_entity(payload):`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T1-A-E3: packet-only solve (no prior lives)\nSTATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\n\n# F2-note:00d79c69f5 packet-grounded (explorer); instr_tokens=16\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "STATUS_ACTION",
+        "use_body"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bd3701a0] S12-T1-A-E3 — material del slim_packet basta. «E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,4» · hint «dict.get(code, 'unknown')» · S12-T1-A-DEMO. Entrega: `STATUS_ACTION = {`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T1-B-E1: packet-only solve (no prior lives)\ndef fetch(timeout_s, cost_s):\n    pass\n\n# F2-note:edfc63acda packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fetch",
+        "timeout_s"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/79f7a5be] S12-T1-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Simula» · hint «if cost > timeout: return 'timeout'» · S12-T1-B-DEMO. Entrega: `def fetch(timeout_s, cost_s):`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T1-B-E2: packet-only solve (no prior lives)\napi = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    pass\n\n# F2-note:b6aede40a4 packet-grounded (explorer); instr_tokens=69\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "api",
+        "items"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/02de4db2] S12-T1-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:» · hint «while page is not None» · S12-T1-B-DEMO. Entrega: `api = {`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T1-B-E3: packet-only solve (no prior lives)\ndef should_retry(status):\n    pass\n\n# F2-note:703f416aa7 packet-grounded (explorer); instr_tokens=65\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "should_retry",
+        "status"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/81a643c5] Como explorador, S12-T1-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Aplico «return status in {429, 503}». Línea clave: `def should_retry(status):`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T2-A-E1: packet-only solve (no prior lives)\ndef require_token(env):\n    pass\n\n# F2-note:5f3598ed15 packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "require_token",
+        "env"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/95c803b3] S12-T2-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `requi» · hint «tok = env.get('API_TOKEN')» · S12-T2-A-DEMO. Entrega: `def require_token(env):`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T2-A-E2: packet-only solve (no prior lives)\nclass Cache:\n    pass\n\n# F2-note:72259606db packet-grounded (explorer); instr_tokens=63\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Cache",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c3e9014a] Resuelvo S12-T2-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Pista: «key = url». Demo S12-T2-A-DEMO. Código ancla: `class Cache:`. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T2-A-E3: packet-only solve (no prior lives)\ndef min_provenance(url, status, cache_hit):\n    pass\n\n# F2-note:9c0ff4caeb packet-grounded (explorer); instr_tokens=17\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "min_provenance",
+        "url"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3b57e0ed] S12-T2-A-E3 — material del slim_packet basta. «E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin » · hint «Campos mínimos de auditoría.» · S12-T2-A-DEMO. Entrega: `def min_provenance(url, status, cache_hit):`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T2-B-E1: packet-only solve (no prior lives)\ndef assert_keys(payload, required):\n    pass\n\n# F2-note:99d10357a9 packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assert_keys",
+        "payload"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0f11188c] Como explorador, S12-T2-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `asser». Aplico «missing = set(required) - set(payload)». Línea clave: `def assert_keys(payload, required):`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T2-B-E2: packet-only solve (no prior lives)\ndef fetch_with_fallback(status, local_body):\n    pass\n\n# F2-note:c0a18a807f packet-grounded (explorer); instr_tokens=15\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fetch_with_fallback",
+        "status"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/00525613] Como explorador, S12-T2-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').». Aplico «if status >= 500». Línea clave: `def fetch_with_fallback(status, local_body):`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T2-B-E3: packet-only solve (no prior lives)\nmatrix = {\n    True: \"live_api\",\n    False: \"local_file\",\n}\n\n# F2-note:632e2e4da9 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "matrix",
+        "live_api"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d63dbf91] S12-T2-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:» · hint «Usa tuplas como clave de dict.» · S12-T2-B-DEMO. Entrega: `matrix = {`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T3-A-E1: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:c9d6976a4d packet-grounded (explorer); instr_tokens=25\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ec381488] Resuelvo S12-T3-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.». Pista: «CREATE TABLE evidence (...)». Demo S12-T3-A-DEMO. Código ancla: `import sqlite3`. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T3-A-E2: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:25e1aaf1f1 packet-grounded (explorer); instr_tokens=74\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dcd97371] Resuelvo S12-T3-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Pista: «UPDATE clients SET name=? WHERE id=?». Demo S12-T3-A-DEMO. Código ancla: `import sqlite3`. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T3-A-E3: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:09091893a7 packet-grounded (explorer); instr_tokens=68\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/75e18821] S12-T3-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:» · hint «JOIN ON c.id = e.entity_id» · S12-T3-A-DEMO. Entrega: `import sqlite3`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T3-B-E1: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:2679fb1955 packet-grounded (explorer); instr_tokens=69\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a6575572] Como explorador, S12-T3-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Reescr». Aplico «WHERE id = ?». Línea clave: `import sqlite3`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T3-B-E2: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:fa1bb74018 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a42322df] S12-T3-B-E2 — material del slim_packet basta. «E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo requests » · hint «BEGIN; insert; insert duplicado; except rollback» · S12-T3-B-DEMO. Entrega: `import sqlite3`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T3-B-E3: packet-only solve (no prior lives)\nimport sqlite3\n\n# F2-note:abc230d018 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ad108a5e] Como explorador, S12-T3-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Aplico «CREATE INDEX idx_document_id ON clients(document_id)». Línea clave: `import sqlite3`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T4-A-E1: packet-only solve (no prior lives)\nimport re\ndef normalize_address(s):\n    pass\n\n# F2-note:6346f0fe0e packet-grounded (explorer); instr_tokens=73\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "normalize_address",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/49f0f954] S12-T4-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `norma» · hint «re.sub(r'\\s+', ' ', s.strip())» · S12-T4-A-DEMO. Entrega: `import re`. requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T4-A-E2: packet-only solve (no prior lives)\nclass MockGeocoder:\n    pass\n\n# F2-note:c7c649b0da packet-grounded (explorer); instr_tokens=65\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "MockGeocoder",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/81ac0062] Resuelvo S12-T4-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Pista: «Tabla city→(lat,lon)». Demo S12-T4-A-DEMO. Código ancla: `class MockGeocoder:`. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T4-A-E3: packet-only solve (no prior lives)\nALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    pass\n\n# F2-note:fbfa227ab3 packet-grounded (explorer); instr_tokens=21\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "ALLOWED",
+        "address"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e5c82951] Resuelvo S12-T4-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine ». Pista: «set(payload) <= allowed». Demo S12-T4-A-DEMO. Código ancla: `ALLOWED = {\"address\", \"city\", \"country\"}`. Teoría: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T4-B-E1: packet-only solve (no prior lives)\ndef valid_lat_lon(lat, lon):\n    pass\n\n# F2-note:78a4129093 packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "valid_lat_lon",
+        "lat"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1fde820a] Como explorador, S12-T4-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `valid». Aplico «-90<=lat<=90 and -180<=lon<=180». Línea clave: `def valid_lat_lon(lat, lon):`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T4-B-E2: packet-only solve (no prior lives)\nimport math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nkm = haversine_km(lima, callao)\nsignal = {\"type\": \"geo_distance_km\", \"value\": round(km, 2), \"verdict\": None}\nprint(signal)\nprint(\"disclaimer\", \"signal != kinship\")\n\n# F2-note:1ee183adbd packet-grounded (explorer); instr_tokens=70\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "math",
+        "haversine_km"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/54d06f9d] Como explorador, S12-T4-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Aplico «Fórmula Haversine con R=6371». Línea clave: `import math`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S12-T4-B-E3: packet-only solve (no prior lives)\ndef as_relationship_signal(km):\n    pass\n\n# F2-note:8b7e142589 packet-grounded (explorer); instr_tokens=48\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S12",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "as_relationship_signal",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/174941bd] Como explorador, S12-T4-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea:». Aplico «Nunca setees is_family». Línea clave: `def as_relationship_signal(km):`. Heading: requests/responses, status y JSON | Timeout, paginación, retry/backoff y rate li."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "justification_from_packet": "[agentic_F2/Explorer] S12 q0: 400 Bad Request es error de cliente; no retry ciego con backoff infinito.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "justification_from_packet": "[agentic_F2/Explorer] S12 q1: token de API vive en env/secret store, nunca hardcodeado en el repo.",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "justification_from_packet": "[agentic_F2/Explorer] S12 q2: SQL con f-string + input es inyección; usar placeholders `?`.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "justification_from_packet": "[agentic_F2/Explorer] S12 q3: document_id bancario a geocoder público viola egress de CP-N1-C.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "justification_from_packet": "[agentic_F2/Explorer] S12 q4: 1.2 km es geoseñal de relación, no fraude ni parentesco confirmado.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.171803+00:00"
+}

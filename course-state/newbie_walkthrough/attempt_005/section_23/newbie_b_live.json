@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 23,
+  "recorded_at": "2026-07-21T23:19:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + demos + weDo hints",
+      "required_for_early_exercises": {
+        "role locators waits": { "in_theory_or_demo": true, "where": "theory locators" },
+        "page objects auth": { "in_theory_or_demo": true, "where": "theory POM" },
+        "retry transient not captcha": { "in_theory_or_demo": true, "where": "S23-T4-A-DEMO + handoff" },
+        "api first handoff": { "in_theory_or_demo": true, "where": "S23-T4-B-DEMO" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Refleja la UI accesible y suele ser más estable",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory prefer role over fragile CSS."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "Detenerse y hacer handoff humano",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Final demo human_handoff on captcha."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "S23-T4-B-DEMO API first."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory + should_retry for timeout/429."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S23-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "nodes = [{\"role\": \"link\", \"name\": \"Inicio\", \"id\": \"n1\"}]\nn = next(x for x in nodes if x[\"role\"] == \"link\" and x[\"name\"] == \"Inicio\")\nprint(n[\"id\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["role+name locator"],
+        "note": "Hints next role name."
+      },
+      {
+        "exercise_id": "S23-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "strats = [\"css\", \"role\", \"testid\"]\npreferred = [\"role\", \"testid\", \"css\"]\nprint(sorted(strats, key=lambda s: preferred.index(s)))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["strategy priority"],
+        "note": "Hints key=index preferred."
+      },
+      {
+        "exercise_id": "S23-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "nodes = [{\"role\": \"img\", \"name\": \"logo\"}]\ntry:\n    n = next(x for x in nodes if x[\"role\"] == \"button\")\n    print(n[\"name\"])\nexcept StopIteration:\n    print(\"need_testid\")\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["need_testid fallback"],
+        "note": "Hints no button → need_testid."
+      },
+      {
+        "exercise_id": "S23-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "for i in range(1, 4):\n    ready = i == 2\n    if ready:\n        print(i)\n        break\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["wait loop"],
+        "note": "Hints for loop break attempt 2."
+      },
+      {
+        "exercise_id": "S23-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "ready = False\nfor _ in range(3):\n    if ready:\n        break\nelse:\n    print(\"timeout\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["timeout for-else"],
+        "note": "Hints for-else timeout."
+      },
+      {
+        "exercise_id": "S23-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "expected, actual = \"Portal demo\", \"Portal demo\"\nprint(\"pass\" if expected == actual else \"fail\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["title assertion"],
+        "note": "Hints compare pass/fail."
+      },
+      {
+        "exercise_id": "S23-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "form = {}\nform[\"usuario\"] = \"ana\"\nprint(form)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["form fill"],
+        "note": "Hints update form."
+      },
+      {
+        "exercise_id": "S23-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import hashlib\nprint(hashlib.sha256(b\"data\").hexdigest()[:8])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["download hash"],
+        "note": "Hints hashlib hex[:8]."
+      },
+      {
+        "exercise_id": "S23-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "state = {\"token\": \"t\"}\nprint(\"reuse\" if state.get(\"token\") else \"login\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["storage_state reuse"],
+        "note": "Hints token present → reuse."
+      },
+      {
+        "exercise_id": "S23-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, password):\n        self.auth = password == \"sandbox\"\n\np = LoginPage()\np.submit(\"sandbox\")\nprint(p.auth)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["LoginPage POM"],
+        "note": "Hints class submit sandbox."
+      },
+      {
+        "exercise_id": "S23-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "ctx = {\"auth\": False}\ntry:\n    if not ctx[\"auth\"]:\n        raise PermissionError(\"no auth\")\nexcept PermissionError:\n    print(\"denied\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["PermissionError denied"],
+        "note": "Hints try/except PermissionError."
+      },
+      {
+        "exercise_id": "S23-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "state = \"anonymous\"\n# login ok\nstate = \"authenticated\"\nprint(state)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["auth state transition"],
+        "note": "Hints assign after login."
+      },
+      {
+        "exercise_id": "S23-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "ev = {\"trace\": \"a.zip\", \"screenshot\": \"b.png\", \"error\": \"x\"}\nprint(sorted(ev.keys()))\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["evidence keys"],
+        "note": "Hints sorted keys."
+      },
+      {
+        "exercise_id": "S23-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "logs = [\"ok\", \"ERR timeout\", \"nav\"]\nprint([l for l in logs if \"ERR\" in l])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["console ERR filter"],
+        "note": "Hints list comp in."
+      },
+      {
+        "exercise_id": "S23-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "ok = False\npkg = {\"step\": \"s1\"}\nif not ok:\n    pkg[\"trace\"] = \"trace.zip\"\nprint(pkg)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["attach trace on fail"],
+        "note": "Hints conditional update."
+      },
+      {
+        "exercise_id": "S23-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "def should_retry(k):\n    return k in {\"timeout\", \"429\"}\n\nfor v in (\"timeout\", \"429\", \"captcha\"):\n    print(v, should_retry(v))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["should_retry set"],
+        "note": "Hints in set; three tests."
+      },
+      {
+        "exercise_id": "S23-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "err = \"stale\"\naction = \"goto_home\" if err == \"stale\" else \"continue\"\nprint(action)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["recovery stale"],
+        "note": "Hints if stale goto_home."
+      },
+      {
+        "exercise_id": "S23-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "errors = [\"timeout\", \"timeout\", \"timeout\"]\nresult = \"fail\"\nfor i, e in enumerate(errors, 1):\n    if e != \"timeout\":\n        result = \"ok\"\n        break\n    if i >= 3:\n        result = \"fail\"\nprint(i, result)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["max 3 timeout fail"],
+        "note": "Hints loop max 3 then fail."
+      },
+      {
+        "exercise_id": "S23-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "api = True\nprint(\"api\" if api else \"rpa\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["choose api"],
+        "note": "Hints ternary."
+      },
+      {
+        "exercise_id": "S23-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "f = {\"api\": False, \"export\": True, \"rpa\": True}\nif f[\"api\"]:\n    choice = \"api\"\nelif f[\"export\"]:\n    choice = \"export\"\nelif f[\"rpa\"]:\n    choice = \"rpa\"\nelse:\n    choice = \"human\"\nprint(choice)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["api>export>rpa"],
+        "note": "Demo choice chain."
+      },
+      {
+        "exercise_id": "S23-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "decision = {\"method\": \"rpa\", \"reason\": \"no_api\"}\nprint(decision)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["decision audit"],
+        "note": "Hints method+reason."
+      },
+      {
+        "exercise_id": "S23-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "captcha = True\nif captcha:\n    print(\"human_handoff\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["captcha handoff"],
+        "note": "Final demo human_handoff."
+      },
+      {
+        "exercise_id": "S23-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "sig = {\"tos_forbidden\": True, \"captcha\": True}\nif sig.get(\"tos_forbidden\"):\n    action = \"abort\"\nelif sig.get(\"captcha\"):\n    action = \"human_handoff\"\nelse:\n    action = \"continue\"\nprint(action)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["tos priority abort"],
+        "note": "Hints tos gana."
+      },
+      {
+        "exercise_id": "S23-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "payload = {\"url\": \"https://demo.example\", \"step\": \"export\", \"screenshot\": \"s.png\"}\nprint(payload)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["handoff payload"],
+        "note": "Hints url step screenshot."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "29c25f05db01caab",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "residual_gaps": [],
+      "top_gaps": []
+    }
+  }
+}

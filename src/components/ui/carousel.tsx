@@ -95,6 +95,7 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
+    // Embla is an external store; initialize React state before subscribing.
     onSelect(api)
     api.on("reInit", onSelect)
     api.on("select", onSelect)

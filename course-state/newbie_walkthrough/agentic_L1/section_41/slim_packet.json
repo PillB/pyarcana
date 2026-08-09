@@ -1,0 +1,1220 @@
+{
+  "attempt_id": "agentic_L1",
+  "section_index": 41,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "279d14d92881cd13"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    },
+    {
+      "index": 27,
+      "id": "async-concurrency",
+      "title": "Estrategia de pruebas con pytest",
+      "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+      "learningOutcomes": [
+        "Priorizar pruebas según riesgo y pirámide",
+        "Escribir tests AAA con oráculos confiables",
+        "Usar discovery y assertions de pytest",
+        "Aislar estado con fixtures y scopes",
+        "Cubrir excepciones, floats, fechas y tmp files",
+        "Diseñar casos negativos con mensajes útiles",
+        "Medir cobertura por rama y riesgo",
+        "Interpretar mutación conceptual y fallas útiles"
+      ]
+    },
+    {
+      "index": 28,
+      "id": "llm-agents",
+      "title": "Pruebas de datos, propiedades e integración",
+      "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+      "learningOutcomes": [
+        "Generar casos desde invariantes",
+        "Aplicar tests metamórficos y de simetría",
+        "Validar contratos de schema/calidad",
+        "Detectar drift y reconciliar goldens",
+        "Doblar HTTP/DB/reloj con control",
+        "Escribir contract tests sin sobre-mocking",
+        "Montar integración/E2E con containers (concepto)",
+        "Eliminar flakes y fijar determinismo en CI"
+      ]
+    },
+    {
+      "index": 29,
+      "id": "mlops",
+      "title": "SQL avanzado y modelado relacional",
+      "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+      "learningOutcomes": [
+        "Modelar claves y constraints correctos",
+        "Preservar temporalidad y provenance",
+        "Escribir CTEs, windows y anti-joins",
+        "Razonar cardinalidad, NULL y planes",
+        "Elegir isolation y garantizar ACID",
+        "Implementar upserts y recuperación",
+        "Diseñar índices y migrations seguras",
+        "Aplicar repository, pooling y tests"
+      ]
+    },
+    {
+      "index": 30,
+      "id": "security-infra",
+      "title": "Entity resolution probabilístico",
+      "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+      "learningOutcomes": [
+        "Comparar exact/edit/token/fecha",
+        "Tratar missingness y frecuencia",
+        "Diseñar blocking con recall medido",
+        "Controlar costo y pares imposibles",
+        "Estimar pesos y umbrales",
+        "Operar review y consistencia de cluster",
+        "Partir datos por entidad sin leakage",
+        "Reportar métricas pairwise/cluster y slices"
+      ]
+    },
+    {
+      "index": 31,
+      "id": "streaming-data",
+      "title": "Grafos y evidencia relacional",
+      "tagline": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+      "learningOutcomes": [
+        "Modelar nodos/aristas con peso y dirección",
+        "Representar multigrafo temporal con provenance",
+        "Construir grafo desde entidades y transacciones",
+        "Agregar sin borrar detalle fuente",
+        "Calcular grado, componentes y caminos",
+        "Interpretar centralidad con límites",
+        "Extraer subgrafos y probarlos",
+        "Visualizar con privacidad y evidencia por arista"
+      ]
+    },
+    {
+      "index": 32,
+      "id": "microservices",
+      "title": "Feature engineering y pipelines sin leakage",
+      "tagline": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+      "learningOutcomes": [
+        "Diseñar features numéricas/categóricas/texto",
+        "Aplicar missing indicators, scale y encoding",
+        "Crear features relacionales y de grafo",
+        "Calcular ventanas y frecuencias sin leakage",
+        "Componer transformers reutilizables",
+        "Persistir fit y reutilizar en inferencia",
+        "Partir por entidad/grupo/tiempo",
+        "Detectar leakage y versionar features"
+      ]
+    },
+    {
+      "index": 33,
+      "id": "advanced-models",
+      "title": "ML supervisado y baselines responsables",
+      "tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+      "learningOutcomes": [
+        "Definir unidad, target y horizonte",
+        "Fijar baseline de regla y dummy",
+        "Entrenar modelos lineales regularizados",
+        "Interpretar coeficientes y supuestos",
+        "Entrenar árboles y ensambles",
+        "Controlar overfit y reproducibilidad",
+        "Registrar experimentos mínimos",
+        "Hacer CV y análisis de errores"
+      ]
+    },
+    {
+      "index": 34,
+      "id": "cv-ai-integration",
+      "title": "Métricas, desbalance, calibración y umbrales",
+      "tagline": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+      "learningOutcomes": [
+        "Elegir métricas para desbalance",
+        "Dimensionar top-k y carga de revisión",
+        "Balancear clases sin leakage en CV",
+        "Evitar métricas engañosas por prevalencia",
+        "Evaluar calibración con Brier/reliability",
+        "Calibrar y evaluar fuera de muestra",
+        "Elegir umbral por costo y capacidad",
+        "Aplicar abstención y sensibilidad por slice"
+      ]
+    },
+    {
+      "index": 35,
+      "id": "system-design",
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+      "learningOutcomes": [
+        "Explicar con coeficientes e importancia",
+        "Delimitar explicación local y correlación",
+        "Medir equidad por cohorte/slice",
+        "Detectar proxies y daño diferencial",
+        "Comunicar incertidumbre y conformal",
+        "Abstener ante OOD",
+        "Documentar model card y contestabilidad",
+        "Operar aprobación, override y retiro"
+      ]
+    },
+    {
+      "index": 36,
+      "id": "ai-apis-advanced",
+      "title": "Clustering, anomalías y validación temporal",
+      "tagline": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+      "learningOutcomes": [
+        "Aplicar clustering con escalamiento previo de features",
+        "Elegir k con estabilidad multi-seed y reportar límites de métricas internas",
+        "Proyectar con PCA (o pesos toy) solo para exploración visual",
+        "Interpretar proyecciones con prudencia y sin auto-etiquetar culpa",
+        "Detectar rareza con reglas σ e ideas IF/LOF sin veredicto de conducta",
+        "Distinguir novelty vs outlier y calibrar contamination a capacidad de review",
+        "Validar con backtests temporales y ventanas sin leakage",
+        "Evaluar con labels escasos vía precision@k y revisión humana obligatoria"
+      ]
+    },
+    {
+      "index": 37,
+      "id": "dbt-bigquery",
+      "title": "Profiling, algoritmos y rendimiento",
+      "tagline": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
+      "learningOutcomes": [
+        "Profilear wall/CPU y memoria con n explícito",
+        "Benchmarkear con warmup, mediana y nota de variabilidad",
+        "Analizar complejidad O(n²) y medir reducción por blocking",
+        "Reducir candidatos con estructuras e índices invertidos",
+        "Aplicar dtypes, chunks y lectura columnar mínima",
+        "Diseñar cache con invalidación y estrategia out-of-core",
+        "Fijar performance budgets y tests de regresión en CI light",
+        "Priorizar costo total y claridad sobre microoptimización del 2%"
+      ]
+    },
+    {
+      "index": 38,
+      "id": "performance-extreme",
+      "title": "Concurrencia, observabilidad y workflows resilientes",
+      "tagline": "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+      "learningOutcomes": [
+        "Elegir threads, processes o async según bottleneck medido (I/O vs CPU)",
+        "Razonar GIL, costo de serialización e IPC con payloads compactos",
+        "Aplicar pools, backpressure (queue maxsize) y rate limits (token bucket)",
+        "Definir timeouts, cancelación y cierre de recursos en finally",
+        "Emitir logs estructurados, metrics de cola y traces con correlation_id",
+        "Redactar PII, definir SLI/SLO y consumir error budget con criterio",
+        "Implementar estados, checkpoint e idempotency keys sin side effects duplicados",
+        "Operar retry con backoff, DLQ, replay controlado y runbook de on-call"
+      ]
+    },
+    {
+      "index": 39,
+      "id": "integrator-phase2",
+      "title": "Responsible ML Case Triage y cierre de nivel",
+      "tagline": "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
+      "learningOutcomes": [
+        "Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos versionados",
+        "Registrar ownership, semver y política de compatibilidad por artefacto del triage",
+        "Armar cola, evidence packet y explicación en capas sin exponer solo un número",
+        "Operar decisión automática, override humano, feedback y apelación con audit log",
+        "Aplicar checklist de privacidad, fairness por slices y seguridad de inputs del packet",
+        "Monitorear drift, activar human_only, rollback de modelo/umbral y abstención",
+        "Definir criterios de aceptación, demo e2e sintético y smoke de regresión S27–S39",
+        "Publicar model/data/system cards, métricas de valor operativo y postmortem blameless"
+      ]
+    },
+    {
+      "index": 40,
+      "id": "agentic-architecture",
+      "title": "Arquitectura, DDD y decisiones técnicas",
+      "tagline": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
+      "learningOutcomes": [
+        "Captura FR y quality attributes",
+        "Documenta trade-offs y riesgos medibles",
+        "Diseña capas con baja coupling",
+        "Aplica ports/adapters hacia dominio",
+        "Delinea bounded contexts",
+        "Modela entities, VO y servicios",
+        "Documenta C4 y ADRs",
+        "Evoluciona APIs/eventos con compatibilidad"
+      ]
+    }
+  ],
+  "active": {
+    "id": "llm-finetuning",
+    "index": 41,
+    "title": "APIs con FastAPI y contratos HTTP",
+    "tagline": "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
+    "jobRelevance": "En equipos de plataforma y producto, apis con fastapi y contratos http conecta decisiones técnicas con evidencia operativa. La práctica entrega respuestas OpenAPI sin PII con status, evidencia y errores estables y se promueve solo cuando crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+    "learningOutcomes": [
+      "Diseña recursos HTTP y status",
+      "Versiona, pagina e idempotiza",
+      "Estructura routing y dependencies",
+      "Valida, serializa y documenta",
+      "Separa sync/async y background",
+      "Maneja errores, timeouts y lifecycle",
+      "Prueba unit/contract/integration",
+      "Verifica compat, rate limit y obs"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S41-T1-A",
+        "heading": "recursos, métodos y status",
+        "paragraphs": [
+          "Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ausencia, conflicto y fallo interno.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: matriz método/recurso/status probada. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `recursos, métodos y status` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es matriz método/recurso/status probada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T1-B",
+        "heading": "idempotencia, paginación y versionado",
+        "paragraphs": [
+          "La idempotencia liga una clave al hash de la solicitud y al resultado; cursor estable y versión explícita evitan duplicados y paginación cambiante.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: replay idéntico sin segundo efecto. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `idempotencia, paginación y versionado` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es replay idéntico sin segundo efecto. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T2-A",
+        "heading": "routing, dependencies y modelos",
+        "paragraphs": [
+          "FastAPI separa routing, dependencias y modelos: el handler coordina, la dependencia provee capacidades y el dominio conserva reglas.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: handler delgado con dependencia sustituible. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `routing, dependencies y modelos` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es handler delgado con dependencia sustituible. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T2-B",
+        "heading": "validación, serialización y documentación",
+        "paragraphs": [
+          "Pydantic valida entrada antes del dominio, serializa una vista permitida y alimenta OpenAPI; la documentación debe coincidir con el comportamiento observado.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: request inválido rechazado y response sin campos internos. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `validación, serialización y documentación` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es request inválido rechazado y response sin campos internos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T3-A",
+        "heading": "sync/async y background boundaries",
+        "paragraphs": [
+          "Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine ni en una tarea en memoria sin garantía.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: boundary sync/async y background documentada. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `sync/async y background boundaries` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es boundary sync/async y background documentada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T3-B",
+        "heading": "errores, timeouts y lifecycle",
+        "paragraphs": [
+          "Errores estables llevan código, mensaje seguro y trace id; timeouts se presupuestan de extremo a extremo y el lifecycle abre/cierra recursos una vez.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: timeout y shutdown sin recurso huérfano. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `errores, timeouts y lifecycle` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es timeout y shutdown sin recurso huérfano. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T4-A",
+        "heading": "unit/contract/integration",
+        "paragraphs": [
+          "Unit prueba reglas, contract prueba el acuerdo HTTP e integration prueba adapters reales controlados; cada nivel responde una pregunta distinta.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: pirámide con fallo sembrado detectado en el nivel correcto. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `unit/contract/integration` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es pirámide con fallo sembrado detectado en el nivel correcto. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S41-T4-B",
+        "heading": "compatibility, rate limit y observabilidad",
+        "paragraphs": [
+          "Compatibilidad se prueba contra consumidores, rate limiting responde con señal recuperable y observabilidad correlaciona request, job y resultado sin PII.",
+          "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: 429/compatibilidad/trace id cubiertos. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+          "Aplicación de `compatibility, rate limit y observabilidad` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es 429/compatibilidad/trace id cubiertos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S41-T1-A-DEMO",
+          "subtopicId": "S41-T1-A",
+          "environment": "local-python",
+          "description": "Demo: recursos, métodos y status",
+          "why": "Hace observable `recursos, métodos y status` con un caso local pequeño y deja como evidencia matriz método/recurso/status probada; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T1-B-DEMO",
+          "subtopicId": "S41-T1-B",
+          "environment": "local-python",
+          "description": "Demo: idempotencia, paginación y versionado",
+          "why": "Hace observable `idempotencia, paginación y versionado` con un caso local pequeño y deja como evidencia replay idéntico sin segundo efecto; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T2-A-DEMO",
+          "subtopicId": "S41-T2-A",
+          "environment": "local-python",
+          "description": "Demo: routing, dependencies y modelos",
+          "why": "Hace observable `routing, dependencies y modelos` con un caso local pequeño y deja como evidencia handler delgado con dependencia sustituible; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T2-B-DEMO",
+          "subtopicId": "S41-T2-B",
+          "environment": "local-python",
+          "description": "Demo: validación, serialización y documentación",
+          "why": "Hace observable `validación, serialización y documentación` con un caso local pequeño y deja como evidencia request inválido rechazado y response sin campos internos; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T3-A-DEMO",
+          "subtopicId": "S41-T3-A",
+          "environment": "local-python",
+          "description": "Demo: sync/async y background boundaries",
+          "why": "Hace observable `sync/async y background boundaries` con un caso local pequeño y deja como evidencia boundary sync/async y background documentada; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T3-B-DEMO",
+          "subtopicId": "S41-T3-B",
+          "environment": "local-python",
+          "description": "Demo: errores, timeouts y lifecycle",
+          "why": "Hace observable `errores, timeouts y lifecycle` con un caso local pequeño y deja como evidencia timeout y shutdown sin recurso huérfano; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T4-A-DEMO",
+          "subtopicId": "S41-T4-A",
+          "environment": "local-python",
+          "description": "Demo: unit/contract/integration",
+          "why": "Hace observable `unit/contract/integration` con un caso local pequeño y deja como evidencia pirámide con fallo sembrado detectado en el nivel correcto; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S41-T4-B-DEMO",
+          "subtopicId": "S41-T4-B",
+          "environment": "local-python",
+          "description": "Demo: compatibility, rate limit y observabilidad",
+          "why": "Hace observable `compatibility, rate limit y observabilidad` con un caso local pequeño y deja como evidencia 429/compatibilidad/trace id cubiertos; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S41-T1-A-E1",
+          "instruction": "S41-T1-A-E1 · Calcula el contrato de `recursos, métodos y status` sobre `CASO-ARE-041-1A`. La entrada es el dict completo del starter; la operación debe demostrar método, recurso y 201 coherentes. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `RETURN_CORRECT_HTTP_STATUS` en E2.",
+          "hints": [
+            "Relaciona los campos `method`, `resource`, `created`, `status` con la regla explicada en S41-T1-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva matriz método/recurso/status probada; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-1A` satisface un predicado de dominio real; imprime `S41-T1-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\nmeets_contract = record[\"status\"] == 200 and record[\"method\"] == \"GET\"\nstatus = \"PASS\" if meets_contract else \"RETURN_CORRECT_HTTP_STATUS\"\nprint(\"S41-T1-A\", status)\n"
+        },
+        {
+          "id": "S41-T1-A-E2",
+          "instruction": "S41-T1-A-E2 · Modela tres rutas de `recursos, métodos y status`: fixture válido, fixture adverso y registro sin `status`. Entrada: dict con case_id, method, resource, created, status. Salidas exactas: `PASS`, `RETURN_CORRECT_HTTP_STATUS`, `MISSING:status`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a status debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T1-A: método, recurso y 201 coherentes. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `status` ausente y produce exactamente `PASS RETURN_CORRECT_HTTP_STATUS MISSING:status`.",
+          "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"method\", \"resource\", \"created\", \"status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"status\"] == 200 and record[\"method\"] == \"GET\" else \"RETURN_CORRECT_HTTP_STATUS\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\ninvalid = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":200}}\nincomplete = {**valid}\nincomplete.pop(\"status\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+        },
+        {
+          "id": "S41-T1-A-E3",
+          "instruction": "S41-T1-A-E3 · Simula fallo cerrado para `recursos, métodos y status` con tres fixtures distintos. `CASO-ARE-041-1A` debe continuar, el adverso debe devolver `RETURN_CORRECT_HTTP_STATUS` y la ausencia de `status` debe devolver `REVIEW_RESOURCE_SEMANTICS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `REVIEW_RESOURCE_SEMANTICS` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró método, recurso y 201 coherentes; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-1A`, adverso y sin `status` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T1-B-E1",
+          "instruction": "S41-T1-B-E1 · Compara el contrato de `idempotencia, paginación y versionado` sobre `CASO-ARE-041-1B`. La entrada es el dict completo del starter; la operación debe demostrar hash estable, un efecto, cursor y versión explícita. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `RETURN_IDEMPOTENCY_CONFLICT` en E2.",
+          "hints": [
+            "Relaciona los campos `key`, `request_hash`, `stored_hash`, `effects`, `cursor`, `version` con la regla explicada en S41-T1-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva replay idéntico sin segundo efecto; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-1B` satisface un predicado de dominio real; imprime `S41-T1-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-1B\", **{\"key\":\"idem-are-1\",\"request_hash\":\"abc\",\"stored_hash\":\"abc\",\"effects\":1,\"cursor\":\"job-020\",\"version\":\"v1\"}}\nmeets_contract = record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"]\nstatus = \"PASS\" if meets_contract else \"RETURN_IDEMPOTENCY_CONFLICT\"\nprint(\"S41-T1-B\", status)\n"
+        },
+        {
+          "id": "S41-T1-B-E2",
+          "instruction": "S41-T1-B-E2 · Verifica tres rutas de `idempotencia, paginación y versionado`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, key, request_hash, stored_hash, effects, cursor, version. Salidas exactas: `PASS`, `RETURN_IDEMPOTENCY_CONFLICT`, `MISSING:version`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T1-B: hash estable, un efecto, cursor y versión explícita. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `version` ausente y produce exactamente `PASS RETURN_IDEMPOTENCY_CONFLICT MISSING:version`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T1-B-E3",
+          "instruction": "S41-T1-B-E3 · Extiende fallo cerrado para `idempotencia, paginación y versionado` con tres fixtures distintos. `CASO-ARE-041-1B` debe continuar, el adverso debe devolver `RETURN_IDEMPOTENCY_CONFLICT` y la ausencia de `version` debe devolver `REPLAY_STORED_RESPONSE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `REPLAY_STORED_RESPONSE` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró hash estable, un efecto, cursor y versión explícita; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-1B`, adverso y sin `version` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T2-A-E1",
+          "instruction": "S41-T2-A-E1 · Filtra el contrato de `routing, dependencies y modelos` sobre `CASO-ARE-041-2A`. La entrada es el dict completo del starter; la operación debe demostrar handler delgado y dependencia sustituible. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `THIN_THE_HANDLER` en E2.",
+          "hints": [
+            "Relaciona los campos `handler_lines`, `dependency_injectable`, `domain_imports_http`, `domain_called` con la regla explicada en S41-T2-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva handler delgado con dependencia sustituible; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-2A` satisface un predicado de dominio real; imprime `S41-T2-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-2A\", **{\"handler_lines\":4,\"dependency_injectable\":True,\"domain_imports_http\":False,\"domain_called\":True}}\nmeets_contract = record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"]\nstatus = \"PASS\" if meets_contract else \"THIN_THE_HANDLER\"\nprint(\"S41-T2-A\", status)\n"
+        },
+        {
+          "id": "S41-T2-A-E2",
+          "instruction": "S41-T2-A-E2 · Clasifica tres rutas de `routing, dependencies y modelos`: fixture válido, fixture adverso y registro sin `domain_called`. Entrada: dict con case_id, handler_lines, dependency_injectable, domain_imports_http, domain_called. Salidas exactas: `PASS`, `THIN_THE_HANDLER`, `MISSING:domain_called`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T2-A: handler delgado y dependencia sustituible. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `domain_called` ausente y produce exactamente `PASS THIN_THE_HANDLER MISSING:domain_called`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T2-A-E3",
+          "instruction": "S41-T2-A-E3 · Defiende fallo cerrado para `routing, dependencies y modelos` con tres fixtures distintos. `CASO-ARE-041-2A` debe continuar, el adverso debe devolver `THIN_THE_HANDLER` y la ausencia de `domain_called` debe devolver `REVIEW_DEPENDENCY_BOUNDARY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `REVIEW_DEPENDENCY_BOUNDARY` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró handler delgado y dependencia sustituible; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-2A`, adverso y sin `domain_called` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T2-B-E1",
+          "instruction": "S41-T2-B-E1 · Modela el contrato de `validación, serialización y documentación` sobre `CASO-ARE-041-2B`. La entrada es el dict completo del starter; la operación debe demostrar 422 tipado, vista pública y OpenAPI fiel. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_AND_REDACT` en E2.",
+          "hints": [
+            "Relaciona los campos `input_valid`, `status`, `response_fields`, `internal_fields`, `openapi_matches` con la regla explicada en S41-T2-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva request inválido rechazado y response sin campos internos; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-2B` satisface un predicado de dominio real; imprime `S41-T2-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-2B\", **{\"input_valid\":False,\"status\":422,\"response_fields\":{\"job_id\",\"status\"},\"internal_fields\":{\"secret\",\"db_pk\"},\"openapi_matches\":True}}\nmeets_contract = record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_AND_REDACT\"\nprint(\"S41-T2-B\", status)\n"
+        },
+        {
+          "id": "S41-T2-B-E2",
+          "instruction": "S41-T2-B-E2 · Audita tres rutas de `validación, serialización y documentación`: fixture válido, fixture adverso y registro sin `openapi_matches`. Entrada: dict con case_id, input_valid, status, response_fields, internal_fields, openapi_matches. Salidas exactas: `PASS`, `REJECT_AND_REDACT`, `MISSING:openapi_matches`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a openapi_matches debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T2-B: 422 tipado, vista pública y OpenAPI fiel. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `openapi_matches` ausente y produce exactamente `PASS REJECT_AND_REDACT MISSING:openapi_matches`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T2-B-E3",
+          "instruction": "S41-T2-B-E3 · Recupera fallo cerrado para `validación, serialización y documentación` con tres fixtures distintos. `CASO-ARE-041-2B` debe continuar, el adverso debe devolver `REJECT_AND_REDACT` y la ausencia de `openapi_matches` debe devolver `REGENERATE_OPENAPI`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `REGENERATE_OPENAPI` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró 422 tipado, vista pública y OpenAPI fiel; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-2B`, adverso y sin `openapi_matches` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T3-A-E1",
+          "instruction": "S41-T3-A-E1 · Verifica el contrato de `sync/async y background boundaries` sobre `CASO-ARE-041-3A`. La entrada es el dict completo del starter; la operación debe demostrar I/O awaited y CPU/durable fuera del event loop. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `MOVE_WORK_OFF_EVENT_LOOP` en E2.",
+          "hints": [
+            "Relaciona los campos `work_kind`, `uses_await`, `cpu_offloaded`, `durable_job` con la regla explicada en S41-T3-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva boundary sync/async y background documentada; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-3A` satisface un predicado de dominio real; imprime `S41-T3-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-3A\", **{\"work_kind\":\"io\",\"uses_await\":True,\"cpu_offloaded\":True,\"durable_job\":True}}\nmeets_contract = record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"]\nstatus = \"PASS\" if meets_contract else \"MOVE_WORK_OFF_EVENT_LOOP\"\nprint(\"S41-T3-A\", status)\n"
+        },
+        {
+          "id": "S41-T3-A-E2",
+          "instruction": "S41-T3-A-E2 · Decide tres rutas de `sync/async y background boundaries`: fixture válido, fixture adverso y registro sin `durable_job`. Entrada: dict con case_id, work_kind, uses_await, cpu_offloaded, durable_job. Salidas exactas: `PASS`, `MOVE_WORK_OFF_EVENT_LOOP`, `MISSING:durable_job`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a durable_job debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T3-A: I/O awaited y CPU/durable fuera del event loop. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `durable_job` ausente y produce exactamente `PASS MOVE_WORK_OFF_EVENT_LOOP MISSING:durable_job`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T3-A-E3",
+          "instruction": "S41-T3-A-E3 · Contrasta fallo cerrado para `sync/async y background boundaries` con tres fixtures distintos. `CASO-ARE-041-3A` debe continuar, el adverso debe devolver `MOVE_WORK_OFF_EVENT_LOOP` y la ausencia de `durable_job` debe devolver `CHOOSE_BACKGROUND_BOUNDARY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `CHOOSE_BACKGROUND_BOUNDARY` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró I/O awaited y CPU/durable fuera del event loop; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-3A`, adverso y sin `durable_job` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T3-B-E1",
+          "instruction": "S41-T3-B-E1 · Clasifica el contrato de `errores, timeouts y lifecycle` sobre `CASO-ARE-041-3B`. La entrada es el dict completo del starter; la operación debe demostrar timeouts decrecientes, error estable y cierre de recurso. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `CANCEL_AND_CLOSE` en E2.",
+          "hints": [
+            "Relaciona los campos `client_timeout_ms`, `service_budget_ms`, `db_budget_ms`, `error_code`, `resource_closed` con la regla explicada en S41-T3-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva timeout y shutdown sin recurso huérfano; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-3B` satisface un predicado de dominio real; imprime `S41-T3-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"service_budget_ms\":700,\"db_budget_ms\":450,\"error_code\":\"UPSTREAM_TIMEOUT\",\"resource_closed\":True}}\nmeets_contract = record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"]\nstatus = \"PASS\" if meets_contract else \"CANCEL_AND_CLOSE\"\nprint(\"S41-T3-B\", status)\n"
+        },
+        {
+          "id": "S41-T3-B-E2",
+          "instruction": "S41-T3-B-E2 · Calcula tres rutas de `errores, timeouts y lifecycle`: fixture válido, fixture adverso y registro sin `resource_closed`. Entrada: dict con case_id, client_timeout_ms, service_budget_ms, db_budget_ms, error_code, resource_closed. Salidas exactas: `PASS`, `CANCEL_AND_CLOSE`, `MISSING:resource_closed`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a resource_closed debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T3-B: timeouts decrecientes, error estable y cierre de recurso. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `resource_closed` ausente y produce exactamente `PASS CANCEL_AND_CLOSE MISSING:resource_closed`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T3-B-E3",
+          "instruction": "S41-T3-B-E3 · Instrumenta fallo cerrado para `errores, timeouts y lifecycle` con tres fixtures distintos. `CASO-ARE-041-3B` debe continuar, el adverso debe devolver `CANCEL_AND_CLOSE` y la ausencia de `resource_closed` debe devolver `RECALCULATE_TIMEOUT_BUDGET`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `RECALCULATE_TIMEOUT_BUDGET` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró timeouts decrecientes, error estable y cierre de recurso; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-3B`, adverso y sin `resource_closed` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T4-A-E1",
+          "instruction": "S41-T4-A-E1 · Audita el contrato de `unit/contract/integration` sobre `CASO-ARE-041-4A`. La entrada es el dict completo del starter; la operación debe demostrar tres niveles y fallo sembrado detectado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNTESTED_CONTRACT` en E2.",
+          "hints": [
+            "Relaciona los campos `layers`, `rule_unit`, `http_contract`, `adapter_integration`, `seeded_failure_detected` con la regla explicada en S41-T4-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva pirámide con fallo sembrado detectado en el nivel correcto; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-4A` satisface un predicado de dominio real; imprime `S41-T4-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\",\"integration\"},\"rule_unit\":True,\"http_contract\":True,\"adapter_integration\":True,\"seeded_failure_detected\":True}}\nmeets_contract = len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNTESTED_CONTRACT\"\nprint(\"S41-T4-A\", status)\n"
+        },
+        {
+          "id": "S41-T4-A-E2",
+          "instruction": "S41-T4-A-E2 · Compara tres rutas de `unit/contract/integration`: fixture válido, fixture adverso y registro sin `seeded_failure_detected`. Entrada: dict con case_id, layers, rule_unit, http_contract, adapter_integration, seeded_failure_detected. Salidas exactas: `PASS`, `BLOCK_UNTESTED_CONTRACT`, `MISSING:seeded_failure_detected`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a seeded_failure_detected debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T4-A: tres niveles y fallo sembrado detectado. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `seeded_failure_detected` ausente y produce exactamente `PASS BLOCK_UNTESTED_CONTRACT MISSING:seeded_failure_detected`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T4-A-E3",
+          "instruction": "S41-T4-A-E3 · Aísla fallo cerrado para `unit/contract/integration` con tres fixtures distintos. `CASO-ARE-041-4A` debe continuar, el adverso debe devolver `BLOCK_UNTESTED_CONTRACT` y la ausencia de `seeded_failure_detected` debe devolver `ADD_MISSING_TEST_LEVEL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `ADD_MISSING_TEST_LEVEL` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró tres niveles y fallo sembrado detectado; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-4A`, adverso y sin `seeded_failure_detected` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T4-B-E1",
+          "instruction": "S41-T4-B-E1 · Decide el contrato de `compatibility, rate limit y observabilidad` sobre `CASO-ARE-041-4B`. La entrada es el dict completo del starter; la operación debe demostrar consumer v1, cuota y trace redactado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S41-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `THROTTLE_AND_REDACT` en E2.",
+          "hints": [
+            "Relaciona los campos `old_consumer_passes`, `limit`, `used`, `trace_id`, `pii_in_log` con la regla explicada en S41-T4-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva 429/compatibilidad/trace id cubiertos; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ARE-041-4B` satisface un predicado de dominio real; imprime `S41-T4-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ARE-041-4B\", **{\"old_consumer_passes\":True,\"limit\":100,\"used\":73,\"trace_id\":\"tr-are-041\",\"pii_in_log\":False}}\nmeets_contract = record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"]\nstatus = \"PASS\" if meets_contract else \"THROTTLE_AND_REDACT\"\nprint(\"S41-T4-B\", status)\n"
+        },
+        {
+          "id": "S41-T4-B-E2",
+          "instruction": "S41-T4-B-E2 · Filtra tres rutas de `compatibility, rate limit y observabilidad`: fixture válido, fixture adverso y registro sin `pii_in_log`. Entrada: dict con case_id, old_consumer_passes, limit, used, trace_id, pii_in_log. Salidas exactas: `PASS`, `THROTTLE_AND_REDACT`, `MISSING:pii_in_log`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a pii_in_log debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S41-T4-B: consumer v1, cuota y trace redactado. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `pii_in_log` ausente y produce exactamente `PASS THROTTLE_AND_REDACT MISSING:pii_in_log`.",
+          "starterCode": null
+        },
+        {
+          "id": "S41-T4-B-E3",
+          "instruction": "S41-T4-B-E3 · Demuestra fallo cerrado para `compatibility, rate limit y observabilidad` con tres fixtures distintos. `CASO-ARE-041-4B` debe continuar, el adverso debe devolver `THROTTLE_AND_REDACT` y la ausencia de `pii_in_log` debe devolver `INSPECT_COMPATIBILITY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `INSPECT_COMPATIBILITY` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró consumer v1, cuota y trace redactado; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ARE-041-4B`, adverso y sin `pii_in_log` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        }
+      ]
+    },
+    "youDo": {
+      "title": "APIs con FastAPI y contratos HTTP",
+      "context": "API FastAPI versionada para jobs y evidencia. Trabaja sobre un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida: respuestas OpenAPI sin PII con status, evidencia y errores estables. El gate se bloquea ante: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable.",
+      "objectives": [
+        "Convertir solicitudes HTTP versionadas con identidad sintética e idempotency key en respuestas OpenAPI sin PII con status, evidencia y errores estables.",
+        "Demostrar el gate: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+        "Probar el fallo: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable.",
+        "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios."
+      ],
+      "requirements": [
+        "Usa exclusivamente fixtures sintéticos identificados por `CASO-ARE-041`.",
+        "Incluye contrato OpenAPI versionado.",
+        "Incluye endpoints create/status con idempotencia.",
+        "Incluye errores y timeouts tipados.",
+        "Incluye pruebas unitarias, de contrato e integración sin red externa.",
+        "Automatiza un caso normal, uno de breach (`REJECT_REQUEST`) y uno incierto (`RETRY_OR_ESCALATE`).",
+        "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
+        "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas."
+      ],
+      "portfolioNote": "Evidencia de CP-N4-A · API HTTP gobernada: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+      "starterCode": "CASE_ID = \"CASO-ARE-041\"\nREQUIRED = ['contrato_openapi_versionado', 'endpoints_create_status_con_idempotencia', 'errores_y_timeouts_tipados', 'pruebas_unitarias_de_contrato_e_integracion_sin_red_externa']\nevidence = {\n    \"contrato_openapi_versionado\": False,\n    \"endpoints_create_status_con_idempotencia\": False,\n    \"errores_y_timeouts_tipados\": False,\n    \"pruebas_unitarias_de_contrato_e_integracion_sin_red_externa\": False\n}\n\ndef readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:\n    missing = [name for name in REQUIRED if bundle.get(name) is not True]\n    return (\"READY\", []) if not missing else (\"BLOCKED\", missing)\n\nstatus, missing = readiness(evidence)\nprint(CASE_ID, status)\nprint(\"missing\", \",\".join(missing))\nassert status in {\"READY\", \"BLOCKED\"}\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué evidencia permite aprobar `recursos, métodos y status` en CASO-ARE-041?",
+        "options": [
+          "matriz método/recurso/status probada",
+          "un print sin assert ni versión",
+          "una captura de pantalla sin fuente",
+          "datos personales reales para que parezca auténtico"
+        ]
+      },
+      {
+        "question": "Si ocurre la condición de error de S41, ¿qué respuesta preserva seguridad y auditabilidad?",
+        "options": [
+          "continuar y ocultar el warning",
+          "inventar evidencia faltante",
+          "emitir REJECT_REQUEST y conservar evidencia",
+          "borrar el trace para reducir ruido"
+        ]
+      },
+      {
+        "question": "¿Cuál resultado demuestra el gate `CP-N4-A · API HTTP gobernada`?",
+        "options": [
+          "el archivo S41 existe, aunque no pruebe el gate",
+          "el README afirma que funciona",
+          "se usó la herramienta más nueva",
+          "crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad"
+        ]
+      },
+      {
+        "question": "¿Qué tratamiento de `CASO-ARE-041` respeta el alcance del curso?",
+        "options": [
+          "reemplazarlo por datos reales sin consentimiento",
+          "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+          "subir secretos para facilitar la demo",
+          "inferir fraude o parentesco desde ER"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "07ebf7a1ffe03e4f"
+}

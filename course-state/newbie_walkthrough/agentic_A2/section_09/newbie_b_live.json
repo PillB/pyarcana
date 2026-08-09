@@ -1,0 +1,526 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A2",
+  "section_index": 9,
+  "packet_sha": "19174f9beb57c8bf",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_09/packet.json",
+  "recorded_at": "2026-07-21T22:16:52.801681+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T1-A-E1\nfallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "fallos",
+        "int",
+        "sumar",
+        "str",
+        "dict",
+        "sin",
+        "clave",
+        "email"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T1-A-E1. Instruction del paquete: Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.. Hints: Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.; Usa TypeError, ValueError, KeyError, FileNotFoundError y un custom Vali. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T1-A-E2\ndef parse_monto(raw):\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "parse_monto",
+        "raw",
+        "print",
+        "with_retry",
+        "lambda",
+        "for",
+        "abc"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T1-A-E2. Instruction del paquete: Implementa `parse_monto(raw)` que hace raise ValueError con mensaje accionable si no parsea o es negativo.. Hints: Normaliza coma decimal. Mensaje debe incluir el raw.; Dos raises distintos: no numérico vs negativo.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T1-A-E3\nclass DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "class",
+        "DataLoadError",
+        "Exception",
+        "pass",
+        "def",
+        "load_text",
+        "path_fn",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T1-A-E3. Instruction del paquete: Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.. Hints: path_fn es un callable que simula open y puede lanzar OSError.; Imprime type del error y de __cause__.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T1-B-E1\nstate = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        print(with_retry(lambda a: (_ for _ in ()\n        pass\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "closed",
+        "False",
+        "def",
+        "work",
+        "fail",
+        "bool",
+        "try"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T1-B-E1. Instruction del paquete: Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.. Hints: El flag `closed` debe quedar True siempre.; Usa try/finally; no captures la excepción.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T1-B-E2\nerrores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "errores",
+        "delimiter",
+        "config",
+        "monto",
+        "fila",
+        "schema_path",
+        "existe",
+        "email"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T1-B-E2. Instruction del paquete: Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.. Hints: Config y secretos ausentes → fail-fast. Fila mala / parse → recover.; Timeout de red de un registro puede ser recover+retry (marca recover).. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T1-B-E3\ndef bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:  # noqa: E722 — malo a propósito\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "bad_handler",
+        "try",
+        "return",
+        "except",
+        "noqa",
+        "E722",
+        "malo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T1-B-E3. Instruction del paquete: Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.. Hints: No uses except desnudo.; Imprime ok/quarantine/raised según el caso.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T2-A-E1\ntb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Traceback",
+        "most",
+        "recent",
+        "call",
+        "last",
+        "File",
+        "cli",
+        "line"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T2-A-E1. Instruction del paquete: Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.. Hints: Busca líneas 'File' o patrones 'in nombre'.; Imprime frame1, frame2, frame3.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T2-A-E2\nDEBUG = True\n\ndef normalize(row: dict) -> str:\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "DEBUG",
+        "True",
+        "def",
+        "normalize",
+        "row",
+        "dict",
+        "str",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T2-A-E2. Instruction del paquete: Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.. Hints: No imprimas el row completo si pudiera tener PII.; Usa un flag DEBUG.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T2-A-E3\ntb = '''Traceback (most recent call last):\n  File \"app.py\", line 1, in <module>\n    normalize({\"id\": 1})\n  File \"app.py\", line 1, in normalize\n    return row[\"email\"].lower()\nKeyError: 'email'\n'''\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Traceback",
+        "most",
+        "recent",
+        "call",
+        "last",
+        "File",
+        "app",
+        "line"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T2-A-E3. Instruction del paquete: Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).. Hints: No re-ejecutes el código original; parsea el texto.; Formato: causa_raiz=normalize falta clave email. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T2-B-E1\ndef parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "parse_dni",
+        "str",
+        "isdigit",
+        "len",
+        "raise",
+        "ValueError",
+        "dni"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T2-B-E1. Instruction del paquete: Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).. Hints: Encuentra el primer fallido y re-ejecuta solo ese.; Imprime minimal=.... Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T2-B-E2\ndef normalize_phone(p: str) -> str:\n    # bug: se come el +\n    return \"\".join(c for c in p if c.isdigit())\n\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_phone",
+        "str",
+        "bug",
+        "come",
+        "return",
+        "join",
+        "for"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T2-B-E2. Instruction del paquete: Para el bug `normalize_phone` que borra el +51, escribe 2 hipótesis y el experimento que las falsifica.. Hints: Imprime H1/H2 y resultado ok/fail de cada experimento sintético.; No necesitas fix real; solo el diseño experimental.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T2-B-E3\ndef bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\n# print(with_retry(lambda a: (_ for _ in (): red then green",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "bad_title",
+        "str",
+        "return",
+        "title",
+        "good_title",
+        "print",
+        "with_retry"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T2-B-E3. Instruction del paquete: Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.. Hints: Imprime RED luego GREEN.; Bug: title-case rompe 'de la'.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T3-A-E1\neventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "eventos",
+        "job",
+        "iniciado",
+        "valor",
+        "variable",
+        "loop",
+        "fila",
+        "sin"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T3-A-E1. Instruction del paquete: Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.. Hints: Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad → ERROR.; Config inválida al arrancar también ERROR (o CRITICAL; usa ERROR. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T3-A-E2\nimport logging, io\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "logging",
+        "print",
+        "with_retry",
+        "lambda",
+        "for",
+        "Configura",
+        "logger"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T3-A-E2. Instruction del paquete: Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.. Hints: propagate=False; formatter simple.; Mensaje: stage=ingest event=start. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T3-A-E3\nimport logging, io, sys\n\ndef cli_stub_bad(n):\n    print(\"empezando\")\n    print(\"sumando\")\n    print(n + 1)\n\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "logging",
+        "sys",
+        "def",
+        "cli_stub_bad",
+        "print",
+        "empezando",
+        "sumando"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T3-A-E3. Instruction del paquete: Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.. Hints: Progreso a logger; resultado con print o stdout data.; Debe verse un log INFO y la línea RESULT=3.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T3-B-E1\ndef mask_email(email: str) -> str:\n    ...\n\ndef mask_phone(phone: str) -> str:\n    ...\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "mask_email",
+        "email",
+        "str",
+        "mask_phone",
+        "phone",
+        "print",
+        "carlos"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T3-B-E1. Instruction del paquete: Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.. Hints: email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.; Imprime ambas máscaras.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T3-B-E2\ndef repo_save(corr, item):\n    ...\n\ndef service_upsert(corr, item):\n    ...\n\ndef cli_main(corr, item):\n    ...\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "repo_save",
+        "corr",
+        "item",
+        "service_upsert",
+        "cli_main",
+        "C001",
+        "Propaga"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T3-B-E2. Instruction del paquete: Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.. Hints: Pasa el id como argumento explícito (sin global).; Mismo id en las 3 líneas.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T3-B-E3\ndef unsafe_log(row):\n    return f\"error en {row['email']} tel={row['phone']}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"UNSAFE\", unsafe_log(row))\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "unsafe_log",
+        "row",
+        "return",
+        "error",
+        "email",
+        "tel",
+        "phone"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T3-B-E3. Instruction del paquete: Audita el snippet que loguea PII y reescríbelo de forma segura.. Hints: Detecta email/teléfono en el mensaje.; Imprime SAFE: y el log redactado.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T4-A-E1\nfallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "fallos",
+        "monto",
+        "NaN",
+        "CSV",
+        "YAML",
+        "config",
+        "corrupto",
+        "timeout"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T4-A-E1. Instruction del paquete: Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.. Hints: Config = arranque/schema; data = fila; provider = red/IO externo.; Sé consistente con la taxonomía de la teoría.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T4-A-E2\ndef process_batch(rows):\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nprint(process_batch(rows))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "process_batch",
+        "rows",
+        "print",
+        "with_retry",
+        "lambda",
+        "for",
+        "Implementa"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T4-A-E2. Instruction del paquete: Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.. Hints: Retorno: ok, quarantined, in.; Reconciliación in = len(ok)+len(quarantined).. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T4-A-E3\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "with_retry",
+        "lambda",
+        "for",
+        "Escribe",
+        "abortar",
+        "job",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T4-A-E3. Instruction del paquete: Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).. Hints: Cubre config, umbral de cuarentena y provider total down.; Texto claro para operadores no dev.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T4-B-E1\nerrores = [\"TimeoutError\", \"ValueError\", \"ConnectionError\", \"KeyError\", \"PermissionError\"]\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "errores",
+        "TimeoutError",
+        "ValueError",
+        "ConnectionError",
+        "KeyError",
+        "PermissionError",
+        "print",
+        "with_retry"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T4-B-E1. Instruction del paquete: Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.. Hints: Solo transitorios: TimeoutError, ConnectionError.; ValueError/KeyError/PermissionError → no.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T4-B-E2\ndef retry_call(fn, max_attempts=3):\n    print(with_retry(lambda a: (_ for _ in ()\n    ...\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "retry_call",
+        "max_attempts",
+        "print",
+        "with_retry",
+        "lambda",
+        "for",
+        "flaky"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T4-B-E2. Instruction del paquete: Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.. Hints: Devuelve el resultado o relanza el último TimeoutError.; Cuenta intentos en un cierre.. Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S09-T4-B-E3\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\nprint(with_retry(lambda a: (_ for _ in ()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "source",
+        "banco_a",
+        "C001",
+        "version",
+        "payload",
+        "print",
+        "with_retry"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S09-T4-B-E3. Instruction del paquete: Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.. Hints: Incluye source, record_id y content_hash o version.; Formato: idem_key=.... Teoría activa: De “Data Visualization” a excepciones, debugging y logging (mapa) | Tipos específicos, raise y chaining | Fronteras de recuperación y cleanup | Traceback y debugger | Reproducción mínima, hipótesis y . iDo demos: S09-T1-B-DEMO | S09-T2-A-DEMO | S09-T2-B-DEMO | S09-T3-A-DEMO | S09-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Para qué sirve `raise NewError(...) from e`?",
+      "chosen_index": 1,
+      "chosen_text": "Encadenar la causa en __cause__ sin perder contexto",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: raise NewError(...) from e chains the cause in __cause__ without losing the original traceback when translating parse failures to domain errors."
+    },
+    {
+      "question_index": 1,
+      "question": "Un delimiter vacío en config del job debería…",
+      "chosen_index": 1,
+      "chosen_text": "Fail-fast (abortar el job)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: config broken → fail-fast; empty delimiter is config, not a single row. Continuing multiplies garbage. Not row quarantine as first response."
+    },
+    {
+      "question_index": 2,
+      "question": "¿Qué va a stdout en una CLI bien diseñada?",
+      "chosen_index": 1,
+      "chosen_text": "Solo datos; diagnóstico a stderr",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: S09 card stresses structured diagnostic logging and forbids secrets/full PII in logs; mixing DEBUG with JSON output or dumping secrets is rejected by that framing. Among options, 'Solo datos; diagnóstico a stderr' is the only design that keeps diagnosis out of the data stream — though stdout/stderr split is thinner here than later packaging text, I still reject the mixed/secret options."
+    },
+    {
+      "question_index": 3,
+      "question": "mask_email('ana@ejemplo.pe') de forma segura podría ser…",
+      "chosen_index": 1,
+      "chosen_text": "a***@ejemplo.pe",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: masks given literally as a***@ejemplo.pe and ***4567; never log full email. Unchanged email and password MD5 are anti-patterns here."
+    },
+    {
+      "question_index": 4,
+      "question": "TimeoutError en un fetch remoto típico…",
+      "chosen_index": 1,
+      "chosen_text": "Puede reintentarse con backoff; ValueError de datos no",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: retry only transient errors (TimeoutError, 503); ValueError of data is not retried — goes to quarantine."
+    },
+    {
+      "question_index": 5,
+      "question": "¿Cuál es un buen minimal repro?",
+      "chosen_index": 1,
+      "chosen_text": "La entrada más pequeña que reproduce el bug",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: minimal repro = smallest input that triggers the bug, not full production CSV or restarting servers."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  },
+  "persona_seed": "368b7558f9db",
+  "run": "agentic_A2_second_consecutive"
+}

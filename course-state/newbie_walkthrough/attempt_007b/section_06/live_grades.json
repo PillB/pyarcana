@@ -1,0 +1,1086 @@
+{
+  "section_index": 6,
+  "section_id": "numpy",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S06-T1-A-E1",
+          "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(ventana))\nempty = []\nv0 = empty[-2:]\nprint(v0, len(v0))",
+          "note": "",
+          "concepts_used": [
+            "slicing -2:"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-A-E2",
+          "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)",
+          "note": "",
+          "concepts_used": [
+            "tuple inmutable"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-A-E3",
+          "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', type(e).__name__, e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)",
+          "note": "",
+          "concepts_used": [
+            "tuple vs list"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-B-E1",
+          "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)",
+          "note": "",
+          "concepts_used": [
+            "unpacking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-B-E2",
+          "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('xs', xs, 'copia', copia)\ncopia.append(4)\nprint('xs', xs, 'copia', copia)",
+          "note": "",
+          "concepts_used": [
+            "alias vs copy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-B-E3",
+          "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('s')\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)\nprint('shallow shares', shallow[0] is rows[0])",
+          "note": "",
+          "concepts_used": [
+            "deepcopy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-A-E1",
+          "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])",
+          "note": "",
+          "concepts_used": [
+            "dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-A-E2",
+          "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001'), idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError:\n    print('KeyError')",
+          "note": "",
+          "concepts_used": [
+            "get",
+            "KeyError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-A-E3",
+          "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\nsafe = defaults.copy()\nsafe.update(override)\nprint('safe update', safe, 'defaults', defaults)",
+          "note": "",
+          "concepts_used": [
+            "merge dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-B-E1",
+          "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)",
+          "note": "",
+          "concepts_used": [
+            "set sorted"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-B-E2",
+          "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint(sorted(a & b))\nprint(sorted(a ^ b))",
+          "note": "",
+          "concepts_used": [
+            "&",
+            "^"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-B-E3",
+          "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        rid = r[key]\n        if rid not in seen:\n            seen[rid] = r\n            unique.append(r)\n        elif seen[rid] != r:\n            conflicts.append({'id': rid, 'a': seen[rid], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))",
+          "note": "",
+          "concepts_used": [
+            "dedup conflicts"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-A-E1",
+          "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))",
+          "note": "",
+          "concepts_used": [
+            "len contacts"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-A-E2",
+          "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)",
+          "note": "",
+          "concepts_used": [
+            "flatten txs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-A-E3",
+          "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    status = 'ok' if isinstance(txs, list) else 'review'\n    print(c['id'], status)",
+          "note": "",
+          "concepts_used": [
+            "shape isinstance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-B-E1",
+          "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+          "note": "",
+          "concepts_used": [
+            "get_nested"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-B-E2",
+          "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        tag = 'missing'\n    else:\n        tag = 'present'\n    print(f\"{c['id']}: {tag}\")",
+          "note": "",
+          "concepts_used": [
+            "missing vs present"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-B-E3",
+          "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)",
+          "note": "",
+          "concepts_used": [
+            "falsy vs missing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-A-E1",
+          "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])",
+          "note": "",
+          "concepts_used": [
+            "sorted key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-A-E2",
+          "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])",
+          "note": "",
+          "concepts_used": [
+            "key multi-campo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-A-E3",
+          "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('sort retorna', ret, 'rows', rows)\nordered = sorted(base)\nprint('sorted', ordered, 'base intacta', base)",
+          "note": "",
+          "concepts_used": [
+            "sort None"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-B-E1",
+          "code": "print('cola de llegada de filas → list')\nprint('lookup frecuente por id → dict')\nprint('emails únicos de un lote → set')",
+          "note": "",
+          "concepts_used": [
+            "elección estructura"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-B-E2",
+          "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)",
+          "note": "",
+          "concepts_used": [
+            "json determinista"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-B-E3",
+          "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership ~ O(n); set membership ~ O(1) promedio')\nprint('C003 in set →', 'C003' in s)",
+          "note": "",
+          "concepts_used": [
+            "O(n) vs O(1)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S06-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[40, 50] 2\n[] 0\n",
+          "expected_head": "[40, 50]\n2\n[]\n0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "KEYS ('id', 'monto')\nmore ('id', 'monto', 'canal')\nKEYS sigue ('id', 'monto')\n",
+          "expected_head": "KEYS ('id', 'monto')\nmore ('id', 'monto', 'canal')\nKEYS sigue ('id', 'monto')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "AttributeError AttributeError 'tuple' object has no attribute 'append'\n['C001', 'C002', 'C003']\n",
+          "expected_head": "diagnóstico: AttributeError - 'tuple' object has no attribute 'append'\n['C001', 'C002', 'C003']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 Lima 10\n",
+          "expected_head": "C001 Lima 10",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "xs [1, 2, 3] copia [1, 2]\nxs [1, 2, 3] copia [1, 2, 4]\n",
+          "expected_head": "tras alias [1, 2, 3] [1, 2]\ntras copia [1, 2, 3] [1, 2, 4]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "orig [{'id': 'C1', 'tags': ['a', 's']}]\ndeep [{'id': 'C1', 'tags': ['a', 'd']}]\nshallow shares True\n",
+          "expected_head": "orig tras shallow tags [{'id': 'C1', 'tags': ['a', 's']}]\norig [{'id': 'C1', 'tags': ['a', 's']}]\ndeep [{'id': 'C1', 'ta",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'C001': 'Lima', 'C002': 'Cusco'}\nCusco\n",
+          "expected_head": "{'C001': 'Lima', 'C002': 'Cusco'}\nCusco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana N/A\nKeyError\n",
+          "expected_head": "Ana\nN/A\nKeyError 'C999'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged {'retry': 5, 'timeout': 30}\ndefaults intacto {'retry': 1, 'timeout': 30}\nsafe update {'retry': 5, 'timeout': 30} ",
+          "expected_head": "merged {'retry': 5, 'timeout': 30}\ndefaults intacto {'retry': 1, 'timeout': 30}\nvia copy+update {'retry': 5, 'timeout': ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a@ex.com', 'b@ex.com']\n",
+          "expected_head": "['a@ex.com', 'b@ex.com']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['b@ex.com', 'c@ex.com']\n['a@ex.com', 'd@ex.com']\n",
+          "expected_head": "inter ['b@ex.com', 'c@ex.com']\nsymdiff ['a@ex.com', 'd@ex.com']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'unique': [{'id': 'C001', 'v': 1}, {'id': 'C002', 'v': 2}], 'conflicts': [{'id': 'C001', 'a': {'id': 'C001', 'v': 1}, '",
+          "expected_head": "{'unique': [{'id': 'C001', 'v': 1}, {'id': 'C002', 'v': 2}], 'conflicts': [{'key': 'C001', 'kept': {'id': 'C001', 'v': 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 → 2\nC002 → 0\n",
+          "expected_head": "C001 → 2\nC002 → 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'client_id': 'C001', 'tx_id': 'T1', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T2', 'monto': 7}, {'client_id': 'C002",
+          "expected_head": "[{'client_id': 'C001', 'tx_id': 'T1', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T2', 'monto': 7}, {'client_id': 'C002",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 ok\nC002 review\nC003 review\n",
+          "expected_head": "C001 ok\nC002 review\nC003 review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999\nN/A\n",
+          "expected_head": "999\nN/A",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001: present\nC002: missing\nC003: missing\n",
+          "expected_head": "C001: present\nC002: missing\nC003: missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None falsy= True missing= True\n'' falsy= True missing= False\n0 falsy= True missing= False\n[] falsy= True missing= False\n",
+          "expected_head": "None falsy= True missing= True\n'' falsy= True missing= False\n0 falsy= True missing= False\n[] falsy= True missing= False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['T1', 'T2']\n",
+          "expected_head": "['T1', 'T2']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Cusco Bob\nLima Ana\nLima Zed\n",
+          "expected_head": "Cusco Bob\nLima Ana\nLima Zed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sort retorna None rows [1, 2, 3]\nsorted [1, 2, 3] base intacta [3, 1, 2]\n",
+          "expected_head": "ret None\nrows [1, 2, 3]\nbase [3, 1, 2] copy [1, 2, 3]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cola de llegada de filas → list\nlookup frecuente por id → dict\nemails únicos de un lote → set\n",
+          "expected_head": "cola de llegada de filas → list\nlookup frecuente por id → dict\nemails únicos de un lote → set",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}\n",
+          "expected_head": "{\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "list membership ~ O(n); set membership ~ O(1) promedio\nC003 in set → True\n",
+          "expected_head": "list membership: O(n) por chequeo\nset membership: O(1) promedio\nC003 in set True\npreindexar set/dict evita O(n²) en loop",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S06-T1-A-E1",
+          "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(ventana))\nempty = []\nv0 = empty[-2:]\nprint(v0, len(v0))",
+          "note": "",
+          "concepts_used": [
+            "slicing",
+            "last window"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-A-E2",
+          "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)",
+          "note": "",
+          "concepts_used": [
+            "tuple immutable"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-A-E3",
+          "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', type(e).__name__, e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)",
+          "note": "",
+          "concepts_used": [
+            "tuple no append"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-B-E1",
+          "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)",
+          "note": "",
+          "concepts_used": [
+            "unpacking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-B-E2",
+          "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('xs', xs, 'copia', copia)\ncopia.append(4)\nprint('xs after copia append', xs, 'copia', copia)",
+          "note": "",
+          "concepts_used": [
+            "alias vs copy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T1-B-E3",
+          "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('after shallow mut orig', rows)\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)",
+          "note": "",
+          "concepts_used": [
+            "deepcopy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-A-E1",
+          "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])",
+          "note": "",
+          "concepts_used": [
+            "dict from pairs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-A-E2",
+          "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001'), idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)",
+          "note": "",
+          "concepts_used": [
+            "get vs KeyError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-A-E3",
+          "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intact', defaults)\n# peligro: copy before update\nbase = dict(defaults)\nbase.update(override)\nprint('after update on copy', base, 'defaults', defaults)",
+          "note": "",
+          "concepts_used": [
+            "merge without mutate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-B-E1",
+          "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)",
+          "note": "",
+          "concepts_used": [
+            "set",
+            "sorted"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-B-E2",
+          "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint(sorted(a & b))\nprint(sorted(a ^ b))",
+          "note": "",
+          "concepts_used": [
+            "intersection",
+            "symmetric diff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T2-B-E3",
+          "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        elif seen[k] != r:\n            conflicts.append({'id': k, 'a': seen[k], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))",
+          "note": "",
+          "concepts_used": [
+            "dedup_report"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-A-E1",
+          "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))",
+          "note": "",
+          "concepts_used": [
+            "nested count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-A-E2",
+          "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)",
+          "note": "",
+          "concepts_used": [
+            "flatten txs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-A-E3",
+          "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    status = 'ok' if isinstance(txs, list) else 'review'\n    print(c['id'], status)",
+          "note": "",
+          "concepts_used": [
+            "shape check"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-B-E1",
+          "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+          "note": "",
+          "concepts_used": [
+            "get_nested"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-B-E2",
+          "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        tag = 'missing'\n    else:\n        tag = 'present'\n    print(f\"{c['id']}: {tag}\")",
+          "note": "",
+          "concepts_used": [
+            "missing vs present"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T3-B-E3",
+          "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)",
+          "note": "",
+          "concepts_used": [
+            "falsy vs missing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-A-E1",
+          "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])",
+          "note": "",
+          "concepts_used": [
+            "sorted key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-A-E2",
+          "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])",
+          "note": "",
+          "concepts_used": [
+            "multi-field key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-A-E3",
+          "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('sort returns', ret, 'rows', rows)\ncopy_sorted = sorted(base)\nprint('sorted copy', copy_sorted, 'base intact', base)",
+          "note": "",
+          "concepts_used": [
+            "sort None",
+            "sorted copy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-B-E1",
+          "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nstructs = ['list', 'dict', 'set']\nfor j, s in zip(jobs, structs):\n    print(j, '→', s)",
+          "note": "",
+          "concepts_used": [
+            "structure choice"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-B-E2",
+          "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)",
+          "note": "",
+          "concepts_used": [
+            "deterministic json"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S06-T4-B-E3",
+          "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\nprint('membership list: O(n) por chequeo')\nprint('membership set: O(1) promedio')\ns = set(ids)\nprint('C003 in set →', 'C003' in s)",
+          "note": "",
+          "concepts_used": [
+            "O(n) vs O(1)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S06-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[40, 50] 2\n[] 0\n",
+          "expected_head": "[40, 50]\n2\n[]\n0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "KEYS ('id', 'monto')\nmore ('id', 'monto', 'canal')\nKEYS sigue ('id', 'monto')\n",
+          "expected_head": "KEYS ('id', 'monto')\nmore ('id', 'monto', 'canal')\nKEYS sigue ('id', 'monto')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "AttributeError AttributeError 'tuple' object has no attribute 'append'\n['C001', 'C002', 'C003']\n",
+          "expected_head": "diagnóstico: AttributeError - 'tuple' object has no attribute 'append'\n['C001', 'C002', 'C003']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 Lima 10\n",
+          "expected_head": "C001 Lima 10",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "xs [1, 2, 3] copia [1, 2]\nxs after copia append [1, 2, 3] copia [1, 2, 4]\n",
+          "expected_head": "tras alias [1, 2, 3] [1, 2]\ntras copia [1, 2, 3] [1, 2, 4]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "after shallow mut orig [{'id': 'C1', 'tags': ['a', 'b']}]\norig [{'id': 'C1', 'tags': ['a', 'b']}]\ndeep [{'id': 'C1', 'ta",
+          "expected_head": "orig tras shallow tags [{'id': 'C1', 'tags': ['a', 's']}]\norig [{'id': 'C1', 'tags': ['a', 's']}]\ndeep [{'id': 'C1', 'ta",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'C001': 'Lima', 'C002': 'Cusco'}\nCusco\n",
+          "expected_head": "{'C001': 'Lima', 'C002': 'Cusco'}\nCusco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana N/A\nKeyError 'C999'\n",
+          "expected_head": "Ana\nN/A\nKeyError 'C999'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged {'retry': 5, 'timeout': 30}\ndefaults intact {'retry': 1, 'timeout': 30}\nafter update on copy {'retry': 5, 'timeou",
+          "expected_head": "merged {'retry': 5, 'timeout': 30}\ndefaults intacto {'retry': 1, 'timeout': 30}\nvia copy+update {'retry': 5, 'timeout': ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a@ex.com', 'b@ex.com']\n",
+          "expected_head": "['a@ex.com', 'b@ex.com']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['b@ex.com', 'c@ex.com']\n['a@ex.com', 'd@ex.com']\n",
+          "expected_head": "inter ['b@ex.com', 'c@ex.com']\nsymdiff ['a@ex.com', 'd@ex.com']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'unique': [{'id': 'C001', 'v': 1}, {'id': 'C002', 'v': 2}], 'conflicts': [{'id': 'C001', 'a': {'id': 'C001', 'v': 1}, '",
+          "expected_head": "{'unique': [{'id': 'C001', 'v': 1}, {'id': 'C002', 'v': 2}], 'conflicts': [{'key': 'C001', 'kept': {'id': 'C001', 'v': 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 → 2\nC002 → 0\n",
+          "expected_head": "C001 → 2\nC002 → 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'client_id': 'C001', 'tx_id': 'T1', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T2', 'monto': 7}, {'client_id': 'C002",
+          "expected_head": "[{'client_id': 'C001', 'tx_id': 'T1', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T2', 'monto': 7}, {'client_id': 'C002",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 ok\nC002 review\nC003 review\n",
+          "expected_head": "C001 ok\nC002 review\nC003 review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999\nN/A\n",
+          "expected_head": "999\nN/A",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001: present\nC002: missing\nC003: missing\n",
+          "expected_head": "C001: present\nC002: missing\nC003: missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None falsy= True missing= True\n'' falsy= True missing= False\n0 falsy= True missing= False\n[] falsy= True missing= False\n",
+          "expected_head": "None falsy= True missing= True\n'' falsy= True missing= False\n0 falsy= True missing= False\n[] falsy= True missing= False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['T1', 'T2']\n",
+          "expected_head": "['T1', 'T2']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Cusco Bob\nLima Ana\nLima Zed\n",
+          "expected_head": "Cusco Bob\nLima Ana\nLima Zed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sort returns None rows [1, 2, 3]\nsorted copy [1, 2, 3] base intact [3, 1, 2]\n",
+          "expected_head": "ret None\nrows [1, 2, 3]\nbase [3, 1, 2] copy [1, 2, 3]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cola de llegada de filas → list\nlookup frecuente por id → dict\nemails únicos de un lote → set\n",
+          "expected_head": "cola de llegada de filas → list\nlookup frecuente por id → dict\nemails únicos de un lote → set",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}\n",
+          "expected_head": "{\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S06-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "membership list: O(n) por chequeo\nmembership set: O(1) promedio\nC003 in set → True\n",
+          "expected_head": "list membership: O(n) por chequeo\nset membership: O(1) promedio\nC003 in set True\npreindexar set/dict evita O(n²) en loop",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

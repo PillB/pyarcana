@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 43,
+  "packet_sha": "a94c58728e1bc959",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s43-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_copied_before_source\":True,\"dependency_layer_reused\":True,\"source_change_rebuilds\":1,\"digest_stable\":True}}\nmeets_contract = record[\"lock_copied_before_source\"] and record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] <= 1 and record[\"digest_stable\"]\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "lock_copied_before_source",
+        "dependency_layer_reused",
+        "source_change_rebuilds",
+        "digest_stable",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T1-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y cache` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación debe demostr. Pistas usadas: Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.; El predicado correcto debe ser verdadero por. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'lock_copied_before_source', 'dependency_layer_reused', 'source_change_rebuilds', 'digest_stable'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"lock_copied_before_source\"] and record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] <= 1 and record[\"digest_stable\"]) else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'dependency_layer_reused': True, 'digest_stable': True, 'lock_copied_before_source': True, 'source_change_rebuilds': 1}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'dependency_layer_reused': False, 'digest_stable': False, 'lock_copied_before_source': True, 'source_change_rebuilds': 5}\nincomplete = {**valid}\nincomplete.pop('digest_stable', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "lock_copied_before_source",
+        "dependency_layer_reused",
+        "source_change_rebuilds"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T1-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con case_id, lock. Pistas usadas: Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.; Después aplica la regla de S43-T1-A: layer de dependencias reutilizable y digest estable. El fixture advers. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'lock_copied_before_source', 'dependency_layer_reused', 'source_change_rebuilds', 'digest_stable'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_CACHE_INVALIDATION\"\n    return \"CONTINUE\" if (record[\"lock_copied_before_source\"] and record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] <= 1 and record[\"digest_stable\"]) else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'dependency_layer_reused': True, 'digest_stable': True, 'lock_copied_before_source': True, 'source_change_rebuilds': 1}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'dependency_layer_reused': False, 'digest_stable': False, 'lock_copied_before_source': True, 'source_change_rebuilds': 5}\nuncertain = {**valid}\nuncertain.pop('digest_stable', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "lock_copied_before_source",
+        "dependency_layer_reused",
+        "source_change_rebuilds"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T1-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T1-A-E3 · Simula fallo cerrado para `Dockerfile, layers y cache` con tres fixtures distintos. `CASO-TRU-043-1A` debe continuar, el adverso debe devolver `RE. Pistas usadas: Una ausencia no equivale a breach: enrútala a `INSPECT_CACHE_INVALIDATION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró layer de dependencias reutilizable y dig. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "base_pinned",
+        "uid",
+        "capabilities",
+        "set",
+        "runtime_mb"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T1-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T1-B-E1 · Compara el contrato de `bases, usuarios no root y tamaño` sobre `CASO-TRU-043-1B`. La entrada es el dict completo del starter; la operación debe d. Pistas usadas: Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva proceso non-r. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'base_pinned', 'uid', 'capabilities', 'runtime_mb', 'max_mb'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))) else \"REBUILD_NONROOT\"\n\nvalid = {'base_pinned': True, 'capabilities': set(), 'case_id': 'CASO-TRU-043-1B', 'max_mb': 150, 'runtime_mb': 118, 'uid': 10001}\ninvalid = {'base_pinned': True, 'capabilities': set(), 'case_id': 'CASO-TRU-043-1B', 'max_mb': 150, 'runtime_mb': 118, 'uid': 0}\nincomplete = {**valid}\nincomplete.pop('max_mb', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "base_pinned",
+        "uid",
+        "capabilities"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T1-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adverso y registro sin `max_mb`. Entrada: dict con case_id, bas. Pistas usadas: Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.; Después aplica la regla de S43-T1-B: base fijada, UID non-root, cero capabilities y tamaño límite. El fixture adve. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'base_pinned', 'uid', 'capabilities', 'runtime_mb', 'max_mb'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SELECT_PATCHABLE_BASE\"\n    return \"CONTINUE\" if (not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))) else \"REBUILD_NONROOT\"\n\nvalid = {'base_pinned': True, 'capabilities': set(), 'case_id': 'CASO-TRU-043-1B', 'max_mb': 150, 'runtime_mb': 118, 'uid': 10001}\ninvalid = {'base_pinned': True, 'capabilities': set(), 'case_id': 'CASO-TRU-043-1B', 'max_mb': 150, 'runtime_mb': 118, 'uid': 0}\nuncertain = {**valid}\nuncertain.pop('max_mb', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "base_pinned",
+        "uid",
+        "capabilities"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T1-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T1-B-E3 · Extiende fallo cerrado para `bases, usuarios no root y tamaño` con tres fixtures distintos. `CASO-TRU-043-1B` debe continuar, el adverso debe devo. Pistas usadas: Una ausencia no equivale a breach: enrútala a `SELECT_PATCHABLE_BASE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró base fijada, UID non-root, cero capabilities . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "secret_baked",
+        "runtime_secret",
+        "config_declared",
+        "durable_volumes",
+        "ephemeral_volumes"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T2-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T2-A-E1 · Filtra el contrato de `config, secrets y volumes` sobre `CASO-TRU-043-2A`. La entrada es el dict completo del starter; la operación debe demostrar. Pistas usadas: Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.; El predicado correcto debe ser verdadero porque el. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'secret_baked', 'runtime_secret', 'config_declared', 'durable_volumes', 'ephemeral_volumes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}, 'runtime_secret': True, 'secret_baked': False}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}, 'runtime_secret': True, 'secret_baked': True}\nincomplete = {**valid}\nincomplete.pop('ephemeral_volumes', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "secret_baked",
+        "runtime_secret",
+        "config_declared"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T2-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y registro sin `ephemeral_volumes`. Entrada: dict con case_id. Pistas usadas: Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.; Después aplica la regla de S43-T2-A: secretos runtime y estado durable/efímero separado. El fixture adv. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'secret_baked', 'runtime_secret', 'config_declared', 'durable_volumes', 'ephemeral_volumes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLASSIFY_VOLUME\"\n    return \"CONTINUE\" if (not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}, 'runtime_secret': True, 'secret_baked': False}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}, 'runtime_secret': True, 'secret_baked': True}\nuncertain = {**valid}\nuncertain.pop('ephemeral_volumes', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "secret_baked",
+        "runtime_secret",
+        "config_declared"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T2-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T2-A-E3 · Defiende fallo cerrado para `config, secrets y volumes` con tres fixtures distintos. `CASO-TRU-043-2A` debe continuar, el adverso debe devolver `R. Pistas usadas: Una ausencia no equivale a breach: enrútala a `CLASSIFY_VOLUME` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró secretos runtime y estado durable/efímero separado;. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "private_network",
+        "readiness_db",
+        "liveness_loop",
+        "sigterm_drains",
+        "grace_seconds"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T2-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T2-B-E1 · Modela el contrato de `networking, health checks y signals` sobre `CASO-TRU-043-2B`. La entrada es el dict completo del starter; la operación debe. Pistas usadas: Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada en S43-T2-B.; El predicado correcto debe ser verdadero porque el fixtu. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'private_network', 'readiness_db', 'liveness_loop', 'sigterm_drains', 'grace_seconds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'grace_seconds': 30, 'liveness_loop': True, 'private_network': True, 'readiness_db': True, 'sigterm_drains': True}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'grace_seconds': 30, 'liveness_loop': True, 'private_network': True, 'readiness_db': False, 'sigterm_drains': True}\nincomplete = {**valid}\nincomplete.pop('grace_seconds', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "private_network",
+        "readiness_db",
+        "liveness_loop"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T2-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture adverso y registro sin `grace_seconds`. Entrada: dict con case. Pistas usadas: Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.; Después aplica la regla de S43-T2-B: network privada, health semántico y drain de SIGTERM. El fixture adver. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'private_network', 'readiness_db', 'liveness_loop', 'sigterm_drains', 'grace_seconds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    return \"CONTINUE\" if (not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'grace_seconds': 30, 'liveness_loop': True, 'private_network': True, 'readiness_db': True, 'sigterm_drains': True}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'grace_seconds': 30, 'liveness_loop': True, 'private_network': True, 'readiness_db': False, 'sigterm_drains': True}\nuncertain = {**valid}\nuncertain.pop('grace_seconds', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "private_network",
+        "readiness_db",
+        "liveness_loop"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T2-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T2-B-E3 · Recupera fallo cerrado para `networking, health checks y signals` con tres fixtures distintos. `CASO-TRU-043-2B` debe continuar, el adverso debe d. Pistas usadas: Una ausencia no equivale a breach: enrútala a `DIAGNOSE_HEALTH_SIGNAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró network privada, health semántico y drain de. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = record[\"healthy\"] == record[\"services\"] and record[\"api_retries_db\"] and len(record[\"networks\"]) >= 2\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "services",
+        "api",
+        "worker",
+        "cache",
+        "healthy"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T3-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T3-A-E1 · Verifica el contrato de `API/worker/DB/cache` sobre `CASO-TRU-043-3A`. La entrada es el dict completo del starter; la operación debe demostrar cua. Pistas usadas: Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva stack sano desde entor. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'services', 'healthy', 'api_retries_db', 'networks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"healthy\"] == record[\"services\"] and record[\"api_retries_db\"] and len(record[\"networks\"]) >= 2) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'api_retries_db': True, 'case_id': 'CASO-TRU-043-3A', 'healthy': {'api', 'cache', 'db', 'worker'}, 'networks': {'back', 'front'}, 'services': {'api', 'cache', 'db', 'worker'}}\ninvalid = {'api_retries_db': False, 'case_id': 'CASO-TRU-043-3A', 'healthy': {'cache', 'db', 'worker'}, 'networks': {'back', 'front'}, 'services': {'api', 'cache', 'db', 'worker'}}\nincomplete = {**valid}\nincomplete.pop('networks', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "services",
+        "healthy",
+        "api_retries_db"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T3-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro sin `networks`. Entrada: dict con case_id, services, health. Pistas usadas: Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.; Después aplica la regla de S43-T3-A: cuatro servicios sanos, retries y redes segmentadas. El fixture adverso deb. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'services', 'healthy', 'api_retries_db', 'networks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WAIT_FOR_DEPENDENCY\"\n    return \"CONTINUE\" if (record[\"healthy\"] == record[\"services\"] and record[\"api_retries_db\"] and len(record[\"networks\"]) >= 2) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'api_retries_db': True, 'case_id': 'CASO-TRU-043-3A', 'healthy': {'api', 'cache', 'db', 'worker'}, 'networks': {'back', 'front'}, 'services': {'api', 'cache', 'db', 'worker'}}\ninvalid = {'api_retries_db': False, 'case_id': 'CASO-TRU-043-3A', 'healthy': {'cache', 'db', 'worker'}, 'networks': {'back', 'front'}, 'services': {'api', 'cache', 'db', 'worker'}}\nuncertain = {**valid}\nuncertain.pop('networks', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "services",
+        "healthy",
+        "api_retries_db"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T3-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T3-A-E3 · Contrasta fallo cerrado para `API/worker/DB/cache` con tres fixtures distintos. `CASO-TRU-043-3A` debe continuar, el adverso debe devolver `STOP_U. Pistas usadas: Una ausencia no equivale a breach: enrútala a `WAIT_FOR_DEPENDENCY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cuatro servicios sanos, retries y redes segment. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = record[\"migration\"] == \"expand\" and record[\"old_code_compatible\"] and record[\"ephemeral_reset\"] and record[\"backup_restored\"]\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "migration",
+        "expand",
+        "old_code_compatible",
+        "ephemeral_reset",
+        "backup_restored"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T3-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T3-B-E1 · Clasifica el contrato de `dependencias, migrations y datos efímeros` sobre `CASO-TRU-043-3B`. La entrada es el dict completo del starter; la opera. Pistas usadas: Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva m. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'migration', 'old_code_compatible', 'ephemeral_reset', 'backup_restored'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"migration\"] == \"expand\" and record[\"old_code_compatible\"] and record[\"ephemeral_reset\"] and record[\"backup_restored\"]) else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'backup_restored': True, 'case_id': 'CASO-TRU-043-3B', 'ephemeral_reset': True, 'migration': 'expand', 'old_code_compatible': True}\ninvalid = {'backup_restored': False, 'case_id': 'CASO-TRU-043-3B', 'ephemeral_reset': True, 'migration': 'contract', 'old_code_compatible': False}\nincomplete = {**valid}\nincomplete.pop('backup_restored', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "migration",
+        "old_code_compatible",
+        "ephemeral_reset"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T3-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T3-B-E2 · Calcula tres rutas de `dependencias, migrations y datos efímeros`: fixture válido, fixture adverso y registro sin `backup_restored`. Entrada: dict. Pistas usadas: Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.; Después aplica la regla de S43-T3-B: expand compatible, efímero recreable y restore aprobado. El fixture . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'migration', 'old_code_compatible', 'ephemeral_reset', 'backup_restored'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if (record[\"migration\"] == \"expand\" and record[\"old_code_compatible\"] and record[\"ephemeral_reset\"] and record[\"backup_restored\"]) else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'backup_restored': True, 'case_id': 'CASO-TRU-043-3B', 'ephemeral_reset': True, 'migration': 'expand', 'old_code_compatible': True}\ninvalid = {'backup_restored': False, 'case_id': 'CASO-TRU-043-3B', 'ephemeral_reset': True, 'migration': 'contract', 'old_code_compatible': False}\nuncertain = {**valid}\nuncertain.pop('backup_restored', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "migration",
+        "old_code_compatible",
+        "ephemeral_reset"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T3-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T3-B-E3 · Instrumenta fallo cerrado para `dependencias, migrations y datos efímeros` con tres fixtures distintos. `CASO-TRU-043-3B` debe continuar, el adver. Pistas usadas: Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró expand compatible, efímero recreable y restore ap. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "lock_hash",
+        "sha256",
+        "abc",
+        "stages",
+        "builder"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T4-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T4-A-E1 · Audita el contrato de `locks y multi-stage builds` sobre `CASO-TRU-043-4A`. La entrada es el dict completo del starter; la operación debe demostra. Pistas usadas: Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva lock v. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'lock_hash', 'stages', 'compiler_in_runtime', 'runtime_deps_locked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'compiler_in_runtime': False, 'lock_hash': 'sha256:abc', 'runtime_deps_locked': True, 'stages': {'builder', 'runtime'}}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'compiler_in_runtime': True, 'lock_hash': 'sha256:abc', 'runtime_deps_locked': True, 'stages': {'builder', 'runtime'}}\nincomplete = {**valid}\nincomplete.pop('runtime_deps_locked', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "lock_hash",
+        "stages",
+        "compiler_in_runtime"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T4-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y registro sin `runtime_deps_locked`. Entrada: dict con case_i. Pistas usadas: Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.; Después aplica la regla de S43-T4-A: lock con hash y runtime sin toolchain. El fixture adverso debe f. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'lock_hash', 'stages', 'compiler_in_runtime', 'runtime_deps_locked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGENERATE_LOCK\"\n    return \"CONTINUE\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'compiler_in_runtime': False, 'lock_hash': 'sha256:abc', 'runtime_deps_locked': True, 'stages': {'builder', 'runtime'}}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'compiler_in_runtime': True, 'lock_hash': 'sha256:abc', 'runtime_deps_locked': True, 'stages': {'builder', 'runtime'}}\nuncertain = {**valid}\nuncertain.pop('runtime_deps_locked', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "lock_hash",
+        "stages",
+        "compiler_in_runtime"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T4-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T4-A-E3 · Aísla fallo cerrado para `locks y multi-stage builds` con tres fixtures distintos. `CASO-TRU-043-4A` debe continuar, el adverso debe devolver `BLO. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REGENERATE_LOCK` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró lock con hash y runtime sin toolchain; solo ese cas. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "critical_cves",
+        "memory_limit_mb",
+        "cpu_limit",
+        "debug_shell",
+        "logs_redacted"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T4-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la operación de. Pistas usadas: Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.; El predicado correcto debe ser verdadero porque el fixture con. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'memory_limit_mb', 'cpu_limit', 'debug_shell', 'logs_redacted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])) else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'cpu_limit': 1.0, 'critical_cves': 0, 'debug_shell': False, 'logs_redacted': True, 'memory_limit_mb': 512}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'cpu_limit': 1.0, 'critical_cves': 0, 'debug_shell': True, 'logs_redacted': True, 'memory_limit_mb': 512}\nincomplete = {**valid}\nincomplete.pop('logs_redacted', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "critical_cves",
+        "memory_limit_mb",
+        "cpu_limit"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T4-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: dict con ca. Pistas usadas: Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.; Después aplica la regla de S43-T4-B: scan limpio, límites definidos y debugging sin shell root. El fixture . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'memory_limit_mb', 'cpu_limit', 'debug_shell', 'logs_redacted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRIAGE_SCAN_FINDING\"\n    return \"CONTINUE\" if (not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])) else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'cpu_limit': 1.0, 'critical_cves': 0, 'debug_shell': False, 'logs_redacted': True, 'memory_limit_mb': 512}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'cpu_limit': 1.0, 'critical_cves': 0, 'debug_shell': True, 'logs_redacted': True, 'memory_limit_mb': 512}\nuncertain = {**valid}\nuncertain.pop('logs_redacted', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "critical_cves",
+        "memory_limit_mb",
+        "cpu_limit"
+      ],
+      "justification_from_packet": "Explorer: completé S43-T4-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S43-T4-B-E3 · Demuestra fallo cerrado para `scanning, resource limits y debugging` con tres fixtures distintos. `CASO-TRU-043-4B` debe continuar, el adverso deb. Pistas usadas: Una ausencia no equivale a breach: enrútala a `TRIAGE_SCAN_FINDING` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró scan limpio, límites definidos y debugging sin . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "dos builds producen el mismo digest lógico",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «Dockerfile, layers y cache» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «dos builds producen el mismo digest lógico». Por eso elijo la opción «dos builds producen el mismo digest lógico» (índice 2) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: ¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir BLOCK_IMAGE y conservar evidencia",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «Dockerfile, layers y cache» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «dos builds producen el mismo digest lógico». Por eso elijo la opción «emitir BLOCK_IMAGE y conservar evidencia» (índice 0) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y auditabilidad?"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «Dockerfile, layers y cache» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «dos builds producen el mismo digest lógico». Por eso elijo la opción «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo» (índice 1) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedores`?"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «Dockerfile, layers y cache» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «dos builds producen el mismo digest lógico». Por eso elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (índice 3) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: ¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?"
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ],
+    "note": "Knowledge limited to sequential packets through active section; explorer maps starter→contract greedily."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:18:22.644407+00:00"
+}

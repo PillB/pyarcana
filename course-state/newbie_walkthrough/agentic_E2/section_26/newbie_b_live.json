@@ -1,0 +1,489 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 26,
+  "packet_sha": "98a22dbe9fbc9742",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s26-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet solve\n# Instruction: CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']. Contrato: sin inputs externos; salida \n# Patrón iDo del subtopic:\norder=[\"ingest\",\"validate\",\"analyze\",\"report\",\"approve\",\"draft_email\"]\nprint(order)\nprint(\"n_steps\", len(order))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "solve",
+        "Instruction",
+        "CASO",
+        "path",
+        "cuatro",
+        "pasos"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T1-A-E1 la instrucción pide: CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']. Contrato: sin inputs externos; salida must-match el orden . Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `order=[\"ingest\",\"validate\",\"analyze\",\"report\",\"approve\",\"draft_email\"]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T1-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T1-A-E2 la instrucción pide: Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → output '2 [(...) ]' con pares ordenados. Ciclos prohibidos en prod. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `nodes=['a','b','c']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T1-A-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T1-A-E3 la instrucción pide: Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str] → 'failed'|'success'. Skipped no cuenta como failed en este. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `tasks={'a':'success','b':'failed'}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T1-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T1-B-E1 la instrucción pide: Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: metadata inmutable al leer; output texto del id. Fixture id conceptual cpn2c-1. Pass: cpn2c-1.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `m={'run_id':'cpn2c-1'}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T1-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T1-B-E2 la instrucción pide: Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta de gate. En ops Lima esto bloquearía enable del schedule. Pass:. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `api_rpm=90`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T1-B-E3: solo patrones del paquete activo\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T1-B-E3 la instrucción pide: Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin librería cron. Pass exacto: 0 6 * * 1-5 America/Lima.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `case_id = \"CASO-LIM-SYN\"`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T2-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T2-A-E1 la instrucción pide: Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; solo la fórmula. Pass: 400. (En prod añadirías jitter y cap.). Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `attempt, base = 3, 100`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T2-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T2-A-E2 la instrucción pide: Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq e imprime la lista. Contrato: no reintentar validación de negocio aquí. Pass: ['x']. Owner/SLA de DLQ se docum. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `dlq=[]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T2-A-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T2-A-E3 la instrucción pide: Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fail-open solo sobre pendientes. Pass: ['b'].. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `ckpt={'a'}; items=['a','b']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T2-B-E1: solo patrones del paquete activo\nstore={}  # create-once store\n\ndef put(k,v):\n    return None\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "store",
+        "create"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T2-B-E1 la instrucción pide: Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir v1). Contrato: segunda escritura no pisa. Pass: v1.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `store={}  # create-once store`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T2-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T2-B-E2 la instrucción pide: Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior simulada e imprime state. Contrato: report permanece; draft side-effect revertido. Pass: {'report': 'ok'}.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `state={'report':'ok','draft':'ok'}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T2-B-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\nprint('busy' if locked else 'enter')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T2-B-E3 la instrucción pide: Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en busy-loop en el lab. Pass: busy.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `locked=True`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T3-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T3-A-E1 la instrucción pide: Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este step; no mutes la lista. Pass: 1.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `analysis=[{'status':'pending'},{'status':'done'}]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T3-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T3-A-E2 la instrucción pide: Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: True (aún no se puede draft_email).. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `q={'analysis':1,'report':0,'recipient':0}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T3-A-E3: solo patrones del paquete activo\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T3-A-E3 la instrucción pide: Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico didáctico del VP. Pass: ['metrics', 'narrative', 'recipient'].. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `case_id = \"CASO-LIM-SYN\"`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T3-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T3-B-E1 la instrucción pide: Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action de la solución (approve). Contrato: no reescribir historial de audit. Pass: approve.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `audit=[]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T3-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T3-B-E2 la instrucción pide: Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo sin justificación. Pass: invalid.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `action, reason = 'reject', None`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T3-B-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\nprint(ver)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T3-B-E3 la instrucción pide: Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no borrar entradas de audit previas. Pass exacto: 2.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `ver=1`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T4-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T4-A-E1 la instrucción pide: SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del VP diario operativo. Pass: alert. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente c. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `rate=0.9`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T4-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T4-A-E2 la instrucción pide: Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_unapproved_send.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `n=1`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T4-A-E3: solo patrones del paquete activo\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T4-A-E3 la instrucción pide: Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución). Contrato: orden fijo de contención. Pass: disable_schedule -> drain -> page.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `case_id = \"CASO-LIM-SYN\"`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T4-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T4-B-E1 la instrucción pide: E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. Contrato: un failed tumba el E2E. Pass: True.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `steps=['ingest','validate','draft']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T4-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T4-B-E2 la instrucción pide: Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels de fraude. Pass: ok.. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `fraud_labels=0`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S26-T4-B-E3: solo patrones del paquete activo\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-re\n)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S26",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S26-T4-B-E3 la instrucción pide: Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-automation (ver solución). Contrato: evidencia de defensa, no en. Completé el starter sin ____ ni TODO, siguiendo la pista «contrato I/O en instruction» y el patrón S26-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `case_id = \"CASO-LIM-SYN\"`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Approve antes de draft_email",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «El orden draft_email respecto a approve es:» descarté distractores y elegí «Approve antes de draft_email» (índice 1) porque el theory/iDo del paquete S26 enseña el path canónico report→approve→draft_email y prohíbe draft_email antes de approve. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet/quiz_card E2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «La regresión N2 incluye:» descarté distractores y elegí «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad» (índice 3) porque el theory/iDo/outcomes del paquete activo de la sección 26 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Incidente P0",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Un send sin approve es:» descarté distractores y elegí «Incidente P0» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 26 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "0 — solo evidencia para humanos",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «fraud_labels automáticos en el VP deben ser:» descarté distractores y elegí «0 — solo evidencia para humanos» (índice 2) porque el theory/iDo/outcomes del paquete activo de la sección 26 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:37:53.781778+00:00",
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

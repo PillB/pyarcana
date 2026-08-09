@@ -1,0 +1,164 @@
+[
+  {
+    "n": 31,
+    "before": {
+      "n_para": 27,
+      "avg_para": 123.1,
+      "min_para": 76,
+      "thin_para_ratio": 0.89,
+      "n_instr": 24,
+      "avg_instr": 103.7,
+      "min_instr": 61,
+      "kb": 53.8
+    },
+    "after": {
+      "n_para": 27,
+      "avg_para": 304.0,
+      "min_para": 254,
+      "thin_para_ratio": 0.0,
+      "n_instr": 24,
+      "avg_instr": 432.0,
+      "min_instr": 191,
+      "kb": 66.4,
+      "n_heads": 9,
+      "selfcheck_q": 4
+    },
+    "file": "s31-streaming-data.ts",
+    "title": "Grafos y evidencia relacional"
+  },
+  {
+    "n": 30,
+    "before": {
+      "n_para": 25,
+      "avg_para": 115.1,
+      "min_para": 62,
+      "thin_para_ratio": 1.0,
+      "n_instr": 24,
+      "avg_instr": 55.2,
+      "min_instr": 23,
+      "kb": 42.8
+    },
+    "after": {
+      "n_para": 25,
+      "avg_para": 304.9,
+      "min_para": 250,
+      "thin_para_ratio": 0.0,
+      "n_instr": 24,
+      "avg_instr": 397.2,
+      "min_instr": 365,
+      "kb": 55.7,
+      "n_heads": 9,
+      "selfcheck_q": 4
+    },
+    "file": "s30-security-infra.ts",
+    "title": "Entity resolution probabilístico"
+  },
+  {
+    "n": 29,
+    "before": {
+      "n_para": 27,
+      "avg_para": 101.5,
+      "min_para": 49,
+      "thin_para_ratio": 1.0,
+      "n_instr": 24,
+      "avg_instr": 60.2,
+      "min_instr": 21,
+      "kb": 44.4
+    },
+    "after": {
+      "n_para": 27,
+      "avg_para": 328.9,
+      "min_para": 252,
+      "thin_para_ratio": 0.0,
+      "n_instr": 24,
+      "avg_instr": 403.2,
+      "min_instr": 364,
+      "kb": 58.6,
+      "n_heads": 9,
+      "selfcheck_q": 4
+    },
+    "file": "s29-mlops.ts",
+    "title": "SQL avanzado y modelado relacional"
+  },
+  {
+    "n": 28,
+    "before": {
+      "n_para": 24,
+      "avg_para": 106.2,
+      "min_para": 60,
+      "thin_para_ratio": 1.0,
+      "n_instr": 24,
+      "avg_instr": 54.6,
+      "min_instr": 31,
+      "kb": 40.6
+    },
+    "after": {
+      "n_para": 24,
+      "avg_para": 314.8,
+      "min_para": 252,
+      "thin_para_ratio": 0.0,
+      "n_instr": 24,
+      "avg_instr": 400.6,
+      "min_instr": 377,
+      "kb": 53.7,
+      "n_heads": 9,
+      "selfcheck_q": 4
+    },
+    "file": "s28-llm-agents.ts",
+    "title": "Pruebas de datos, propiedades e integración"
+  },
+  {
+    "n": 27,
+    "before": {
+      "n_para": 28,
+      "avg_para": 137.5,
+      "min_para": 80,
+      "thin_para_ratio": 0.93,
+      "n_instr": 24,
+      "avg_instr": 66.2,
+      "min_instr": 38,
+      "kb": 45.0
+    },
+    "after": {
+      "n_para": 28,
+      "avg_para": 319.4,
+      "min_para": 253,
+      "thin_para_ratio": 0.0,
+      "n_instr": 24,
+      "avg_instr": 408.2,
+      "min_instr": 380,
+      "kb": 58.2,
+      "n_heads": 9,
+      "selfcheck_q": 4
+    },
+    "file": "s27-async-concurrency.ts",
+    "title": "Estrategia de pruebas con pytest"
+  },
+  {
+    "n": 25,
+    "before": {
+      "n_para": 27,
+      "avg_para": 101.8,
+      "min_para": 37,
+      "thin_para_ratio": 0.89,
+      "n_instr": 24,
+      "avg_instr": 48.9,
+      "min_instr": 23,
+      "kb": 41.3
+    },
+    "after": {
+      "n_para": 27,
+      "avg_para": 306.9,
+      "min_para": 250,
+      "thin_para_ratio": 0.0,
+      "n_instr": 24,
+      "avg_instr": 377.2,
+      "min_instr": 195,
+      "kb": 54.6,
+      "n_heads": 9,
+      "selfcheck_q": 4
+    },
+    "file": "s25-streamlit-dashboards.ts",
+    "title": "Endpoints de IA, Hugging Face y prompting evaluado"
+  }
+]

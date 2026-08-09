@@ -1,0 +1,307 @@
+{
+  "agent": "b",
+  "section_index": 52,
+  "recorded_at": "2026-08-01T15:26:22.826429+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "matriz stakeholder/job/métrica con evidencia y baseline congelado",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          4.0,
+          7.15
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "STOP_INTEGRATION_RELEASE y conservar evidencia del schema roto",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          6.0,
+          4.45,
+          5.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          4.0,
+          8.3,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "PASS/CONTINUE: cumple SLO y RPO/RTO medidos con restore verificado",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          14.15,
+          6.0,
+          6.0,
+          7.15
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "REJECT_UNSUPPORTED_PORTFOLIO_CLAIM o REOPEN hasta evidencia reproducible y contribución personal",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          5.0,
+          6.0,
+          9.3
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S52-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` aprueba si jobs==0 o base",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: assess aprueba con jobs==0 (mismo defect",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `baseline_frozen` → `INTERVIEW_STAKEHO",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` aprueba cuando el no-go e",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess: deja de aprobar ausencia de no-go.n2. Prime",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → INDEPENDENT_RISK_REVIEW.n2. Completo: predicado T",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PER-052 · multi-context architecture (intake→er→relationship→triage→reporting→copilot)\n# DEFECT: contexts/versionado/shared_db invertidos\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\n# Ensamblaje real (youDo): versiona OpenAPI + eventos job.finished/case.updated; ≥10 contract tests\nrecord = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"relationship\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = record[\"shared_database\"] or not record[\"apis_versioned\"]\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "incluye",
+          "starter",
+          "api",
+          "exige",
+          "seis",
+          "versionadas",
+          "API",
+          "devolver"
+        ]
+      },
+      {
+        "exercise_id": "S52-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar shared_database).n2. Requir",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PER-052 · decide restore arch evidence\n# DEFECT: missing→CONTINUE\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"apis_versioned\", \"events_versioned\", \"shared_database\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"shared_database\"] or not record[\"apis_versioned\"] else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"relationship\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\ninvalid = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"all-in-one\"},\"apis_versioned\":False,\"events_versioned\":False,\"shared_database\":True,\"contract_tests\":0}}\nuncertain = {**valid}\nuncertain.pop(\"contract_tests\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "conserva",
+          "orden",
+          "tests",
+          "api",
+          "debe",
+          "devolver",
+          "pass",
+          "predicado"
+        ]
+      },
+      {
+        "exercise_id": "S52-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si infers_fraud o sin human_decides (bug).n2.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar autofraude).n2. Required ke",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_HUMAN_REVIEW.n2. Completo: cadena + not i",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si red_team falso o contadores >0 (bug).n2. `",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar P0 abiertos).n2. Required k",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → FIX_AND_RERUN_REGRESSION.n2. Completo: capas + ce",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si availability < slo o rollback > rto (bug).",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar breach).n2. Required keys p",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RUN_DISASTER_EXERCISE.n2. Completo: predicado de ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PER-052 · portfolio TTR claim\n# DEFECT: PASS si TTR no mejora o claims sin fuente\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\nrecord = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "sourced",
+          "result",
+          "exige",
+          "mutes",
+          "baseline",
+          "devolver",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S52-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar claims sin fuente).n2. Requ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RECORD_PERSONAL_CONTRIBUTION.n2. Completo: predic",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PER-052 · evidence bundle CP-FINAL\n# DEFECT: PASS si artifacts<8 o no independiente\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\nrecord = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reproducible",
+          "starter",
+          "tradeoffs",
+          "all",
+          "exige",
+          "mutes",
+          "nombres",
+          "set"
+        ]
+      },
+      {
+        "exercise_id": "S52-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar bundle corto).n2. Required ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S52-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S52-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → SCHEDULE_TECHNICAL_DEFENSE.n2. Completo: subset d",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "171416910166230e"
+  }
+}

@@ -1,0 +1,654 @@
+=== L8:tagline (tagline) ===
+pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución
+
+=== L15:paragraph (paragraph) ===
+En operación de triage (fintech, retail, banca de procesos en Perú y la región), un batch de scoring no puede colgarse por un proveedor lento ni duplicar side effects al reiniciar. Esta sección entrena concurrencia correcta, **observabilidad** (logs/metrics/traces; o11y en jerga de industria) y workflows con checkpoint/idempotencia para el gate CP-N3-C. Logs sin PII real; datos sintéticos CASO-LIM-038.
+
+=== L28:heading (heading) ===
+Operación del triage (CP-N3-C)
+
+=== L30:paragraph (paragraph) ===
+**Diccionario de la sección** (léelo antes de T1). **Bound (I/O vs CPU):** cuello de botella medido. **GIL:** Global Interpreter Lock de CPython (limita CPU multi-thread). **Backpressure:** cola con `maxsize` que frena al productor. **Token bucket:** rate limit didáctico (aquí estático; en prod se rellena por ventana). **Observabilidad (o11y):** logs + metrics + traces unidos por correlation_id. **SLI/SLO:** indicador vs objetivo de servicio; **error budget** es lo que se consume al violar el SLO. **Idempotency key:** `case:step:ver` para no duplicar side effects. **DLQ:** dead-letter queue de mensajes venenosos. **last_done / resume_from:** último paso checkpointed vs siguiente pendiente.
+
+=== L31:paragraph (paragraph) ===
+Esta sección opera el pipeline de triage CP-N3-C bajo carga realista: el batch debe reanudarse tras un crash, trazar cada caso sintético y sobrevivir a un proveedor lento o a un worker caído. No optimizamos microsegundos a ciegas; diseñamos concurrencia correcta, observabilidad y workflows con checkpoint e idempotencia. Continúa la disciplina de S37 (medir antes de cambiar) y prepara los contratos que S39 ensamblará en el Case Triage N3.
+
+=== L32:paragraph (paragraph) ===
+Contrato operativo de la sección. Entrada: cola de casos sintéticos `CASO-LIM-038`, límites de tasa del proveedor mock, budgets de latencia p95 y políticas de retry/DLQ. Salida: pipeline reanudable con trace por case_id, métricas de cola y runbook de fallos. Error: side effect duplicado, PII raw en logs o cola sin backpressure bloquea promoción. Criterio: mismo resultado funcional tras reejecución controlada.
+
+=== L33:paragraph (paragraph) ===
+Caso sintético Red Andina (organización ficticia, datos inventados): un worker de scoring recibe picos de I/O hacia un API mock y CPU de features en lotes. Seguiremos el caso `c-synth-1` a lo largo de T1–T4: medir bound → acotar cola y tasa → emitir o11y sin PII → checkpoint/idempotencia → retry/DLQ/runbook. El foco es **concurrencia correcta y resiliencia operativa**, no micro-optimización con Numba/Cython. Orden: T1 Concurrencia → T2 Control de carga → T3 Observabilidad → T4 Workflows resilientes. Stack didáctico: **stdlib** (`json`, `time`, `queue`, dicts) + contratos conceptuales de asyncio/multiprocessing sin red real.
+
+=== L59:paragraph (paragraph) ===
+Pipeline reanudable con trace por caso, sin PII real en logs y con runbook de proveedor lento / proceso caído / reejecución. Si falta evidencia de idempotencia, no se promociona.
+
+=== L63:heading (heading) ===
+Threads, processes y async (elegir por bound)
+
+=== L66:paragraph (paragraph) ===
+Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada. **Mide primero** (wall vs CPU en el path caliente); la moda del framework no es un contrato. En stdlib, el modelo se materializa con `concurrent.futures.ThreadPoolExecutor` / `ProcessPoolExecutor` o `asyncio` + `wait_for` para timeouts; aquí practicamos el **criterio de elección**, colas acotadas y contratos de fallo sin lanzar pools pesados ni red real en el navegador.
+
+=== L67:paragraph (paragraph) ===
+Contrato operativo. Entrada: etiqueta de bound (`io` | `cpu` | `mixed`) medida en el path caliente del triage sintético y un tope de workers N. Salida: elección documentada `async_or_threads` | `processes` | `batch_then_io` y pool_size = N. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.
+
+=== L68:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T1A` (Red Andina sintético): el caso `c-synth-1` entra por intake (I/O al proveedor mock de normalización) y luego calcula features locales (CPU). Primero midimos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool con N acotado (p. ej. 4). Datos inventados; sin credenciales ni red real; sin PII en logs del bench. El mismo `c-synth-1` reaparece en T2 (cola y timeout), T3 (corr y SLO) y T4 (checkpoint y DLQ): es un solo batch que se endurece por capas.
+
+=== L106:paragraph (paragraph) ===
+No elijas async ni multiproceso por moda. Profilea el path del caso sintético y documenta bound + elección en el runbook del batch.
+
+=== L110:heading (heading) ===
+I/O vs CPU, GIL y serialización
+
+=== L113:paragraph (paragraph) ===
+El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json entre procesos). Si el payload entre workers es grande, el pool puede ser **más lento** que un solo proceso bien vectorizado: el tiempo se va en copiar bytes, no en score. Por eso la decisión «processes» de T1-A solo es completa cuando también mides el tamaño del blob que cruzará el boundary.
+
+=== L114:paragraph (paragraph) ===
+Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia `compact_payload`. Error: copiar DataFrames enteros entre procesos o loguear el blob crudo con PII. Criterio: el costo de serialización está medido y el payload entre workers es el mínimo necesario para el paso.
+
+=== L115:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T1B` (sigue `c-synth-1`): en lugar de enviar el registro completo del cliente sintético al process pool de features, enviamos `{case_id, score, feature_ids}`. `json.dumps` del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC. En código de producción usarías `ProcessPoolExecutor` con ese payload mínimo; aquí medimos bytes y preferimos compacto sin lanzar procesos en el playground. Puente a T2: con el modelo elegido, la cola del worker aún puede crecer sin límite si no hay backpressure.
+
+=== L138:paragraph (paragraph) ===
+A veces el process pool es más lento que un solo proceso. Mide serialización + queue antes de multiplicar workers.
+
+=== L142:heading (heading) ===
+Pools, backpressure y rate limits
+
+=== L145:paragraph (paragraph) ===
+Un pool acota la concurrencia máxima (N workers). Una cola con `maxsize` aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. En stdlib eso es `queue.Queue(maxsize=Q)` (o `asyncio.Queue` en async): no es un comentario de diseño, es un tope de memoria. Un rate limit (token bucket **didáctico estático**: tokens iniciales sin recarga en el fixture) protege al proveedor mock de un ban o de saturación. En prod el bucket se rellena por ventana de tiempo; aquí solo practicamos allow/deny y cola acotada para fijar el modelo mental.
+
+=== L146:paragraph (paragraph) ===
+Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infinita, o ignorar 429 del proveedor. Criterio: bajo pico sintético, la memoria se mantiene acotada y el proveedor no recibe más de R tokens por ventana.
+
+=== L147:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T2A` (`c-synth-1` y vecinos): el batch de Lima (ficticio) intenta encolar una ráfaga; con `Queue(maxsize=2)` el tercer case_id no entra y se registra backpressure. El bucket de 2 tokens niega el tercer allow inmediato. Así no tumbamos el worker de scoring ni el mock API. Sin PII real; solo case_id sintéticos. Puente a T2-B: aunque la cola esté acotada, un fetch sin timeout aún puede colgar un worker — la profundidad de cola y el timeout son capas distintas del mismo incidente.
+
+=== L187:paragraph (paragraph) ===
+Producer bloquea o devuelve rechazo cuando la cola llena. Documenta la política en el runbook: drop, block o DLQ de overflow.
+
+=== L191:heading (heading) ===
+Cancelación, timeout y recursos
+
+=== L194:paragraph (paragraph) ===
+Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de espera y on_fail (`retry_or_dlq`). La cancelación libera la tarea colgada; el `finally` o context manager cierra conexiones y archivos aunque falle el fetch. En async real usarías `asyncio.wait_for(coro, timeout=…)`; aquí simulamos el mismo contrato comparando latencia mock vs presupuesto, sin red ni event loop en el playground.
+
+=== L195:paragraph (paragraph) ===
+Contrato operativo. Entrada: latencia mock del proveedor, timeout_s y política on_fail. Salida: status `ok` | `timeout`, dict de política y flag de cierre de recurso. Error: olvidar close, o retry infinito sin tope. Criterio: toda I/O externa del triage tiene timeout y camino de fallo explícito hacia retry o DLQ.
+
+=== L196:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T2B` (`c-synth-1` geocoding mock): si latencia_ms > timeout_s*1000, marcamos timeout y enrutamos a retry/DLQ. El recurso sintético se cierra en `finally` aunque falle. Incidente clásico de runbook: «sin timeout → cola bloqueada → p95 explotado». Con la cola de T2-A acotada y el timeout de este tramo, el batch ya no se cuelga en silencio: falla de forma observable. Puente a T3: cuando aparece el timeout, el on-call necesita logs/metrics/traces correlacionados, no solo un print local.
+
+=== L230:paragraph (paragraph) ===
+Incidente clásico de operación: un solo proveedor lento satura todos los workers. Timeout + on_fail es obligatorio antes de prod.
+
+=== L234:heading (heading) ===
+Logs, metrics y traces
+
+=== L237:paragraph (paragraph) ===
+Los tres pilares de **observabilidad (o11y)**: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo largo de intake→score→queue). correlation_id / corr une el camino sin volcar el payload completo del cliente.
+
+=== L238:paragraph (paragraph) ===
+Contrato operativo. Entrada: evento de scoring con case_id sintético, score y corr. Salida: línea de log estructurado + métrica nombrada + pii_raw=False. Error: loguear email/teléfono en claro, o métricas sin dimensiones útiles. Criterio: un on-call puede reconstruir el path de un caso con corr sin abrir PII.
+
+=== L239:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T3A`: al marcar `scored` en `c-synth-1` emitimos `{level:INFO, case_id, event, score, corr}` y la métrica `queue_depth`. Nivel DEBUG solo en sandbox. No usamos OpenTelemetry real en el ejercicio; modelamos el contrato con dicts locales y el mismo corr en log y span. Puente a T3-B: el corr no basta si el log lleva PII o el SLO no tiene política de error budget.
+
+=== L267:paragraph (paragraph) ===
+Logs + metrics + traces. correlation_id en todo el path. INFO en prod; DEBUG acotado al sandbox sintético.
+
+=== L271:heading (heading) ===
+Correlation, redacción y SLI/SLO
+
+=== L274:paragraph (paragraph) ===
+Redactar PII en logs es obligatorio: un email sintético `ana@example.pe` se muestra como `an***`. Los SLI miden realidad (p95 de score_ms, error_rate); el SLO es el objetivo acordado con el dueño del servicio. El **error budget** se consume cuando se viola el SLO: al agotarse, la política operativa prioriza estabilidad (p. ej. pausar deploys no urgentes) sobre features nuevas.
+
+=== L275:paragraph (paragraph) ===
+Contrato operativo. Entrada: SLI observados y umbrales SLO. Salida: slo_ok booleano, valor redactado y, si aplica, acción de error budget. Error: comparar al revés (celebrar latencia peor que el límite) o guardar PII completa «por si acaso». Criterio: dashboards y alertas se basan en SLI; el runbook dice qué hacer cuando el error budget se agota.
+
+=== L276:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T3B` (`c-synth-1`): p95=120ms vs SLO 200ms y error_rate=0.01 vs 0.02 → slo_ok True. Si p95 sube a 400ms, se abre incidente y se pausan deploys no urgentes según política de error budget. Solo datos sintéticos. Puente a T4: con o11y y presupuesto de error claros, el workflow aún necesita checkpoint e idempotencia para reanudar sin duplicar side effects.
+
+=== L304:paragraph (paragraph) ===
+Redacta siempre. correlation_id sí; teléfono/email en claro no. El header X-Corr-Id une requests sin exponer identidad.
+
+=== L311:paragraph (paragraph) ===
+Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un checkpoint. La idempotency key (`case:step:ver`) garantiza que reejecutar el mismo paso no duplica side effects (doble enqueue, doble notificación mock).
+
+=== L312:paragraph (paragraph) ===
+Contrato operativo. Entrada: state dict del caso y clave de idempotencia. Salida: checkpoint con `last_done` (paso terminado) y `resume_from` = **siguiente** paso pendiente. Error: reintentar sin key y crear dos tickets de review, o reejecutar un paso ya `done`. Criterio: tras matar el worker a mitad de batch, el resume continúa desde el siguiente pendiente sin rehacer pasos done.
+
+=== L313:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T4A`: caso `c-synth-1` (alias c1 en el store) completó features; el checkpoint guarda `last_done=features`. Al reiniciar, el worker calcula `resume_from=next_step(last_done)` (p. ej. `score`) y **no** reejecuta pasos con status done. La key `c1:features:v3` evita side effects si un reintento llega tarde. Sin secretos ni PII real en el store de checkpoint. Puente a T4-B: si el paso `score` falla de forma no transitoria, no reintentamos infinito — vamos a DLQ y abrimos el runbook.
+
+=== L340:paragraph (paragraph) ===
+Úsala en APIs y jobs. Formato estable case:step:ver. Reejecutar debe ser seguro por diseño, no por suerte.
+
+=== L344:heading (heading) ===
+Retry, dead-letter, replay y runbook
+
+=== L347:paragraph (paragraph) ===
+Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se reinyecta la DLQ entera sin inspección. El runbook lista síntomas → checks → acciones para el on-call.
+
+=== L348:paragraph (paragraph) ===
+Contrato operativo. Entrada: attempt number y base de backoff; mensaje marcado poison o retriable. Salida: serie de esperas, ruta `retry` | `dlq` y flag runbook. Error: retry infinito, o borrar DLQ sin análisis. Criterio: el camino de fallo se prueba en sandbox antes de prod; el runbook existe y se actualiza tras cada incidente sintético de drill.
+
+=== L349:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-038-T4B` (cierra el hilo de `c-synth-1`): attempts 0..3 con base 0.1 → [0.1, 0.2, 0.4, 0.8]. Un payload malformado va a DLQ como poison; el replay se hace caso a caso tras fix del parser. Drill de on-call: reiniciar worker, verificar checkpoint, rejugar batch acotado. Estos contratos de operación alimentan el Case Triage N3 en S39.
+
+=== L375:paragraph (paragraph) ===
+Documento del on-call: síntomas, checks, acciones (restart worker, replay batch, escalar proveedor). Se prueba el fallo antes de prod.
+
+=== L380:intro (intro) ===
+Te muestro 8 demos sobre el hilo de `c-synth-1` / CASO-LIM-038 (sintético), en el mismo orden que endurecerías un batch en operación: medir bound (S37 → aquí) → payload compacto → cola acotada → timeout → observabilidad (o11y) → SLO/error budget → checkpoint → retry/DLQ/runbook. Cada demo ejecuta un mecanismo stdlib o un contrato local con think-aloud; sin red real ni PII. Al final del You Do ensamblas los cuatro pilares para el gate CP-N3-C (S39 los integrará en el Case Triage).
+
+=== L386:description (description) ===
+Demo: medir wall vs CPU del path caliente y elegir modelo de concurrencia para c-synth-1.
+
+=== L413:why (why) ===
+Think-aloud: no elijo processes por moda; mido wall vs CPU del tramo features y solo entonces documento processes. La tabla bound→modelo queda justificada por el bottleneck.
+
+=== L419:description (description) ===
+Demo: comparar bytes de payload full vs compacto antes de cruzar IPC.
+
+=== L437:why (why) ===
+Think-aloud: el process pool paga serialización. Si mando email en el blob, inflamos IPC y arriesgamos PII en logs de cola. Compacto gana en bytes y en privacidad; GIL sigue limitando threads CPU.
+
+=== L443:description (description) ===
+Demo: Queue(maxsize) aplica backpressure; token bucket niega el exceso de tasa.
+
+=== L476:why (why) ===
+Think-aloud: con maxsize=2 el tercer caso no entra a memoria — eso es backpressure. Luego el token bucket (estático aquí) protege al proveedor; primero acotamos la cola del worker, después la tasa de salida.
+
+=== L482:description (description) ===
+Demo: timeout simulado por latencia mock + cierre garantizado en finally.
+
+=== L504:why (why) ===
+Think-aloud: el mock tarda 2.5s y el budget es 1s → timeout, no hang. El finally corre igual y libera la conn sintética. Sin este contrato, un solo proveedor lento satura el pool.
+
+=== L510:description (description) ===
+Demo: evento scored con correlation_id, métrica de cola y pii_raw=False (o11y mínima).
+
+=== L532:why (why) ===
+Think-aloud: el on-call reconstruye el path de c-synth-1 con corr-1. La métrica nombra latency_ms; pii_raw False es parte del contrato, no un extra. Observabilidad (o11y) = logs + metrics + traces correlacionados.
+
+=== L538:description (description) ===
+Demo: SLO ok, redacción de PII y acción de error budget.
+
+=== L557:why (why) ===
+Think-aloud: p95 120 ≤ 200 → SLO ok y aún se pueden shippear features. Si se viola, el error budget empuja a freeze de deploys no urgentes. Redacción siempre, aunque el email sea sintético.
+
+=== L583:why (why) ===
+Think-aloud: last_done=features no significa rehacer features; resume_from avanza a score. La key case:step:ver hace seguro un reintento tardío sin duplicar side effects.
+
+=== L589:description (description) ===
+Demo: backoff exponencial, ruta poison→DLQ y runbook presente.
+
+=== L608:why (why) ===
+Think-aloud: retriable usa backoff; poison va directo a DLQ con replay controlado. El runbook (síntomas→checks→acciones) es entregable de operación, no un wiki opcional.
+
+=== L613:intro (intro) ===
+S38 · Laboratorio de operación resiliente del triage (24 retos). E1 repara un defecto del contrato, E2 fija la política válida/inválida y E3 transfiere el criterio a un incidente sintético nuevo (cambio de fixture, no solo renombrar el print). Sigue el hilo de `c-synth-1` cuando el fixture lo indique. Fixtures CASO-LIM-038; sin PII real ni red.
+
+=== L619:instruction (instruction) ===
+S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: implementa pick(bound) para que bound='cpu' devuelva 'processes'; imprime la elección, la etiqueta bound y ok True. El starter ignora bound y devuelve siempre 'async_or_threads' (defect). Salida esperada: processes / bound cpu / ok True.
+
+=== L620:hint (hint) ===
+Para CPU-bound en CPython prefiere processes por el GIL.
+
+=== L622:paragraph (paragraph) ===
+Para CPU-bound en CPython prefiere processes por el GIL.
+
+=== L626:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E1.
+
+=== L627:feedback (feedback) ===
+S38-T1-A-E1: explica por qué processes evita el GIL en features densas y por qué async no acelera CPU pura.
+
+=== L667:instruction (instruction) ===
+S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: implementa pick(bound) para bound='io' → 'async_or_threads'; imprime la elección, bound io y ok True. El starter mapea todo a 'processes' (defect de copy-paste). Fixture sintético sin red real.
+
+=== L668:hint (hint) ===
+I/O-bound: threads o async liberan espera de red.
+
+=== L670:paragraph (paragraph) ===
+I/O-bound: threads o async liberan espera de red.
+
+=== L671:paragraph (paragraph) ===
+processes añaden IPC innecesario si no hay CPU densa.
+
+=== L674:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E2.
+
+=== L675:feedback (feedback) ===
+S38-T1-A-E2: justifica async_or_threads cuando wall >> cpu en el tramo de red mock.
+
+=== L715:instruction (instruction) ===
+S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): con wall_ms=100 y cpu_ms=95 mide el bound y elige el modelo. Imprime el modelo ('processes'), measure_first True y ok True. Starter salta la medición (measure_first=False) y deja choice='async_or_threads' (defect). Implementa measure_bound + pick como en la demo T1-A; sin red real.
+
+=== L718:paragraph (paragraph) ===
+Si cpu_ms >= wall_ms * 0.8 el bound es cpu.
+
+=== L719:paragraph (paragraph) ===
+pick('cpu') → 'processes'; no elijas async por moda.
+
+=== L722:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E3.
+
+=== L723:feedback (feedback) ===
+S38-T1-A-E3: sin medición no hay elección defendible de concurrencia.
+
+=== L771:instruction (instruction) ===
+S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json.dumps(...).encode('utf-8'). Imprime el tamaño en bytes (8), ok True solo si el blob decodificado es exactamente '{\
+
+=== L772:hint (hint) ===
+json.dumps produce el blob estable entre procesos; str(dict) usa comillas simples.
+
+=== L778:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E1.
+
+=== L779:feedback (feedback) ===
+S38-T1-B-E1: el costo de IPC se mide sobre el blob JSON real que cruzará procesos, no sobre str().
+
+=== L812:instruction (instruction) ===
+S38-T1-B-E2 · Política GIL para threads CPU: con model='threads' y bound='cpu', el runbook debe registrar gil_cpu_threads='limited' (no 'unlimited'). Imprime limited, ok True, cpu_threads True. Starter asume unlimited (defect). Usa la función gil_status(model, bound); no lances threads reales.
+
+=== L813:hint (hint) ===
+GIL limita paralelismo CPU en threads Python puros → 'limited'.
+
+=== L815:paragraph (paragraph) ===
+Si model=='threads' y bound=='cpu' → limited; processes evaden el GIL.
+
+=== L816:paragraph (paragraph) ===
+Para CPU densa documenta limited y evalúa processes.
+
+=== L819:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E2.
+
+=== L820:feedback (feedback) ===
+S38-T1-B-E2: la etiqueta limited evita falsas expectativas de speedup multi-thread.
+
+=== L859:instruction (instruction) ===
+S38-T1-B-E3 · Transferencia IPC: compara bytes de full (con email sintético) vs compact (case_id+score) con json.dumps(...).encode(). Imprime 'compact_payload', ok True y el tamaño en bytes del compact (31). Starter prefiere 'full_record' sin medir (defect: arrastra PII y bytes de más). Fixture CASO-LIM-038 sin red.
+
+=== L862:paragraph (paragraph) ===
+json.dumps(payload).encode() mide el blob real de IPC.
+
+=== L863:paragraph (paragraph) ===
+full_record con email infla bytes y arriesga PII en logs de cola.
+
+=== L866:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E3.
+
+=== L867:feedback (feedback) ===
+S38-T1-B-E3: compact_payload es privacidad y performance a la vez.
+
+=== L907:instruction (instruction) ===
+S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal. Implementa el bucket mínimo del fixture CASO-LIM-038-2A.
+
+=== L908:hint (hint) ===
+rate=2 ⇒ dos True y el tercero False.
+
+=== L910:paragraph (paragraph) ===
+rate=2 ⇒ dos True y el tercero False.
+
+=== L911:paragraph (paragraph) ===
+No rellenes tokens entre llamadas en este fixture estático.
+
+=== L914:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E1.
+
+=== L915:feedback (feedback) ===
+S38-T2-A-E1: el bucket acota la ráfaga visible al proveedor.
+
+=== L962:instruction (instruction) ===
+S38-T2-A-E2 · Cola acotada con Queue: crea Queue(maxsize=50), encola c1 y c2, e imprime la política 'backpressure', ok True y maxsize 50. Starter reporta 'unbounded_queue' y maxsize None sin acotar la cola (defect: sin backpressure). Corrige para modelar la cola del worker de scoring CASO-LIM-038.
+
+=== L965:paragraph (paragraph) ===
+from queue import Queue; maxsize=50 acota memoria del worker.
+
+=== L966:paragraph (paragraph) ===
+Cola sin tope (política None / ilimitada) ⇒ OOM bajo pico.
+
+=== L969:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E2.
+
+=== L970:feedback (feedback) ===
+S38-T2-A-E2: backpressure protege memoria y estabilidad del batch.
+
+=== L1004:instruction (instruction) ===
+S38-T2-A-E3 · Transferencia: con TokenBucket(rate=1), el segundo allow() es False — el rate limit protege al 'provider' y ban_risk es True. Starter imprime 'flood' y ban_risk False (defect: ignora al proveedor). Imprime 'provider', ok True, ban_risk True tras demostrar el deny.
+
+=== L1005:hint (hint) ===
+Sin rate limit el mock/API puede banear la IP del batch.
+
+=== L1007:paragraph (paragraph) ===
+Sin rate limit el mock/API puede banear la IP del batch.
+
+=== L1011:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E3.
+
+=== L1012:feedback (feedback) ===
+S38-T2-A-E3: rate limit es cortesía y supervivencia ante el proveedor.
+
+=== L1059:instruction (instruction) ===
+S38-T2-B-E1 · Política de timeout: con latency_ms=8000 y timeout_s=5 marca status timeout y on_fail='retry_or_dlq'. Imprime 5, on_fail retry_or_dlq y ok True. Starter usa timeout_s=0 y on_fail='ignore' (defect: hang sin camino de fallo). Simula el fetch mock comparando latencia vs presupuesto; sin threads reales.
+
+=== L1063:paragraph (paragraph) ===
+Si latency supera el presupuesto, status es timeout (no ok).
+
+=== L1066:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E1.
+
+=== L1067:feedback (feedback) ===
+S38-T2-B-E1: timeout + on_fail es el mínimo viable de I/O externa.
+
+=== L1107:instruction (instruction) ===
+S38-T2-B-E2 · Cierre de recurso en finally: simula un fetch mock y cierra la 'conn' en finally aunque falle. Imprime True (closed), resource 'conn', ok True. Starter deja closed=False y no usa finally (defect: leak). Sin sockets reales; solo el patrón try/finally del worker sintético.
+
+=== L1108:hint (hint) ===
+finally/context manager cierra aunque falle el fetch.
+
+=== L1110:paragraph (paragraph) ===
+finally/context manager cierra aunque falle el fetch.
+
+=== L1111:paragraph (paragraph) ===
+Leak de conn tumba el pool bajo carga.
+
+=== L1114:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E2.
+
+=== L1115:feedback (feedback) ===
+S38-T2-B-E2: sin close determinista el pool se agota.
+
+=== L1154:instruction (instruction) ===
+S38-T2-B-E3 · Transferencia runbook: con latency_ms=5000 y timeout_s=1.0 marca incidente de proveedor lento. Imprime incident True, ok True y action 'open_runbook' (no 'ignore'). Starter usa timeout_s=0, niega el incidente y action='ignore' (defect: hang sin playbook). Implementa needs_incident + action_for del fixture CASO-LIM-038.
+
+=== L1155:hint (hint) ===
+Hang o timeout superado ⇒ incidente y open_runbook.
+
+=== L1161:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E3.
+
+=== L1162:feedback (feedback) ===
+S38-T2-B-E3: nombrar el incidente y abrir el runbook es el primer paso operable.
+
+=== L1206:instruction (instruction) ===
+S38-T3-A-E1 · Evento scored con correlation id: implementa emit_scored(case_id, corr, score) que devuelva dict con event='scored', case_id, corr y pii_raw=False. Imprime True (corr presente), event 'scored', ok True. Starter omite corr (defect → False). Path intake→score de c-synth-1 sin PII.
+
+=== L1207:hint (hint) ===
+corr debe ser truthy string en el dict emitido.
+
+=== L1209:paragraph (paragraph) ===
+corr debe ser truthy string en el dict emitido.
+
+=== L1210:paragraph (paragraph) ===
+Sin corr no hay reconstrucción del path del caso.
+
+=== L1213:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E1.
+
+=== L1214:feedback (feedback) ===
+S38-T3-A-E1: correlation_id une spans del caso.
+
+=== L1255:instruction (instruction) ===
+S38-T3-A-E2 · Tres pilares de observabilidad (o11y): implementa active_pillars(signals) que devuelva, en orden fijo, solo las claves True entre logs/metrics/traces. Con los tres activos imprime ['logs','metrics','traces'], ok True y n 3. Starter solo activa logs y deja la función incompleta (defect: omite metrics/traces). No hardcodees la lista de tres si puedes filtrar el dict.
+
+=== L1258:paragraph (paragraph) ===
+Logs eventos, metrics agregados, traces spans — los tres deben estar True.
+
+=== L1259:paragraph (paragraph) ===
+Un solo pilar no basta para diagnosticar cola + latencia + caso.
+
+=== L1262:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E2.
+
+=== L1263:feedback (feedback) ===
+S38-T3-A-E2: un solo pilar no basta para diagnosticar cola + latencia + caso.
+
+=== L1304:instruction (instruction) ===
+S38-T3-A-E3 · pii_raw debe ser False y el email sintético debe redactarse (an***). Imprime False, ok True (solo si redact(email)=='an***' y pii_raw es False), y redact True. Starter imprime True y no enmascara (defect: permite PII). Contrato de privacidad del pipeline CP-N3-C operación.
+
+=== L1305:hint (hint) ===
+Nunca pii_raw True en logs de operación.
+
+=== L1307:paragraph (paragraph) ===
+Nunca pii_raw True en logs de operación.
+
+=== L1308:paragraph (paragraph) ===
+redact(s) = s[:2] + '***' si len>2; conserva case_id sintético.
+
+=== L1311:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E3.
+
+=== L1312:feedback (feedback) ===
+S38-T3-A-E3: privacidad es parte del contrato de observabilidad (o11y), no un extra.
+
+=== L1350:instruction (instruction) ===
+S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True solo si el valor impreso es '90****01', y pii False. Starter imprime el número completo (defect). No uses PII real.
+
+=== L1351:hint (hint) ===
+Conserva prefijo/sufijo mínimo; enmascara el medio.
+
+=== L1354:paragraph (paragraph) ===
+ok = redacted == '90****01'; pii False siempre en logs de operación.
+
+=== L1357:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E1.
+
+=== L1358:feedback (feedback) ===
+S38-T3-B-E1: redacción es mecánica y revisable en code review.
+
+=== L1389:instruction (instruction) ===
+S38-T3-B-E2 · SLI compuesto: p95_ms=100 (SLO≤200) y error_rate=0.01 (SLO≤0.02). Implementa slo_ok(sli, slo) que sea True solo si **ambos** umbrales se cumplen. Imprime True, p95 100 y limit 200. Starter solo mira p95 y además compara al revés (defect: ignora error_rate y invierte el signo).
+
+=== L1392:paragraph (paragraph) ===
+Ambos SLI deben respetar su SLO; uno solo no basta.
+
+=== L1393:paragraph (paragraph) ===
+Comparación invertida enciende alertas falsas o las apaga.
+
+=== L1396:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E2.
+
+=== L1397:feedback (feedback) ===
+S38-T3-B-E2: un SLO multi-SLI evita celebrar latencia buena con errores altos.
+
+=== L1438:instruction (instruction) ===
+S38-T3-B-E3 · Error budget operativo: implementa budget_action(remaining) — si remaining==0 devuelve 'freeze_nonurgent_deploys', si no 'ship_features'. Con remaining=0 imprime el mecanismo 'error_budget', ok True (solo si la acción es freeze) y n 1. Starter imprime 'uptime_only' y n 0 porque ignora remaining (defect: SLO sin consecuencia operativa).
+
+=== L1439:hint (hint) ===
+Error budget cuantifica cuánto incumplimiento queda; al agotarse prioriza estabilidad.
+
+=== L1441:paragraph (paragraph) ===
+Error budget cuantifica cuánto incumplimiento queda en el periodo.
+
+=== L1445:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E3.
+
+=== L1446:feedback (feedback) ===
+S38-T3-B-E3: sin error budget el SLO es eslogan.
+
+=== L1482:instruction (instruction) ===
+S38-T4-A-E1 · Estados del workflow: define WORKFLOW_STATES con pending/running/done/failed y una función is_terminal(status) que sea True para done y failed. Imprime la lista de estados, ok True y n 4. Starter omite 'failed' y no marca terminales (defect).
+
+=== L1483:hint (hint) ===
+failed es estado terminal de error, distinto de pending.
+
+=== L1485:paragraph (paragraph) ===
+failed y done son terminales; pending/running no.
+
+=== L1486:paragraph (paragraph) ===
+Cuatro estados mínimos del workflow didáctico.
+
+=== L1489:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E1.
+
+=== L1490:feedback (feedback) ===
+S38-T4-A-E1: sin estado failed no hay ruta clara a DLQ/retry.
+
+=== L1527:instruction (instruction) ===
+S38-T4-A-E2 · Implementa idem_key(case, step, ver) → 'case:step:ver'. Con case='c-synth-1', step='features', ver='v3' imprime la key, ok True (key termina en :v3 y tiene 3 segmentos) y dup False. Starter imprime 'c-synth-1:features' sin :ver y dup True (defect: colisiones al cambiar lógica).
+
+=== L1528:hint (hint) ===
+Incluye step y versión de lógica: f'{case}:{step}:{ver}'.
+
+=== L1530:paragraph (paragraph) ===
+Incluye step y versión de lógica para evitar colisiones entre deploys.
+
+=== L1531:paragraph (paragraph) ===
+dup False = reejecutar el mismo paso no duplica side effects.
+
+=== L1534:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E2.
+
+=== L1535:feedback (feedback) ===
+S38-T4-A-E2: la key estable es la base de la idempotencia del checkpoint.
+
+=== L1570:instruction (instruction) ===
+S38-T4-A-E3 · Resume al siguiente pendiente: last_done='features' → resume_from='score' (no rehacer features). Imprime 'score', ok True, checkpoint True. Starter hardcodea 'intake' (defect: rehace trabajo). Usa el mapa NEXT del fixture CASO-LIM-038.
+
+=== L1571:hint (hint) ===
+resume_from = NEXT[last_done], no el last_done mismo ni intake fijo.
+
+=== L1573:paragraph (paragraph) ===
+last_done=features ⇒ siguiente es score.
+
+=== L1574:paragraph (paragraph) ===
+No vuelvas a intake si features ya está done.
+
+=== L1577:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E3.
+
+=== L1578:feedback (feedback) ===
+S38-T4-A-E3: reanudar mal es tan malo como no reanudar.
+
+=== L1611:instruction (instruction) ===
+S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). Implementa exponencial del fixture CASO-LIM-038-4B.
+
+=== L1612:hint (hint) ===
+Fórmula didáctica: base * 2**attempt.
+
+=== L1614:paragraph (paragraph) ===
+Fórmula didáctica: base * 2**attempt.
+
+=== L1615:paragraph (paragraph) ===
+En prod añadir jitter; aquí solo el valor exacto 0.8.
+
+=== L1618:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E1.
+
+=== L1619:feedback (feedback) ===
+S38-T4-B-E1: backoff exponencial reduce presión sobre el proveedor.
+
+=== L1652:instruction (instruction) ===
+S38-T4-B-E2 · Enruta kind='poison' a DLQ: imprime 'dlq', ok True, replay 'controlled'. Starter imprime 'retry_forever' y replay 'uncontrolled' (defect: reintenta veneno en bucle). Implementa route(kind) del fixture CASO-LIM-038 (poison→dlq).
+
+=== L1653:hint (hint) ===
+DLQ = mensajes que fallan de forma no transitoria; replay controlado tras inspección.
+
+=== L1656:paragraph (paragraph) ===
+Replay ciego reinyecta el veneno.
+
+=== L1659:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E2.
+
+=== L1660:feedback (feedback) ===
+S38-T4-B-E2: poison + replay controlado es higiene de cola.
+
+=== L1695:instruction (instruction) ===
+S38-T4-B-E3 · Runbook de on-call para c-synth-1: define un dict con symptoms (provider_slow, worker_down) y actions (restart_worker, replay_batch, escalate_provider). Imprime True (runbook existe), oncall True, ok True solo si 'restart_worker' está en actions. Starter deja runbook vacío y oncall False (defect: operar sin playbook). Transferencia: el drill sintético exige runbook documentado antes de prod.
+
+=== L1696:hint (hint) ===
+Runbook: síntomas → checks → acciones; no improvise bajo presión.
+
+=== L1698:paragraph (paragraph) ===
+Runbook mínimo: symptoms + actions con al menos restart_worker.
+
+=== L1699:paragraph (paragraph) ===
+Tras un drill, actualiza el runbook con lo que falló en el checklist.
+
+=== L1702:tests (tests) ===
+Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E3.
+
+=== L1703:feedback (feedback) ===
+S38-T4-B-E3: el runbook es entregable de operación, no un wiki opcional.
+
+=== L1735:paragraph (paragraph) ===
+Construye un mini-worker sintético con pool/backpressure, logs redactados, checkpoint idempotente, retry/DLQ y runbook de proveedor lento. Integra el hilo de `c-synth-1` visto en T1–T4. Solo datos CASO-LIM-038; sin PII real ni servicios externos.
+
+=== L1737:paragraph (paragraph) ===
+Concurrencia adecuada al bound medido
+
+=== L1738:paragraph (paragraph) ===
+Timeouts y backpressure acotados
+
+=== L1739:paragraph (paragraph) ===
+Observabilidad (logs/metrics/traces) + SLI/SLO con redacción
+
+=== L1740:paragraph (paragraph) ===
+Checkpoint, idempotencia, retry y runbook
+
+=== L1743:paragraph (paragraph) ===
+Trace por case_id y correlation_id
+
+=== L1745:paragraph (paragraph) ===
+Runbook de fallos (lento / caído / reejecución)
+
+=== L1746:paragraph (paragraph) ===
+Documentación en español profesional
+
+=== L1747:paragraph (paragraph) ===
+Mismo resultado tras resume controlado (last_done → siguiente paso)
+
+=== L1806:paragraph (paragraph) ===
+Operación CP-N3-C; evidencia de pipeline reanudable con trace por caso. Completa measure_bound + pick, fetch_policy (timeout mock), métrica de cola y runbook() con síntomas→acciones. Documenta en markdown un drill de proveedor lento. Sin red real ni PII.
+
+=== L1820:question (question) ===
+Para CPU bound en CPython suele preferirse:
+
+=== L1823:explanation (explanation) ===
+El GIL limita el paralelismo CPU multi-thread; processes (con costo de IPC) son la opción habitual para features densas.
+
+=== L1829:explanation (explanation) ===
+Una cola con maxsize acota memoria y fuerza al productor a esperar o rechazar bajo pico.
+
+=== L1835:explanation (explanation) ===
+Con idempotency keys, reintentar un paso done no duplica enqueues ni notificaciones.
+
+=== L1838:question (question) ===
+En logs de prod debes:
+
+=== L1841:explanation (explanation) ===
+Redacción + correlation_id permiten diagnosticar sin exponer identidad; case_id sintético es aceptable.
+
+=== L1844:question (question) ===
+Un proveedor sin timeout en el worker suele causar:
+
+=== L1847:explanation (explanation) ===
+Sin timeout un fetch lento satura el pool; es el incidente clásico de operación del batch.
+
+=== L1850:question (question) ===
+Cuando el error budget se agota, la política operativa suele:
+
+=== L1853:explanation (explanation) ===
+El error budget convierte el SLO en decisión: al agotarse, se prioriza estabilidad sobre features.
+
+=== L1856:question (question) ===
+Un mensaje que falla siempre de forma no transitoria debe ir a:
+
+=== L1859:explanation (explanation) ===
+La DLQ aísla veneno; el replay se hace caso a caso tras inspección, no en bucle ciego.
+
+=== L1862:question (question) ===
+Antes de elegir threads, processes o async, la disciplina correcta es:
+
+=== L1865:explanation (explanation) ===
+S37 y S38 comparten la regla: medir primero. La elección de concurrencia se justifica con bound observado, no con preferencia de API.
+
+=== L1868:question (question) ===
+Tras un checkpoint con last_done='features', al reiniciar el worker resume_from debe ser:
+
+=== L1871:explanation (explanation) ===
+last_done nombra el paso terminado; resume_from avanza al siguiente pendiente. Reejecutar un paso done sin idempotency key arriesga side effects duplicados.
+

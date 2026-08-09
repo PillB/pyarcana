@@ -1,0 +1,24 @@
+{
+  "capstone_id": "CP-N4-B",
+  "version": "2.0.0",
+  "artifacts": [
+    "BRIEF.md",
+    "RUBRIC.json",
+    "demo.py",
+    "data/generate.py",
+    "tests/test_demo.py",
+    "SECURITY.md",
+    "PRIVACY.md",
+    "ACCESSIBILITY.md",
+    "RESPONSIBLE_USE.md",
+    "IDO.md",
+    "WEDO.md",
+    "YOUDO.md",
+    "STARTER/",
+    "FINAL_INTERFACE.md",
+    "RUN.md"
+  ],
+  "synthetic_data_only": true,
+  "no_secrets": true,
+  "no_network": true
+}

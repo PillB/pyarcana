@@ -1,0 +1,1068 @@
+{
+  "section_index": 22,
+  "section_id": "rapidfuzz-entity",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S22-T1-A-E1",
+          "code": "from email.mime.text import MIMEText\nprint(MIMEText(\"Hola\", \"plain\", \"utf-8\")[\"Content-Type\"])\n",
+          "note": "",
+          "concepts_used": [
+            "MIMEText"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-A-E2",
+          "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Test\"\natt = MIMEApplication(b\"x\", Name=\"a.txt\")\natt.add_header(\"Content-Disposition\", \"attachment\", filename=\"a.txt\")\nmsg.attach(att)\nprint(\"a.txt\" in msg.as_string())\n",
+          "note": "",
+          "concepts_used": [
+            "MIME attach"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-A-E3",
+          "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart(\"mixed\")\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"t\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>h</p>\", \"html\", \"utf-8\"))\nmsg.attach(alt)\nprint(msg.as_string().count(\"Content-Type:\"))\n",
+          "note": "",
+          "concepts_used": [
+            "alternative"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-B-E1",
+          "code": "import html\nprint(html.escape(\"<script>x</script>\"))\n",
+          "note": "",
+          "concepts_used": [
+            "escape"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-B-E2",
+          "code": "import html\nname = \"<b>Ana</b>\"\nprint(\"Hola {name}\".format(name=html.escape(name)))\n",
+          "note": "",
+          "concepts_used": [
+            "escape format"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-B-E3",
+          "code": "for u in [\"https://example.pe/a\", \"https://evil.test\"]:\n    print(\"ok\" if \"example.pe\" in u else \"blocked\")\n",
+          "note": "",
+          "concepts_used": [
+            "allowlist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-A-E1",
+          "code": "requested = [\"mail.draft\", \"mail.full\"]\nallowed = {\"mail.draft\", \"mail.readonly\"}\nprint([s for s in requested if s in allowed])\n",
+          "note": "",
+          "concepts_used": [
+            "scopes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-A-E2",
+          "code": "granted = [\"mail.draft\"]\nprint(all(x not in granted for x in (\"mail.full\", \"admin\")))\n",
+          "note": "",
+          "concepts_used": [
+            "least privilege"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-A-E3",
+          "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\n\ndef status(iso):\n    exp = datetime.fromisoformat(iso)\n    if exp.tzinfo is None:\n        exp = exp.replace(tzinfo=timezone.utc)\n    return \"refresh\" if exp < datetime.now(timezone.utc) else \"valid\"\nprint(status((now - timedelta(hours=1)).isoformat()))\nprint(status((now + timedelta(hours=1)).isoformat()))\n",
+          "note": "",
+          "concepts_used": [
+            "expires_at"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-B-E1",
+          "code": "store = {}\nstore[\"d001\"] = {\"status\": \"draft\"}\nprint(store[\"d001\"][\"status\"])\n",
+          "note": "",
+          "concepts_used": [
+            "draft store"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-B-E2",
+          "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nprint(now < now - timedelta(seconds=1))\n",
+          "note": "",
+          "concepts_used": [
+            "expired"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-B-E3",
+          "code": "store = {}\n\ndef create_draft():\n    did = f\"d{len(store)+1:03d}\"\n    store[did] = {\"status\": \"draft\"}\n    return did\nprint(create_draft())\nprint(create_draft())\n",
+          "note": "",
+          "concepts_used": [
+            "sequential ids"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-A-E1",
+          "code": "import re\npat = r\"^[^@]+@[^@]+\\.[^@]+$\"\nprint(bool(re.match(pat, \"ana@example.pe\")))\nprint(bool(re.match(pat, \"bad\")))\n",
+          "note": "",
+          "concepts_used": [
+            "email regex"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-A-E2",
+          "code": "DIRECTORY = {\"C001\": \"ana@example.pe\"}\nem = DIRECTORY.get(\"C001\")\nprint(\"verified\" if em.split(\"@\")[1] == \"example.pe\" else \"rejected\")\n",
+          "note": "",
+          "concepts_used": [
+            "verify domain"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-A-E3",
+          "code": "a, b = \"ana.rojas@example.pe\", \"ana.rojas@example.com\"\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nprint(round(n / max(len(a), len(b)), 2), \"match_no_es_fraude\")\n",
+          "note": "",
+          "concepts_used": [
+            "similarity disclaimer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-B-E1",
+          "code": "print(list(dict.fromkeys([\"a@x\", \"b@x\", \"a@x\"])))\n",
+          "note": "",
+          "concepts_used": [
+            "dedupe"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-B-E2",
+          "code": "rows = [{\"email\": \"p@other.test\", \"role\": \"cc\"}]\nfor r in rows:\n    if r[\"email\"].endswith(\"@other.test\"):\n        r[\"role\"] = \"bcc\"\nprint(rows)\n",
+          "note": "",
+          "concepts_used": [
+            "bcc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-B-E3",
+          "code": "rows = [(\"a@example.pe\", \"to\"), (\"b@other.test\", \"cc\")]\nout = [(em, \"bcc\" if em.endswith(\"other.test\") else role) for em, role in rows]\nprint(sum(1 for _, role in out if role in (\"to\", \"cc\")))\n",
+          "note": "",
+          "concepts_used": [
+            "visible count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-A-E1",
+          "code": "T = {\"draft\": {\"submit\": \"pending\"}}\nstate = \"draft\"\nprint(T[state][\"submit\"])\n",
+          "note": "",
+          "concepts_used": [
+            "transition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-A-E2",
+          "code": "T = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\"}}\nnxt = T.get(\"draft\", {}).get(\"approve\")\nprint(nxt if nxt else \"invalid\")\n",
+          "note": "",
+          "concepts_used": [
+            "invalid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-A-E3",
+          "code": "log = []\nlog.append({\"from\": \"pending\", \"to\": \"approved\", \"actor\": \"rev1\"})\nprint(log)\n",
+          "note": "",
+          "concepts_used": [
+            "audit log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-B-E1",
+          "code": "import hashlib\nprint(hashlib.sha256(b\"run|to|v1\").hexdigest()[:8])\n",
+          "note": "",
+          "concepts_used": [
+            "idempotency key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-B-E2",
+          "code": "store = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = f\"d{len(store)+1:03d}\"\n    return store[key]\nprint(create(\"k1\") == create(\"k1\"))\n",
+          "note": "",
+          "concepts_used": [
+            "idempotent create"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-B-E3",
+          "code": "audit, store = [], {}\n\ndef create(key):\n    if key in store:\n        audit.append(\"retry_hit\")\n        return store[key]\n    store[key] = \"d001\"\n    audit.append(\"create\")\n    return store[key]\ncreate(\"k\")\ncreate(\"k\")\nprint(audit)\n",
+          "note": "",
+          "concepts_used": [
+            "audit events"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S22-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "text/plain; charset=\"utf-8\"\n",
+          "expected_head": "text/plain\nutf-8",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4\n",
+          "expected_head": "4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "&lt;script&gt;x&lt;/script&gt;\n",
+          "expected_head": "&lt;script&gt;x&lt;/script&gt;",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Hola &lt;b&gt;Ana&lt;/b&gt;\n",
+          "expected_head": "Hola &lt;b&gt;Ana&lt;/b&gt;",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ok\nblocked\n",
+          "expected_head": "https://example.pe/a ok\nhttps://evil.test blocked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['mail.draft']\n",
+          "expected_head": "['mail.draft']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "refresh\nvalid\n",
+          "expected_head": "refresh\nvalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "draft\n",
+          "expected_head": "draft",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\n",
+          "expected_head": "False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "d001\nd002\n",
+          "expected_head": "d001 d002",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "ana@example.pe True\nbad False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "verified\n",
+          "expected_head": "verified",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.86 match_no_es_fraude\n",
+          "expected_head": "0.86 match_no_es_fraude",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a@x', 'b@x']\n",
+          "expected_head": "['a@x', 'b@x']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'email': 'p@other.test', 'role': 'bcc'}]\n",
+          "expected_head": "bcc",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1 ['a@example.pe']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pending\n",
+          "expected_head": "pending",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "invalid\n",
+          "expected_head": "invalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]\n",
+          "expected_head": "[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0da400d6\n",
+          "expected_head": "0da400d6",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['create', 'retry_hit']\n",
+          "expected_head": "['create', 'retry_hit']",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S22-T1-A-E1",
+          "code": "from email.mime.text import MIMEText\nmsg = MIMEText(\"Hola\", \"plain\", \"utf-8\")\nprint(msg[\"Content-Type\"])\n",
+          "note": "Hints MIMEText Content-Type.",
+          "concepts_used": [
+            "MIMEText"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-A-E2",
+          "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Test\"\natt = MIMEApplication(b\"x\", Name=\"a.txt\")\natt.add_header(\"Content-Disposition\", \"attachment\", filename=\"a.txt\")\nmsg.attach(att)\nprint(\"a.txt\" in msg.as_string())\n",
+          "note": "Demo MIME attach pattern.",
+          "concepts_used": [
+            "MIMEApplication"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-A-E3",
+          "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart(\"mixed\")\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"t\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>h</p>\", \"html\", \"utf-8\"))\nmsg.attach(alt)\nprint(msg.as_string().count(\"Content-Type:\"))\n",
+          "note": "Hints alternative under mixed.",
+          "concepts_used": [
+            "nested multipart"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-B-E1",
+          "code": "import html\nprint(html.escape(\"<script>x</script>\"))\n",
+          "note": "Hints html.escape.",
+          "concepts_used": [
+            "html.escape"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-B-E2",
+          "code": "import html\nname = \"<b>Ana</b>\"\nprint(\"Hola {name}\".format(name=html.escape(name)))\n",
+          "note": "Hints escape before format.",
+          "concepts_used": [
+            "escape before format"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T1-B-E3",
+          "code": "urls = [\"https://example.pe/a\", \"https://evil.test\"]\nfor u in urls:\n    print(\"ok\" if \"example.pe\" in u else \"blocked\")\n",
+          "note": "Starter two urls; demo sanitize pattern.",
+          "concepts_used": [
+            "url allowlist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-A-E1",
+          "code": "requested = [\"mail.draft\", \"mail.full\"]\nallowed = {\"mail.draft\", \"mail.readonly\"}\nprint([s for s in requested if s in allowed])\n",
+          "note": "Starter filter → mail.draft.",
+          "concepts_used": [
+            "scope filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-A-E2",
+          "code": "granted = [\"mail.draft\"]\nprint(\"mail.full\" not in granted and \"admin\" not in granted)\n",
+          "note": "Hints no mail.full/admin.",
+          "concepts_used": [
+            "least privilege check"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-A-E3",
+          "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\npast = (now - timedelta(hours=1)).isoformat()\nfuture = (now + timedelta(hours=1)).isoformat()\n\ndef status(iso):\n    exp = datetime.fromisoformat(iso)\n    return \"refresh\" if exp < now else \"valid\"\n\nprint(status(past))\nprint(status(future))\n",
+          "note": "Hints past refresh future valid.",
+          "concepts_used": [
+            "token expiry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-B-E1",
+          "code": "store = {}\nstore[\"d001\"] = {\"status\": \"draft\"}\nprint(store[\"d001\"][\"status\"])\n",
+          "note": "Hints dict assignment.",
+          "concepts_used": [
+            "draft store"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-B-E2",
+          "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nis_usable = now < expires_at\nprint(is_usable)\n",
+          "note": "Hints now < expires → False.",
+          "concepts_used": [
+            "expires_at"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T2-B-E3",
+          "code": "store = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {\"status\": \"draft\"}\n    return i\n\nprint(create_draft())\nprint(create_draft())\n",
+          "note": "Hints d{n:03d} → d001 d002.",
+          "concepts_used": [
+            "sequential draft ids"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-A-E1",
+          "code": "import re\npat = r\"^[^@]+@[^@]+\\.[^@]+$\"\nprint(bool(re.match(pat, \"ana@example.pe\")))\nprint(bool(re.match(pat, \"bad\")))\n",
+          "note": "Hints re.match simple.",
+          "concepts_used": [
+            "email regex"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-A-E2",
+          "code": "DIRECTORY = {\"C001\": \"ana@example.pe\"}\nem = DIRECTORY.get(\"C001\")\ndomain = em.split(\"@\")[1]\nprint(\"verified\" if domain == \"example.pe\" else \"rejected\")\n",
+          "note": "Starter C001 → verified.",
+          "concepts_used": [
+            "resolve verify domain"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-A-E3",
+          "code": "a, b = \"ana.rojas@example.pe\", \"ana.rojas@example.com\"\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), \"match_no_es_fraude\")\n",
+          "note": "Hints simple prefix score + note.",
+          "concepts_used": [
+            "similarity not fraud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-B-E1",
+          "code": "xs = [\"a@x\", \"b@x\", \"a@x\"]\nprint(list(dict.fromkeys(xs)))\n",
+          "note": "Hints dict.fromkeys.",
+          "concepts_used": [
+            "dedupe order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-B-E2",
+          "code": "rows = [{\"email\": \"p@other.test\", \"role\": \"cc\"}]\nfor r in rows:\n    if r[\"email\"].endswith(\"@other.test\"):\n        r[\"role\"] = \"bcc\"\nprint(rows)\n",
+          "note": "Starter endswith other.test.",
+          "concepts_used": [
+            "bcc external"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T3-B-E3",
+          "code": "rows = [(\"a@example.pe\", \"to\"), (\"b@other.test\", \"cc\")]\nout = []\nfor em, role in rows:\n    if em.endswith(\"other.test\"):\n        role = \"bcc\"\n    out.append((em, role))\nvisible = sum(1 for _, r in out if r in (\"to\", \"cc\"))\nprint(visible)\n",
+          "note": "After move external→bcc, visible=1.",
+          "concepts_used": [
+            "visible to+cc count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-A-E1",
+          "code": "T = {\"draft\": {\"submit\": \"pending\"}}\nstate = \"draft\"\nstate = T[state][\"submit\"]\nprint(state)\n",
+          "note": "Starter submit → pending.",
+          "concepts_used": [
+            "state transition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-A-E2",
+          "code": "T = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\"}}\nstate, action = \"draft\", \"approve\"\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else \"invalid\")\n",
+          "note": "approve from draft → invalid.",
+          "concepts_used": [
+            "invalid transition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-A-E3",
+          "code": "log = []\nlog.append({\"from\": \"pending\", \"to\": \"approved\", \"actor\": \"rev1\"})\nprint(log)\n",
+          "note": "Hints append dict actor rev1.",
+          "concepts_used": [
+            "audit log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-B-E1",
+          "code": "import hashlib\nprint(hashlib.sha256(b\"run|to|v1\").hexdigest()[:8])\n",
+          "note": "Hints sha256 hex[:8].",
+          "concepts_used": [
+            "idem key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-B-E2",
+          "code": "store = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = f\"d{len(store)+1:03d}\"\n    return store[key]\n\na = create(\"k1\")\nb = create(\"k1\")\nprint(a == b)\n",
+          "note": "Hints cache dict same id.",
+          "concepts_used": [
+            "idempotent create"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S22-T4-B-E3",
+          "code": "audit = []\nstore = {}\n\ndef create(key):\n    if key in store:\n        audit.append(\"retry_hit\")\n        return store[key]\n    store[key] = \"d001\"\n    audit.append(\"create\")\n    return store[key]\n\ncreate(\"k\")\ncreate(\"k\")\nprint(audit)\n",
+          "note": "Hints events create then retry_hit.",
+          "concepts_used": [
+            "audit create retry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S22-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "text/plain; charset=\"utf-8\"\n",
+          "expected_head": "text/plain\nutf-8",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4\n",
+          "expected_head": "4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "&lt;script&gt;x&lt;/script&gt;\n",
+          "expected_head": "&lt;script&gt;x&lt;/script&gt;",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Hola &lt;b&gt;Ana&lt;/b&gt;\n",
+          "expected_head": "Hola &lt;b&gt;Ana&lt;/b&gt;",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ok\nblocked\n",
+          "expected_head": "https://example.pe/a ok\nhttps://evil.test blocked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['mail.draft']\n",
+          "expected_head": "['mail.draft']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "refresh\nvalid\n",
+          "expected_head": "refresh\nvalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "draft\n",
+          "expected_head": "draft",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\n",
+          "expected_head": "False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "d001\nd002\n",
+          "expected_head": "d001 d002",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "ana@example.pe True\nbad False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "verified\n",
+          "expected_head": "verified",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.86 match_no_es_fraude\n",
+          "expected_head": "0.86 match_no_es_fraude",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a@x', 'b@x']\n",
+          "expected_head": "['a@x', 'b@x']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'email': 'p@other.test', 'role': 'bcc'}]\n",
+          "expected_head": "bcc",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1 ['a@example.pe']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pending\n",
+          "expected_head": "pending",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "invalid\n",
+          "expected_head": "invalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]\n",
+          "expected_head": "[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0da400d6\n",
+          "expected_head": "0da400d6",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S22-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['create', 'retry_hit']\n",
+          "expected_head": "['create', 'retry_hit']",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

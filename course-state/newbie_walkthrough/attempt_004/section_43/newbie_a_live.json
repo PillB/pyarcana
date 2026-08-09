@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 43,
+  "packet_sha": "dcf1ce5f82593d24",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S43-T1-A-E1", "answer": "from_iDo_dockerfile_layers", "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["Dockerfile", "layers", "cache"]},
+    {"exercise_id": "S43-T1-A-E2", "answer": "independent_cache_order", "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["layer cache"]},
+    {"exercise_id": "S43-T1-A-E3", "answer": "transfer_dockerfile_layers_cache", "code": "# Transfer: pip before app; stable layers first for cache.\nprint(\"cache\", \"stable_layers_first\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["Docker layers"]},
+    {"exercise_id": "S43-T1-B-E1", "answer": "from_iDo_nonroot_size", "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["non-root", "distroless", "slim"]},
+    {"exercise_id": "S43-T1-B-E2", "answer": "independent_base_slim", "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\nprint(\"non_root\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["image size"]},
+    {"exercise_id": "S43-T1-B-E3", "answer": "transfer_bases_nonroot_size", "code": "# Transfer: base slim/distroless; usuario no root (youDo FINAL).\nprint(\"non_root\", True)\nprint(\"gate\", \"CP-N4-A (cierre)\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["non-root"]},
+    {"exercise_id": "S43-T2-A-E1", "answer": "from_iDo_config_secrets", "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["config", "secrets", "volumes"]},
+    {"exercise_id": "S43-T2-A-E2", "answer": "independent_readonly_config", "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\nprint(\"no_secrets_in_image\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["secrets out of image"]},
+    {"exercise_id": "S43-T2-A-E3", "answer": "transfer_config_secrets_volumes", "code": "# Transfer: no hardcoded secrets; readonly config mount.\nprint(\"no_hardcoded\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["config mounts"]},
+    {"exercise_id": "S43-T2-B-E1", "answer": "from_iDo_health_signals", "code": "print(200); print(503); print(\"graceful\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["health checks", "signals", "networking"]},
+    {"exercise_id": "S43-T2-B-E2", "answer": "independent_health_codes", "code": "print(200); print(503); print(\"graceful\", True)\nprint(\"health\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["200/503 health"]},
+    {"exercise_id": "S43-T2-B-E3", "answer": "transfer_networking_health_signals", "code": "# Transfer: health 200/503; graceful signals; one-command platform (youDo).\nprint(\"graceful\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["health"]},
+    {"exercise_id": "S43-T3-A-E1", "answer": "from_iDo_api_worker_split", "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["API", "worker", "DB", "cache"]},
+    {"exercise_id": "S43-T3-A-E2", "answer": "independent_split_services", "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["service split"]},
+    {"exercise_id": "S43-T3-A-E3", "answer": "transfer_api_worker_db_cache", "code": "# Transfer: split api/worker with shared db/cache deps.\nprint(\"split\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["compose topology"]},
+    {"exercise_id": "S43-T3-B-E1", "answer": "from_iDo_migrations", "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["migrations", "ephemeral data"]},
+    {"exercise_id": "S43-T3-B-E2", "answer": "independent_migrate_first", "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["expand_contract"]},
+    {"exercise_id": "S43-T3-B-E3", "answer": "transfer_deps_migrations_ephemeral", "code": "# Transfer: migrate_first; expand_contract; ephemeral data ok.\nprint(\"order\", \"migrate_first\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["migrations"]},
+    {"exercise_id": "S43-T4-A-E1", "answer": "from_iDo_multistage", "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["multi-stage", "locks"]},
+    {"exercise_id": "S43-T4-A-E2", "answer": "independent_multistage_theory", "code": "print(\"multistage\", [\"builder\",\"runtime\"]); print(\"locks\", [\"requirements.txt\"]); print(\"reproducible\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["builder/runtime", "requirements lock"]},
+    {"exercise_id": "S43-T4-A-E3", "answer": "transfer_locks_multistage", "code": "# Transfer: multi-stage builder/runtime; pinned locks; reproducible.\nprint(\"reproducible\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["reproducibility"]},
+    {"exercise_id": "S43-T4-B-E1", "answer": "from_iDo_scan_limits", "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["scanning", "resource limits", "debug"]},
+    {"exercise_id": "S43-T4-B-E2", "answer": "independent_limits_scan", "code": "print(\"limits\", {\"cpu\":\"1\",\"mem\":\"512Mi\"}); print(\"scan_clean\", True); print(\"debug\", \"ephemeral_shell\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["limits", "scan"]},
+    {"exercise_id": "S43-T4-B-E3", "answer": "transfer_scan_limits_debug", "code": "# Transfer FINAL CP-N4-A cierre: scan ci_gate, limits 512Mi, non-root, recovery docs.\nprint(\"scan\", \"ci_gate\")\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["CI scan gate"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "llmops", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id llmops preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-A (cierre)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-A (cierre) FINAL youDo."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER decides misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO placeholders", "id llmops vs containers retheme"],
+  "retrospection": "Filled from iDo demos for Governed Python Service Platform close. blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

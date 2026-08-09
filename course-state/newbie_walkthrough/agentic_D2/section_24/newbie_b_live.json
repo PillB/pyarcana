@@ -1,0 +1,521 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s24-live",
+  "attempt_id": "agentic_D2",
+  "section_index": 24,
+  "packet_sha": "b630b1d121c06add",
+  "packet_source": "course-state/newbie_walkthrough/agentic_D1/section_24/slim_packet.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\nprint(max(dpi, 200))\n# D2-Skeptic: packet-only re-walk S24 S24-T1-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "dpi"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T1-A-E1. Instrucción del paquete: Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo met. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(max(dpi, 200))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\nprint(abs(skew) >= 0.5)\n# D2-Skeptic: packet-only re-walk S24 S24-T1-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "skew"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T1-A-E2. Instrucción del paquete: Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos de. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(abs(skew) >= 0.5)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n# D2-Skeptic: packet-only re-walk S24 S24-T1-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "int"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T1-A-E3. Instrucción del paquete: Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 950). Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n# D2-Skeptic: packet-only re-walk S24 S24-T1-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "max"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T1-B-E1. Instrucción del paquete: Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo fixt. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(max(s, key=s.get))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\nprint(sum(flags))\n# D2-Skeptic: packet-only re-walk S24 S24-T1-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "flags"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T1-B-E2. Instrucción del paquete: Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del lab. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(sum(flags))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n# D2-Skeptic: packet-only re-walk S24 S24-T1-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "score"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T1-B-E3. Instrucción del paquete: Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtures . Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print('manual_orient' if score < 0.5 else 'auto')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n# D2-Skeptic: packet-only re-walk S24 S24-T2-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "toks"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T2-A-E1. Instrucción del paquete: Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtures. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print([t['text'] for t in toks if t['conf']>=0.85])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n# D2-Skeptic: packet-only re-walk S24 S24-T2-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "ocr"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T2-A-E2. Instrucción del paquete: Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: spa. Usa solo fixtures. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(ocr('Hola')['lang'])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n# D2-Skeptic: packet-only re-walk S24 S24-T2-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "confs"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T2-A-E3. Instrucción del paquete: Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: 0.7. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(m, 'review' if m < 0.8 else 'auto')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n# D2-Skeptic: packet-only re-walk S24 S24-T2-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "Total"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T2-B-E1. Instrucción del paquete: KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixture. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(k.strip(), v.strip())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n# D2-Skeptic: packet-only re-walk S24 S24-T2-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "len"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T2-B-E2. Instrucción del paquete: Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del lab; . Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(len(t)-1)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n# D2-Skeptic: packet-only re-walk S24 S24-T2-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "field"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T2-B-E3. Instrucción del paquete: Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 201234. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(field['bbox'], field['value'])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n# D2-Skeptic: packet-only re-walk S24 S24-T3-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "sub"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T3-A-E1. Instrucción del paquete: Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintéticos d. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(re.sub(r'\\D', '', s))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n# D2-Skeptic: packet-only re-walk S24 S24-T3-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "datetime"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T3-A-E2. Instrucción del paquete: Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salida d. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n# D2-Skeptic: packet-only re-walk S24 S24-T3-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "raw"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T3-A-E3. Instrucción del paquete: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida debe . Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(d if len(d)==11 else None)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n# D2-Skeptic: packet-only re-walk S24 S24-T3-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "total"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T3-B-E1. Instrucción del paquete: Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo fixt. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n# D2-Skeptic: packet-only re-walk S24 S24-T3-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "ruc"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T3-B-E2. Instrucción del paquete: Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures sint. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(reasons)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n# D2-Skeptic: packet-only re-walk S24 S24-T3-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "mismatch"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T3-B-E3. Instrucción del paquete: Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print('review_not_fraud' if mismatch else 'auto')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\nprint(correct / n)\n# D2-Skeptic: packet-only re-walk S24 S24-T4-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "correct"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T4-A-E1. Instrucción del paquete: Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe co. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(correct / n)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n# D2-Skeptic: packet-only re-walk S24 S24-T4-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "rows"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T4-A-E2. Instrucción del paquete: Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures sint. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\nprint(auto / (auto + review))\n# D2-Skeptic: packet-only re-walk S24 S24-T4-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "auto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T4-A-E3. Instrucción del paquete: Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos del. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print(auto / (auto + review))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n# D2-Skeptic: packet-only re-walk S24 S24-T4-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "mime"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T4-B-E1. Instrucción del paquete: Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sintéticos del lab; la s. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print('reject' if mime not in allowed else 'ok')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n# D2-Skeptic: packet-only re-walk S24 S24-T4-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "reject"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T4-B-E2. Instrucción del paquete: Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe . Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print('reject' if n > 5_000_000 else 'ok')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n# D2-Skeptic: packet-only re-walk S24 S24-T4-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "status"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «OCR y Document AI» para S24-T4-B-E3. Instrucción del paquete: Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures sinté. Hints: contrato I/O en instruction; compara output con solution. Completé el TODO con patrón del fixture/starter y la línea «print({'ocr_fail':'human_rescan'}.get(status, 'continue'))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Abstener y encolar revisión",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Abstener y encolar revisión» para «¿Qué haces si confidence de RUC es 0.6?» porque el material de «OCR y Document AI» enseña: DPI, deskew, crop y contraste | **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes d | ruido y orientación. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Cola de revisión / corrección",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Cola de revisión / corrección» para «Un mismatch total vs líneas implica:» porque el material de «OCR y Document AI» enseña: DPI, deskew, crop y contraste | **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes d | ruido y orientación. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Los campos críticos pueden fallar aunque el global se vea bien» para «¿Por qué medir accuracy por campo?» porque el material de «OCR y Document AI» enseña: DPI, deskew, crop y contraste | **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes d | ruido y orientación. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Gate reject/review por mime no permitido",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Gate reject/review por mime no permitido» para «Archivo application/zip en intake de facturas:» porque el material de «OCR y Document AI» enseña: DPI, deskew, crop y contraste | **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes d | ruido y orientación. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "note": "Skeptic: only sequential packets through active section; no external solutions."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.288134+00:00",
+  "artifact_origin": "direct_agent_output"
+}

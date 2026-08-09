@@ -1,0 +1,605 @@
+{
+  "section": 20,
+  "title": "Automatización robusta de Excel",
+  "file": "s20-rag.ts",
+  "n_required": 20,
+  "n_logged": 20,
+  "generated_at": "2026-07-24T05:21:59.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — WT DEFECT 25 > HEAD 0",
+    "ethics": "no PII in cells; idempotent; backups; no silent template damage",
+    "v3_retarget": "Excel factory CP-N2-B not RAG production",
+    "expert_pass_at": "2026-07-24T05:21:59.000+00:00",
+    "theater_strip": "removed workbench boilerplate ×24",
+    "resources_expanded": true
+  },
+  "unique_foci": 20,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget Excel factory not RAG",
+      "research": [
+        {
+          "family": "openpyxl",
+          "title": "docs",
+          "url": "https://openpyxl.readthedocs.io/",
+          "note": "API workbooks"
+        },
+        {
+          "family": "openpyxl",
+          "title": "tutorial",
+          "url": "https://openpyxl.readthedocs.io/en/stable/tutorial.html",
+          "note": "sheets cells"
+        },
+        {
+          "family": "openpyxl",
+          "title": "styles",
+          "url": "https://openpyxl.readthedocs.io/en/stable/styles.html",
+          "note": "fonts fills"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 1/20: «V3 retarget Excel factory not RAG» via openpyxl (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget Excel factory not RAG».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget Excel factory not RAG»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 1/20: «V3 retarget Excel factory not RAG» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "stable sheet names Entrada Datos Salida",
+      "research": [
+        {
+          "family": "openpyxl",
+          "title": "tutorial",
+          "url": "https://openpyxl.readthedocs.io/en/stable/tutorial.html",
+          "note": "sheets cells"
+        },
+        {
+          "family": "openpyxl",
+          "title": "styles",
+          "url": "https://openpyxl.readthedocs.io/en/stable/styles.html",
+          "note": "fonts fills"
+        },
+        {
+          "family": "openpyxl",
+          "title": "charts",
+          "url": "https://openpyxl.readthedocs.io/en/stable/charts/introduction.html",
+          "note": "embedded charts"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 2/20: «stable sheet names Entrada Datos Salida» via openpyxl (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «stable sheet names Entrada Datos Salida».",
+      "expand_scope": "E1/E2/E3 + docs for «stable sheet names Entrada Datos Salida»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 2/20: «stable sheet names Entrada Datos Salida» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "headers region monto contract",
+      "research": [
+        {
+          "family": "openpyxl",
+          "title": "styles",
+          "url": "https://openpyxl.readthedocs.io/en/stable/styles.html",
+          "note": "fonts fills"
+        },
+        {
+          "family": "openpyxl",
+          "title": "charts",
+          "url": "https://openpyxl.readthedocs.io/en/stable/charts/introduction.html",
+          "note": "embedded charts"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Open XML SDK",
+          "url": "https://learn.microsoft.com/en-us/office/open-xml/open-xml-sdk",
+          "note": "xlsx format"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 3/20: «headers region monto contract» via openpyxl, Microsoft (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «headers region monto contract».",
+      "expand_scope": "E1/E2/E3 + docs for «headers region monto contract»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 3/20: «headers region monto contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "formulas vs cached values CI",
+      "research": [
+        {
+          "family": "openpyxl",
+          "title": "charts",
+          "url": "https://openpyxl.readthedocs.io/en/stable/charts/introduction.html",
+          "note": "embedded charts"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Open XML SDK",
+          "url": "https://learn.microsoft.com/en-us/office/open-xml/open-xml-sdk",
+          "note": "xlsx format"
+        },
+        {
+          "family": "ECMA",
+          "title": "ECMA-376",
+          "url": "https://www.ecma-international.org/publications-and-standards/standards/ecma-376/",
+          "note": "OOXML"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 4/20: «formulas vs cached values CI» via openpyxl, Microsoft, ECMA (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «formulas vs cached values CI».",
+      "expand_scope": "E1/E2/E3 + docs for «formulas vs cached values CI»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 4/20: «formulas vs cached values CI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "materialize KPIs from pandas",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Open XML SDK",
+          "url": "https://learn.microsoft.com/en-us/office/open-xml/open-xml-sdk",
+          "note": "xlsx format"
+        },
+        {
+          "family": "ECMA",
+          "title": "ECMA-376",
+          "url": "https://www.ecma-international.org/publications-and-standards/standards/ecma-376/",
+          "note": "OOXML"
+        },
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "template paths"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 5/20: «materialize KPIs from pandas» via Microsoft, ECMA, Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «materialize KPIs from pandas».",
+      "expand_scope": "E1/E2/E3 + docs for «materialize KPIs from pandas»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 5/20: «materialize KPIs from pandas» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "styles without breaking headers",
+      "research": [
+        {
+          "family": "ECMA",
+          "title": "ECMA-376",
+          "url": "https://www.ecma-international.org/publications-and-standards/standards/ecma-376/",
+          "note": "OOXML"
+        },
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "template paths"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "files"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 6/20: «styles without breaking headers» via ECMA, Python, Coursera (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «styles without breaking headers».",
+      "expand_scope": "E1/E2/E3 + docs for «styles without breaking headers»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 6/20: «styles without breaking headers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "template master copy never overwrite",
+      "research": [
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "template paths"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "files"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 7/20: «template master copy never overwrite» via Python, Coursera, MIT (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «template master copy never overwrite».",
+      "expand_scope": "E1/E2/E3 + docs for «template master copy never overwrite»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 7/20: «template master copy never overwrite» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "dates ISO no locale parse traps",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "files"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 8/20: «dates ISO no locale parse traps» via Coursera, MIT, Harvard (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «dates ISO no locale parse traps».",
+      "expand_scope": "E1/E2/E3 + docs for «dates ISO no locale parse traps»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 8/20: «dates ISO no locale parse traps» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "avoid merges on data ranges",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 9/20: «avoid merges on data ranges» via MIT, Harvard, Live (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «avoid merges on data ranges».",
+      "expand_scope": "E1/E2/E3 + docs for «avoid merges on data ranges»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 9/20: «avoid merges on data ranges» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "reconciliation totals vs dashboard n",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 10/20: «reconciliation totals vs dashboard n» via Harvard, Live, GitHub (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «reconciliation totals vs dashboard n».",
+      "expand_scope": "E1/E2/E3 + docs for «reconciliation totals vs dashboard n»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 10/20: «reconciliation totals vs dashboard n» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "logical pivots openpyxl tables",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "Real Python",
+          "title": "openpyxl",
+          "url": "https://realpython.com/openpyxl-excel-spreadsheets-python/",
+          "note": "spreadsheets"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 11/20: «logical pivots openpyxl tables» via Live, GitHub, Real Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «logical pivots openpyxl tables».",
+      "expand_scope": "E1/E2/E3 + docs for «logical pivots openpyxl tables»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 11/20: «logical pivots openpyxl tables» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "validation rules structural preserve",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "Real Python",
+          "title": "openpyxl",
+          "url": "https://realpython.com/openpyxl-excel-spreadsheets-python/",
+          "note": "spreadsheets"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "delivery pipelines"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 12/20: «validation rules structural preserve» via GitHub, Real Python, deeplearning.ai (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «validation rules structural preserve».",
+      "expand_scope": "E1/E2/E3 + docs for «validation rules structural preserve»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 12/20: «validation rules structural preserve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "batch corrupt files fail closed",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "openpyxl",
+          "url": "https://realpython.com/openpyxl-excel-spreadsheets-python/",
+          "note": "spreadsheets"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "delivery pipelines"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 13/20: «batch corrupt files fail closed» via Real Python, deeplearning.ai, GitHub (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «batch corrupt files fail closed».",
+      "expand_scope": "E1/E2/E3 + docs for «batch corrupt files fail closed»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 13/20: «batch corrupt files fail closed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "file locks clear errors",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "delivery pipelines"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "shutil",
+          "url": "https://docs.python.org/3/library/shutil.html",
+          "note": "backup copy"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 14/20: «file locks clear errors» via deeplearning.ai, GitHub, Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «file locks clear errors».",
+      "expand_scope": "E1/E2/E3 + docs for «file locks clear errors»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 14/20: «file locks clear errors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "backups before write",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "shutil",
+          "url": "https://docs.python.org/3/library/shutil.html",
+          "note": "backup copy"
+        },
+        {
+          "family": "Python",
+          "title": "tempfile",
+          "url": "https://docs.python.org/3/library/tempfile.html",
+          "note": "safe temp files"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 15/20: «backups before write» via GitHub, Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «backups before write».",
+      "expand_scope": "E1/E2/E3 + docs for «backups before write»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 15/20: «backups before write» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "idempotent re-run same output",
+      "research": [
+        {
+          "family": "Python",
+          "title": "shutil",
+          "url": "https://docs.python.org/3/library/shutil.html",
+          "note": "backup copy"
+        },
+        {
+          "family": "Python",
+          "title": "tempfile",
+          "url": "https://docs.python.org/3/library/tempfile.html",
+          "note": "safe temp files"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 16/20: «idempotent re-run same output» via Python, GitHub (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «idempotent re-run same output».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotent re-run same output»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 16/20: «idempotent re-run same output» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "structural tests sheetnames headers",
+      "research": [
+        {
+          "family": "Python",
+          "title": "tempfile",
+          "url": "https://docs.python.org/3/library/tempfile.html",
+          "note": "safe temp files"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "Automate the Boring Stuff",
+          "title": "Excel chapter",
+          "url": "https://automatetheboringstuff.com/2e/chapter13/",
+          "note": "excel automation"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 17/20: «structural tests sheetnames headers» via Python, GitHub, Automate the Boring Stuff (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «structural tests sheetnames headers».",
+      "expand_scope": "E1/E2/E3 + docs for «structural tests sheetnames headers»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 17/20: «structural tests sheetnames headers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "manifest of cell changes JSON",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "Automate the Boring Stuff",
+          "title": "Excel chapter",
+          "url": "https://automatetheboringstuff.com/2e/chapter13/",
+          "note": "excel automation"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "manifest changes"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 18/20: «manifest of cell changes JSON» via GitHub, Automate the Boring Stuff, Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «manifest of cell changes JSON».",
+      "expand_scope": "E1/E2/E3 + docs for «manifest of cell changes JSON»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 18/20: «manifest of cell changes JSON» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "synthetic workbook PEN regions",
+      "research": [
+        {
+          "family": "Automate the Boring Stuff",
+          "title": "Excel chapter",
+          "url": "https://automatetheboringstuff.com/2e/chapter13/",
+          "note": "excel automation"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "manifest changes"
+        },
+        {
+          "family": "openpyxl",
+          "title": "docs",
+          "url": "https://openpyxl.readthedocs.io/",
+          "note": "API workbooks"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 19/20: «synthetic workbook PEN regions» via Automate the Boring Stuff, Python, openpyxl (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic workbook PEN regions».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic workbook PEN regions»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 19/20: «synthetic workbook PEN regions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "CP-N2-B excel factory gate",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "manifest changes"
+        },
+        {
+          "family": "openpyxl",
+          "title": "docs",
+          "url": "https://openpyxl.readthedocs.io/",
+          "note": "API workbooks"
+        },
+        {
+          "family": "openpyxl",
+          "title": "tutorial",
+          "url": "https://openpyxl.readthedocs.io/en/stable/tutorial.html",
+          "note": "sheets cells"
+        }
+      ],
+      "synthesize": "S20 «Automatización robusta de Excel» cycle 20/20: «CP-N2-B excel factory gate» via Python, openpyxl (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-B excel factory gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-B excel factory gate»; V3 roadmap; pair S20.",
+      "re_synthesize": "Decision 20/20: «CP-N2-B excel factory gate» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://openpyxl.readthedocs.io/",
+    "https://openpyxl.readthedocs.io/en/stable/tutorial.html",
+    "https://openpyxl.readthedocs.io/en/stable/styles.html",
+    "https://openpyxl.readthedocs.io/en/stable/charts/introduction.html",
+    "https://learn.microsoft.com/en-us/office/open-xml/open-xml-sdk",
+    "https://www.ecma-international.org/publications-and-standards/standards/ecma-376/",
+    "https://docs.python.org/3/library/pathlib.html",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://cs50.harvard.edu/python/",
+    "https://pillb.github.io/pyarcana/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://realpython.com/openpyxl-excel-spreadsheets-python/",
+    "https://www.deeplearning.ai/specializations/data-engineering",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://docs.python.org/3/library/shutil.html",
+    "https://docs.python.org/3/library/tempfile.html",
+    "https://github.com/https-deeplearning-ai",
+    "https://automatetheboringstuff.com/2e/chapter13/",
+    "https://docs.python.org/3/library/json.html"
+  ]
+}

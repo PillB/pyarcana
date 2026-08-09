@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I2",
+  "section_index": 52,
+  "packet_sha": "27ccf9109ffd9c11",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_52/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-ske-s52-989b4e2b30b8",
+  "production_note": "agentic_I2 dual-LLM skeptic: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,\"metrics\":{\"ttr\",\"review_precision\"},\"baseline_frozen\":True}}\nmeets_contract = record[\"jobs\"] > 0 and record[\"baseline_frozen\"]\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Calcula",
+        "contrato",
+        "stakeholders",
+        "jobs",
+        "success",
+        "metrics",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T1-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T1-A-E1 · Calcula el contrato de `stakeholders, jobs y success metrics de CF-1` sobre `CASO-PER-052-1A`. La entrada es el dict completo del starter; la operación debe demostrar…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'baseline_frozen', 'case_id', 'jobs', 'metrics', 'stakeholders'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get(\"jobs\", 0) > 0 and record.get(\"baseline_frozen\") is True:\n        return 'PASS'\n    return 'REOPEN_CF1'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'ttr', 'review_precision'}, 'baseline_frozen': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 0, 'metrics': {'ttr', 'review_precision'}, 'baseline_frozen': False}\nmissing = {k: valid[k] for k in valid if k != 'baseline_frozen'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Modela",
+        "tres",
+        "rutas",
+        "stakeholders",
+        "jobs",
+        "success",
+        "metrics"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T1-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T1-A-E2 · Modela tres rutas de `stakeholders, jobs y success metrics de CF-1`: fixture válido, fixture adverso y registro sin `baseline_frozen`. Entrada: dict con case_id, stak…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REOPEN_CF1'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "stakeholders",
+        "jobs",
+        "success"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T1-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T1-A-E3 · Simula fallo cerrado para `stakeholders, jobs y success metrics de CF-1` con tres fixtures distintos. `CASO-PER-052-1A` debe continuar, el adverso debe devolver `REOP…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_with_owner\":5,\"no_go\":{\"real-pii\",\"auto-risk-decision\"},\"residual_risk_accepted\":True}}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Compara",
+        "contrato",
+        "cambios",
+        "constraints",
+        "riesgos",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T1-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T1-B-E1 · Compara el contrato de `cambios, constraints, riesgos y no-go` sobre `CASO-PER-052-1B`. La entrada es el dict completo del starter; la operación debe demostrar constr…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'residual_risk_accepted', 'constraints', 'case_id', 'risks_with_owner', 'no_go'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('constraints') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'constraints': True, 'risks_with_owner': True, 'no_go': True, 'residual_risk_accepted': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'constraints': False, 'risks_with_owner': False, 'no_go': False, 'residual_risk_accepted': False}\nmissing = {k: valid[k] for k in valid if k != 'residual_risk_accepted'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Verifica",
+        "tres",
+        "rutas",
+        "cambios",
+        "constraints",
+        "riesgos",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T1-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T1-B-E2 · Verifica tres rutas de `cambios, constraints, riesgos y no-go`: fixture válido, fixture adverso y registro sin `residual_risk_accepted`. Entrada: dict con case_id, co…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "cambios",
+        "constraints",
+        "riesgos"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T1-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T1-B-E3 · Extiende fallo cerrado para `cambios, constraints, riesgos y no-go` con tres fixtures distintos. `CASO-PER-052-1B` debe continuar, el adverso debe devolver `DECLARE_N…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Filtra",
+        "contrato",
+        "bounded",
+        "contexts",
+        "APIs",
+        "eventos",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T2-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T2-A-E1 · Filtra el contrato de `bounded contexts, APIs y eventos` sobre `CASO-PER-052-2A`. La entrada es el dict completo del starter; la operación debe demostrar cinco contex…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'apis_versioned', 'events_versioned', 'contract_tests', 'case_id', 'contexts', 'shared_database'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('contexts') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'STOP_INTEGRATION_RELEASE'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'contexts': True, 'apis_versioned': True, 'events_versioned': True, 'shared_database': True, 'contract_tests': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'contexts': False, 'apis_versioned': False, 'events_versioned': False, 'shared_database': False, 'contract_tests': False}\nmissing = {k: valid[k] for k in valid if k != 'contract_tests'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "bounded",
+        "contexts",
+        "APIs",
+        "eventos"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T2-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, APIs y eventos`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, contexts, apis…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'STOP_INTEGRATION_RELEASE'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "bounded",
+        "contexts",
+        "APIs"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T2-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, APIs y eventos` con tres fixtures distintos. `CASO-PER-052-2A` debe continuar, el adverso debe devolver `STOP_INTEGRATI…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_prepares_draft\":True,\"rag_cites\":True,\"human_decides\":True,\"infers_fraud\":False}}\nmeets_contract = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Modela",
+        "contrato",
+        "datos",
+        "modelos",
+        "RPA",
+        "RAG",
+        "human"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T2-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T2-B-E1 · Modela el contrato de `datos, modelos, RPA, RAG y human workflow` sobre `CASO-PER-052-2B`. La entrada es el dict completo del starter; la operación debe demostrar ER/…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'infers_fraud', 'rpa_prepares_draft', 'rag_cites', 'triage_prioritizes', 'case_id', 'er_proposes_match', 'human_decides'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('er_proposes_match') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'BLOCK_AUTOMATED_RISK_DECISION'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'er_proposes_match': False, 'triage_prioritizes': False, 'rpa_prepares_draft': False, 'rag_cites': False, 'human_decides': False, 'infers_fraud': False}\nmissing = {k: valid[k] for k in valid if k != 'infers_fraud'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Audita",
+        "tres",
+        "rutas",
+        "datos",
+        "modelos",
+        "RPA",
+        "RAG"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T2-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T2-B-E2 · Audita tres rutas de `datos, modelos, RPA, RAG y human workflow`: fixture válido, fixture adverso y registro sin `infers_fraud`. Entrada: dict con case_id, er_propose…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_REVIEW'\n    if True:\n        return \"CONTINUE\"\n    return 'BLOCK_AUTOMATED_RISK_DECISION'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "datos",
+        "modelos",
+        "RPA"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T2-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T2-B-E3 · Recupera fallo cerrado para `datos, modelos, RPA, RAG y human workflow` con tres fixtures distintos. `CASO-PER-052-2B` debe continuar, el adverso debe devolver `BLOCK…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":True,\"red_team\":True,\"performance\":True,\"open_p0\":0,\"open_p1\":0}}\nmeets_contract = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Verifica",
+        "contrato",
+        "tests",
+        "evals",
+        "red",
+        "team",
+        "performance"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T3-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T3-A-E1 · Verifica el contrato de `tests/evals/red team y performance` sobre `CASO-PER-052-3A`. La entrada es el dict completo del starter; la operación debe demostrar seis cap…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'unit', 'performance', 'open_p0', 'integration', 'open_p1', 'case_id', 'red_team', 'evals', 'contract'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('unit') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'BLOCK_FINAL_ON_P0_P1'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': True, 'open_p1': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'unit': False, 'contract': False, 'integration': False, 'evals': False, 'red_team': False, 'performance': False, 'open_p0': False, 'open_p1': False}\nmissing = {k: valid[k] for k in valid if k != 'open_p1'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Decide",
+        "tres",
+        "rutas",
+        "tests",
+        "evals",
+        "red",
+        "team"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T3-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T3-A-E2 · Decide tres rutas de `tests/evals/red team y performance`: fixture válido, fixture adverso y registro sin `open_p1`. Entrada: dict con case_id, unit, contract, integr…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'BLOCK_FINAL_ON_P0_P1'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tests",
+        "evals",
+        "red"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T3-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T3-A-E3 · Contrasta fallo cerrado para `tests/evals/red team y performance` con tres fixtures distintos. `CASO-PER-052-3A` debe continuar, el adverso debe devolver `BLOCK_FINAL…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\":4,\"rollback_min\":8,\"rto_min\":15,\"disaster_exercise\":True}}\nmeets_contract = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Clasifica",
+        "contrato",
+        "SLO",
+        "backup",
+        "rollback",
+        "disaster",
+        "exercise"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T3-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T3-B-E1 · Clasifica el contrato de `SLO, backup, rollback y disaster exercise` sobre `CASO-PER-052-3B`. La entrada es el dict completo del starter; la operación debe demostrar …»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'rto_min', 'disaster_exercise', 'availability', 'case_id', 'rollback_min', 'slo', 'rpo_h', 'backup_age_h'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('availability') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'NO_GO_RESILIENCE'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'availability': True, 'slo': True, 'backup_age_h': True, 'rpo_h': True, 'rollback_min': True, 'rto_min': True, 'disaster_exercise': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'availability': False, 'slo': False, 'backup_age_h': False, 'rpo_h': False, 'rollback_min': False, 'rto_min': False, 'disaster_exercise': False}\nmissing = {k: valid[k] for k in valid if k != 'disaster_exercise'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Calcula",
+        "tres",
+        "rutas",
+        "SLO",
+        "backup",
+        "rollback",
+        "disaster"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T3-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T3-B-E2 · Calcula tres rutas de `SLO, backup, rollback y disaster exercise`: fixture válido, fixture adverso y registro sin `disaster_exercise`. Entrada: dict con case_id, avai…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'NO_GO_RESILIENCE'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "backup",
+        "rollback"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T3-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T3-B-E3 · Instrumenta fallo cerrado para `SLO, backup, rollback y disaster exercise` con tres fixtures distintos. `CASO-PER-052-3B` debe continuar, el adverso debe devolver `NO…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = record[\"result_ttr_min\"] < record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Audita",
+        "contrato",
+        "demo",
+        "narrativa",
+        "sobre",
+        "CASO",
+        "PER"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T4-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T4-A-E1 · Audita el contrato de `demo y narrativa CV` sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demostrar mejora vs baseline sintét…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'cv_claims_sourced', 'result_ttr_min', 'demo_minutes', 'case_id', 'baseline_ttr_min', 'benchmark_synthetic', 'personal_contribution'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('baseline_ttr_min') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'baseline_ttr_min': True, 'result_ttr_min': True, 'benchmark_synthetic': True, 'demo_minutes': True, 'cv_claims_sourced': True, 'personal_contribution': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'baseline_ttr_min': False, 'result_ttr_min': False, 'benchmark_synthetic': False, 'demo_minutes': False, 'cv_claims_sourced': False, 'personal_contribution': False}\nmissing = {k: valid[k] for k in valid if k != 'personal_contribution'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Compara",
+        "tres",
+        "rutas",
+        "demo",
+        "narrativa",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T4-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T4-A-E2 · Compara tres rutas de `demo y narrativa CV`: fixture válido, fixture adverso y registro sin `personal_contribution`. Entrada: dict con case_id, baseline_ttr_min, resu…»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "demo",
+        "narrativa",
+        "con"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T4-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T4-A-E3 · Aísla fallo cerrado para `demo y narrativa CV` con tres fixtures distintos. `CASO-PER-052-4A` debe continuar, el adverso debe devolver `REJECT_UNSUPPORTED_PORTFOLIO_C…»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nrecord = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Decide",
+        "contrato",
+        "arquitectura",
+        "READMEs",
+        "cards",
+        "licencia",
+        "video"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T4-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T4-B-E1 · Decide el contrato de `arquitectura, READMEs, cards, licencia, video y defensa` sobre `CASO-PER-052-4B`. La entrada es el dict completo del starter; la operación debe…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef assess(record: dict) -> str:\n    required = {'cpn4c_independent', 'case_id', 'tradeoffs_defended', 'artifacts', 'reproducible_command'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('artifacts') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'artifacts': True, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'artifacts': False, 'reproducible_command': False, 'tradeoffs_defended': False, 'cpn4c_independent': False}\nmissing = {k: valid[k] for k in valid if k != 'cpn4c_independent'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Filtra",
+        "tres",
+        "rutas",
+        "arquitectura",
+        "READMEs",
+        "cards",
+        "licencia"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T4-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T4-B-E2 · Filtra tres rutas de `arquitectura, READMEs, cards, licencia, video y defensa`: fixture válido, fixture adverso y registro sin `cpn4c_independent`. Entrada: dict con …»; código usa def , assess, print, assess, print, assess. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', }\nadverse = {\"case_id\": 'CASO-PER-052-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "arquitectura",
+        "READMEs",
+        "cards"
+      ],
+      "justification_from_packet": "Skeptic B en S52-T4-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) e iDo (step | step | step | step). Instruction pide «S52-T4-B-E3 · Demuestra fallo cerrado para `arquitectura, READMEs, cards, licencia, video y defensa` con tres fixtures distintos. `CASO-PER-052-4B` debe continuar, el adverso debe …»; código usa def , route, print, route, print, route. No ejecuté ni copié lives previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC0: descarto distractores del stem «¿Qué evidencia permite aprobar `stakeholders, jobs y success metrics de CF-1` en CASO-PER-»; la opción «matriz stakeholder/job/métrica con evidencia» es la que el texto de theory/iDo (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) respalda de forma explícita."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC1: descarto distractores del stem «Si ocurre la condición de error de S52, ¿qué respuesta preserva seguridad y auditabilidad?»; la opción «emitir NO_GO_RELEASE y conservar evidencia» es la que el texto de theory/iDo (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) respalda de forma explícita."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC2: descarto distractores del stem «¿Cuál resultado demuestra el gate `CP-FINAL · plataforma integral defendible`?»; la opción «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C» es la que el texto de theory/iDo (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) respalda de forma explícita."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC3: descarto distractores del stem «¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?»; la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la que el texto de theory/iDo (stakeholders, jobs y success metrics de CF-1 | cambios, constraints, riesgos y no-go | bounded contexts, APIs y eventos | datos, modelos, RPA, RAG y human workflow) respalda de forma explícita."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "stakeholders, jobs y success metrics de CF-1",
+      "note": "Skeptic prioriza fallo cerrado y campos missing antes de PASS."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:31:14.890000+00:00",
+  "session_started_at": "2026-07-23T13:30:58.150000+00:00",
+  "session_ended_at": "2026-07-23T13:31:14.890000+00:00"
+}

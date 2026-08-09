@@ -1,0 +1,1361 @@
+### HEADER.title
+Visualización y comunicación accesible
+
+### HEADER.title
+s19_map_contract.py
+
+### HEADER.title
+Fuera de alcance en S19
+
+### HEADER.title
+chart_choice.py
+
+### HEADER.title
+Una pregunta → un chart
+
+### HEADER.title
+honest_axes.py
+
+### HEADER.title
+Eje recortado
+
+### HEADER.title
+mpl_bar.py
+
+### HEADER.title
+Backend Agg
+
+### HEADER.title
+compose_export.py
+
+### HEADER.title
+Función pura de figura
+
+### HEADER.title
+interactive_spec.py
+
+### HEADER.title
+Spec antes de librería
+
+### HEADER.title
+a11y_alt.py
+
+### HEADER.title
+Paridad numérica
+
+### HEADER.title
+caption.py
+
+### HEADER.title
+Unidad omitida
+
+### HEADER.title
+alt_claim.py
+
+### HEADER.title
+Sobreclaim
+
+### HEADER.title
+demo_chart_choice.py
+
+### HEADER.title
+demo_axes.py
+
+### HEADER.title
+demo_mpl.py
+
+### HEADER.title
+demo_compose.py
+
+### HEADER.title
+demo_tooltip.py
+
+### HEADER.title
+demo_a11y.py
+
+### HEADER.title
+demo_caption.py
+
+### HEADER.title
+demo_claims.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+exercise.py
+
+### HEADER.title
+Dashboard accesible CP-N2-B
+
+### HEADER.shortTitle
+Viz accesible
+
+### HEADER.tagline
+cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente
+
+### HEADER.jobRelevance
+En equipos de analytics y reporting en Perú (banca, retail, e-commerce, gobierno), una **visualización accesible y honesta** es el puente entre el EDA y las decisiones de un comité. Un dashboard que infla diferencias con el eje recortado, omite unidades o generaliza “Lima lidera el Perú” desde una muestra web no es “bonito”: es un riesgo de reporting. Aquí construyes el incremento **CP-N2-B (dashboard)**: charts con ejes honestos, figuras Matplotlib exportables, tooltips/filtros modelados como especificación de datos y alternativas no visuales con los mismos números — listo para el factory Excel (S20) y los reportes (S21).
+
+### learningOutcome.text
+Elegir el tipo de chart (bar/line/scatter) según la pregunta analítica y la audiencia (ejecutivo vs analista), documentando la decisión en un brief de diseño
+
+### learningOutcome.text
+Diseñar ejes y encodings honestos: baseline 0 en barras de magnitudes absolutas, unidades visibles y rechazo de dual-axis engañoso sin justificación
+
+### learningOutcome.text
+Producir figuras Matplotlib (backend Agg) con contrato visual verificable: ylim, ylabel, n de barras y cierre de figura
+
+### learningOutcome.text
+Componer multi-panel, anotar valores clave y exportar PNG versionado con metadata (fmt, dpi, panels)
+
+### learningOutcome.text
+Modelar una vista interactiva lógica (filtro + tooltip con unidad y n) como especificación de datos, sin librería interactiva obligatoria
+
+### learningOutcome.text
+Proveer alternativa accesible (tabla + alt text) con paridad numérica al chart y declarar sample_n/universe_n si hay sampling
+
+### learningOutcome.text
+Redactar captions con unidad, fuente, corte y limitación, y un pie de figura reutilizable hacia informes
+
+### learningOutcome.text
+Aplicar canal no-color (hatch/etiqueta), contraste razonable y lenguaje sin sobreclaim (muestra ≠ población)
+
+### theory.heading
+Mapa de la sección: visualización y comunicación accesible
+
+### theory.heading
+Pregunta, audiencia y elección de gráfico
+
+### theory.heading
+Ejes, escalas y encodings honestos
+
+### theory.heading
+Matplotlib para figuras estáticas
+
+### theory.heading
+Composición, anotaciones y exportación
+
+### theory.heading
+Filtros, tooltips y vista interactiva (modelo de datos)
+
+### theory.heading
+Estado, performance y alternativas accesibles
+
+### theory.heading
+Unidades, fuente y limitaciones
+
+### theory.heading
+Color, contraste, texto alternativo y no sobreclaim
+
+### theory.paragraph
+**Antes de T1, el diccionario de la sección** (vuelve en cada subtema). *Pregunta analítica:* qué decisión habilita el gráfico. *Audiencia:* ejecutivo (pocas categorías, una idea) vs analista (más detalle). *Encoding:* canal visual (posición, longitud, color, forma). *Baseline:* origen del eje; en barras de magnitudes absolutas debe ser 0. *Alt text:* equivalente no visual con hallazgo y n. *Paridad:* los mismos números en chart, tabla y caption. *Sobreclaim:* lenguaje que excede la evidencia de la muestra. Si el mapa se siente denso, avanza T1→T4 en orden: primero eliges el chart, luego lo dibujas, luego lo haces accesible e íntegro.
+
+### theory.paragraph
+Desde el EDA de S18 llegas con medianas, n e incertidumbre por región (Lima / Cusco / Arequipa, PEN, datos sintéticos del lab **CASO-LIM-019**). Aquí **traduces el hallazgo a figura**: el mismo “mediana por región, n, limitación web” se empaqueta como chart + caption + alt + tabla hermana. **Hallazgo ≠ decisión:** el dashboard muestra evidencia con marco muestral, no un veredicto de negocio disfrazado de color o de título sensacionalista.
+
+### theory.paragraph
+Orden pedagógico (~19 h): **T1 Intención** (pregunta, audiencia, chart choice y ejes honestos) → **T2 Estático** (Matplotlib, composición multi-panel, export versionado) → **T3 Interactivo y a11y** (modelo de filtros/tooltips, estado serializable, tabla alternativa, sampling honesto) → **T4 Integridad** (unidades, fuente, contraste, alt text, no sobreclaim). En cada subtema: teoría → demo I Do → tres We Do (guiado / independiente / transferencia) → al final You Do del portfolio y self-check.
+
+### theory.paragraph
+El hilo conductor es el **dashboard ejecutivo CP-N2-B**: cuatro gráficos estáticos (medianas, volumen, tendencia, scatter n–mediana) más una vista interactiva lógica, todos con conclusión limitada a la evidencia y versión no visual equivalente. Progressive disclosure: no introducimos ORMs ni SQL nuevos; el foco es comunicación visual honesta que alimenta el factory Excel (S20) y reportes DOCX/PDF (S21). Solo datos sintéticos; nunca PII real.
+
+### theory.paragraph
+La **elección de gráfico** (*chart choice*) responde a la pregunta, no a la librería de moda. Comparar totales o medianas entre pocas regiones → barras; tendencia temporal → línea; relación entre dos cuantitativas → scatter. Documenta en metadata: `pregunta`, `chart_type`, `audiencia` (ejecutivo vs analista). Un pie 3D casi nunca es la respuesta correcta para un comité.
+
+### theory.paragraph
+Contrato operativo: **una idea principal por figura**. Si hay dos preguntas, dos charts. El dict de especificación (`pregunta`, `audiencia`, `chart`) viaja con el PNG hacia el informe S21 para no perder el “por qué este gráfico”. Ordena categorías con intención (alfabético, por magnitud o por prioridad de negocio) y prefiere barras horizontales cuando las etiquetas de región son largas.
+
+### theory.paragraph
+Caso sintético Perú (continuación de S18): “totales/medianas por región para comité” → bar; “tendencia de tickets web semanal” → line. La función `elige_chart(pregunta)` es un gate didáctico con reglas legibles (`\"tendencia\"` → line, resto comparación → bar), no un clasificador ML: testeable en We Do y reutilizable en el portfolio.
+
+### theory.paragraph
+Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Jerarquía de encodings: posición > longitud > color > forma. El **dual-axis** (dos escalas Y distintas) confunde con frecuencia: si lo usas, declara el riesgo y prefiere paneles separados.
+
+### theory.paragraph
+Contrato: `ylim` bottom=0 en barras de PEN; etiqueta de unidades en el eje; escala log solo con leyenda explícita y justificación de órdenes de magnitud. Si usas color, no es el único canal para categorías críticas: añade etiqueta, patrón (hatch) o posición. El *baseline* es un encoding: mentir en el origen es mentir en la longitud percibida.
+
+### theory.paragraph
+Caso: valores 50 vs 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. Calcula el factor de inflación visual `(altura_truco / altura_honesta)` antes de exportar al dashboard de CP-N2-B: si el factor es grande, el gráfico no pasa el gate de integridad.
+
+### theory.paragraph
+Matplotlib construye la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el slice está filtrado. **Seaborn** es opcional (estilo con `sns.set_theme` sobre los mismos axes); no es un path obligatorio ni sustituye el contrato visual: ylim, ylabel y conteo de barras se leen en los axes de Matplotlib, no en la “belleza” del tema.
+
+### theory.paragraph
+tight
+
+### theory.paragraph
+Multi-panel (`subplots`) alinea comparaciones (volumen vs mediana). Anota valores clave con `bar_label` o `annotate` sin saturar: una anotación por insight, no un sticker en cada barra si ya hay tabla hermana. Export: PNG para slides, SVG/PDF para impresión; nombre `fig_cpn2b_v{version}.png`.
+
+### theory.paragraph
+Contrato de reproducibilidad: seed de datos + función `build_figure(df)` sin estado global sucio. Misma entrada → mismos títulos de paneles y mismos n en captions. Exporta de verdad con `fig.savefig(..., dpi=…, bbox_inches='tight')` (archivo o buffer); el dict de export (`fmt`, `dpi`, `panels`, `name`) versiona el binario hacia S20/S21 — no sustituye el PNG.
+
+### theory.paragraph
+Caso sintético: 1×2 subplots con títulos “Vol” y “Med”; `savefig` a PNG 120 dpi y meta `{fmt:'png', dpi:120, panels:2}`. El dashboard empaqueta estas figuras con la tabla de paridad (mismos números). Faceting (un panel por región) es preferible a dual-axis cuando escalas no son comparables.
+
+### theory.paragraph
+tight
+
+### theory.paragraph
+png
+
+### theory.paragraph
+Modelamos la **vista interactiva** como especificación de datos: campos filtrables, plantilla de tooltip y viewport. No hace falta instalar Plotly (ni Streamlit) para diseñar el contrato: si el modelo es claro, migrar a una librería interactiva es mecánico. Los tooltips deben mostrar **unidades y n**, no solo el valor “bonito”. Un filtro sin recálculo de conclusión es un defecto de producto, no un detalle cosmético.
+
+### theory.paragraph
+Contrato: al filtrar por región, el texto de conclusión del viewport se **recalcula**; no reutilices el párrafo global de “Lima lidera” si el filtro es Cusco. Serializa el state (JSON) para auditoría del dashboard. El lookup por región es O(n) sobre filas sintéticas: suficiente para el lab; en producción agregarías índice o pre-agregación. La spec mínima es `{filtro, tooltip_template, unidad, campos_visibles}`.
+
+### theory.paragraph
+Caso sintético: row `{region:'Lima', median:28, n:40}` → tooltip `Lima: 28 PEN (n=40)`. Paridad chart↔tabla: si la barra dice 28, la fila de tabla dice 28 a la misma precisión publicada; si no, el gate de integridad falla antes del export y el portfolio no avanza a S20/S21.
+
+### theory.paragraph
+Lima
+
+### theory.paragraph
+El **estado** del dashboard (filtros activos) debe ser serializable (`json.dumps`). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y documenta si hay sampling. Ejemplo de honestidad de performance: “viewport muestra sample 5 000 de 50 000 filas” — nunca ocultes el sesgo muestral del viewport ni lo presentes como censo. Declarar solo `sample_n` sin `universe_n` es un defecto de transparencia.
+
+### theory.paragraph
+Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con **los mismos números** que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. El alt text no es “imagen de barras”: es el hallazgo principal + n + unidad + marco (sintético / canal web). Un lector de pantalla debe poder reconstruir la idea del chart sin verlo.
+
+### theory.paragraph
+Caso: `filtro_region=Oficina-Oeste` → state JSON compacto con `sample_n` y `universe_n` cuando aplique; `alt_text` une `region=v PEN` con `; `. La paridad se verifica con igualdad de valores a la precisión publicada (mismo redondeo en chart y tabla). Si redondeas a 1 decimal en el gráfico, la tabla no puede mostrar 3 “más precisos” sin documentarlo.
+
+### theory.paragraph
+Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: `Fuente: … | Corte: … | n=… | Limitación: …`. Sin fuente, el gráfico **no entra** al portfolio de CP-N2-B: un número huérfano no se puede auditar ni re-renderizar con confianza en el factory de reportes.
+
+### theory.paragraph
+Contrato de caption: dict con claves `unidad`, `fuente`, `limitacion` (y n cuando aplique). Función `pie(cap)` une con ` | ` para el footer estable entre dashboard e informe. El orden de claves es parte del contrato si serializas para tests; no inventes un pie distinto por slide. Caption y alt se complementan: el pie es trazabilidad, el alt es el hallazgo legible en no visual.
+
+### theory.paragraph
+Caso sintético: unidad PEN, fuente `sintetico`, limitación “solo canal web; n bajo en Cusco”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. “28” sin PEN o sin % es un defecto de reporting, no un detalle cosmético: el comité no puede comparar ni escalar la métrica sin unidad.
+
+### theory.paragraph
+Contraste suficiente texto/fondo; no uses **solo color** para categorías críticas — añade patrón (`hatch` en Matplotlib: `'//'`, `'\\\\'`, `'..'`), etiqueta de valor o posición. Paletas amigables con daltonismo (p. ej. evitar rojo/verde exclusivos; preferir azul/naranja o viridis) reducen riesgo; el canal de posición sigue siendo el más robusto. **Alt text** describe el hallazgo principal y n, no “imagen de barras”.
+
+### theory.paragraph
+Contrato de claims: “Sucursal-Centro lidera en la **muestra** web” es permitido; “Oficina-Este es la mejor región del Perú” sin marco poblacional es **RECHAZADO**. `classify_claim` es el gate didáctico del We Do: si el texto generaliza a la población sin “muestra”, falla. En el portfolio, el color y el contraste no redimen un sobreclaim en el título.
+
+### theory.paragraph
+Caso: alt `Oficina-Oeste 28 PEN n=40` debe contener `n=`; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes del reporting factory (S20/S21): si dos regiones se distinguen solo por tono, añade hatch o etiqueta antes de exportar.
+
+### theory.paragraph
+//
+
+### theory.paragraph
+\\\\
+
+### theory.paragraph
+..
+
+### LABEL.title
+Visualización y comunicación accesible
+
+### LABEL.title
+s19_map_contract.py
+
+### LABEL.title
+Fuera de alcance en S19
+
+### LABEL.title
+chart_choice.py
+
+### LABEL.title
+Una pregunta → un chart
+
+### LABEL.title
+honest_axes.py
+
+### LABEL.title
+Eje recortado
+
+### LABEL.title
+mpl_bar.py
+
+### LABEL.title
+Backend Agg
+
+### LABEL.title
+compose_export.py
+
+### LABEL.title
+Función pura de figura
+
+### LABEL.title
+interactive_spec.py
+
+### LABEL.title
+Spec antes de librería
+
+### LABEL.title
+a11y_alt.py
+
+### LABEL.title
+Paridad numérica
+
+### LABEL.title
+caption.py
+
+### LABEL.title
+Unidad omitida
+
+### LABEL.title
+alt_claim.py
+
+### LABEL.title
+Sobreclaim
+
+### LABEL.title
+demo_chart_choice.py
+
+### LABEL.title
+demo_axes.py
+
+### LABEL.title
+demo_mpl.py
+
+### LABEL.title
+demo_compose.py
+
+### LABEL.title
+demo_tooltip.py
+
+### LABEL.title
+demo_a11y.py
+
+### LABEL.title
+demo_caption.py
+
+### LABEL.title
+demo_claims.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+exercise.py
+
+### LABEL.title
+Dashboard accesible CP-N2-B
+
+### callout.content
+No profundizamos en ORMs ni modelado SQL aquí. El foco es chart choice, ejes honestos, export reproducible y accesibilidad (a11y) para el dashboard CP-N2-B. Solo datos sintéticos; nunca PII real.
+
+### callout.content
+Si necesitas un párrafo para explicar el encoding, simplifica el chart.
+
+### callout.content
+Un eje Y que empieza cerca del mínimo infla diferencias percibidas. Exige baseline 0 o justificación escrita.
+
+### callout.content
+En servidores y CI usa Agg; no dependas de display interactivo.
+
+### callout.content
+build_figure(df) -> fig facilita tests y re-render del dashboard.
+
+### callout.content
+Si el modelo de tooltip/filtro es claro, migrar a Plotly/Streamlit es mecánico. Aquí evalúas el contrato, no la librería.
+
+### callout.content
+La alternativa no visual debe coincidir con el chart a la misma precisión publicada.
+
+### callout.content
+“28” sin PEN o sin % es un defecto de reporting.
+
+### callout.content
+El lenguaje del título no puede exceder la evidencia del EDA (S18).
+
+### intro
+Te muestro, paso a paso, cómo diseñar charts honestos, exportables y con alternativa accesible para el dashboard CP-N2-B: de la elección de chart al PNG real, del tooltip con n a la paridad chart↔tabla y al rechazo de sobreclaim.
+
+### intro
+24 ejercicios de elección de chart, ejes, Matplotlib, tooltips lógicos, a11y y claims (3 por subtema: guiado → independiente → transferencia). Cada starter trae un bug intencional de diseño o de contrato: corrígelo razonando el subtema (baseline, unidades, paridad, sampling, claims). No hay un “texto mágico de pass” en la consigna: diseña, imprime el resultado del contrato y compáralo con tu criterio del I Do.
+
+### iDo.description
+Elegir chart alineado a pregunta ejecutiva de comparación regional
+
+### iDo.description
+Cuantificar distorsión de un eje Y recortado en barras
+
+### iDo.description
+Componer barra Matplotlib con ylim desde 0, unidad y canal no-color (hatch)
+
+### iDo.description
+Anotar, guardar PNG real (BytesIO) y exportar metadata multi-panel
+
+### iDo.description
+Vista interactiva lógica con filtro y tooltip honesto
+
+### iDo.description
+Ofrecer alternativa tabular/textual con paridad al chart
+
+### iDo.description
+Etiquetar unidades, fuente y limitaciones en caption estructurado
+
+### iDo.description
+Validar alt text y rechazar sobreclaim causal/nacional
+
+### iDo.why
+La elección de chart se documenta como decisión de diseño, no estética.
+
+### iDo.why
+Mostrar el factor de inflación educa sobre encodings deshonestos.
+
+### iDo.why
+Figura mínima viable: baseline 0, unidad y hatch como canal no-color (a11y).
+
+### iDo.why
+savefig real (no solo dict) + nombre versionado habilita re-render del portfolio.
+
+### iDo.why
+Tooltip con unidad y n evita lecturas superficiales.
+
+### iDo.why
+La versión no visual es requisito del gate de dashboard accesible.
+
+### iDo.why
+Caption completo es parte del entregable, no un extra.
+
+### iDo.why
+Contraste de claims entrena el lenguaje del dashboard.
+
+### weDo.instruction
+E1 (guiado) — El comité quiere **comparar** el ticket mediano entre regiones (pocas categorías, magnitud absoluta). El starter elige un tipo de chart inadecuado para esa pregunta. Corrige la elección e imprime solo el tipo de chart resultante.
+
+### weDo.instruction
+E2 (independiente) — Un brief de diseño debe viajar con la figura: pregunta, audiencia y chart. Completa el dict del starter (faltan claves) para un ejecutivo que necesita totales por región, e imprímelo completo.
+
+### weDo.instruction
+E3 (transferencia) — Implementa `elige_chart(pregunta)` con una regla legible: si la pregunta menciona tendencia (sin importar mayúsculas), devuelve line; en caso contrario, bar para comparación. Prueba con “tendencia mensual” y “comparar regiones” (un resultado por línea).
+
+### weDo.instruction
+E1 (guiado) — Valores 50 y 45 con eje recortado en 40 vs baseline 0. Calcula el factor de inflación visual (altura relativa del truco ÷ altura relativa honesta) y muestra `factor` redondeado a 2 decimales. El starter tiene el denominador honesto mal planteado.
+
+### weDo.instruction
+E2 (independiente) — Implementa `gate_baseline(ylim_bottom, encoding)`: devuelve `honesto` si encoding es `bar_absolute` y ylim_bottom es 0; si encoding es `bar_absolute` y bottom ≠ 0, `revisar`; otros encodings (p. ej. `line_index`) → `ok_con_nota`. El starter siempre devuelve `ok_con_nota`: corrige la lógica y prueba con (40, \"bar_absolute\").
+
+### weDo.instruction
+E3 (transferencia) — Clasifica el riesgo del encoding `dual_axis` para un dashboard ejecutivo: debe reportar `riesgo_alto` (no “ok”). El starter invierte la lógica y aprueba dual-axis: corrígela para proteger al comité de dos escalas Y mezcladas.
+
+### weDo.instruction
+E1 (guiado) — Construye un bar chart Matplotlib (backend Agg) con dos barras y fuerza el eje Y desde 0. Imprime si `get_ylim()[0] == 0`. El starter trunca en 1: corrige el ylim y cierra la figura.
+
+### weDo.instruction
+E2 (independiente) — Dibuja dos barras (Sucursal-Sur=28, Sucursal-Centro=22.5) con backend Agg, etiqueta el eje Y como `Ticket mediano (PEN)`, fija ylim desde 0 y imprime un dict `{\"ylabel\": …, \"ylim0\": float(...)}`. El starter omite ylabel y deja el ylim por defecto: corrígelo y cierra la figura.
+
+### weDo.instruction
+E3 (transferencia) — Implementa `meta_bar(labels, values)` que dibuja barras regionales, fija ylim desde 0 hasta max(values)*1.2, y devuelve un dict con `n_bars` y `ylim0` como **float** de Python (no tipo numpy). Imprime el meta para Sucursal-Norte/Sucursal-Sur y valores 28/22.5 (mismo contrato visual del portfolio: baseline 0 y conteo de categorías).
+
+### weDo.instruction
+E1 (guiado) — Crea subplots 1×2 (Agg), guarda un PNG real a un `BytesIO` con dpi=120 y construye el dict de export: `fmt`, `dpi`, `panels` (contado desde `len(axes)`) y `png_ok` (True si el buffer tiene más de 500 bytes). El starter declara panels=1 y no hace savefig: corrígelo. Cierra la figura.
+
+### weDo.instruction
+E2 (independiente) — Genera el nombre versionado `fig_cpn2b_v{version}.png` con `version = 3`. El starter omite la versión en el nombre: corrígelo con f-string.
+
+### weDo.instruction
+E3 (transferencia) — Crea subplots 1×2, pon títulos de panel “Vol” y “Med” (no solo un suptitle), e imprime la lista de títulos con `get_title()` por axes. Cierra la figura.
+
+### weDo.instruction
+E1 (guiado) — Dada una lista de filas con región y mediana, recupera la mediana de **Oficina-Este** (no de Oficina-Oeste). El starter consulta la región equivocada: corrige el filtro e imprime el valor numérico.
+
+### weDo.instruction
+E2 (independiente) — El tooltip de Sucursal-Centro debe incluir valor, unidad PEN y tamaño muestral n=40 para no vender el KPI como censo. El starter omite n: corrige el formato a `Oficina-Este: 28 PEN (n=40)`.
+
+### weDo.instruction
+E3 (transferencia) — Escribe `tooltip(row)` que devuelva `\"{region}: {median} PEN (n={n})\"` para cualquier fila. Prueba con Sucursal-Norte 22.5 y n=32. El starter omite n en el template.
+
+### weDo.instruction
+E1 (guiado) — Paridad chart↔tabla con KPI sintético: el ticket mediano de Cliente-A en el chart (28.0 PEN) debe igualar el de la fila de tabla. El starter dejó la tabla en 27.5 (redondeo “de slide”): alinea a la precisión publicada e imprime el booleano de igualdad.
+
+### weDo.instruction
+E2 (independiente) — El estado del viewport debe ser JSON serializable **y** declarar honestidad de sampling: filtro Sucursal-Sur, `sample_n=5000`, `universe_n=50000`. Serializa con `json.dumps(..., ensure_ascii=False)`. El starter omite el universo y usa ensure_ascii=True: corrígelo.
+
+### weDo.instruction
+E3 (transferencia) — Genera alt text desde una tabla: une cada fila como `region=v PEN` con separador `\"; \"`. El starter omite la unidad PEN: corrígelo para Cliente-A=28 y Cliente-B=22.
+
+### weDo.instruction
+E1 (guiado) — El pie de figura mínimo del portfolio debe declarar unidad y fuente para trazabilidad. Completa el string del starter (falta fuente) al formato `unidad=PEN | fuente=sintetico`.
+
+### weDo.instruction
+E2 (independiente) — Valida que el dict de caption contenga al menos las claves `unidad`, `fuente` y `limitacion`. El starter omite `limitacion`: complétalo e imprime el booleano del superset de claves.
+
+### weDo.instruction
+E3 (transferencia) — Implementa `pie(cap)` que une `k: v` de cada item del dict con `\" | \"`. El starter solo une las keys: corrige el formatter y pruébalo con unidad=PEN y n=10.
+
+### weDo.instruction
+E1 (guiado) — Clasifica el claim “Cliente-B es la mejor del Perú”: si menciona “del Perú” y no menciona “muestra”, imprime RECHAZADO; si no, OK. El starter aprueba todo: implementa la regla.
+
+### weDo.instruction
+E2 (independiente) — Alternativa no visual y canal no-color: (1) el alt debe incluir el patrón `n=`; (2) las barras de categorías deben declarar un `hatch` distinto de `None` (no solo color). El starter falla ambos gates: corrígelos e imprime dos booleanos, uno por línea (`has_n`, luego `has_hatch`).
+
+### weDo.instruction
+E3 (transferencia) — Implementa `classify_claim(text)`: PERMITIDO si el texto contiene “muestra”, RECHAZADO en caso contrario. Clasifica “lidera en la muestra web” y “es la mejor del país” (un resultado por línea). El starter siempre devuelve PERMITIDO.
+
+### weDo.hint
+Comparar magnitudes entre categorías se lee mejor en barras.
+
+### weDo.hint
+Tres claves: pregunta, audiencia, chart.
+
+### weDo.hint
+Usa `in` sobre `pregunta.lower()`.
+
+### weDo.hint
+Altura truco = (50-45)/(50-40); altura honesta = (50-45)/50.
+
+### weDo.hint
+Prioriza el caso bar_absolute; solo entonces miras el bottom.
+
+### weDo.hint
+dual_axis es el caso de alto riesgo didáctico.
+
+### weDo.hint
+ax.set_ylim(0, …) y plt.close(fig).
+
+### weDo.hint
+set_ylabel + set_ylim(0, …) + float(get_ylim()[0]).
+
+### weDo.hint
+Usa float(ax.get_ylim()[0]) para salida estable.
+
+### weDo.hint
+savefig al buffer; panels = len(axes.flat) o 2 en 1×2.
+
+### weDo.hint
+Incluye _v y el número de versión antes de .png.
+
+### weDo.hint
+axes[0].set_title y axes[1].set_title.
+
+### weDo.hint
+next(...) o list comprehension filtrando region == \"Cliente-A\".
+
+### weDo.hint
+Incluye (n=…) en el f-string.
+
+### weDo.hint
+Función pura: solo usa claves del dict row.
+
+### weDo.hint
+chart['Cliente-B'] == table[0]['ticket_mediano_pen'].
+
+### weDo.hint
+Incluye sample_n y universe_n; ensure_ascii=False.
+
+### weDo.hint
+join con f-string que incluya PEN.
+
+### weDo.hint
+Une con \" | \" unidad y fuente.
+
+### weDo.hint
+set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"}.
+
+### weDo.hint
+join de f\"{k}: {v}\" sobre cap.items().
+
+### weDo.hint
+Chequea substrings \"del Perú\" y \"muestra\".
+
+### weDo.hint
+Completa el alt con n=…; asigna hatch (p. ej. '//') al primer patch o al dict de estilo.
+
+### weDo.hint
+Regla binaria didáctica con `\"muestra\" in text`.
+
+### weDo.hints[]
+Pregunta de comparación → barras (bar), no serie temporal.
+
+### weDo.hints[]
+Imprime únicamente el tipo de chart corregido.
+
+### weDo.hints[]
+Audiencia típica del comité: ejecutivo.
+
+### weDo.hints[]
+Chart alineado a comparación de totales: bar.
+
+### weDo.hints[]
+Normaliza a minúsculas antes de buscar la palabra clave.
+
+### weDo.hints[]
+Dos llamadas, dos prints (uno por caso).
+
+### weDo.hints[]
+Con baseline 0 el span es el valor máximo (50), no la diferencia entre barras.
+
+### weDo.hints[]
+factor = truco / honesto; redondea con round(..., 2).
+
+### weDo.hints[]
+if encoding == \"bar_absolute\": … elif …
+
+### weDo.hints[]
+Para la prueba del lab, con bottom=40 y bar_absolute el resultado es revisar.
+
+### weDo.hints[]
+Si encoding es dual_axis → riesgo_alto; si no → ok.
+
+### weDo.hints[]
+No apruebes dual_axis por defecto.
+
+### weDo.hints[]
+Backend Agg antes de importar pyplot.
+
+### weDo.hints[]
+El contrato es booleano: True solo si el bottom del ylim es 0.
+
+### weDo.hints[]
+La unidad va en el eje (PEN dentro del ylabel), no solo en el título del slide.
+
+### weDo.hints[]
+Convierte ylim0 a float nativo para salida estable.
+
+### weDo.hints[]
+Cuenta barras con len(values).
+
+### weDo.hints[]
+Fuerza set_ylim(0, max(values)*1.2) antes de leer ylim0.
+
+### weDo.hints[]
+import io; buf = io.BytesIO(); fig.savefig(buf, format='png', dpi=120).
+
+### weDo.hints[]
+No hardcodees panels=1: léelo de la figura (2 paneles).
+
+### weDo.hints[]
+png
+
+### weDo.hints[]
+f-string con {version}.
+
+### weDo.hints[]
+Prefijo acordado: fig_cpn2b.
+
+### weDo.hints[]
+suptitle no reemplaza títulos de panel en el contrato del grader.
+
+### weDo.hints[]
+Lista en el mismo orden de los axes.
+
+### weDo.hints[]
+Unidad PEN va después del valor.
+
+### weDo.hints[]
+n documenta el tamaño de la celda filtrada.
+
+### weDo.hints[]
+Incluye la unidad PEN de forma fija en el template.
+
+### weDo.hints[]
+n
+
+### weDo.hints[]
+La precisión publicada es un decimal: 28.0, no 27.5 ni 28.
+
+### weDo.hints[]
+Corrige la tabla (o el chart) para que coincidan exactamente.
+
+### weDo.hints[]
+Sin universe_n el lector cree que 5000 es el censo.
+
+### weDo.hints[]
+ensure_ascii=False evita escapes innecesarios en textos con tildes.
+
+### weDo.hints[]
+Recorre cada r en table.
+
+### weDo.hints[]
+Formato: {region}={v} PEN.
+
+### weDo.hints[]
+No omitas la clave fuente aunque sea sintético.
+
+### weDo.hints[]
+Mantén el orden unidad luego fuente.
+
+### weDo.hints[]
+Añade limitacion con un valor no vacío (p. ej. web).
+
+### weDo.hints[]
+No basta con tener unidad y fuente.
+
+### weDo.hints[]
+Usa .items() para no perder los valores.
+
+### weDo.hints[]
+El orden de inserción del dict define el orden del pie.
+
+### weDo.hints[]
+Sobreclaim típico: generaliza al país sin marco muestral.
+
+### weDo.hints[]
+RECHAZADO es el resultado esperado para este claim.
+
+### weDo.hints[]
+Primero arregla el string alt para que contenga n=.
+
+### weDo.hints[]
+Luego define hatch='//' (u otro patrón Matplotlib) y verifica hatch is not None.
+
+### weDo.hints[]
+//
+
+### weDo.hints[]
+No intentes NLP: substring basta para el lab.
+
+### weDo.hints[]
+Dos prints, en el orden de las dos frases de prueba.
+
+### weDo.edgeCases[]
+serie temporal mal clasificada como bar
+
+### weDo.edgeCases[]
+audiencia técnica puede preferir table
+
+### weDo.edgeCases[]
+mayúsculas en TENDENCIA
+
+### weDo.edgeCases[]
+baseline > min de la serie
+
+### weDo.edgeCases[]
+líneas de índice pueden no empezar en 0 (ok_con_nota)
+
+### weDo.edgeCases[]
+color-only sin segundo canal
+
+### weDo.edgeCases[]
+olvidar close y fugas de memoria en CI
+
+### weDo.edgeCases[]
+ylabel vacío o solo espacios
+
+### weDo.edgeCases[]
+values vacíos
+
+### weDo.edgeCases[]
+buffer vacío si olvidaste savefig
+
+### weDo.edgeCases[]
+version como string no numérica
+
+### weDo.edgeCases[]
+orientación 2×1
+
+### weDo.edgeCases[]
+sin match → StopIteration
+
+### weDo.edgeCases[]
+sin unidad
+
+### weDo.edgeCases[]
+keys faltantes → KeyError
+
+### weDo.edgeCases[]
+float con redondeos distintos entre chart y tabla
+
+### weDo.edgeCases[]
+estado no serializable (sets, objetos)
+
+### weDo.edgeCases[]
+tabla vacía → string vacío
+
+### weDo.edgeCases[]
+fuente vacía
+
+### weDo.edgeCases[]
+typo en clave limitacion
+
+### weDo.edgeCases[]
+valores None
+
+### weDo.edgeCases[]
+claims legítimos locales con muestra
+
+### weDo.edgeCases[]
+hatch vacío '' cuenta como falsy — usa un patrón real
+
+### weDo.edgeCases[]
+falsos positivos si la palabra aparece en otro sentido
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.tests
+salida coincide con solution output
+
+### weDo.feedback
+Si elegiste línea o pie, recuerda: comparar magnitudes entre pocas categorías se lee mejor en barras con baseline 0.
+
+### weDo.feedback
+Sin audiencia y chart en el brief, el informe S21 no sabe por qué se eligió ese encoding.
+
+### weDo.feedback
+La regla debe ser testeable: keywords en la pregunta, no un modelo opaco. Si “tendencia” no está, asume comparación → bar.
+
+### weDo.feedback
+Si el factor es >1, el eje recortado exagera la brecha. El gate del dashboard exige baseline 0 o justificación escrita.
+
+### weDo.feedback
+ylim_bottom=0 es el default ético en barras de PEN absolutas. Truncar sin nota es defecto; una línea de índice puede no partir de 0 si lo documentas.
+
+### weDo.feedback
+Dual-axis mezcla dos escalas Y y suele engañar al comité. Prefiere paneles separados o un solo encoding de posición.
+
+### weDo.feedback
+Si imprime False, el ylim aún no empieza en 0. Barras de magnitud absoluta no deben “recortar aire” bajo el mínimo.
+
+### weDo.feedback
+“28” sin unidad es defecto. Un ylabel con PEN y baseline 0 hacen honesto el encoding de longitud del ticket mediano.
+
+### weDo.feedback
+Convierte ylim0 a float nativo de Python para una salida estable entre entornos. n_bars debe coincidir con las categorías dibujadas; baseline 0 es el gate de honestidad del dashboard.
+
+### weDo.feedback
+El metadata de export debe reflejar la figura real (panels, dpi) y un PNG no vacío. Un dict inventado sin savefig no viaja a S20/S21.
+
+### weDo.feedback
+Sin versión en el filename, el factory no distingue re-renders. Un solo nombre sobrescribe el histórico del portfolio.
+
+### weDo.feedback
+Cada panel necesita título propio para que el comité lea Vol vs Med sin ambigüedad. suptitle es opcional; get_title del axes no lo hereda.
+
+### weDo.feedback
+El viewport filtrado debe recalcular el valor mostrado. Mostrar Sucursal-Norte cuando el filtro es Sucursal-Sur rompe la paridad con el tooltip.
+
+### weDo.feedback
+Tooltip sin n invita a leer 28 como si fuera población completa. Unidad + n son parte del contrato a11y del viewport.
+
+### weDo.feedback
+El template reutilizable evita tooltips distintos por región. Si falta n en el string, el gate de a11y falla.
+
+### weDo.feedback
+Sin paridad numérica, la alternativa accesible miente. El gate del portfolio exige los mismos números a la precisión publicada (aquí 28.0), no un “casi igual” de diseño.
+
+### weDo.feedback
+Estado no serializable no se audita. sample_n sin universe_n oculta el sesgo del viewport: documenta ambos para no vender un sample como censo.
+
+### weDo.feedback
+El alt text es la versión no visual del chart. Sin unidad, el lector de pantalla recibe números ambiguos.
+
+### weDo.feedback
+Sin fuente, el gráfico no entra al portfolio CP-N2-B. Unidad sola no basta para trazabilidad.
+
+### weDo.feedback
+limitacion documenta el marco (solo canal web, n bajo, etc.). Sin ella el claim del título puede sobre-extenderse.
+
+### weDo.feedback
+Un pie solo con nombres de clave no comunica nada al lector. k: v es el contrato estable hacia S21.
+
+### weDo.feedback
+Generalizar de una muestra web a “todo el Perú” es sobreclaim. Exige el marco muestral en el lenguaje del dashboard.
+
+### weDo.feedback
+Alt sin n= es incompleto. Hatch (o etiqueta/posición) evita que el daltonismo pierda la categoría: color solo no basta (WCAG 1.4.1).
+
+### weDo.feedback
+El gate didáctico entrena el hábito: sin marco muestral, el claim no pasa. En producción refinarías la política; aquí la regla es explícita y testeable.
+
+### youDo.context
+Construye el incremento dashboard de **CP-N2-B**: al menos cuatro gráficos estáticos y una vista interactiva lógica, cada uno con conclusión limitada a evidencia y alternativa no visual. Continúa el hilo de S18 (medianas, n e incertidumbre por región sintéticas Oficina-Oeste/Cliente-A/Arequipa en PEN). El starter trae datos y un esqueleto de funciones: completa cada builder, exporta PNG reales y escribe alt/tabla con paridad.
+
+### youDo.objectives[]
+Elegir charts por pregunta/audiencia y documentar el brief
+
+### youDo.objectives[]
+Ejes honestos (baseline 0 en barras) y unidades visibles en el ylabel
+
+### youDo.objectives[]
+Export versionado (savefig real) + captions con unidad/fuente/limitación
+
+### youDo.objectives[]
+Alt text por figura y claims sin sobreclaim nacional
+
+### youDo.objectives[]
+Paridad numérica chart/tabla y canal no-color (hatch o etiqueta)
+
+### youDo.requirements[]
+Datos sintéticos únicamente (sin PII real); usa el DataFrame del starter o equivalente documentado
+
+### youDo.requirements[]
+ylim de barras desde 0 salvo justificación escrita en el caption
+
+### youDo.requirements[]
+Caption con unidad, fuente y limitación en cada figura
+
+### youDo.requirements[]
+Alt text por figura con hallazgo + n (y unidad)
+
+### youDo.requirements[]
+Tabla de paridad con los mismos números que los charts (misma precisión)
+
+### youDo.requirements[]
+Categorías críticas: no solo color — hatch, etiqueta o posición como canal extra
+
+### youDo.requirements[]
+Si el viewport usa sample, declara sample_n y universe_n (no vender sample como censo)
+
+### youDo.requirements[]
+es-PE en títulos y conclusiones; claims acotados a la muestra
+
+### youDo.requirements[]
+Una spec de vista interactiva (filtro + tooltip template), sin librería obligatoria
+
+### youDo.requirements[]
+Export real: savefig (PNG) con dpi documentado y nombre versionado (fig_cpn2b_v*.png)
+
+### youDo.requirements[]
+Checklist de aceptación: 4 PNG + vista_logica.json + tabla_paridad + alt_*.txt; plt.close en cada builder
+
+### youDo.portfolioNote
+Dashboard del factory CP-N2-B; se integra con Excel (S20) y reportes (S21). Entrega figuras versionadas + specs JSON + alts/tabla de paridad. Completa los builders pendientes y documenta limitaciones (canal web, n regional).
+
+### rubric.criterion
+Charts honestos (baseline 0 en barras, unidades visibles) + alt/tabla con paridad numérica
+
+### rubric.criterion
+Cuatro figuras estáticas + una spec de vista interactiva (filtro/tooltip)
+
+### rubric.criterion
+Captions con unidad, fuente y limitación; export PNG real versionado
+
+### rubric.criterion
+Sin sobreclaim: lenguaje acotado a la muestra; sin PII real
+
+### rubric.criterion
+Código legible, funciones reutilizables, backend Agg y close de figuras
+
+### rubric.criterion
+Documentación en español profesional (es-PE); canal no-color en categorías críticas
+
+### selfCheck.question
+Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?
+
+### selfCheck.question
+Una alternativa accesible debe:
+
+### selfCheck.question
+“Sucursal-Centro es la mejor región del Perú” a partir de una muestra web es:
+
+### selfCheck.question
+El caption de un gráfico de portfolio debe incluir:
+
+### selfCheck.question
+Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP-N2-B?
+
+### selfCheck.options[]
+Pie 3D
+
+### selfCheck.options[]
+Dual axis sin escala
+
+### selfCheck.options[]
+Barras con baseline 0
+
+### selfCheck.options[]
+Word cloud
+
+### selfCheck.options[]
+Repetir los mismos números clave del chart
+
+### selfCheck.options[]
+Ser opcional siempre
+
+### selfCheck.options[]
+Solo ser una imagen más grande
+
+### selfCheck.options[]
+Eliminar las unidades
+
+### selfCheck.options[]
+Un claim permitido
+
+### selfCheck.options[]
+Sobreclaim / generalización indebida
+
+### selfCheck.options[]
+Un alt text correcto
+
+### selfCheck.options[]
+Una unidad
+
+### selfCheck.options[]
+Solo el color favorito
+
+### selfCheck.options[]
+La contraseña del BI
+
+### selfCheck.options[]
+Nada
+
+### selfCheck.options[]
+Unidad, fuente y limitaciones
+
+### selfCheck.options[]
+Aceptarlo si los colores tienen buen contraste
+
+### selfCheck.options[]
+Convertirlo automáticamente a dual-axis para “ganar espacio”
+
+### selfCheck.options[]
+Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita
+
+### selfCheck.options[]
+Eliminar las etiquetas de ejes para que se vea más limpio en el slide
+
+### selfCheck.explanation
+Las barras con baseline 0 comunican magnitudes absolutas de forma honesta. Pie 3D distorsiona áreas; dual-axis sin escala confunde; word cloud no compara cantidades.
+
+### selfCheck.explanation
+Paridad numérica: tabla o texto con los mismos valores y unidades que el chart. Agrandar la imagen no sustituye un equivalente no visual.
+
+### selfCheck.explanation
+El lenguaje no debe exceder la cobertura de la muestra. Formulación permitida: “en la muestra web sintética, Oficina-Este muestra el ticket mediano más alto”.
+
+### selfCheck.explanation
+Trazabilidad y honestidad metodológica: unidad, fuente, corte y limitación viajan con la figura hacia S20/S21.
+
+### selfCheck.explanation
+Recortar el baseline de barras de magnitudes absolutas infla diferencias percibidas. El gate pide ylim 0 o justificación documentada; contraste o dual-axis no corrigen el encoding deshonesto.

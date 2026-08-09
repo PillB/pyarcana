@@ -1,0 +1,481 @@
+{
+  "ts": "2026-07-25T18:13:22.664030+00:00",
+  "running": [],
+  "reports_count": 52,
+  "reports": {
+    "1": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S01_FIXER_REPORT.md",
+      "bytes": 13476,
+      "has_closer": true,
+      "closer_section": 1
+    },
+    "2": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S02_FIXER_REPORT.md",
+      "bytes": 13023,
+      "has_closer": true,
+      "closer_section": 2
+    },
+    "3": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S03_FIXER_REPORT.md",
+      "bytes": 13000,
+      "has_closer": true,
+      "closer_section": 3
+    },
+    "4": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S04_FIXER_REPORT.md",
+      "bytes": 12700,
+      "has_closer": true,
+      "closer_section": 4
+    },
+    "5": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S05_FIXER_REPORT.md",
+      "bytes": 14829,
+      "has_closer": true,
+      "closer_section": 5
+    },
+    "6": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S06_FIXER_REPORT.md",
+      "bytes": 13662,
+      "has_closer": true,
+      "closer_section": 6
+    },
+    "7": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S07_FIXER_REPORT.md",
+      "bytes": 12678,
+      "has_closer": true,
+      "closer_section": 7
+    },
+    "8": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S08_FIXER_REPORT.md",
+      "bytes": 12059,
+      "has_closer": true,
+      "closer_section": 8
+    },
+    "9": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S09_FIXER_REPORT.md",
+      "bytes": 12671,
+      "has_closer": true,
+      "closer_section": 9
+    },
+    "10": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S10_FIXER_REPORT.md",
+      "bytes": 13623,
+      "has_closer": true,
+      "closer_section": 10
+    },
+    "11": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S11_FIXER_REPORT.md",
+      "bytes": 12189,
+      "has_closer": true,
+      "closer_section": 11
+    },
+    "12": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S12_FIXER_REPORT.md",
+      "bytes": 11904,
+      "has_closer": true,
+      "closer_section": 12
+    },
+    "13": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S13_FIXER_REPORT.md",
+      "bytes": 15138,
+      "has_closer": true,
+      "closer_section": 13
+    },
+    "14": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S14_FIXER_REPORT.md",
+      "bytes": 12035,
+      "has_closer": true,
+      "closer_section": 14
+    },
+    "15": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S15_FIXER_REPORT.md",
+      "bytes": 12131,
+      "has_closer": true,
+      "closer_section": 15
+    },
+    "16": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S16_FIXER_REPORT.md",
+      "bytes": 13147,
+      "has_closer": true,
+      "closer_section": 16
+    },
+    "17": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S17_FIXER_REPORT.md",
+      "bytes": 12929,
+      "has_closer": true,
+      "closer_section": 17
+    },
+    "18": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S18_FIXER_REPORT.md",
+      "bytes": 12953,
+      "has_closer": true,
+      "closer_section": 18
+    },
+    "19": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S19_FIXER_REPORT.md",
+      "bytes": 12133,
+      "has_closer": true,
+      "closer_section": 19
+    },
+    "20": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S20_FIXER_REPORT.md",
+      "bytes": 14333,
+      "has_closer": true,
+      "closer_section": 20
+    },
+    "21": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S21_FIXER_REPORT.md",
+      "bytes": 13645,
+      "has_closer": true,
+      "closer_section": 21
+    },
+    "22": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S22_FIXER_REPORT.md",
+      "bytes": 15589,
+      "has_closer": true,
+      "closer_section": 22
+    },
+    "23": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S23_FIXER_REPORT.md",
+      "bytes": 12567,
+      "has_closer": true,
+      "closer_section": 23
+    },
+    "24": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S24_FIXER_REPORT.md",
+      "bytes": 10765,
+      "has_closer": true,
+      "closer_section": 24
+    },
+    "25": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S25_FIXER_REPORT.md",
+      "bytes": 13496,
+      "has_closer": true,
+      "closer_section": 25
+    },
+    "26": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S26_FIXER_REPORT.md",
+      "bytes": 11379,
+      "has_closer": true,
+      "closer_section": 26
+    },
+    "27": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S27_FIXER_REPORT.md",
+      "bytes": 12254,
+      "has_closer": true,
+      "closer_section": 27
+    },
+    "28": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S28_FIXER_REPORT.md",
+      "bytes": 14886,
+      "has_closer": true,
+      "closer_section": 28
+    },
+    "29": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S29_FIXER_REPORT.md",
+      "bytes": 12864,
+      "has_closer": true,
+      "closer_section": 29
+    },
+    "30": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S30_FIXER_REPORT.md",
+      "bytes": 13916,
+      "has_closer": true,
+      "closer_section": 30
+    },
+    "31": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S31_FIXER_REPORT.md",
+      "bytes": 12143,
+      "has_closer": true,
+      "closer_section": 31
+    },
+    "32": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S32_FIXER_REPORT.md",
+      "bytes": 11919,
+      "has_closer": true,
+      "closer_section": 32
+    },
+    "33": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S33_FIXER_REPORT.md",
+      "bytes": 10696,
+      "has_closer": true,
+      "closer_section": 33
+    },
+    "34": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S34_FIXER_REPORT.md",
+      "bytes": 14535,
+      "has_closer": true,
+      "closer_section": 34
+    },
+    "35": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S35_FIXER_REPORT.md",
+      "bytes": 11461,
+      "has_closer": true,
+      "closer_section": 35
+    },
+    "36": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S36_FIXER_REPORT.md",
+      "bytes": 13341,
+      "has_closer": true,
+      "closer_section": 36
+    },
+    "37": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S37_FIXER_REPORT.md",
+      "bytes": 13217,
+      "has_closer": true,
+      "closer_section": 37
+    },
+    "38": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S38_FIXER_REPORT.md",
+      "bytes": 11841,
+      "has_closer": true,
+      "closer_section": 38
+    },
+    "39": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S39_FIXER_REPORT.md",
+      "bytes": 11537,
+      "has_closer": true,
+      "closer_section": 39
+    },
+    "40": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S40_FIXER_REPORT.md",
+      "bytes": 14067,
+      "has_closer": true,
+      "closer_section": 40
+    },
+    "41": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S41_FIXER_REPORT.md",
+      "bytes": 11985,
+      "has_closer": true,
+      "closer_section": 41
+    },
+    "42": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S42_FIXER_REPORT.md",
+      "bytes": 11611,
+      "has_closer": true,
+      "closer_section": 42
+    },
+    "43": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S43_FIXER_REPORT.md",
+      "bytes": 12082,
+      "has_closer": true,
+      "closer_section": 43
+    },
+    "44": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S44_FIXER_REPORT.md",
+      "bytes": 10497,
+      "has_closer": true,
+      "closer_section": 44
+    },
+    "45": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S45_FIXER_REPORT.md",
+      "bytes": 13680,
+      "has_closer": true,
+      "closer_section": 45
+    },
+    "46": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S46_FIXER_REPORT.md",
+      "bytes": 13929,
+      "has_closer": true,
+      "closer_section": 46
+    },
+    "47": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S47_FIXER_REPORT.md",
+      "bytes": 11822,
+      "has_closer": true,
+      "closer_section": 47
+    },
+    "48": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S48_FIXER_REPORT.md",
+      "bytes": 12259,
+      "has_closer": true,
+      "closer_section": 48
+    },
+    "49": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S49_FIXER_REPORT.md",
+      "bytes": 14071,
+      "has_closer": true,
+      "closer_section": 49
+    },
+    "50": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S50_FIXER_REPORT.md",
+      "bytes": 12658,
+      "has_closer": true,
+      "closer_section": 50
+    },
+    "51": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S51_FIXER_REPORT.md",
+      "bytes": 14766,
+      "has_closer": true,
+      "closer_section": 51
+    },
+    "52": {
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/round2/S52_FIXER_REPORT.md",
+      "bytes": 12345,
+      "has_closer": true,
+      "closer_section": 52
+    }
+  },
+  "worklog_entries": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52
+  ],
+  "finished_meta": {
+    "27": "exit:0\n2026-07-25T17:43:42Z",
+    "31": "exit:0\n2026-07-25T17:52:24Z",
+    "11": "exit:0\n2026-07-25T17:25:41Z",
+    "46": "exit:0\n2026-07-25T18:06:06Z",
+    "50": "exit:0\n2026-07-25T18:11:26Z",
+    "7": "exit:0\n2026-07-25T17:24:44Z",
+    "6": "exit:0\n2026-07-25T17:31:44Z",
+    "51": "exit:0\n2026-07-25T18:12:31Z",
+    "47": "exit:0\n2026-07-25T18:05:10Z",
+    "10": "exit:0\n2026-07-25T17:34:16Z",
+    "30": "exit:0\n2026-07-25T17:51:01Z",
+    "26": "exit:0\n2026-07-25T17:44:41Z",
+    "17": "exit:0\n2026-07-25T17:28:11Z",
+    "40": "exit:0\n2026-07-25T18:00:27Z",
+    "1": "exit:0\n2026-07-25T17:28:10Z",
+    "21": "exit:0\n2026-07-25T17:40:41Z",
+    "37": "exit:0\n2026-07-25T17:59:58Z",
+    "36": "exit:0\n2026-07-25T17:59:01Z",
+    "20": "exit:0\n2026-07-25T17:21:51Z",
+    "41": "exit:0\n2026-07-25T17:22:50Z",
+    "16": "exit:0\n2026-07-25T17:38:26Z",
+    "39": "exit:0\n2026-07-25T18:00:35Z",
+    "3": "exit:0\n2026-07-25T17:20:58Z",
+    "42": "exit:0\n2026-07-25T17:59:11Z",
+    "15": "exit:0\n2026-07-25T17:37:16Z",
+    "35": "exit:0\n2026-07-25T17:54:29Z",
+    "23": "exit:0\n2026-07-25T17:38:59Z",
+    "19": "exit:0\n2026-07-25T17:20:57Z",
+    "18": "exit:0\n2026-07-25T17:21:28Z",
+    "22": "exit:0\n2026-07-25T17:39:26Z",
+    "34": "exit:0\n2026-07-25T17:52:26Z",
+    "14": "exit:0\n2026-07-25T17:36:46Z",
+    "43": "exit:0\n2026-07-25T18:03:02Z",
+    "2": "exit:0\n2026-07-25T17:30:05Z",
+    "38": "exit:0\n2026-07-25T17:58:37Z",
+    "33": "exit:0\n2026-07-25T17:52:15Z",
+    "25": "exit:0\n2026-07-25T17:43:37Z",
+    "9": "exit:0\n2026-07-25T17:33:53Z",
+    "48": "exit:0\n2026-07-25T18:08:38Z",
+    "29": "exit:0\n2026-07-25T17:46:54Z",
+    "5": "exit:0\n2026-07-25T17:29:58Z",
+    "52": "exit:0\n2026-07-25T18:10:38Z",
+    "44": "exit:0\n2026-07-25T18:04:01Z",
+    "13": "exit:0\n2026-07-25T17:33:19Z",
+    "12": "exit:0\n2026-07-25T17:27:41Z",
+    "45": "exit:0\n2026-07-25T18:05:44Z",
+    "4": "exit:0\n2026-07-25T17:19:59Z",
+    "28": "exit:0\n2026-07-25T17:45:39Z",
+    "49": "exit:0\n2026-07-25T18:11:44Z",
+    "8": "exit:0\n2026-07-25T17:25:59Z",
+    "24": "exit:0\n2026-07-25T17:44:54Z",
+    "32": "exit:0\n2026-07-25T17:50:59Z"
+  },
+  "modified_section_files": [
+    " M src/lib/course/sections/s01-setup.ts",
+    " M src/lib/course/sections/s02-basics.ts",
+    " M src/lib/course/sections/s03-data-structures.ts",
+    " M src/lib/course/sections/s04-functions-modules.ts",
+    " M src/lib/course/sections/s05-oop.ts",
+    " M src/lib/course/sections/s06-numpy.ts",
+    " M src/lib/course/sections/s07-data-acquisition.ts",
+    " M src/lib/course/sections/s08-pandas.ts",
+    " M src/lib/course/sections/s09-visualization.ts",
+    " M src/lib/course/sections/s10-sklearn.ts",
+    " M src/lib/course/sections/s11-testing.ts",
+    " M src/lib/course/sections/s12-performance.ts",
+    " M src/lib/course/sections/s13-rpa-automation.ts",
+    " M src/lib/course/sections/s14-security.ts",
+    " M src/lib/course/sections/s15-stdlib-deep.ts",
+    " M src/lib/course/sections/s16-wxpython-gui.ts",
+    " M src/lib/course/sections/s17-packaging.ts",
+    " M src/lib/course/sections/s18-data-engineering.ts",
+    " M src/lib/course/sections/s19-databases-orm.ts",
+    " M src/lib/course/sections/s20-rag.ts",
+    " M src/lib/course/sections/s21-fastapi.ts",
+    " M src/lib/course/sections/s22-rapidfuzz-entity.ts",
+    " M src/lib/course/sections/s23-computer-vision.ts",
+    " M src/lib/course/sections/s24-rpa-advanced.ts",
+    " M src/lib/course/sections/s25-streamlit-dashboards.ts",
+    " M src/lib/course/sections/s26-integrator-phase1.ts",
+    " M src/lib/course/sections/s27-async-concurrency.ts",
+    " M src/lib/course/sections/s28-llm-agents.ts",
+    " M src/lib/course/sections/s29-mlops.ts",
+    " M src/lib/course/sections/s30-security-infra.ts",
+    " M src/lib/course/sections/s31-streaming-data.ts",
+    " M src/lib/course/sections/s32-microservices.ts",
+    " M src/lib/course/sections/s33-advanced-models.ts",
+    " M src/lib/course/sections/s34-cv-ai-integration.ts",
+    " M src/lib/course/sections/s35-system-design.ts",
+    " M src/lib/course/sections/s36-ai-apis-advanced.ts",
+    " M src/lib/course/sections/s37-dbt-bigquery.ts",
+    " M src/lib/course/sections/s38-performance-extreme.ts",
+    " M src/lib/course/sections/s39-integrator-phase2.ts",
+    " M src/lib/course/sections/s40-agentic-architecture.ts",
+    " M src/lib/course/sections/s41-llm-finetuning.ts",
+    " M src/lib/course/sections/s42-graph-rag.ts",
+    " M src/lib/course/sections/s43-llmops.ts",
+    " M src/lib/course/sections/s44-multimodal.ts",
+    " M src/lib/course/sections/s45-iac.ts",
+    " M src/lib/course/sections/s46-gpu-computing.ts",
+    " M src/lib/course/sections/s47-opensource.ts",
+    " M src/lib/course/sections/s48-ai-governance.ts",
+    " M src/lib/course/sections/s49-data-contracts.ts",
+    " M src/lib/course/sections/s50-tech-leadership.ts",
+    " M src/lib/course/sections/s51-integrator-final.ts",
+    " M src/lib/course/sections/s52-career-strategy.ts"
+  ]
+}

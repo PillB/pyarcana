@@ -1,0 +1,540 @@
+{
+  "agent": "b",
+  "section_index": 21,
+  "recorded_at": "2026-08-01T15:15:19.123824+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          5.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "OCR / tratamiento de imagen",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "Mismas métricas clave en dashboard, Excel y documento",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          2.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "Omitir el PDF si el DOCX se ve bien",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "Porque hallazgo ≠ decisión de negocio hasta revisión humana",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          7.15,
+          5.0,
+          6.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "null sin mención en el caption",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          5.0,
+          4.0,
+          5.15
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          7.15,
+          7.15,
+          6.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S21-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — portada Jinja del factory\n# TODO: Template con {{ region }} y {{ n }}; no hardcodees la línea final\nfrom jinja2 import Template\nprint(\"CASO-LIM-021 · Lima\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "starter",
+          "solo",
+          "comillas",
+          "sin",
+          "revisa",
+          "renderizado",
+          "imprime",
+          "texto"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — KPI multi-var\n# TODO: incluye n={{ n }} en la plantilla\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN\").render(m=28, n=40))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "resultante",
+          "pasa",
+          "tiene",
+          "starter",
+          "solo",
+          "incluir",
+          "cadena",
+          "abre"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — render_kpi reutilizable\n# TODO: la plantilla debe incluir n={{ n }}\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n return Template(\"{{ region }}: {{ median }} PEN\").render(**ctx)\nprint(render_kpi({\"region\": \"Madrid\", \"median\": 22.5, \"n\": 18}))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "resultado",
+          "starter",
+          "completa",
+          "mediana",
+          "región",
+          "imprime",
+          "declara",
+          "prueba"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — missing como em-dash\n# TODO: no imprimas None ni 0 cuando falta el dato\nmedian = None\nprint(median)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "starter",
+          "rellenar",
+          "escribe",
+          "inventes",
+          "revisa",
+          "hace",
+          "cero",
+          "valor"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — formato .2f\n# TODO: formatea a dos decimales\nx = 28.456\nprint(x)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "crudo",
+          "mentalmente",
+          "starter",
+          "solo",
+          "formateado",
+          "verifica",
+          "imprime",
+          "valor"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — jinja for de filas\n# TODO: itera rows y emite region:v por línea\nfrom jinja2 import Template\ntmpl = Template(\"static\")\nprint(tmpl.render(rows=[{\"region\": \"Lima\", \"v\": 1}, {\"region\": \"Madrid\", \"v\": 2}]), end=\"\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "dentro",
+          "reemplaza",
+          "dicts",
+          "pasa",
+          "final",
+          "lista",
+          "trae",
+          "bucle"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — docx con Resumen y n=\n# TODO: usa add_heading para Resumen e incluye n=40 en un párrafo\nfrom pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_paragraph(\"Informe sintético\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\nprint(path.exists(), path.read_bytes()[:2] == b\"PK\")\nprint(\"Resumen\" in text, \"n=40\" in text)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "pares",
+          "imprime",
+          "salida",
+          "revisa",
+          "dos",
+          "formato",
+          "título",
+          "incluya"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — estilos Heading reales\n# TODO: usa add_heading(text, level), no solo add_paragraph\nfrom docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n doc.add_paragraph(text)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\nprint(styles.count(\"Heading 1\"))\nprint(styles)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "guarda",
+          "construye",
+          "reabre",
+          "starter",
+          "párrafos",
+          "conteo",
+          "bug",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — tabla con missing honesto\n# TODO: Reclamos debe ser — (em dash), no 0\nfrom docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"0\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n cells = table.add_row().cells\n cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\nopened = Document(\"auditoria.docx\")\nrows = [[c.text for c in row.cells] for row in opened.tables[0].rows]\nprint(rows[1])\nprint(rows[2], rows[2][1] != \"0\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "guarda",
+          "reabre",
+          "bucle",
+          "filas",
+          "conserva",
+          "fila",
+          "lista",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — PDF con capa de texto\n# TODO: incluye n=40 en el drawString\nfrom pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\nprint(path.read_bytes()[:4] == b\"%PDF\")\nprint(\"n=40\" in text)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "normaliza",
+          "starter",
+          "antes",
+          "dos",
+          "scaffold",
+          "dibuja",
+          "imprime",
+          "booleanos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — PDF a PNG\n# TODO: renderiza la página 0 a png con fitz\nfrom pathlib import Path\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\nprint(pdf.stat().st_size > 0, png.exists())",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ambos",
+          "positivos",
+          "tras",
+          "línea",
+          "abre",
+          "get_pixmap",
+          "dos",
+          "paths"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Conserva el pipeline PNG → `drawImage` (sin texto vectorial).n2. Extrae y normaliza `extract_text() or \"\"`.n3. Imprim",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S21-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — hallazgo H→evidencia\n# TODO: completa id, evidencia Tabla1 y decision=None; no dejes una decisión de negocio\nh = {\n \"claim\": \"Lima > Madrid en mediana\",\n \"decision\": \"subir precios\",\n}\nprint(h.get(\"id\"), h.get(\"evidencia\"))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "agrega",
+          "starter",
+          "pon",
+          "bug",
+          "trae",
+          "booleano"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — resumen auditable (n= + PEN)\n# TODO: el resumen debe incluir n= y PEN; valida ambas\ns = \"mediana 28\"\nprint(\"n=\" in s)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "reemplaza",
+          "solo",
+          "ejemplo",
+          "mencionar",
+          "imprime",
+          "válido",
+          "booleano",
+          "incluya"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — pack_report\n# TODO: incluye la clave metodo en el dict\ndef pack_report(resumen, metodo, hallazgos):\n return {\"resumen\": resumen, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "argumentos",
+          "resultado",
+          "firma",
+          "tiene",
+          "alteres",
+          "starter",
+          "solo",
+          "llamada"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — paridad dash/doc + limits\n# TODO: alinea median_Lima y declara limits web-only\npackage = {\n \"dash\": {\"median_Lima\": 28.0},\n \"doc\": {\"median_Lima\": 27.0},\n \"limits\": [],\n}\nprint(package[\"dash\"] == package[\"doc\"], \"solo web\" in package[\"limits\"])",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "otras",
+          "claves",
+          "métrica",
+          "inventes",
+          "pon",
+          "imprime",
+          "corrige"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — caption con Fuente\n# TODO: el caption debe declarar Fuente de forma visible (y n=40)\ncap = \"Fig1 | n=40\"\nprint(\"Fuente\" in cap)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "segmento",
+          "tiene",
+          "starter",
+          "sin",
+          "equivalente",
+          "conserva",
+          "amplía",
+          "muestra"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — check_parity tres vías\n# TODO: compara a, b y c (no solo a==b)\ndef check_parity(a, b, c):\n return a == b\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "entrada",
+          "encadenada",
+          "dicts",
+          "mutes",
+          "cambia",
+          "starter",
+          "hace",
+          "bug"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — precisión 1 decimal\n# TODO: redondea a 1 decimal, no a 0\nvals = [28.04, 28.0]\nprint([round(v, 0) for v in vals])",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ambos",
+          "resultante",
+          "elementos",
+          "cambia",
+          "starter",
+          "hace",
+          "verifica",
+          "bug"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — fmt_pen centralizado\n# TODO: incluye la unidad PEN en el string\ndef fmt_pen(x):\n return f\"{round(float(x), 1)}\"\nprint(fmt_pen(28.04))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "agrega",
+          "starter",
+          "solo",
+          "formatea",
+          "conserva",
+          "número",
+          "imprime",
+          "literal"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — a11y_min H1 + alts no vacíos\n# TODO: exige al menos un alt y longitud útil en cada uno; no solo has_h1\ndef a11y_min(has_h1, alts):\n return has_h1\nprint(a11y_min(True, [\"descripción larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\nprint(a11y_min(True, []))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "vacío",
+          "retorna",
+          "válido",
+          "starter",
+          "conserva",
+          "prints",
+          "case",
+          "for"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — manifiesto de provenance\n# TODO: completa run_id, huella corta y approval.status=pending_review\nprov = {\n \"artifacts\": [\"informe.docx\", \"informe.pdf\"],\n \"approval\": {\"status\": \"approved\"},\n}\nprint(prov[\"approval\"][\"status\"])",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ambos",
+          "fcd67",
+          "tiene",
+          "agrega",
+          "cambia",
+          "starter",
+          "línea",
+          "cpn2b"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — huella corta de lab\n# TODO: imprime solo los primeros 8 hex del sha1\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest())",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "resultado",
+          "cadena",
+          "starter",
+          "conserva",
+          "entero"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lab CASO-LIM-021 — ready checklist\n# TODO: exige all(), no any()\ndef ready(checklist):\n return any(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "retorna",
+          "incompleta",
+          "mano",
+          "starter",
+          "salida",
+          "conserva",
+          "rellenes",
+          "dos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "bb55d4a7438616af"
+  }
+}

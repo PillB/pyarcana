@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_K1",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s29-4f41d9451eca",
+  "production_note": "agentic_K1 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "id": "S29-T1-A-E1",
+      "code": "# Lectura Explorer del contrato S29-T1-A-E1 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint('ok')\n",
+      "justification_from_packet": "Para S29-T1-A-E1 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sint». Hint usado: «sqlite3». [Exp-29-E1]",
+      "confidence": 0.63,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "id": "S29-T1-A-E2",
+      "code": "# Lectura Explorer del contrato S29-T1-A-E2 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\nprint('ok')\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T1-A-E2 (independent) leyendo la instruction del quiz_card: «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @…». La pista «try/except» fijó el patrón observable; conf~0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "id": "S29-T1-A-E3",
+      "code": "# Lectura Explorer del contrato S29-T1-A-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "justification_from_packet": "Explorer-A: el weDo S29-T1-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['comparación strings', 'a<b'] y en el tramo «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-L» sin inventar APIs fuera del card.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "id": "S29-T1-B-E1",
+      "code": "# Lectura Explorer del contrato S29-T1-B-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "justification_from_packet": "Para S29-T1-B-E1 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LI». Hint usado: «append-only». [Exp-29-E1]",
+      "confidence": 0.75,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "id": "S29-T1-B-E2",
+      "code": "# Lectura Explorer del contrato S29-T1-B-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T1-B-E2 (independent) leyendo la instruction del quiz_card: «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la e…». La pista «dict» fijó el patrón observable; conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "id": "S29-T1-B-E3",
+      "code": "# Lectura Explorer del contrato S29-T1-B-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T1-B-E3 (transfer) leyendo la instruction del quiz_card: «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exam…». La pista «None» fijó el patrón observable; conf~0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "id": "S29-T2-A-E1",
+      "code": "# Lectura Explorer del contrato S29-T2-A-E1 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint('ok')\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T2-A-E1: la salida contractual sigue «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LI». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.67.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "id": "S29-T2-A-E2",
+      "code": "# Lectura Explorer del contrato S29-T2-A-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T2-A-E2: la salida contractual sigue «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintétic». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "id": "S29-T2-A-E3",
+      "code": "# Lectura Explorer del contrato S29-T2-A-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T2-A-E3: la salida contractual sigue «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "id": "S29-T2-B-E1",
+      "code": "# Lectura Explorer del contrato S29-T2-B-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T2-B-E1 (guided) leyendo la instruction del quiz_card: «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; imp…». La pista «combinatoria» fijó el patrón observable; conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "id": "S29-T2-B-E2",
+      "code": "# Lectura Explorer del contrato S29-T2-B-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T2-B-E2 (independent) leyendo la instruction del quiz_card: «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @examp…». La pista «is» fijó el patrón observable; conf~0.67.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "id": "S29-T2-B-E3",
+      "code": "# Lectura Explorer del contrato S29-T2-B-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "justification_from_packet": "Para S29-T2-B-E3 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default di». Hint usado: «string». [Exp-29-E3]",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "id": "S29-T3-A-E1",
+      "code": "# Lectura Explorer del contrato S29-T3-A-E1 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint('ok')\n",
+      "justification_from_packet": "Explorer-A: el weDo S29-T3-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['rollback', 'atomic'] y en el tramo «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-» sin inventar APIs fuera del card.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "id": "S29-T3-A-E2",
+      "code": "# Lectura Explorer del contrato S29-T3-A-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "justification_from_packet": "Explorer-A: el weDo S29-T3-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['string', 'ACID'] y en el tramo «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales r» sin inventar APIs fuera del card.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "id": "S29-T3-A-E3",
+      "code": "# Lectura Explorer del contrato S29-T3-A-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T3-A-E3 (transfer) leyendo la instruction del quiz_card: «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exam…». La pista «guard» fijó el patrón observable; conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "id": "S29-T3-B-E1",
+      "code": "# Lectura Explorer del contrato S29-T3-B-E1 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nprint('ok')\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T3-B-E1: la salida contractual sigue «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintéti». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "id": "S29-T3-B-E2",
+      "code": "# Lectura Explorer del contrato S29-T3-B-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "justification_from_packet": "Para S29-T3-B-E2 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` ». Hint usado: «literal/dict». [Exp-29-E2]",
+      "confidence": 0.72,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "id": "S29-T3-B-E3",
+      "code": "# Lectura Explorer del contrato S29-T3-B-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T3-B-E3: la salida contractual sigue «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "id": "S29-T4-A-E1",
+      "code": "# Lectura Explorer del contrato S29-T4-A-E1 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nprint('ok')\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T4-A-E1 (guided) leyendo la instruction del quiz_card: «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @examp…». La pista «schema_migrations» fijó el patrón observable; conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "id": "S29-T4-A-E2",
+      "code": "# Lectura Explorer del contrato S29-T4-A-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T4-A-E2: la salida contractual sigue «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "id": "S29-T4-A-E3",
+      "code": "# Lectura Explorer del contrato S29-T4-A-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T4-A-E3 (transfer) leyendo la instruction del quiz_card: «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el…». La pista «string» fijó el patrón observable; conf~0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "id": "S29-T4-B-E1",
+      "code": "# Lectura Explorer del contrato S29-T4-B-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T4-B-E1: la salida contractual sigue «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (r». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "id": "S29-T4-B-E2",
+      "code": "# Lectura Explorer del contrato S29-T4-B-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "justification_from_packet": "Para S29-T4-B-E2 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @». Hint usado: «dict». [Exp-29-E2]",
+      "confidence": 0.73,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "id": "S29-T4-B-E3",
+      "code": "# Lectura Explorer del contrato S29-T4-B-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "justification_from_packet": "Para S29-T4-B-E3 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @e». Hint usado: «assert blando». [Exp-29-E3]",
+      "confidence": 0.73,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer-A en S29 Q0: elijo «Evitar duplicar el mismo par en orden invertido» porque el stem «entity_a < entity_b en el par sirve para:» del quiz_card de «SQL avanzado y modelado relacional» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.65.",
+      "confidence": 0.65,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Selfcheck Q1 de «SQL avanzado y modelado relacional»: la opción índice 2 («Nueva fila por cambio de decisión») es la que el paquete sostiene frente a «Append-only en decisions significa:». Las demás contradicen outcomes de la sección. [Explorer-A-29-q1]",
+      "confidence": 0.69,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Desde el packet S29, para «Decisión y evidencia deben:» la lectura de outcomes/theory apunta a «Ser atómicas en la misma transacción lógica». Justificación packet-only sin claves offline. conf=0.71.",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer-A en S29 Q3: elijo «Encapsula acceso a datos y facilita tests con :memory:» porque el stem «El repository pattern:» del quiz_card de «SQL avanzado y modelado relacional» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.77.",
+      "confidence": 0.77,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:53.989381+00:00",
+  "session_started_at": "2026-07-23T13:30:40.527653Z",
+  "session_ended_at": "2026-07-23T13:30:53.986291Z",
+  "receipt_response_sha256": "04e756a3a8e0ba2ff34f618d3f96d8b599e8384b0309d1fb1bca86fe595d74e0",
+  "receipt_exercises_sha256": "f62f7abba3b87c13102680d2040df2fb7a78a67c0247f223268b1011915d83a7",
+  "receipt_selfcheck_sha256": "16e452b2a9b2b58493dba3574606b15738c808cc882d461cf5165f29ed686419"
+}

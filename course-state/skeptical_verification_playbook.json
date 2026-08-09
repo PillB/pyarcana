@@ -1,0 +1,45 @@
+{
+  "version": "1.1",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "phase": "0",
+  "preamble": "Skeptical functional verification of PyArcana: only real execution counts. Mocks/logs/TODOs as product success are P0/P1.",
+  "methodology": {
+    "pre_round_research_sources": [
+      "Google SRE / production readiness reviews — verify SLOs with real probes",
+      "OWASP testing guide — no security-by-comment",
+      "Microsoft/Azure well-architected reliability — end-to-end dependency checks",
+      "Playwright best practices 2025-2026 — auto-wait, no sleep-based fakes"
+    ],
+    "evidence_types_accepted": [
+      "process exit codes",
+      "HTTP status + body from live server",
+      "DB query counts",
+      "Python demo stdout matching expected metrics",
+      "Playwright assertion against rendered DOM / state files"
+    ],
+    "evidence_types_rejected": [
+      "console.log alone",
+      "mock handlers as proof of integration",
+      "TODO/coming soon in user-facing core paths",
+      "hardcoded success without computation",
+      "Spanish word Todo / CSS placeholder: as false TODO positives"
+    ],
+    "severity": {
+      "P0": "Broken core path, data loss, security hole, fake success",
+      "P1": "Feature claimed but non-functional for main users",
+      "P2": "Degraded UX, incomplete non-critical path",
+      "P3": "Docs/cosmetic/optional deploy"
+    }
+  },
+  "success_criteria": [
+    "Core course load: 52 sections importable",
+    "S01 8 demos / 24 exercises + exam bank 24 per section in DB",
+    "Auth credentials path works against live DB",
+    "Exam start/submit returns real scored results",
+    "Admin students/export use COURSE_META.totalSections (52)",
+    "Capstone demos 13/13 exit 0",
+    "npm run test:all-gates pass",
+    "Zero open P0/P1 in skeptical_issue_registry.json"
+  ],
+  "retrospection": "Playbook established and applied through Phase 7; success criteria met with evidence."
+}

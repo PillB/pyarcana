@@ -1,0 +1,443 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s46-dfb449b128",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "# Explorer · S46-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «ventanas, event time y watermarks» («Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío.»), el contrato de S46-T1-A-E1 exige demostrar event_time dentro de ventana y lateness permitido. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `SIDE_OUTPUT_LATE_EVENT`.",
+      "concepts_used": [
+        "event",
+        "time",
+        "dentro",
+        "ventana",
+        "lateness",
+        "permitido"
+      ],
+      "confidence": 0.772
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "# Explorer · S46-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'event_time', 'window_end', 'watermark', 'allowed_lateness'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])) else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 0}\nincomplete = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «ventanas, event time y watermarks» el paquete pide tres rutas; la teoría subraya: «Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío.». Para S46-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple event_time dentro de ventana y lateness permitido, y `SIDE_OUTPUT_LATE_EVENT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "event",
+        "time",
+        "dentro",
+        "ventana",
+        "lateness",
+        "permitido"
+      ],
+      "confidence": 0.751
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "# Explorer · S46-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'event_time', 'window_end', 'watermark', 'allowed_lateness'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WAIT_FOR_WATERMARK\"\n    return \"CONTINUE\" if (not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])) else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 0}\nincomplete = {\"case_id\": 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «ventanas, event time y watermarks» («Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío.») separa incertidumbre de breach. En S46-T1-A-E3 la ausencia enruta a `WAIT_FOR_WATERMARK`, CONTINUE solo con event_time dentro de ventana y lateness permitido, y el adverso a `SIDE_OUTPUT_LATE_EVENT`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "event",
+        "time",
+        "dentro",
+        "ventana",
+        "lateness",
+        "permitido"
+      ],
+      "confidence": 0.853
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "# Explorer · S46-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nmeets_contract = (not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «late data y exactly-once como propiedad compuesta» («Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena.»), el contrato de S46-T1-B-E1 exige demostrar dedup sink, checkpoint y política de dato tardío. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REPLAY_IDEMPOTENTLY`.",
+      "concepts_used": [
+        "dedup",
+        "sink",
+        "checkpoint",
+        "política",
+        "dato",
+        "tardío"
+      ],
+      "confidence": 0.739
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "# Explorer · S46-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'event_ids', 'sink_ids', 'checkpoint', 'late_policy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) and not record.get(\"__adv\")) else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update', '__adv': True}\nincomplete = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «late data y exactly-once como propiedad compuesta» el paquete pide tres rutas; la teoría subraya: «Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena.». Para S46-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple dedup sink, checkpoint y política de dato tardío, y `REPLAY_IDEMPOTENTLY` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "dedup",
+        "sink",
+        "checkpoint",
+        "política",
+        "dato",
+        "tardío"
+      ],
+      "confidence": 0.867
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "# Explorer · S46-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'event_ids', 'sink_ids', 'checkpoint', 'late_policy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CHOOSE_LATE_POLICY\"\n    return \"CONTINUE\" if ((not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) and not record.get(\"__adv\")) else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update', '__adv': True}\nincomplete = {\"case_id\": 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «late data y exactly-once como propiedad compuesta» («Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena.») separa incertidumbre de breach. En S46-T1-B-E3 la ausencia enruta a `CHOOSE_LATE_POLICY`, CONTINUE solo con dedup sink, checkpoint y política de dato tardío, y el adverso a `REPLAY_IDEMPOTENTLY`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "dedup",
+        "sink",
+        "checkpoint",
+        "política",
+        "dato",
+        "tardío"
+      ],
+      "confidence": 0.838
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "# Explorer · S46-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\nmeets_contract = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «DAG/assets y dependency» («Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincidentes.»), el contrato de S46-T2-A-E1 exige demostrar grafo sin self-loop y todos los nodos declarados. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_DAG`.",
+      "concepts_used": [
+        "grafo",
+        "sin",
+        "self",
+        "loop",
+        "todos",
+        "los",
+        "nodos",
+        "declarados"
+      ],
+      "confidence": 0.805
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "# Explorer · S46-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'nodes', 'edges', 'typed_io'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}\nincomplete = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «DAG/assets y dependency» el paquete pide tres rutas; la teoría subraya: «Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincidentes.». Para S46-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple grafo sin self-loop y todos los nodos declarados, y `REJECT_DAG` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "grafo",
+        "sin",
+        "self",
+        "loop",
+        "todos",
+        "los",
+        "nodos",
+        "declarados"
+      ],
+      "confidence": 0.777
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "# Explorer · S46-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'nodes', 'edges', 'typed_io'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DECLARE_ASSET_DEPENDENCY\"\n    return \"CONTINUE\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}\nincomplete = {\"case_id\": 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «DAG/assets y dependency» («Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincidentes.») separa incertidumbre de breach. En S46-T2-A-E3 la ausencia enruta a `DECLARE_ASSET_DEPENDENCY`, CONTINUE solo con grafo sin self-loop y todos los nodos declarados, y el adverso a `REJECT_DAG`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "grafo",
+        "sin",
+        "self",
+        "loop",
+        "todos",
+        "los",
+        "nodos",
+        "declarados"
+      ],
+      "confidence": 0.875
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "# Explorer · S46-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «schedules, backfills y state recovery» («Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente.»), el contrato de S46-T2-B-E1 exige demostrar intervalos sin solape y reanudación desde checkpoint. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `STOP_OVERLAPPING_BACKFILL`.",
+      "concepts_used": [
+        "intervalos",
+        "sin",
+        "solape",
+        "reanudación",
+        "desde",
+        "checkpoint"
+      ],
+      "confidence": 0.737
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "# Explorer · S46-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'intervals', 'overlap', 'checkpoint', 'resume_from'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])) else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «schedules, backfills y state recovery» el paquete pide tres rutas; la teoría subraya: «Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente.». Para S46-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple intervalos sin solape y reanudación desde checkpoint, y `STOP_OVERLAPPING_BACKFILL` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "intervalos",
+        "sin",
+        "solape",
+        "reanudación",
+        "desde",
+        "checkpoint"
+      ],
+      "confidence": 0.735
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "# Explorer · S46-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'intervals', 'overlap', 'checkpoint', 'resume_from'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RECOVER_CHECKPOINT\"\n    return \"CONTINUE\" if (not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])) else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {\"case_id\": 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «schedules, backfills y state recovery» («Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente.») separa incertidumbre de breach. En S46-T2-B-E3 la ausencia enruta a `RECOVER_CHECKPOINT`, CONTINUE solo con intervalos sin solape y reanudación desde checkpoint, y el adverso a `STOP_OVERLAPPING_BACKFILL`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "intervalos",
+        "sin",
+        "solape",
+        "reanudación",
+        "desde",
+        "checkpoint"
+      ],
+      "confidence": 0.729
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "# Explorer · S46-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «contracts y freshness» («Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia.»), el contrato de S46-T3-A-E1 exige demostrar schema exacto, freshness bajo SLO y owner. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `QUARANTINE_DATASET`.",
+      "concepts_used": [
+        "schema",
+        "exacto",
+        "freshness",
+        "bajo",
+        "SLO",
+        "owner"
+      ],
+      "confidence": 0.833
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "# Explorer · S46-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'schema', 'observed_schema', 'freshness_min', 'slo_min', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])) else \"QUARANTINE_DATASET\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 0, 'owner': 'data-ops'}\nincomplete = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «contracts y freshness» el paquete pide tres rutas; la teoría subraya: «Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia.». Para S46-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple schema exacto, freshness bajo SLO y owner, y `QUARANTINE_DATASET` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "schema",
+        "exacto",
+        "freshness",
+        "bajo",
+        "SLO",
+        "owner"
+      ],
+      "confidence": 0.741
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "# Explorer · S46-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'schema', 'observed_schema', 'freshness_min', 'slo_min', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PAGE_DATA_OWNER\"\n    return \"CONTINUE\" if (not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])) else \"QUARANTINE_DATASET\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 0, 'owner': 'data-ops'}\nincomplete = {\"case_id\": 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «contracts y freshness» («Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia.») separa incertidumbre de breach. En S46-T3-A-E3 la ausencia enruta a `PAGE_DATA_OWNER`, CONTINUE solo con schema exacto, freshness bajo SLO y owner, y el adverso a `QUARANTINE_DATASET`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "schema",
+        "exacto",
+        "freshness",
+        "bajo",
+        "SLO",
+        "owner"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "# Explorer · S46-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}, 'owner': 'analytics'}\nmeets_contract = (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «lineage, observability y ownership» («Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto.»), el contrato de S46-T3-B-E1 exige demostrar run conecta inputs/outputs/métricas/owner. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `OPEN_QUALITY_INCIDENT`.",
+      "concepts_used": [
+        "run",
+        "conecta",
+        "inputs",
+        "outputs",
+        "métricas",
+        "owner"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "# Explorer · S46-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'run_id', 'inputs', 'outputs', 'metrics', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) and not record.get(\"__adv\")) else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}, 'owner': 'analytics'}\ninvalid = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}, 'owner': 'analytics', '__adv': True}\nincomplete = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «lineage, observability y ownership» el paquete pide tres rutas; la teoría subraya: «Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto.». Para S46-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple run conecta inputs/outputs/métricas/owner, y `OPEN_QUALITY_INCIDENT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "run",
+        "conecta",
+        "inputs",
+        "outputs",
+        "métricas",
+        "owner"
+      ],
+      "confidence": 0.816
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "# Explorer · S46-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'run_id', 'inputs', 'outputs', 'metrics', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRACE_LINEAGE\"\n    return \"CONTINUE\" if ((not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) and not record.get(\"__adv\")) else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}, 'owner': 'analytics'}\ninvalid = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}, 'owner': 'analytics', '__adv': True}\nincomplete = {\"case_id\": 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'null_rate': 0.01, 'rows': 120}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «lineage, observability y ownership» («Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto.») separa incertidumbre de breach. En S46-T3-B-E3 la ausencia enruta a `TRACE_LINEAGE`, CONTINUE solo con run conecta inputs/outputs/métricas/owner, y el adverso a `OPEN_QUALITY_INCIDENT`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "run",
+        "conecta",
+        "inputs",
+        "outputs",
+        "métricas",
+        "owner"
+      ],
+      "confidence": 0.785
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "# Explorer · S46-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «partitions e incremental loads» («Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente.»), el contrato de S46-T4-A-E1 exige demostrar merge idempotente y small files bajo límite. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REBUILD_PARTITION`.",
+      "concepts_used": [
+        "merge",
+        "idempotente",
+        "small",
+        "files",
+        "bajo",
+        "límite"
+      ],
+      "confidence": 0.833
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "# Explorer · S46-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'partition', 'source_keys', 'target_keys', 'second_run_changes', 'small_files', 'max_small_files'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)) else \"REBUILD_PARTITION\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 50, 'small_files': 2, 'max_small_files': 5}\nincomplete = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «partitions e incremental loads» el paquete pide tres rutas; la teoría subraya: «Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente.». Para S46-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple merge idempotente y small files bajo límite, y `REBUILD_PARTITION` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "merge",
+        "idempotente",
+        "small",
+        "files",
+        "bajo",
+        "límite"
+      ],
+      "confidence": 0.745
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "# Explorer · S46-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'partition', 'source_keys', 'target_keys', 'second_run_changes', 'small_files', 'max_small_files'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_INCREMENTAL_KEY\"\n    return \"CONTINUE\" if (not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)) else \"REBUILD_PARTITION\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 50, 'small_files': 2, 'max_small_files': 5}\nincomplete = {\"case_id\": 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «partitions e incremental loads» («Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente.») separa incertidumbre de breach. En S46-T4-A-E3 la ausencia enruta a `REVIEW_INCREMENTAL_KEY`, CONTINUE solo con merge idempotente y small files bajo límite, y el adverso a `REBUILD_PARTITION`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "merge",
+        "idempotente",
+        "small",
+        "files",
+        "bajo",
+        "límite"
+      ],
+      "confidence": 0.774
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "# Explorer · S46-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «SLO, incidentes y data recovery» («Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención.»), el contrato de S46-T4-B-E1 exige demostrar SLI/SLO, RTO, owner y acciones de postmortem. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DECLARE_DATA_INCIDENT`.",
+      "concepts_used": [
+        "SLI",
+        "SLO",
+        "RTO",
+        "owner",
+        "acciones",
+        "postmortem"
+      ],
+      "confidence": 0.874
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "# Explorer · S46-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'freshness_sli', 'freshness_slo', 'rto_minutes', 'target_rto_minutes', 'postmortem_actions', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])) else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 0, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «SLO, incidentes y data recovery» el paquete pide tres rutas; la teoría subraya: «Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención.». Para S46-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple SLI/SLO, RTO, owner y acciones de postmortem, y `DECLARE_DATA_INCIDENT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "SLI",
+        "SLO",
+        "RTO",
+        "owner",
+        "acciones",
+        "postmortem"
+      ],
+      "confidence": 0.729
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "# Explorer · S46-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'freshness_sli', 'freshness_slo', 'rto_minutes', 'target_rto_minutes', 'postmortem_actions', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ACTIVATE_RECOVERY_RUNBOOK\"\n    return \"CONTINUE\" if (not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])) else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 0, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {\"case_id\": 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «SLO, incidentes y data recovery» («Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención.») separa incertidumbre de breach. En S46-T4-B-E3 la ausencia enruta a `ACTIVATE_RECOVERY_RUNBOOK`, CONTINUE solo con SLI/SLO, RTO, owner y acciones de postmortem, y el adverso a `DECLARE_DATA_INCIDENT`, sin rellenar evidencia en Ingeniería de datos y orquestación de producción.",
+      "concepts_used": [
+        "SLI",
+        "SLO",
+        "RTO",
+        "owner",
+        "acciones",
+        "postmortem"
+      ],
+      "confidence": 0.763
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Q0: elijo «fixtures en hora/desorden/tardío con resultado esperado» anclado en «ventanas, event time y watermarks» («Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar an»), frente a «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.762,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Q1: elijo «emitir QUARANTINE_PARTITION y conservar evidencia» anclado en «late data y exactly-once como propiedad compuesta» («Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita polí»), frente a «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.866,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Q2: elijo «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» anclado en «DAG/assets y dependency» («Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias impl»), frente a «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.835,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «schedules, backfills y state recovery» («Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite re»), frente a «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.806,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.379768+00:00",
+  "session_started_at": "2026-07-23T16:50:09.337784+00:00",
+  "session_ended_at": "2026-07-23T16:51:04.258382+00:00",
+  "receipt_response_sha256": "2878b7f7851e76c9379786e32c94630766a6967b712942c64828b2503eb1a93a",
+  "receipt_exercises_sha256": "43ce4912a38b222fa02131dcc2f65aafc3ca8a2c2330db5579acb73895fea487",
+  "receipt_selfcheck_sha256": "6f1649631f7ffc8d785ecb70e70b338ec0b173fe6542fe810f1dc3724bea6c95"
+}

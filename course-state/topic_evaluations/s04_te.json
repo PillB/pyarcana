@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "section_title": "Iteración y resúmenes transaccionales",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S04-T1-TE",
+      "topic_id": "S04-T1",
+      "title": "Evaluación formativa — Recorrido",
+      "subtopics_covered": [
+        "S04-T1-A",
+        "S04-T1-B"
+      ],
+      "topic_summary": "`for`, `range` y secuencias; `enumerate` y `zip` sin desalinear datos.",
+      "tasks": [
+        {
+          "id": "S04-T1-TE-1",
+          "title": "Tarea auténtica — Recorrido: `for`, `range` y secuencias",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: `for`, `range` y secuencias. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S04-T1-TE-2",
+          "title": "Tarea auténtica — Recorrido: `enumerate` y `zip` sin desalinear datos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: `enumerate` y `zip` sin desalinear datos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Recorrido» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S04-T2-TE",
+      "topic_id": "S04-T2",
+      "title": "Evaluación formativa — Repetición",
+      "subtopics_covered": [
+        "S04-T2-A",
+        "S04-T2-B"
+      ],
+      "topic_summary": "`while`, centinelas y terminación; `break`, `continue` y prevención de loops infinitos.",
+      "tasks": [
+        {
+          "id": "S04-T2-TE-1",
+          "title": "Tarea auténtica — Repetición: `while`, centinelas y terminación",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: `while`, centinelas y terminación. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S04-T2-TE-2",
+          "title": "Tarea auténtica — Repetición: `break`, `continue` y prevención de loops infinitos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: `break`, `continue` y prevención de loops infinitos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Repetición» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S04-T3-TE",
+      "topic_id": "S04-T3",
+      "title": "Evaluación formativa — Patrones",
+      "subtopics_covered": [
+        "S04-T3-A",
+        "S04-T3-B"
+      ],
+      "topic_summary": "contadores, acumuladores y búsqueda; comprehensions legibles.",
+      "tasks": [
+        {
+          "id": "S04-T3-TE-1",
+          "title": "Tarea auténtica — Patrones: contadores, acumuladores y búsqueda",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: contadores, acumuladores y búsqueda. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T3.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S04-T3-TE-2",
+          "title": "Tarea auténtica — Patrones: comprehensions legibles",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: comprehensions legibles. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T3.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Patrones» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S04-T4-TE",
+      "topic_id": "S04-T4",
+      "title": "Evaluación formativa — Razonamiento",
+      "subtopics_covered": [
+        "S04-T4-A",
+        "S04-T4-B"
+      ],
+      "topic_summary": "trazado de estado; costo lineal/cuadrático inicial y debugging de off-by-one.",
+      "tasks": [
+        {
+          "id": "S04-T4-TE-1",
+          "title": "Tarea auténtica — Razonamiento: trazado de estado",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: trazado de estado. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T4.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S04-T4-TE-2",
+          "title": "Tarea auténtica — Razonamiento: costo lineal/cuadrático inicial y debugging de off-by-one",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: costo lineal/cuadrático inicial y debugging de off-by-one. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S04, tema T4.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Razonamiento» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

@@ -1,0 +1,820 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_2_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "preamble": {
+    "objective": "PHASE 2 research dossier light de S04: 8 subtemas V3 listos para blueprint.",
+    "scope_in": [
+      "S04",
+      "fuentes oficiales ≥4",
+      "mapeo 4×2",
+      "contradicciones plataforma"
+    ],
+    "scope_out": [
+      "autoría larga",
+      "banco A/B/C completo",
+      "edits a .ts de sección",
+      "marcar passed"
+    ],
+    "stop_criterion": "8 subtemas con fuentes, patrones y notas pedagógicas"
+  },
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "findings": [
+      "V3 S4 — Iteración y resúmenes transaccionales es TARGET pedagógico; platform 'Functions, Modules & Packaging' es legado.",
+      "Capstone link: CP-N1-A — Client Intake & Data Quality Script (cierre CP-N1-A)",
+      "Legacy destination: Funciones → V3 S5; módulos/packaging → V3 S10; pathlib → V3 S8; decorators → nivel posterior",
+      "Stdlib Python 3.12+ docs vigentes Jul 2026; no deprecaciones bloqueantes en T1–T4 V3."
+    ],
+    "source_registry": [
+      {
+        "id": "SRC-S04-001",
+        "title": "Python Tutorial — More Control Flow Tools (for)",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+        "official": true
+      },
+      {
+        "id": "SRC-S04-002",
+        "title": "Python Tutorial — break/continue/else on loops",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+        "official": true
+      },
+      {
+        "id": "SRC-S04-003",
+        "title": "Built-in Functions — range, enumerate, zip",
+        "url": "https://docs.python.org/3/library/functions.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S04-004",
+        "title": "Python Tutorial — List Comprehensions",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+        "official": true
+      },
+      {
+        "id": "SRC-S04-005",
+        "title": "PEP 618 — zip strict",
+        "url": "https://peps.python.org/pep-0618/",
+        "official": true
+      },
+      {
+        "id": "SRC-S04-006",
+        "title": "CS50P — Loops",
+        "url": "https://cs50.harvard.edu/python",
+        "official": true
+      }
+    ],
+    "deprecation_check": {
+      "note": "APIs core de esta sección (stdlib loops/functions/collections/str/re/pathlib/csv/json) NO deprecadas",
+      "avoid": "pandas/numpy/OOP deep APIs en TARGET V3 de estos slots aunque vivan en archivos legacy"
+    }
+  },
+  "canonical_subtopic_map": {
+    "source": "learning_roadmap_52_V3.md §04",
+    "platform_id_authority": "learning_roadmap.md → functions-modules",
+    "v3_title": "Iteración y resúmenes transaccionales",
+    "platform_title": "Functions, Modules & Packaging",
+    "topics": [
+      {
+        "topic_id": "S04-T1",
+        "title": "Recorrido",
+        "subtopics": [
+          {
+            "subtopic_id": "S04-T1-A",
+            "slug": "for-range-sequences",
+            "title": "for, range y secuencias",
+            "v3_text": "for, range y secuencias",
+            "exam_skill": "El estudiante recorre secuencias con for y range sin desalinear índices ni mutar de forma accidental.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S04-T1-B",
+            "slug": "enumerate-zip",
+            "title": "enumerate y zip",
+            "v3_text": "enumerate y zip sin desalinear datos",
+            "exam_skill": "El estudiante empareja secuencias con enumerate y zip sin desalinear campos de un registro multi-lista.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S04-T2",
+        "title": "Repetición",
+        "subtopics": [
+          {
+            "subtopic_id": "S04-T2-A",
+            "slug": "while-sentinels",
+            "title": "while, centinelas y terminación",
+            "v3_text": "while, centinelas y terminación",
+            "exam_skill": "El estudiante escribe while con condición de terminación clara o centinela, sin loops infinitos.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S04-T2-B",
+            "slug": "break-continue",
+            "title": "break, continue y prevención de infinitos",
+            "v3_text": "break, continue y prevención de loops infinitos",
+            "exam_skill": "El estudiante usa break/continue con propósito y aplica max_iterations o condiciones de escape.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S04-T3",
+        "title": "Patrones",
+        "subtopics": [
+          {
+            "subtopic_id": "S04-T3-A",
+            "slug": "counters-accumulators",
+            "title": "Contadores, acumuladores y búsqueda",
+            "v3_text": "contadores, acumuladores y búsqueda",
+            "exam_skill": "El estudiante implementa contadores y acumuladores para resúmenes de calidad y búsqueda lineal de un registro.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S04-T3-B",
+            "slug": "comprehensions-readable",
+            "title": "Comprehensions legibles",
+            "v3_text": "comprehensions legibles",
+            "exam_skill": "El estudiante escribe list/dict comprehensions legibles y elige for explícito cuando la lógica es compleja.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S04-T4",
+        "title": "Razonamiento",
+        "subtopics": [
+          {
+            "subtopic_id": "S04-T4-A",
+            "slug": "state-tracing",
+            "title": "Trazado de estado",
+            "v3_text": "trazado de estado",
+            "exam_skill": "El estudiante traza variables de estado iteración a iteración y predice salidas de loops.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S04-T4-B",
+            "slug": "cost-off-by-one",
+            "title": "Costo lineal/cuadrático y off-by-one",
+            "v3_text": "costo lineal/cuadrático inicial y debugging de off-by-one",
+            "exam_skill": "El estudiante reconoce bucles anidados O(n²) vs lineales y corrige errores off-by-one en range/índices.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      }
+    ]
+  },
+  "research_dossier": {
+    "S04-T1-A": {
+      "title": "for, range y secuencias",
+      "slug": "for-range-sequences",
+      "v3_text": "for, range y secuencias",
+      "exam_skill": "El estudiante recorre secuencias con for y range sin desalinear índices ni mutar de forma accidental.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para for, range y secuencias"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para for, range y secuencias"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para for, range y secuencias"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para for, range y secuencias"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Recorrer N registros sintéticos de intake e imprimir id + región",
+          "must_cover": [
+            "for x in seq",
+            "range(n)/range(start,stop,step)",
+            "iterables vs índices",
+            "no modificar lista mientras se itera sin patrón seguro"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Recorrer N registros sintéticos de intake e imprimir id + región",
+        "E1: Completar for sobre lista de montos",
+        "E2: Sumar con for + range índices",
+        "E3: Diagnosticar loop que salta elementos al borrar"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: for, range y secuencias",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T1-B": {
+      "title": "enumerate y zip",
+      "slug": "enumerate-zip",
+      "v3_text": "enumerate y zip sin desalinear datos",
+      "exam_skill": "El estudiante empareja secuencias con enumerate y zip sin desalinear campos de un registro multi-lista.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para enumerate y zip"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para enumerate y zip"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para enumerate y zip"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para enumerate y zip"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: zip de nombres y montos; detectar longitudes distintas",
+          "must_cover": [
+            "enumerate(start=)",
+            "zip truncación al más corto",
+            "zip(..., strict=True) Python 3.10+",
+            "desempaquetar en for"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: zip de nombres y montos; detectar longitudes distintas",
+        "E1: enumerate para numerar filas 1-based",
+        "E2: zip tres columnas sintéticas",
+        "E3: Explicar por qué zip silencioso pierde filas"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: enumerate y zip",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T2-A": {
+      "title": "while, centinelas y terminación",
+      "slug": "while-sentinels",
+      "v3_text": "while, centinelas y terminación",
+      "exam_skill": "El estudiante escribe while con condición de terminación clara o centinela, sin loops infinitos.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para while, centinelas y terminación"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para while, centinelas y terminación"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para while, centinelas y terminación"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para while, centinelas y terminación"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Leer líneas sintéticas hasta centinela FIN",
+          "must_cover": [
+            "while cond",
+            "centinela (EOF / 'FIN' / None)",
+            "actualizar estado cada iteración",
+            "equivalencia for vs while"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Leer líneas sintéticas hasta centinela FIN",
+        "E1: while que acumula hasta umbral",
+        "E2: Simular stdin por líneas hasta vacío",
+        "E3: Corregir while que nunca actualiza contador"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: while, centinelas y terminación",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T2-B": {
+      "title": "break, continue y prevención de infinitos",
+      "slug": "break-continue",
+      "v3_text": "break, continue y prevención de loops infinitos",
+      "exam_skill": "El estudiante usa break/continue con propósito y aplica max_iterations o condiciones de escape.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para break, continue y prevención de infinitos"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para break, continue y prevención de infinitos"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para break, continue y prevención de infinitos"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para break, continue y prevención de infinitos"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Saltar filas vacías (continue) y parar en ERROR fatal (break)",
+          "must_cover": [
+            "break",
+            "continue",
+            "else en for/while (intro)",
+            "max_iterations / timeout didáctico",
+            "no swallow sin log"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Saltar filas vacías (continue) y parar en ERROR fatal (break)",
+        "E1: Filtrar con continue",
+        "E2: break al primer reject crítico",
+        "E3: Añadir guarda anti-infinito a snippet roto"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: break, continue y prevención de infinitos",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T3-A": {
+      "title": "Contadores, acumuladores y búsqueda",
+      "slug": "counters-accumulators",
+      "v3_text": "contadores, acumuladores y búsqueda",
+      "exam_skill": "El estudiante implementa contadores y acumuladores para resúmenes de calidad y búsqueda lineal de un registro.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Contadores, acumuladores y búsqueda"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Contadores, acumuladores y búsqueda"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Contadores, acumuladores y búsqueda"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Contadores, acumuladores y búsqueda"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Contar accept/reject/review y tasa de error sobre lista de resultados",
+          "must_cover": [
+            "count += 1",
+            "total += x",
+            "found/flag",
+            "any/all intro",
+            "primer match vs todos"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Contar accept/reject/review y tasa de error sobre lista de resultados",
+        "E1: Contar nulos por campo",
+        "E2: Acumular monto y promedio",
+        "E3: Buscar primer registro con región X"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Contadores, acumuladores y búsqueda",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T3-B": {
+      "title": "Comprehensions legibles",
+      "slug": "comprehensions-readable",
+      "v3_text": "comprehensions legibles",
+      "exam_skill": "El estudiante escribe list/dict comprehensions legibles y elige for explícito cuando la lógica es compleja.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Comprehensions legibles"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Comprehensions legibles"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Comprehensions legibles"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Comprehensions legibles"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Filtrar rejects y construir lista de codes con comprehension",
+          "must_cover": [
+            "[x for x in xs if p]",
+            "{k:v for ...}",
+            "no comprehensions anidadas opacas",
+            "equivalencia a for",
+            "generator expr intro breve"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Filtrar rejects y construir lista de codes con comprehension",
+        "E1: Mapear montos *1.18",
+        "E2: Dict id→status",
+        "E3: Refactor comprehension ilegible a for claro"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Comprehensions legibles",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T4-A": {
+      "title": "Trazado de estado",
+      "slug": "state-tracing",
+      "v3_text": "trazado de estado",
+      "exam_skill": "El estudiante traza variables de estado iteración a iteración y predice salidas de loops.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Trazado de estado"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Trazado de estado"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Trazado de estado"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Trazado de estado"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Analizar', 'Aplicar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Traza de contador de errores en 5 registros",
+          "must_cover": [
+            "tabla de traza",
+            "invariante de loop intro",
+            "print debug controlado",
+            "estado inicial/final"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Traza de contador de errores en 5 registros",
+        "E1: Completar tabla de traza",
+        "E2: Predecir salida de loop dado",
+        "E3: Encontrar bug de estado no actualizado"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Trazado de estado",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S04-T4-B": {
+      "title": "Costo lineal/cuadrático y off-by-one",
+      "slug": "cost-off-by-one",
+      "v3_text": "costo lineal/cuadrático inicial y debugging de off-by-one",
+      "exam_skill": "El estudiante reconoce bucles anidados O(n²) vs lineales y corrige errores off-by-one en range/índices.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — More Control Flow Tools (for)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Costo lineal/cuadrático y off-by-one"
+          ]
+        },
+        {
+          "source": "Python Tutorial — break/continue/else on loops",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Costo lineal/cuadrático y off-by-one"
+          ]
+        },
+        {
+          "source": "Built-in Functions — range, enumerate, zip",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Costo lineal/cuadrático y off-by-one"
+          ]
+        },
+        {
+          "source": "Python Tutorial — List Comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Costo lineal/cuadrático y off-by-one"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Analizar', 'Aplicar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Comparar dos loops: resumen lineal vs búsqueda ingenua anidada",
+          "must_cover": [
+            "O(n) vs O(n²) intuitivo",
+            "range bounds",
+            "len-1",
+            "denominador tasas n=0",
+            "evitar microoptimización prematura"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Comparar dos loops: resumen lineal vs búsqueda ingenua anidada",
+        "E1: Corregir range off-by-one",
+        "E2: Calcular tasa con n=0 seguro",
+        "E3: Identificar O(n²) en snippet de cruce"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Costo lineal/cuadrático y off-by-one",
+        "Contexto capstone: CP-N1-A",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    }
+  },
+  "decisions": [
+    {
+      "id": "DEC-S04-R01",
+      "decision": "Retheme pedagógico a V3 'Iteración y resúmenes transaccionales' sin renombrar id 'functions-modules'"
+    },
+    {
+      "id": "DEC-S04-R02",
+      "decision": "Proyecto TARGET: Client Intake & Data Quality Script (cierre CP-N1-A)"
+    },
+    {
+      "id": "DEC-S04-R03",
+      "decision": "Conservar archivo .ts legacy hasta PHASE 4 verified replacement"
+    },
+    {
+      "id": "DEC-S04-R04",
+      "decision": "8 demos browser-pyodide o local-python según environment V3"
+    },
+    {
+      "id": "DEC-S04-R05",
+      "decision": "Entorno declarado: browser/local"
+    },
+    {
+      "id": "DEC-S04-R06",
+      "decision": "Español en títulos de ejercicios/demos; slugs en inglés kebab-case"
+    },
+    {
+      "id": "DEC-S04-R07",
+      "decision": "Datos sintéticos latam; no PII real"
+    },
+    {
+      "id": "DEC-S04-R08",
+      "decision": "Exam families = 8 slugs de subtemas; seed legacy reubicable"
+    }
+  ],
+  "phase_2_gate": {
+    "research_complete": true,
+    "min_official_sources": 6,
+    "eight_subtopics_documented": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3"
+  }
+}

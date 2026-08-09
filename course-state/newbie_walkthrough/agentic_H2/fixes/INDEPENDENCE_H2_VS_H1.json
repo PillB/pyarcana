@@ -1,0 +1,21 @@
+{
+  "baseline": "agentic_H1",
+  "candidate": "agentic_H2",
+  "non_comment_body_identity_pct": 8.3,
+  "same_justifications_pct": 0.0,
+  "session_duration_min_sec": 15.46,
+  "session_duration_max_sec": 47.71,
+  "h1_mtime_span_min": 73.5,
+  "h2_mtime_span_min": 30.6,
+  "zero_duration_sessions": 0,
+  "g2_agent_stamps": 0,
+  "h1": {
+    "clean_52": true,
+    "attempt_gates_pass": true
+  },
+  "h2": {
+    "clean_52": true,
+    "attempt_gates_pass": true
+  },
+  "pass": true
+}

@@ -1,0 +1,612 @@
+{
+  "index": 27,
+  "id": "async-concurrency",
+  "title": "Estrategia de pruebas con pytest",
+  "file": "s27-async-concurrency.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S27 — pytest y contratos de CP-N3-A",
+      "len": 40
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S27. Pirámide: muchas unitarias baratas, menos integración, pocas E2E. AAA: Arrange (datos), Act (llamada), Assert (oráculo). Oráculo: verdad estable del assert. NamedTemporaryFile: archivo temporal aislado del stdlib tempfile para tests de I/O sin contaminar el cwd. Fixture: setup reutilizable con scope. Node id: ruta estable del caso en pytest. Branch coverage: ramas de negocio cubiertas. Mutación conceptual: si quitas una línea crítica y el test no falla, el contrato es débil.",
+      "len": 496
+    },
+    {
+      "i": 2,
+      "text": "Aquí inicias CP-N3-A: convertir supuestos de normalización y matching en contratos ejecutables. Cada bug reproducido obtiene un test de regresión. Matching demuestra misma entidad normalizada, no fraude ni parentesco.",
+      "len": 217
+    },
+    {
+      "i": 3,
+      "text": "Contrato de sección. Entrada: funciones sintéticas normalize_name/exact_match y fixture CASO-LIM-027 (run_id=cpn3a-01, @example.pe). Salida: suite AAA con oráculos fijos, bordes y cobertura de umbrales. Error: oráculo frágil (reloj real) o print sin assert → gate fallido.",
+      "len": 272
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 Diseño/riesgo → T2 Pytest discovery/fixtures → T3 Bordes → T4 Cobertura/mutación. Id de plataforma async-concurrency es legacy; el path V3 es estrategia de pruebas con pytest. Stack: stdlib + estilo pytest (asserts/parametrize conceptuales).",
+      "len": 251
+    },
+    {
+      "i": 5,
+      "text": "Riesgos y pirámide de pruebas",
+      "len": 29
+    },
+    {
+      "i": 6,
+      "text": "La pirámide prioriza unitarias baratas; el riesgo reordena el tiempo: un bug en matching justifica más tests que un typo de log. Impacto × probabilidad produce un score de priorización ejecutable en el backlog de QA.",
+      "len": 216
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: score = impact * likelihood. Ordenas áreas por score descendente y aseguras que la capa unit sea la más ancha. No inviertas la pirámide: E2E lentas no sustituyen contratos de casefold/strip.",
+      "len": 201
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: filas (área, impact, likelihood, layer). Salida: ranking por score y flag unit_heavy. Error: invertir pirámide o omitir normalize/match. Criterio: top score en capa de alto riesgo del ER sintético CASO-LIM-027. Por qué importa: si no fijas «filas (área, impact, likelihood, layer)» → «ranking por score y flag unit_heavy», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «invertir pirámide o omitir normalize/match» para confirmar fail-closed.",
+      "len": 513
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-027-T1A (Red Andina Lima): normalize_name impact=5 likelihood=4 → score 20; unit_heavy True. En banca de procesos peruana el mismo criterio protege la cola de review de CP-N3-A.",
+      "len": 199
+    },
+    {
+      "i": 10,
+      "text": "Arrange–Act–Assert y oráculos confiables",
+      "len": 40
+    },
+    {
+      "i": 11,
+      "text": "AAA separa preparación, ejecución y verificación. Mezclar assert con setup oculta fallas y complica el diff de pytest. El oráculo es la fuente de verdad: valor fijo, propiedad invariante o algoritmo de referencia simple.",
+      "len": 220
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: Arrange raw; Act normalize_name(raw); Assert got == expected. Oráculos frágiles (timestamps de reloj real, orden de set) generan flakes; fija reloj o usa valores sintéticos.",
+      "len": 184
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: raw sintético y expected fijo. Salida: aaa_ok y phases. Error: print sin assert o expected derivado del mismo código bajo prueba sin independencia. Fixture CASO-LIM-027. Por qué importa: si no fijas «raw sintético y expected fijo» → «aaa_ok y phases», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «print sin assert o expected derivado del mismo código bajo prueba sin » para confirmar fail-closed.",
+      "len": 470
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-027-T1B: raw=' JUAN Pérez ' → 'juan pérez'. El oráculo es la cadena normalizada conocida, no un print de teatro.",
+      "len": 134
+    },
+    {
+      "i": 15,
+      "text": "Discovery y assertions de pytest",
+      "len": 32
+    },
+    {
+      "i": 16,
+      "text": "pytest descubre test_ / Test en test_*.py. Los node ids (path::name[param]) identifican cada caso en CI. Las assertions reescritas muestran diff útil; pytest.raises cubre excepciones esperadas.",
+      "len": 193
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo didáctico (sin CLI): una tabla de casos se valida con un predicado; fallas listan expected/actual. Parametriza mentalmente con @pytest.mark.parametrize para no copiar el cuerpo del test.",
+      "len": 196
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: tabla (input, expected). Salida: passed_all y n_cases. Error: node id inestable (uuid en nombre) o assert booleano opaco. Caso CASO-LIM-027-T2A. Por qué importa: si no fijas «tabla (input, expected)» → «passed_all y n_cases», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «node id inestable (uuid en nombre) o assert booleano opaco» para confirmar fail-closed.",
+      "len": 432
+    },
+    {
+      "i": 19,
+      "text": "Aplicación: casos de casefold sobre contactos @example.pe; n_cases=3; passed_all True. En CI del motor ER sintético, node ids estables permiten bisect de regresiones.",
+      "len": 166
+    },
+    {
+      "i": 20,
+      "text": "Fixtures, scopes y aislamiento",
+      "len": 30
+    },
+    {
+      "i": 21,
+      "text": "Una fixture construye el Arrange reutilizable. function scope (default) aisla estado entre tests; session scope comparte recursos caros pero arriesga contaminación. El aislamiento evita orden-dependencia.",
+      "len": 204
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: factory make_contact(name) devuelve dict fresco; mutar una copia no afecta la siguiente. Si reutilizas el mismo dict mutable entre tests, un assert 'pasa' por contaminación, no por contrato.",
+      "len": 201
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: factory + dos consumidores. Salida: isolated True si ids/objetos no se pisan. Error: fixture session que muta lista global compartida. Criterio: cada test recibe copia limpia en CASO-LIM-027. Por qué importa: si no fijas «factory + dos consumidores» → «isolated True si ids/objetos no se pisan», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «fixture session que muta lista global compartida» para confirmar fail-closed.",
+      "len": 492
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-027-T2B: dos contacts con same template name pero ids distintos y no is-identity. En el repo ER, fixtures de pares candidatos no deben filtrar estado entre tests de umbral.",
+      "len": 194
+    },
+    {
+      "i": 25,
+      "text": "Excepciones, floats, fechas y temporales",
+      "len": 40
+    },
+    {
+      "i": 26,
+      "text": "Los bordes son donde fallan los contratos: None, vacío, NaN conceptual, fechas tz-naive, archivos tmp. Excepciones esperadas se documentan; floats usan tolerancia o enteros escalados; fechas se fijan.",
+      "len": 200
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: safe_div(a,b) lanza ValueError si b==0; comparación de scores usa abs(x-y) < eps. tmp paths se crean y limpian en el mismo test para no dejar basura en CI.",
+      "len": 166
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: valores límite sintéticos. Salida: flags de borde cubiertos. Error: comparar floats con == en scores de matching o depender del cwd real. Fixture CASO-LIM-027-T3A. Por qué importa: si no fijas «valores límite sintéticos» → «flags de borde cubiertos», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «comparar floats con == en scores de matching o depender del cwd real» para confirmar fail-closed.",
+      "len": 467
+    },
+    {
+      "i": 29,
+      "text": "Aplicación: score 0.1+0.2 vs 0.3 con eps=1e-9; div por cero → error capturado. En ER, umbrales 0.6/0.9 no deben flakes por ruido de float.",
+      "len": 138
+    },
+    {
+      "i": 30,
+      "text": "Casos negativos y mensajes útiles",
+      "len": 33
+    },
+    {
+      "i": 31,
+      "text": "Los casos negativos prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada con mensajes que aceleren el fix en CI (expected vs actual).",
+      "len": 184
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: validador devuelve (ok, code); code enumerado (EMPTY, NONE, TYPE) no string libre. Mensajes incluyen el valor ofensivo sintético sin PII real.",
+      "len": 153
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: batch de inválidos. Salida: todos rejected con codes estables. Error: silenciar excepciones o mensaje genérico 'error'. Caso CASO-LIM-027-T3B. Por qué importa: si no fijas «batch de inválidos» → «todos rejected con codes estables», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «silenciar excepciones o mensaje genérico 'error'» para confirmar fail-closed.",
+      "len": 428
+    },
+    {
+      "i": 34,
+      "text": "Aplicación: '', None, 123 → EMPTY/NONE/TYPE. El revisor de PR del motor ER lee el code en el log de pytest.",
+      "len": 107
+    },
+    {
+      "i": 35,
+      "text": "Cobertura por rama y riesgo",
+      "len": 27
+    },
+    {
+      "i": 36,
+      "text": "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A. Branch/risk coverage prioriza auto/review/non_match sobre líneas de log.",
+      "len": 181
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: decide(score) con tres ramas; el conjunto de salidas sobre un vector de scores debe cubrir las tres. Líneas de debug no cuentan como riesgo cubierto.",
+      "len": 160
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: scores de matching sintéticos. Salida: covered set y full True. Error: solo probar score=1.0 y declarar 100% de negocio. Fixture CASO-LIM-027-T4A. Por qué importa: si no fijas «scores de matching sintéticos» → «covered set y full True», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo probar score=1» para confirmar fail-closed.",
+      "len": 404
+    },
+    {
+      "i": 39,
+      "text": "Aplicación: scores 0.95/0.75/0.1 → auto/review/non. Matching score no es veredicto de fraude.",
+      "len": 93
+    },
+    {
+      "i": 40,
+      "text": "Mutación conceptual y fallas útiles",
+      "len": 35
+    },
+    {
+      "i": 41,
+      "text": "La mutación conceptual pregunta: si quito casefold/strip, ¿algún test falla? Si el mutante sobrevive, el contrato es teatro. Fallas útiles incluyen expected/actual y el input sintético que disparó el bug.",
+      "len": 204
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: good vs mutant; oracle fijo; kills_mutant = mutant(raw) != oracle. Política CP-N3-A: bug_repro → regression_test antes de cerrar el ticket.",
+      "len": 150
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: raw y oracle. Salida: test_good y kills_mutant. Error: test que solo imprime 'ok' sin comparar. Caso CASO-LIM-027-T4B. Por qué importa: si no fijas «raw y oracle» → «test_good y kills_mutant», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «test que solo imprime 'ok' sin comparar» para confirmar fail-closed.",
+      "len": 380
+    },
+    {
+      "i": 44,
+      "text": "Aplicación: raw='ANA', oracle='ana'; mutant sin casefold muere. Mantenimiento: un oráculo, muchos cases parametrizados.",
+      "len": 119
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S27 — pytest y contratos de CP-N3-A",
+      "text": "Mapa S27 — pytest y contratos de CP-N3-A"
+    },
+    {
+      "i": 1,
+      "len": 496,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S27. Pirámide: muchas unitarias baratas, menos integración, pocas E2E. AAA: Arrange (datos), Act (llamada), Assert (oráculo). Oráculo: verdad estable del assert. NamedT",
+      "text": "Diccionario S27. Pirámide: muchas unitarias baratas, menos integración, pocas E2E. AAA: Arrange (datos), Act (llamada), Assert (oráculo). Oráculo: verdad estable del assert. NamedTemporaryFile: archivo temporal aislado del stdlib tempfile para tests de I/O sin contaminar el cwd. Fixture: setup reutilizable con scope. Node id: ruta estable del caso en pytest. Branch coverage: ramas de negocio cubiertas. Mutación conceptual: si quitas una línea crítica y el test no falla, el contrato es débil."
+    },
+    {
+      "i": 2,
+      "len": 217,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aquí inicias CP-N3-A: convertir supuestos de normalización y matching en contratos ejecutables. Cada bug reproducido obtiene un test de regresión. Matching demuestra misma entidad ",
+      "text": "Aquí inicias CP-N3-A: convertir supuestos de normalización y matching en contratos ejecutables. Cada bug reproducido obtiene un test de regresión. Matching demuestra misma entidad normalizada, no fraude ni parentesco."
+    },
+    {
+      "i": 3,
+      "len": 272,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de sección. Entrada: funciones sintéticas normalize_name/exact_match y fixture CASO-LIM-027 (run_id=cpn3a-01, @example.pe). Salida: suite AAA con oráculos fijos, bordes y ",
+      "text": "Contrato de sección. Entrada: funciones sintéticas normalize_name/exact_match y fixture CASO-LIM-027 (run_id=cpn3a-01, @example.pe). Salida: suite AAA con oráculos fijos, bordes y cobertura de umbrales. Error: oráculo frágil (reloj real) o print sin assert → gate fallido."
+    },
+    {
+      "i": 4,
+      "len": 251,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Diseño/riesgo → T2 Pytest discovery/fixtures → T3 Bordes → T4 Cobertura/mutación. Id de plataforma async-concurrency es legacy; el path V3 es estrategia de pruebas con py",
+      "text": "Orden: T1 Diseño/riesgo → T2 Pytest discovery/fixtures → T3 Bordes → T4 Cobertura/mutación. Id de plataforma async-concurrency es legacy; el path V3 es estrategia de pruebas con pytest. Stack: stdlib + estilo pytest (asserts/parametrize conceptuales)."
+    },
+    {
+      "i": 5,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Riesgos y pirámide de pruebas",
+      "text": "Riesgos y pirámide de pruebas"
+    },
+    {
+      "i": 6,
+      "len": 216,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La pirámide prioriza unitarias baratas; el riesgo reordena el tiempo: un bug en matching justifica más tests que un typo de log. Impacto × probabilidad produce un score de prioriza",
+      "text": "La pirámide prioriza unitarias baratas; el riesgo reordena el tiempo: un bug en matching justifica más tests que un typo de log. Impacto × probabilidad produce un score de priorización ejecutable en el backlog de QA."
+    },
+    {
+      "i": 7,
+      "len": 201,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: score = impact * likelihood. Ordenas áreas por score descendente y aseguras que la capa unit sea la más ancha. No inviertas la pirámide: E2E lentas no sustituyen contrat",
+      "text": "Mecanismo: score = impact * likelihood. Ordenas áreas por score descendente y aseguras que la capa unit sea la más ancha. No inviertas la pirámide: E2E lentas no sustituyen contratos de casefold/strip."
+    },
+    {
+      "i": 8,
+      "len": 513,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: filas (área, impact, likelihood, layer). Salida: ranking por score y flag unit_heavy. Error: invertir pirámide o omitir normalize/match. Criterio: top ",
+      "text": "Contrato operativo. Entrada: filas (área, impact, likelihood, layer). Salida: ranking por score y flag unit_heavy. Error: invertir pirámide o omitir normalize/match. Criterio: top score en capa de alto riesgo del ER sintético CASO-LIM-027. Por qué importa: si no fijas «filas (área, impact, likelihood, layer)» → «ranking por score y flag unit_heavy», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «invertir pirámide o omitir normalize/match» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 199,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-027-T1A (Red Andina Lima): normalize_name impact=5 likelihood=4 → score 20; unit_heavy True. En banca de procesos peruana el mismo criterio protege la cola de",
+      "text": "Aplicación a CASO-LIM-027-T1A (Red Andina Lima): normalize_name impact=5 likelihood=4 → score 20; unit_heavy True. En banca de procesos peruana el mismo criterio protege la cola de review de CP-N3-A."
+    },
+    {
+      "i": 10,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Arrange–Act–Assert y oráculos confiables",
+      "text": "Arrange–Act–Assert y oráculos confiables"
+    },
+    {
+      "i": 11,
+      "len": 220,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "AAA separa preparación, ejecución y verificación. Mezclar assert con setup oculta fallas y complica el diff de pytest. El oráculo es la fuente de verdad: valor fijo, propiedad inva",
+      "text": "AAA separa preparación, ejecución y verificación. Mezclar assert con setup oculta fallas y complica el diff de pytest. El oráculo es la fuente de verdad: valor fijo, propiedad invariante o algoritmo de referencia simple."
+    },
+    {
+      "i": 12,
+      "len": 184,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: Arrange raw; Act normalize_name(raw); Assert got == expected. Oráculos frágiles (timestamps de reloj real, orden de set) generan flakes; fija reloj o usa valores sintéti",
+      "text": "Mecanismo: Arrange raw; Act normalize_name(raw); Assert got == expected. Oráculos frágiles (timestamps de reloj real, orden de set) generan flakes; fija reloj o usa valores sintéticos."
+    },
+    {
+      "i": 13,
+      "len": 470,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: raw sintético y expected fijo. Salida: aaa_ok y phases. Error: print sin assert o expected derivado del mismo código bajo prueba sin independencia. Fix",
+      "text": "Contrato operativo. Entrada: raw sintético y expected fijo. Salida: aaa_ok y phases. Error: print sin assert o expected derivado del mismo código bajo prueba sin independencia. Fixture CASO-LIM-027. Por qué importa: si no fijas «raw sintético y expected fijo» → «aaa_ok y phases», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «print sin assert o expected derivado del mismo código bajo prueba sin » para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 134,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-027-T1B: raw=' JUAN Pérez ' → 'juan pérez'. El oráculo es la cadena normalizada conocida, no un print de teatro.",
+      "text": "Aplicación a CASO-LIM-027-T1B: raw=' JUAN Pérez ' → 'juan pérez'. El oráculo es la cadena normalizada conocida, no un print de teatro."
+    },
+    {
+      "i": 15,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Discovery y assertions de pytest",
+      "text": "Discovery y assertions de pytest"
+    },
+    {
+      "i": 16,
+      "len": 193,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "pytest descubre test_ / Test en test_*.py. Los node ids (path::name[param]) identifican cada caso en CI. Las assertions reescritas muestran diff útil; pytest.raises cubre excepcion",
+      "text": "pytest descubre test_ / Test en test_*.py. Los node ids (path::name[param]) identifican cada caso en CI. Las assertions reescritas muestran diff útil; pytest.raises cubre excepciones esperadas."
+    },
+    {
+      "i": 17,
+      "len": 196,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico (sin CLI): una tabla de casos se valida con un predicado; fallas listan expected/actual. Parametriza mentalmente con @pytest.mark.parametrize para no copiar el ",
+      "text": "Mecanismo didáctico (sin CLI): una tabla de casos se valida con un predicado; fallas listan expected/actual. Parametriza mentalmente con @pytest.mark.parametrize para no copiar el cuerpo del test."
+    },
+    {
+      "i": 18,
+      "len": 432,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: tabla (input, expected). Salida: passed_all y n_cases. Error: node id inestable (uuid en nombre) o assert booleano opaco. Caso CASO-LIM-027-T2A. Por qu",
+      "text": "Contrato operativo. Entrada: tabla (input, expected). Salida: passed_all y n_cases. Error: node id inestable (uuid en nombre) o assert booleano opaco. Caso CASO-LIM-027-T2A. Por qué importa: si no fijas «tabla (input, expected)» → «passed_all y n_cases», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «node id inestable (uuid en nombre) o assert booleano opaco» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 166,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: casos de casefold sobre contactos @example.pe; n_cases=3; passed_all True. En CI del motor ER sintético, node ids estables permiten bisect de regresiones.",
+      "text": "Aplicación: casos de casefold sobre contactos @example.pe; n_cases=3; passed_all True. En CI del motor ER sintético, node ids estables permiten bisect de regresiones."
+    },
+    {
+      "i": 20,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Fixtures, scopes y aislamiento",
+      "text": "Fixtures, scopes y aislamiento"
+    },
+    {
+      "i": 21,
+      "len": 204,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una fixture construye el Arrange reutilizable. function scope (default) aisla estado entre tests; session scope comparte recursos caros pero arriesga contaminación. El aislamiento ",
+      "text": "Una fixture construye el Arrange reutilizable. function scope (default) aisla estado entre tests; session scope comparte recursos caros pero arriesga contaminación. El aislamiento evita orden-dependencia."
+    },
+    {
+      "i": 22,
+      "len": 201,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: factory make_contact(name) devuelve dict fresco; mutar una copia no afecta la siguiente. Si reutilizas el mismo dict mutable entre tests, un assert 'pasa' por contaminac",
+      "text": "Mecanismo: factory make_contact(name) devuelve dict fresco; mutar una copia no afecta la siguiente. Si reutilizas el mismo dict mutable entre tests, un assert 'pasa' por contaminación, no por contrato."
+    },
+    {
+      "i": 23,
+      "len": 492,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: factory + dos consumidores. Salida: isolated True si ids/objetos no se pisan. Error: fixture session que muta lista global compartida. Criterio: cada t",
+      "text": "Contrato operativo. Entrada: factory + dos consumidores. Salida: isolated True si ids/objetos no se pisan. Error: fixture session que muta lista global compartida. Criterio: cada test recibe copia limpia en CASO-LIM-027. Por qué importa: si no fijas «factory + dos consumidores» → «isolated True si ids/objetos no se pisan», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «fixture session que muta lista global compartida» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 194,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-027-T2B: dos contacts con same template name pero ids distintos y no is-identity. En el repo ER, fixtures de pares candidatos no deben filtrar estado entre te",
+      "text": "Aplicación a CASO-LIM-027-T2B: dos contacts con same template name pero ids distintos y no is-identity. En el repo ER, fixtures de pares candidatos no deben filtrar estado entre tests de umbral."
+    },
+    {
+      "i": 25,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Excepciones, floats, fechas y temporales",
+      "text": "Excepciones, floats, fechas y temporales"
+    },
+    {
+      "i": 26,
+      "len": 200,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los bordes son donde fallan los contratos: None, vacío, NaN conceptual, fechas tz-naive, archivos tmp. Excepciones esperadas se documentan; floats usan tolerancia o enteros escalad",
+      "text": "Los bordes son donde fallan los contratos: None, vacío, NaN conceptual, fechas tz-naive, archivos tmp. Excepciones esperadas se documentan; floats usan tolerancia o enteros escalados; fechas se fijan."
+    },
+    {
+      "i": 27,
+      "len": 166,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: safe_div(a,b) lanza ValueError si b==0; comparación de scores usa abs(x-y) < eps. tmp paths se crean y limpian en el mismo test para no dejar basura en CI.",
+      "text": "Mecanismo: safe_div(a,b) lanza ValueError si b==0; comparación de scores usa abs(x-y) < eps. tmp paths se crean y limpian en el mismo test para no dejar basura en CI."
+    },
+    {
+      "i": 28,
+      "len": 467,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: valores límite sintéticos. Salida: flags de borde cubiertos. Error: comparar floats con == en scores de matching o depender del cwd real. Fixture CASO-",
+      "text": "Contrato operativo. Entrada: valores límite sintéticos. Salida: flags de borde cubiertos. Error: comparar floats con == en scores de matching o depender del cwd real. Fixture CASO-LIM-027-T3A. Por qué importa: si no fijas «valores límite sintéticos» → «flags de borde cubiertos», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «comparar floats con == en scores de matching o depender del cwd real» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: score 0.1+0.2 vs 0.3 con eps=1e-9; div por cero → error capturado. En ER, umbrales 0.6/0.9 no deben flakes por ruido de float.",
+      "text": "Aplicación: score 0.1+0.2 vs 0.3 con eps=1e-9; div por cero → error capturado. En ER, umbrales 0.6/0.9 no deben flakes por ruido de float."
+    },
+    {
+      "i": 30,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Casos negativos y mensajes útiles",
+      "text": "Casos negativos y mensajes útiles"
+    },
+    {
+      "i": 31,
+      "len": 184,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los casos negativos prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada con mensajes que aceleren el fix en CI (expected vs actu",
+      "text": "Los casos negativos prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada con mensajes que aceleren el fix en CI (expected vs actual)."
+    },
+    {
+      "i": 32,
+      "len": 153,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: validador devuelve (ok, code); code enumerado (EMPTY, NONE, TYPE) no string libre. Mensajes incluyen el valor ofensivo sintético sin PII real.",
+      "text": "Mecanismo: validador devuelve (ok, code); code enumerado (EMPTY, NONE, TYPE) no string libre. Mensajes incluyen el valor ofensivo sintético sin PII real."
+    },
+    {
+      "i": 33,
+      "len": 428,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: batch de inválidos. Salida: todos rejected con codes estables. Error: silenciar excepciones o mensaje genérico 'error'. Caso CASO-LIM-027-T3B. Por qué ",
+      "text": "Contrato operativo. Entrada: batch de inválidos. Salida: todos rejected con codes estables. Error: silenciar excepciones o mensaje genérico 'error'. Caso CASO-LIM-027-T3B. Por qué importa: si no fijas «batch de inválidos» → «todos rejected con codes estables», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «silenciar excepciones o mensaje genérico 'error'» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 107,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: '', None, 123 → EMPTY/NONE/TYPE. El revisor de PR del motor ER lee el code en el log de pytest.",
+      "text": "Aplicación: '', None, 123 → EMPTY/NONE/TYPE. El revisor de PR del motor ER lee el code en el log de pytest."
+    },
+    {
+      "i": 35,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Cobertura por rama y riesgo",
+      "text": "Cobertura por rama y riesgo"
+    },
+    {
+      "i": 36,
+      "len": 181,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A. Branch/risk coverage prioriza auto/review/non_match sobre líneas de log",
+      "text": "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A. Branch/risk coverage prioriza auto/review/non_match sobre líneas de log."
+    },
+    {
+      "i": 37,
+      "len": 160,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: decide(score) con tres ramas; el conjunto de salidas sobre un vector de scores debe cubrir las tres. Líneas de debug no cuentan como riesgo cubierto.",
+      "text": "Mecanismo: decide(score) con tres ramas; el conjunto de salidas sobre un vector de scores debe cubrir las tres. Líneas de debug no cuentan como riesgo cubierto."
+    },
+    {
+      "i": 38,
+      "len": 404,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: scores de matching sintéticos. Salida: covered set y full True. Error: solo probar score=1.0 y declarar 100% de negocio. Fixture CASO-LIM-027-T4A. Por ",
+      "text": "Contrato operativo. Entrada: scores de matching sintéticos. Salida: covered set y full True. Error: solo probar score=1.0 y declarar 100% de negocio. Fixture CASO-LIM-027-T4A. Por qué importa: si no fijas «scores de matching sintéticos» → «covered set y full True», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo probar score=1» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: scores 0.95/0.75/0.1 → auto/review/non. Matching score no es veredicto de fraude.",
+      "text": "Aplicación: scores 0.95/0.75/0.1 → auto/review/non. Matching score no es veredicto de fraude."
+    },
+    {
+      "i": 40,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mutación conceptual y fallas útiles",
+      "text": "Mutación conceptual y fallas útiles"
+    },
+    {
+      "i": 41,
+      "len": 204,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La mutación conceptual pregunta: si quito casefold/strip, ¿algún test falla? Si el mutante sobrevive, el contrato es teatro. Fallas útiles incluyen expected/actual y el input sinté",
+      "text": "La mutación conceptual pregunta: si quito casefold/strip, ¿algún test falla? Si el mutante sobrevive, el contrato es teatro. Fallas útiles incluyen expected/actual y el input sintético que disparó el bug."
+    },
+    {
+      "i": 42,
+      "len": 150,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: good vs mutant; oracle fijo; kills_mutant = mutant(raw) != oracle. Política CP-N3-A: bug_repro → regression_test antes de cerrar el ticket.",
+      "text": "Mecanismo: good vs mutant; oracle fijo; kills_mutant = mutant(raw) != oracle. Política CP-N3-A: bug_repro → regression_test antes de cerrar el ticket."
+    },
+    {
+      "i": 43,
+      "len": 380,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: raw y oracle. Salida: test_good y kills_mutant. Error: test que solo imprime 'ok' sin comparar. Caso CASO-LIM-027-T4B. Por qué importa: si no fijas «ra",
+      "text": "Contrato operativo. Entrada: raw y oracle. Salida: test_good y kills_mutant. Error: test que solo imprime 'ok' sin comparar. Caso CASO-LIM-027-T4B. Por qué importa: si no fijas «raw y oracle» → «test_good y kills_mutant», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «test que solo imprime 'ok' sin comparar» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 119,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: raw='ANA', oracle='ana'; mutant sin casefold muere. Mantenimiento: un oráculo, muchos cases parametrizados.",
+      "text": "Aplicación: raw='ANA', oracle='ana'; mutant sin casefold muere. Mantenimiento: un oráculo, muchos cases parametrizados."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 14706
+}

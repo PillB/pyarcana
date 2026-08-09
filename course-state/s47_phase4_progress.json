@@ -1,0 +1,322 @@
+{
+  "version": "3.2",
+  "section": "S47",
+  "section_id": "opensource",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S40-S52-P4",
+  "generated_at": "2026-07-20T08:24:52Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget opensource section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s47-opensource.ts",
+      "course-state/s47_phase4_progress.json",
+      "course-state/lanes/LANE-S40-S52-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "opensource",
+    "index": 47,
+    "title": "MLOps: experimentos, registro y serving",
+    "shortTitle": "MLOps serving",
+    "tagline": "Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4",
+    "estimatedHours": 16,
+    "learningOutcomes": 8,
+    "youDo": "[FINAL] MLOps: experimentos, registro y serving (CP-N4-B (cierre) + CF-4)",
+    "icon": "Github",
+    "legacy_note": "opensource retargeted to V3 MLOps: experimentos, registro y serving",
+    "capstone": "CP-N4-B (cierre) + CF-4",
+    "final_gate": true
+  },
+  "subtopics_authored": {
+    "S47-T1-A": {
+      "slug": "tracking-reproducibility",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T1-A-DEMO",
+      "exercises": [
+        "S47-T1-A-E1",
+        "S47-T1-A-E2",
+        "S47-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S47-T1-B": {
+      "slug": "data-code-env-lineage-compare",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T1-B-DEMO",
+      "exercises": [
+        "S47-T1-B-E1",
+        "S47-T1-B-E2",
+        "S47-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S47-T2-A": {
+      "slug": "signatures-stages-approvals",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T2-A-DEMO",
+      "exercises": [
+        "S47-T2-A-E1",
+        "S47-T2-A-E2",
+        "S47-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S47-T2-B": {
+      "slug": "artifacts-card-compat",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T2-B-DEMO",
+      "exercises": [
+        "S47-T2-B-E1",
+        "S47-T2-B-E2",
+        "S47-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S47-T3-A": {
+      "slug": "batch-online-feature-consistency",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T3-A-DEMO",
+      "exercises": [
+        "S47-T3-A-E1",
+        "S47-T3-A-E2",
+        "S47-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S47-T3-B": {
+      "slug": "latency-batching-fallback",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T3-B-DEMO",
+      "exercises": [
+        "S47-T3-B-E1",
+        "S47-T3-B-E2",
+        "S47-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S47-T4-A": {
+      "slug": "shadow-canary-monitoring",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T4-A-DEMO",
+      "exercises": [
+        "S47-T4-A-E1",
+        "S47-T4-A-E2",
+        "S47-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S47-T4-B": {
+      "slug": "rollback-retire-audit",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S47-T4-B-DEMO",
+      "exercises": [
+        "S47-T4-B-E1",
+        "S47-T4-B-E2",
+        "S47-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "[FINAL] MLOps: experimentos, registro y serving (CP-N4-B (cierre) + CF-4)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S47-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S47-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Datos sintéticos only. ER/matching no implica fraude ni parentesco. Sin PII real ni secretos."
+}

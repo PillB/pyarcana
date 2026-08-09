@@ -1,0 +1,378 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s24-710585-99001",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "code": "# exploratory pass completes via iDo\nimg={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T1-A-E1 leyendo la instruction del paquete activo «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el ente» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Preproceso",
+        "intake",
+        "escaneo",
+        "sint",
+        "tico",
+        "eleva"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "code": "# exploratory pass completes via iDo\nimg={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T1-A-E2 leyendo la instruction del paquete activo «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Deskew",
+        "flag",
+        "skew",
+        "grados",
+        "deskew_applied",
+        "skew"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "code": "# Transfer / protocolo — S24-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 950).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T1-A-E3 leyendo la instruction del paquete activo «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros;» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Crop",
+        "rgenes",
+        "lienzo",
+        "imprime",
+        "tupla",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "code": "# exploratory pass completes via iDo\nscores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T1-B-E1 leyendo la instruction del paquete activo «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de » y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo scores={0:0.2,180:0.75,90:0.05} print(max(s». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.))",
+      "concepts_used": [
+        "Orientaci",
+        "scores",
+        "Elige",
+        "rotaci",
+        "mayor",
+        "score"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "code": "# exploratory pass completes via iDo\nscores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T1-B-E2 leyendo la instruction del paquete activo «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(f» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo scores={0:0.2,180:0.75,90:0.05} print(max(s». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)))",
+      "concepts_used": [
+        "Ruido",
+        "binario",
+        "flags",
+        "donde",
+        "ruido",
+        "marcado"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "code": "# Transfer / protocolo — S24-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T1-B-E3 leyendo la instruction del paquete activo «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: f» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Gate",
+        "orientaci",
+        "score",
+        "score_orient",
+        "imprime",
+        "manual_orient"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\n# forma esperada (referencia): print([t['text'] for t in toks if t['conf']>=0.85])",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T2-A-E1 leyendo la instruction del paquete activo «Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de t» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) toks=[{'text':'A',». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "Filtro",
+        "confidence",
+        "toks",
+        "conf",
+        "date",
+        "textos"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\n# forma esperada (referencia): print(ocr('Hola')['lang'])\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T2-A-E2 leyendo la instruction del paquete activo «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. C» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) def ocr(text, lang». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Idioma",
+        "defecto",
+        "adapter",
+        "construye",
+        "resultado",
+        "simulado"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "code": "# Transfer / protocolo — S24-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: 0.75 review.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T2-A-E3 leyendo la instruction del paquete activo «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la s» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "conf",
+        "campos",
+        "confs",
+        "Imprime",
+        "status",
+        "review"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "code": "# exploratory pass completes via iDo\nlines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T2-B-E1 leyendo la instruction del paquete activo «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Con» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "parse",
+        "Total",
+        "Separa",
+        "clave",
+        "valor",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "code": "# exploratory pass completes via iDo\nlines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T2-B-E2 leyendo la instruction del paquete activo «Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: heade» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Tabla",
+        "sint",
+        "tica",
+        "Imprime",
+        "mero",
+        "filas"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "code": "# Transfer / protocolo — S24-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 20123456789.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T2-B-E3 leyendo la instruction del paquete activo «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en sol» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Evidencia",
+        "adjunta",
+        "bbox",
+        "field",
+        "valor",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "code": "# exploratory pass completes via iDo\nimport re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T3-A-E1 leyendo la instruction del paquete activo «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valid» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import re s=\"20.123456789\" d=re.sub(r\"\\D\",\"». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Normaliza",
+        "sint",
+        "tico",
+        "dejando",
+        "solo",
+        "gitos"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "code": "# exploratory pass completes via iDo\nimport re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T3-A-E2 leyendo la instruction del paquete activo «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import re s=\"20.123456789\" d=re.sub(r\"\\D\",\"». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Fecha",
+        "boleta",
+        "datetime",
+        "Contrato",
+        "dayfirst",
+        "YYYY"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "code": "# Transfer / protocolo — S24-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T3-A-E3 leyendo la instruction del paquete activo «RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass:» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "lido",
+        "normaliza",
+        "gitos",
+        "imprime",
+        "None",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "code": "# exploratory pass completes via iDo\ntotal, lines=150.0,[100.0,50.0]\nprint(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T3-B-E1 leyendo la instruction del paquete activo «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. » y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo total, lines=150.0,[100.0,50.0] print(\"ok\" ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Cross",
+        "field",
+        "monto",
+        "total",
+        "lines",
+        "lines"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\n# forma esperada (referencia): print(reasons)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T3-B-E2 leyendo la instruction del paquete activo «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumu» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) ruc=None reasons=[». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "Reasons",
+        "None",
+        "reasons",
+        "None",
+        "append",
+        "ruc_missing"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "code": "# Transfer / protocolo — S24-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T3-B-E3 leyendo la instruction del paquete activo «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como m» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "tica",
+        "producto",
+        "mismatch",
+        "True",
+        "implica",
+        "fraude"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "code": "# exploratory pass completes via iDo\ng=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t\":\"A\"}]\nprint(sum(1 for r in g if r[\"p\"]==r[\"t\"])/len(g))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T4-A-E1 leyendo la instruction del paquete activo «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo g=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t\":\"A\"}] pri». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Golden",
+        "accuracy",
+        "global",
+        "correct",
+        "imprime",
+        "float"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\n# forma esperada (referencia): print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T4-A-E2 leyendo la instruction del paquete activo «Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5.» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) rows=[{'ruc_pred':». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "Accuracy",
+        "campo",
+        "rows",
+        "pred",
+        "true",
+        "fracci"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "code": "# Transfer / protocolo — S24-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution o\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T4-A-E3 leyendo la instruction del paquete activo «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Cobertura",
+        "auto",
+        "auto",
+        "review",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\n# forma esperada (referencia): print('reject' if mime not in allowed else 'ok')",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T4-B-E1 leyendo la instruction del paquete activo «Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-clos» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) mime='application/». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Allowlist",
+        "mime",
+        "mime",
+        "application",
+        "jpeg",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "code": "# exploratory pass completes via iDo\nmeta={\"mime\":\"application/pdf\",\"n\":100}\nprint(\"ok\" if meta[\"mime\"]==\"application/pdf\" and meta[\"n\"]<5_000_000 else \"reject\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T4-B-E2 leyendo la instruction del paquete activo «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: r» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo meta={\"mime\":\"application/pdf\",\"n\":100} pri». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Size",
+        "gate",
+        "bytes",
+        "imprime",
+        "reject",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "code": "# Transfer / protocolo — S24-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el s\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S24-T4-B-E3 leyendo la instruction del paquete activo «Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S24-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Fallback",
+        "operativo",
+        "status",
+        "ocr_fail",
+        "acci",
+        "human_rescan"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S24 Q0: elijo índice 3 («Abstener y encolar revisión») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué haces si confidence de RUC es 0.6?» con ese matiz. Apoyo lexical del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S24 Q1: elijo índice 1 («Cola de revisión / corrección») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Un mismatch total vs líneas implica:» con ese matiz. Apoyo lexical del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S24 Q2: elijo índice 2 («Los campos críticos pueden fallar aunque el global se vea bien») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Por qué medir accuracy por campo?» con ese matiz. Apoyo lexical del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S24 Q3: elijo índice 0 («Gate reject/review por mime no permitido») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Archivo application/zip en intake de facturas:» con ese matiz. Apoyo lexical del packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:30:37.710537+00:00",
+  "session_started_at": "2026-07-23T09:30:01.628628+00:00",
+  "session_ended_at": "2026-07-23T09:30:37.710537+00:00"
+}

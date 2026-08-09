@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 36,
+  "recorded_at": "2026-07-21T22:45:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "scale cluster k": { "in_theory_or_demo": true, "where": "theory + S36-T1/T2 demos" },
+        "PCA exploratory": { "in_theory_or_demo": true, "where": "theory + S36-T2-B + T3-A demos" },
+        "sigma anomaly contam": { "in_theory_or_demo": true, "where": "theory + S36-T3-B + T4-A demos" },
+        "backtest P@k": { "in_theory_or_demo": true, "where": "theory + S36-T4-B + last demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Señal de rareza a revisar",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory anomaly is signal not guilt."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Hipótesis de fracción rara a flaggear",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory contamination ≠ fraud rate."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Exploración/visualización prudente",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory PCA exploratory only."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "precision@k y feedback humano",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory sparse labels → P@k + human."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S36-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(sum([1,2])/2)\nprint('mean', 1.5)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["centroid mean"],
+        "note": "Theory cluster means."
+      },
+      {
+        "exercise_id": "S36-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print((4-0)/2)\nprint('z', 2.0)\nprint('scaled', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["z-scale"],
+        "note": "Theory scale before k-means."
+      },
+      {
+        "exercise_id": "S36-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('verdict', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["cluster not verdict"],
+        "note": "Theory verdict False."
+      },
+      {
+        "exercise_id": "S36-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "scores={2:0.4,3:0.55,4:0.52}\nprint(max(scores, key=scores.get))\nprint('score', scores[3])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["best k"],
+        "note": "Theory best k by score."
+      },
+      {
+        "exercise_id": "S36-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('multi_seed')\nprint('stable_check', 'multi_seed')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["seed sensitivity"],
+        "note": "Theory multi_seed stability."
+      },
+      {
+        "exercise_id": "S36-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('internal_metrics_limited')\nprint('limits', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["internal metric limits"],
+        "note": "Theory internal metrics have limits."
+      },
+      {
+        "exercise_id": "S36-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(round(0.8*2+0.2*4,2))\nprint('exploratory', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["PCA toy projection"],
+        "note": "S36-T2-B-DEMO PC score."
+      },
+      {
+        "exercise_id": "S36-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('decision_model', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["PCA not final model"],
+        "note": "Theory PCA not decision model."
+      },
+      {
+        "exercise_id": "S36-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(2)\nprint('n_components', 2)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["2D projection"],
+        "note": "Theory project to 2D."
+      },
+      {
+        "exercise_id": "S36-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('axis_named_by_business', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["PC axes unnamed"],
+        "note": "Theory axis_named_by_business False."
+      },
+      {
+        "exercise_id": "S36-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('may_be_scale', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["visual outlier caution"],
+        "note": "Theory outliers may be scale."
+      },
+      {
+        "exercise_id": "S36-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('exploratory')\nprint('use', 'exploratory')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["document exploratory"],
+        "note": "Theory use exploratory."
+      },
+      {
+        "exercise_id": "S36-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(1)\nprint('flags', [0,0,0,0,1])\nprint('misconduct', False)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["sigma flags"],
+        "note": "Theory rule_sigma flags one outlier."
+      },
+      {
+        "exercise_id": "S36-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print('rule_and_score')\nprint('method', 'rule_sigma')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["combine rule+score"],
+        "note": "Theory combine IF/rules."
+      },
+      {
+        "exercise_id": "S36-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print('review_candidate')\nprint('misconduct', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["not guilt"],
+        "note": "Theory misconduct False."
+      },
+      {
+        "exercise_id": "S36-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print({'outlier':'rare_in_train','novelty':'new_vs_normality'})\nprint('ok', True)\nprint('labels', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["novelty vs outlier"],
+        "note": "Theory novelty vs outlier definitions."
+      },
+      {
+        "exercise_id": "S36-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(int(50*0.1))\nprint('is_fraud_rate', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["contamination expected flags"],
+        "note": "Theory expected_flags = n*contam."
+      },
+      {
+        "exercise_id": "S36-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('capacity_tuning')\nprint('use', 'capacity_tuning')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["tune contam to capacity"],
+        "note": "Theory capacity_tuning."
+      },
+      {
+        "exercise_id": "S36-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(round((0.1+0.12+0.09)/3,3))\nprint('backtest', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["mean flag rates"],
+        "note": "Theory mean_flag_rate windows."
+      },
+      {
+        "exercise_id": "S36-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('leakage', False)\nprint('fit_past_score_future', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["no future in fit"],
+        "note": "Theory backtest no leakage."
+      },
+      {
+        "exercise_id": "S36-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "windows=[('2026-01',0.1),('2026-02',0.12),('2026-03',0.09)]\nprint(len(windows))\nprint('n_windows', 3)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["window list"],
+        "note": "Theory sliding windows list."
+      },
+      {
+        "exercise_id": "S36-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(sum([1,0,1][:2])/2)\nprint('human', True)\nprint('auto_guilt', False)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["precision@k"],
+        "note": "Last demo P@2 / theory P@k."
+      },
+      {
+        "exercise_id": "S36-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('human_in_loop', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["human review required"],
+        "note": "Theory human_in_loop True."
+      },
+      {
+        "exercise_id": "S36-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('precision_at_k')\nprint('utility', 'precision_at_k')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["utility metric name"],
+        "note": "Theory utility precision@k."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

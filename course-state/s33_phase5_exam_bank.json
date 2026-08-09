@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S33",
+  "section_id": "advanced-models",
+  "phase": "PHASE_5",
+  "lane": "LANE-S31-S39-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "advanced-models",
+    "title_v3": "ML supervisado y baselines responsables",
+    "privacy_note": "Targets/scores de modelos no equivalen a prueba de fraude ni estigma legal. Privacy: scores ≠ fraude."
+  },
+  "retired_from_bank": [
+    "dominar-xgboost",
+    "implementar-stacking-y-blendin",
+    "optimizar-hiperparámetros-con",
+    "interpretar-modelos-con-shap:"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S33 (ML supervisado y baselines responsables). Privacy: scores ≠ fraude/parentesco/colusión.",
+  "families": [
+    {
+      "family_id": "S33-T1-A-EX",
+      "concept": "unit-target-horizon",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T1-B-EX",
+      "concept": "costs-rule-dummy",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T2-A-EX",
+      "concept": "reg-logreg-regularization",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T2-B-EX",
+      "concept": "coefs-assumptions-scaling",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T3-A-EX",
+      "concept": "trees-rf-boosting",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T3-B-EX",
+      "concept": "overfit-depth-repro",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T4-A-EX",
+      "concept": "pipeline-min-tracking",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S33-T4-B-EX",
+      "concept": "cv-error-analysis",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (advanced-models key)",
+    "course-state/s33_phase5_exam_bank.json"
+  ]
+}

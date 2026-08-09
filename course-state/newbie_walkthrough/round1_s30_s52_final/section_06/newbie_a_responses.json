@@ -1,0 +1,534 @@
+{
+  "agent": "a",
+  "section_index": 6,
+  "recorded_at": "2026-08-01T15:19:09.625112+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "Error",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "a también ve el append (alias)",
+        "confidence": 0.68,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          2.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Listar conflicto en conflicts sin silenciar",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          2.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "una tuple",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "validar schema JSON Schema",
+        "confidence": 0.8,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          1.0,
+          4.15,
+          2.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "Sí: copy() hace deepcopy automático",
+        "confidence": 0.8,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          3.0,
+          3.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "list de strings y `in` en un loop",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.15,
+          3.0,
+          2.15,
+          3.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 1,
+        "chosen_text": "get devuelve None; d x lanza KeyError",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.15,
+          5.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 2,
+        "chosen_text": "El dict cliente completo embebido en cada tx",
+        "confidence": 0.8,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          4.15,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S06-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ventana de las últimas transacciones (corrige el slicing).\ntxs = [10, 20, 30, 40, 50]\nventana = txs[:2]\nprint(ventana)\nprint(len(ventana))\nempty = []\nv0 = empty[0:2]\nprint(v0)\nprint(len(v0))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "agregues",
+          "inicio",
+          "starter",
+          "imprime",
+          "abre",
+          "ambos",
+          "texto",
+          "extra"
+        ]
+      },
+      {
+        "exercise_id": "S06-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Contrato de columnas: convierte a tuple inmutable.\nheaders = ['id', 'monto']\nKEYS = headers  # alias mutable\nmore = KEYS + ['canal']\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS sigue', KEYS)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "estabilidad",
+          "mutar",
+          "imprime",
+          "sin",
+          "desde",
+          "verificar",
+          "parte",
+          "crea"
+        ]
+      },
+      {
+        "exercise_id": "S06-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Diagnostica el error al mutar una tuple.\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept Exception as e:\n    print('error genérico', e)\nprint('ids', ids)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "muta",
+          "imprime",
+          "tipo",
+          "dentro",
+          "resultado",
+          "usa",
+          "haz",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S06-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Desempaqueta la fila en cid, region, monto.\nfila = ('C001', 'Lima', 10)\ncid = fila[0]\nregion = fila[2]\nmonto = fila[1]\nprint(cid, region, monto)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cruzados",
+          "starter",
+          "revisa",
+          "imprime",
+          "sustituye",
+          "tres",
+          "unpack",
+          "están"
+        ]
+      },
+      {
+        "exercise_id": "S06-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Demuestra alias vs copy de listas.\nxs = [1, 2]\nalias = xs\ncopia = xs\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "mutar",
+          "imprime",
+          "orden",
+          "parte",
+          "crea",
+          "imprimir",
+          "mismo"
+        ]
+      },
+      {
+        "exercise_id": "S06-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Shallow vs deep: aísla tags anidados.\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('s')\nprint('orig tras shallow tags', rows)\ndeep = rows.copy()  # debería aislar tags anidados\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "experimento",
+          "starter",
+          "reemplaza",
+          "mutar",
+          "imprime",
+          "arregles",
+          "observa",
+          "falsa"
+        ]
+      },
+      {
+        "exercise_id": "S06-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Construye un dict desde pares clave-valor.\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = pares\nprint(d)\nprint(d[1])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "asigna",
+          "fuera",
+          "siendo",
+          "posición",
+          "lista",
+          "indexes"
+        ]
+      },
+      {
+        "exercise_id": "S06-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# get con default vs acceso duro con KeyError.\nidx = {'C001': 'Ana'}\nprint(idx['C001'])\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "solución",
+          "compara",
+          "omitas",
+          "accede",
+          "error"
+        ]
+      },
+      {
+        "exercise_id": "S06-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Fusiona configs sin mutar defaults.\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\ndefaults.update(override)\nmerged = defaults\nprint('merged', merged)\nprint('defaults intacto', defaults)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "muta",
+          "imprime",
+          "observa",
+          "construye",
+          "sigue",
+          "verifica"
+        ]
+      },
+      {
+        "exercise_id": "S06-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Dedup de emails con salida ordenada.\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = set(emails)\nprint(unicos)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "starter",
+          "veces",
+          "garantizado",
+          "imprime",
+          "aparece",
+          "usa",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S06-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Intersección y diferencia simétrica de sets.\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a | b))\nprint('symdiff', sorted(a - b))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "corrige",
+          "mano",
+          "aplica",
+          "operadores",
+          "set",
+          "unión"
+        ]
+      },
+      {
+        "exercise_id": "S06-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Dedup que reporta conflictos de payload (idéntico ≠ conflicto).\ndef dedup_report(rows, key='id'):\n    seen = set()\n    unique = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen.add(k)\n            unique.append(r)\n    return {'unique': unique, 'conflicts': []}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C001', 'v': 1},  # idéntico: no es conflicto\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},  # distinto: sí es conflicto\n]\nprint(dedup_report(rows))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "resultado",
+          "anexa",
+          "nuevo",
+          "fixture",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S06-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Cuenta contactos por cliente.\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', c['contacts'])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "completo",
+          "faltante",
+          "debe",
+          "ser",
+          "formato",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S06-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Aplana todas las txs con client_id.\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    t = c['txs'][0]\n    flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ignora",
+          "resto",
+          "imprime",
+          "bug",
+          "incluye",
+          "completo",
+          "recorre",
+          "detecta"
+        ]
+      },
+      {
+        "exercise_id": "S06-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Valida shape: txs debe ser list.\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = bool(txs)\n    print(c['id'], 'ok' if ok else 'review')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "status",
+          "imprime",
+          "falsy",
+          "trata",
+          "usa",
+          "lista",
+          "vacía"
+        ]
+      },
+      {
+        "exercise_id": "S06-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Acceso seguro por ruta de claves.\ndef get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        # completa: si cur no es dict o falta k, devuelve default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "función",
+          "hace",
+          "resultados",
+          "hardcodees",
+          "sin",
+          "prueba",
+          "guardas"
+        ]
+      },
+      {
+        "exercise_id": "S06-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Marca email missing vs present.\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n    {'id': 'C004', 'email': ''},\n]\nfor c in clients:\n    if not c.get('email'):\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "borres",
+          "revisa",
+          "imprime",
+          "corrige",
+          "enunciado",
+          "condición",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S06-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Distingue falsy de missing (None).\nvals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', not v)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "ambos",
+          "flags",
+          "recorre",
+          "solo",
+          "equivalente"
+        ]
+      },
+      {
+        "exercise_id": "S06-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ordena filas por monto con sorted+key.\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['id'])\nprint([r['id'] for r in ordered])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "mutar",
+          "imprime",
+          "sin",
+          "usa",
+          "deja",
+          "sobre",
+          "ids"
+        ]
+      },
+      {
+        "exercise_id": "S06-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Orden multi-clave: región y luego nombre.\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nfor r in sorted(rows, key=lambda r: r['nombre']):\n    print(r['region'], r['nombre'])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "prints",
+          "compuesta",
+          "imprime",
+          "hardcodees",
+          "fila",
+          "usa",
+          "fijos"
+        ]
+      },
+      {
+        "exercise_id": "S06-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Contrasta list.sort (None) vs sorted.\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('ret', ret)\nprint('rows', rows)\ncopy_sorted = base.sort()\nprint('base', base, 'copy', copy_sorted)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "copia",
+          "variable",
+          "muestra",
+          "retorno",
+          "imprime",
+          "deja",
+          "usa",
+          "sigue"
+        ]
+      },
+      {
+        "exercise_id": "S06-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Elige list, dict o set según la operación.\njobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nfor job in jobs:\n    print(job, '→', 'list')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "starter",
+          "numpy",
+          "imprime",
+          "corrige",
+          "membership",
+          "orden",
+          "estructura"
+        ]
+      },
+      {
+        "exercise_id": "S06-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Export JSON determinista (ids + sort_keys).\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\ns = json.dumps(payload, ensure_ascii=False)\nprint(s)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "claves",
+          "imprime",
+          "usa",
+          "vez",
+          "orden",
+          "inserción",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S06-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Membership en list vs set: deriva costos desde n (no slogans fijos).\nids_list = ['C001', 'C002', 'C003', 'C004', 'C005']\nneedle = 'C003'\nprint('in list', needle in ids_list)\n# Completa: ids_set, in set, n = len(...), costos n*n y n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "labels",
+          "mantén",
+          "lista",
+          "construye",
+          "solution",
+          "comparar"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "ffdabf4588b3aa9a"
+  }
+}

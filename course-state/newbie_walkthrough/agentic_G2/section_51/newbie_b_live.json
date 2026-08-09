@@ -1,0 +1,494 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 51,
+  "packet_sha": "c89a65abd3621d96",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-G2-s51-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: skeptic solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"tr-moq-51\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\npredicate_ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\")\nprint(\"S51-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "trace_id",
+        "moq",
+        "spans",
+        "answer",
+        "prompt"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T1-A-E1 (guided). Instrucción: S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace completo, bundle version. Hints: Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva trace . Ajusté el booleano defectuoso del starter hacia `not (not record[\"trace_id\"] or record[\"pii_in_trace\"])`; ausencia de `pii_in_trace` → MISSING/uncertainty `RESTORE_TRACE_CONTEXT`; breach → `REDACT_AND_QUARANTINE_TRACE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"PASS\" if ok else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"tr-moq-51\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\nincomplete = dict(valid)\nif \"pii_in_trace\" in incomplete:\n    del incomplete[\"pii_in_trace\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "trace_id",
+        "spans",
+        "versions",
+        "pii_in_trace",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T1-A-E2 (independent). Instrucción: S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entrada: dict con case_id, trace_id, spans, versions, pii_in_trac. Hints: Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.; Después aplica la regla de S51-T1-A: trace completo, bundle versionado y cero PII. El fi. Ajusté el booleano defectuoso del starter hacia `not (not record[\"trace_id\"] or record[\"pii_in_trace\"])`; ausencia de `pii_in_trace` → MISSING/uncertainty `RESTORE_TRACE_CONTEXT`; breach → `REDACT_AND_QUARANTINE_TRACE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"RESTORE_TRACE_CONTEXT\"\n    contract_holds = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"CONTINUE\" if contract_holds else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"tr-moq-51\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\nuncertain = dict(valid)\nuncertain.pop(\"pii_in_trace\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "trace_id",
+        "spans",
+        "versions",
+        "pii_in_trace",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T1-A-E3 (transfer). Instrucción: S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUARANTINE_TRACE` y la a. Hints: Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró trace completo, bundle ve. Ajusté el booleano defectuoso del starter hacia `not (not record[\"trace_id\"] or record[\"pii_in_trace\"])`; ausencia de `pii_in_trace` → MISSING/uncertainty `RESTORE_TRACE_CONTEXT`; breach → `REDACT_AND_QUARANTINE_TRACE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\npredicate_ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"ALERT_COST_LATENCY\")\nprint(\"S51-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "prompt_tokens",
+        "retrieval_tokens",
+        "answer_tokens",
+        "total_tokens",
+        "p95_ms"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T1-B-E1 (guided). Instrucción: S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cuadran, p95 bajo SLO . Hints: Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.; El predicado c. Ajusté el booleano defectuoso del starter hacia `not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])`; ausencia de `redacted_fields` → MISSING/uncertainty `FIX_REDACTION_PIPELINE`; breach → `ALERT_COST_LATENCY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"PASS\" if ok else \"ALERT_COST_LATENCY\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 0, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\nincomplete = dict(valid)\nif \"redacted_fields\" in incomplete:\n    del incomplete[\"redacted_fields\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "prompt_tokens",
+        "retrieval_tokens",
+        "answer_tokens",
+        "total_tokens",
+        "p95_ms"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T1-B-E2 (independent). Instrucción: S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_tokens, retrieval_tokens,. Hints: Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.; Después aplica la regla de S51-T1-B: tokens cuadran, p95 bajo SLO y campos redactados. Ajusté el booleano defectuoso del starter hacia `not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])`; ausencia de `redacted_fields` → MISSING/uncertainty `FIX_REDACTION_PIPELINE`; breach → `ALERT_COST_LATENCY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"FIX_REDACTION_PIPELINE\"\n    contract_holds = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"CONTINUE\" if contract_holds else \"ALERT_COST_LATENCY\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 0, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\nuncertain = dict(valid)\nuncertain.pop(\"redacted_fields\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "prompt_tokens",
+        "retrieval_tokens",
+        "answer_tokens",
+        "total_tokens",
+        "p95_ms"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T1-B-E3 (transfer). Instrucción: S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_LATENCY` y la ausenci. Hints: Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró tokens cuadran, p95 bajo. Ajusté el booleano defectuoso del starter hacia `not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])`; ausencia de `redacted_fields` → MISSING/uncertainty `FIX_REDACTION_PIPELINE`; breach → `ALERT_COST_LATENCY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\npredicate_ok = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\")\nprint(\"S51-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "release",
+        "copilot",
+        "model",
+        "prompt",
+        "dataset"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T2-A-E1 (guided). Instrucción: S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versiones explícitas y bun. Hints: Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.; El predicado correcto debe ser verdadero porque. Ajusté el booleano defectuoso del starter hacia `not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))`; ausencia de `immutable` → MISSING/uncertainty `REGISTER_MISSING_VERSION`; breach → `FREEZE_RELEASE_BUNDLE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\n    return \"PASS\" if ok else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"latest\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\nincomplete = dict(valid)\nif \"immutable\" in incomplete:\n    del incomplete[\"immutable\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "release",
+        "model",
+        "prompt",
+        "dataset",
+        "index"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T2-A-E2 (independent). Instrucción: S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entrada: dict con case_id, release, model, prompt, dataset, index. Hints: Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.; Después aplica la regla de S51-T2-A: seis versiones explícitas y bundle inmutable. El fixtu. Ajusté el booleano defectuoso del starter hacia `not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))`; ausencia de `immutable` → MISSING/uncertainty `REGISTER_MISSING_VERSION`; breach → `FREEZE_RELEASE_BUNDLE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REGISTER_MISSING_VERSION\"\n    contract_holds = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\n    return \"CONTINUE\" if contract_holds else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"latest\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"immutable\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "release",
+        "model",
+        "prompt",
+        "dataset",
+        "index"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T2-A-E3 (transfer). Instrucción: S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEASE_BUNDLE` y la ausen. Hints: Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró seis versiones explíci. Ajusté el booleano defectuoso del starter hacia `not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))`; ausencia de `immutable` → MISSING/uncertainty `REGISTER_MISSING_VERSION`; breach → `FREEZE_RELEASE_BUNDLE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"dev-a\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\npredicate_ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\")\nprint(\"S51-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "author",
+        "dev",
+        "approver",
+        "owner",
+        "risk"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T2-B-E1 (guided). Instrucción: S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separación de funciones, sc. Hints: Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.; El predicado correcto debe ser verdade. Ajusté el booleano defectuoso del starter hacia `not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))`; ausencia de `audit_append_only` → MISSING/uncertainty `REQUEST_INDEPENDENT_APPROVAL`; breach → `REJECT_UNGOVERNED_CHANGE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"PASS\" if ok else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"dev-a\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"owner-b\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\nincomplete = dict(valid)\nif \"audit_append_only\" in incomplete:\n    del incomplete[\"audit_append_only\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "author",
+        "approver",
+        "risk",
+        "access_scope",
+        "retention_days"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T2-B-E2 (independent). Instrucción: S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_only`. Entrada: dict con case_id, author, approver, risk, acces. Hints: Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.; Después aplica la regla de S51-T2-B: separación de funciones, scope read, retención. Ajusté el booleano defectuoso del starter hacia `not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))`; ausencia de `audit_append_only` → MISSING/uncertainty `REQUEST_INDEPENDENT_APPROVAL`; breach → `REJECT_UNGOVERNED_CHANGE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REQUEST_INDEPENDENT_APPROVAL\"\n    contract_holds = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"CONTINUE\" if contract_holds else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"dev-a\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"owner-b\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"audit_append_only\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "author",
+        "approver",
+        "risk",
+        "access_scope",
+        "retention_days"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T2-B-E3 (transfer). Instrucción: S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UNGOVERNED_CHANGE` y l. Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró separación de func. Ajusté el booleano defectuoso del starter hacia `not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))`; ausencia de `audit_append_only` → MISSING/uncertainty `REQUEST_INDEPENDENT_APPROVAL`; breach → `REJECT_UNGOVERNED_CHANGE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\npredicate_ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\")\nprint(\"S51-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "availability",
+        "availability_slo",
+        "faithfulness",
+        "faithfulness_slo",
+        "drift"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T3-A-E1 (guided). Instrucción: S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithfulness/drift bajo SLO . Hints: Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.; El predicado correct. Ajusté el booleano defectuoso del starter hacia `not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])`; ausencia de `owner` → MISSING/uncertainty `TRIAGE_DRIFT_SLICE`; breach → `OPEN_COPILOT_INCIDENT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"PASS\" if ok else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.0, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\nincomplete = dict(valid)\nif \"owner\" in incomplete:\n    del incomplete[\"owner\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "availability",
+        "availability_slo",
+        "faithfulness",
+        "faithfulness_slo",
+        "drift"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T3-A-E2 (independent). Instrucción: S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, availability, availability_slo, faithfulness, faithfulnes. Hints: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S51-T3-A: availability/faithfulness/drift bajo SLO con owner. El fix. Ajusté el booleano defectuoso del starter hacia `not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])`; ausencia de `owner` → MISSING/uncertainty `TRIAGE_DRIFT_SLICE`; breach → `OPEN_COPILOT_INCIDENT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"TRIAGE_DRIFT_SLICE\"\n    contract_holds = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"CONTINUE\" if contract_holds else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.0, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\nuncertain = dict(valid)\nuncertain.pop(\"owner\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "availability",
+        "availability_slo",
+        "faithfulness",
+        "faithfulness_slo",
+        "drift"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T3-A-E3 (transfer). Instrucción: S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y la ausencia de `own. Hints: Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró availability/faithfulness/dr. Ajusté el booleano defectuoso del starter hacia `not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])`; ausencia de `owner` → MISSING/uncertainty `TRIAGE_DRIFT_SLICE`; breach → `OPEN_COPILOT_INCIDENT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\npredicate_ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\")\nprint(\"S51-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "contained",
+        "rolled_back_to",
+        "copilot",
+        "rollback_minutes",
+        "rto_minutes"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T3-B-E1 (guided). Instrucción: S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contención, last-good, RTO y . Hints: Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.; El predicado cor. Ajusté el booleano defectuoso del starter hacia `not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])`; ausencia de `owners_assigned` → MISSING/uncertainty `CONVENE_INCIDENT_REVIEW`; breach → `ROLLBACK_AND_CONTAIN`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": False, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\nincomplete = dict(valid)\nif \"owners_assigned\" in incomplete:\n    del incomplete[\"owners_assigned\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "contained",
+        "rolled_back_to",
+        "rollback_minutes",
+        "rto_minutes",
+        "postmortem_actions"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T3-B-E2 (independent). Instrucción: S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, rolled_back_to, rollback. Hints: Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.; Después aplica la regla de S51-T3-B: contención, last-good, RTO y acciones con dueño.. Ajusté el booleano defectuoso del starter hacia `not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])`; ausencia de `owners_assigned` → MISSING/uncertainty `CONVENE_INCIDENT_REVIEW`; breach → `ROLLBACK_AND_CONTAIN`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"CONVENE_INCIDENT_REVIEW\"\n    contract_holds = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if contract_holds else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": False, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"owners_assigned\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "contained",
+        "rolled_back_to",
+        "rollback_minutes",
+        "rto_minutes",
+        "postmortem_actions"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T3-B-E3 (transfer). Instrucción: S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AND_CONTAIN` y la ause. Hints: Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró contención, last-good, . Ajusté el booleano defectuoso del starter hacia `not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])`; ausencia de `owners_assigned` → MISSING/uncertainty `CONVENE_INCIDENT_REVIEW`; breach → `ROLLBACK_AND_CONTAIN`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": True, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\npredicate_ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\")\nprint(\"S51-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "uncertainty_shown",
+        "citations_resolve",
+        "effect_summary",
+        "prepara",
+        "borrador"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T4-A-E1 (guided). Instrucción: S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incertidumbre/citas visible. Hints: Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.; El predicado correcto deb. Ajusté el booleano defectuoso del starter hacia `not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])`; ausencia de `confirmed` → MISSING/uncertainty `ASK_USER_TO_CONFIRM`; breach → `BLOCK_UNCONFIRMED_ACTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"PASS\" if ok else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": True, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": False, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\nincomplete = dict(valid)\nif \"confirmed\" in incomplete:\n    del incomplete[\"confirmed\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "uncertainty_shown",
+        "citations_resolve",
+        "effect_summary",
+        "confirmation_required",
+        "confirmed"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T4-A-E2 (independent). Instrucción: S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Entrada: dict con case_id, uncertainty_shown, citations_resolve. Hints: Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.; Después aplica la regla de S51-T4-A: incertidumbre/citas visibles y efecto confirmado. El f. Ajusté el booleano defectuoso del starter hacia `not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])`; ausencia de `confirmed` → MISSING/uncertainty `ASK_USER_TO_CONFIRM`; breach → `BLOCK_UNCONFIRMED_ACTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"ASK_USER_TO_CONFIRM\"\n    contract_holds = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"CONTINUE\" if contract_holds else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": True, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": False, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"confirmed\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "uncertainty_shown",
+        "citations_resolve",
+        "effect_summary",
+        "confirmation_required",
+        "confirmed"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T4-A-E3 (transfer). Instrucción: S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONFIRMED_ACTION` y la a. Hints: Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró incertidumbre/citas visible. Ajusté el booleano defectuoso del starter hacia `not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])`; ausencia de `confirmed` → MISSING/uncertainty `ASK_USER_TO_CONFIRM`; breach → `BLOCK_UNCONFIRMED_ACTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\npredicate_ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\")\nprint(\"S51-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "keyboard_complete",
+        "screen_reader_labels",
+        "contrast_ratio",
+        "min_contrast",
+        "correction_available"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T4-B-E1 (guided). Instrucción: S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar teclado/lector/contra. Hints: Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.; E. Ajusté el booleano defectuoso del starter hacia `not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])`; ausencia de `appeal_to_human` → MISSING/uncertainty `ROUTE_CONTESTATION`; breach → `FAIL_ACCESSIBILITY_GATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"PASS\" if ok else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": False, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\nincomplete = dict(valid)\nif \"appeal_to_human\" in incomplete:\n    del incomplete[\"appeal_to_human\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "keyboard_complete",
+        "screen_reader_labels",
+        "contrast_ratio",
+        "min_contrast",
+        "correction_available"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T4-B-E2 (independent). Instrucción: S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_human`. Entrada: dict con case_id, keyboard_complete, screen. Hints: Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.; Después aplica la regla de S51-T4-B: teclado/lector/contraste y corrección/apelación.. Ajusté el booleano defectuoso del starter hacia `not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])`; ausencia de `appeal_to_human` → MISSING/uncertainty `ROUTE_CONTESTATION`; breach → `FAIL_ACCESSIBILITY_GATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"ROUTE_CONTESTATION\"\n    contract_holds = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"CONTINUE\" if contract_holds else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": False, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"appeal_to_human\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "keyboard_complete",
+        "screen_reader_labels",
+        "contrast_ratio",
+        "min_contrast",
+        "correction_available"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S51. Ejercicio S51-T4-B-E3 (transfer). Instrucción: S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FAIL_ACCESSIBILITY_GAT. Hints: Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró teclado/lector/contraste y c. Ajusté el booleano defectuoso del starter hacia `not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])`; ausencia de `appeal_to_human` → MISSING/uncertainty `ROUTE_CONTESTATION`; breach → `FAIL_ACCESSIBILITY_GATE`. Sin ejecución externa ni vidas previas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "trace reconstruible sin PII",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S51 con párrafos de theory. Pregunta: ¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?. La opción índice 2 («trace reconstruible sin PII») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir ROLLBACK_COPILOT y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S51 con párrafos de theory. Pregunta: Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?. La opción índice 0 («emitir ROLLBACK_COPILOT y conservar evidencia») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S51 con párrafos de theory. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?. La opción índice 1 («se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S51 con párrafos de theory. Pregunta: ¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?. La opción índice 3 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "S51 inverted predicates",
+      "note": "Starter booleans are deliberately inverted; fixed from hints + fixture invariants only."
+    }
+  ],
+  "retrospection": "skeptic: completed S51 (Observabilidad, gobernanza y UX del copiloto) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S51 skeptic: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T09:43:15+00:00",
+  "session_started_at": "2026-07-23T09:39:25+00:00",
+  "session_ended_at": "2026-07-23T09:43:15+00:00"
+}

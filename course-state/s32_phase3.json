@@ -1,0 +1,1072 @@
+{
+  "version": "3.2",
+  "section": "S32",
+  "section_id": "microservices",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S32 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S32 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s32-microservices.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "microservices",
+    "index": 32,
+    "title_platform": "Microservicios Python + Docker + Kubernetes",
+    "title_v3": "Feature engineering y pipelines sin leakage",
+    "title_decision": "KEEP platform id 'microservices' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisi",
+    "estimatedHours": 14,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S31"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-B (features)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "microservices",
+    "platform_title": "Microservicios Python + Docker + Kubernetes",
+    "v3_title": "Feature engineering y pipelines sin leakage",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante diseña features numéricas/categóricas/texto.",
+    "El estudiante aplica indicadores, scale y encoding.",
+    "El estudiante crea features relacionales y de grafo.",
+    "El estudiante calcula ventanas y frecuencias sin leakage.",
+    "El estudiante compone transformers reutilizables.",
+    "El estudiante persiste fit y reutiliza en inferencia.",
+    "El estudiante parte por entidad/grupo/tiempo.",
+    "El estudiante detecta leakage y versiona features."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S32-T1-A",
+      "slug": "num-cat-text-features",
+      "title": "numéricas/categóricas/texto"
+    },
+    {
+      "subtopic_id": "S32-T1-B",
+      "slug": "missing-scale-encode",
+      "title": "missing indicators, escalamiento y encoding"
+    },
+    {
+      "subtopic_id": "S32-T2-A",
+      "slug": "shared-contact-distance",
+      "title": "shared contact/address, distance y graph features"
+    },
+    {
+      "subtopic_id": "S32-T2-B",
+      "slug": "windows-frequency",
+      "title": "ventanas y frecuencia"
+    },
+    {
+      "subtopic_id": "S32-T3-A",
+      "slug": "columntransformer-custom",
+      "title": "ColumnTransformer y custom transformers"
+    },
+    {
+      "subtopic_id": "S32-T3-B",
+      "slug": "fit-transform-persist",
+      "title": "fit/transform y persistencia"
+    },
+    {
+      "subtopic_id": "S32-T4-A",
+      "slug": "entity-group-time-split",
+      "title": "split por entidad/grupo/tiempo"
+    },
+    {
+      "subtopic_id": "S32-T4-B",
+      "slug": "leakage-skew-versioning",
+      "title": "leakage, train–serve skew y versionado"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S32-T1",
+      "title": "Features",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S32-T1-A",
+          "slug": "num-cat-text-features",
+          "title": "numéricas/categóricas/texto",
+          "outcome": "El estudiante diseña features numéricas/categóricas/texto.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "numéricas/categóricas/texto",
+              "must_cover": [
+                "numeric",
+                "categorical",
+                "text features"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T1-A-DEMO",
+              "title": "Demo: numéricas/categóricas/texto",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T1-A-E1",
+                "kind": "guided",
+                "title": "numéricas/categóricas/texto — guided",
+                "skill": "num",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T1-A-E2",
+                "kind": "independent",
+                "title": "numéricas/categóricas/texto — independent",
+                "skill": "num",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T1-A-E3",
+                "kind": "transfer",
+                "title": "numéricas/categóricas/texto — transfer",
+                "skill": "num",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S32-T1-B",
+          "slug": "missing-scale-encode",
+          "title": "missing indicators, escalamiento y encoding",
+          "outcome": "El estudiante aplica indicadores, scale y encoding.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "missing indicators, escalamiento y encoding",
+              "must_cover": [
+                "missing indicator",
+                "scaling",
+                "encoding"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T1-B-DEMO",
+              "title": "Demo: missing indicators, escalamiento y encoding",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T1-B-E1",
+                "kind": "guided",
+                "title": "missing indicators, escalamiento y encoding — guided",
+                "skill": "missing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T1-B-E2",
+                "kind": "independent",
+                "title": "missing indicators, escalamiento y encoding — independent",
+                "skill": "missing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T1-B-E3",
+                "kind": "transfer",
+                "title": "missing indicators, escalamiento y encoding — transfer",
+                "skill": "missing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S32-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S32-T1-EVAL-1",
+            "title": "numéricas/categóricas/texto — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S32-T1-EVAL-2",
+            "title": "missing indicators, escalamiento y encoding — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S32-T2",
+      "title": "Relacionales",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S32-T2-A",
+          "slug": "shared-contact-distance",
+          "title": "shared contact/address, distance y graph features",
+          "outcome": "El estudiante crea features relacionales y de grafo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "shared contact/address, distance y graph features",
+              "must_cover": [
+                "shared entity",
+                "distance",
+                "graph features"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T2-A-DEMO",
+              "title": "Demo: shared contact/address, distance y graph features",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T2-A-E1",
+                "kind": "guided",
+                "title": "shared contact/address, distance y graph features — guided",
+                "skill": "shared",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T2-A-E2",
+                "kind": "independent",
+                "title": "shared contact/address, distance y graph features — independent",
+                "skill": "shared",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T2-A-E3",
+                "kind": "transfer",
+                "title": "shared contact/address, distance y graph features — transfer",
+                "skill": "shared",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S32-T2-B",
+          "slug": "windows-frequency",
+          "title": "ventanas y frecuencia",
+          "outcome": "El estudiante calcula ventanas y frecuencias sin leakage.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ventanas y frecuencia",
+              "must_cover": [
+                "time window",
+                "frequency"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T2-B-DEMO",
+              "title": "Demo: ventanas y frecuencia",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T2-B-E1",
+                "kind": "guided",
+                "title": "ventanas y frecuencia — guided",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T2-B-E2",
+                "kind": "independent",
+                "title": "ventanas y frecuencia — independent",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T2-B-E3",
+                "kind": "transfer",
+                "title": "ventanas y frecuencia — transfer",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S32-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S32-T2-EVAL-1",
+            "title": "shared contact/address, distance y graph features — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S32-T2-EVAL-2",
+            "title": "ventanas y frecuencia — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S32-T3",
+      "title": "Pipelines",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S32-T3-A",
+          "slug": "columntransformer-custom",
+          "title": "ColumnTransformer y custom transformers",
+          "outcome": "El estudiante compone transformers reutilizables.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ColumnTransformer y custom transformers",
+              "must_cover": [
+                "ColumnTransformer",
+                "TransformerMixin"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T3-A-DEMO",
+              "title": "Demo: ColumnTransformer y custom transformers",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T3-A-E1",
+                "kind": "guided",
+                "title": "ColumnTransformer y custom transformers — guided",
+                "skill": "columntransformer",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T3-A-E2",
+                "kind": "independent",
+                "title": "ColumnTransformer y custom transformers — independent",
+                "skill": "columntransformer",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T3-A-E3",
+                "kind": "transfer",
+                "title": "ColumnTransformer y custom transformers — transfer",
+                "skill": "columntransformer",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S32-T3-B",
+          "slug": "fit-transform-persist",
+          "title": "fit/transform y persistencia",
+          "outcome": "El estudiante persiste fit y reutiliza en inferencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "fit/transform y persistencia",
+              "must_cover": [
+                "fit",
+                "transform",
+                "joblib"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T3-B-DEMO",
+              "title": "Demo: fit/transform y persistencia",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T3-B-E1",
+                "kind": "guided",
+                "title": "fit/transform y persistencia — guided",
+                "skill": "fit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T3-B-E2",
+                "kind": "independent",
+                "title": "fit/transform y persistencia — independent",
+                "skill": "fit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T3-B-E3",
+                "kind": "transfer",
+                "title": "fit/transform y persistencia — transfer",
+                "skill": "fit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S32-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S32-T3-EVAL-1",
+            "title": "ColumnTransformer y custom transformers — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S32-T3-EVAL-2",
+            "title": "fit/transform y persistencia — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S32-T4",
+      "title": "Validación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S32-T4-A",
+          "slug": "entity-group-time-split",
+          "title": "split por entidad/grupo/tiempo",
+          "outcome": "El estudiante parte por entidad/grupo/tiempo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "split por entidad/grupo/tiempo",
+              "must_cover": [
+                "GroupKFold",
+                "time split"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T4-A-DEMO",
+              "title": "Demo: split por entidad/grupo/tiempo",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T4-A-E1",
+                "kind": "guided",
+                "title": "split por entidad/grupo/tiempo — guided",
+                "skill": "entity",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T4-A-E2",
+                "kind": "independent",
+                "title": "split por entidad/grupo/tiempo — independent",
+                "skill": "entity",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T4-A-E3",
+                "kind": "transfer",
+                "title": "split por entidad/grupo/tiempo — transfer",
+                "skill": "entity",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S32-T4-B",
+          "slug": "leakage-skew-versioning",
+          "title": "leakage, train–serve skew y versionado",
+          "outcome": "El estudiante detecta leakage y versiona features.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "leakage, train–serve skew y versionado",
+              "must_cover": [
+                "leakage",
+                "train-serve skew"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S32-T4-B-DEMO",
+              "title": "Demo: leakage, train–serve skew y versionado",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S32-T4-B-E1",
+                "kind": "guided",
+                "title": "leakage, train–serve skew y versionado — guided",
+                "skill": "leakage",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T4-B-E2",
+                "kind": "independent",
+                "title": "leakage, train–serve skew y versionado — independent",
+                "skill": "leakage",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S32-T4-B-E3",
+                "kind": "transfer",
+                "title": "leakage, train–serve skew y versionado — transfer",
+                "skill": "leakage",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S32-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S32-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S32-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S32-T4-EVAL-1",
+            "title": "split por entidad/grupo/tiempo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S32-T4-EVAL-2",
+            "title": "leakage, train–serve skew y versionado — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S32-PROJ",
+    "title": "Feature engineering y pipelines sin leakage",
+    "replaces_legacy": "Legacy You Do de 'Microservicios Python + Docker + Kubernetes' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-B (features)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-B (features)",
+    "increment_gate": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'microservices' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s32-microservices.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Microservicios Python + Docker + Kubernetes' vs 'Feature engineering y pipelines sin leakage'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-B (features)",
+    "increment_gate": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión.",
+    "project_id": "S32-PROJ",
+    "section_passed": false,
+    "notes": "S32 contributes to CP-N3-B (features). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S32",
+    "risk": "Display title still 'Microservicios Python + Docker + Kubernetes' until product rename; topic mismatch vs V3 'Feature engineering y pipelines sin leakage'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S32-T1-A first"
+  }
+}

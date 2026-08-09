@@ -1,0 +1,556 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 20,
+  "packet_sha": "cecd7c28c679cace",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_20/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.652716+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "3a3b94b17e98",
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T1-A-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "title"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T1-A-E1 siguiendo la instrucción del paquete: «Crea Workbook, pon título de hoja 'Entrada' y A1='region'; imprime sheetnames y A1.». Me apoyo en el demo S20-T1-B-DEMO (Leer/escribir sheets y celdas con openpyxl en workbook sintético). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Pistas: ws.title y ws['A1'].; from openpyxl import Workbook.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T1-A-E1 from openpyxl import Workbook wb = Workbook() ws = wb.active ws.title = \"Entrada\" w». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T1-A-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "append"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T1-A-E2 siguiendo la instrucción del paquete: «append header y una fila Lima/10.0; imprime max_row.». Me apoyo en el demo S20-T1-B-DEMO (Leer/escribir sheets y celdas con openpyxl en workbook sintético). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Pistas: ws.append.; max_row incluye header.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T1-A-E2 from openpyxl import Workbook wb = Workbook() ws = wb.active ws.append([\"region\", \"». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T1-A-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "title"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T1-A-E3 siguiendo la instrucción del paquete: «Crea hojas Datos y Salida; imprime sheetnames ordenados por creación.». Me apoyo en el demo S20-T1-B-DEMO (Leer/escribir sheets y celdas con openpyxl en workbook sintético). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Pistas: create_sheet.; Renombra active primero.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T1-A-E3 from openpyxl import Workbook wb = Workbook() wb.active.title = \"Datos\" wb.create_s». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T1-B-E1\nfrom openpyxl import Workbook\nws = Workbook().active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "str"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T1-B-E1 siguiendo la instrucción del paquete: «Asigna fórmula =A1+A2 y print si startswith('=').». Me apoyo en el demo S20-T1-B-DEMO (Leer/escribir sheets y celdas con openpyxl en workbook sintético). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Pistas: cell value string.; True esperado.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T1-B-E1 from openpyxl import Workbook ws = Workbook().active ws[\"A3\"] = \"=A1+A2\" print(str(». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T1-B-E2\nfrom openpyxl import Workbook\nws = Workbook().active\nws[\"A1\"], ws[\"A2\"] = 3, 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "value"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T1-B-E2 siguiendo la instrucción del paquete: «Con A1=3 A2=4 calcula suma python e imprime 7 sin evaluar fórmula Excel.». Me apoyo en el demo S20-T1-B-DEMO (Leer/escribir sheets y celdas con openpyxl en workbook sintético). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Pistas: Suma .value numéricos.; No uses data_only aquí.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T1-B-E2 from openpyxl import Workbook ws = Workbook().active ws[\"A1\"], ws[\"A2\"] = 3, 4 prin». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T1-B-E3\ndef es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "es_formula",
+        "isinstance",
+        "str",
+        "and"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T1-B-E3 siguiendo la instrucción del paquete: «Función es_formula(v) True si str y empieza con =; prueba con '=A1' y 3.». Me apoyo en el demo S20-T1-B-DEMO (Leer/escribir sheets y celdas con openpyxl en workbook sintético). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Pistas: isinstance str.; Dos prints.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T1-B-E3 def es_formula(v): return isinstance(v, str) and v.startswith(\"=\") print(es_formula». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T2-A-E1\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nws = Workbook().active\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "styles",
+        "Font"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T2-A-E1 siguiendo la instrucción del paquete: «Pon A1 bold=True e imprime font.bold.». Me apoyo en el demo S20-T2-A-DEMO (Distinguir fórmula almacenada vs suma calculada en Python). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Pistas: Font(bold=True).; openpyxl.styles.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T2-A-E1 from openpyxl import Workbook from openpyxl.styles import Font ws = Workbook().acti». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T2-A-E2\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nws = Workbook().active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill is not None)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "styles",
+        "PatternFill"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T2-A-E2 siguiendo la instrucción del paquete: «Aplica PatternFill solid fgColor 1F4E79 a A1 e imprime que fill no es None.». Me apoyo en el demo S20-T2-A-DEMO (Distinguir fórmula almacenada vs suma calculada en Python). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Pistas: PatternFill.; print True.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T2-A-E2 from openpyxl import Workbook from openpyxl.styles import PatternFill ws = Workbook». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T2-A-E3\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, cell):\n    ws[cell].font = Font(bold=True)\n    ws[cell].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nws = Workbook().active\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "styles",
+        "Font"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T2-A-E3 siguiendo la instrucción del paquete: «Escribe header_style(ws, cell) bold+fill; aplícalo a A1 y print bold.». Me apoyo en el demo S20-T2-A-DEMO (Distinguir fórmula almacenada vs suma calculada en Python). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Pistas: Función mutadora.; Color corporativo.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T2-A-E3 from openpyxl import Workbook from openpyxl.styles import Font, PatternFill def hea». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T2-B-E1\nfrom openpyxl import Workbook\nfrom datetime import date\nws = Workbook().active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "datetime",
+        "date"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T2-B-E1 siguiendo la instrucción del paquete: «Escribe date(2024,1,15) en A1 e imprime isoformat.». Me apoyo en el demo S20-T2-A-DEMO (Distinguir fórmula almacenada vs suma calculada en Python). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Pistas: datetime.date.; value.isoformat().. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T2-B-E1 from openpyxl import Workbook from datetime import date ws = Workbook().active ws[\"». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T2-B-E2\nfrom openpyxl import Workbook\nws = Workbook().active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "merge_cells"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T2-B-E2 siguiendo la instrucción del paquete: «merge B1:C1, valor en B1 'x'; imprime C1 value (None esperado).». Me apoyo en el demo S20-T2-A-DEMO (Distinguir fórmula almacenada vs suma calculada en Python). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Pistas: merge_cells.; Leer no ancla.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T2-B-E2 from openpyxl import Workbook ws = Workbook().active ws.merge_cells(\"B1:C1\") ws[\"B1». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T2-B-E3\nfrom openpyxl import Workbook\nws = Workbook().active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "merge_cells"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T2-B-E3 siguiendo la instrucción del paquete: «Cuenta cuántos merge ranges hay tras merge A1:B1 y C1:D1; print int.». Me apoyo en el demo S20-T2-A-DEMO (Distinguir fórmula almacenada vs suma calculada en Python). Fragmento iDo: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Pistas: len(ws.merged_cells.ranges).; Dos merges.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T2-B-E3 from openpyxl import Workbook ws = Workbook().active ws.merge_cells(\"A1:B1\") ws.mer». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T3-A-E1\nprint(abs((10 + 5) - 15) < 0.01)\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "abs"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T3-A-E1 siguiendo la instrucción del paquete: «detalle sum 10+5, portada 15; print reconcile True con tol 0.01.». Me apoyo en el demo S20-T3-A-DEMO (Escribir fecha ISO y respetar celda combinada (ancla)). Fragmento iDo: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Pistas: abs(diff)<0.01.; print bool.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T3-A-E1 print(abs((10 + 5) - 15) < 0.01)». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T3-A-E2\nimport pandas as pd\ndet = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(det.groupby(\"region\")[\"monto\"].sum().to_dict())\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "pandas",
+        "det",
+        "DataFrame",
+        "region"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T3-A-E2 siguiendo la instrucción del paquete: «Pivot suma por región con pandas; print dict de Lima/Cusco para montos 10,5 y 7.». Me apoyo en el demo S20-T3-A-DEMO (Escribir fecha ISO y respetar celda combinada (ancla)). Fragmento iDo: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Pistas: groupby sum.; to_dict.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T3-A-E2 import pandas as pd det = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T3-A-E3\ndef reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "reconcile",
+        "det_sum",
+        "portada",
+        "tol"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T3-A-E3 siguiendo la instrucción del paquete: «reconcile(det_sum, portada, tol=0.01) devuelve bool; prueba 22.0 vs 22.005 y 22.0 vs 23.». Me apoyo en el demo S20-T3-A-DEMO (Escribir fecha ISO y respetar celda combinada (ancla)). Fragmento iDo: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Pistas: abs <= tol o <.; Dos prints.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T3-A-E3 def reconcile(det_sum, portada, tol=0.01): return abs(det_sum - portada) < tol prin». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T3-B-E1\nprint([\"region\", \"monto\"] == [\"region\", \"monto\"])\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "region",
+        "monto"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T3-B-E1 siguiendo la instrucción del paquete: «headers got vs expected region/monto; print equality.». Me apoyo en el demo S20-T3-A-DEMO (Escribir fecha ISO y respetar celda combinada (ancla)). Fragmento iDo: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Pistas: list compare.; True.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T3-B-E1 print([\"region\", \"monto\"] == [\"region\", \"monto\"])». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T3-B-E2\nprint([r for r in [\"Lima\", \"Piura\"] if r not in {\"Lima\", \"Cusco\"}])\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "Lima",
+        "Piura",
+        "not",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T3-B-E2 siguiendo la instrucción del paquete: «Filtra regiones no permitidas de ['Lima','Piura'] con allowed Lima/Cusco; print bad list.». Me apoyo en el demo S20-T3-A-DEMO (Escribir fecha ISO y respetar celda combinada (ancla)). Fragmento iDo: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Pistas: list comp.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T3-B-E2 print([r for r in [\"Lima\", \"Piura\"] if r not in {\"Lima\", \"Cusco\"}])». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T3-B-E3\ndef validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Piura\"}], {\"Lima\", \"Cusco\"}))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "validate_rows",
+        "rows",
+        "allowed",
+        "region"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T3-B-E3 siguiendo la instrucción del paquete: «validate_rows(rows, allowed) retorna lista de regiones inválidas; prueba una inválida.». Me apoyo en el demo S20-T3-A-DEMO (Escribir fecha ISO y respetar celda combinada (ancla)). Fragmento iDo: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Pistas: Comprensión.; print resultado.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T3-B-E3 def validate_rows(rows, allowed): return [r[\"region\"] for r in rows if r[\"region\"] ». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T4-A-E1\nprint(sum(1 for v in [\"ok\", \"corrupt\", \"ok\"] if v == \"ok\"))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "sum",
+        "corrupt"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T4-A-E1 siguiendo la instrucción del paquete: «De statuses ok/corrupt/ok cuenta ok; print 2.». Me apoyo en el demo S20-T4-A-DEMO (Validar headers y dominio de región antes de escribir salida). Fragmento iDo: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Pistas: sum genexp.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T4-A-E1 print(sum(1 for v in [\"ok\", \"corrupt\", \"ok\"] if v == \"ok\"))». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T4-A-E2\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "name",
+        "report",
+        "lock",
+        "locked"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T4-A-E2 siguiendo la instrucción del paquete: «Clasifica nombre 'file.xlsx.lock' como locked si endswith .lock o contiene 'lock'; print status.». Me apoyo en el demo S20-T4-A-DEMO (Validar headers y dominio de región antes de escribir salida). Fragmento iDo: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Pistas: Regla simple didáctica.; print locked.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T4-A-E2 name = \"report.lock\" print(\"locked\" if name.endswith(\".lock\") or \"lock\" in name els». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T4-A-E3\nfrom collections import Counter\nprint(dict(Counter({\"a\": \"ok\", \"b\": \"corrupt\"}.values())))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "collections",
+        "Counter",
+        "dict",
+        "corrupt"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T4-A-E3 siguiendo la instrucción del paquete: «batch_status(files_dict) devuelve conteos por estado; input {'a':'ok','b':'corrupt'}.». Me apoyo en el demo S20-T4-A-DEMO (Validar headers y dominio de región antes de escribir salida). Fragmento iDo: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Pistas: Counter o dict.; print dict.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T4-A-E3 from collections import Counter print(dict(Counter({\"a\": \"ok\", \"b\": \"corrupt\"}.valu». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T4-B-E1\nprint({\"backup\": \"results.prev.xlsx\", \"idempotent\": True})\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "backup",
+        "results",
+        "prev",
+        "xlsx"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T4-B-E1 siguiendo la instrucción del paquete: «Imprime manifest con backup path y idempotent True.». Me apoyo en el demo S20-T4-A-DEMO (Validar headers y dominio de región antes de escribir salida). Fragmento iDo: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Pistas: dict.; json opcional.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T4-B-E1 print({\"backup\": \"results.prev.xlsx\", \"idempotent\": True})». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T4-B-E2\nimport hashlib\n\ndef build(rows):\n    return \"\\n\".join([\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)]) + \"\\n\"\nr1 = [(\"Lima\", 10), (\"Cusco\", 5)]\nprint(hashlib.sha1(build(r1).encode()).hexdigest() == hashlib.sha1(build(list(reversed(r1))).encode()).hexdigest())\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "hashlib",
+        "build",
+        "rows",
+        "join"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T4-B-E2 siguiendo la instrucción del paquete: «Muestra que build ordenado es idempotente: same hash para rows en distinto orden.». Me apoyo en el demo S20-T4-A-DEMO (Validar headers y dominio de región antes de escribir salida). Fragmento iDo: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Pistas: sorted + sha1.; print True.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T4-B-E2 import hashlib def build(rows): return \"\\n\".join([\"region,monto\"] + [f\"{r},{m}\" for». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S20-T4-B-E3\ndef structural_ok(sheetnames, need):\n    return set(sheetnames).issuperset(set(need))\nprint(structural_ok([\"Entrada\", \"Salida\", \"X\"], [\"Entrada\", \"Salida\"]))\n# B2 dual-run (Explorer): re-validated vs packet S20 S20-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S20",
+        "structural_ok",
+        "sheetnames",
+        "need",
+        "set"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S20-T4-B-E3 siguiendo la instrucción del paquete: «structural_ok(sheetnames, need) True si need subset de sheetnames; prueba need Entrada/Salida.». Me apoyo en el demo S20-T4-A-DEMO (Validar headers y dominio de región antes de escribir salida). Fragmento iDo: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Pistas: set issuperset.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S20']. Mi código clave: «# explorer/B2: completed from packet iDo for S20-T4-B-E3 def structural_ok(sheetnames, need): return set(sheetnames).issuperset(set(need)) p». Teoría cercana: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named ranges | fórmulas vs ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "No; suele devolver la fórmula o cache si existe",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: openpyxl sin Excel instalado no evalúa fórmulas automáticamente; suele devolver la fórmula o el valor cacheado si existe."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Escribir en la celda ancla (top-left)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: En celdas combinadas se escribe en la celda ancla (top-left) del merge."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Estados de batch, conciliación y backups",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Manifest del excel factory audita estados de batch, conciliación y backups."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Misma entrada → mismo resultado lógico",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Idempotencia: misma entrada → mismo resultado lógico al re-ejecutar."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

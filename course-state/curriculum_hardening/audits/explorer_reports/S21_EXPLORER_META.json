@@ -1,0 +1,9 @@
+{
+  "section": 21,
+  "id": "fastapi",
+  "file": "src/lib/course/sections/s21-fastapi.ts",
+  "score_1_to_10": 6.0,
+  "issue_count": 34,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

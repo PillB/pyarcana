@@ -1,0 +1,716 @@
+{
+  "version": "3.2",
+  "section": "S02",
+  "section_id": "basics",
+  "phase": "PHASE_2_COMPLETE",
+  "generated_at": "2026-07-20T12:30:00Z",
+  "prompt_version": "3.2",
+  "lane": "LANE-S02",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing (parallel S01)",
+    "research_agent": "Pre-Round Research + four-round dossier per subtopic",
+    "report_agent": "Artifacts, lane status"
+  },
+
+  "preamble": {
+    "objective": "Completar PHASE 2 (investigación pre-sección) de S02: research dossier de 8 subtemas (4×2) listo para PHASE 3 blueprint.",
+    "scope_in": [
+      "S02 únicamente",
+      "Research dossier con fuentes oficiales 2026",
+      "Mapeo de 8 subtemas a slugs de examen y gaps",
+      "Decisiones técnicas (Decimal vs float, is vs ==, f-strings, preserve raw)"
+    ],
+    "scope_out": [
+      "Autoría de contenido largo (PHASE 4)",
+      "Banco A/B/C completo (PHASE 5)",
+      "Edits a checkpoint/section_ledger/seed/s01",
+      "Mark section passed"
+    ],
+    "stop_criterion": "Cada uno de los 8 subtemas tiene: fuentes primarias, benchmark curricular, patrones prácticos, pedagogía, riesgos y notas de autoría.",
+    "inputs_used": [
+      "course-state/s02_phase0.json",
+      "course-state/s02_phase1.json",
+      "learning_roadmap_52_V3.md §S2",
+      "src/lib/course/sections/s02-basics.ts (635 líneas)",
+      "prisma/seed.ts basics bank",
+      "docs.python.org 3.14.6 (accessed 2026-07-20)"
+    ]
+  },
+
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "rounds": [
+      {
+        "name": "Documentación oficial actualizada",
+        "findings": [
+          "docs.python.org/3/tutorial/introduction.html (Python 3.14.6, updated Jul 20 2026): int/float, /, //, %, **, assignment, str immutability, list mutability, simple assignment never copies, slice shallow copy, print().",
+          "docs.python.org/3/library/stdtypes.html: truth values, comparisons including is/is not, numeric ops, constructor conversion notes.",
+          "docs.python.org/3/library/decimal.html: Decimal for money; construct from strings not floats; quantize for fixed places; ROUND_HALF_EVEN default; FloatOperation trap.",
+          "docs.python.org/3/reference/lexical_analysis.html#f-strings: f-strings PEP 498/701; format specs; debug =; nested braces; t-strings new in 3.14 (mention only, not required S02).",
+          "peps.python.org/pep-0008/: snake_case functions/vars; UPPER_CASE constants; CapWords classes; avoid l/O/I single letters."
+        ]
+      },
+      {
+        "name": "Repositorios y patrones prácticos 2025-2026",
+        "findings": [
+          "Patrón intake: dict con campos *_raw + campos normalizados; never overwrite raw on parse fail.",
+          "Validación: try int()/Decimal() + mensajes que digan qué campo falló y valor recibido.",
+          "Unicode: str is Unicode by default; names with tildes (García, Ñahui) must round-trip.",
+          "Pyodide/browser: decimal stdlib available; input() may need simulated inputs in playground."
+        ]
+      },
+      {
+        "name": "Tutoriales y master classes (benchmark, no copiar)",
+        "findings": [
+          "CS50P Lectures on types, variables, input — sequence benchmark only.",
+          "Python Tutorial ch.3 Informal Introduction — canonical first-hours path.",
+          "Real Python / official only as secondary; primary always docs.python.org."
+        ]
+      },
+      {
+        "name": "Patrones pedagógicos cursos Python/DS",
+        "findings": [
+          "Andamiaje: literales → type inspect → assign names → operators → I/O parse.",
+          "Errores novato: = vs ==; float money; mutar lista vía alias; int(' 12 ') vs int('12.5'); perder raw al normalizar.",
+          "I Do en browser/local pure Python; demos con expected output comprobables."
+        ]
+      }
+    ],
+    "deprecation_check": {
+      "percent_formatting": "Still valid but f-strings preferred for new S02 content",
+      "str_format": "Valid; secondary to f-strings",
+      "decimal": "NO deprecado — canónico para dinero",
+      "float_money": "Anti-pattern a enseñar explícitamente",
+      "t_strings": "Python 3.14 feature — optional note only, not assessment target",
+      "input_print": "Vigentes"
+    }
+  },
+
+  "canonical_subtopic_map": {
+    "source": "learning_roadmap_52_V3.md §S2",
+    "topics": [
+      {
+        "topic_id": "S02-T1",
+        "title": "Valores",
+        "subtopics": [
+          {
+            "subtopic_id": "S02-T1-A",
+            "slug": "literals-types",
+            "title": "Literales y tipos",
+            "v3_text": "literales y tipos",
+            "exam_skill": "reconocer literales y tipo resultante",
+            "exists_in_content": "partial",
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S02-T1-B",
+            "slug": "type-inspect-convert",
+            "title": "Inspección, conversión y validación explícita",
+            "v3_text": "inspección, conversión y validación explícita",
+            "exam_skill": "type/isinstance y conversión segura",
+            "exists_in_content": "partial",
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S02-T2",
+        "title": "Nombres",
+        "subtopics": [
+          {
+            "subtopic_id": "S02-T2-A",
+            "slug": "assignment-naming",
+            "title": "Asignación y convenciones",
+            "v3_text": "asignación y convenciones",
+            "exam_skill": "asignación y PEP 8 naming",
+            "exists_in_content": "partial",
+            "exists_in_exam": "partial (assign-vs-compare)"
+          },
+          {
+            "subtopic_id": "S02-T2-B",
+            "slug": "identity-mutability",
+            "title": "Identidad, mutabilidad y copias",
+            "v3_text": "identidad, mutabilidad y copias al nivel necesario",
+            "exam_skill": "is vs == y copia superficial",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S02-T3",
+        "title": "Operadores",
+        "subtopics": [
+          {
+            "subtopic_id": "S02-T3-A",
+            "slug": "operators-precedence",
+            "title": "Aritmética, comparación y precedencia",
+            "v3_text": "aritmética, comparación y precedencia",
+            "exam_skill": "evaluar expresiones con precedencia",
+            "exists_in_content": "partial",
+            "exists_in_exam": "partial (assign-vs-compare)"
+          },
+          {
+            "subtopic_id": "S02-T3-B",
+            "slug": "decimal-money",
+            "title": "Dinero, Decimal, precisión y redondeo",
+            "v3_text": "dinero, Decimal, precisión y redondeo",
+            "exam_skill": "usar Decimal para montos",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S02-T4",
+        "title": "I/O",
+        "subtopics": [
+          {
+            "subtopic_id": "S02-T4-A",
+            "slug": "io-fstrings",
+            "title": "input, print y f-strings",
+            "v3_text": "input, print y f-strings",
+            "exam_skill": "formatear salida y capturar entrada",
+            "exists_in_content": "partial",
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S02-T4-B",
+            "slug": "parse-error-messages",
+            "title": "Parsing, mensajes de error y ejemplos comprobables",
+            "v3_text": "parsing, mensajes de error y ejemplos comprobables",
+            "exam_skill": "parsear campos y reportar errores accionables",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      }
+    ]
+  },
+
+  "research_dossier": {
+    "S02-T1-A": {
+      "title": "Literales y tipos",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — An Informal Introduction to Python",
+          "url": "https://docs.python.org/3/tutorial/introduction.html",
+          "date_accessed": "2026-07-20",
+          "version_note": "Python 3.14.6 docs",
+          "key_facts": [
+            "int vs float; / always float; // floor; % remainder; ** power",
+            "str with ' or \"; immutable",
+            "list mutable; simple assignment does not copy"
+          ]
+        },
+        {
+          "source": "Built-in Types — Numeric Types",
+          "url": "https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "int unlimited precision",
+            "bool is subtype of int (teach carefully, not abuse)",
+            "constructors int()/float()/str()/bool()"
+          ]
+        },
+        {
+          "source": "Lexical analysis — Literals",
+          "url": "https://docs.python.org/3/reference/lexical_analysis.html#literals",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Numeric underscores 1_000",
+            "String prefixes r/f/b; t-strings 3.14 optional mention"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        {
+          "source": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "date_accessed": "2026-07-20",
+          "use": "Benchmark secuencia tipos antes de control; no copiar problem sets"
+        }
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Tabla de literales: 42, 3.14, 'hola', True, None con type()",
+          "anti_pattern": "Enseñar set/dict/tuple depth en S02 (solo mención si hace falta para mutabilidad)"
+        }
+      ],
+      "round_4_pedagogy": [
+        "Demo: imprimir type de 6 literales de intake (nombre str, edad int, activo bool)",
+        "E1 guiado literales; E2 clasificar tipo de expresión; E3 detectar literal vs string numérico '42'"
+      ],
+      "authoring_notes": [
+        "Español peruano: 'literal', 'tipo', 'cadena'",
+        "No listar todos los dunder types; focus student-facing int/float/str/bool/None",
+        "Environment: browser-pyodide + local-python"
+      ],
+      "risks": ["No saturar con complex/bytes en S02"]
+    },
+
+    "S02-T1-B": {
+      "title": "Inspección, conversión y validación explícita",
+      "round_1_primary": [
+        {
+          "source": "Built-in Functions — type, isinstance, int, float, str",
+          "url": "https://docs.python.org/3/library/functions.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "type(x) for inspection",
+            "isinstance preferred over type(x) is T for inheritance",
+            "int('42') ok; int('3.14') ValueError; float('3.14') ok"
+          ]
+        },
+        {
+          "source": "PEP 8 — Programming Recommendations (isinstance)",
+          "url": "https://peps.python.org/pep-0008/#programming-recommendations",
+          "date_accessed": "2026-07-20",
+          "key_facts": ["Object type comparisons should use isinstance()"]
+        }
+      ],
+      "round_2_curricular": [
+        "Validación explícita: convertir → capturar ValueError → mensaje con campo"
+      ],
+      "round_3_practical": [
+        "strip() before int on user text",
+        "Empty string is not a valid int — explicit check",
+        "Preserve original string when conversion fails"
+      ],
+      "round_4_pedagogy": [
+        "Demo: convertir ' 19 ' a int; fallar 'diecinueve' con mensaje",
+        "E3 transfer: validar teléfono como dígitos sin afirmar que es persona real"
+      ],
+      "authoring_notes": [
+        "Link to T4-B for full parse pipeline",
+        "Avoid bare except"
+      ],
+      "risks": ["No enseñar eval() para convertir"]
+    },
+
+    "S02-T2-A": {
+      "title": "Asignación y convenciones",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — assignment",
+          "url": "https://docs.python.org/3/tutorial/introduction.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "= binds name to object; no type declaration",
+            "NameError if name undefined",
+            "Multiple assignment a, b = 0, 1"
+          ]
+        },
+        {
+          "source": "PEP 8 — Naming Conventions",
+          "url": "https://peps.python.org/pep-0008/#naming-conventions",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "function/variable: snake_case",
+            "constants: UPPER_CASE",
+            "classes: CapWords",
+            "avoid l, O, I single-letter names"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Contrast = assignment vs == comparison early (exam concept reuse)"
+      ],
+      "round_3_practical": [
+        "Names for intake: nombres, apellido_paterno, apellido_materno, telefono, direccion",
+        "Trailing underscore if clash with keyword (class_)"
+      ],
+      "round_4_pedagogy": [
+        "E1 rename camelCase to snake_case; E2 fix illegal names; E3 style review mini-diff"
+      ],
+      "authoring_notes": [
+        "Reuse/remap assign-vs-compare exam family",
+        "No force Spanish identifiers in code — Spanish field names OK as domain"
+      ],
+      "risks": ["No confuse students with full PEP 8 document — extract essentials"]
+    },
+
+    "S02-T2-B": {
+      "title": "Identidad, mutabilidad y copias",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Lists (assignment never copies)",
+          "url": "https://docs.python.org/3/tutorial/introduction.html#lists",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Simple assignment never copies data",
+            "id(rgb) == id(rgba) same object",
+            "slice [:] shallow copy of list",
+            "str immutable; list mutable"
+          ]
+        },
+        {
+          "source": "Built-in Types — Comparisons is / is not",
+          "url": "https://docs.python.org/3/library/stdtypes.html#comparisons",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "is = object identity",
+            "== = equality",
+            "is not customizable; never raises"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy operations",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "S02 level: list[:] or list.copy() enough",
+            "Deep copy only mention for nested later"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Preserve original intake fields: store raw string separately before normalize"
+      ],
+      "round_3_practical": [
+        "Demo: a = b = []; a.append(1); see b",
+        "Demo: raw = nombre; nombre = nombre.strip().title(); raw unchanged if different binding"
+      ],
+      "round_4_pedagogy": [
+        "E1 predict id/is outcomes; E2 fix accidental alias bug; E3 design record with raw + clean"
+      ],
+      "authoring_notes": [
+        "Keep shallow only; no deep copy rabbit hole",
+        "Link gate: 'sin perder el valor original'"
+      ],
+      "risks": ["Interning of small ints/strings — avoid relying on is for values"]
+    },
+
+    "S02-T3-A": {
+      "title": "Aritmética, comparación y precedencia",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Numbers",
+          "url": "https://docs.python.org/3/tutorial/introduction.html#numbers",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "+ - * / // % **",
+            "-3**2 is -(3**2) = -9 due to precedence",
+            "Comparisons: < > <= >= == !="
+          ]
+        },
+        {
+          "source": "Operator precedence",
+          "url": "https://docs.python.org/3/reference/expressions.html#operator-precedence",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "** higher than unary -",
+            "Comparisons chain: x < y <= z",
+            "Parentheses to force order"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Chained comparisons as readability win"
+      ],
+      "round_3_practical": [
+        "Age range checks later use comparisons; S02 stays expression-level",
+        "Do not teach full if/elif trees here (S03)"
+      ],
+      "round_4_pedagogy": [
+        "Demo evaluate 2 + 3 * 4 vs (2+3)*4; -2**2",
+        "E3: fix precedence bug in monoto total = precio + precio * igv"
+      ],
+      "authoring_notes": [
+        "Comparisons without full control-flow chapter",
+        "Mention = vs == as bridge from T2-A"
+      ],
+      "risks": ["Don't import bitwise as primary S02 content"]
+    },
+
+    "S02-T3-B": {
+      "title": "Dinero, Decimal, precisión y redondeo",
+      "round_1_primary": [
+        {
+          "source": "decimal — Decimal fixed-point and floating-point arithmetic",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "date_accessed": "2026-07-20",
+          "version_note": "Python 3.14.6",
+          "key_facts": [
+            "0.1 + 0.1 + 0.1 - 0.3 exact zero with Decimal; not with float",
+            "Prefer Decimal('0.1') over Decimal(0.1)",
+            "quantize(Decimal('0.01')) for cents/céntimos",
+            "Default rounding ROUND_HALF_EVEN",
+            "FloatOperation trap optional advanced"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Accounting/fintech preference for decimal arithmetic in Python stdlib"
+      ],
+      "round_3_practical": [
+        "Soles: Decimal('19.90'); propina 10% = * Decimal('0.10')",
+        "Never sum floats for money in recommended path",
+        "str to Decimal for user input amounts"
+      ],
+      "round_4_pedagogy": [
+        "Demo float surprise 0.1+0.2; Decimal fix",
+        "E2: total con IGV 18% en Decimal; E3: quantize report"
+      ],
+      "authoring_notes": [
+        "Replace legacy propina float code",
+        "getcontext().prec only if needed; quantize more important for money display"
+      ],
+      "risks": [
+        "Mixing Decimal and float raises TypeError in arithmetic",
+        "Don't require full context trap mastery"
+      ]
+    },
+
+    "S02-T4-A": {
+      "title": "input, print y f-strings",
+      "round_1_primary": [
+        {
+          "source": "Built-in Functions — input, print",
+          "url": "https://docs.python.org/3/library/functions.html#input",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "input returns str",
+            "print(*args, sep, end)",
+            "Always str from input — need conversion"
+          ]
+        },
+        {
+          "source": "Formatted string literals (f-strings)",
+          "url": "https://docs.python.org/3/reference/lexical_analysis.html#f-strings",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "f'{expr}' runtime evaluation",
+            "Format specs :.2f",
+            "Debug specifier {var=}",
+            "PEP 701 formalization; nested expressions"
+          ]
+        },
+        {
+          "source": "Python Tutorial — print",
+          "url": "https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming",
+          "date_accessed": "2026-07-20",
+          "key_facts": ["print end= keyword"]
+        }
+      ],
+      "round_2_curricular": [
+        "CS50P input/print first programs"
+      ],
+      "round_3_practical": [
+        "Playground: simulate inputs as variables if input() awkward",
+        "f-string reports for client summary"
+      ],
+      "round_4_pedagogy": [
+        "Demo prompt + f-string confirm",
+        "E3: report multi-field with alignment"
+      ],
+      "authoring_notes": [
+        "t-strings 3.14: optional 'existe en 3.14' one-liner not assessed",
+        "Español prompts: 'Ingresa nombres:' "
+      ],
+      "risks": ["Security: don't teach that input is safe for eval/SQL"]
+    },
+
+    "S02-T4-B": {
+      "title": "Parsing, mensajes de error y ejemplos comprobables",
+      "round_1_primary": [
+        {
+          "source": "Built-in Exceptions — ValueError",
+          "url": "https://docs.python.org/3/library/exceptions.html#ValueError",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "ValueError for right type wrong value (int('abc'))",
+            "Messages should be actionable for operators"
+          ]
+        },
+        {
+          "source": "Unicode text model (str)",
+          "url": "https://docs.python.org/3/howto/unicode.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "str holds Unicode; source UTF-8 default",
+            "Names with tildes/ñ must not be stripped incorrectly"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Test table: valid, empty, Unicode name, invalid number — gate of S02"
+      ],
+      "round_3_practical": [
+        {
+          "record_shape": {
+            "nombres_raw": "str",
+            "apellido_paterno_raw": "str",
+            "apellido_materno_raw": "str",
+            "contacto_raw": "str",
+            "direccion_raw": "str",
+            "nombres": "normalized or None",
+            "errors": "list[str]"
+          }
+        },
+        "Empty field → error 'campo X vacío' without dropping raw",
+        "Invalid number field (e.g. edad or telefono digits) → keep raw, append error"
+      ],
+      "round_4_pedagogy": [
+        "I Do: parse one synthetic client line or prompts",
+        "E1 guided empty; E2 Unicode García Ñahui; E3 invalid number + assert tests"
+      ],
+      "authoring_notes": [
+        "Gate language: no parentesco/colusión claims",
+        "Synthetic only: example.com, fake phones",
+        "Tests comprobables: functions return structured result for assert"
+      ],
+      "risks": [
+        "Don't use real PII",
+        "Don't overbuild full validation engine (that's S03 rules)"
+      ]
+    }
+  },
+
+  "source_registry": [
+    {
+      "id": "SRC-S02-001",
+      "title": "Python Tutorial — Informal Introduction",
+      "url": "https://docs.python.org/3/tutorial/introduction.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T1-A", "S02-T2-A", "S02-T2-B", "S02-T3-A", "S02-T4-A"]
+    },
+    {
+      "id": "SRC-S02-002",
+      "title": "Built-in Types",
+      "url": "https://docs.python.org/3/library/stdtypes.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T1-A", "S02-T1-B", "S02-T2-B", "S02-T3-A"]
+    },
+    {
+      "id": "SRC-S02-003",
+      "title": "decimal — Decimal arithmetic",
+      "url": "https://docs.python.org/3/library/decimal.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T3-B"]
+    },
+    {
+      "id": "SRC-S02-004",
+      "title": "Lexical analysis — f-strings and literals",
+      "url": "https://docs.python.org/3/reference/lexical_analysis.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T1-A", "S02-T4-A"]
+    },
+    {
+      "id": "SRC-S02-005",
+      "title": "PEP 8 — Style Guide for Python Code",
+      "url": "https://peps.python.org/pep-0008/",
+      "type": "pep",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T2-A", "S02-T1-B"]
+    },
+    {
+      "id": "SRC-S02-006",
+      "title": "Built-in Functions",
+      "url": "https://docs.python.org/3/library/functions.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T1-B", "S02-T4-A"]
+    },
+    {
+      "id": "SRC-S02-007",
+      "title": "Operator precedence",
+      "url": "https://docs.python.org/3/reference/expressions.html#operator-precedence",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T3-A"]
+    },
+    {
+      "id": "SRC-S02-008",
+      "title": "copy — Shallow and deep copy",
+      "url": "https://docs.python.org/3/library/copy.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T2-B"]
+    },
+    {
+      "id": "SRC-S02-009",
+      "title": "Unicode HOWTO",
+      "url": "https://docs.python.org/3/howto/unicode.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S02-T4-B"]
+    },
+    {
+      "id": "SRC-S02-010",
+      "title": "CS50's Introduction to Programming with Python",
+      "url": "https://cs50.harvard.edu/python",
+      "type": "opencourseware",
+      "accessed": "2026-07-20",
+      "subtopics": ["pedagogy"]
+    }
+  ],
+
+  "decisions_for_blueprint": [
+    {
+      "id": "DEC-S02-R01",
+      "decision": "Estructura canónica 4×2 con slugs: literals-types, type-inspect-convert, assignment-naming, identity-mutability, operators-precedence, decimal-money, io-fstrings, parse-error-messages",
+      "authority": "V3 roadmap S2 + phase1 gaps"
+    },
+    {
+      "id": "DEC-S02-R02",
+      "decision": "Rescope platform content away from conditionals/loops/functions/comprehensions as S02 required outcomes; those remain S03/S04",
+      "authority": "V3 S2 vs S3/S4 split"
+    },
+    {
+      "id": "DEC-S02-R03",
+      "decision": "Money examples always Decimal constructed from str; float only for counter-example",
+      "authority": "docs.python.org/3/library/decimal.html 2026-07-20"
+    },
+    {
+      "id": "DEC-S02-R04",
+      "decision": "Project increment = intake parser with raw preservation + tests empty/Unicode/invalid number",
+      "authority": "V3 S2 Incremento/gate"
+    },
+    {
+      "id": "DEC-S02-R05",
+      "decision": "Environment browser-pyodide and local-python; pure stdlib",
+      "authority": "V3 S2 environment"
+    },
+    {
+      "id": "DEC-S02-R06",
+      "decision": "Shallow copy only (list[:] / .copy()); deep copy out of scope",
+      "authority": "V3 'al nivel necesario'"
+    },
+    {
+      "id": "DEC-S02-R07",
+      "decision": "No copiar ejercicios de CS50P; only sequence patterns",
+      "authority": "Prompt invariante §3"
+    },
+    {
+      "id": "DEC-S02-R08",
+      "decision": "Title decision: keep shortTitle 'Basics de Python'; retarget tagline to V3 scope (valores, tipos, operadores e I/O)",
+      "authority": "Platform id basics + V3 title phrase"
+    }
+  ],
+
+  "misconceptions_to_address": [
+    "Creer que = y == son intercambiables",
+    "Usar float para dinero en soles",
+    "Creer que a = b copia una lista",
+    "Usar is para comparar valores numéricos/strings (salvo None)",
+    "Asumir que input() devuelve int",
+    "int('3.14') funciona",
+    "Normalizar y sobrescribir el valor original del cliente",
+    "Tratar string vacío como 0 sin validación explícita",
+    "Asumir que nombres con tildes fallan en Python str"
+  ],
+
+  "phase_2_gate": {
+    "eight_subtopics_researched": true,
+    "official_sources_present": true,
+    "deprecation_checked": true,
+    "decisions_ready_for_blueprint": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3"
+  }
+}

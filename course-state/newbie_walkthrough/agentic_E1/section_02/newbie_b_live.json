@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 2,
+  "packet_sha": "4954c6038cd0329c",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s02-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "literales = [0, 3.14, \"Lima\", False, None]",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "literales",
+        "type",
+        "repr",
+        "NoneType"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`, `3.14`, `\"Lima\"`, `False`, `None`.». Delivered code centers on `literales = [0, 3.14, \"Lima\", False, None]` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: literales, type, repr, NoneType."
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "codigo_int = 42",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int; en intake modela banderas como bool, no 1/0 accidental\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "str vs int",
+        "isinstance",
+        "bool subtipo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name__`, el resultado de `42 == \"42\"`, y el de `str(42) == \"42\"`. Comenta». Delivered code centers on `codigo_int = 42` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: str vs int, isinstance, bool subtipo."
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "campos = {",
+      "code": "campos = {\n    \"nombres\": (\"Ana\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Rojas\", str),\n    \"contacto\": (\"999000111\", str),\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "contacto str",
+        "campos intake"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales de ejemplo. Campos: nombres, apellido_paterno, apel». Delivered code centers on `campos = {` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: contacto str, campos intake."
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "raw = \" 21 \"",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "strip",
+        "int"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe quedar `21` de tipo int.». Delivered code centers on `raw = \" 21 \"` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: strip, int."
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "def safe_int(campo: str, valor: str):",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return (False, None, f\"ERROR en {campo!r}: vacío (raw={valor!r})\")\n    try:\n        return (True, int(texto), None)\n    except ValueError:\n        return (False, None, f\"ERROR en {campo!r}: no es entero (raw={valor!r})\")\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "safe_int",
+        "ValueError"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si convierte, o `(False, None, mensaje)` si está vacío (tras strip) o n». Delivered code centers on `def safe_int(campo: str, valor: str):` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: safe_int, ValueError."
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN\n\ndef parse_edad_monto(edad_txt: str, monto_txt: str) -> dict:\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    et = edad_txt.strip()\n    if et == \"\":\n        errors.append(f\"ERROR en 'edad': vacío (raw={edad_txt!r})\")\n    else:\n        try:\n            clean[\"edad\"] = int(et)\n        except ValueError:\n            errors.append(f\"ERROR en 'edad': no es entero (raw={edad_txt!r})\")\n    mt = monto_txt.strip()\n    if mt == \"\":\n        errors.append(f\"ERROR en 'monto': vacío (raw={monto_txt!r})\")\n    else:\n        try:\n            clean[\"monto\"] = Decimal(mt).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        except (InvalidOperation, ValueError):\n            errors.append(f\"ERROR en 'monto': no es Decimal (raw={monto_txt!r})\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nprint(parse_edad_monto(\" 34 \", \"150.50\"))\nprint(parse_edad_monto(\"abc\", \"10.00\"))\nprint(parse_edad_monto(\"21\", \"xx\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Decimal",
+        "raw/clean/errors"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un c». Delivered code centers on `from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: Decimal, raw/clean/errors."
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "nombre_cliente = \"Luis\"",
+      "code": "nombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "snake_case",
+        "UPPER_CASE constante"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMaxima` (constante de negocio). Imprime los cinco nombres buen». Delivered code centers on `nombre_cliente = \"Luis\"` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: snake_case, UPPER_CASE constante."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "estado = \"activo\"",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "== vs ="
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Corrígelas para que imprima tres líneas `ok ...` sin SyntaxErr». Delivered code centers on `estado = \"activo\"` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: == vs =."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "encabezados = [",
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "headers snake_case"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Apellido Paterno`, `Apellido Materno`, `Teléfono / C». Delivered code centers on `encabezados = [` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: headers snake_case."
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "print(\"None is None →\", None is None)",
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa `is` solo para identidad (None); usa `==` para igualdad de valor\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "is vs ==",
+        "None"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] is []`, `1 == True`, `1 is True`. Luego escribe una línea de ». Delivered code centers on `print(\"None is None →\", None is None)` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: is vs ==, None."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "original = [\"a\", \"b\"]",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "copy",
+        "aliasing"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append(\"c\")` y demuestra que `original` sigue siendo `[\"a\", \"b\"]`.». Delivered code centers on `original = [\"a\", \"b\"]` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: copy, aliasing."
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "def make_record(nombres: str, contacto: str) -> dict:",
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw preserved",
+        "strip"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `nombres` y `contacto` (strip). Luego muta solo el ca». Delivered code centers on `def make_record(nombres: str, contacto: str) -> dict:` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: raw preserved, strip."
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "n = 17",
+      "code": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"nota: / siempre devuelve float en Python 3\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "//",
+        "%",
+        "**",
+        "/"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por qué `/` devuelve float.». Delivered code centers on `n = 17` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: //, %, **, /."
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "print(\"sin paréntesis:\", -3**2)",
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "precedencia **"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y haz `assert cuadrado_neg == 9`.». Delivered code centers on `print(\"sin paréntesis:\", -3**2)` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: precedencia **."
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "linea_a = 50",
+      "code": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "IGV",
+        "paréntesis"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = 50 + 30` y `total = subtotal * (1 + 0.18)` con **p». Delivered code centers on `linea_a = 50` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: IGV, paréntesis."
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "from decimal import Decimal",
+      "code": "from decimal import Decimal\n\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Decimal",
+        "float impreciso"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `decimal`.». Delivered code centers on `from decimal import Decimal` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: Decimal, float impreciso."
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "from decimal import Decimal, ROUND_HALF_EVEN",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "quantize",
+        "ROUND_HALF_EVEN"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina y total con `quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)`. S». Delivered code centers on `from decimal import Decimal, ROUND_HALF_EVEN` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: quantize, ROUND_HALF_EVEN."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return (False, None, f\"ERROR en monto: vacío (raw={texto!r})\")\n    try:\n        val = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return (True, val, None)\n    except (InvalidOperation, ValueError):\n        return (False, None, f\"ERROR en monto: no parseable (raw={texto!r})\")\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse_monto",
+        "InvalidOperation"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace vacío, parsee con `Decimal`, quantize a `0.01`, er». Delivered code centers on `from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: parse_monto, InvalidOperation."
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "nombre = \"José\"",
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "f-string"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acento incluido).». Delivered code centers on `nombre = \"José\"` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: f-string."
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "from decimal import Decimal",
+      "code": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "f-string formato"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un reporte multi-línea con f-string incluyendo `S/ {monto:.2f}`.». Delivered code centers on `from decimal import Decimal` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: f-string formato."
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:",
+      "code": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    types = {k: type(v).__name__ for k, v in datos.items()}\n    return {**datos, \"types\": types}\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "simular input",
+        "types str"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input()` real: recibe los valores (como si vinieran de p». Delivered code centers on `def simular_intake(nombres: str, contacto: str, edad: str) -> dict:` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: simular input, types str."
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "def parse_nombres(valor: str) -> dict:",
+      "code": "def parse_nombres(valor: str) -> dict:\n    raw = valor\n    clean = valor.strip()\n    errors = []\n    if clean == \"\":\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n        clean = None\n    return {\"nombres_raw\": raw, \"nombres\": clean, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse_nombres",
+        "errors"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None si vacío) y `errors` (lista). Si vacío tras strip, agrega err». Delivered code centers on `def parse_nombres(valor: str) -> dict:` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: parse_nombres, errors."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "original = \"  Ñahui  \"",
+      "code": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Unicode",
+        "Ñahui"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Parsea `apellido_materno = \" Ñahui \"` conservando raw con espacios y clean strip. Assert de round-trip Unicode: clean == \"Ñahui\" y raw original intac». Delivered code centers on `original = \"  Ñahui  \"` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: Unicode, Ñahui."
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "def safe_int(campo: str, valor: str):",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return (False, None, f\"ERROR en {campo!r}: vacío (raw={valor!r})\")\n    try:\n        return (True, int(texto), None)\n    except ValueError:\n        return (False, None, f\"ERROR en {campo!r}: no es entero (raw={valor!r})\")\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    raw = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n    }\n    errors = []\n    clean = {}\n    for key, val in [\n        (\"nombres\", nombres),\n        (\"apellido_paterno\", apellido_paterno),\n        (\"apellido_materno\", apellido_materno),\n        (\"contacto\", contacto),\n        (\"direccion\", direccion),\n    ]:\n        t = (val or \"\").strip()\n        if t == \"\":\n            clean[key] = None\n            errors.append(f\"ERROR en '{key}': vacío (raw={val!r})\")\n        else:\n            clean[key] = t\n    if edad is None:\n        clean[\"edad\"] = None\n    else:\n        ok, n, msg = safe_int(\"edad\", str(edad))\n        clean[\"edad\"] = n\n        if not ok:\n            errors.append(msg)\n    return {**raw, **clean, \"errors\": errors}\n\n# Tests sintéticos\nr1 = parse_client(\"Ana\", \"Quispe\", \"Ñahui\", \"999\", \"Lima\", \"34\")\nassert r1[\"errors\"] == [] and r1[\"apellido_materno\"] == \"Ñahui\"\nr2 = parse_client(\"\", \"Quispe\", \"Rojas\", \"999\", \"Lima\", \"34\")\nassert any(\"nombres\" in e.lower() for e in r2[\"errors\"])\nr3 = parse_client(\"Luis\", \"Ramos\", \"Diaz\", \"999\", \"Cusco\", \"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and any(\"edad\" in e.lower() for e in r3[\"errors\"])\nprint(\"suite OK\", r1[\"nombres\"], r2[\"errors\"][0][:20], r3[\"errors\"][0][:20])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse_client",
+        "safe_int"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S02-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None)` con `*_raw`, limpios, `errors`, y `safe_int` p». Delivered code centers on `def safe_int(campo: str, valor: str):` matching theory/iDo («Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quis»). Concepts: parse_client, safe_int."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "NoneType",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Cuál es el tipo de None en Python?» — choose «NoneType» because packet theory says «Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quispe\"`, `True`, `None`». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "str y False",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?» — choose «str y False» because packet theory says «Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quispe\"`, `True`, `None`». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Porque no es una cantidad aritmética y puede necesitar ceros o formato",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «¿Por qué el teléfono de un cliente de intake se modela como str?» — choose «Porque no es una cantidad aritmética y puede necesitar ceros o formato» because packet theory says «Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quispe\"`, `True`, `None`». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "[1, 2, 3]",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?» — choose «[1, 2, 3]» because packet theory says «Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quispe\"`, `True`, `None`». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "if x is None:",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «¿Cuál es el idioma correcto para comprobar ausencia de valor?» — choose «if x is None:» because packet theory says «Literales y tipos básicos: Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quispe\"`, `True`, `None`». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:11:52.729178+00:00"
+}

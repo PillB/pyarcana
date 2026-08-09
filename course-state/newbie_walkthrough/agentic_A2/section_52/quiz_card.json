@@ -1,0 +1,238 @@
+{
+  "section_index": 52,
+  "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+  "outcomes": [
+    "Revalida stakeholders y métricas de CF-1",
+    "Actualiza constraints, riesgos y no-go",
+    "Integra contexts vía APIs y eventos",
+    "Ensambla datos/modelos/RPA/RAG/HITL",
+    "Ejecuta tests, evals y red team",
+    "Demuestra SLO, backup y disaster exercise",
+    "Prepara demo y narrativa de CV",
+    "Publica artefactos y defiende técnicamente"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S52: Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "paragraphs": [
+        "En V3, **S52** retematiza el archivo de plataforma `career-strategy` hacia **Enterprise Relationship & Operations Intelligence Platform: capstone final**. **FINAL/CLOSE gate** (FINAL — independent of CP-N4-C; neither compensates the other).",
+        "Incremento: Enterprise Relationship & Operations Intelligence Platform integra, con contratos y datos sintéticos, Familiarity Dashboard, VP RPA/AI, ER/grafos/triage, reporting y copiloto. Rúbrica independiente de CP-N4-C. Promoción a máster: 52/52 secciones, 12/12 capstones, CP-FINAL y regresión S1–S52, cero P0/P1.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": "print([\"ops\",\"compliance\",\"data\"]); print([\"intake\",\"er\",\"report\"]); print([\"ttr\",\"precision_review\"])"
+    },
+    {
+      "heading": "stakeholders, jobs y success metrics de CF-1",
+      "paragraphs": [
+        "**stakeholders, jobs y success metrics de CF-1** — outcome del blueprint phase3 para `stakeholders-jobs-success-cf1`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print([\"ops\",\"compliance\",\"data\"]); print([\"intake\",\"er\",\"report\"]); print([\"ttr\",\"precision_review\"])"
+    },
+    {
+      "heading": "cambios, constraints, riesgos y no-go",
+      "paragraphs": [
+        "**cambios, constraints, riesgos y no-go** — outcome del blueprint phase3 para `changes-constraints-risks-nogo`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "bounded contexts, APIs y eventos",
+      "paragraphs": [
+        "**bounded contexts, APIs y eventos** — outcome del blueprint phase3 para `bounded-apis-events`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print(sorted([\"data\",\"hitl\",\"models\",\"rag\",\"rpa\"])); print(\"human_in_loop\", True); print(\"no_dark_patterns\", True)"
+    },
+    {
+      "heading": "datos, modelos, RPA, RAG y human workflow",
+      "paragraphs": [
+        "**datos, modelos, RPA, RAG y human workflow** — outcome del blueprint phase3 para `data-models-rpa-rag-human`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print(True); print(sorted([\"evals\",\"perf\",\"redteam\",\"unit\"])); print(\"p0_p1\", \"zero\")"
+    },
+    {
+      "heading": "tests/evals/red team y performance",
+      "paragraphs": [
+        "**tests/evals/red team y performance** — outcome del blueprint phase3 para `tests-evals-redteam-perf`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"slo\":0.995,\"backup\":\"daily\",\"disaster\":\"tabletop_ok\"}); print(\"drill\", \"tabletop_ok\"); print(\"rto\", \"documented\")"
+    },
+    {
+      "heading": "SLO, backup, rollback y disaster exercise",
+      "paragraphs": [
+        "**SLO, backup, rollback y disaster exercise** — outcome del blueprint phase3 para `slo-backup-rollback-disaster`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"script\":\"10min\",\"cv_bullets\":3}); print(\"narrative\", \"impact+metrics\"); print(\"repro\", True)"
+    },
+    {
+      "heading": "demo y narrativa CV",
+      "paragraphs": [
+        "**demo y narrativa CV** — outcome del blueprint phase3 para `demo-cv-narrative`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print([\"architecture.md\",\"README\",\"system_card\",\"LICENSE\",\"demo_video\",\"defense_notes\"]); print(\"n\", 6); print(\"cp_final\", \"independent_of_cpn4c\")"
+    },
+    {
+      "heading": "arquitectura, READMEs, cards, licencia, video y defensa",
+      "paragraphs": [
+        "**arquitectura, READMEs, cards, licencia, video y defensa** — outcome del blueprint phase3 para `arch-readme-cards-license-video-defense`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-FINAL exclusivamente** sin exponer secretos ni PII real."
+      ],
+      "code": "print([\"architecture.md\",\"README\",\"system_card\",\"LICENSE\",\"demo_video\",\"defense_notes\"]); print(\"n\", 6); print(\"cp_final\", \"independent_of_cpn4c\")"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S52-T1-B-DEMO",
+      "description": "Demo: stakeholders, jobs y success metrics de CF-1",
+      "why": "Demuestra el outcome de S52-T1-A con Python verificable.",
+      "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)"
+    },
+    {
+      "demoId": "S52-T2-A-DEMO",
+      "description": "Demo: cambios, constraints, riesgos y no-go",
+      "why": "Demuestra el outcome de S52-T1-B con Python verificable.",
+      "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)"
+    },
+    {
+      "demoId": "S52-T2-B-DEMO",
+      "description": "Demo: bounded contexts, APIs y eventos",
+      "why": "Demuestra el outcome de S52-T2-A con Python verificable.",
+      "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)"
+    },
+    {
+      "demoId": "S52-T3-A-DEMO",
+      "description": "Demo: datos, modelos, RPA, RAG y human workflow",
+      "why": "Demuestra el outcome de S52-T2-B con Python verificable.",
+      "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")"
+    },
+    {
+      "demoId": "S52-T3-B-DEMO",
+      "description": "Demo: tests/evals/red team y performance",
+      "why": "Demuestra el outcome de S52-T3-A con Python verificable.",
+      "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)"
+    },
+    {
+      "demoId": "S52-T4-A-DEMO",
+      "description": "Demo: SLO, backup, rollback y disaster exercise",
+      "why": "Demuestra el outcome de S52-T3-B con Python verificable.",
+      "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)"
+    },
+    {
+      "demoId": "S52-T4-B-DEMO",
+      "description": "Demo: demo y narrativa CV",
+      "why": "Demuestra el outcome de S52-T4-A con Python verificable.",
+      "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: arquitectura, READMEs, cards, licencia, video y defensa",
+      "why": "Demuestra el outcome de S52-T4-B con Python verificable.",
+      "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S52 que se preserva es:",
+      "options": [
+        "career-strategy",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S52 pertenece a:",
+      "options": [
+        "CP-FINAL exclusivamente",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura",
+    "Ingeniería de datos y orquestación de producción",
+    "MLOps: experimentos, registro y serving",
+    "LLM applications y RAG con evidencia",
+    "Agentes, herramientas y context engineering",
+    "Evals, red teaming y fiabilidad de IA",
+    "Observabilidad, gobernanza y UX del copiloto"
+  ]
+}

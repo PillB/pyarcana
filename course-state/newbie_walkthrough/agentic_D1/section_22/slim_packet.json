@@ -1,0 +1,922 @@
+{
+  "attempt_id": "agentic_D1",
+  "section_index": 22,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    }
+  ],
+  "active": {
+    "id": "rapidfuzz-entity",
+    "index": 22,
+    "title": "Email, identidad y aprobación humana",
+    "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+    "jobRelevance": "En operaciones y RPA, un pipeline de correo seguro separa **borrador, aprobación y envío**. S22 inicia **CP-N2-C** con MIME, scopes mínimos, resolución de destinatarios y cola de aprobación. Coincidir emails/nombres es evidencia de entrega, **no** prueba de fraude ni parentesco.",
+    "learningOutcomes": [
+      "Construir mensajes MIME con encoding y attachments",
+      "Sanitizar templates HTML de correo",
+      "Configurar OAuth/service account con scopes mínimos",
+      "Crear drafts vía adaptadores con expiración",
+      "Resolver y verificar destinatarios",
+      "Aplicar privacidad y mínima divulgación en listas",
+      "Implementar approval queue y state machine",
+      "Garantizar idempotencia, audit log y reintentos seguros"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S22-T1-A",
+        "heading": "MIME, encoding, HTML/text y attachments",
+        "paragraphs": [
+          "**MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en nombres y acentos del español peruano. `MIMEMultipart('alternative')` ofrece ambas representaciones; el cliente elige. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: `MIMEText(..., 'plain'|'html', 'utf-8')`; attachments con `Content-Disposition` y filename; nunca embeds de secretos (tokens, DNI) en el cuerpo. Limita tamaño de adjuntos sintéticos y márcalos como demo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: `MIMEText('Hola','plain','utf-8')` → content-type text/plain; mixed + `MIMEApplication` con `a.txt`. Contar headers `Content-Type` valida el árbol multiparte en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom email.mime.application import MIMEApplication\n\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Borrador sintético CP-N2-C\"\nmsg[\"From\"] = \"noreply@example.pe\"\nmsg[\"To\"] = \"revisora@example.pe\"\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"Hola (texto plano)\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>Hola <b>HTML</b></p>\", \"html\", \"utf-8\"))\nmsg.attach(alt)\natt = MIMEApplication(b\"run_id=cpn2c-01\\n\", Name=\"meta.txt\")\natt[\"Content-Disposition\"] = 'attachment; filename=\"meta.txt\"'\nmsg.attach(att)\nraw = msg.as_string()\nprint(\"parts\", raw.count(\"Content-Type:\"))\nprint(\"charset_ok\", \"charset=\\\"utf-8\\\"\" in raw or \"charset=utf-8\" in raw.lower())\nprint(\"has_attachment\", \"meta.txt\" in raw)",
+        "code_output": "parts 5\ncharset_ok True\nhas_attachment True"
+      },
+      {
+        "subtopicId": "S22-T1-B",
+        "heading": "templates y sanitización",
+        "paragraphs": [
+          "Los **templates** interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (`html.escape`) o usa autoescape. Política de links: allowlist de dominios (`example.pe`) o rutas relativas; bloquea `javascript:` y `data:`.",
+          "Contrato: template `Hola {name}` con name `<b>Ana</b>` debe producir entidades escapadas, no HTML activo. Allowlist: url con `example.pe` → `ok`, otro host → `blocked`. XSS en correo es riesgo real de phishing interno. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso sintético: cuerpo con link a portal de revisión del run; sin allowlist, un template malicioso redirige a dominio externo. El gate de sanitización es obligatorio antes de encolar aprobación. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "import html\nimport re\n\ndef sanitize_html(fragment: str, allowed_hosts=None) -> str:\n    allowed_hosts = allowed_hosts or {\"example.pe\"}\n    safe = html.escape(fragment)\n    # política simple: solo links http(s) a hosts allowlisted\n    def repl(m):\n        url = m.group(1)\n        if re.match(r\"^https?://\", url):\n            host = re.sub(r\"^https?://\", \"\", url).split(\"/\")[0]\n            if host in allowed_hosts:\n                return f'<a href=\"{url}\">enlace</a>'\n        return \"[link bloqueado]\"\n    return re.sub(r\"\\{\\{link:([^}]+)\\}\\}\", repl, safe)\n\nuser = '<script>alert(1)</script> {{link:https://example.pe/r}} {{link:javascript:alert(1)}}'\nprint(sanitize_html(user))",
+        "code_output": "&lt;script&gt;alert(1)&lt;/script&gt; <a href=\"https://example.pe/r\">enlace</a> [link bloqueado]"
+      },
+      {
+        "subtopicId": "S22-T2-A",
+        "heading": "OAuth/service account y scopes",
+        "paragraphs": [
+          "OAuth / service accounts operan con **scopes mínimos** (`mail.draft`, no `mail.full` ni `admin`). Modela credenciales con `client_id`, `scopes`, `expires_at` — **nunca** commits de secretos al repo del portfolio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: `requested ∩ allowed`; imprime True si granted no contiene scopes peligrosos. Tokens sintéticos del curso; registro de scopes pedidos vs concedidos como evidencia de least privilege. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: requested `mail.draft`+`mail.full` → filtrar a allowed; granted sin `mail.full`/`admin`. En sandbox, un scope de más es hallazgo de seguridad del diseño, no “detalle de config”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "from datetime import datetime, timezone, timedelta\n\n# configuración sintética — no son secretos reales\ncfg = {\n    \"client_id\": \"sandbox-client-001\",\n    \"requested_scopes\": [\"mail.draft\", \"mail.readonly\"],\n    \"granted_scopes\": [\"mail.draft\"],\n    \"expires_at\": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),\n}\nleast_ok = set(cfg[\"granted_scopes\"]).issubset({\"mail.draft\", \"mail.readonly\", \"mail.send\"})\nprint(\"client_id\", cfg[\"client_id\"])\nprint(\"granted\", cfg[\"granted_scopes\"])\nprint(\"missing_readonly\", \"mail.readonly\" in cfg[\"requested_scopes\"] and \"mail.readonly\" not in cfg[\"granted_scopes\"])\nprint(\"least_privilege_ok\", least_ok and \"mail.full\" not in cfg[\"granted_scopes\"])",
+        "code_output": "client_id sandbox-client-001\ngranted ['mail.draft']\nmissing_readonly True\nleast_privilege_ok True"
+      },
+      {
+        "subtopicId": "S22-T2-B",
+        "heading": "drafts, expiración y adaptadores",
+        "paragraphs": [
+          "Un **adaptador** (`GmailAdapter`, `SmtpFileAdapter`) expone `create_draft` / `get_draft` sin acoplar el workflow al SDK. Drafts llevan **expiración**: tras `expires_at` no se promueven a envío sin regenerar y reaprobar. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: store en memoria o `out/drafts/`; ids secuenciales `d001`, `d002`; `is_usable` False si expiró. El curso escribe `.eml` simulados — cero SMTP real. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: draft `d001` status `draft`; expires_at = now−1s → no usable. create_draft idempotente a nivel de id secuencial en el ejercicio de transfer. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "from datetime import datetime, timezone, timedelta\nfrom email.mime.text import MIMEText\n\nclass FileDraftAdapter:\n    def __init__(self):\n        self.store = {}\n    def create_draft(self, to, subject, body, ttl_hours=24):\n        draft_id = f\"d{len(self.store)+1:03d}\"\n        msg = MIMEText(body, \"plain\", \"utf-8\")\n        msg[\"To\"], msg[\"Subject\"] = to, subject\n        exp = datetime.now(timezone.utc) + timedelta(hours=ttl_hours)\n        self.store[draft_id] = {\"raw\": msg.as_string(), \"expires_at\": exp, \"status\": \"draft\"}\n        return draft_id\n    def is_usable(self, draft_id, now=None):\n        now = now or datetime.now(timezone.utc)\n        d = self.store[draft_id]\n        return d[\"status\"] == \"draft\" and now < d[\"expires_at\"]\n\nad = FileDraftAdapter()\ndid = ad.create_draft(\"revisora@example.pe\", \"Informe sintético\", \"run_id=cpn2c-01\", ttl_hours=1)\nprint(\"draft_id\", did)\nprint(\"usable\", ad.is_usable(did))\nprint(\"bytes\", len(ad.store[did][\"raw\"]))",
+        "code_output": "draft_id d001\nusable True\nbytes 184"
+      },
+      {
+        "subtopicId": "S22-T3-A",
+        "heading": "resolución y verificación",
+        "paragraphs": [
+          "Resolución de destinatarios: valida formato de email, mapea `C001→email` desde dict sintético, verifica dominio permitido (`example.pe`). Estados: `unresolved` → `candidate` → `verified` | `rejected`. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: match/score de similaridad de nombres, si se usa, lleva la nota explícita **`match_no_es_fraude`**. Un score 0.92 no autoriza claims de identidad legal ni parentesco; solo prioriza revisión de entrega. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: `ana@example.pe` ok, `bad` rejected; C001 verificado en dominio example.pe; imprimir score sintético 0.92 con la nota anti-claim. HITL si queda unresolved. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "import re\n\nDIRECTORY = {\n    \"C001\": {\"name\": \"Ana Rojas\", \"email\": \"ana.rojas@example.pe\", \"status\": \"active\"},\n    \"C002\": {\"name\": \"Luis Quispe\", \"email\": \"lquispe@ejemplo.invalid\", \"status\": \"active\"},\n}\nALLOW = {\"example.pe\"}\n\ndef resolve(contact_id):\n    return DIRECTORY.get(contact_id)\n\ndef verify(rec):\n    if not rec or rec[\"status\"] != \"active\":\n        return \"rejected\", \"missing_or_inactive\"\n    email = rec[\"email\"]\n    if not re.match(r\"^[^@]+@[^@]+\\.[^@]+$\", email):\n        return \"rejected\", \"bad_format\"\n    domain = email.split(\"@\")[1]\n    if domain not in ALLOW:\n        return \"rejected\", \"domain_not_allowed\"\n    return \"verified\", \"ok\"\n\nfor cid in (\"C001\", \"C002\", \"C999\"):\n    rec = resolve(cid)\n    st, reason = verify(rec) if rec else (\"unresolved\", \"not_found\")\n    print(cid, st, reason, None if not rec else rec[\"email\"])\nprint(\"note: match≠fraude\")",
+        "code_output": "C001 verified ok ana.rojas@example.pe\nC002 rejected domain_not_allowed lquispe@ejemplo.invalid\nC999 unresolved not_found None\nnote: match≠fraude"
+      },
+      {
+        "subtopicId": "S22-T3-B",
+        "heading": "listas, CC/BCC, privacidad y mínima divulgación",
+        "paragraphs": [
+          "**CC** expone destinatarios entre sí; **BCC** oculta la lista. Prefiere BCC o envíos individuales cuando hay externos. **Mínima divulgación**: no pongas DNI/teléfono en el cuerpo si el informe ya va adjunto cifrado o en portal. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: dedupe preservando orden; role=`bcc` si dominio externo (`@other.test`); contar cuántos emails quedarían visibles (to+cc) tras mover externos a bcc. Opt-out sintético y tope de tamaño de lista. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: lista con duplicados y un externo → tras higiene, visibles reducidos; el audit registra la política aplicada. Privacidad operativa, no solo “compliance de slide”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "from collections import OrderedDict\n\nrecipients = [\n    {\"email\": \"ana@example.pe\", \"role\": \"to\"},\n    {\"email\": \"luis@example.pe\", \"role\": \"cc\"},\n    {\"email\": \"ana@example.pe\", \"role\": \"to\"},  # dup\n    {\"email\": \"externo@other.test\", \"role\": \"bcc\"},\n]\n# dedupe preservando orden\nseen = OrderedDict()\nfor r in recipients:\n    seen[r[\"email\"]] = r\nclean = list(seen.values())\n# mínima divulgación: externos solo BCC\nfor r in clean:\n    if r[\"email\"].endswith(\"@other.test\") and r[\"role\"] != \"bcc\":\n        r[\"role\"] = \"bcc\"\nby_role = {}\nfor r in clean:\n    by_role.setdefault(r[\"role\"], []).append(r[\"email\"])\nprint(\"n\", len(clean), \"by_role\", {k: len(v) for k, v in by_role.items()})\nprint(\"to_visible_to_others\", by_role.get(\"to\", []) + by_role.get(\"cc\", []))",
+        "code_output": "n 3 by_role {'to': 1, 'cc': 1, 'bcc': 1}\nto_visible_to_others ['ana@example.pe', 'luis@example.pe']"
+      },
+      {
+        "subtopicId": "S22-T4-A",
+        "heading": "approval queue y state machine",
+        "paragraphs": [
+          "La **cola de aprobación** es una state machine: `draft` → `pending_review` → `approved` | `rejected` | `needs_info`. Transiciones explícitas con actor y timestamp; sin transición válida, no hay envío ni promoción de draft. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: tabla `TRANSITIONS`; `submit` desde draft → pending; `approve` desde draft → `invalid`. En CP-N2-C la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso solo simule). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: log `{from,to,actor}` al aprobar pending→approved con actor `rev1`. El portfolio adjunta el log: evidencia de cumplimiento y de fail-closed. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "TRANSITIONS = {\n    \"draft\": {\"submit\": \"pending_review\"},\n    \"pending_review\": {\"approve\": \"approved\", \"reject\": \"rejected\", \"request_edit\": \"needs_edit\"},\n    \"needs_edit\": {\"submit\": \"pending_review\"},\n    \"approved\": {},\n    \"rejected\": {},\n}\n\ndef apply(state, action, actor, log):\n    nxt = TRANSITIONS.get(state, {}).get(action)\n    if not nxt:\n        raise ValueError(f\"invalid {state}->{action}\")\n    log.append({\"from\": state, \"to\": nxt, \"action\": action, \"actor\": actor})\n    return nxt\n\nlog = []\nst = \"draft\"\nst = apply(st, \"submit\", \"analyst\", log)\nst = apply(st, \"approve\", \"reviewer\", log)\nprint(\"final\", st)\nprint(\"steps\", len(log))\nprint(log[-1][\"actor\"], log[-1][\"to\"])",
+        "code_output": "final approved\nsteps 2\nreviewer approved"
+      },
+      {
+        "subtopicId": "S22-T4-B",
+        "heading": "idempotencia, audit log y reintento sin duplicar",
+        "paragraphs": [
+          "Una **idempotency key** (p. ej. sha256 hex[:8] de `run_id|destinatario|versión del cuerpo`) evita drafts duplicados si el operador reintenta. El **audit log** registra create/submit/approve/retry con quién y cuándo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato de reintento: si la key ya existe en estado terminal o activo, devuelve el id previo; no crea otro mensaje. Eventos `create` luego `retry_hit` en la lista de audit. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: dos `create` con la misma key → igualdad True de ids; audit `['create','retry_hit']`. Cierra el inicio de CP-N2-C hacia browser RPA (S23) y el VP de automatización. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "import hashlib\n\nstore = {}  # key -> draft_id\naudit = []\n\ndef idem_key(run_id, to, body_ver):\n    raw = f\"{run_id}|{to}|{body_ver}\".encode()\n    return hashlib.sha256(raw).hexdigest()[:16]\n\ndef create_draft_once(run_id, to, body_ver):\n    k = idem_key(run_id, to, body_ver)\n    if k in store:\n        audit.append({\"event\": \"retry_hit\", \"key\": k, \"draft_id\": store[k]})\n        return store[k], True\n    did = f\"d{len(store)+1:03d}\"\n    store[k] = did\n    audit.append({\"event\": \"create\", \"key\": k, \"draft_id\": did})\n    return did, False\n\na, dup1 = create_draft_once(\"cpn2c-01\", \"ana@example.pe\", 1)\nb, dup2 = create_draft_once(\"cpn2c-01\", \"ana@example.pe\", 1)\nc, dup3 = create_draft_once(\"cpn2c-01\", \"ana@example.pe\", 2)\nprint(\"same_id\", a == b, \"dup_flags\", dup1, dup2)\nprint(\"new_on_body_ver\", a != c, \"dup3\", dup3)\nprint(\"audit_events\", [e[\"event\"] for e in audit])",
+        "code_output": "same_id True dup_flags False True\nnew_on_body_ver True dup3 False\naudit_events ['create', 'retry_hit', 'create']"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S22-T1-A-DEMO",
+          "subtopicId": "S22-T1-A",
+          "environment": "local/sandbox proveedor",
+          "description": "Construir mensaje MIME multi-parte seguro (text+HTML+adjunto sintético).",
+          "why": "MIME bien formado es la base de drafts auditables.",
+          "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom email.mime.application import MIMEApplication\n\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Demo MIME sintético\"\nmsg[\"From\"] = \"bot@example.pe\"\nmsg[\"To\"] = \"human@example.pe\"\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"Versión texto\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>Versión <i>HTML</i></p>\", \"html\", \"utf-8\"))\nmsg.attach(alt)\natt = MIMEApplication(b'{\"run_id\":\"cpn2c-01\"}', Name=\"run.json\")\natt.add_header(\"Content-Disposition\", \"attachment\", filename=\"run.json\")\nmsg.attach(att)\ns = msg.as_string()\nprint(\"ok\", \"run.json\" in s and \"utf-8\" in s.lower())\nprint(\"n_headers_subj\", s.count(\"Subject:\"))",
+          "language": "python",
+          "output": "ok True\nn_headers_subj 1"
+        },
+        {
+          "demoId": "S22-T1-B-DEMO",
+          "subtopicId": "S22-T1-B",
+          "environment": "local/sandbox proveedor",
+          "description": "Sanitizar HTML de templates de correo con escape y política de links.",
+          "why": "Sanitizar evita XSS y links maliciosos en plantillas.",
+          "code": "import html, re\n\ndef sanitize(s):\n    s = html.escape(s)\n    return re.sub(r\"https?://[^\\s<]+\", lambda m: m.group(0) if \"example.pe\" in m.group(0) else \"[blocked]\", s)\n\nraw = '<b>Hola</b> https://evil.test/x https://example.pe/ok'\nprint(sanitize(raw))",
+          "language": "python",
+          "output": "&lt;b&gt;Hola&lt;/b&gt; [blocked] https://example.pe/ok"
+        },
+        {
+          "demoId": "S22-T2-A-DEMO",
+          "subtopicId": "S22-T2-A",
+          "environment": "local/sandbox proveedor",
+          "description": "Configurar scopes mínimos en sandbox y detectar exceso de privilegios.",
+          "why": "Least privilege reduce impacto de un token filtrado.",
+          "code": "requested = [\"mail.draft\", \"mail.send\", \"mail.full\"]\npolicy_max = {\"mail.draft\", \"mail.readonly\"}\ngranted = [s for s in requested if s in policy_max]\ndenied = [s for s in requested if s not in policy_max]\nprint(\"granted\", granted)\nprint(\"denied\", denied)\nprint(\"least_ok\", \"mail.full\" not in granted and \"mail.send\" not in granted)",
+          "language": "python",
+          "output": "granted ['mail.draft']\ndenied ['mail.send', 'mail.full']\nleast_ok True"
+        },
+        {
+          "demoId": "S22-T2-B-DEMO",
+          "subtopicId": "S22-T2-B",
+          "environment": "local/sandbox proveedor",
+          "description": "Crear drafts vía adaptador con expiración.",
+          "why": "Expiración fuerza re-aprobación de contenido viejo.",
+          "code": "from datetime import datetime, timezone, timedelta\n\nclass Adapter:\n    def __init__(self):\n        self.drafts = {}\n    def create(self, body, hours=2):\n        i = f\"D{len(self.drafts)+1}\"\n        self.drafts[i] = {\"body\": body, \"exp\": datetime.now(timezone.utc)+timedelta(hours=hours)}\n        return i\n    def expired(self, i, now=None):\n        now = now or datetime.now(timezone.utc)\n        return now >= self.drafts[i][\"exp\"]\n\nad = Adapter()\nd = ad.create(\"borrador sintético\", hours=1)\nprint(\"id\", d, \"expired\", ad.expired(d))\nprint(\"n\", len(ad.drafts))",
+          "language": "python",
+          "output": "id D1 expired False\nn 1"
+        },
+        {
+          "demoId": "S22-T3-A-DEMO",
+          "subtopicId": "S22-T3-A",
+          "environment": "local/sandbox proveedor",
+          "description": "Resolver y verificar destinatarios sintéticos (match ≠ fraude).",
+          "why": "Solo contactos verificados entran al To del draft.",
+          "code": "contacts = {\"u1\": \"ana@example.pe\", \"u2\": \"bad@not-allowed.test\"}\nallow = {\"example.pe\"}\n\ndef check(uid):\n    em = contacts.get(uid)\n    if not em:\n        return \"unresolved\"\n    dom = em.split(\"@\")[1]\n    return \"verified\" if dom in allow else \"rejected\"\n\nfor u in (\"u1\", \"u2\", \"u9\"):\n    print(u, check(u))\nprint(\"disclaimer: verificación de entrega, no de fraude\")",
+          "language": "python",
+          "output": "u1 verified\nu2 rejected\nu9 unresolved\ndisclaimer: verificación de entrega, no de fraude"
+        },
+        {
+          "demoId": "S22-T3-B-DEMO",
+          "subtopicId": "S22-T3-B",
+          "environment": "local/sandbox proveedor",
+          "description": "Aplicar mínima divulgación: externos a BCC y dedupe.",
+          "why": "CC innecesario filtra la lista de trabajo del caso.",
+          "code": "rows = [\n    (\"ana@example.pe\", \"to\"),\n    (\"ana@example.pe\", \"to\"),\n    (\"partner@other.test\", \"cc\"),\n]\nout, seen = [], set()\nfor em, role in rows:\n    if em in seen:\n        continue\n    seen.add(em)\n    if em.endswith(\"other.test\"):\n        role = \"bcc\"\n    out.append((em, role))\nprint(out)",
+          "language": "python",
+          "output": "[('ana@example.pe', 'to'), ('partner@other.test', 'bcc')]"
+        },
+        {
+          "demoId": "S22-T4-A-DEMO",
+          "subtopicId": "S22-T4-A",
+          "environment": "local/sandbox proveedor",
+          "description": "Modelar cola de aprobación con estados.",
+          "why": "Sin estado approved no hay promoción del draft.",
+          "code": "sm = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\", \"reject\": \"rejected\"}}\nstate, trail = \"draft\", []\nfor act in (\"submit\", \"approve\"):\n    state = sm[state][act]\n    trail.append(state)\nprint(\"final\", state, \"trail\", trail)",
+          "language": "python",
+          "output": "final approved trail ['pending', 'approved']"
+        },
+        {
+          "demoId": "S22-T4-B-DEMO",
+          "subtopicId": "S22-T4-B",
+          "environment": "local/sandbox proveedor",
+          "description": "Reintentar sin duplicar envíos/drafts con idempotency key.",
+          "why": "Idempotencia protege de dobles drafts en reintentos de red.",
+          "code": "import hashlib\ndb = {}\n\ndef once(key, factory):\n    if key in db:\n        return db[key], True\n    db[key] = factory()\n    return db[key], False\n\nk = hashlib.sha256(b\"cpn2c-01|ana@example.pe|v1\").hexdigest()[:12]\na, d1 = once(k, lambda: \"draft-001\")\nb, d2 = once(k, lambda: \"draft-002\")\nprint(a, b, a==b, d1, d2)",
+          "language": "python",
+          "output": "draft-001 draft-001 True False True"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S22-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `text/plain | utf-8`.",
+          "hints": [
+            "from email.mime.text import MIMEText",
+            "print(msg['Content-Type']) o as_string."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+          "hints": [
+            "MIMEMultipart + attach",
+            "Content-Disposition filename"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T1-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alternative'). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `4`.",
+          "hints": [
+            "alternative dentro de mixed",
+            "alt.attach dos MIMEText"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `&lt;script&gt;x&lt;/script&gt;`.",
+          "hints": [
+            "import html",
+            "html.escape"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(html.escape('<script>x</script>'))\n"
+        },
+        {
+          "id": "S22-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Hola &lt;b&gt;Ana&lt;/b&gt;`.",
+          "hints": [
+            "escape antes de format",
+            "no uses f-string con HTML crudo"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('Hola ' + html.escape(name))\n"
+        },
+        {
+          "id": "S22-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for u in urls:. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `https://example.pe/a ok | https://evil.test blocked`.",
+          "hints": [
+            "if 'example.pe' in url",
+            "lista de prueba"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "urls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft', 'mail.readonly'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['mail.draft']`.",
+          "hints": [
+            "list comprehension",
+            "set membership"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "requested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+          "hints": [
+            "all(x not in granted for x in ...)",
+            "set isdisjoint"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(bad.isdisjoint(granted))\n"
+        },
+        {
+          "id": "S22-T2-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `refresh | valid`.",
+          "hints": [
+            "datetime.fromisoformat",
+            "compara con now UTC"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `draft`.",
+          "hints": [
+            "dict assignment",
+            "print store[id]"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(store['d001']['status'])\n"
+        },
+        {
+          "id": "S22-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timedelta(seconds=1). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `False`.",
+          "hints": [
+            "timedelta",
+            "now < expires"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `d001 d002`.",
+          "hints": [
+            "len(store)+1",
+            "f-string d{n:03d}"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(create_draft(), create_draft())\n"
+        },
+        {
+          "id": "S22-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `ana@example.pe True | bad False`.",
+          "hints": [
+            "re.match",
+            "bool del match"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get('C001'). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `verified`.",
+          "hints": [
+            "dict.get",
+            "split @"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "DIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'; n = 0. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `0.86 match_no_es_fraude`.",
+          "hints": [
+            "os.path common o loop",
+            "no uses el score como prueba de fraude"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs))). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['a@x', 'b@x']`.",
+          "hints": [
+            "dict.fromkeys",
+            "list"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(list(dict.fromkeys(xs)))\n"
+        },
+        {
+          "id": "S22-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r in rows:. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `bcc`.",
+          "hints": [
+            "endswith",
+            "mutar role"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "rows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = []. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `1 ['a@example.pe']`.",
+          "hints": [
+            "filtrar roles",
+            "after policy"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "rows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `pending`.",
+          "hints": [
+            "dict de dicts",
+            "TRANSITIONS[state][action]"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "T = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}; state, action = 'draft', 'approve'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `invalid`.",
+          "hints": [
+            "try/except o .get",
+            "None check"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]`.",
+          "hints": [
+            "append dict",
+            "actor obligatorio"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "log = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S22-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `0da400d6`.",
+          "hints": [
+            "hashlib.sha256",
+            "hexdigest slice"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n"
+        },
+        {
+          "id": "S22-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+          "hints": [
+            "cache dict",
+            "return existing"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(create('k') == create('k'))\n"
+        },
+        {
+          "id": "S22-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['create', 'retry_hit']`.",
+          "hints": [
+            "lista de event names",
+            "mismo key"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "audit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Borrador .eml con aprobación (inicio CP-N2-C)",
+      "context": "Construye un mini pipeline sintético: mensaje MIME → destinatario verificado → draft con idempotency key → cola pending_review. No envíes correo real. Matching de contactos no implica fraude.",
+      "objectives": [
+        "Generar un .eml/string MIME con text+HTML y adjunto meta",
+        "Resolver/verificar al menos un destinatario allowlisted",
+        "Crear draft con expiración y clave de idempotencia",
+        "Dejar estado pending_review con audit log"
+      ],
+      "requirements": [
+        "Sin PII real ni secretos",
+        "Ningún envío SMTP real",
+        "Destinatario requiere verificación",
+        "No inferir fraude desde matching",
+        "es-PE en textos de usuario"
+      ],
+      "portfolioNote": "Entregable inicio CP-N2-C: borrador sandbox + audit de aprobación; listo para web adapter (S23).",
+      "starterCode": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nimport hashlib\n\nrun_id = \"cpn2c-01\"\nto = \"revisora@example.pe\"\n# TODO: MIME + idempotency + estado pending_review\nprint(\"TODO pipeline email\")\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué garantiza no enviar correo real en el gate de S22?",
+        "options": [
+          "Usar mail.full",
+          "Solo drafts/.eml en sandbox y aprobación humana",
+          "CC a todos",
+          "Desactivar UTF-8"
+        ]
+      },
+      {
+        "question": "Un score alto de similitud entre dos emails implica:",
+        "options": [
+          "Fraude demostrado",
+          "Parentesco",
+          "Envío automático",
+          "Solo evidencia débil de contacto a revisar; no prueba de fraude"
+        ]
+      },
+      {
+        "question": "Least privilege en OAuth de correo significa:",
+        "options": [
+          "Solo los scopes mínimos (p. ej. draft) necesarios",
+          "Pedir todos los scopes",
+          "Compartir el refresh token en Slack",
+          "Usar la cuenta personal del CEO"
+        ]
+      },
+      {
+        "question": "La idempotency key al reintentar create_draft debe:",
+        "options": [
+          "Crear siempre un draft nuevo",
+          "Borrar el audit log",
+          "Reutilizar el mismo draft_id si la key existe",
+          "Enviar el correo"
+        ]
+      },
+      {
+        "question": "Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?",
+        "options": [
+          "Declarar fraude o parentesco y bloquear al cliente automáticamente",
+          "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+          "Enviar el correo sin aprobación porque el score supera 0.9",
+          "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "9c104917fbc2cfb3"
+}

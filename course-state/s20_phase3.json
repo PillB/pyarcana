@@ -1,0 +1,1075 @@
+{
+  "version": "3.2",
+  "section": "S20",
+  "section_id": "rag",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S20 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S20 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s20-rag.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "rag",
+    "index": 20,
+    "title_platform": "RAG — Retrieval-Augmented Generation en Producción",
+    "title_v3": "Automatización robusta de Excel",
+    "title_decision": "KEEP platform id 'rag' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manife",
+    "estimatedHours": 12,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S17",
+      "S18",
+      "S19"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-B (excel factory)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "rag",
+    "platform_title": "RAG — Retrieval-Augmented Generation en Producción",
+    "v3_title": "Automatización robusta de Excel",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante manipula sheets, celdas, tablas y named ranges.",
+    "El estudiante distingue fórmulas de valores cacheados.",
+    "El estudiante aplica estilos, charts y plantillas.",
+    "El estudiante maneja fechas, locales, merged cells y protección.",
+    "El estudiante concilia y trabaja con pivots.",
+    "El estudiante preserva estructura y validaciones.",
+    "El estudiante opera batch con corruptos y locks.",
+    "El estudiante garantiza backups, idempotencia y tests estructurales."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S20-T1-A",
+      "slug": "sheets-cells-tables-named",
+      "title": "sheets, celdas, tablas y named ranges"
+    },
+    {
+      "subtopic_id": "S20-T1-B",
+      "slug": "formulas-vs-cached-values",
+      "title": "fórmulas vs valores cacheados"
+    },
+    {
+      "subtopic_id": "S20-T2-A",
+      "slug": "styles-charts-templates",
+      "title": "estilos, charts y plantillas"
+    },
+    {
+      "subtopic_id": "S20-T2-B",
+      "slug": "dates-locales-merged-protect",
+      "title": "fechas, locales, celdas combinadas y protección"
+    },
+    {
+      "subtopic_id": "S20-T3-A",
+      "slug": "reconcile-pivots",
+      "title": "conciliación y pivots"
+    },
+    {
+      "subtopic_id": "S20-T3-B",
+      "slug": "validation-structure-preserve",
+      "title": "reglas de validación y preservación de estructura"
+    },
+    {
+      "subtopic_id": "S20-T4-A",
+      "slug": "batch-corrupt-locks",
+      "title": "batch, archivos corruptos y locks"
+    },
+    {
+      "subtopic_id": "S20-T4-B",
+      "slug": "backups-idempotency-visual-tests",
+      "title": "backups, idempotencia y pruebas visuales/estructurales"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S20-T1",
+      "title": "Workbooks",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S20-T1-A",
+          "slug": "sheets-cells-tables-named",
+          "title": "sheets, celdas, tablas y named ranges",
+          "outcome": "El estudiante manipula sheets, celdas, tablas y named ranges.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "sheets, celdas, tablas y named ranges",
+              "must_cover": [
+                "openpyxl/xlsxwriter",
+                "tables",
+                "named ranges"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T1-A-DEMO",
+              "title": "Leer/escribir sheets y named ranges",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T1-A-E1",
+                "kind": "guided",
+                "title": "sheets, celdas, tablas y named ranges — guided",
+                "skill": "sheets",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T1-A-E2",
+                "kind": "independent",
+                "title": "sheets, celdas, tablas y named ranges — independent",
+                "skill": "sheets",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T1-A-E3",
+                "kind": "transfer",
+                "title": "sheets, celdas, tablas y named ranges — transfer",
+                "skill": "sheets",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S20-T1-B",
+          "slug": "formulas-vs-cached-values",
+          "title": "fórmulas vs valores cacheados",
+          "outcome": "El estudiante distingue fórmulas de valores cacheados.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "fórmulas vs valores cacheados",
+              "must_cover": [
+                "data_only",
+                "formula preserve",
+                "calc risk"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T1-B-DEMO",
+              "title": "Distinguir fórmula vs valor cacheado",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T1-B-E1",
+                "kind": "guided",
+                "title": "fórmulas vs valores cacheados — guided",
+                "skill": "formulas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T1-B-E2",
+                "kind": "independent",
+                "title": "fórmulas vs valores cacheados — independent",
+                "skill": "formulas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T1-B-E3",
+                "kind": "transfer",
+                "title": "fórmulas vs valores cacheados — transfer",
+                "skill": "formulas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S20-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S20-T1-EVAL-1",
+            "title": "sheets, celdas, tablas y named ranges — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S20-T1-EVAL-2",
+            "title": "fórmulas vs valores cacheados — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S20-T2",
+      "title": "Formato",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S20-T2-A",
+          "slug": "styles-charts-templates",
+          "title": "estilos, charts y plantillas",
+          "outcome": "El estudiante aplica estilos, charts y plantillas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "estilos, charts y plantillas",
+              "must_cover": [
+                "styles",
+                "charts",
+                "template xlsx"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T2-A-DEMO",
+              "title": "Aplicar estilos/charts sobre plantilla",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T2-A-E1",
+                "kind": "guided",
+                "title": "estilos, charts y plantillas — guided",
+                "skill": "styles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T2-A-E2",
+                "kind": "independent",
+                "title": "estilos, charts y plantillas — independent",
+                "skill": "styles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T2-A-E3",
+                "kind": "transfer",
+                "title": "estilos, charts y plantillas — transfer",
+                "skill": "styles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S20-T2-B",
+          "slug": "dates-locales-merged-protect",
+          "title": "fechas, locales, celdas combinadas y protección",
+          "outcome": "El estudiante maneja fechas, locales, merged cells y protección.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "fechas, locales, celdas combinadas y protección",
+              "must_cover": [
+                "date serials",
+                "merged cells",
+                "sheet protect"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T2-B-DEMO",
+              "title": "Manejar locales/merged/protección sin romper layout",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T2-B-E1",
+                "kind": "guided",
+                "title": "fechas, locales, celdas combinadas y protección — guided",
+                "skill": "dates",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T2-B-E2",
+                "kind": "independent",
+                "title": "fechas, locales, celdas combinadas y protección — independent",
+                "skill": "dates",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T2-B-E3",
+                "kind": "transfer",
+                "title": "fechas, locales, celdas combinadas y protección — transfer",
+                "skill": "dates",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S20-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S20-T2-EVAL-1",
+            "title": "estilos, charts y plantillas — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S20-T2-EVAL-2",
+            "title": "fechas, locales, celdas combinadas y protección — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S20-T3",
+      "title": "Análisis",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S20-T3-A",
+          "slug": "reconcile-pivots",
+          "title": "conciliación y pivots",
+          "outcome": "El estudiante concilia y trabaja con pivots.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "conciliación y pivots",
+              "must_cover": [
+                "pivot preserve",
+                "reconcile totals"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T3-A-DEMO",
+              "title": "Conciliar totales y pivots del VP",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T3-A-E1",
+                "kind": "guided",
+                "title": "conciliación y pivots — guided",
+                "skill": "reconcile",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T3-A-E2",
+                "kind": "independent",
+                "title": "conciliación y pivots — independent",
+                "skill": "reconcile",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T3-A-E3",
+                "kind": "transfer",
+                "title": "conciliación y pivots — transfer",
+                "skill": "reconcile",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S20-T3-B",
+          "slug": "validation-structure-preserve",
+          "title": "reglas de validación y preservación de estructura",
+          "outcome": "El estudiante preserva estructura y validaciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "reglas de validación y preservación de estructura",
+              "must_cover": [
+                "data validation",
+                "structure diff"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T3-B-DEMO",
+              "title": "Preservar estructura y validaciones",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T3-B-E1",
+                "kind": "guided",
+                "title": "reglas de validación y preservación de estructura — guided",
+                "skill": "validation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T3-B-E2",
+                "kind": "independent",
+                "title": "reglas de validación y preservación de estructura — independent",
+                "skill": "validation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T3-B-E3",
+                "kind": "transfer",
+                "title": "reglas de validación y preservación de estructura — transfer",
+                "skill": "validation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S20-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S20-T3-EVAL-1",
+            "title": "conciliación y pivots — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S20-T3-EVAL-2",
+            "title": "reglas de validación y preservación de estructura — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S20-T4",
+      "title": "Operación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S20-T4-A",
+          "slug": "batch-corrupt-locks",
+          "title": "batch, archivos corruptos y locks",
+          "outcome": "El estudiante opera batch con corruptos y locks.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "batch, archivos corruptos y locks",
+              "must_cover": [
+                "batch runner",
+                "corrupt detect",
+                "file locks"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T4-A-DEMO",
+              "title": "Procesar batch con detección de corruptos/locks",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T4-A-E1",
+                "kind": "guided",
+                "title": "batch, archivos corruptos y locks — guided",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T4-A-E2",
+                "kind": "independent",
+                "title": "batch, archivos corruptos y locks — independent",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T4-A-E3",
+                "kind": "transfer",
+                "title": "batch, archivos corruptos y locks — transfer",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S20-T4-B",
+          "slug": "backups-idempotency-visual-tests",
+          "title": "backups, idempotencia y pruebas visuales/estructurales",
+          "outcome": "El estudiante garantiza backups, idempotencia y tests estructurales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "backups, idempotencia y pruebas visuales/estructurales",
+              "must_cover": [
+                "backup",
+                "idempotent write",
+                "structure tests"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S20-T4-B-DEMO",
+              "title": "Escritura idempotente con backup y tests estructurales",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S20-T4-B-E1",
+                "kind": "guided",
+                "title": "backups, idempotencia y pruebas visuales/estructurales — guided",
+                "skill": "backups",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T4-B-E2",
+                "kind": "independent",
+                "title": "backups, idempotencia y pruebas visuales/estructurales — independent",
+                "skill": "backups",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S20-T4-B-E3",
+                "kind": "transfer",
+                "title": "backups, idempotencia y pruebas visuales/estructurales — transfer",
+                "skill": "backups",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S20-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S20-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S20-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S20-T4-EVAL-1",
+            "title": "batch, archivos corruptos y locks — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S20-T4-EVAL-2",
+            "title": "backups, idempotencia y pruebas visuales/estructurales — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S20-PROJ",
+    "title": "Adaptador Excel del VP con manifest de cambios",
+    "replaces_legacy": "Legacy You Do de 'RAG — Retrieval-Augmented Generation en Producción' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Leer formatos sintéticos del VP",
+      "Workbook de resultados sin dañar plantilla",
+      "Manifest de cambios",
+      "Backup + idempotencia"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-B (excel factory)",
+    "increment_gate": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'rag' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s20-rag.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'RAG — Retrieval-Augmented Generation en Producción' vs 'Automatización robusta de Excel'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-B (excel factory)",
+    "increment_gate": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+    "project_id": "S20-PROJ",
+    "section_passed": false,
+    "notes": "S20 contributes to CP-N2-B (excel factory). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'RAG — Retrieval-Augmented Generation en Producción' until product rename; large topic mismatch vs V3 'Automatización robusta de Excel'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S20-T1-A first"
+  }
+}

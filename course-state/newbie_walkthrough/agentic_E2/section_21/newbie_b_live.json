@@ -1,0 +1,497 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 21,
+  "packet_sha": "6b4c3320865094ee",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s21-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T1-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T1-A-E1 la instrucción pide: E1 (guiado) — Concepto: render Jinja de saludo. Fixture `S21-T1-A-E1` / datos sintéticos: print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\")). Completa el TODO del starter sin borrar el oráculo; imprime el resultad. Completé el starter sin ____ ni TODO, siguiendo la pista «jinja2.Template.render.» y el patrón S21-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `from jinja2 import Template`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T1-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T1-A-E2 la instrucción pide: E2 (independiente) — Concepto: template de KPI median y n. Fixture `S21-T1-A-E2` / datos sintéticos: print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40)). Completa el TODO del starter sin borrar el oráculo; impr. Completé el starter sin ____ ni TODO, siguiendo la pista «Dos variables.» y el patrón S21-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `from jinja2 import Template`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T1-A-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T1-A-E3 la instrucción pide: E3 (transferencia) — Concepto: render_kpi(ctx) reutilizable. Fixture `S21-T1-A-E3` / datos sintéticos: def render_kpi(ctx):; return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx). Completa el TODO d. Completé el starter sin ____ ni TODO, siguiendo la pista «Template dentro o global.» y el patrón S21-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `from jinja2 import Template`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T1-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = None\nprint(\"—\" if median is None else median)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T1-B-E1 la instrucción pide: E1 (guiado) — Concepto: missing → em-dash —. Fixture `S21-T1-B-E1` / datos sintéticos: median = None; print(\"—\" if median is None else median). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del. Completé el starter sin ____ ni TODO, siguiendo la pista «condicional python o jinja.» y el patrón S21-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `median = None`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T1-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx = 28.456\nprint(f\"{x:.2f}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T1-B-E2 la instrucción pide: E2 (independiente) — Concepto: formato a 2 decimales. Fixture `S21-T1-B-E2` / datos sintéticos: x = 28.456; print(f\"{x:.2f}\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (. Completé el starter sin ____ ni TODO, siguiendo la pista «'%.2f' % x o f-string.» y el patrón S21-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `x = 28.456`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T1-B-E3: solo patrones del paquete activo\nfrom jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "jinja2"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T1-B-E3 la instrucción pide: E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\"); print(tmpl.render(rows=[{\"region\": \"Lima\". Completé el starter sin ____ ni TODO, siguiendo la pista «Template for.» y el patrón S21-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `from jinja2 import Template`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T2-A-E1: solo patrones del paquete activo\nfrom pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Muestra reconciliada: n=40\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "pathlib"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T2-A-E1 la instrucción pide: E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.docx\"); doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrat. Completé el starter sin ____ ni TODO, siguiendo la pista «La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.» y el patrón S21-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `from pathlib import Path`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T2-A-E2: solo patrones del paquete activo\nfrom docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "docx"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T2-A-E2 la instrucción pide: E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]; doc = Document(). Completa el TODO del starter sin borrar el or. Completé el starter sin ____ ni TODO, siguiendo la pista «Filtra exactamente `Heading 1` y conserva también la jerarquía completa.» y el patrón S21-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `from docx import Document`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T2-A-E3: solo patrones del paquete activo\nfrom docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n    cells = table.add_row().cells\n    cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "docx"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T2-A-E3 la instrucción pide: E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]; doc = Document(). Completa el TODO del starter sin borra. Completé el starter sin ____ ni TODO, siguiendo la pista «La tabla debe contener columnas métrica y valor.» y el patrón S21-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `from docx import Document`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T2-B-E1: solo patrones del paquete activo\nfrom pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico n=40\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "pathlib"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T2-B-E1 la instrucción pide: E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path(\"digital.pdf\"); c = canvas.Canvas(str(path)). Completa el TODO del starter sin borrar el oráculo; imprime el . Completé el starter sin ____ ni TODO, siguiendo la pista «Comprueba primero los bytes `%PDF`.» y el patrón S21-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `from pathlib import Path`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T2-B-E2: solo patrones del paquete activo\nfrom pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\ndocument = fitz.open(pdf)\ndocument[0].get_pixmap().save(png)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "pathlib"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T2-B-E2 la instrucción pide: E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\"); c = canvas.Canvas(str(pdf)). Completa el TODO del starter sin borrar el . Completé el starter sin ____ ni TODO, siguiendo la pista «Cierra o conserva el documento mientras accedes a la página.» y el patrón S21-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `from pathlib import Path`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T2-B-E3: solo patrones del paquete activo\nfrom pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (500, 120), \"white\")\nImageDraw.Draw(image).text((20, 40), \"Documento sintetico n=17\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf), pagesize=(500, 120))\nc.drawImage(str(png), 0, 0, width=500, height=120)\nc.save()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "pathlib"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T2-B-E3 la instrucción pide: E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf = Path(\"scan.png\"), Path(\"scan.pdf\"); image = Image.new(\"RGB\", (500, 120), \"white\"). Completa el TODO del sta. Completé el starter sin ____ ni TODO, siguiendo la pista «No agregues texto con drawString al PDF: eso crearía capa digital.» y el patrón S21-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `from pathlib import Path`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T3-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T3-A-E1 la instrucción pide: E1 (guiado) — Concepto: hallazgo H1 con evidencia. Fixture `S21-T3-A-E1` / datos sintéticos: h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}; print(h[\"id\"]). Completa el TODO del starter sin borrar el oráculo; imprime el resulta. Completé el starter sin ____ ni TODO, siguiendo la pista «dict.» y el patrón S21-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T3-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T3-A-E2 la instrucción pide: E2 (independiente) — Concepto: validar resumen contiene n=. Fixture `S21-T3-A-E2` / datos sintéticos: s = \"mediana 28 PEN n=40\"; print(\"n=\" in s). Completa el TODO del starter sin borrar el oráculo; imprime el resultado . Completé el starter sin ____ ni TODO, siguiendo la pista «in.» y el patrón S21-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `s = \"mediana 28 PEN n=40\"`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T3-A-E3: solo patrones del paquete activo\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "pack_report"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T3-A-E3 la instrucción pide: E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_report(resumen, metodo, hallazgos):; return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}. Compl. Completé el starter sin ____ ni TODO, siguiendo la pista «dict function.» y el patrón S21-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `def pack_report(resumen, metodo, hallazgos):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T3-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T3-B-E1 la instrucción pide: E1 (guiado) — Concepto: caption alineado fuente/corte. Fixture `S21-T3-B-E1` / datos sintéticos: dash = {\"median_Lima\": 28.0}; doc = {\"median_Lima\": 28.0}. Completa el TODO del starter sin borrar el oráculo; imprime el r. Completé el starter sin ____ ni TODO, siguiendo la pista «comparar.» y el patrón S21-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `dash = {\"median_Lima\": 28.0}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T3-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T3-B-E2 la instrucción pide: E2 (independiente) — Concepto: lista de limitaciones. Fixture `S21-T3-B-E2` / datos sintéticos: cap = \"Fig1 | Fuente: sintetico | n=10\"; print(\"Fuente\" in cap). Completa el TODO del starter sin borrar el oráculo; imprime. Completé el starter sin ____ ni TODO, siguiendo la pista «in.» y el patrón S21-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `cap = \"Fig1 | Fuente: sintetico | n=10\"`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T3-B-E3: solo patrones del paquete activo\ndef check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "check_parity"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T3-B-E3 la instrucción pide: E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos: def check_parity(a, b, c):; return a == b == c. Completa el TODO del starter sin borrar el oráculo; imprime . Completé el starter sin ____ ni TODO, siguiendo la pista «a==b==c.» y el patrón S21-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `def check_parity(a, b, c):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T4-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T4-A-E1 la instrucción pide: E1 (guiado) — Concepto: redacción es-PE de hallazgo. Fixture `S21-T4-A-E1` / datos sintéticos: vals = [28.04, 28.0]; print([round(v, 1) for v in vals]). Completa el TODO del starter sin borrar el oráculo; imprime el resu. Completé el starter sin ____ ni TODO, siguiendo la pista «round.» y el patrón S21-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `vals = [28.04, 28.0]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T4-A-E2: solo patrones del paquete activo\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "fmt_pen"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T4-A-E2 la instrucción pide: E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_pen(x):; return f\"{round(float(x), 1)} PEN\". Completa el TODO del starter sin borrar el oráculo; imprime el re. Completé el starter sin ____ ni TODO, siguiendo la pista «f-string round 1.» y el patrón S21-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `def fmt_pen(x):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T4-A-E3: solo patrones del paquete activo\ndef a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "a11y_min"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T4-A-E3 la instrucción pide: E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a11y_min(has_h1, alts):; return has_h1 and all(len(a) > 10 for a in alts). Completa el TODO del starter sin borr. Completé el starter sin ____ ni TODO, siguiendo la pista «all().» y el patrón S21-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `def a11y_min(has_h1, alts):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T4-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T4-B-E1 la instrucción pide: E1 (guiado) — Concepto: manifiesto de provenance. Fixture `S21-T4-B-E1` / datos sintéticos: approval = {\"status\": \"pending_review\"}; print(approval[\"status\"]). Completa el TODO del starter sin borrar el oráculo; imprime . Completé el starter sin ____ ni TODO, siguiendo la pista «dict.» y el patrón S21-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `approval = {\"status\": \"pending_review\"}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T4-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T4-B-E2 la instrucción pide: E2 (independiente) — Concepto: hash sha1[:8] de payload. Fixture `S21-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"synthetic\").hexdigest()[:8]). Completa el TODO del starter sin borrar el oráculo; imprime el resulta. Completé el starter sin ____ ni TODO, siguiendo la pista «hashlib.sha1.» y el patrón S21-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `import hashlib`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S21-T4-B-E3: solo patrones del paquete activo\ndef ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S21",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "ready"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S21-T4-B-E3 la instrucción pide: E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def ready(checklist):; return all(checklist.values()). Completa el TODO del starter sin borrar el oráculo; imprime el . Completé el starter sin ____ ni TODO, siguiendo la pista «all(dict.values()).» y el patrón S21-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `def ready(checklist):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para reutilizar presentación y auditar métricas en Python",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «¿Por qué separar datos y plantilla Jinja?» descarté distractores y elegí «Para reutilizar presentación y auditar métricas en Python» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 21 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "OCR / tratamiento de imagen",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Un PDF con casi sin caracteres en capa de texto suele requerir:» descarté distractores y elegí «OCR / tratamiento de imagen» (índice 2) porque el theory/iDo/outcomes del paquete activo de la sección 21 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismas métricas clave en dashboard, Excel y documento",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Paridad en el Reporting Factory significa:» descarté distractores y elegí «Mismas métricas clave en dashboard, Excel y documento» (índice 3) porque el theory/iDo/outcomes del paquete activo de la sección 21 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Provenance, checklist visual y hallazgos trazables",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «El cierre de contenido de CP-N2-B incluye:» descarté distractores y elegí «Provenance, checklist visual y hallazgos trazables» (índice 1) porque el theory/iDo/outcomes del paquete activo de la sección 21 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae capa de texto. ¿Qué debe devolver el contrato de trazabilidad?» descarté distractores y elegí «Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 21 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:37:07.586235+00:00",
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

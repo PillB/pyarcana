@@ -1,0 +1,714 @@
+=== L8:tagline (tagline) ===
+mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos
+
+=== L15:paragraph (paragraph) ===
+En equipos de plataforma y producto (banca, fintech y operaciones en LatAm), arquitectura, DDD y decisiones técnicas convierten requisitos en fronteras de código y evidencia revisable. El portfolio de esta sección es un dossier con escenarios de quality attributes, context map, C4 (context/container) y ADRs con alternativas, consecuencias y plan de reversión; se promueve solo cuando cada flujo conserva medida, dueño y consecuencia.
+
+=== L28:heading (heading) ===
+Ruta de S40: Arquitectura, DDD y decisiones técnicas
+
+=== L30:paragraph (paragraph) ===
+**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.
+
+=== L31:paragraph (paragraph) ===
+Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39 (triage y controles). Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real. Lo que aprendas aquí (ports, evolución aditiva) alimenta S41 (APIs) y deja la orquestación de agentes para más adelante.
+
+=== L32:paragraph (paragraph) ===
+Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.
+
+=== L33:paragraph (paragraph) ===
+Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 (E1 a menudo ensambla el artefacto: context map, C4+ADR, entity/VO, consumer contract; E2/E3 refuerzan fail-closed). **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.
+
+=== L59:content (content) ===
+Nota de orientación: S40-T1-A: caso sintético con asserts locales; si falta, no promociones.
+
+=== L63:heading (heading) ===
+Requisitos funcionales y quality attributes
+
+=== L66:paragraph (paragraph) ===
+Un **requisito funcional (FR)** describe una capacidad del negocio: «el triage de Red Andina acepta un lote sintético y devuelve scores de prioridad». Un **quality attribute (QA)** no se escribe con adjetivos («rápido», «escalable»): se escribe como **escenario medible** con fuente, estímulo, entorno, respuesta, medida y umbral. Sin esos campos, el requisito no es auditable ni negociable.
+
+=== L67:paragraph (paragraph) ===
+Contrato de S40-T1-A. Entrada: FR + escenarios QA con `source`, `stimulus`, `environment`, `response`, `observed_ms`/`target_ms` y `owner`. Salida: escenario completo o rechazo. Error local: `REJECT_QA_SCENARIO` si el umbral se viola; si falta el dueño: `REQUEST_QA_OWNER`. No inventes PII ni secretos para «hacerlo real».
+
+=== L68:paragraph (paragraph) ===
+En `CASO-LIM-040` (Red Andina, Lima sintético): un pico de 100 req/s en intake con `latency_p95_ms` observada 280 ≤ target 300 y dueño `platform` es evidencia válida. Una latencia 410 ms con el mismo target es breach. Una señal incierta se deriva a revisión humana; nunca prueba fraude, parentesco o intención.
+
+=== L97:paragraph (paragraph) ===
+Antes de promover S40-T1-B, verifica el contrato ejecutable y el riesgo residual.
+
+=== L101:heading (heading) ===
+Trade-offs, riesgos y criterios medibles
+
+=== L104:paragraph (paragraph) ===
+Un **trade-off** compara alternativas contra criterios ponderados y registra riesgo residual (probabilidad × impacto) con mitigación. No existe la opción «siempre mejor»: sync puede simplificar la operación y async puede bajar latencia percibida a costa de complejidad de mensajes.
+
+=== L105:paragraph (paragraph) ===
+Contrato de decisión S40-T1-B. Entrada: alternativas con **score de costo ponderado** (menor es mejor bajo `min_score`) y residual aceptable (umbral ≤ 2 en el lab). Salida: opción elegida, tabla de scores y dueño que firma el residual. Error: elegir por moda o sin umbral → `REOPEN_TRADEOFF`. Si falta el residual: `ESCALATE_RESIDUAL_RISK`. La tabla se versiona junto al ADR.
+
+=== L106:paragraph (paragraph) ===
+Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): el score es un **costo ponderado** (menor es mejor). async=2.2 vence a sync=3.8 bajo `min_score`; el riesgo residual de complejidad de mensajes (umbral ≤ 2) lo acepta el owner de plataforma (`arquitectura`), no el revisor de cola.
+
+=== L131:paragraph (paragraph) ===
+La revisión de S40-T2-A exige salida esperada y fail-closed ante breach.
+
+=== L135:heading (heading) ===
+Cohesión, acoplamiento y capas
+
+=== L138:paragraph (paragraph) ===
+Alta **cohesión** agrupa reglas que cambian por la misma razón (p. ej. scoring de triage junto a su política de abstención). Bajo **acoplamiento** evita que UI o SQL dicten el lenguaje del dominio: presentación habla con application; domain no importa drivers de base de datos ni frameworks web. Si mañana cambias Postgres por un almacén de documentos, el lenguaje de triage no debería reescribirse.
+
+=== L139:paragraph (paragraph) ===
+Contrato de capas S40-T2-A. Entrada: lista de capas y aristas de dependencia. Salida: grafo sin saltos prohibidos. **Prohibido:** `presentation→infrastructure` (saltar application) y `domain→infrastructure` (dominio acoplado a infra). **Permitido:** `infrastructure→domain` (el adapter mira hacia adentro). Error local: `REDRAW_BOUNDARY`. Si falta el grafo: `REVIEW_LAYER_OWNER`.
+
+=== L140:paragraph (paragraph) ===
+En `CASO-LIM-040`, la UI de intake de Red Andina (formularios sintéticos de Lima) no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier — un salto de capa es un bug de arquitectura, no un atajo de sprint.
+
+=== L171:heading (heading) ===
+Ports/adapters y dependencia hacia el dominio
+
+=== L174:paragraph (paragraph) ===
+Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura.
+
+=== L175:paragraph (paragraph) ===
+Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`.
+
+=== L176:paragraph (paragraph) ===
+En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa `sqlalchemy` o FastAPI, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.
+
+=== L205:paragraph (paragraph) ===
+Para S40-T3-A: fixture S40-T3-A; si falta evidencia, no promociones.
+
+=== L209:heading (heading) ===
+Bounded contexts y lenguaje ubicuo
+
+=== L212:paragraph (paragraph) ===
+Un **bounded context** da significado local a cada término del lenguaje ubicuo. «Caso» en intake no es el mismo concepto que «record» en ER ni que «ticket» en triage. El **context map** declara relaciones (customer/supplier, ACL, shared kernel) y **traducciones** entre glosarios para no fusionar modelos por accidente.
+
+=== L213:paragraph (paragraph) ===
+Contrato de fronteras S40-T3-A. Entrada: conjuntos de términos por contexto y mapa de traducciones. Salida: glosarios **disjuntos** más al menos una traducción explícita (p. ej. case→record). Si hay intersección de términos sin ACL: `SPLIT_CONTEXTS`. Si falta el mapa de traducciones: `WORKSHOP_UBIQUITOUS_LANGUAGE`.
+
+=== L214:paragraph (paragraph) ===
+En `CASO-LIM-040`, intake posee `{case}`; ER posee `{record, score}`; la traducción `case→record` es el Anti-Corruption Layer (ACL) que evita que el score de ER contamine el lenguaje de intake. No mezcles «score» en la UI de recepción sin traducir.
+
+=== L235:paragraph (paragraph) ===
+Promoción de S40-T3-B solo con evidencia reproducible y dueño asignado.
+
+=== L239:heading (heading) ===
+Entities, value objects y servicios de dominio
+
+=== L242:paragraph (paragraph) ===
+Una **entity** se rastrea por **identidad** a lo largo del tiempo (`CASE-001` sigue siendo el mismo caso aunque cambie su estado). Un **value object (VO)** se compara por **valor** (150 PEN es igual a otro 150 PEN) y suele ser inmutable. Un **servicio de dominio** aloja una regla que no encaja naturalmente en una sola entidad (p. ej. fusionar scores sin guardar estado propio).
+
+=== L243:paragraph (paragraph) ===
+Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.
+
+=== L244:paragraph (paragraph) ===
+En `CASO-LIM-040`, el caso sintético `CASE-001` porta un VO de 150 PEN inmutable; el servicio de fusión de scores no guarda sesión. ER no implica fraude ni parentesco: solo correspondencia de entidad con score, sujeto a revisión humana.
+
+=== L275:paragraph (paragraph) ===
+El dueño de S40-T4-A responde por rollback y evidencia; sin dueño no hay promote.
+
+=== L279:heading (heading) ===
+Diagramas C4, flujo y ADRs
+
+=== L282:paragraph (paragraph) ===
+**C4** comunica arquitectura en capas de zoom: **context** (personas y sistemas externos), **container** (api, worker, db, object store), component y code (opcional en el lab). Un **ADR** (Architecture Decision Record) no es el dibujo final: registra contexto, decisión, **alternatives**, **consequences**, **status** y señal de **rollback**. Un diagrama sin ADR es una foto; un ADR sin rollback es una promesa sin freno de mano.
+
+=== L283:paragraph (paragraph) ===
+Contrato documental S40-T4-A. Entrada: niveles C4 presentes y campos del ADR. Salida mínima: `{context, container}` en C4 y `{decision, alternatives, consequences, rollback}` con `status=accepted`. Si el ADR está incompleto o en draft sin campos: `RETURN_ADR_TO_DRAFT`. Si falta el status: `REQUEST_ARCH_REVIEW`.
+
+=== L284:paragraph (paragraph) ===
+En `CASO-LIM-040`, el C4 de Red Andina muestra al analista de triage y al banco partner en context; en container aparecen api, worker, db y object_store. El ADR-001 documenta por qué se eligió cola async (picos de intake en Lima), qué alternativa se descartó (sync HTTP) y cómo revertir (`feature_flag_off`).
+
+=== L285:paragraph (paragraph) ===
+**Rúbrica de calidad de un ADR** (úsa la en You Do, no solo «campos presentes»): (1) **contexto** con estímulo real del negocio; (2) **≥2 alternatives** evaluadas, no un monólogo; (3) **consequences** con ganancia y costo residual; (4) **rollback** operable en ≤1 release; (5) **status** `accepted` solo cuando un dueño contactable firma. Un archivo vacío con títulos no pasa CP-N4-A.
+
+=== L308:paragraph (paragraph) ===
+Cierre de S40-T4-B: documenta residual risk y límites del lab stdlib.
+
+=== L312:heading (heading) ===
+APIs, eventos, deuda y evolución compatible
+
+=== L315:paragraph (paragraph) ===
+Los cambios **compatibles** son aditivos: añaden campos o eventos sin romper consumidores de la versión previa. Un **consumer contract** verifica que `v1_fields ⊆ v_next`. La **deuda técnica** no es un chiste de standup: lleva dueño, fecha de retiro y criterio de aceptación.
+
+=== L316:paragraph (paragraph) ===
+Contrato de evolución S40-T4-B. Entrada: conjuntos de campos v1 y v1.1, `debt_owner` y `retire_on`. Salida: consumer contract en verde + deuda con dueño y fecha. Si se eliminan campos de v1: `BLOCK_BREAKING_CHANGE`. Si falta la fecha de retiro: `NEGOTIATE_VERSION`. Versiona eventos (`case.created`) al cambiar semántica.
+
+=== L317:paragraph (paragraph) ===
+En `CASO-LIM-040`, el payload v1 `{case_id, status}` sigue legible en v1.1 con `priority` añadido: un consumidor antiguo permanece en verde. La deuda del job async de cola de intake tiene dueño `platform` y retiro planificado `2026-12-01`; sin `retire_on` no se negocia versión a ciegas.
+
+=== L341:paragraph (paragraph) ===
+Cierre de S40-T4-B: conserva el consumer contract de la versión previa en verde, evidencia de `BLOCK_BREAKING_CHANGE` y ruta humana `NEGOTIATE_VERSION`.
+
+=== L346:intro (intro) ===
+Te muestro 8 demos de S40 (Arquitectura, DDD y decisiones técnicas) alineadas a CP-N4-A. Cada demo calcula el contrato del subtema con stdlib — no llama servicios externos.
+
+=== L352:description (description) ===
+Demo: escenario QA completo (fuente, estímulo, umbral, dueño) para intake Red Andina
+
+=== L376:why (why) ===
+Construye un escenario QA con fuente, estímulo, entorno peak_lima, respuesta, observed≤target y dueño `platform`. Sin umbral o sin dueño el escenario no es auditable: el gate pide medida + dueño, no adjetivos como «rápido».
+
+=== L382:description (description) ===
+Demo: trade-off por costo ponderado (menor es mejor) + residual ≤ 2
+
+=== L402:why (why) ===
+Elige async porque 2.2 < 3.8 bajo min_score (costo ponderado, menor es mejor) y el residual 2 no supera el umbral del owner. Si maximizaras el score «por costumbre de ML», promoverías sync y romperías el trade-off medible.
+
+=== L408:description (description) ===
+Demo: grafo de capas sin saltos prohibidos ni domain→infrastructure
+
+=== L430:why (why) ===
+Valida aristas del grafo de capas: presentation→application→domain e infrastructure→domain están permitidas; presentation→infrastructure y domain→infrastructure son breach. Evidencia = diagrama de dependencias, no conteo de módulos.
+
+=== L436:description (description) ===
+Demo: dominio depende de Protocol CaseRepo; MemoryCaseRepo es el adapter
+
+=== L460:why (why) ===
+El dominio recibe un `CaseRepo` (port) y el adapter en memoria cumple el contrato. La flecha de dependencia va hacia el dominio: puedes cambiar MemoryCaseRepo por un SQL real sin reescribir `open_case`. El flag `implements_port` es la evidencia de DIP, no el sufijo del nombre.
+
+=== L466:description (description) ===
+Demo: ACL de ER→intake que oculta score y expone solo case_id/source
+
+=== L482:why (why) ===
+Traduce un paquete ER al lenguaje de intake y elimina `score`. El ACL protege el bounded context: cada glosario local se mantiene disjunto y las traducciones se declaran, no se improvisan en la UI.
+
+=== L488:description (description) ===
+Demo: entity identity + VO Money (PEN) + servicio de fusión sin estado
+
+=== L515:why (why) ===
+Contrasta identidad de entity (`CASE-001`) con igualdad por valor del VO Money en PEN, y calcula un servicio de fusión de scores sin guardar sesión. `vo_frozen` prohíbe mutar el monto in-place; el servicio se prueba aparte del ciclo de vida de la entity.
+
+=== L521:description (description) ===
+Demo: checklist C4 context/container + ADR accepted con rollback
+
+=== L541:why (why) ===
+Comprueba niveles C4 mínimos (context + container) y campos de ADR (decision, alternatives, consequences, rollback) con status accepted. Un dibujo sin ADR o un ADR sin plan de reversión no pasan el gate documental.
+
+=== L547:description (description) ===
+Demo: evolución aditiva (v1 ⊆ v1.1) + deuda con dueño y retire_on
+
+=== L564:why (why) ===
+Comprueba que v1 ⊆ v1.1 (el consumidor antiguo sigue en verde) y que la deuda del job async tiene dueño y fecha de retiro. Sin `retire_on` no se negocia versión a ciegas; borrar un campo de v1 es `BLOCK_BREAKING_CHANGE`.
+
+=== L569:intro (intro) ===
+S40 · Laboratorio del dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un defecto y, en varios subtemas, ensambla un artefacto de oficio (context map, ports/DIP, entity/VO, mini C4+ADR, consumer contract). E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Fixtures sintéticos con vocabulario intake→ER→triage→reporting.
+
+=== L575:instruction (instruction) ===
+S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la operación debe demostrar latencia observada contra umbral y dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_QA_SCENARIO` en E2.
+
+=== L576:hint (hint) ===
+Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.
+
+=== L578:paragraph (paragraph) ===
+Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.
+
+=== L579:paragraph (paragraph) ===
+El predicado correcto debe ser verdadero porque el fixture conserva escenario QA completo con umbral y dueño; revisa dirección de comparación, conjuntos y negaciones.
+
+=== L582:tests (tests) ===
+El fixture `CASO-LIM-040-1A` satisface un predicado de dominio real; imprime `S40-T1-A PASS` y el assert booleano pasa.
+
+=== L583:feedback (feedback) ===
+S40-T1-A-E1: el PASS exige observed_ms ≤ target_ms y owner truthy. Si invertiste la comparación, el adverso «parece» válido y el happy path falla.
+
+=== L612:instruction (instruction) ===
+S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, source, stimulus, environment, response, observed_ms, target_ms, owner. Salidas exactas: `PASS`, `REJECT_QA_SCENARIO`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+=== L613:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.
+
+=== L615:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.
+
+=== L616:paragraph (paragraph) ===
+Después aplica la regla de S40-T1-A: latencia observada contra umbral y dueño. El fixture adverso debe fallar por contenido, no por schema.
+
+=== L619:tests (tests) ===
+La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS REJECT_QA_SCENARIO MISSING:owner`.
+
+=== L620:feedback (feedback) ===
+S40-T1-A-E2: tres salidas distintas — umbral OK+owner → PASS; latencia rota → REJECT_QA_SCENARIO; sin owner → MISSING:owner (schema antes que contenido).
+
+=== L666:instruction (instruction) ===
+S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso debe devolver `REJECT_QA_SCENARIO` y la ausencia de `owner` debe devolver `REQUEST_QA_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L667:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.
+
+=== L669:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.
+
+=== L670:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese caso devuelve `CONTINUE`.
+
+=== L673:tests (tests) ===
+Fixtures `CASO-LIM-040-1A`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.
+
+=== L674:feedback (feedback) ===
+S40-T1-A-E3: fail-closed — CONTINUE solo con escenario medible; breach es REJECT_QA_SCENARIO; incertidumbre (sin owner) es REQUEST_QA_OWNER, no CONTINUE silencioso.
+
+=== L720:instruction (instruction) ===
+S40-T1-B-E1 · Compara el trade-off sobre `CASO-LIM-040-1B`. El score es un **costo ponderado** (menor es mejor): `selected` debe ser la clave de menor score y `residual_risk` ≤ 2. Reemplaza la expresión booleana defectuosa (el starter usa max en vez de min). Salida exacta: `S40-T1-B PASS`; el adverso en E2 activa `REOPEN_TRADEOFF`.
+
+=== L721:hint (hint) ===
+score = costo → min(scores); residual_risk ≤ 2; risk_owner debe existir en el fixture.
+
+=== L724:paragraph (paragraph) ===
+No uses max: un score alto es peor costo, no mejor utilidad.
+
+=== L727:tests (tests) ===
+El fixture `CASO-LIM-040-1B` satisface un predicado de dominio real; imprime `S40-T1-B PASS` y el assert booleano pasa.
+
+=== L728:feedback (feedback) ===
+S40-T1-B-E1: score = costo (menor es mejor). selected debe ser min(scores) y residual_risk ≤ 2; el starter usa max — invierte a min.
+
+=== L757:instruction (instruction) ===
+S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict con case_id, scores, selected, risk_owner, residual_risk. Salidas exactas: `PASS`, `REOPEN_TRADEOFF`, `MISSING:residual_risk`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+=== L758:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.
+
+=== L760:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.
+
+=== L761:paragraph (paragraph) ===
+Después aplica la regla de S40-T1-B: alternativa con menor score y riesgo residual aceptable. El fixture adverso debe fallar por contenido, no por schema.
+
+=== L764:tests (tests) ===
+La tabla cubre válido/adverso/campo `residual_risk` ausente y produce exactamente `PASS REOPEN_TRADEOFF MISSING:residual_risk`.
+
+=== L765:feedback (feedback) ===
+S40-T1-B-E2: tabla de tres rutas — min_score+residual OK → PASS; moda o residual alto → REOPEN_TRADEOFF; sin residual_risk → MISSING (no inventes el residual).
+
+=== L811:instruction (instruction) ===
+S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso debe devolver `REOPEN_TRADEOFF` y la ausencia de `residual_risk` debe devolver `ESCALATE_RESIDUAL_RISK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L812:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.
+
+=== L814:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.
+
+=== L815:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residual aceptable; solo ese caso devuelve `CONTINUE`.
+
+=== L818:tests (tests) ===
+Fixtures `CASO-LIM-040-1B`, adverso y sin `residual_risk` prueban continue/breach/uncertainty en ese orden.
+
+=== L819:feedback (feedback) ===
+S40-T1-B-E3: CONTINUE solo con trade-off medible; breach → REOPEN_TRADEOFF; sin residual → ESCALATE_RESIDUAL_RISK (el owner no firma a ciegas).
+
+=== L865:instruction (instruction) ===
+S40-T2-A-E1 · Filtra el contrato de capas sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo sin `domain→infrastructure` ni `presentation→infrastructure` (sí se permite `infrastructure→domain`). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-A PASS`; el fixture adverso en E2 activa `REDRAW_BOUNDARY`.
+
+=== L866:hint (hint) ===
+Relaciona los campos `layers` y `dependencies` con las aristas prohibidas de S40-T2-A.
+
+=== L868:paragraph (paragraph) ===
+Convierte cada edge a tuple y compáralo con el conjunto forbidden {(domain, infrastructure), (presentation, infrastructure)}.
+
+=== L869:paragraph (paragraph) ===
+El fixture válido tiene presentation→application, application→domain e infrastructure→domain; layers[2] debe ser domain.
+
+=== L872:tests (tests) ===
+El fixture `CASO-LIM-040-2A` satisface un predicado de dominio real; imprime `S40-T2-A PASS` y el assert booleano pasa.
+
+=== L873:feedback (feedback) ===
+S40-T2-A-E1: forbidden = {(domain,infrastructure), (presentation,infrastructure)}. Construye tuple(edge); infrastructure→domain sí está permitido.
+
+=== L906:instruction (instruction) ===
+S40-T2-A-E2 · Clasifica tres rutas de capas: fixture válido, fixture adverso (incluye saltos prohibidos) y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. Salidas exactas: `PASS`, `REDRAW_BOUNDARY`, `MISSING:dependencies`. Corrige solo la decisión de dominio; conserva la validación de campos.
+
+=== L907:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.
+
+=== L909:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.
+
+=== L910:paragraph (paragraph) ===
+Después aplica forbidden = domain→infrastructure y presentation→infrastructure; el adverso falla por contenido, no por schema.
+
+=== L913:tests (tests) ===
+La tabla cubre válido/adverso/campo `dependencies` ausente y produce exactamente `PASS REDRAW_BOUNDARY MISSING:dependencies`.
+
+=== L914:feedback (feedback) ===
+S40-T2-A-E2: grafo limpio → PASS; cualquier arista prohibida → REDRAW_BOUNDARY; sin dependencies → MISSING (no asumas un grafo vacío).
+
+=== L965:instruction (instruction) ===
+S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `REDRAW_BOUNDARY` y la ausencia de `dependencies` debe devolver `REVIEW_LAYER_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L966:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.
+
+=== L968:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.
+
+=== L969:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraestructura; solo ese caso devuelve `CONTINUE`.
+
+=== L972:tests (tests) ===
+Fixtures `CASO-LIM-040-2A`, adverso y sin `dependencies` prueban continue/breach/uncertainty en ese orden.
+
+=== L973:feedback (feedback) ===
+S40-T2-A-E3: CONTINUE solo con capas limpias; saltos de capa → REDRAW_BOUNDARY; grafo ausente → REVIEW_LAYER_OWNER (incertidumbre ≠ breach).
+
+=== L1024:instruction (instruction) ===
+S40-T2-B-E1 · **Oficio hexagonal (DIP)**: el starter modela el port `CaseRepository` y el adapter `MemoryCaseRepository` de Red Andina. El dominio solo debe depender del port (`implements_port=True`, `domain_imports=[]`, ≥3 contract tests). Corrige el DEFECT que exige adapter==port e imports de infra. Salida exacta: `S40-T2-B PASS`; el adverso en E2 (sqlalchemy en dominio) activa `INVERT_DEPENDENCY`.
+
+=== L1025:hint (hint) ===
+Usa el flag explícito `implements_port` — no inventes reglas por sufijo del nombre del adapter.
+
+=== L1028:paragraph (paragraph) ===
+El DEFECT del starter exige adapter==port e imports no vacíos: invierte esa lógica y lee el flag.
+
+=== L1031:tests (tests) ===
+El fixture hexagonal de `CASO-LIM-040-2B` demuestra DIP con adapter en memoria; imprime `S40-T2-B PASS`.
+
+=== L1032:feedback (feedback) ===
+S40-T2-B-E1: evidencia de DIP = implements_port + domain_imports vacío + contract_tests≥3. El nombre del adapter no es la regla; imports de sqlalchemy en dominio sí son breach.
+
+=== L1092:instruction (instruction) ===
+S40-T2-B-E2 · Audita tres rutas hexagonal: fixture válido (`implements_port` + sin imports de infra + ≥3 tests), fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, adapter, implements_port, domain_imports, contract_tests. Salidas exactas: `PASS`, `INVERT_DEPENDENCY`, `MISSING:contract_tests`.
+
+=== L1093:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.
+
+=== L1095:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.
+
+=== L1096:paragraph (paragraph) ===
+Después: implements_port is True and not domain_imports and contract_tests >= 3. El adverso falla por contenido (sqlalchemy / implements_port False).
+
+=== L1099:tests (tests) ===
+La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS INVERT_DEPENDENCY MISSING:contract_tests`.
+
+=== L1100:feedback (feedback) ===
+S40-T2-B-E2: no uses endswith del nombre del adapter; el contrato es el flag implements_port más la ausencia de imports de infra.
+
+=== L1151:instruction (instruction) ===
+S40-T2-B-E3 · Recupera fallo cerrado hexagonal: `CASO-LIM-040-2B` → CONTINUE, adverso → `INVERT_DEPENDENCY`, sin `contract_tests` → `DEFINE_PORT_CONTRACT`. Corrige la rama missing y el predicado invertido sin rellenar evidencia. Salida: imprime el valor de meets_contract.
+
+=== L1152:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.
+
+=== L1154:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.
+
+=== L1155:paragraph (paragraph) ===
+Para datos completos: implements_port is True and not domain_imports and contract_tests >= 3 → CONTINUE.
+
+=== L1158:tests (tests) ===
+Fixtures `CASO-LIM-040-2B`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.
+
+=== L1159:feedback (feedback) ===
+S40-T2-B-E3: uncertainty (DEFINE_PORT_CONTRACT) ≠ breach (INVERT_DEPENDENCY); el flag implements_port es la evidencia de DIP, no el sufijo del nombre.
+
+=== L1210:instruction (instruction) ===
+S40-T3-A-E1 · **Oficio de context map** (no solo un booleano): el starter trae filas de mapa para Red Andina (`intake` vs `er`) y un ACL `case→record`. Corrige el DEFECT para que el contrato pase solo si (1) los glosarios de cada fila son **disjuntos**, (2) existe la traducción `case→record` y (3) se imprime el resumen del mapa. Salida exacta: `S40-T3-A PASS`. En E2 el adverso (término `case` en ambos lados) activa `SPLIT_CONTEXTS`.
+
+=== L1211:hint (hint) ===
+Construye conjuntos de términos por BC y exige `isdisjoint` + `translations['case'] == 'record'`.
+
+=== L1213:paragraph (paragraph) ===
+Lee `rows[0]['terms']` e `rows[1]['terms']`; no uses intersección como éxito.
+
+=== L1214:paragraph (paragraph) ===
+El ACL mínimo del lab es `translations.get('case') == 'record'`. Imprime también el mapa legible.
+
+=== L1217:tests (tests) ===
+El context map de `CASO-LIM-040-3A` es disjunto con ACL; imprime `S40-T3-A PASS` y el assert booleano pasa.
+
+=== L1218:feedback (feedback) ===
+S40-T3-A-E1: el artefacto es el mapa (BC + términos + ACL). isdisjoint + case→record; intersección de glosarios ⇒ SPLIT_CONTEXTS.
+
+=== L1263:instruction (instruction) ===
+S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_id, contexts, translations. Salidas exactas: `PASS`, `SPLIT_CONTEXTS`, `MISSING:translations`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+=== L1264:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.
+
+=== L1266:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.
+
+=== L1267:paragraph (paragraph) ===
+Después aplica la regla de S40-T3-A: términos locales disjuntos y traducción declarada. El fixture adverso debe fallar por contenido, no por schema.
+
+=== L1270:tests (tests) ===
+La tabla cubre válido/adverso/campo `translations` ausente y produce exactamente `PASS SPLIT_CONTEXTS MISSING:translations`.
+
+=== L1271:feedback (feedback) ===
+S40-T3-A-E2: glosarios disjuntos + ACL → PASS; solape de términos → SPLIT_CONTEXTS; sin translations → MISSING (no improvises el ACL).
+
+=== L1317:instruction (instruction) ===
+S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe devolver `SPLIT_CONTEXTS` y la ausencia de `translations` debe devolver `WORKSHOP_UBIQUITOUS_LANGUAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L1318:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.
+
+=== L1320:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.
+
+=== L1321:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducción declarada; solo ese caso devuelve `CONTINUE`.
+
+=== L1324:tests (tests) ===
+Fixtures `CASO-LIM-040-3A`, adverso y sin `translations` prueban continue/breach/uncertainty en ese orden.
+
+=== L1325:feedback (feedback) ===
+S40-T3-A-E3: CONTINUE con fronteras claras; solape → SPLIT_CONTEXTS; sin mapa de traducciones → WORKSHOP_UBIQUITOUS_LANGUAGE.
+
+=== L1371:instruction (instruction) ===
+S40-T3-B-E1 · **Oficio táctico entity/VO/servicio** (calcula, no solo flags): el starter trae dos referencias al caso `CASE-001`, dos VOs Money 150 PEN y un servicio `merge_scores`. Corrige el DEFECT: el contrato pasa solo si (1) `same_entity` por identidad, (2) `same_money` por valor, (3) `vo_frozen` y (4) el servicio devuelve 0.7 sin mutar entidades. Salida exacta: `S40-T3-B PASS`. En E2 el adverso (USD / id vacío) activa `REJECT_DOMAIN_MODEL`.
+
+=== L1372:hint (hint) ===
+No compares `currency` con `entity_id`. Identidad = ids iguales; VO = amount+currency; servicio = media ponderada sin estado.
+
+=== L1374:paragraph (paragraph) ===
+same_entity(entity_a, entity_b) y same_money(vo_a, vo_b); currency debe ser PEN.
+
+=== L1375:paragraph (paragraph) ===
+merge_scores(0.8, 0.6) → 0.7; service_stateless y vo_frozen deben ser True.
+
+=== L1378:tests (tests) ===
+El modelo táctico de `CASO-LIM-040-3B` prueba identidad, VO PEN y servicio sin estado; imprime `S40-T3-B PASS`.
+
+=== L1379:feedback (feedback) ===
+S40-T3-B-E1: el artefacto es el contraste identidad vs valor + servicio stateless. DEFECT mezclaba currency con entity_id — eso rompe el modelo táctico.
+
+=== L1451:instruction (instruction) ===
+S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con case_id, entity_id, vo, vo_frozen, service_stateless. Salidas exactas: `PASS`, `REJECT_DOMAIN_MODEL`, `MISSING:service_stateless`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+=== L1452:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.
+
+=== L1454:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.
+
+=== L1455:paragraph (paragraph) ===
+Después aplica la regla de S40-T3-B: identidad estable, VO en PEN e invariantes inmutables. El fixture adverso debe fallar por contenido, no por schema.
+
+=== L1458:tests (tests) ===
+La tabla cubre válido/adverso/campo `service_stateless` ausente y produce exactamente `PASS REJECT_DOMAIN_MODEL MISSING:service_stateless`.
+
+=== L1459:feedback (feedback) ===
+S40-T3-B-E2: invariantes OK → PASS; identidad/VO rotos → REJECT_DOMAIN_MODEL; sin service_stateless → MISSING (no asumas el servicio).
+
+=== L1505:instruction (instruction) ===
+S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso debe devolver `REJECT_DOMAIN_MODEL` y la ausencia de `service_stateless` debe devolver `CLARIFY_INVARIANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L1506:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.
+
+=== L1508:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.
+
+=== L1509:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmutables; solo ese caso devuelve `CONTINUE`.
+
+=== L1512:tests (tests) ===
+Fixtures `CASO-LIM-040-3B`, adverso y sin `service_stateless` prueban continue/breach/uncertainty en ese orden.
+
+=== L1513:feedback (feedback) ===
+S40-T3-B-E3: CONTINUE con modelo táctico sano; breach → REJECT_DOMAIN_MODEL; bandera de servicio ausente → CLARIFY_INVARIANT.
+
+=== L1559:instruction (instruction) ===
+S40-T4-A-E1 · **Oficio C4 + ADR** (ensambla el artefacto, no solo nombres de campo): el starter trae un C4 de Red Andina (context/container con personas y cajas) y un ADR-001 con decisión async, alternativas, consecuencias y rollback. Corrige el DEFECT: el contrato pasa solo si hay niveles context+container, el ADR tiene `decision`/`alternatives`/`consequences`/`rollback` y `status == 'accepted'`. Salida exacta: `S40-T4-A PASS`. En You Do reutilizarás esta plantilla para dos ADRs reales del dossier.
+
+=== L1560:hint (hint) ===
+Valida claves del dict `adr` y que `c4` contenga listas no vacías en context y container; status debe ser accepted.
+
+=== L1562:paragraph (paragraph) ===
+need_adr = decision, alternatives, consequences, rollback presentes y truthy; status == 'accepted'.
+
+=== L1563:paragraph (paragraph) ===
+El DEFECT del starter acepta draft con menos de 3 campos: invierte esa lógica.
+
+=== L1566:tests (tests) ===
+El mini ADR+C4 de `CASO-LIM-040-4A` está completo y accepted; imprime `S40-T4-A PASS`.
+
+=== L1567:feedback (feedback) ===
+S40-T4-A-E1: el artefacto es el ADR relleno (no un set abstracto). need_c4 + decision/alternatives/consequences/rollback + status accepted.
+
+=== L1625:instruction (instruction) ===
+S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_levels, adr_fields, adr_status. Salidas exactas: `PASS`, `RETURN_ADR_TO_DRAFT`, `MISSING:adr_status`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+=== L1626:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.
+
+=== L1628:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.
+
+=== L1629:paragraph (paragraph) ===
+Después aplica la regla de S40-T4-A: C4 mínimo y ADR con alternativas, consecuencias y rollback. El fixture adverso debe fallar por contenido, no por schema.
+
+=== L1632:tests (tests) ===
+La tabla cubre válido/adverso/campo `adr_status` ausente y produce exactamente `PASS RETURN_ADR_TO_DRAFT MISSING:adr_status`.
+
+=== L1633:feedback (feedback) ===
+S40-T4-A-E2: C4+ADR accepted completo → PASS; draft/incompleto → RETURN_ADR_TO_DRAFT; sin adr_status → MISSING (no asumas accepted).
+
+=== L1679:instruction (instruction) ===
+S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETURN_ADR_TO_DRAFT` y la ausencia de `adr_status` debe devolver `REQUEST_ARCH_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L1680:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.
+
+=== L1682:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.
+
+=== L1683:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias y rollback; solo ese caso devuelve `CONTINUE`.
+
+=== L1686:tests (tests) ===
+Fixtures `CASO-LIM-040-4A`, adverso y sin `adr_status` prueban continue/breach/uncertainty en ese orden.
+
+=== L1687:feedback (feedback) ===
+S40-T4-A-E3: CONTINUE con documentación aceptada; ADR incompleto → RETURN_ADR_TO_DRAFT; sin status → REQUEST_ARCH_REVIEW.
+
+=== L1733:instruction (instruction) ===
+S40-T4-B-E1 · **Oficio de evolución aditiva** (consumer contract + deuda): el starter trae payload v1 `{case_id, status}` y v1.1 con `priority`, más deuda del job async de intake Red Andina. Corrige el DEFECT: el contrato pasa solo si (1) `v1_fields ⊆ v11_fields`, (2) el consumidor antiguo sigue leyendo `case_id:status` y (3) la deuda tiene `debt_owner` + `retire_on`. Salida exacta: `S40-T4-B PASS`. En E2 borrar un campo de v1 activa `BLOCK_BREAKING_CHANGE`.
+
+=== L1734:hint (hint) ===
+Subconjunto correcto: v1 ⊆ v11 (no al revés). Imprime la vista del consumidor y la deuda.
+
+=== L1736:paragraph (paragraph) ===
+additive_ok = v1_fields <= v11_fields; debt_owner truthy y retire_on no vacío.
+
+=== L1737:paragraph (paragraph) ===
+consumer_view usa solo case_id y status — debe funcionar igual en v1.1.
+
+=== L1740:tests (tests) ===
+La evolución aditiva de `CASO-LIM-040-4B` conserva el consumer contract y documenta deuda; imprime `S40-T4-B PASS`.
+
+=== L1741:feedback (feedback) ===
+S40-T4-B-E1: el artefacto es v1⊆v1.1 + vista del consumidor + deuda fechada. DEFECT invertía el subconjunto (pedía v11 ⊂ v1).
+
+=== L1797:instruction (instruction) ===
+S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con case_id, v1_fields, v11_fields, debt_owner, retire_on. Salidas exactas: `PASS`, `BLOCK_BREAKING_CHANGE`, `MISSING:retire_on`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+=== L1798:hint (hint) ===
+Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.
+
+=== L1800:paragraph (paragraph) ===
+Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.
+
+=== L1801:paragraph (paragraph) ===
+Después aplica la regla de S40-T4-B: campos v1 preservados y deuda con owner/fecha. El fixture adverso debe fallar por contenido, no por schema.
+
+=== L1804:tests (tests) ===
+La tabla cubre válido/adverso/campo `retire_on` ausente y produce exactamente `PASS BLOCK_BREAKING_CHANGE MISSING:retire_on`.
+
+=== L1805:feedback (feedback) ===
+S40-T4-B-E2: evolución aditiva + deuda fechada → PASS; romper v1 → BLOCK_BREAKING_CHANGE; sin retire_on → MISSING.
+
+=== L1851:instruction (instruction) ===
+S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adverso debe devolver `BLOCK_BREAKING_CHANGE` y la ausencia de `retire_on` debe devolver `NEGOTIATE_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+=== L1852:hint (hint) ===
+Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.
+
+=== L1854:paragraph (paragraph) ===
+Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.
+
+=== L1855:paragraph (paragraph) ===
+Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; solo ese caso devuelve `CONTINUE`.
+
+=== L1858:tests (tests) ===
+Fixtures `CASO-LIM-040-4B`, adverso y sin `retire_on` prueban continue/breach/uncertainty en ese orden.
+
+=== L1859:feedback (feedback) ===
+S40-T4-B-E3: CONTINUE con compat aditiva; breaking → BLOCK_BREAKING_CHANGE; sin fecha de retiro → NEGOTIATE_VERSION.
+
+=== L1905:context (context) ===
+Dossier de arquitectura gobernada para Red Andina (organización ficticia). Trabaja sobre una plataforma sintética de atención empresarial en Lima que separa intake, resolución de entidades (ER), relación, triage, reporting e IA. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida: mapa C4, context map, contratos y ADRs versionados con responsables. El gate se bloquea si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida.
+
+=== L1907:paragraph (paragraph) ===
+Convertir requisitos, escenarios de calidad, vocabulario de dominio y restricciones en mapa C4, context map, contratos y ADRs versionados con responsables.
+
+=== L1908:paragraph (paragraph) ===
+Demostrar el gate: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.
+
+=== L1909:paragraph (paragraph) ===
+Probar el fallo: si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida, el gate se bloquea (fail-closed).
+
+=== L1910:paragraph (paragraph) ===
+Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.
+
+=== L1913:paragraph (paragraph) ===
+Usa exclusivamente fixtures sintéticos identificados por `CASO-LIM-040`.
+
+=== L1914:paragraph (paragraph) ===
+Incluye quality-attribute scenarios con fuente, estímulo, entorno, respuesta y medida.
+
+=== L1915:paragraph (paragraph) ===
+Incluye context map de intake/ER/relación/triage/reporting/IA.
+
+=== L1916:paragraph (paragraph) ===
+Incluye C4 de contexto y contenedores.
+
+=== L1917:paragraph (paragraph) ===
+Incluye dos ADRs con alternativas, consecuencias y plan de reversión.
+
+=== L1918:paragraph (paragraph) ===
+Automatiza un caso normal, uno de breach (`BLOCK_ARCHITECTURE`) y uno incierto (`REVIEW_ADR`).
+
+=== L1919:paragraph (paragraph) ===
+Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.
+
+=== L1920:paragraph (paragraph) ===
+Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.
+
+=== L2015:portfolioNote (portfolioNote) ===
+Evidencia de CP-N4-A · mapa de arquitectura gobernado: completa las plantillas QA, context map, C4 y dos ADRs del starter. Rúbrica ADR: contexto de negocio, ≥2 alternatives, consequences con residual, rollback operable, status accepted firmado por dueño — no archivos vacíos con títulos. Marca evidence en True solo con artefactos reales. El checklist inicia en BLOCKED por diseño — no cambies asserts para forzar READY.
+
+=== L2028:question (question) ===
+¿Qué evidencia permite aprobar un quality-attribute scenario en CASO-LIM-040?
+
+=== L2031:explanation (explanation) ===
+La teoría exige escenario QA completo (fuente, estímulo, entorno, respuesta, medida/umbral y dueño); evidencia decorativa o PII no satisface el contrato.
+
+=== L2034:question (question) ===
+Si ocurre un breach de arquitectura en el You Do, ¿qué respuesta preserva seguridad y auditabilidad?
+
+=== L2037:explanation (explanation) ===
+El contrato falla cerrado con BLOCK_ARCHITECTURE; no convierte incertidumbre o breach en éxito silencioso.
+
+=== L2040:question (question) ===
+¿Cuál resultado demuestra el gate CP-N4-A (mapa de arquitectura gobernado)?
+
+=== L2043:explanation (explanation) ===
+El gate es conductual y medible: fronteras explícitas + medida, dueño y consecuencia en cada trade-off.
+
+=== L2046:question (question) ===
+¿Qué tratamiento de CASO-LIM-040 respeta el alcance del curso?
+
+=== L2049:explanation (explanation) ===
+Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.
+
+=== L2052:question (question) ===
+En ports & adapters (hexagonal), ¿qué dependencia es un breach de frontera?
+
+=== L2055:explanation (explanation) ===
+Invertir la dependencia (dominio → framework) acopla el núcleo a la infra; el adapter debe depender del puerto, no al revés.
+
+=== L2058:question (question) ===
+En C4 para CASO-LIM-040, ¿qué pertenece al nivel container y no al context?
+
+=== L2061:explanation (explanation) ===
+Context muestra personas y sistemas externos; container descompone la aplicación en api/worker/db/object_store.
+
+=== L2064:question (question) ===
+¿Qué campos mínimos hacen aceptable un ADR de evolución de API en S40-T4?
+
+=== L2067:explanation (explanation) ===
+Un ADR accepted requiere decisión, alternativas, consecuencias y señal de reversión (rollback), no solo un título o imagen.
+
+=== L2070:question (question) ===
+En evolución de APIs (S40-T4-B), ¿cuándo el consumer contract de la versión previa permanece en verde?
+
+=== L2073:explanation (explanation) ===
+Compatibilidad aditiva conserva los campos de v1 en v1.1; borrar o redefinir sin versión es breaking. La deuda técnica exige dueño y fecha de retiro.
+

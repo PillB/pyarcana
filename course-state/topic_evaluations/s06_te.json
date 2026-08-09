@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "section_title": "Colecciones y estructuras de datos",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S06-T1-TE",
+      "topic_id": "S06-T1",
+      "title": "Evaluación formativa — Secuencias",
+      "subtopics_covered": [
+        "S06-T1-A",
+        "S06-T1-B"
+      ],
+      "topic_summary": "listas y tuplas; slicing, unpacking, aliasing y copia.",
+      "tasks": [
+        {
+          "id": "S06-T1-TE-1",
+          "title": "Tarea auténtica — Secuencias: listas y tuplas",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: listas y tuplas. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T1.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S06-T1-TE-2",
+          "title": "Tarea auténtica — Secuencias: slicing, unpacking, aliasing y copia",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: slicing, unpacking, aliasing y copia. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T1.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Secuencias» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S06-T2-TE",
+      "topic_id": "S06-T2",
+      "title": "Evaluación formativa — Mapeos/conjuntos",
+      "subtopics_covered": [
+        "S06-T2-A",
+        "S06-T2-B"
+      ],
+      "topic_summary": "diccionarios; deduplicación, pertenencia y operaciones de set.",
+      "tasks": [
+        {
+          "id": "S06-T2-TE-1",
+          "title": "Tarea auténtica — Mapeos/conjuntos: diccionarios",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: diccionarios. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S06-T2-TE-2",
+          "title": "Tarea auténtica — Mapeos/conjuntos: deduplicación, pertenencia y operaciones de set",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: deduplicación, pertenencia y operaciones de set. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Mapeos/conjuntos» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S06-T3-TE",
+      "topic_id": "S06-T3",
+      "title": "Evaluación formativa — Composición",
+      "subtopics_covered": [
+        "S06-T3-A",
+        "S06-T3-B"
+      ],
+      "topic_summary": "estructuras anidadas; recorridos, acceso seguro y valores faltantes.",
+      "tasks": [
+        {
+          "id": "S06-T3-TE-1",
+          "title": "Tarea auténtica — Composición: estructuras anidadas",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: estructuras anidadas. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T3.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S06-T3-TE-2",
+          "title": "Tarea auténtica — Composición: recorridos, acceso seguro y valores faltantes",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: recorridos, acceso seguro y valores faltantes. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T3.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Composición» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S06-T4-TE",
+      "topic_id": "S06-T4",
+      "title": "Evaluación formativa — Elección",
+      "subtopics_covered": [
+        "S06-T4-A",
+        "S06-T4-B"
+      ],
+      "topic_summary": "ordenamiento y `key`; estructura adecuada, complejidad intuitiva y determinismo.",
+      "tasks": [
+        {
+          "id": "S06-T4-TE-1",
+          "title": "Tarea auténtica — Elección: ordenamiento y `key`",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: ordenamiento y `key`. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S06-T4-TE-2",
+          "title": "Tarea auténtica — Elección: estructura adecuada, complejidad intuitiva y determinismo",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: estructura adecuada, complejidad intuitiva y determinismo. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S06, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Elección» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

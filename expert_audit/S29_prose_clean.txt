@@ -1,0 +1,829 @@
+Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con constraints, consultas de cola y transacciones atómicas en SQLite de laboratorio
+
+El **almacén de verdad del ER** guarda fuentes, entidades, pares, decisiones y evidencia con historia auditable. En equipos de datos (banca, telecom, retail en Perú y LATAM) un analista o ingeniero que modela PK/FK, temporalidad y consultas de cola de revisión en SQL reduce re-procesos y discusiones sin evidencia. La práctica de esta sección usa SQLite de laboratorio (constraints, joins, ACID, migraciones, repository) como contrato del motor antes de un warehouse corporativo.
+
+Publica un mini-repo o carpeta de portafolio: DDL del almacén ER, script de seed sintético CASO-LIM-029, tests de constraints/anti-join/append-only/rollback y README breve en español profesional que explique el esquema y los límites del lab.
+
+Integra lo de T1–T4 en un entregable de portafolio: el esquema CP-N3-A en SQLite (`source_records` → `entities` → `candidate_pairs` → `decisions` append-only → `evidence`), con `PRAGMA foreign_keys=ON`, cola de review por anti-join, upsert de entidad, migration + índice y un `PairRepository` testeado en `:memory:`. Usa solo datos sintéticos del fixture CASO-LIM-029; no sobrescribas historia de decisiones ni etiquetes fraude o parentesco.
+
+Observa ocho demos del almacén ER en SQLite `:memory:`. Cada uno imprime el resultado que el código realmente calcula: claves con FK y CHECK, historia append-only, CTE + anti-join de cola, COUNT y cardinalidad, ROLLBACK atómico, upsert de entidad, migration + índice con plan, y `Repo.pending()`. Copia, ejecuta y contrasta con la salida mostrada antes de pasar a We Do.
+
+24 ejercicios (E1 guiado · E2 independiente · E3 transferencia) sobre modelo, consulta, transacciones y evolución del almacén ER. Fixture **CASO-LIM-029** (`run_id=cpn3a-sql`, correos `@example.pe`): solo datos sintéticos; match no es fraude ni parentesco. Cada starter declara un DEFECT: aplica el arreglo mínimo y haz que la salida coincida con el oráculo del solution — sin reescribir el ejercicio desde cero.
+
+Crea entities y candidate_pairs con CHECK de score, orden entity_a < entity_b y PRAGMA foreign_keys; imprime count de pares y score del par p1.
+
+Inserta dos decisiones append-only para el mismo par y lista labels en orden de id.
+
+CTE de candidatos + anti-join (LEFT JOIN … IS NULL): lista ids de pares sin decisión (cola de review).
+
+COUNT(*) vs COUNT(col) y cardinalidad de self-join sobre grp (NULL no empareja).
+
+Transacción con ROLLBACK deja decisions y evidence en 0 filas (atomicidad).
+
+Upsert actualiza name de entidad e1 a 'Ana L' y lo imprime.
+
+Migration v1 + índice en block_key; imprime version y si el plan usa índice.
+
+Repository.pending() lista pares sin decisión (anti-join encapsulado).
+
+Almacén relacional del ER para CP-N3-A
+
+Claves, constraints y normalización
+
+Temporalidad y provenance
+
+CTEs, windows y anti-joins
+
+Cardinalidad, NULL y planes
+
+ACID y transacciones en el lab
+
+Upserts, concurrencia y recuperación
+
+Índices y migrations
+
+Repository pattern, pooling y pruebas
+
+SQL avanzado y modelado relacional
+
+Práctica observable
+
+keys_constraints.py
+
+Orden canónico A<B
+
+temporality_prov.py
+
+UPDATE destruye historia
+
+cte_window_anti.py
+
+NOT EXISTS
+
+card_null_plan.py
+
+NULL en join
+
+acid_rollback.py
+
+Misma transacción
+
+upsert_recover.py
+
+Upsert ≠ borrar historia de decisiones
+
+indexes_migrate.py
+
+Índice no es magia
+
+repo_pool_tests.py
+
+Repo testeable
+
+keys_demo.py
+
+prov_demo.py
+
+cte_demo.py
+
+card_demo.py
+
+acid_demo.py
+
+upsert_demo.py
+
+mig_demo.py
+
+repo_demo.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+exercise.py
+
+Almacén de verdad ER — esquema, historia y repositorio
+
+Constraints y FK habilitadas (PRAGMA=1) protegen el almacén ER desde el primer insert.
+
+Historia de decisiones sin overwrite: dos filas, no un UPDATE destructivo.
+
+Cola de review: CTE nombra el paso; el anti-join deja solo p2 (p1 ya tiene decisión).
+
+NULL y cardinalidad evitan sorpresas: COUNT(col) ignora NULL; igualdad no une filas con grp NULL.
+
+Atomicidad decisión+evidencia: si falla el segundo write, no queda basura en la primera tabla.
+
+Upsert de atributos con id estable; no toca la historia de decisiones.
+
+Evolución de esquema versionada y evidencia del índice en el plan.
+
+SQL encapsulado y testeable: la app pide pending(), no arma el anti-join a mano.
+
+PRIMARY KEY impide el segundo insert
+
+try/except IntegrityError
+
+PRAGMA foreign_keys = ON en esta conexión
+
+dos INSERT al mismo pair_id; COUNT filtrado
+
+INSERT + SELECT → dict
+
+IS NULL marca ventana abierta
+
+INNER JOIN solo devuelve p1
+
+ROW_NUMBER en SQLite
+
+PARTITION BY reinicia el ranking por bloque
+
+self-join con a.id < b.id
+
+IS NULL vs = NULL
+
+EXPLAIN QUERY PLAN + str del plan
+
+rollback en lugar de commit
+
+BEGIN + ROLLBACK en except
+
+rollback + print abort cuando evidence falla
+
+ON CONFLICT(id) DO UPDATE
+
+UPDATE status='pending' WHERE id=...
+
+CHECK(entity_a < entity_b) rechaza el par invertido
+
+MAX no MIN
+
+CREATE INDEX + sqlite_master + EXPLAIN
+
+guard + COUNT; no DROP si no hay backup
+
+SELECT name WHERE id=?
+
+loop open → pragma → close
+
+anti-join + count
+
+Con PRIMARY KEY el motor rechaza el duplicado. Un solo `e1` y COUNT(*) = 1 es el contrato mínimo de identidad en el almacén ER.
+
+El CHECK no es documentación: un score fuera de [0, 1] debe fallar con IntegrityError. Así la cola de candidatos no arrastra confianza inventada.
+
+En SQLite la FK solo se exige con PRAGMA foreign_keys=ON por conexión. Sin eso, un par huérfano se inserta en silencio y rompe el almacén de verdad.
+
+Append-only = dos INSERT, no un UPDATE del label. COUNT(*) = 2 prueba que la historia del par sigue viva para auditoría.
+
+Provenance mínima es source + record leídos de la tabla, no un dict a medias. Sin record no hay rastro al payload fuente.
+
+`valid_to IS NULL` marca la ventana abierta. `= NULL` no devuelve filas: es el mismo error conceptual que en la teoría de T2-B.
+
+INNER JOIN solo devuelve pares ya decididos. La cola de review es anti-join: NOT IN / LEFT JOIN … IS NULL / NOT EXISTS → `['p2']`.
+
+ROW_NUMBER() OVER (ORDER BY score DESC) con rn=1 es el top-1 SQL. ASC elegía el peor score; el oráculo pide p2 (0.9).
+
+PARTITION BY block_key reinicia ROW_NUMBER en cada cubeta de blocking: top-1 por bloque (p1 en A, p3 en B). Un ORDER BY global sin partición no modela la cola de review por bloque.
+
+Self-join con `a.id < b.id` da C(5,2)=10 pares no ordenados. Sin el filtro, n×n=25 incluye diagonales y dobles sentidos — inviable en ER.
+
+En SQL, `x = NULL` no es TRUE (count 0); `x IS NULL` sí (count 1). No uses la analogía Python `None is None` para razonar NULL.
+
+Lee el plan real: sin índice en block_key, EXPLAIN QUERY PLAN suele mostrar SCAN. No imprimas INDEX de memoria.
+
+ROLLBACK deshace el INSERT de la transacción abierta: COUNT(*) vuelve a 0. COMMIT dejaría basura que el lab prohíbe.
+
+Decisión y evidencia son atómicas: si la evidencia falla, ROLLBACK deja ambas tablas en 0. Un commit parcial crea decisión huérfana.
+
+Política de commit: si `evidence_ok` es False, ROLLBACK y `abort`. No dejes la decisión commiteada sin evidencia.
+
+ON CONFLICT DO UPDATE reescribe el name mutable y conserva el id. El segundo INSERT sin upsert reventaba; el name final debe ser B.
+
+Tras un crash, el job vuelve a `pending` con UPDATE y se relee. Así el reintento es idempotente sin duplicar lógica de matching.
+
+CHECK(entity_a < entity_b) rechaza el espejo (e2,e1). UNIQUE evita el duplicado en el mismo orden. El worker captura IntegrityError y reporta `order_rejected` (o `retry` en el flujo de reintento).
+
+schema_migrations versiona con MAX(v): la última migration aplicada. MIN(v) te deja en el origen y miente sobre el estado del esquema.
+
+CREATE INDEX + lectura en sqlite_master + EXPLAIN con INDEX en el plan: evidencia triple de que el índice existe y se usa.
+
+Con has_backup=False no hay DROP: COUNT(*) sigue en 1 y se imprime la política. La evidencia del almacén ER no se borra por “agilidad” de migración.
+
+El repository expone get(id): el SQL vive dentro del método. Con e1 insertado, get('e1') devuelve Ana; e2 no existe.
+
+Cada conexión necesita su PRAGMA foreign_keys=ON y su close. Contar 3 aperturas entrena el ciclo open→config→close del lab.
+
+pending_count se calcula con anti-join real (COUNT de pares sin decisión), no con un literal. Con p2 pendiente el oráculo es 1.
+
+S29-T1-A-E1 · En SQLite `:memory:`, crea `entities(id TEXT PRIMARY KEY)`, inserta solo `'e1'` y muestra `SELECT COUNT(*)`. Salida esperada: una línea `1`. El starter inserta el id dos veces porque falta la PRIMARY KEY: corrige el DEFECT (añade PK y deja un solo insert válido).
+
+S29-T1-A-E2 · Tabla `p(score REAL CHECK(score BETWEEN 0 AND 1))`. Intenta insertar `1.5`, captura `IntegrityError` e imprime exactamente `bad_score`. Una línea de salida.
+
+S29-T1-A-E3 · Transferencia de integridad: con `PRAGMA foreign_keys = ON`, crea `entities` y `pairs(entity_id REFERENCES entities(id))`, inserta solo `e1`, intenta un par que referencia `e_missing`, captura `IntegrityError` e imprime `fk_rejected`. Salida: `fk_rejected`.
+
+S29-T1-B-E1 · Tabla de decisiones append-only: inserta para `p1` los labels `review` y `match` (dos filas) e imprime `COUNT(*)` de historia del par. Salida: `2`.
+
+S29-T1-B-E2 · Provenance mínima: lee de una tabla `src(source, record)` la fila insertada e imprime el dict `{'source': 'crm_synth', 'record': 'r9'}` (orden de keys como en el solution).
+
+S29-T1-B-E3 · Temporalidad en SQL: fila con `valid_to` NULL = vigente. Cuenta filas abiertas con `WHERE valid_to IS NULL` e imprime el entero. Salida: `1`.
+
+S29-T2-A-E1 · Con pairs `p1`,`p2` y decisión solo en `p1`, lista ids sin decisión con anti-join (`NOT IN` o `LEFT JOIN … IS NULL`). Salida: `['p2']`.
+
+S29-T2-A-E2 · Con SQL window: tabla pairs (id, score) con tres filas; usa `ROW_NUMBER() OVER (ORDER BY score DESC)` y devuelve el id con rn=1. Salida: `p2` (score 0.9).
+
+S29-T2-A-E3 · Transferencia window: con pairs y `block_key`, usa `ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)` y devuelve los ids con rn=1 (top-1 por bloque), ordenados por id. Datos: p1/0.9/A, p2/0.4/A, p3/0.7/B, p4/0.5/B. Salida: `['p1', 'p3']`.
+
+S29-T2-B-E1 · Con 5 entidades en SQLite, cuenta pares no ordenados con self-join `a.id < b.id` (equivale a C(5,2)=10). El starter une sin filtro de orden y explota a 25. Salida: `10`.
+
+S29-T2-B-E2 · En SQL, `NULL = NULL` no es TRUE. Inserta una fila con x NULL; imprime `COUNT` con `WHERE x = NULL` y con `WHERE x IS NULL` separados por espacio. Salida: `0 1`.
+
+S29-T2-B-E3 · Sin índice en `block_key`, corre `EXPLAIN QUERY PLAN` de un SELECT filtrado e imprime `SCAN` si el plan contiene esa palabra (mayúsculas), si no `OTHER`. En tabla mínima sin índice esperamos `SCAN`.
+
+S29-T3-A-E1 · Tras `BEGIN`, insert y `ROLLBACK`, el count de la tabla debe ser `0`. El starter hace COMMIT por error: corrige el DEFECT.
+
+S29-T3-A-E2 · Atomicidad decisión+evidencia: en una transacción inserta en `decisions` y luego simula fallo (no insertes evidence); haz ROLLBACK e imprime counts `decisions evidence` en una línea. Salida: `0 0`.
+
+S29-T3-A-E3 · Política de commit: inserta decisión; si `evidence_ok` es False haz ROLLBACK y imprime `abort` (no dejes la decisión). Salida: `abort`.
+
+S29-T3-B-E1 · Upsert: inserta id `'1'` name `'A'`, luego `ON CONFLICT DO UPDATE` a name `'B'`; imprime el name final. Salida: `B`.
+
+S29-T3-B-E2 · Recuperación tras crash: el job `er_block` quedó en `running`; actualízalo a `pending` con UPDATE y léelo con SELECT. Imprime el status. Salida: `pending`.
+
+S29-T3-B-E3 · Orden canónico + reintento: tabla con `CHECK(entity_a < entity_b)` y `UNIQUE(entity_a, entity_b)`. Inserta (`e1`,`e2`); luego intenta el espejo (`e2`,`e1`). Captura `IntegrityError` e imprime `order_rejected`. Salida: `order_rejected`.
+
+S29-T4-A-E1 · Tabla `schema_migrations(v, name)`: registra version 1 `init` y 2 `add_index`; imprime `MAX(v)`. Salida: `2`.
+
+S29-T4-A-E2 · Crea el índice `idx_pairs_block_key` sobre `pairs(block_key)`, confírmalo en `sqlite_master` y verifica con `EXPLAIN QUERY PLAN` que el plan menciona INDEX. Imprime el nombre del índice. Salida: `idx_pairs_block_key`.
+
+S29-T4-A-E3 · Política de migración: con `has_backup=False` **no** ejecutes `DROP TABLE pairs`. Lee `COUNT(*)` de pairs (debe seguir en 1) e imprime dos líneas: el count y la política `no_drop_without_backup`. Salida:
+`1`
+`no_drop_without_backup`
+
+S29-T4-B-E1 · Mini-repository: clase con `get(id)` sobre tabla entities; inserta e1→Ana y imprime `get('e1')`. Salida: `Ana`.
+
+S29-T4-B-E2 · Ciclo de conexión del repository: abre 3 conexiones `:memory:`, ejecuta `PRAGMA foreign_keys=ON` en cada una, cierra todas e imprime cuántas se abrieron. Salida: `3`. (En SQLite de lab no hace falta un pool de servidor; sí el hábito de configurar cada conexión.)
+
+S29-T4-B-E3 · Test de repo: pairs p1/p2, decisión solo p1; `pending_count` = COUNT de pares sin decisión. Imprime el entero. Salida: `1`.
+
+Esquema CP-N3-A completo (fuentes, entidades, pares, decisiones append-only, evidencia) con constraints verificados
+
+Correctitud técnica: PRAGMA foreign_keys, anti-join de cola, ACID decisión+evidencia, upsert e índice versionado
+
+Privacidad / sin PII real / sin secretos / sin inferencia de fraude ni parentesco
+
+Pruebas en :memory: (IntegrityError, pending, rollback) documentadas
+
+Código legible y límites claros del repository
+
+Documentación en español profesional
+
+entity_a < entity_b en el par sirve para:
+
+Append-only en decisions significa:
+
+Decisión y evidencia deben:
+
+El repository pattern:
+
+Una migración que hace DROP de pairs sin backup en el lab debe…
+
+En SQLite, un REFERENCES en el DDL garantiza la FK en runtime si…
+
+Para filtrar filas con columna NULL en SQL debes usar…
+
+Si `EXPLAIN QUERY PLAN` muestra SCAN sobre pairs al filtrar por block_key, la lectura correcta es…
+
+Con entity_a < entity_b (orden canónico) el par (e1,e2) y (e2,e1) no coexisten. No implica fraude ni parentesco: solo evita duplicar el mismo candidato en la cola.
+
+Cada cambio de label es un INSERT nuevo. Así conservas provenance (quién/cuándo/evidence_ref) y puedes auditar la historia del par.
+
+Si falla la evidencia, ROLLBACK también de la decisión. Decisión huérfana rompe el almacén de verdad (atomicidad ACID).
+
+El repository es el borde de persistencia: métodos como pending() y get() ocultan SQL y se prueban inyectando una conexión :memory:.
+
+Schema governance: cambios destructivos requieren backup y versionado en schema_migrations. El lab entrena el hábito antes de tocar prod.
+
+SQLite deja las foreign keys apagadas por defecto. Cada conexión debe ejecutar PRAGMA foreign_keys = ON; si no, un entity_id fantasma se inserta sin error y el almacén miente.
+
+NULL = NULL es desconocido (no TRUE). IS NULL / IS NOT NULL es el predicado correcto; COUNT(col) ignora NULL mientras COUNT(*) cuenta la fila.
+
+SCAN = recorrido completo. Tras CREATE INDEX en la columna de filtro, vuelve a pedir el plan: si aparece INDEX/SEARCH, el índice está ayudando a esa consulta concreta.
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+salida coincide con solution output
+
+SQL local del curso
+
+Planes e índices
+
+FK off by default; PRAGMA foreign_keys=ON
+
+Prod analog de CHECK/UNIQUE/FK
+
+ROW_NUMBER / RANK / PARTITION BY
+
+Índices y planes legibles
+
+API del lab
+
+Diseño y errores comunes (joins, keys, historia)
+
+Transacciones, replicación e historia de datos
+
+Modelado y consultas
+
+Contratos y tests
+
+Proyectos reproducibles
+
+Relacional e integridad
+
+Cada afirmación sobre NULL, índices o atomicidad se verifica con consultas y código que imprime el resultado real, no con strings que solo nombran el concepto.
+
+Forzar entity_a < entity_b evita pares duplicados (e1,e2) y (e2,e1). No implica fraude ni parentesco: solo evita duplicar el mismo candidato.
+
+Para CP-N3-A, las decisiones son append-only o versionadas. Upsert de atributos de entidad es otra historia: no es lo mismo que borrar un label pasado.
+
+Anti-join con NOT EXISTS suele ser más claro y seguro que NOT IN cuando la subconsulta puede devolver NULL.
+
+NULL=NULL es desconocido: filas con grp NULL no matchean entre sí en igualdad. Por eso pairs_card ignora el id=3.
+
+Decisión sin evidencia o viceversa rompe el almacén de verdad. ROLLBACK es tu red de seguridad en el lab.
+
+Puedes upsert atributos de entidad; las decisiones siguen append-only.
+
+Demasiados índices ralentizan writes; mide con EXPLAIN y versiona cada cambio en schema_migrations.
+
+Inyecta la conexión; en tests usa :memory: o un archivo temporal. Assert sobre pending y constraints, no solo sobre prints.
+
+SQLite language
+
+SQLite EXPLAIN QUERY PLAN
+
+SQLite foreign keys
+
+PostgreSQL constraints
+
+PostgreSQL window functions
+
+Use The Index, Luke
+
+Python sqlite3
+
+SQL Antipatterns (Karwin)
+
+Designing Data-Intensive Applications (Kleppmann)
+
+Coursera — SQL / data management
+
+MIT 6.100L
+
+Harvard CS50P
+
+Stanford DB course materials (concept)
+
+PRIMARY KEY en id
+
+un solo INSERT de e1
+
+print del COUNT(*)
+
+CHECK score 0..1
+
+insert 1.5
+
+print('bad_score') en except
+
+c.execute('PRAGMA foreign_keys = ON')
+
+REFERENCES entities(id) en pairs
+
+try insert e_missing → except IntegrityError → print fk_rejected
+
+append-only: dos filas, no UPDATE
+
+where pair='p1'
+
+print del count, no de la lista de labels
+
+insert source y record
+
+arma el dict desde la fila
+
+insert con valid_to null
+
+select count(*) where valid_to is null
+
+NOT IN (select pair_id from dec)
+
+o LEFT JOIN + IS NULL
+
+WITH o subconsulta con ROW_NUMBER
+
+where rn = 1
+
+ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)
+
+WHERE rn = 1 y ORDER BY id en el SELECT externo
+
+from e a join e b on a.id < b.id
+
+select count(*)
+
+eq = ... where x = null → 0
+
+isn = ... where x is null → 1
+
+print(eq, isn)
+
+join de filas del plan a string
+
+'SCAN' in plan.upper()
+
+c.execute('rollback')
+
+print del count
+
+insert decision
+
+raise o skip evidence
+
+rollback → ambos 0
+
+begin → insert decision
+
+if not evidence_ok: rollback; print('abort')
+
+insert ... on conflict(id) do update set name=excluded.name
+
+update jobs set status='pending' where id='er_block'
+
+print del SELECT status
+
+create table con check(entity_a < entity_b) y unique(entity_a, entity_b)
+
+segundo insert ('e2','e1') → except IntegrityError → print order_rejected
+
+insert (2,'add_index')
+
+select max(v)
+
+create index idx_pairs_block_key on pairs(block_key)
+
+select name from sqlite_master where type='index'
+
+EXPLAIN QUERY PLAN del filtro por block_key debe mencionar INDEX
+
+if not has_backup: n = COUNT(*); print(n); print('no_drop_without_backup')
+
+else: drop + print drop_ok
+
+el starter dropea y pierde la evidencia: corrige el DEFECT
+
+método get con fetchone
+
+no uses e2
+
+for _ in range(3): connect, pragma, close
+
+print del contador
+
+count ids not in decisions
+
+print del count
+
+IntegrityError si reinsertas el mismo id con PK
+
+between inclusive: 0 y 1 son válidos
+
+Sin PRAGMA el REFERENCES no falla en SQLite
+
+Orden canónico entity_a < entity_b se suma en el esquema completo del I Do
+
+no update label in place
+
+ingested_at se puede añadir después
+
+cierres con timestamp dejan de ser IS NULL
+
+NOT EXISTS equivalente
+
+empates de score: ROW_NUMBER no empata
+
+Sin PARTITION BY el top-1 global deja un solo id
+
+Empates de score: ROW_NUMBER no empata; documenta política en prod
+
+blocking reduce el n efectivo por cubeta en ER real
+
+Python None is None no enseña SQL
+
+con índice el plan puede mostrar SEARCH/INDEX
+
+commit opuesto deja 1
+
+si haces commit parcial rompes el almacén
+
+decisión+evidencia van juntas
+
+updated_at se puede sumar en prod
+
+reintento idempotente: pending se puede re-procesar
+
+Sin CHECK el espejo (e2,e1) convive con (e1,e2) y duplica el candidato
+
+UNIQUE solo no basta si el orden de extremos está invertido
+
+expand/backfill/contract
+
+sin índice el plan suele ser SCAN; con índice SEARCH/INDEX
+
+prod safety; schema_migrations no reemplaza backup
+
+SQL detrás del método
+
+PRAGMA foreign_keys es por conexión, no global del proceso
+
+:memory: tests
+
+Evitar duplicar el mismo par en orden invertido
+
+Inferir fraude
+
+Borrar historia
+
+Subir isolation
+
+UPDATE del label in place sin rastro
+
+Drop de tabla cada noche
+
+Nueva fila por cambio de decisión
+
+Solo un match eterno
+
+Commitearse en transacciones separadas siempre
+
+Ignorar rollback
+
+Vivir solo en logs de texto
+
+Ser atómicas en la misma transacción lógica
+
+Esparce SQL por toda la app a propósito
+
+Encapsula acceso a datos y facilita tests con :memory:
+
+Reemplaza constraints
+
+Marca fraude automático
+
+rechazarse: no_drop_without_backup es parte del contrato
+
+ejecutarse en prod si el SQL es corto
+
+silenciar el error de IntegrityError
+
+usar SELECT * sin WHERE para ir más rápido
+
+siempre, sin configuración adicional
+
+solo si usas PostgreSQL en la misma máquina
+
+solo cuando PRAGMA foreign_keys = ON en esa conexión
+
+solo si el score del par es > 0.5
+
+WHERE col = NULL
+
+WHERE col == None (sintaxis Python)
+
+WHERE col IN (NULL)
+
+WHERE col IS NULL
+
+Ya hay índice mágico aunque no lo creaste
+
+El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX
+
+SCAN significa que el resultado es siempre vacío
+
+Debes imprimir la palabra INDEX sin mirar el plan
+
+Modelo PK/FK/CHECK y orden canónico de pares con FK real habilitada
+
+Temporalidad/provenance en decisiones y fuentes (append-only)
+
+Consultas CTE/anti-join para review queue
+
+ACID en decisión+evidencia; upsert; índices; repo tests en :memory:
+
+Historia de decisions no se borra con UPDATE destructivo del label
+
+Modelas el **almacén ER** del capstone CP-N3-A: `source_records` → `entities` → `candidate_pairs` → `decisions` (append-only) → `evidence`. Sin historia de decisiones no hay auditoría: un UPDATE in-place del label borra el rastro de quién cambió de `review` a `match`. Fixture de lab: **CASO-LIM-029** (`run_id=cpn3a-sql`, correos `@example.pe`, ids `ent-00N`). Solo datos sintéticos; **match ≠ fraude** ni parentesco; fallo cerrado (fail-closed) si falta llave o el join multiplica filas sin documentar fan-out.
+
+SQLite local es una base real y reproducible para observar constraints, NULL, planes y transacciones. En SQLite las foreign keys están **apagadas por defecto**: cada conexión debe ejecutar `PRAGMA foreign_keys = ON` o el `REFERENCES` es solo documentación. Las diferencias con PostgreSQL/Oracle se declaran cuando importan (p. ej. isolation rica, pooling de servidor).
+
+Mapa de cardinalidades (esqueleto del warehouse):
+`source_records` 1—N `entities` · `entities` N—N vía `candidate_pairs` (con `entity_a < entity_b`) · `candidate_pairs` 1—N `decisions` · `decisions`/`pairs` 1—N `evidence`.
+Orden de estudio: **T1 Modelo** (PK/FK/historia) → **T2 Consulta** (CTE/windows/anti-join) → **T3 Transacción** (ACID/upsert) → **T4 Evolución** (índices/migrations/repo).
+
+**PRIMARY KEY** identifica filas; **FOREIGN KEY** ancla un par a dos entidades existentes. Añade **CHECK** (`score` entre 0 y 1) y **UNIQUE** de negocio cuando corresponda (p. ej. `(source_system, external_id)` en registros fuente). En SQLite la FK solo se exige si habilitas `PRAGMA foreign_keys = ON` en **cada** conexión; sin eso un `entity_id` fantasma se inserta sin error.
+
+Normaliza a **3NF** para hechos del ER: no copies `canonical_name` en cada par; guarda atributos de entidad en `entities` y deja `evidence` como tabla hija del par o de la decisión. Si un join multiplica filas (fan-out), documenta la cardinalidad o el query está mal para auditoría.
+
+Usa ids sintéticos estables (`ent-00N`, `pair-…`) del fixture CASO-LIM-029. El orden canónico `entity_a < entity_b` (CHECK) evita que el mismo candidato viva dos veces como (e1,e2) y (e2,e1). En el mini-lab de abajo: insert válido, rechazo de FK rota y rechazo de score fuera de rango.
+
+**Temporalidad**: modela `valid_from`/`valid_to` o, más simple en el lab, una tabla de eventos donde cada cambio es una fila nueva. No sobrescribas la decisión anterior con UPDATE del label: inserta una nueva fila versionada. Así puedes reconstruir “qué veía el revisor el martes” para el mismo par — requisito de auditoría del almacén ER, no un detalle cosmético de esquema.
+
+**Provenance**: cada entidad o decisión debe rastrearse al registro fuente (`source_system`, `source_record_id`, `ingested_at`, `transform_version`) y a la evidencia (`evidence_ref`). Sin provenance, un match en producción es una opinión sin rastro: no sabes qué payload de `source_records` alimentó el par ni qué nota de evidencia cerró el caso.
+
+Auditoría en Red Andina (sintético, Lima): actor sintético `rev_sintetica`, timestamps UTC y `run_id=cpn3a-sql` versionan la cola de candidatos. El mini-lab inserta `review` y luego `match` para el mismo `pair_id` y lista la historia en orden: dos filas, `overwrite False`. Eso es el puente entre el modelo de T1-A y las colas de consulta de T2.
+
+Una **CTE** (`WITH nombre AS (… )`) nombra un paso intermedio: candidatos filtrados, scores ordenados. Las **window functions** (`ROW_NUMBER() OVER (ORDER BY score DESC)` o `PARTITION BY block_key ORDER BY score DESC`) asignan rango **sin colapsar filas** como haría un `GROUP BY`. `PARTITION BY` reinicia el contador por cubeta de blocking: “top-1 por bloque”.
+
+Un **anti-join** responde “pares sin decisión” o “entidades sin par”: `NOT EXISTS (SELECT 1 FROM decisions d WHERE d.pair_id = p.id)` o `LEFT JOIN … WHERE d.pair_id IS NULL`. `NOT IN` con NULLs en el subconjunto es una trampa clásica; prefiere `NOT EXISTS`.
+
+En la cola de review del ER, combinas ranking + anti-join: “top scores que aún no tienen label humano”. El lab lista `p2` y `p3` (tienen score, no tienen decisión), deja fuera a `p1`, e imprime el top-1 por `block_key` con `PARTITION BY`. En We Do practicarás anti-join (E1), `ROW_NUMBER` global (E2) y top-1 particionado por bloque (E3) — el mismo patrón del mini-lab, con un DEFECT cada vez.
+
+**Cardinalidad** de un join define explosión de pares: n×m sin blocking es inviable en ER. Con 10 000 entidades, un self-join ciego produce ~50 millones de candidatos no ordenados; el lab lo reduce a C(n,2) con `a.id < b.id` y, en prod, a cubetas de blocking. Estima filas **antes** de correr el join sobre nombres o bloques.
+
+**NULL en SQL no es Python None.** En SQL, `NULL = NULL` es desconocido (no TRUE): usa `IS NULL` / `IS NOT NULL`. `COUNT(*)` cuenta filas; `COUNT(col)` ignora NULL. Un join mal escrito multiplica filas (fan-out) e infla la cola de candidatos; filas con clave NULL no se emparejan entre sí por igualdad.
+
+**Planes**: `EXPLAIN QUERY PLAN` en SQLite muestra SCAN (recorrido completo) vs SEARCH/INDEX (uso de índice). No adivines “ya tengo índice”: pide el plan, léelo y decide si falta un índice en `block_key`, `pair_id` o `score`. El mini-lab imprime conteos y el número de filas del plan para que el hábito sea observable.
+
+**ACID** resume cuatro promesas del motor: Atomicity (todo o nada), Consistency (constraints se cumplen al commit), Isolation (transacciones concurrentes no se pisan a ciegas) y Durability (lo commiteado sobrevive al crash del proceso, con matices de disco/WAL). En el almacén ER, **decisión + evidencia** deben commitearse juntas o no: una decisión huérfana es basura de auditoría.
+
+En este lab usamos una sola conexión sqlite y demostramos **atomicidad** con `BEGIN` → insert de decisión → fallo simulado → `ROLLBACK`: ambas tablas quedan en 0. Eso es el contrato mínimo de CP-N3-A. Niveles de isolation avanzados (READ COMMITTED, SERIALIZABLE) y `BEGIN IMMEDIATE` importan con **varias conexiones concurrentes**; no los damos por dominados solo porque aparecen en un glosario — se profundizan cuando el escenario de concurrencia está en el ejercicio (no en este lab de una conexión).
+
+Regla operativa: si falla escribir evidencia, no dejes una decisión huérfana. El mini-lab fuerza el fallo, hace ROLLBACK y comprueba `atomic True` cuando decisions y evidence están en cero. Llévalo a We Do: el mismo patrón con un flag `evidence_ok`.
+
+Un **upsert** (`INSERT … ON CONFLICT DO UPDATE`) actualiza atributos mutables de una entidad (`name`, `updated`) sin cambiar el id estable. Es el patrón correcto para re-ingestar un registro fuente cuando el CRM reenvía el mismo `external_id`; **no** reemplaza el append-only de decisions ni borra labels pasados.
+
+Concurrencia de workers: dos procesos no deben crear el mismo par como (e1,e2) y (e2,e1). Combina `CHECK(entity_a < entity_b)`, UNIQUE sobre (entity_a, entity_b) y política de reintento si `IntegrityError` por conflicto. Tras un crash, un job puede volver a `pending` y reaplicarse de forma idempotente sin duplicar efectos colaterales.
+
+El mini-lab hace upsert de `Ana` → `Ana López` y deja `updated=2`. Las decisiones del par no se tocan aquí a propósito: son otra tabla, otra política. Si necesitas “corregir” un label, insertas una decisión nueva (T1-B), no sobrescribes la fila del upsert de entidad.
+
+Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking. Un índice no es magia: acelera lecturas filtradas y puede ralentizar escrituras masivas. Mide con `EXPLAIN QUERY PLAN` antes y después; si el plan sigue en SCAN, el índice no está ayudando a esa consulta.
+
+**Migrations** versionadas: expand (añadir columna/índice) → backfill → contract (retirar lo viejo). Tabla `schema_migrations(version, name)` registra qué ya corrió y en qué orden. Política de lab y prod: **no_drop_without_backup** — un `DROP TABLE pairs` sin respaldo no es “agilidad”, es pérdida de evidencia del ER.
+
+El mini-lab crea `idx_pairs_block`, registra migration 1 y comprueba que el plan menciona índice al filtrar por `block_key`. En We Do practicarás crear el índice, leerlo en `sqlite_master` y rechazar un DROP sin backup.
+
+El **repository** encapsula SQL: `get_entity`, `insert_decision`, `pending`. La lógica de matching y de scoring no arma SQL crudo por todos lados: pide intenciones (`pending()`) y el repo traduce a anti-join. Inyectas la conexión (o un factory) para poder testear con `:memory:` sin un servidor real.
+
+**Pooling** reusa conexiones en servidores multi-request. En SQLite didáctico suele bastar una conexión por hilo; el “pool_size” corporativo aparece cuando el warehouse vive detrás de un driver de red. No hardcodes un número mágico: documenta el ciclo open → `PRAGMA foreign_keys=ON` → close, y el timeout de acquire cuando uses un pool real.
+
+Prueba el repository con inserts, constraints violados (IntegrityError ruidoso), anti-join de la cola de review y append-only de decisions. Caso sintético Red Andina: ids `ent-00N`, correos `@example.pe`, `run_id=cpn3a-sql`. El You Do cierra el circuito con un `PairRepository` a completar.
+
+Definir PK/FK/CHECK/UNIQUE en SQLite con `PRAGMA foreign_keys=ON` y demostrar violación con IntegrityError
+
+Modelar temporalidad y provenance (append-only de decisions, source_system, evidence_ref) sin sobrescribir historia
+
+Escribir CTEs, ROW_NUMBER y anti-joins (NOT EXISTS / LEFT JOIN … IS NULL) para colas de review
+
+Razonar cardinalidad de joins, NULL con IS NULL y planes con EXPLAIN QUERY PLAN (SCAN vs SEARCH)
+
+Garantizar atomicidad decisión+evidencia con BEGIN/COMMIT/ROLLBACK en la misma conexión
+
+Implementar upserts de entidad (ON CONFLICT DO UPDATE) sin borrar historia de decisiones
+
+Versionar migrations en schema_migrations, crear índices y evitar DROP sin backup
+
+Encapsular SQL en un repository testeable con sqlite :memory: (pending, get, constraints)

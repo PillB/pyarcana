@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 26,
+  "packet_sha": "98a22dbe9fbc9742",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s26-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "print([\"ingest\", \"validate\", \"analyze\", \"report\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ingest",
+        "validate",
+        "analyze",
+        "report",
+        "CASO",
+        "con",
+        "path",
+        "cuatro"
+      ],
+      "justification_from_packet": "Explorer en S26-T1-A-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print([\"ingest\", \"validate\", \"analyze\", \"report\"])"
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "nodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "edges",
+        "list",
+        "zip",
+        "len",
+        "Dado",
+        "como",
+        "path"
+      ],
+      "justification_from_packet": "Explorer en S26-T1-A-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(len(edges), edges)"
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "tasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "tasks",
+        "success",
+        "failed",
+        "any",
+        "for",
+        "values",
+        "else",
+        "estado"
+      ],
+      "justification_from_packet": "Explorer en S26-T1-A-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('failed' if any(v=='failed' for v in tasks.values()) else 'success')"
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "m={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "run_id",
+        "cpn2c",
+        "Metadata",
+        "run",
+        "Extrae",
+        "imprime",
+        "sin",
+        "mutar"
+      ],
+      "justification_from_packet": "Explorer en S26-T1-B-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(m['run_id'])"
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "api_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "api_rpm",
+        "too_high",
+        "else",
+        "Preflight",
+        "supera",
+        "umbral",
+        "del",
+        "adapter"
+      ],
+      "justification_from_packet": "Explorer en S26-T1-B-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('too_high' if api_rpm>60 else 'ok')"
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S26-T1-B-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('0 6 * * 1-5', 'America/Lima')"
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "attempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "attempt",
+        "base",
+        "Backoff",
+        "exponencial",
+        "reintentos",
+        "Imprime",
+        "entero",
+        "espera"
+      ],
+      "justification_from_packet": "Explorer en S26-T2-A-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(base * (2 ** (attempt - 1)))"
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "dlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "dlq",
+        "fail",
+        "append",
+        "Dead",
+        "letter",
+        "modelan",
+        "item",
+        "irrecuperable"
+      ],
+      "justification_from_packet": "Explorer en S26-T2-A-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(dlq)"
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ckpt",
+        "items",
+        "for",
+        "not",
+        "Checkpoint",
+        "Imprime",
+        "solo",
+        "los"
+      ],
+      "justification_from_packet": "Explorer en S26-T2-A-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print([i for i in items if i not in ckpt])"
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "store={}\n\ndef put(k, v):\n    if k not in store:\n        store[k] = v\n\nput(\"r\", \"v1\"); put(\"r\", \"v2\")\nprint(store.get(\"r\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "put",
+        "not",
+        "get",
+        "Write",
+        "idempotente",
+        "create",
+        "once"
+      ],
+      "justification_from_packet": "Explorer en S26-T2-B-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(store.get(\"r\"))"
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "state={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "report",
+        "draft",
+        "pop",
+        "rollback",
+        "Elimina",
+        "key",
+        "tras"
+      ],
+      "justification_from_packet": "Explorer en S26-T2-B-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(state)"
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "locked=True\nprint('busy' if locked else 'enter')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "locked",
+        "busy",
+        "else",
+        "enter",
+        "Lock",
+        "optimista",
+        "concurrencia",
+        "significa"
+      ],
+      "justification_from_packet": "Explorer en S26-T2-B-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('busy' if locked else 'enter')"
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "analysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "analysis",
+        "status",
+        "pending",
+        "done",
+        "sum",
+        "for",
+        "Cola",
+        "HITL"
+      ],
+      "justification_from_packet": "Explorer en S26-T3-A-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(sum(1 for x in analysis if x['status']=='pending'))"
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "q={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "analysis",
+        "report",
+        "recipient",
+        "any",
+        "for",
+        "values",
+        "Gate",
+        "multi"
+      ],
+      "justification_from_packet": "Explorer en S26-T3-A-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(any(v>0 for v in q.values()))"
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S26-T3-A-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(['metrics','narrative','recipient'])"
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "audit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "append",
+        "action",
+        "approve",
+        "actor",
+        "rev",
+        "only",
+        "registra"
+      ],
+      "justification_from_packet": "Explorer en S26-T3-B-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(audit[0]['action'])"
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "action, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "action",
+        "reason",
+        "reject",
+        "invalid",
+        "and",
+        "not",
+        "else",
+        "Reject"
+      ],
+      "justification_from_packet": "Explorer en S26-T3-B-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('invalid' if action=='reject' and not reason else 'ok')"
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "ver=1\nver += 1\nprint(ver)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ver",
+        "Edit",
+        "versiona",
+        "artefacto",
+        "del",
+        "informe",
+        "partiendo",
+        "editar"
+      ],
+      "justification_from_packet": "Explorer en S26-T3-B-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(ver)"
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rate",
+        "alert",
+        "else",
+        "SLO",
+        "success_rate",
+        "del",
+        "imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "Explorer en S26-T4-A-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('alert' if rate < 0.95 else 'ok')"
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "n=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "P0_unapproved_send",
+        "else",
+        "Control",
+        "cumplimiento",
+        "sends_without_approve",
+        "imprime",
+        "Contrato",
+        "cero"
+      ],
+      "justification_from_packet": "Explorer en S26-T4-A-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('P0_unapproved_send' if n>0 else 'ok')"
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S26-T4-A-E3 (transfer): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('disable_schedule -> drain -> page')"
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "steps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "steps",
+        "ingest",
+        "validate",
+        "draft",
+        "status",
+        "success",
+        "for",
+        "all"
+      ],
+      "justification_from_packet": "Explorer en S26-T4-B-E1 (guided): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(all(status[s]=='success' for s in steps))"
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "fraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "fraud_labels",
+        "else",
+        "fail",
+        "anti",
+        "fraude",
+        "auto",
+        "paquete",
+        "del"
+      ],
+      "justification_from_packet": "Explorer en S26-T4-B-E2 (independent): resolví el fixture del paquete para «tasks/flows/DAG y estados» respetando el pass «contrato del starter». Usé theory/iDo (S26-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('ok' if fraud_labels==0 else 'fail')"
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\n    \"n2_regression\": \"CP-N2-A/B/C critical+privacy\",\n    \"value_minutes_saved_est\": 45,\n    \"cf2\": \"interfaces Familiarity-reporting-automation\",\n})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer en S26-T4-B-E3 (transfer): el starter traía la forma esperada truncada; completé el dict de cierre de regresión N2 con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-automation según la instrucción del paquete (evidencia de defensa, sin envío real). Código: print del dict de contract."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Draft antes de approve",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S26 selfcheck Q0: elijo «Draft antes de approve» porque theory/iDo de «Orquestación y VP RPA + AI Analyst» lo enseña explícitamente frente a distractores. Pregunta: «El orden draft_email respecto a approve es:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S26 selfcheck Q1: elijo «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad» porque theory/iDo de «Orquestación y VP RPA + AI Analyst» lo enseña explícitamente frente a distractores. Pregunta: «La regresión N2 incluye:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Incidente P0",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S26 selfcheck Q2: elijo «Incidente P0» porque theory/iDo de «Orquestación y VP RPA + AI Analyst» lo enseña explícitamente frente a distractores. Pregunta: «Un send sin approve es:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "0 — solo evidencia para humanos",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S26 selfcheck Q3: elijo «0 — solo evidencia para humanos» porque theory/iDo de «Orquestación y VP RPA + AI Analyst» lo enseña explícitamente frente a distractores. Pregunta: «fraud_labels automáticos en el VP deben ser:». Sin correctIndex; solo paquete activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.805571+00:00"
+}

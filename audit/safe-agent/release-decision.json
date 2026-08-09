@@ -1,0 +1,60 @@
+{
+  "decision": "READY_SAFE_AGENT_SCOPE",
+  "decision_note": "Safe-Agent protocol + critical learner path verified locally, in CI, and on live GitHub Pages for the merged tree. Historical pedagogy dual-agentic S01–S52 runs and full axe campaign remain open as non-blocking backlog relative to this protocol delivery.",
+  "merged_sha": "038c2352ccc48f65b901c0689d2564f614a2cf96",
+  "tested_pr_tip_sha": "5bf0e89144b1b7954c8bfab44a33724090f93f36",
+  "tree_equivalence": {
+    "pr_tip_tree": "9c115a7ed411b435ea06a0e8e53785d87cee8468",
+    "merge_tree": "9c115a7ed411b435ea06a0e8e53785d87cee8468",
+    "identical": true
+  },
+  "deploy": {
+    "workflow_run": 31219792163,
+    "head_sha": "038c2352ccc48f65b901c0689d2564f614a2cf96",
+    "conclusion": "success",
+    "live_url": "https://pillb.github.io/pyarcana/",
+    "live_last_modified": "Fri, 07 Aug 2026 21:24:00 GMT"
+  },
+  "quiet_validation_rounds": [
+    {
+      "round": 1,
+      "target": "https://pillb.github.io",
+      "specs": ["scripts/static_public.spec.ts", "scripts/safe_agent_journeys.spec.ts"],
+      "passed": 11,
+      "failed": 0,
+      "result": "pass"
+    },
+    {
+      "round": 2,
+      "target": "https://pillb.github.io",
+      "specs": ["scripts/static_public.spec.ts", "scripts/safe_agent_journeys.spec.ts"],
+      "passed": 11,
+      "failed": 0,
+      "result": "pass"
+    }
+  ],
+  "release_block_conditions": {
+    "unapproved_deletion": false,
+    "learner_progress_can_be_lost": false,
+    "tests_weakened": false,
+    "build_type_failures_ignored": false,
+    "mocks_on_production_path": false,
+    "critical_e2e_flaky": false,
+    "live_differs_from_tested_tree": false,
+    "core_feature_only_local_evidence": false
+  },
+  "ci_pr": {
+    "pr": 22,
+    "run": 31219227933,
+    "all_required_and_optional_jobs": "success"
+  },
+  "remaining_nonblocking": [
+    "Independent external verifier sign-off (implementer is not sole judge for formal READY label)",
+    "Full axe-core S01–S52 campaign",
+    "Two independent zero-Python agentic S01–S52 learner runs (AGENT_STATE historical gate)",
+    "Secret push protection API verification",
+    "GitHub secret scanning / dependency review required checks"
+  ],
+  "formal_READY_label": "WITHHELD_PENDING_INDEPENDENT_VERIFIER",
+  "updated_at": "2026-08-07T21:30:00Z"
+}

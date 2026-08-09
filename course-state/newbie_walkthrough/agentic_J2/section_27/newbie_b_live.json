@@ -1,0 +1,435 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s27-18c99a202f77",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# Skeptic review S27-T1-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T1-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(impact * likelihood)`; los hints piden Dado / impact=5 / likelihood=4, / imprime / score=impact*likelihood. / Fixture / sintético / `CASO-LIM-027`. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Dado",
+        "impact",
+        "likelihood",
+        "imprime",
+        "score",
+        "impact"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# Skeptic review S27-T1-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T1-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])`; los hints piden Ordena / áreas / por / score / desc / y / imprime / solo. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Ordena",
+        "reas",
+        "por",
+        "score",
+        "desc",
+        "imprime"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# Skeptic review S27-T1-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T1-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(top_layer == 'unit')`; los hints piden Imprime / True / si / la / capa / top / es / 'unit'.. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Imprime",
+        "True",
+        "capa",
+        "top",
+        "unit",
+        "Fixture"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# Skeptic review S27-T1-B-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T1-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(' '.join(s.casefold().split()))`; los hints piden Implementa / normalize: / casefold / + / join / de / split; / imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Implementa",
+        "normalize",
+        "casefold",
+        "join",
+        "split",
+        "imprime"
+      ],
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# Skeptic review S27-T1-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T1-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('pass')`; los hints piden AAA: / assert / normalizado / == / 'ana' / para / 'ANA'; / imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "AAA",
+        "assert",
+        "normalizado",
+        "ana",
+        "para",
+        "ANA"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# Skeptic review S27-T1-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T1-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))`; los hints piden Oráculo / de / matching / exacto: / imprime / True / si / a. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "culo",
+        "matching",
+        "exacto",
+        "imprime",
+        "True",
+        "normalizados"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# Skeptic review S27-T2-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T2-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print([n for n in names if n.startswith('test_')])`; los hints piden Filtra / nombres / que / empiezan / con / 'test_' / de / la. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Filtra",
+        "nombres",
+        "que",
+        "empiezan",
+        "con",
+        "test_"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# Skeptic review S27-T2-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T2-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('ok' if left == right else 'fail')`; los hints piden Si / left!=right / imprime / 'fail' / else / 'ok' / (assert / blando).. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "left",
+        "right",
+        "imprime",
+        "fail",
+        "else",
+        "assert"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# Skeptic review S27-T2-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T2-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print([(' x ', 'x')])`; los hints piden Parametriza / mentalmente: / imprime / pares / (input, / expected) / para / strip. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Parametriza",
+        "mentalmente",
+        "imprime",
+        "pares",
+        "input",
+        "expected"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "# Skeptic review S27-T2-B-E1: verify PASS/CONTINUE only on taught contract\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T2-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(orig[0]['n']) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Copia",
+        "profunda",
+        "lista",
+        "dicts",
+        "muta",
+        "copia"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# Skeptic review S27-T2-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T2-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('function')`; los hints piden Imprime / 'function' / como / scope / por / defecto / de / fixture.. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Imprime",
+        "function",
+        "como",
+        "scope",
+        "por",
+        "defecto"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "# Skeptic review S27-T2-B-E3: verify PASS/CONTINUE only on taught contract\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T2-B-E3 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(len(make(3))) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Factory",
+        "define",
+        "make",
+        "que",
+        "devuelve",
+        "contactos"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# Skeptic review S27-T3-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T3-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(math.isclose(0.1 + 0.2, 0.3))`; los hints piden Usa / math.isclose(0.1+0.2, / 0.3) / e / imprime / el / booleano. / Fixture. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Usa",
+        "math",
+        "isclose",
+        "imprime",
+        "booleano",
+        "Fixture"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# Skeptic review S27-T3-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T3-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('bad')`; los hints piden Captura / ValueError / de / int('x') / e / imprime / 'bad'. / Fixture. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Captura",
+        "ValueError",
+        "int",
+        "imprime",
+        "bad",
+        "Fixture"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "# Skeptic review S27-T3-A-E3: verify PASS/CONTINUE only on taught contract\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T3-A-E3 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(Path(path).read_text(encoding='utf-8').strip()) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Escribe",
+        "NamedTemporaryFile",
+        "texto",
+        "reimprime",
+        "contenido",
+        "strip"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "# Skeptic review S27-T3-B-E1: verify PASS/CONTINUE only on taught contract\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T3-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(e) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "email",
+        "lanza",
+        "ValueError",
+        "email",
+        "vac",
+        "caza"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# Skeptic review S27-T3-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T3-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('ok' if '@' in s else 'invalid')`; los hints piden Valida / que / s / contenga / '@'; / si / no, / imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Valida",
+        "que",
+        "contenga",
+        "imprime",
+        "invalid",
+        "else"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# Skeptic review S27-T3-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T3-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(f'campo score inválido: {v!r}')`; los hints piden Construye / mensaje / f\"campo / score / inválido: / {v!r}\" / con / v=-1. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Construye",
+        "mensaje",
+        "campo",
+        "score",
+        "inv",
+        "lido"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# Skeptic review S27-T4-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T4-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(f(1), f(-1))`; los hints piden Función / f(x) / retorna / 'hi' / si / x>0 / else / 'lo'.. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Funci",
+        "retorna",
+        "else",
+        "Imprime",
+        "Fixture",
+        "sint"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# Skeptic review S27-T4-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T4-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('non' not in hit)`; los hints piden Dado / set / de / ramas / cubiertas / {'auto','review'}, / imprime / si. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Dado",
+        "set",
+        "ramas",
+        "cubiertas",
+        "auto",
+        "review"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# Skeptic review S27-T4-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T4-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(int(100 * k / n))`; los hints piden Imprime / porcentaje / de / ramas / cubiertas: / 2 / de / 3. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Imprime",
+        "porcentaje",
+        "ramas",
+        "cubiertas",
+        "redondeado",
+        "int"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# Skeptic review S27-T4-B-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T4-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(good == 'a' and mutant != 'a')`; los hints piden Mutante: / good / usa / strip, / mutant / no. / Imprime / True. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Mutante",
+        "good",
+        "usa",
+        "strip",
+        "mutant",
+        "Imprime"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# Skeptic review S27-T4-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T4-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print({'expected': 1, 'actual': 2})`; los hints piden Falla / útil: / imprime / dict / con / keys / expected, / actual. Lectura anclada en section packet outcomes + iDo del subtopic de S27.",
+      "concepts_used": [
+        "Falla",
+        "til",
+        "imprime",
+        "dict",
+        "con",
+        "keys"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# Skeptic review S27-T4-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S27-T4-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('bug_repro → regression_test')`; los hints piden Imprime / política: / 'bug_repro / → / regression_test' / (inicio / CP-N3-A). / Fixture. Lectura anclada en section packet outcomes + iDo del subtopic de S27. Doble chequeo de isolation del fixture.",
+      "concepts_used": [
+        "Imprime",
+        "pol",
+        "tica",
+        "bug_repro",
+        "regression_test",
+        "inicio"
+      ],
+      "confidence": 0.66
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S27 ítem 0: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («En la pirámide de pruebas, la base más ancha suele ser:»); me quedo con «Pruebas unitarias» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S27 ítem 1: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Un oráculo confiable es:»); me quedo con «Una fuente de verdad determinista para el assert» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.61,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S27 ítem 2: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Si mutas un casefold y ningún test falla:»); me quedo con «El contrato es débil; el mutante sobrevivió» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.74,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S27 ítem 3: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Las pruebas de matching en CP-N3-A demuestran:»); me quedo con «Contratos de misma entidad / normalización — no riesgo ni relación» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.86,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:55.582644+00:00",
+  "session_started_at": "2026-07-23T13:02:03.030199+00:00",
+  "session_ended_at": "2026-07-23T13:02:24.716080+00:00",
+  "receipt_response_sha256": "f40310bcd93ad69febf481681dfc99a0b5121b4e0347c97586494b3b70601668"
+}

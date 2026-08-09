@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s29-43c663772694",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "code": "# dual skeptic-H1 · S29-T1-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T1-A-E1: contrasté el Pass del paquete («S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=c…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, sqlite3, connect; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(c.execute('select count(*) from entities').fetchone()[0])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "code": "# dual skeptic-H1 · S29-T1-A-E2\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept sqlite3.IntegrityError:\n    print('bad_score')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T1-A-E2: contrasté el Pass del paquete («S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, sqlite3, connect; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('bad_score')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "code": "# dual skeptic-H1 · S29-T1-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T1-A-E3: contrasté el Pass del paquete («S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrad…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('e1' < 'e2')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "code": "# dual skeptic-H1 · S29-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T1-B-E1: contrasté el Pass del paquete («S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exa…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(c.execute(\"select count(*) from d where pair=\\'p1\\'\").fetchone()[0])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "code": "# dual skeptic-H1 · S29-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T1-B-E2: contrasté el Pass del paquete («S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la e…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print({'source': 'crm_synth', 'record': 'r9'})\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "code": "# dual skeptic-H1 · S29-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T1-B-E3: contrasté el Pass del paquete («S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exam…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('open' if valid_to is None else 'closed')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "code": "# dual skeptic-H1 · S29-T2-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint([r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T2-A-E1: contrasté el Pass del paquete («S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe):…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, sqlite3, connect; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print([r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "executescript",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "code": "# dual skeptic-H1 · S29-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T2-A-E2: contrasté el Pass del paquete («S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exa…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sorted(scores, reverse=True)[0])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "code": "# dual skeptic-H1 · S29-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T2-A-E3: contrasté el Pass del paquete («S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('ranked')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "code": "# dual skeptic-H1 · S29-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T2-B-E1: contrasté el Pass del paquete («S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; imp…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(n*(n-1)//2)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "code": "# dual skeptic-H1 · S29-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T2-B-E2: contrasté el Pass del paquete («S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @examp…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(None is None)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "code": "# dual skeptic-H1 · S29-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T2-B-E3: contrasté el Pass del paquete («S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `C…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('SCAN')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "code": "# dual skeptic-H1 · S29-T3-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint(c.execute('select count(*) from t').fetchone()[0])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T3-A-E1: contrasté el Pass del paquete («S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, sqlite3, connect; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(c.execute('select count(*) from t').fetchone()[0])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "code": "# dual skeptic-H1 · S29-T3-A-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T3-A-E2: contrasté el Pass del paquete («S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (r…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('A,C,I,D')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "code": "# dual skeptic-H1 · S29-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T3-A-E3: contrasté el Pass del paquete («S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exam…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('abort' if not evidence_ok else 'commit')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "code": "# dual skeptic-H1 · S29-T3-B-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T3-B-E1: contrasté el Pass del paquete («S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @ex…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, sqlite3, connect; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(c.execute(\"select name from e where id=\\'1\\'\").fetchone()[0])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "code": "# dual skeptic-H1 · S29-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T3-B-E2: contrasté el Pass del paquete («S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print({'job': 'er_block', 'status': 'pending'}['status'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "code": "# dual skeptic-H1 · S29-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T3-B-E3: contrasté el Pass del paquete («S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('retry' if conflict else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "code": "# dual skeptic-H1 · S29-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T4-A-E1: contrasté el Pass del paquete («S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @examp…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, sqlite3, connect; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(c.execute('select max(v) from schema_migrations').fetchone()[0])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "code": "# dual skeptic-H1 · S29-T4-A-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T4-A-E2: contrasté el Pass del paquete («S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la en…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('idx_pairs_block_key')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "code": "# dual skeptic-H1 · S29-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T4-A-E3: contrasté el Pass del paquete («S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('no_drop_without_backup')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "code": "# dual skeptic-H1 · S29-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T4-B-E1: contrasté el Pass del paquete («S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrad…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(store.get('e1'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "code": "# dual skeptic-H1 · S29-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T4-B-E2: contrasté el Pass del paquete («S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print({'pool_size': 5}['pool_size'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "code": "# dual skeptic-H1 · S29-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S29/S29-T4-B-E3: contrasté el Pass del paquete («S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el s…») con theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Conceptos dual, skeptic, S29, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(pending_count)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S29",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29#0: contrasto stem «entity_a < entity_b en el par sirve para:» con párrafos theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Elijo índice 0 («Evitar duplicar el mismo par en orden invertido») porque cuadra con el vocabulario del paquete; distractores ['Inferir fraude', 'Borrar historia'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29#1: contrasto stem «Append-only en decisions significa:» con párrafos theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Elijo índice 2 («Nueva fila por cambio de decisión») porque cuadra con el vocabulario del paquete; distractores ['UPDATE del label in place sin rastro', 'Drop de tabla cada noche'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29#2: contrasto stem «Decisión y evidencia deben:» con párrafos theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Elijo índice 3 («Ser atómicas en la misma transacción lógica») porque cuadra con el vocabulario del paquete; distractores ['Commitearse en transacciones separadas siempre', 'Ignorar rollback'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29#3: contrasto stem «El repository pattern:» con párrafos theory/iDo («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ). Elijo índice 1 («Encapsula acceso a datos y facilita tests con :memory:») porque cuadra con el vocabulario del paquete; distractores ['Esparce SQL por toda la app a propósito', 'Reemplaza constraints'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:20:16.793244+00:00",
+  "session_started_at": "2026-07-23T08:19:53.523708+00:00",
+  "session_ended_at": "2026-07-23T08:20:16.793244+00:00"
+}

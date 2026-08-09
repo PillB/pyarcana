@@ -1,0 +1,875 @@
+{
+  "attempt_id": "agentic_K1",
+  "section_index": 19,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    }
+  ],
+  "active": {
+    "id": "databases-orm",
+    "index": 19,
+    "title": "Visualización y comunicación accesible",
+    "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+    "jobRelevance": "En equipos de analytics y reporting en Perú, una **visualización accesible y honesta** es el puente entre EDA y decisiones. Esta sección (id `databases-orm` conservado) retematiza a V3 **Visualización y comunicación accesible** para el incremento **CP-N2-B (dashboard)** con Matplotlib y tablas alternativas.",
+    "learningOutcomes": [
+      "Elegir charts por pregunta y audiencia",
+      "Diseñar ejes, escalas y encodings honestos",
+      "Producir figuras Matplotlib (estilo Seaborn opcional)",
+      "Anotar y exportar de forma reproducible",
+      "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+      "Proveer alternativas accesibles y cuidar performance",
+      "Documentar unidades, fuente y limitaciones",
+      "Aplicar contraste, alt text y no sobreclaim"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S19-T1-A",
+        "heading": "pregunta, audiencia y chart choice",
+        "paragraphs": [
+          "El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia temporal → línea; relación dos cuantitativas → scatter. Documenta en metadata: pregunta, chart_type, audiencia (ejecutivo vs analista).",
+          "Contrato: una idea principal por figura. Si hay dos preguntas, dos charts. El dict de especificación (`pregunta`, `audiencia`, `chart`) viaja con el PNG hacia el informe S21 para no perder el “por qué este gráfico”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso sintético Perú: “totales por región para comité” → bar; “tendencia de tickets web semanal” → line. Función `elige_chart(pregunta)` es un gate didáctico, no un clasificador ML: reglas legibles y testeables en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "spec = {\n    \"pregunta\": \"¿Qué región tiene mayor ticket mediano?\",\n    \"audiencia\": \"ejecutivo\",\n    \"chart\": \"bar_horizontal\",\n    \"evita\": \"pie_3d\",\n}\nprint(spec)\nprint(\"ok\", spec[\"chart\"] != \"pie_3d\")",
+        "code_output": "{'pregunta': '¿Qué región tiene mayor ticket mediano?', 'audiencia': 'ejecutivo', 'chart': 'bar_horizontal', 'evita': 'pie_3d'}\nok True"
+      },
+      {
+        "subtopicId": "S19-T1-B",
+        "heading": "ejes, escalas y encodings honestos",
+        "paragraphs": [
+          "Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Encodings: posición > longitud > color > forma; dual-axis engaña con frecuencia. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: `ylim` bottom=0 en barras de PEN; etiqueta de unidades en el eje; escala log solo con leyenda explícita y justificación de órdenes de magnitud. Si usas color, no es el único canal para categorías críticas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: valores 50 vs 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. El ejercicio de “inflación visual” entrena el ojo antes de exportar al dashboard de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "vals = {\"Lima\": 100, \"Cusco\": 90}\n# encoding deshonesto: baseline 85\nspan_honesto = max(vals.values()) - 0\nspan_truco = max(vals.values()) - 85\nprint(\"ratio_visual_truco\", round((100-90)/span_truco, 2))\nprint(\"ratio_visual_honesto\", round((100-90)/span_honesto, 2))\nprint(\"recomendacion\", \"baseline_0_en_barras\")",
+        "code_output": "ratio_visual_truco 0.67\nratio_visual_honesto 0.1\nrecomendacion baseline_0_en_barras"
+      },
+      {
+        "subtopicId": "S19-T2-A",
+        "heading": "Matplotlib / Seaborn",
+        "paragraphs": [
+          "Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el slice está filtrado. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato de export: `bbox_inches='tight'`, dpi documentado (p. ej. 120), nombre versionado. En demos del curso a veces solo imprimimos metadatos sin binario; en local guardas PNG/SVG según audiencia (slides vs impresión). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: bar de dos regiones con `ylabel='PEN'` y `ylim(0, …)`. Verifica `get_ylim()[0]==0` y `get_ylabel()` en tests — el grader de weDo usa esos contratos, no “se ve bien en mi monitor”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nfig, ax = plt.subplots(figsize=(5, 3))\nax.bar([\"Lima\", \"Cusco\"], [28.0, 22.5], color=\"#1f4e79\")\nax.set_ylabel(\"Ticket mediano (PEN)\")\nax.set_title(\"Ticket mediano por región (sintético)\")\nax.set_ylim(0, 35)\nmeta = {\"axes\": 1, \"ylabel\": ax.get_ylabel(), \"ylim\": ax.get_ylim()}\nplt.close(fig)\nprint(meta)",
+        "code_output": "{'axes': 1, 'ylabel': 'Ticket mediano (PEN)', 'ylim': (np.float64(0.0), np.float64(35.0))}"
+      },
+      {
+        "subtopicId": "S19-T2-B",
+        "heading": "composición, annotations y exportación",
+        "paragraphs": [
+          "Multi-panel (`subplots`) alinea comparaciones (Vol vs Med). Anota valores clave con `bar_label` o `annotate` sin saturar. Export: PNG para slides, SVG/PDF para impresión; nombre `fig_cpn2b_v{version}.png`. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato de reproducibilidad: seed de datos + función `build_figure()` sin estado global sucio. Misma entrada → mismos títulos de paneles y mismos n en captions. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso sintético: 1×2 subplots títulos “Vol” y “Med”; meta de export `{fmt:'png', dpi:120, panels:2}`. El dashboard empaqueta estas figuras con la tabla de paridad (mismos números). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nfig, axes = plt.subplots(1, 2, figsize=(7, 3))\naxes[0].bar([\"A\", \"B\"], [3, 4])\naxes[0].set_title(\"Volumen\")\naxes[1].plot([1, 2, 3], [10, 12, 11])\naxes[1].set_title(\"Tendencia\")\nfor ax in axes:\n    ax.set_ylim(bottom=0)\n# simular export metadata\nexport = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2, \"name\": \"fig_s19_v1.png\"}\nplt.close(fig)\nprint(export)",
+        "code_output": "{'fmt': 'png', 'dpi': 120, 'panels': 2, 'name': 'fig_s19_v1.png'}"
+      },
+      {
+        "subtopicId": "S19-T3-A",
+        "heading": "Plotly / filtros / tooltips (modelo de datos)",
+        "paragraphs": [
+          "En entornos sin Plotly instalado, modelamos la **vista interactiva** como especificación: campos filtrables, tooltip template y viewport. Tooltips deben mostrar unidades y n, no solo el valor “bonito”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato: al filtrar por región, el texto de conclusión del viewport se **recalcula**; no reutilices el párrafo global de “Lima lidera” si el filtro es Cusco. Serializa el state (JSON) para audit del dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: row `{region:'Lima', median:28, n:40}` → tooltip `Lima: 28 PEN (n=40)`. Parity chart↔tabla: si la barra dice 1, la fila de tabla dice 1; si no, el gate de integridad falla. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "rows = [\n    {\"region\": \"Lima\", \"monto\": 28.0, \"n\": 40},\n    {\"region\": \"Cusco\", \"monto\": 22.5, \"n\": 32},\n    {\"region\": \"Arequipa\", \"monto\": 24.0, \"n\": 28},\n]\nfiltro = \"Lima\"\nvista = [r for r in rows if r[\"region\"] == filtro]\ntooltip = {**vista[0], \"unidad\": \"PEN\", \"nota\": \"sintético\"}\nprint(\"filtro\", filtro)\nprint(\"tooltip\", tooltip)",
+        "code_output": "filtro Lima\ntooltip {'region': 'Lima', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'nota': 'sintético'}"
+      },
+      {
+        "subtopicId": "S19-T3-B",
+        "heading": "estado, performance y alternativas accesibles",
+        "paragraphs": [
+          "El **estado** del dashboard (filtros activos) debe ser serializable (`json.dumps`). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y documenta si hay sampling. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con **los mismos números** que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: `filtro_region=Lima` → state JSON compacto; `alt_text` une `region:v` con `; `. Performance: documenta “sample 5k de 50k” si aplica — nunca ocultes el sesgo muestral del viewport. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "state = {\"filtro_region\": \"Lima\", \"metric\": \"median\"}\nchart_value = 28.0\nalt_table = [{\"region\": \"Lima\", \"ticket_mediano_pen\": 28.0, \"n\": 40}]\nalt_text = f\"En {alt_table[0]['region']}, ticket mediano {alt_table[0]['ticket_mediano_pen']} PEN (n={alt_table[0]['n']}).\"\nprint(state)\nprint(alt_text)\nprint(\"match\", chart_value == alt_table[0][\"ticket_mediano_pen\"])",
+        "code_output": "{'filtro_region': 'Lima', 'metric': 'median'}\nEn Lima, ticket mediano 28.0 PEN (n=40).\nmatch True"
+      },
+      {
+        "subtopicId": "S19-T4-A",
+        "heading": "unidades, fuente y limitaciones",
+        "paragraphs": [
+          "Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: `Fuente: … | Corte: … | n=… | Limitación: …`. Sin fuente, el gráfico **no entra** al portfolio de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato de caption: dict con claves `unidad`, `fuente`, `limitacion` (y n cuando aplique). Función `pie(cap)` une con ` | ` para el footer estable entre dashboard e informe. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso sintético: unidad PEN, fuente `sintetico`, limitación “solo canal web”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "caption = {\n    \"unidad\": \"PEN\",\n    \"fuente\": \"dataset sintético curso\",\n    \"corte\": \"2024-06-30\",\n    \"n\": 100,\n    \"limitacion\": \"solo canal web; no generalizar a tienda\",\n}\nprint(\" | \".join(f\"{k}: {v}\" for k, v in caption.items()))",
+        "code_output": "unidad: PEN | fuente: dataset sintético curso | corte: 2024-06-30 | n: 100 | limitacion: solo canal web; no generalizar a tienda"
+      },
+      {
+        "subtopicId": "S19-T4-B",
+        "heading": "color, contraste, texto alternativo y no sobreclaim",
+        "paragraphs": [
+          "Contraste suficiente texto/fondo; no uses **solo color** para categorías críticas — añade patrón, etiqueta o posición. **Alt text** describe el hallazgo principal y n, no “imagen de barras”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Contrato de claims: “Lima lidera en la **muestra** web” es permitido; “Lima es la mejor región del Perú” sin marco poblacional es **RECHAZADO**. `classify_claim` es el gate didáctico del weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+          "Caso: alt `Lima 28 PEN n=40` debe contener `n=`; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes del reporting factory. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+        ],
+        "code": "alt = (\n    \"Barras del ticket mediano sintético: Lima 28 PEN (n=40), \"\n    \"Arequipa 24 (n=28), Cusco 22.5 (n=32). Eje Y desde 0.\"\n)\nclaim_ok = \"En la muestra web sintética, Lima muestra el ticket mediano más alto.\"\nclaim_bad = \"Lima es la región más rentable del Perú.\"\nprint(\"alt_len\", len(alt))\nprint(\"usa_claim_ok\", True)\nprint(\"evita\", claim_bad[:20] + \"...\")",
+        "code_output": "alt_len 110\nusa_claim_ok True\nevita Lima es la región má..."
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S19-T1-A-DEMO",
+          "subtopicId": "S19-T1-A",
+          "environment": "local-python",
+          "description": "Elegir chart alineado a pregunta ejecutiva de comparación regional",
+          "why": "La elección de chart se documenta como decisión de diseño, no estética.",
+          "code": "pregunta = \"Comparar ticket mediano entre regiones\"\naudiencia = \"VP de operaciones\"\ncandidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"]\nscore = {\"bar\": 3, \"line\": 1, \"pie_3d\": 0, \"scatter\": 1}\nbest = max(candidates, key=lambda c: score[c])\nprint({\"pregunta\": pregunta, \"audiencia\": audiencia, \"chart\": best})\nprint(\"rechaza_pie_3d\", score[\"pie_3d\"] == 0)",
+          "language": "python",
+          "output": "{'pregunta': 'Comparar ticket mediano entre regiones', 'audiencia': 'VP de operaciones', 'chart': 'bar'}\nrechaza_pie_3d True"
+        },
+        {
+          "demoId": "S19-T1-B-DEMO",
+          "subtopicId": "S19-T1-B",
+          "environment": "local-python",
+          "description": "Cuantificar distorsión de un eje Y recortado en barras",
+          "why": "Mostrar el factor de inflación educa sobre encodings deshonestos.",
+          "code": "a, b = 100.0, 92.0\n# honesto baseline 0\nperc_h = (a - b) / a\n# truco baseline 90\nperc_t = (a - b) / (a - 90)\nprint(\"diff_abs\", a - b)\nprint(\"fraccion_altura_honesta\", round(perc_h, 3))\nprint(\"fraccion_altura_truco\", round(perc_t, 3))\nprint(\"factor_inflacion\", round(perc_t / perc_h, 2))",
+          "language": "python",
+          "output": "diff_abs 8.0\nfraccion_altura_honesta 0.08\nfraccion_altura_truco 0.8\nfactor_inflacion 10.0"
+        },
+        {
+          "demoId": "S19-T2-A-DEMO",
+          "subtopicId": "S19-T2-A",
+          "environment": "local-python",
+          "description": "Componer barra Matplotlib con ylim desde 0 y etiqueta de unidad",
+          "why": "Figura mínima viable para el dashboard estático.",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nreg = [\"Lima\", \"Arequipa\", \"Cusco\"]\nval = [28.0, 24.0, 22.5]\nfig, ax = plt.subplots()\nbars = ax.bar(reg, val, color=\"#2c5282\")\nax.set_ylabel(\"PEN\")\nax.set_title(\"Ticket mediano (sintético)\")\nax.set_ylim(0, max(val) * 1.2)\nax.bar_label(bars, fmt=\"%.1f\")\nprint(\"ylim0\", ax.get_ylim()[0] == 0)\nprint(\"ylabel\", ax.get_ylabel())\nplt.close(fig)",
+          "language": "python",
+          "output": "ylim0 True\nylabel PEN"
+        },
+        {
+          "demoId": "S19-T2-B-DEMO",
+          "subtopicId": "S19-T2-B",
+          "environment": "local-python",
+          "description": "Anotar y exportar metadata reproducible de figura multi-panel",
+          "why": "Composición + nombre versionado habilita re-render del portfolio.",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nfig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3))\nax0.bar([\"Lima\", \"Cusco\"], [40, 32])\nax0.set_title(\"n por región\")\nax0.set_ylim(0, 50)\nax1.barh([\"Lima\", \"Cusco\"], [28, 22.5])\nax1.set_title(\"mediana PEN\")\nax1.set_xlim(0, 35)\nexport = {\"file\": \"cp_n2b_dashboard_v1.png\", \"dpi\": 120, \"panels\": 2, \"seed_data\": 19}\nplt.close(fig)\nprint(export)",
+          "language": "python",
+          "output": "{'file': 'cp_n2b_dashboard_v1.png', 'dpi': 120, 'panels': 2, 'seed_data': 19}"
+        },
+        {
+          "demoId": "S19-T3-A-DEMO",
+          "subtopicId": "S19-T3-A",
+          "environment": "local-python",
+          "description": "Vista interactiva lógica con filtro y tooltip honesto",
+          "why": "Tooltip con unidad y n evita lecturas superficiales.",
+          "code": "data = [\n    {\"region\": \"Lima\", \"median\": 28.0, \"n\": 40},\n    {\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32},\n]\ndef view(region):\n    row = next(r for r in data if r[\"region\"] == region)\n    return {\n        \"tooltip\": f\"{row['region']}: {row['median']} PEN (n={row['n']})\",\n        \"filtro\": region,\n        \"unidad\": \"PEN\",\n    }\nprint(view(\"Lima\"))\nprint(view(\"Cusco\")[\"tooltip\"])",
+          "language": "python",
+          "output": "{'tooltip': 'Lima: 28.0 PEN (n=40)', 'filtro': 'Lima', 'unidad': 'PEN'}\nCusco: 22.5 PEN (n=32)"
+        },
+        {
+          "demoId": "S19-T3-B-DEMO",
+          "subtopicId": "S19-T3-B",
+          "environment": "local-python",
+          "description": "Ofrecer alternativa tabular/textual con paridad al chart",
+          "why": "La versión no visual es requisito del gate de dashboard accesible.",
+          "code": "chart = {\"Lima\": 28.0, \"Cusco\": 22.5}\ntable = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()]\ntext = \"; \".join(f\"{r['region']}={r['ticket_mediano_pen']} PEN\" for r in table)\nprint(table)\nprint(text)\nprint(\"parity\", all(chart[r[\"region\"]] == r[\"ticket_mediano_pen\"] for r in table))",
+          "language": "python",
+          "output": "[{'region': 'Lima', 'ticket_mediano_pen': 28.0}, {'region': 'Cusco', 'ticket_mediano_pen': 22.5}]\nLima=28.0 PEN; Cusco=22.5 PEN\nparity True"
+        },
+        {
+          "demoId": "S19-T4-A-DEMO",
+          "subtopicId": "S19-T4-A",
+          "environment": "local-python",
+          "description": "Etiquetar unidades, fuente y limitaciones en caption estructurado",
+          "why": "Caption completo es parte del entregable, no un extra.",
+          "code": "cap = {\n    \"titulo\": \"Ticket mediano por región\",\n    \"unidad\": \"PEN\",\n    \"fuente\": \"sintético CP-N2-B\",\n    \"corte\": \"2024-06-30\",\n    \"limitacion\": \"canal web; n bajo en Cusco\",\n}\nprint(\"pie\", f\"Unidad: {cap['unidad']} | Fuente: {cap['fuente']} | Corte: {cap['corte']} | Límite: {cap['limitacion']}\")",
+          "language": "python",
+          "output": "pie Unidad: PEN | Fuente: sintético CP-N2-B | Corte: 2024-06-30 | Límite: canal web; n bajo en Cusco"
+        },
+        {
+          "demoId": "S19-T4-B-DEMO",
+          "subtopicId": "S19-T4-B",
+          "environment": "local-python",
+          "description": "Validar alt text y rechazar sobreclaim causal/nacional",
+          "why": "Contraste de claims entrena el lenguaje del dashboard.",
+          "code": "alt = \"Barras: Lima 28 PEN, Arequipa 24, Cusco 22.5; muestra web sintética n=100.\"\nclaims = [\n    (\"Lima lidera el ticket mediano en la muestra web\", True),\n    (\"Lima es la mejor región del Perú\", False),\n]\nfor c, ok in claims:\n    print(c[:40], \"=>\", \"PERMITIDO\" if ok else \"RECHAZADO\")\nprint(\"alt_words\", len(alt.split()))",
+          "language": "python",
+          "output": "Lima lidera el ticket mediano en la mues => PERMITIDO\nLima es la mejor región del Perú => RECHAZADO\nalt_words 12"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S19-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; chart = \"bar\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `bar`.",
+          "hints": [
+            "Asigna chart='bar'.",
+            "print el valor."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(chart)\n"
+        },
+        {
+          "id": "S19-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'pregunta': 'totales por región', 'audiencia': 'ejecutivo', 'chart': 'bar'}`.",
+          "hints": [
+            "Incluye las 3 claves.",
+            "chart bar."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T1-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `line | bar`.",
+          "hints": [
+            "in para substring.",
+            "Dos prints."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); hon = (50 - 45) / 50. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `factor 5.0`.",
+          "hints": [
+            "altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.",
+            "factor = truco/honesto."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"factor\", round(truco / hon, 2))\n"
+        },
+        {
+          "id": "S19-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"honesto\" if ylim_bottom == 0 else \"revisar\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `honesto`.",
+          "hints": [
+            "Variable ylim_bottom=0.",
+            "print condicional."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n"
+        },
+        {
+          "id": "S19-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `riesgo_alto`.",
+          "hints": [
+            "if/elif.",
+            "Prueba dual_axis."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n"
+        },
+        {
+          "id": "S19-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+          "hints": [
+            "matplotlib Agg.",
+            "plt.close."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `PEN`.",
+          "hints": [
+            "set_ylabel.",
+            "Agg backend."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T2-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'n_bars': 2, 'ylim0': np.float64(0.0)}`.",
+          "hints": [
+            "len(values).",
+            "set_ylim(0, max*1.2)."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'fmt': 'png', 'dpi': 120, 'panels': 2}`.",
+          "hints": [
+            "Dict literal.",
+            "print."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n"
+        },
+        {
+          "id": "S19-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{version}.png\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `fig_cpn2b_v3.png`.",
+          "hints": [
+            "f-string.",
+            "print nombre."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(f\"fig_cpn2b_v{version}.png\")\n"
+        },
+        {
+          "id": "S19-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Vol', 'Med']`.",
+          "hints": [
+            "ax.get_title().",
+            "close fig."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]; print(next(r for r in rows if r[\"region\"] . Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `28`.",
+          "hints": [
+            "list comp o next.",
+            "print valor."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Lima: 28 PEN (n=40)`.",
+          "hints": [
+            "f-string.",
+            "print."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(f\"Lima: {28} PEN (n={40})\")\n"
+        },
+        {
+          "id": "S19-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} PEN (n={row['n']})\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Cusco: 22.5 PEN (n=32)`.",
+          "hints": [
+            "Incluye unidad PEN.",
+            "Función pura."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\": 1}]. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+          "hints": [
+            "Compara valores.",
+            "print True."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(chart[\"Lima\"] == table[0][\"v\"])\n"
+        },
+        {
+          "id": "S19-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{\"filtro_region\": \"Lima\"}`.",
+          "hints": [
+            "import json.",
+            "print."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n"
+        },
+        {
+          "id": "S19-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]; print(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Lima=28 PEN; Cusco=22 PEN`.",
+          "hints": [
+            "join.",
+            "Incluye PEN."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `unidad=PEN | fuente=sintetico`.",
+          "hints": [
+            "f-string o dict.",
+            "Ambas menciones."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"unidad=PEN | fuente=sintetico\")\n"
+        },
+        {
+          "id": "S19-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}; print(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+          "hints": [
+            "set de keys.",
+            "issuperset."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in cap.items()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `unidad: PEN | n: 10`.",
+          "hints": [
+            "join items.",
+            "orden de inserción dict."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        },
+        {
+          "id": "S19-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `RECHAZADO`.",
+          "hints": [
+            "in checks.",
+            "Caso: 'mejor del Perú'."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n"
+        },
+        {
+          "id": "S19-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\")). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | True`.",
+          "hints": [
+            "substring.",
+            "alt de ejemplo."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nalt = \"Lima 28 PEN n=40\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n"
+        },
+        {
+          "id": "S19-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `PERMITIDO | RECHAZADO`.",
+          "hints": [
+            "Función binaria simple didáctica.",
+            "Dos prints."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Dashboard accesible CP-N2-B",
+      "context": "Construye el incremento dashboard de **CP-N2-B**: al menos cuatro gráficos estáticos y una vista interactiva lógica, cada uno con conclusión limitada a evidencia y alternativa no visual.",
+      "objectives": [
+        "Elegir charts por pregunta/audiencia",
+        "Ejes honestos y unidades visibles",
+        "Export versionado + captions",
+        "Alt text y sin sobreclaim",
+        "Paridad numérica chart/tabla"
+      ],
+      "requirements": [
+        "Datos sintéticos únicamente",
+        "ylim de barras desde 0 salvo justificación escrita",
+        "Caption con fuente y limitación",
+        "Alt text por figura",
+        "es-PE en títulos y conclusiones"
+      ],
+      "portfolioNote": "Dashboard del factory CP-N2-B; se integra con Excel (S20) y reportes (S21).",
+      "starterCode": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],\n    \"median_pen\": [28.0, 24.0, 22.5],\n    \"n\": [40, 28, 32],\n})\n# TODO: 4 figuras + alt/caption + tabla equivalente\nprint(df)\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?",
+        "options": [
+          "Pie 3D",
+          "Dual axis sin escala",
+          "Barras con baseline 0",
+          "Word cloud"
+        ]
+      },
+      {
+        "question": "Una alternativa accesible debe:",
+        "options": [
+          "Repetir los mismos números clave del chart",
+          "Ser opcional siempre",
+          "Solo ser una imagen más grande",
+          "Eliminar las unidades"
+        ]
+      },
+      {
+        "question": "“Lima es la mejor región del Perú” a partir de una muestra web es:",
+        "options": [
+          "Un claim permitido",
+          "Sobreclaim / generalización indebida",
+          "Un alt text correcto",
+          "Una unidad"
+        ]
+      },
+      {
+        "question": "El caption de un gráfico de portfolio debe incluir:",
+        "options": [
+          "Solo el color favorito",
+          "La contraseña del BI",
+          "Nada",
+          "Unidad, fuente y limitaciones"
+        ]
+      },
+      {
+        "question": "Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP-N2-B?",
+        "options": [
+          "Aceptarlo si los colores tienen buen contraste",
+          "Convertirlo automáticamente a dual-axis para “ganar espacio”",
+          "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
+          "Eliminar las etiquetas de ejes para que se vea más limpio en el slide"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "2607badf23d76722"
+}

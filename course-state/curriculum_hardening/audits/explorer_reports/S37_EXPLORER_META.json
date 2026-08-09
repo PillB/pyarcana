@@ -1,0 +1,9 @@
+{
+  "section": 37,
+  "id": "dbt-bigquery",
+  "file": "s37-dbt-bigquery.ts",
+  "score_1_to_10": 6.0,
+  "issue_count": 18,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s06-12a0d1e4980f",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "# dual skeptic-H1 · S06-T1-A-E1\ntxs = [10, 20, 30, 40, 50]\nprint(txs[-2:])\nprint(len(txs[-2:]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T1-A-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos slice; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "slice"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "# dual skeptic-H1 · S06-T1-A-E2\nxs = [1, 2, 3, 4]\nprint(xs[1:3], xs[:2], xs[2:])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T1-A-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos slice; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "slice"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "# dual skeptic-H1 · S06-T1-A-E3\nwindow = [1, 2, 3, 4, 5, 6]\nk = 3\nprint([window[i:i+k] for i in range(0, len(window), k)])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T1-A-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos chunks; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "chunks"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "# dual skeptic-H1 · S06-T1-B-E1\na = [1, 2]\nb = a\nb.append(3)\nprint(a, a is b)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T1-B-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos alias; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "alias"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "# dual skeptic-H1 · S06-T1-B-E2\na = [1, 2]\nc = a.copy()\nc.append(9)\nprint(a, c, a is c)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T1-B-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos copy; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "# dual skeptic-H1 · S06-T1-B-E3\nrows = [{\"id\": 1}, {\"id\": 2}]\nshallow = rows[:]\nshallow[0][\"id\"] = 99\nprint(rows[0][\"id\"])  # 99 shallow\nimport copy\ndeep = copy.deepcopy(rows)\ndeep[0][\"id\"] = 1\nprint(rows[0][\"id\"], deep[0][\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T1-B-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos deepcopy; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "deepcopy"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "# dual skeptic-H1 · S06-T2-A-E1\nd = {\"a\": 1, \"b\": 2}\nprint(d.get(\"a\"), d.get(\"c\", 0))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T2-A-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos dict; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "# dual skeptic-H1 · S06-T2-A-E2\nd = {\"nombres\": \"Ana\", \"edad\": 30}\nfor k, v in d.items():\n    print(k, v)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T2-A-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos items; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "items"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "# dual skeptic-H1 · S06-T2-A-E3\nraw = [(\"C1\", \"accept\"), (\"C2\", \"reject\"), (\"C1\", \"review\")]\nby_id = {}\nconflicts = []\nfor i, st in raw:\n    if i in by_id and by_id[i] != st:\n        conflicts.append({\"id\": i, \"prev\": by_id[i], \"new\": st})\n    by_id[i] = st\nprint(by_id, conflicts)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T2-A-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos conflicts; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "conflicts"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "# dual skeptic-H1 · S06-T2-B-E1\ns = {1, 2, 2, 3}\nprint(s, 2 in s)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T2-B-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos set; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "# dual skeptic-H1 · S06-T2-B-E2\na, b = {1, 2, 3}, {2, 3, 4}\nprint(a & b, a | b, a - b)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T2-B-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos set ops; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "set ops"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "# dual skeptic-H1 · S06-T2-B-E3\nseen = set()\norder = []\nfor x in [\"a\", \"b\", \"a\", \"c\", \"b\"]:\n    if x not in seen:\n        seen.add(x)\n        order.append(x)\nprint(order)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T2-B-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos unique; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "unique"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "# dual skeptic-H1 · S06-T3-A-E1\nrows = [{\"id\": \"b\"}, {\"id\": \"a\"}, {\"id\": \"c\"}]\nrows.sort(key=lambda r: r[\"id\"])\nprint(rows)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T3-A-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos sort; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "sort"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "# dual skeptic-H1 · S06-T3-A-E2\nrows = [{\"score\": 2}, {\"score\": 5}, {\"score\": 1}]\nprint(sorted(rows, key=lambda r: r[\"score\"], reverse=True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T3-A-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos sorted; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "sorted"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "# dual skeptic-H1 · S06-T3-A-E3\nfrom operator import itemgetter\nrows = [{\"id\": \"C2\", \"n\": 1}, {\"id\": \"C1\", \"n\": 2}]\nprint(sorted(rows, key=itemgetter(\"id\")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T3-A-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos itemgetter; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "itemgetter"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "# dual skeptic-H1 · S06-T3-B-E1\nt = (1, 2, 3)\nprint(t[0], len(t))\n# t[0] = 9  # TypeError si se descomenta\nprint(\"tuple inmutable\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T3-B-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos tuple; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "tuple"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "# dual skeptic-H1 · S06-T3-B-E2\npair = (\"C1\", \"accept\")\ni, st = pair\nprint(i, st)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T3-B-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos unpack; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "unpack"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "# dual skeptic-H1 · S06-T3-B-E3\nfrom collections import Counter\nprint(Counter([\"accept\", \"reject\", \"accept\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T3-B-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos Counter; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "Counter"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "# dual skeptic-H1 · S06-T4-A-E1\nimport json\nprint(json.dumps({\"b\": 1, \"a\": 2}, sort_keys=True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T4-A-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos json; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "# dual skeptic-H1 · S06-T4-A-E2\nimport json\ns = json.dumps([{\"id\": \"C1\"}], ensure_ascii=False)\nprint(s)\nprint(json.loads(s)[0][\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T4-A-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos json; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "# dual skeptic-H1 · S06-T4-A-E3\nimport json\npayload = {\"ids\": [\"C1\", \"C2\"], \"n\": 2}\nprint(json.dumps(payload, sort_keys=True, indent=2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T4-A-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos json; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "# dual skeptic-H1 · S06-T4-B-E1\nrecords = [{\"id\": \"C1\"}, {\"id\": \"C1\"}, {\"id\": \"C2\"}]\nby = {}\nfor r in records:\n    by.setdefault(r[\"id\"], []).append(r)\nprint({k: len(v) for k, v in by.items()})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T4-B-E1 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos groupby; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "groupby"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "# dual skeptic-H1 · S06-T4-B-E2\nfrom collections import defaultdict\ng = defaultdict(list)\nfor r in [{\"region\": \"Lima\"}, {\"region\": \"Cusco\"}, {\"region\": \"Lima\"}]:\n    g[r[\"region\"]].append(r)\nprint(dict(g))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T4-B-E2 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos defaultdict; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "defaultdict"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "# dual skeptic-H1 · S06-T4-B-E3\ndef merge_unique(rows):\n    seen = {}\n    conflicts = []\n    for r in rows:\n        i = r[\"id\"]\n        if i in seen and seen[i] != r:\n            conflicts.append(i)\n        seen[i] = r\n    return list(seen.values()), conflicts\nprint(merge_unique([{\"id\": \"A\", \"v\": 1}, {\"id\": \"A\", \"v\": 2}, {\"id\": \"B\", \"v\": 1}]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S06: validé S06-T4-B-E3 contra tests del paquete y la teoría de «Colecciones y estructuras de datos». Conceptos merge; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "merge"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Qué produce xs[-2:] si xs = [1,2,3,4]?»: solo «[3,4]» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q1 sobre «b = a (listas) y mutas b.append(1). ¿Qué pasa con »: solo «a también ve el append (alias)» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Para reportar dos filas con mismo id y payload dis»: solo «Listar conflicto en conflicts sin silenciar» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q3 sobre «rows.sort(key=...) retorna…»: solo «None (muta in-place)» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q4 sobre «json.dumps(..., sort_keys=True) ayuda a…»: solo «salidas deterministas/reproducibles» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:41:03.372952+00:00",
+  "session_started_at": "2026-07-23T07:40:44.713948+00:00",
+  "session_ended_at": "2026-07-23T07:41:03.372952+00:00"
+}

@@ -1,0 +1,228 @@
+{
+  "section_index": 42,
+  "title": "Schemas, seguridad y privacidad de servicios",
+  "outcomes": [
+    "Define schemas Pydantic/JSON Schema",
+    "Evoluciona schemas con validación de negocio",
+    "Implementa authn/authz RBAC",
+    "Aplica scopes y deny-by-default",
+    "Mitiga injection/SSRF/path traversal",
+    "Gestiona secretos, cifrado y deps",
+    "Minimiza datos y fija retención",
+    "Audita, borra y seudonimiza accesos"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S42: Schemas, seguridad y privacidad de servicios",
+      "paragraphs": [
+        "En V3, **S42** retematiza el archivo de plataforma `graph-rag` hacia **Schemas, seguridad y privacidad de servicios**.",
+        "Incremento: threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Pydantic y JSON Schema",
+      "paragraphs": [
+        "**Pydantic y JSON Schema** — outcome del blueprint phase3 para `pydantic-jsonschema`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "evolución, discriminated unions y validación de negocio",
+      "paragraphs": [
+        "**evolución, discriminated unions y validación de negocio** — outcome del blueprint phase3 para `evolution-unions-business-val`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "authn/authz y RBAC",
+      "paragraphs": [
+        "**authn/authz y RBAC** — outcome del blueprint phase3 para `authn-authz-rbac`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "scopes, service identities y deny-by-default",
+      "paragraphs": [
+        "**scopes, service identities y deny-by-default** — outcome del blueprint phase3 para `scopes-service-ids-deny`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "input limits, injection y SSRF/path traversal",
+      "paragraphs": [
+        "**input limits, injection y SSRF/path traversal** — outcome del blueprint phase3 para `limits-injection-ssrf-path`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": "import hashlib\nprint(\"fp\", hashlib.sha256(b\"not-a-real-secret\").hexdigest()[:12])\nprint(\"store\", \"env_or_vault\")\nprint(\"never_log_raw\", True)"
+    },
+    {
+      "heading": "secretos, cifrado y dependency risk",
+      "paragraphs": [
+        "**secretos, cifrado y dependency risk** — outcome del blueprint phase3 para `secrets-crypto-deps`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"minimized\", [\"case_id\",\"status\"]); print(\"purpose\", \"case_ops\"); print(\"retention\", 90)"
+    },
+    {
+      "heading": "minimización, purpose y retención",
+      "paragraphs": [
+        "**minimización, purpose y retención** — outcome del blueprint phase3 para `minimize-purpose-retention`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": "import hashlib\nprint(\"pseudo\", hashlib.sha256(b\"synth:user-1\").hexdigest()[:16])\nprint(\"audit_n\", 1)\nprint(\"delete\", \"soft+hard_policy\")"
+    },
+    {
+      "heading": "audit, deletion, pseudonymization y acceso",
+      "paragraphs": [
+        "**audit, deletion, pseudonymization y acceso** — outcome del blueprint phase3 para `audit-delete-pseudo-access`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S42-T1-B-DEMO",
+      "description": "Demo: Pydantic y JSON Schema",
+      "why": "Demuestra el outcome de S42-T1-A con Python verificable.",
+      "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)"
+    },
+    {
+      "demoId": "S42-T2-A-DEMO",
+      "description": "Demo: evolución, discriminated unions y validación de negocio",
+      "why": "Demuestra el outcome de S42-T1-B con Python verificable.",
+      "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")"
+    },
+    {
+      "demoId": "S42-T2-B-DEMO",
+      "description": "Demo: authn/authz y RBAC",
+      "why": "Demuestra el outcome de S42-T2-A con Python verificable.",
+      "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)"
+    },
+    {
+      "demoId": "S42-T3-A-DEMO",
+      "description": "Demo: scopes, service identities y deny-by-default",
+      "why": "Demuestra el outcome de S42-T2-B con Python verificable.",
+      "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)"
+    },
+    {
+      "demoId": "S42-T3-B-DEMO",
+      "description": "Demo: input limits, injection y SSRF/path traversal",
+      "why": "Demuestra el outcome de S42-T3-A con Python verificable.",
+      "code": "print(True); print(False); print(\"injection\", \"parameterized\")"
+    },
+    {
+      "demoId": "S42-T4-A-DEMO",
+      "description": "Demo: secretos, cifrado y dependency risk",
+      "why": "Demuestra el outcome de S42-T3-B con Python verificable.",
+      "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)"
+    },
+    {
+      "demoId": "S42-T4-B-DEMO",
+      "description": "Demo: minimización, purpose y retención",
+      "why": "Demuestra el outcome de S42-T4-A con Python verificable.",
+      "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: audit, deletion, pseudonymization y acceso",
+      "why": "Demuestra el outcome de S42-T4-B con Python verificable.",
+      "code": "print(True); print(False); print(\"no_cross_tenant\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S42 que se preserva es:",
+      "options": [
+        "graph-rag",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S42 pertenece a:",
+      "options": [
+        "CP-N4-A (control plane)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP"
+  ]
+}

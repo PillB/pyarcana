@@ -1,0 +1,341 @@
+{
+  "agent": "a",
+  "section_index": 44,
+  "recorded_at": "2026-08-01T15:22:19.001403+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "el SHA completo de commit (40 hex) inmutable en `uses:`",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          3.0,
+          5.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "bloquear el release (p. ej. FAIL_CI_GATE / REJECT_ATTESTATION) y conservar evidencia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          8.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          4.0,
+          8.15,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "mantenerlo sintético, sin secretos reales ni registry obligatorio, y sujeto a gates fail-closed",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          10.0,
+          5.0,
+          6.0,
+          8.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "coincidir (mismo subject de provenance/SBOM)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          6.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S44-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `lint or types or tes",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · assess FAIL_CI_GATE\n# DEFECT: PASS si solo uno de lint/types/tests\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"lint\"] or record[\"types\"] or record[\"tests\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nincomplete = {**valid}\nincomplete.pop(\"supported\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "salidas",
+          "campos",
+          "starter",
+          "ausentes",
+          "imprime",
+          "corrige",
+          "orden",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S44-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Lee el DEFECT: missing devuelve CONTINUE y pred usa OR.n2. ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter marca PASS con `not cache_miss_passes or not con",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con pred invertido (DEFECT).n2. Aplica el con",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing → CONTINUE; pred invertido.n2. missing → IN",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si write o secret_hits>0 (DEFECT invertido).n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · assess REVOKE_AND_ROTATE\n# DEFECT: PASS con write o secret; no valida SHA de action_ref\nPIN = \"b4ffde65f46336ab88eb53be808477a3936bae11\"\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"token_permissions\", \"action_ref\", \"secret_hits\", \"dependency_review\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if \"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0 else \"REVOKE_AND_ROTATE\"\n\nvalid = {\n    \"case_id\": \"CASO-PIU-044-2A\",\n    \"token_permissions\": {\"contents\": \"read\"},\n    \"action_ref\": f\"actions/checkout@{PIN}\",\n    \"secret_hits\": 0,\n    \"dependency_review\": True,\n}\ninvalid = {\n    \"case_id\": \"CASO-PIU-044-2A\",\n    \"token_permissions\": {\"contents\": \"write\", \"packages\": \"write\"},\n    \"action_ref\": \"actions/checkout@v4\",\n    \"secret_hits\": 1,\n    \"dependency_review\": False,\n}\nincomplete = {**valid}\nincomplete.pop(\"dependency_review\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "salidas",
+          "tres",
+          "full_sha_pin",
+          "starter",
+          "privilege",
+          "reutiliza",
+          "least",
+          "s44"
+        ]
+      },
+      {
+        "exercise_id": "S44-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred premia write/secret.n2. miss",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si len({...}) > 1 (DEFECT).n2. Cámbialo a == ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · assess REJECT_ATTESTATION\n# DEFECT: PASS con digests divergentes\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1 else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:bbb\",\"provenance_subject\":\"sha256:ccc\",\"attestation_valid\":False}}\nincomplete = {**valid}\nincomplete.pop(\"attestation_valid\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "salidas",
+          "tres",
+          "starter",
+          "imprime",
+          "corrige",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S44-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · decide REJECT_ATTESTATION\n# DEFECT: missing→CONTINUE; pred invertido\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1 else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:bbb\",\"provenance_subject\":\"sha256:ccc\",\"attestation_valid\":False}}\nuncertain = {**valid}\nuncertain.pop(\"attestation_valid\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "PASS",
+          "alineados",
+          "contrato",
+          "pass",
+          "salida",
+          "digests",
+          "REJECT",
+          "attestation"
+        ]
+      },
+      {
+        "exercise_id": "S44-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con not approved_by o digests != (DEFECT).n2.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · assess DENY_PROMOTION\n# DEFECT: PASS sin approval o digest mismatch\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"] else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"dev\",\"target_env\":\"production\",\"approved_by\":\"\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:new\"}}\nincomplete = {**valid}\nincomplete.pop(\"promoted_digest\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "salidas",
+          "tres",
+          "contrato",
+          "starter",
+          "invertido",
+          "completo",
+          "imprime",
+          "pred"
+        ]
+      },
+      {
+        "exercise_id": "S44-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred invertido.n2. missing → REQU",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con error alto o sin rollback (DEFECT).n2. In",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T3-B-E2 · 1. Starter: PASS con pred invertido (DEFECT).n2. Aplica contrato T3-B completo.n3. Conserva MISSING.n4. Im",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred invertido.n2. missing → PAUS",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS sin protección o reviews==0 (DEFECT).n2. Exig",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T4-A-E2 · 1. Starter: PASS con pred invertido (DEFECT).n2. Aplica contrato T4-A completo.n3. Conserva MISSING.n4. Im",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · decide BLOCK_UNREVIEWED_RELEASE\n# DEFECT: missing→CONTINUE; pred invertido\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if not record[\"protected_branch\"] or record[\"required_reviews\"] == 0 else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":False,\"required_reviews\":0,\"required_checks\":False,\"release_notes\":{\"change\"}}}\nuncertain = {**valid}\nuncertain.pop(\"release_notes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "PASS",
+          "contrato",
+          "pass",
+          "salida",
+          "imprime",
+          "BLOCK",
+          "s44",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S44-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S44-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si critical y not pipeline_blocked (DEFECT).n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S44-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · assess STOP_SILENT_FAILURE\n# DEFECT: PASS con fallo crítico sin bloqueo\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"critical_failure\"] and not record[\"pipeline_blocked\"] else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":False,\"logs_redacted\":False,\"owner\":\"\",\"evidence_retained\":False}}\nincomplete = {**valid}\nincomplete.pop(\"evidence_retained\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "salidas",
+          "tres",
+          "contrato",
+          "starter",
+          "blocked",
+          "completo",
+          "imprime",
+          "critical"
+        ]
+      },
+      {
+        "exercise_id": "S44-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PIU-044 · decide STOP_SILENT_FAILURE\n# DEFECT: missing→CONTINUE; pred invertido\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"critical_failure\"] and not record[\"pipeline_blocked\"] else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":False,\"logs_redacted\":False,\"owner\":\"\",\"evidence_retained\":False}}\nuncertain = {**valid}\nuncertain.pop(\"evidence_retained\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "PASS",
+          "contrato",
+          "pass",
+          "salida",
+          "imprime",
+          "bloqueo",
+          "s44",
+          "debe"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "474b09c20dab81ce"
+  }
+}

@@ -1,0 +1,479 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-ske-s45-0821e5dad3",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\": 'object',\"transactions\": 'relational',\"cache_authoritative\": False,\"cache_ttl_s\": 300}}\nmeets_contract = bool(not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\"))\nstatus = (\"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\")\nprint(\"S45-T1-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T1-A-E1",
+        "S45",
+        "Calcula",
+        "contrato",
+        "object",
+        "store",
+        "relacional",
+        "cache"
+      ],
+      "justification_from_packet": "Skeptic en S45-T1-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")`. Instrucción del paquete: S45-T1-A-E1 · Calcula el contrato de `object store, relacional y cache` sobre `CASO-IQU-045-1A`. La entrada es el dict completo del starter; la operación debe d. Ante incumplimiento devuelve `REDESIGN_PERSISTENCE`. Ancla theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritat Campos usados: cache_authoritative, transactions."
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"blob_store\", \"transactions\", \"cache_authoritative\", \"cache_ttl_s\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"PASS\" if ok else \"REDESIGN_PERSISTENCE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = dict(valid)\nif \"cache_ttl_s\" in incomplete:\n    del incomplete[\"cache_ttl_s\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T1-A-E2",
+        "S45",
+        "Modela",
+        "tres",
+        "rutas",
+        "object",
+        "store",
+        "relacional"
+      ],
+      "justification_from_packet": "Skeptic en S45-T1-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")`. Instrucción del paquete: S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adverso y registro sin `cache_ttl_s`. Entrada: dict con case_id, . Ante incumplimiento devuelve `REDESIGN_PERSISTENCE`; sin `cache_ttl_s` no se evalúa dominio. Ancla theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritat Campos usados: cache_authoritative, transactions."
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"blob_store\", \"transactions\", \"cache_authoritative\", \"cache_ttl_s\"}\n    if any(k not in record for k in required):\n        return \"WRITE_STORE_ADR\"\n    if not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\"):\n        return \"CONTINUE\"\n    return \"REDESIGN_PERSISTENCE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = dict(valid)\nincomplete.pop(\"cache_ttl_s\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T1-A-E3",
+        "S45",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "object",
+        "store"
+      ],
+      "justification_from_packet": "Skeptic en S45-T1-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")`. Instrucción del paquete: S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos. `CASO-IQU-045-1A` debe continuar, el adverso debe devolv. Ante incumplimiento devuelve `REDESIGN_PERSISTENCE`; sin `cache_ttl_s` no se evalúa dominio y la incertidumbre cierra en `WRITE_STORE_ADR`. Ancla theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritat Campos usados: cache_authoritative, transactions."
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\": 'job-status',\"consistency\": 'read-after-write',\"backup_age_h\": 4,\"rpo_h\": 6,\"restore_minutes\": 25,\"rto_minutes\": 30}}\nmeets_contract = bool(not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]))\nstatus = (\"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\")\nprint(\"S45-T1-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T1-B-E1",
+        "S45",
+        "Compara",
+        "contrato",
+        "consistencia",
+        "lifecycle",
+        "backups",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S45-T1-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])`. Instrucción del paquete: S45-T1-B-E1 · Compara el contrato de `consistencia, lifecycle y backups` sobre `CASO-IQU-045-1B`. La entrada es el dict completo del starter; la operación debe . Ante incumplimiento devuelve `DECLARE_DATA_LOSS_RISK`. Ancla theory: Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO. Campos usados: backup_age_h, rpo_h, restore_minutes, rto_minutes."
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 21, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = dict(valid)\nif \"rto_minutes\" in incomplete:\n    del incomplete[\"rto_minutes\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T1-B-E2",
+        "S45",
+        "Verifica",
+        "tres",
+        "rutas",
+        "consistencia",
+        "lifecycle",
+        "backups"
+      ],
+      "justification_from_packet": "Skeptic en S45-T1-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])`. Instrucción del paquete: S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_i. Ante incumplimiento devuelve `DECLARE_DATA_LOSS_RISK`; sin `rto_minutes` no se evalúa dominio. Ancla theory: Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO. Campos usados: backup_age_h, rpo_h, restore_minutes, rto_minutes."
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    if any(k not in record for k in required):\n        return \"RUN_RESTORE_DRILL\"\n    if not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]):\n        return \"CONTINUE\"\n    return \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 21, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = dict(valid)\nincomplete.pop(\"rto_minutes\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T1-B-E3",
+        "S45",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "consistencia",
+        "lifecycle"
+      ],
+      "justification_from_packet": "Skeptic en S45-T1-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])`. Instrucción del paquete: S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos. `CASO-IQU-045-1B` debe continuar, el adverso debe dev. Ante incumplimiento devuelve `DECLARE_DATA_LOSS_RISK`; sin `rto_minutes` no se evalúa dominio y la incertidumbre cierra en `RUN_RESTORE_DRILL`. Ancla theory: Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO. Campos usados: backup_age_h, rpo_h, restore_minutes, rto_minutes."
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\": 'at-least-once',\"effect_durable\": True,\"acked_after_effect\": True,\"idempotency_key\": 'job-iqu-1',\"backoff\": True}}\nmeets_contract = bool(not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"]))\nstatus = (\"PASS\" if meets_contract else \"NACK_AND_RETRY\")\nprint(\"S45-T2-A\", status)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T2-A-E1",
+        "S45",
+        "Filtra",
+        "contrato",
+        "queue",
+        "event",
+        "delivery",
+        "semantics"
+      ],
+      "justification_from_packet": "Skeptic en S45-T2-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])`. Instrucción del paquete: S45-T2-A-E1 · Filtra el contrato de `queue/event y delivery semantics` sobre `CASO-IQU-045-2A`. La entrada es el dict completo del starter; la operación debe de. Ante incumplimiento devuelve `NACK_AND_RETRY`. Ancla theory: Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes. Campos usados: acked_after_effect, idempotency_key."
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"PASS\" if ok else \"NACK_AND_RETRY\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = dict(valid)\nif \"backoff\" in incomplete:\n    del incomplete[\"backoff\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T2-A-E2",
+        "S45",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "queue",
+        "event",
+        "delivery"
+      ],
+      "justification_from_packet": "Skeptic en S45-T2-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])`. Instrucción del paquete: S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture adverso y registro sin `backoff`. Entrada: dict con case_id, d. Ante incumplimiento devuelve `NACK_AND_RETRY`; sin `backoff` no se evalúa dominio. Ancla theory: Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes. Campos usados: acked_after_effect, idempotency_key."
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    if any(k not in record for k in required):\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    if not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"]):\n        return \"CONTINUE\"\n    return \"NACK_AND_RETRY\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = dict(valid)\nincomplete.pop(\"backoff\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T2-A-E3",
+        "S45",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "queue",
+        "event"
+      ],
+      "justification_from_packet": "Skeptic en S45-T2-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])`. Instrucción del paquete: S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos. `CASO-IQU-045-2A` debe continuar, el adverso debe devo. Ante incumplimiento devuelve `NACK_AND_RETRY`; sin `backoff` no se evalúa dominio y la incertidumbre cierra en `VERIFY_DELIVERY_SEMANTICS`. Ancla theory: Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes. Campos usados: acked_after_effect, idempotency_key."
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\": ['m1', 'm1', 'm2'],\"processed_ids\": {'m1', 'm2'},\"ordered_partition\": True,\"terminal_in_dlq\": True}}\nmeets_contract = bool(not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"]))\nstatus = (\"PASS\" if meets_contract else \"DEDUP_OR_DLQ\")\nprint(\"S45-T2-B\", status)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T2-B-E1",
+        "S45",
+        "Modela",
+        "contrato",
+        "dedup",
+        "ordering",
+        "dead",
+        "letter"
+      ],
+      "justification_from_packet": "Skeptic en S45-T2-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])`. Instrucción del paquete: S45-T2-B-E1 · Modela el contrato de `dedup, ordering y dead-letter` sobre `CASO-IQU-045-2B`. La entrada es el dict completo del starter; la operación debe demos. Ante incumplimiento devuelve `DEDUP_OR_DLQ`. Ancla theory: Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado. Campos usados: processed_ids, message_ids, terminal_in_dlq."
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    return \"PASS\" if ok else \"DEDUP_OR_DLQ\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['a', 'b'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nincomplete = dict(valid)\nif \"terminal_in_dlq\" in incomplete:\n    del incomplete[\"terminal_in_dlq\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T2-B-E2",
+        "S45",
+        "Audita",
+        "tres",
+        "rutas",
+        "dedup",
+        "ordering",
+        "dead"
+      ],
+      "justification_from_packet": "Skeptic en S45-T2-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])`. Instrucción del paquete: S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso y registro sin `terminal_in_dlq`. Entrada: dict con case_id,. Ante incumplimiento devuelve `DEDUP_OR_DLQ`; sin `terminal_in_dlq` no se evalúa dominio. Ancla theory: Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado. Campos usados: processed_ids, message_ids, terminal_in_dlq."
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    if any(k not in record for k in required):\n        return \"INSPECT_MESSAGE_ORDER\"\n    if not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"]):\n        return \"CONTINUE\"\n    return \"DEDUP_OR_DLQ\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['a', 'b'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nincomplete = dict(valid)\nincomplete.pop(\"terminal_in_dlq\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T2-B-E3",
+        "S45",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "dedup",
+        "ordering"
+      ],
+      "justification_from_packet": "Skeptic en S45-T2-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])`. Instrucción del paquete: S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos. `CASO-IQU-045-2B` debe continuar, el adverso debe devolve. Ante incumplimiento devuelve `DEDUP_OR_DLQ`; sin `terminal_in_dlq` no se evalúa dominio y la incertidumbre cierra en `INSPECT_MESSAGE_ORDER`. Ancla theory: Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado. Campos usados: processed_ids, message_ids, terminal_in_dlq."
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\": 80,\"workers\": 4,\"target_per_worker\": 25,\"quota_workers\": 6,\"private_network\": True,\"backpressure\": True}}\nmeets_contract = bool(not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"]))\nstatus = (\"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\")\nprint(\"S45-T3-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T3-A-E1",
+        "S45",
+        "Verifica",
+        "contrato",
+        "compute",
+        "autoscaling",
+        "networking",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S45-T3-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])`. Instrucción del paquete: S45-T3-A-E1 · Verifica el contrato de `compute, autoscaling y networking` sobre `CASO-IQU-045-3A`. La entrada es el dict completo del starter; la operación debe. Ante incumplimiento devuelve `APPLY_BACKPRESSURE`. Ancla theory: Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure. Campos usados: workers, quota_workers, backpressure."
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"PASS\" if ok else \"APPLY_BACKPRESSURE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 21, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = dict(valid)\nif \"backpressure\" in incomplete:\n    del incomplete[\"backpressure\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T3-A-E2",
+        "S45",
+        "Decide",
+        "tres",
+        "rutas",
+        "compute",
+        "autoscaling",
+        "networking"
+      ],
+      "justification_from_packet": "Skeptic en S45-T3-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])`. Instrucción del paquete: S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adverso y registro sin `backpressure`. Entrada: dict con case_id. Ante incumplimiento devuelve `APPLY_BACKPRESSURE`; sin `backpressure` no se evalúa dominio. Ancla theory: Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure. Campos usados: workers, quota_workers, backpressure."
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    if any(k not in record for k in required):\n        return \"REQUEST_CAPACITY\"\n    if not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"]):\n        return \"CONTINUE\"\n    return \"APPLY_BACKPRESSURE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 21, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = dict(valid)\nincomplete.pop(\"backpressure\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T3-A-E3",
+        "S45",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "compute",
+        "autoscaling"
+      ],
+      "justification_from_packet": "Skeptic en S45-T3-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])`. Instrucción del paquete: S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos. `CASO-IQU-045-3A` debe continuar, el adverso debe de. Ante incumplimiento devuelve `APPLY_BACKPRESSURE`; sin `backpressure` no se evalúa dominio y la incertidumbre cierra en `REQUEST_CAPACITY`. Ancla theory: Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure. Campos usados: workers, quota_workers, backpressure."
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\": {'object:get', 'queue:ack'},\"requested_action\": 'object:get',\"private_path\": True,\"egress_host\": 'api.internal',\"egress_allow\": {'api.internal'}}}\nmeets_contract = bool(not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"]))\nstatus = (\"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\")\nprint(\"S45-T3-B\", status)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T3-B-E1",
+        "S45",
+        "Clasifica",
+        "contrato",
+        "IAM",
+        "private",
+        "paths",
+        "egress"
+      ],
+      "justification_from_packet": "Skeptic en S45-T3-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])`. Instrucción del paquete: S45-T3-B-E1 · Clasifica el contrato de `IAM, private paths y egress` sobre `CASO-IQU-045-3B`. La entrada es el dict completo del starter; la operación debe demo. Ante incumplimiento devuelve `DENY_IAM_OR_EGRESS`. Ancla theory: IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración. Campos usados: requested_action, allowed_actions, egress_host, egress_allow."
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"PASS\" if ok else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'api.internal', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = dict(valid)\nif \"egress_allow\" in incomplete:\n    del incomplete[\"egress_allow\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T3-B-E2",
+        "S45",
+        "Calcula",
+        "tres",
+        "rutas",
+        "IAM",
+        "private",
+        "paths"
+      ],
+      "justification_from_packet": "Skeptic en S45-T3-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])`. Instrucción del paquete: S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y registro sin `egress_allow`. Entrada: dict con case_id, all. Ante incumplimiento devuelve `DENY_IAM_OR_EGRESS`; sin `egress_allow` no se evalúa dominio. Ancla theory: IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración. Campos usados: requested_action, allowed_actions, egress_host, egress_allow."
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    if any(k not in record for k in required):\n        return \"REQUEST_SCOPED_POLICY\"\n    if not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"]):\n        return \"CONTINUE\"\n    return \"DENY_IAM_OR_EGRESS\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'api.internal', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = dict(valid)\nincomplete.pop(\"egress_allow\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T3-B-E3",
+        "S45",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "IAM",
+        "private"
+      ],
+      "justification_from_packet": "Skeptic en S45-T3-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])`. Instrucción del paquete: S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos. `CASO-IQU-045-3B` debe continuar, el adverso debe devolv. Ante incumplimiento devuelve `DENY_IAM_OR_EGRESS`; sin `egress_allow` no se evalúa dominio y la incertidumbre cierra en `REQUEST_SCOPED_POLICY`. Ancla theory: IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración. Campos usados: requested_action, allowed_actions, egress_host, egress_allow."
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\": {'bucket', 'queue'},\"planned_resources\": {'bucket', 'queue'},\"environment\": 'staging',\"secret_values_in_plan\": False,\"destructive_changes\": 0}}\nmeets_contract = bool(not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0))\nstatus = (\"PASS\" if meets_contract else \"REJECT_IAC_PLAN\")\nprint(\"S45-T4-A\", status)\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T4-A-E1",
+        "S45",
+        "Audita",
+        "contrato",
+        "configuración",
+        "declarativa",
+        "environments",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S45-T4-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)`. Instrucción del paquete: S45-T4-A-E1 · Audita el contrato de `configuración declarativa y environments` sobre `CASO-IQU-045-4A`. La entrada es el dict completo del starter; la operación. Ante incumplimiento devuelve `REJECT_IAC_PLAN`. Ancla theory: IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply. Campos usados: secret_values_in_plan, destructive_changes."
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"PASS\" if ok else \"REJECT_IAC_PLAN\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = dict(valid)\nif \"destructive_changes\" in incomplete:\n    del incomplete[\"destructive_changes\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T4-A-E2",
+        "S45",
+        "Compara",
+        "tres",
+        "rutas",
+        "configuración",
+        "declarativa",
+        "environments"
+      ],
+      "justification_from_packet": "Skeptic en S45-T4-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)`. Instrucción del paquete: S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixture adverso y registro sin `destructive_changes`. Entrada: d. Ante incumplimiento devuelve `REJECT_IAC_PLAN`; sin `destructive_changes` no se evalúa dominio. Ancla theory: IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply. Campos usados: secret_values_in_plan, destructive_changes."
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    if any(k not in record for k in required):\n        return \"REVIEW_DRIFT\"\n    if not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0):\n        return \"CONTINUE\"\n    return \"REJECT_IAC_PLAN\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = dict(valid)\nincomplete.pop(\"destructive_changes\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T4-A-E3",
+        "S45",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "configuración",
+        "declarativa"
+      ],
+      "justification_from_packet": "Skeptic en S45-T4-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)`. Instrucción del paquete: S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos. `CASO-IQU-045-4A` debe continuar, el adverso debe. Ante incumplimiento devuelve `REJECT_IAC_PLAN`; sin `destructive_changes` no se evalúa dominio y la incertidumbre cierra en `REVIEW_DRIFT`. Ancla theory: IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply. Campos usados: secret_values_in_plan, destructive_changes."
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\": 820,\"budget_pen\": 1000,\"quota_used\": 72,\"quota_limit\": 100,\"restore_tested\": True,\"portable_export\": True}}\nmeets_contract = bool(not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]))\nstatus = (\"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\")\nprint(\"S45-T4-B\", status)\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T4-B-E1",
+        "S45",
+        "Decide",
+        "contrato",
+        "costos",
+        "quotas",
+        "recovery",
+        "portability"
+      ],
+      "justification_from_packet": "Skeptic en S45-T4-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])`. Instrucción del paquete: S45-T4-B-E1 · Decide el contrato de `costos, quotas, recovery y portability` sobre `CASO-IQU-045-4B`. La entrada es el dict completo del starter; la operación d. Ante incumplimiento devuelve `FREEZE_SCALE_OUT`. Ancla theory: Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen. Campos usados: forecast_pen, budget_pen, quota_used, quota_limit."
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"PASS\" if ok else \"FREEZE_SCALE_OUT\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1000000, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = dict(valid)\nif \"portable_export\" in incomplete:\n    del incomplete[\"portable_export\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T4-B-E2",
+        "S45",
+        "Filtra",
+        "tres",
+        "rutas",
+        "costos",
+        "quotas",
+        "recovery"
+      ],
+      "justification_from_packet": "Skeptic en S45-T4-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])`. Instrucción del paquete: S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture adverso y registro sin `portable_export`. Entrada: dict con. Ante incumplimiento devuelve `FREEZE_SCALE_OUT`; sin `portable_export` no se evalúa dominio. Ancla theory: Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen. Campos usados: forecast_pen, budget_pen, quota_used, quota_limit."
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    if any(k not in record for k in required):\n        return \"COST_OWNER_REVIEW\"\n    if not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]):\n        return \"CONTINUE\"\n    return \"FREEZE_SCALE_OUT\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1000000, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = dict(valid)\nincomplete.pop(\"portable_export\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S45-T4-B-E3",
+        "S45",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "costos",
+        "quotas"
+      ],
+      "justification_from_packet": "Skeptic en S45-T4-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])`. Instrucción del paquete: S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos. `CASO-IQU-045-4B` debe continuar, el adverso de. Ante incumplimiento devuelve `FREEZE_SCALE_OUT`; sin `portable_export` no se evalúa dominio y la incertidumbre cierra en `COST_OWNER_REVIEW`. Ancla theory: Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen. Campos usados: forecast_pen, budget_pen, quota_used, quota_limit."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.97,
+      "justification_from_packet": "Skeptic SC0: elijo «ADR de persistencia con fuente de verdad» porque el selfCheck del paquete pregunta «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?» y esa opción alinea con el gate/evidencia del theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.97,
+      "justification_from_packet": "Skeptic SC1: elijo «emitir SEND_TO_DLQ y conservar evidencia» porque el selfCheck del paquete pregunta «Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?» y esa opción alinea con el gate/evidencia del theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.83,
+      "justification_from_packet": "Skeptic SC2: elijo «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» porque el selfCheck del paquete pregunta «¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?» y esa opción alinea con el gate/evidencia del theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.82,
+      "justification_from_packet": "Skeptic SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el selfCheck del paquete pregunta «¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?» y esa opción alinea con el gate/evidencia del theory: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:35:49+00:00",
+  "session_started_at": "2026-07-23T12:35:35+00:00",
+  "session_ended_at": "2026-07-23T12:35:49+00:00",
+  "receipt_response_sha256": "9d0a35ff74f759d19564c484109f76c56e5877c34a3fd6f2ef580448ce3cd930"
+}

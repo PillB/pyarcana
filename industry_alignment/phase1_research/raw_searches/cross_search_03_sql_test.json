@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.w3schools.com/sql",
+    "name": "SQL Tutorial",
+    "snippet": "SQL is a standard language for storing, manipulating and retrieving data in databases. Our SQL tutorial will teach you how to use SQL in MySQL, SQL Server, MS ...",
+    "host_name": "www.w3schools.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/AskProgramming/comments/16o4ijx/this_may_sound_a_bit_stupid_but_what_exactly_is",
+    "name": "This may sound a bit stupid but what exactly is sql?",
+    "snippet": "Okay let me clarify myself. I am a programmer. I worked with several languages such as c++, c#, java, python etc. In college we started learning sql. ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/SQL",
+    "name": "SQL",
+    "snippet": "Structured Query Language (SQL) is a domain-specific language used to manage data , especially in a relational database management system. The scope of SQL ...",
+    "host_name": "en.wikipedia.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aws.amazon.com/what-is/sql",
+    "name": "What is SQL? - Structured Query Language (SQL) Explained",
+    "snippet": "Structured query language ( SQL ) is a programming language for storing and processing information in a relational database. Read more",
+    "host_name": "aws.amazon.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.microsoft.com/en-us/sql-server",
+    "name": "Microsoft SQL Server",
+    "snippet": "A free edition of SQL Server , ideal for development and production for desktop, web, and small server applications. Download. Power BI Report Server. Create, ... Read more",
+    "host_name": "www.microsoft.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/structured-query-language",
+    "name": "What Is Structured Query Language (SQL)?",
+    "snippet": "Structured Query Language (SQL) is a domain-specific, standardized programming language used to interact with relational database management systems (RDBMS)",
+    "host_name": "www.ibm.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.khanacademy.org/computing/computer-programming/sql",
+    "name": "Unit 3: Intro to SQL: Querying and managing data",
+    "snippet": "SQL is a special-purpose programming language designed for managing data in a relational database, used by thousands of apps and organizations.",
+    "host_name": "www.khanacademy.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.codecademy.com/learn/learn-sql",
+    "name": "Learn SQL",
+    "snippet": "SQL (Structured Query Language) is a programming language used to manage data stored in relational databases, which store structured data in tables.",
+    "host_name": "www.codecademy.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.interviewquery.com/p/sql-questions-data-analyst",
+    "name": "SQL Interview Questions for Data Analysts (2025): Real",
+    "snippet": "Watch how a data analyst tackles challenging SQL interview questions in this mock session. This walkthrough highlights practical problem-solving techniques you can apply in your own interview prep.",
+    "host_name": "www.interviewquery.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://interviewbee.ai/interview-assistant/data-analyst-mock-interview",
+    "name": "Data Analyst Mock Interview - SQL, Excel & Visualization Prep",
+    "snippet": "Master data analyst interviews with AI. SQL queries, Excel, data visualization, and analytical thinking questions. Start practicing free.",
+    "host_name": "interviewbee.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

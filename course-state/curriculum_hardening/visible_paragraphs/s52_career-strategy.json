@@ -1,0 +1,600 @@
+{
+  "index": 52,
+  "id": "career-strategy",
+  "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+  "file": "s52-career-strategy.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S52: Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "len": 87
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. CP-FINAL: integración de los 12 capstones con contratos y datos sintéticos. CF-1…CF-5: checkpoints transversales ya aprobados (no se reabren para inventar métricas). Regresión total: unión N1–N4 + E2E + contract tests. No-go: real_pii y auto_fraud_label prohibidos. Defensa: trade-offs con evidencia.",
+      "len": 313
+    },
+    {
+      "i": 2,
+      "text": "S52 es el checkpoint senior-master: no re-enseña reverse deps (loops, pandas, sklearn) como si fueran nuevos; referencia e integra Familiarity Dashboard, VP RPA/AI, ER/grafos/triage, reporting y copiloto mediante interfaces ya congeladas en CF-5. Id career-strategy es legacy.",
+      "len": 276
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: artefactos congelados S1–S51, contratos, riesgos, no-go y benchmark. Salida: producto reproducible, demo, evidencia técnica y defensa de trade-offs. Error: P0/P1, PII, dependencia no reproducible o afirmación sin evidencia bloquea graduación. CP-FINAL no compensa CP-N4-C ni viceversa.",
+      "len": 304
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-PER-052 (plataforma integral sintética multi-región del Perú (Enterprise Ops Intelligence Lab)): T1 revalidación CF-1 → T2 integración contexts → T3 verificación/resiliencia → T4 publicación/defensa. Stdlib. Todo sintético multi-región.",
+      "len": 246
+    },
+    {
+      "i": 5,
+      "text": "stakeholders, jobs y success metrics de CF-1",
+      "len": 44
+    },
+    {
+      "i": 6,
+      "text": "Revalida stakeholders, jobs y success metrics de CF-1: qué cambió desde el checkpoint y qué sigue vigente. Optimizar un job ya inválido es desperdicio de regresión.",
+      "len": 164
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: len(stakeholders)≥1, len(jobs)≥1, cada métrica tiene baseline y target, y cf1_revision firmada. No inventes KPIs que no estén en el ledger de CF-1.",
+      "len": 158
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: matriz stakeholder/job/métrica + revisión CF-1. Salida: matriz con evidencia. Error: matriz vacía o sin baseline → REOPEN_CF1. Stakeholder ausente → INTERVIEW_STAKEHOLDER.",
+      "len": 190
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-PER-052-1A: ops/compliance/data; jobs intake/er/report; métricas ttr y precision_review con baseline.",
+      "len": 117
+    },
+    {
+      "i": 10,
+      "text": "cambios, constraints, riesgos y no-go",
+      "len": 37
+    },
+    {
+      "i": 11,
+      "text": "No-go incluye real_pii y auto_fraud_label: están prohibidos. Matching/ER/scores son evidencia para revisión humana; no prueba de fraude, parentesco ni colusión. Constraints y riesgos tienen dueño y umbral.",
+      "len": 205
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: no_go ⊇ {real_pii, auto_fraud_label}, match_is_fraud is False, cada risk tiene owner, change_log=True. Alcance que rompe privacidad se rechaza aunque 'mejore el demo'.",
+      "len": 178
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: risks, constraints, no_go, change_log. Salida: registro firmado. Error: no-go violado → DECLARE_NO_GO. Riesgo sin dueño → INDEPENDENT_RISK_REVIEW.",
+      "len": 165
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-PER-052-1B: no-go real_pii+auto_fraud_label, constraints budget/latency, change_log y match_is_fraud=False.",
+      "len": 123
+    },
+    {
+      "i": 15,
+      "text": "bounded contexts, APIs y eventos",
+      "len": 32
+    },
+    {
+      "i": 16,
+      "text": "Integra bounded contexts (intake, er, relationship, triage, reporting, copilot) por APIs y eventos versionados. Ownership evita una base compartida como acoplamiento oculto. No reimplementes ER aquí: consumes el contrato de CP-N3-A/B ya congelado.",
+      "len": 247
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: contexts canónicos presentes, endpoints versionados (/v1/...), eventos con tipo, y contract_tests_pass. Un context 'temporary shared table' es deuda bloqueante.",
+      "len": 171
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: contexts, apis, events, contract_tests. Salida: contract tests e2e. Error: contrato roto → STOP_INTEGRATION_RELEASE. Mapa incompleto → MAP_BOUNDED_CONTEXTS.",
+      "len": 175
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-PER-052-2A: 6 contexts, POST/GET jobs, eventos job.finished/case.updated, tests ok.",
+      "len": 99
+    },
+    {
+      "i": 20,
+      "text": "datos, modelos, RPA, RAG y human workflow",
+      "len": 41
+    },
+    {
+      "i": 21,
+      "text": "Datos, modelos, RPA y RAG apoyan un human workflow: ER propone identidad, triage prioriza y ninguna señal prueba fraude o parentesco. HITL es obligatorio en decisiones sensibles — no un feature flag 'después'.",
+      "len": 209
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: componentes {data,models,rpa,rag,hitl} presentes, human_in_loop=True, sensitive_auto_decision=False, no_dark_patterns. Reutiliza contratos de N2/N3/N4; no re-enseñes pandas ni training loops aquí.",
+      "len": 207
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: stack de componentes + flags HITL. Salida: decisión sensible conserva revisión humana. Error: auto-decisión → BLOCK_AUTOMATED_RISK_DECISION. Sin revisor → REQUEST_HUMAN_REVIEW.",
+      "len": 195
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-PER-052-2B: data/models/rpa/rag/hitl, human_in_loop, no dark patterns.",
+      "len": 86
+    },
+    {
+      "i": 25,
+      "text": "tests/evals/red team y performance",
+      "len": 34
+    },
+    {
+      "i": 26,
+      "text": "La matriz de verificación cubre unit, contract, evals, red team y performance en rutas normales y degradadas. Cada P0/P1 histórico tiene regression test permanente. No sustituyas red team por un screenshot del dashboard.",
+      "len": 220
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: suites requeridas presentes, p0_open==0, p1_open==0, perf_within_slo. Un 'casi' en P1 sigue bloqueando graduación.",
+      "len": 125
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: resultados de suites y conteos P0/P1. Salida: matriz sin P0/P1. Error: hallazgo abierto → BLOCK_OPEN_SEVERITY. Suite ausente → RUN_FULL_VERIFICATION.",
+      "len": 168
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-PER-052-3A: unit/evals/redteam/perf verdes, p0=p1=0.",
+      "len": 68
+    },
+    {
+      "i": 30,
+      "text": "SLO, backup, rollback y disaster exercise",
+      "len": 41
+    },
+    {
+      "i": 31,
+      "text": "Demuestra RPO/RTO, backup restaurable y disaster exercise con evidencia. Un backup nunca probado es un riesgo, no un control. Rollback de plataforma y de copiloto se ejercitan por separado pero se reportan juntos.",
+      "len": 213
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: rpo_minutes ≤ rpo_target, rto_minutes ≤ rto_target, restore_verified, disaster_exercise_pass. Fallar el exercise es NO_GO_RESILIENCE, no un 'follow-up'.",
+      "len": 163
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: RPO/RTO medidos + flags de restore/exercise. Salida: resiliencia demostrada. Error: umbral roto → NO_GO_RESILIENCE. Restore sin prueba → RUN_DISASTER_EXERCISE.",
+      "len": 178
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-PER-052-3B: RPO 15≤30, RTO 40≤60, restore y exercise ok.",
+      "len": 72
+    },
+    {
+      "i": 36,
+      "text": "La demo es reproducible por otra persona: URL o local, datos sintéticos, escenario, métricas antes/después en benchmark sintético y contribución personal. No afirmes impacto de producción no demostrado.",
+      "len": 202
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: demo_reproducible, before_after_metrics, synthetic_only, personal_contribution documentada y video_or_walkthrough. Un README vacío no es narrativa de CV.",
+      "len": 164
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: checklist de demo + métricas. Salida: demo reproducible con antes/después. Error: claims inflados → REJECT_UNVERIFIED_CLAIM. Sin métricas → MEASURE_BEFORE_AFTER.",
+      "len": 180
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-PER-052-4A: demo local ok, ttr 40→25, synthetic_only, contribución y video.",
+      "len": 91
+    },
+    {
+      "i": 40,
+      "text": "arquitectura, READMEs, cards, licencia, video y defensa",
+      "len": 55
+    },
+    {
+      "i": 41,
+      "text": "El evidence bundle final: arquitectura, READMEs, system/model cards, licencia, video y defensa técnica de trade-offs. Cada artefacto es localizable (path/hash) como exige CF-5. La defensa nombra límites y no-go, no solo logros.",
+      "len": 227
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: required artifacts presentes, license != '', defense_notes con tradeoffs y limitations, paths localizables. Bundle incompleto bloquea master.",
+      "len": 152
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: checklist de artefactos + defensa. Salida: evidence bundle completo y verificable. Error: falta artefacto → BLOCK_INCOMPLETE_PORTFOLIO. Defensa vacía → PREPARE_TECHNICAL_DEFENSE.",
+      "len": 197
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-PER-052-4B: arch/README/cards/license/video + defense con trade-offs.",
+      "len": 85
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ruta de S52: Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "text": "Ruta de S52: Enterprise Relationship & Operations Intelligence Platform: capstone final"
+    },
+    {
+      "i": 1,
+      "len": 313,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. CP-FINAL: integración de los 12 capstones con contratos y datos sintéticos. CF-1…CF-5: checkpoints transversales ya aprobados (no se reabren para inventar métricas). R",
+      "text": "Diccionario. CP-FINAL: integración de los 12 capstones con contratos y datos sintéticos. CF-1…CF-5: checkpoints transversales ya aprobados (no se reabren para inventar métricas). Regresión total: unión N1–N4 + E2E + contract tests. No-go: real_pii y auto_fraud_label prohibidos. Defensa: trade-offs con evidencia."
+    },
+    {
+      "i": 2,
+      "len": 276,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S52 es el checkpoint senior-master: no re-enseña reverse deps (loops, pandas, sklearn) como si fueran nuevos; referencia e integra Familiarity Dashboard, VP RPA/AI, ER/grafos/triag",
+      "text": "S52 es el checkpoint senior-master: no re-enseña reverse deps (loops, pandas, sklearn) como si fueran nuevos; referencia e integra Familiarity Dashboard, VP RPA/AI, ER/grafos/triage, reporting y copiloto mediante interfaces ya congeladas en CF-5. Id career-strategy es legacy."
+    },
+    {
+      "i": 3,
+      "len": 304,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: artefactos congelados S1–S51, contratos, riesgos, no-go y benchmark. Salida: producto reproducible, demo, evidencia técnica y defensa de trade-offs. Error: P0/P1",
+      "text": "Contrato. Entrada: artefactos congelados S1–S51, contratos, riesgos, no-go y benchmark. Salida: producto reproducible, demo, evidencia técnica y defensa de trade-offs. Error: P0/P1, PII, dependencia no reproducible o afirmación sin evidencia bloquea graduación. CP-FINAL no compensa CP-N4-C ni viceversa."
+    },
+    {
+      "i": 4,
+      "len": 246,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-PER-052 (plataforma integral sintética multi-región del Perú (Enterprise Ops Intelligence Lab)): T1 revalidación CF-1 → T2 integración contexts → T3 verificación/resilien",
+      "text": "Caso CASO-PER-052 (plataforma integral sintética multi-región del Perú (Enterprise Ops Intelligence Lab)): T1 revalidación CF-1 → T2 integración contexts → T3 verificación/resiliencia → T4 publicación/defensa. Stdlib. Todo sintético multi-región."
+    },
+    {
+      "i": 5,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "stakeholders, jobs y success metrics de CF-1",
+      "text": "stakeholders, jobs y success metrics de CF-1"
+    },
+    {
+      "i": 6,
+      "len": 164,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Revalida stakeholders, jobs y success metrics de CF-1: qué cambió desde el checkpoint y qué sigue vigente. Optimizar un job ya inválido es desperdicio de regresión.",
+      "text": "Revalida stakeholders, jobs y success metrics de CF-1: qué cambió desde el checkpoint y qué sigue vigente. Optimizar un job ya inválido es desperdicio de regresión."
+    },
+    {
+      "i": 7,
+      "len": 158,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: len(stakeholders)≥1, len(jobs)≥1, cada métrica tiene baseline y target, y cf1_revision firmada. No inventes KPIs que no estén en el ledger de CF-1.",
+      "text": "Mecanismo: len(stakeholders)≥1, len(jobs)≥1, cada métrica tiene baseline y target, y cf1_revision firmada. No inventes KPIs que no estén en el ledger de CF-1."
+    },
+    {
+      "i": 8,
+      "len": 190,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: matriz stakeholder/job/métrica + revisión CF-1. Salida: matriz con evidencia. Error: matriz vacía o sin baseline → REOPEN_CF1. Stakeholder ausente → INTERVIEW_ST",
+      "text": "Contrato. Entrada: matriz stakeholder/job/métrica + revisión CF-1. Salida: matriz con evidencia. Error: matriz vacía o sin baseline → REOPEN_CF1. Stakeholder ausente → INTERVIEW_STAKEHOLDER."
+    },
+    {
+      "i": 9,
+      "len": 117,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-1A: ops/compliance/data; jobs intake/er/report; métricas ttr y precision_review con baseline.",
+      "text": "Aplicación CASO-PER-052-1A: ops/compliance/data; jobs intake/er/report; métricas ttr y precision_review con baseline."
+    },
+    {
+      "i": 10,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "cambios, constraints, riesgos y no-go",
+      "text": "cambios, constraints, riesgos y no-go"
+    },
+    {
+      "i": 11,
+      "len": 205,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No-go incluye real_pii y auto_fraud_label: están prohibidos. Matching/ER/scores son evidencia para revisión humana; no prueba de fraude, parentesco ni colusión. Constraints y riesg",
+      "text": "No-go incluye real_pii y auto_fraud_label: están prohibidos. Matching/ER/scores son evidencia para revisión humana; no prueba de fraude, parentesco ni colusión. Constraints y riesgos tienen dueño y umbral."
+    },
+    {
+      "i": 12,
+      "len": 178,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: no_go ⊇ {real_pii, auto_fraud_label}, match_is_fraud is False, cada risk tiene owner, change_log=True. Alcance que rompe privacidad se rechaza aunque 'mejore el demo'.",
+      "text": "Mecanismo: no_go ⊇ {real_pii, auto_fraud_label}, match_is_fraud is False, cada risk tiene owner, change_log=True. Alcance que rompe privacidad se rechaza aunque 'mejore el demo'."
+    },
+    {
+      "i": 13,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: risks, constraints, no_go, change_log. Salida: registro firmado. Error: no-go violado → DECLARE_NO_GO. Riesgo sin dueño → INDEPENDENT_RISK_REVIEW.",
+      "text": "Contrato. Entrada: risks, constraints, no_go, change_log. Salida: registro firmado. Error: no-go violado → DECLARE_NO_GO. Riesgo sin dueño → INDEPENDENT_RISK_REVIEW."
+    },
+    {
+      "i": 14,
+      "len": 123,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-1B: no-go real_pii+auto_fraud_label, constraints budget/latency, change_log y match_is_fraud=False.",
+      "text": "Aplicación CASO-PER-052-1B: no-go real_pii+auto_fraud_label, constraints budget/latency, change_log y match_is_fraud=False."
+    },
+    {
+      "i": 15,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "bounded contexts, APIs y eventos",
+      "text": "bounded contexts, APIs y eventos"
+    },
+    {
+      "i": 16,
+      "len": 247,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Integra bounded contexts (intake, er, relationship, triage, reporting, copilot) por APIs y eventos versionados. Ownership evita una base compartida como acoplamiento oculto. No rei",
+      "text": "Integra bounded contexts (intake, er, relationship, triage, reporting, copilot) por APIs y eventos versionados. Ownership evita una base compartida como acoplamiento oculto. No reimplementes ER aquí: consumes el contrato de CP-N3-A/B ya congelado."
+    },
+    {
+      "i": 17,
+      "len": 171,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: contexts canónicos presentes, endpoints versionados (/v1/...), eventos con tipo, y contract_tests_pass. Un context 'temporary shared table' es deuda bloqueante.",
+      "text": "Mecanismo: contexts canónicos presentes, endpoints versionados (/v1/...), eventos con tipo, y contract_tests_pass. Un context 'temporary shared table' es deuda bloqueante."
+    },
+    {
+      "i": 18,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: contexts, apis, events, contract_tests. Salida: contract tests e2e. Error: contrato roto → STOP_INTEGRATION_RELEASE. Mapa incompleto → MAP_BOUNDED_CONTEXTS.",
+      "text": "Contrato. Entrada: contexts, apis, events, contract_tests. Salida: contract tests e2e. Error: contrato roto → STOP_INTEGRATION_RELEASE. Mapa incompleto → MAP_BOUNDED_CONTEXTS."
+    },
+    {
+      "i": 19,
+      "len": 99,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-2A: 6 contexts, POST/GET jobs, eventos job.finished/case.updated, tests ok.",
+      "text": "Aplicación CASO-PER-052-2A: 6 contexts, POST/GET jobs, eventos job.finished/case.updated, tests ok."
+    },
+    {
+      "i": 20,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "datos, modelos, RPA, RAG y human workflow",
+      "text": "datos, modelos, RPA, RAG y human workflow"
+    },
+    {
+      "i": 21,
+      "len": 209,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Datos, modelos, RPA y RAG apoyan un human workflow: ER propone identidad, triage prioriza y ninguna señal prueba fraude o parentesco. HITL es obligatorio en decisiones sensibles — ",
+      "text": "Datos, modelos, RPA y RAG apoyan un human workflow: ER propone identidad, triage prioriza y ninguna señal prueba fraude o parentesco. HITL es obligatorio en decisiones sensibles — no un feature flag 'después'."
+    },
+    {
+      "i": 22,
+      "len": 207,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: componentes {data,models,rpa,rag,hitl} presentes, human_in_loop=True, sensitive_auto_decision=False, no_dark_patterns. Reutiliza contratos de N2/N3/N4; no re-enseñes pan",
+      "text": "Mecanismo: componentes {data,models,rpa,rag,hitl} presentes, human_in_loop=True, sensitive_auto_decision=False, no_dark_patterns. Reutiliza contratos de N2/N3/N4; no re-enseñes pandas ni training loops aquí."
+    },
+    {
+      "i": 23,
+      "len": 195,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: stack de componentes + flags HITL. Salida: decisión sensible conserva revisión humana. Error: auto-decisión → BLOCK_AUTOMATED_RISK_DECISION. Sin revisor → REQUES",
+      "text": "Contrato. Entrada: stack de componentes + flags HITL. Salida: decisión sensible conserva revisión humana. Error: auto-decisión → BLOCK_AUTOMATED_RISK_DECISION. Sin revisor → REQUEST_HUMAN_REVIEW."
+    },
+    {
+      "i": 24,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-2B: data/models/rpa/rag/hitl, human_in_loop, no dark patterns.",
+      "text": "Aplicación CASO-PER-052-2B: data/models/rpa/rag/hitl, human_in_loop, no dark patterns."
+    },
+    {
+      "i": 25,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "tests/evals/red team y performance",
+      "text": "tests/evals/red team y performance"
+    },
+    {
+      "i": 26,
+      "len": 220,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La matriz de verificación cubre unit, contract, evals, red team y performance en rutas normales y degradadas. Cada P0/P1 histórico tiene regression test permanente. No sustituyas r",
+      "text": "La matriz de verificación cubre unit, contract, evals, red team y performance en rutas normales y degradadas. Cada P0/P1 histórico tiene regression test permanente. No sustituyas red team por un screenshot del dashboard."
+    },
+    {
+      "i": 27,
+      "len": 125,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: suites requeridas presentes, p0_open==0, p1_open==0, perf_within_slo. Un 'casi' en P1 sigue bloqueando graduación.",
+      "text": "Mecanismo: suites requeridas presentes, p0_open==0, p1_open==0, perf_within_slo. Un 'casi' en P1 sigue bloqueando graduación."
+    },
+    {
+      "i": 28,
+      "len": 168,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: resultados de suites y conteos P0/P1. Salida: matriz sin P0/P1. Error: hallazgo abierto → BLOCK_OPEN_SEVERITY. Suite ausente → RUN_FULL_VERIFICATION.",
+      "text": "Contrato. Entrada: resultados de suites y conteos P0/P1. Salida: matriz sin P0/P1. Error: hallazgo abierto → BLOCK_OPEN_SEVERITY. Suite ausente → RUN_FULL_VERIFICATION."
+    },
+    {
+      "i": 29,
+      "len": 68,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-3A: unit/evals/redteam/perf verdes, p0=p1=0.",
+      "text": "Aplicación CASO-PER-052-3A: unit/evals/redteam/perf verdes, p0=p1=0."
+    },
+    {
+      "i": 30,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "SLO, backup, rollback y disaster exercise",
+      "text": "SLO, backup, rollback y disaster exercise"
+    },
+    {
+      "i": 31,
+      "len": 213,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Demuestra RPO/RTO, backup restaurable y disaster exercise con evidencia. Un backup nunca probado es un riesgo, no un control. Rollback de plataforma y de copiloto se ejercitan por ",
+      "text": "Demuestra RPO/RTO, backup restaurable y disaster exercise con evidencia. Un backup nunca probado es un riesgo, no un control. Rollback de plataforma y de copiloto se ejercitan por separado pero se reportan juntos."
+    },
+    {
+      "i": 32,
+      "len": 163,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: rpo_minutes ≤ rpo_target, rto_minutes ≤ rto_target, restore_verified, disaster_exercise_pass. Fallar el exercise es NO_GO_RESILIENCE, no un 'follow-up'.",
+      "text": "Mecanismo: rpo_minutes ≤ rpo_target, rto_minutes ≤ rto_target, restore_verified, disaster_exercise_pass. Fallar el exercise es NO_GO_RESILIENCE, no un 'follow-up'."
+    },
+    {
+      "i": 33,
+      "len": 178,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: RPO/RTO medidos + flags de restore/exercise. Salida: resiliencia demostrada. Error: umbral roto → NO_GO_RESILIENCE. Restore sin prueba → RUN_DISASTER_EXERCISE.",
+      "text": "Contrato. Entrada: RPO/RTO medidos + flags de restore/exercise. Salida: resiliencia demostrada. Error: umbral roto → NO_GO_RESILIENCE. Restore sin prueba → RUN_DISASTER_EXERCISE."
+    },
+    {
+      "i": 34,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-3B: RPO 15≤30, RTO 40≤60, restore y exercise ok.",
+      "text": "Aplicación CASO-PER-052-3B: RPO 15≤30, RTO 40≤60, restore y exercise ok."
+    },
+    {
+      "i": 36,
+      "len": 202,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La demo es reproducible por otra persona: URL o local, datos sintéticos, escenario, métricas antes/después en benchmark sintético y contribución personal. No afirmes impacto de pro",
+      "text": "La demo es reproducible por otra persona: URL o local, datos sintéticos, escenario, métricas antes/después en benchmark sintético y contribución personal. No afirmes impacto de producción no demostrado."
+    },
+    {
+      "i": 37,
+      "len": 164,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: demo_reproducible, before_after_metrics, synthetic_only, personal_contribution documentada y video_or_walkthrough. Un README vacío no es narrativa de CV.",
+      "text": "Mecanismo: demo_reproducible, before_after_metrics, synthetic_only, personal_contribution documentada y video_or_walkthrough. Un README vacío no es narrativa de CV."
+    },
+    {
+      "i": 38,
+      "len": 180,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: checklist de demo + métricas. Salida: demo reproducible con antes/después. Error: claims inflados → REJECT_UNVERIFIED_CLAIM. Sin métricas → MEASURE_BEFORE_AFTER.",
+      "text": "Contrato. Entrada: checklist de demo + métricas. Salida: demo reproducible con antes/después. Error: claims inflados → REJECT_UNVERIFIED_CLAIM. Sin métricas → MEASURE_BEFORE_AFTER."
+    },
+    {
+      "i": 39,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-4A: demo local ok, ttr 40→25, synthetic_only, contribución y video.",
+      "text": "Aplicación CASO-PER-052-4A: demo local ok, ttr 40→25, synthetic_only, contribución y video."
+    },
+    {
+      "i": 40,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "arquitectura, READMEs, cards, licencia, video y defensa",
+      "text": "arquitectura, READMEs, cards, licencia, video y defensa"
+    },
+    {
+      "i": 41,
+      "len": 227,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El evidence bundle final: arquitectura, READMEs, system/model cards, licencia, video y defensa técnica de trade-offs. Cada artefacto es localizable (path/hash) como exige CF-5. La ",
+      "text": "El evidence bundle final: arquitectura, READMEs, system/model cards, licencia, video y defensa técnica de trade-offs. Cada artefacto es localizable (path/hash) como exige CF-5. La defensa nombra límites y no-go, no solo logros."
+    },
+    {
+      "i": 42,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: required artifacts presentes, license != '', defense_notes con tradeoffs y limitations, paths localizables. Bundle incompleto bloquea master.",
+      "text": "Mecanismo: required artifacts presentes, license != '', defense_notes con tradeoffs y limitations, paths localizables. Bundle incompleto bloquea master."
+    },
+    {
+      "i": 43,
+      "len": 197,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: checklist de artefactos + defensa. Salida: evidence bundle completo y verificable. Error: falta artefacto → BLOCK_INCOMPLETE_PORTFOLIO. Defensa vacía → PREPARE_T",
+      "text": "Contrato. Entrada: checklist de artefactos + defensa. Salida: evidence bundle completo y verificable. Error: falta artefacto → BLOCK_INCOMPLETE_PORTFOLIO. Defensa vacía → PREPARE_TECHNICAL_DEFENSE."
+    },
+    {
+      "i": 44,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PER-052-4B: arch/README/cards/license/video + defense con trade-offs.",
+      "text": "Aplicación CASO-PER-052-4B: arch/README/cards/license/video + defense con trade-offs."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 14384,
+  "screenshot": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/visible_paragraphs/s52_career-strategy_theory.png"
+}

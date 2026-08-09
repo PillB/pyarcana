@@ -1,36 +1,84 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Cormorant_Garamond, Marcellus } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Providers } from "@/components/Providers";
+import { SITE_BASE_PATH } from "@/lib/runtime-mode";
 
-const geistSans = Geist({
+const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const marcellus = Marcellus({
+  weight: ["400"],
+  variable: "--font-subdisplay",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "PyArcana — Capstones",
-  description: "Four curricular levels. Thirteen capstones. One defensible platform. An applied-project and capstone system with a governed multi-agent AI operations harness.",
-  keywords: ["PyArcana", "capstone", "curriculum", "multi-agent", "RAG", "responsible AI", "entity resolution"],
+  title: "PyArcana · De cero a Data Scientist",
+  description: "PyArcana — curso online de Python para Data Analysis y Data Science. En español peruano, con método I Do / We Do / You Do, ejercicios prácticos y proyectos de portafolio.",
+  keywords: ["PyArcana", "Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú", "Art Nouveau"],
   authors: [{ name: "PyArcana" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: [{ url: `${SITE_BASE_PATH}/favicon.svg`, type: "image/svg+xml" }],
+    shortcut: `${SITE_BASE_PATH}/favicon.svg`,
+    apple: `${SITE_BASE_PATH}/logo.svg`,
+  },
+  // Content-Security-Policy via <meta> tag. GitHub Pages doesn't support
+  // custom HTTP headers, so a <meta> tag is the only way to ship a CSP on the
+  // static export. Next.js static export uses inline scripts for hydration,
+  // so 'unsafe-inline' is required for script-src (this is a known Next.js
+  // limitation — see next.js discussion #91816). We still gain:
+  //   - object-src 'none': blocks Flash/Java/plugin-based XSS
+  //   - base-uri 'self': blocks <base> tag injection
+  //   - frame-ancestors 'none': blocks clickjacking (the site is not meant
+  //     to be framed)
+  //   - form-action 'self': blocks form submissions to external origins
+  //   - img-src/style-src/font-src restricted to self + the Pyodide CDN
+  //   - connect-src 'self' + Firebase + Pyodide CDN + GitHub Pages origin
+  // When the dynamic LMS ships, replace unsafe-inline with nonces/hashes.
+  other: {
+    "Content-Security-Policy": [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cdn.jsdelivr.net",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
+    ].join("; "),
   },
   openGraph: {
-    title: "PyArcana — Capstones",
-    description: "Four curricular levels. Thirteen capstones. One defensible platform.",
+    title: "PyArcana · De cero a Data Analyst/Scientist",
+    description: "PyArcana — curso online de Python para Data Analysis y Data Science en español peruano.",
     siteName: "PyArcana",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PyArcana — Capstones",
-    description: "Four curricular levels. Thirteen capstones. One defensible platform.",
+    title: "PyArcana",
+    description: "PyArcana — curso online de Python para Data Analysis y Data Science.",
   },
 };
 
@@ -40,23 +88,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es-PE" suppressHydrationWarning>
       <head>
-        {/* Apply persisted theme before paint to avoid FOUC */}
-        <script dangerouslySetInnerHTML={{ __html: `
-          try {
-            var s = localStorage.getItem('pyarcana-theme');
-            if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-              document.documentElement.classList.add('dark');
-            }
-          } catch (e) {}
-        `}} />
+        {/* ChunkLoadError guard — inlined directly in <head> so it runs BEFORE
+            any Next.js bundle. On a static export, next/script's
+            "beforeInteractive" strategy loads via the Next.js runtime, which
+            is too late if the runtime itself fails (the exact ChunkLoadError
+            case). Inlining here guarantees the window listener is registered
+            before webpack's chunk loader runs.
+            Auto-reloads with a 30s cooldown + max 3 reloads per session. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){if(typeof window==='undefined')return;try{var P=['ChunkLoadError','Loading chunk','Loading CSS chunk','Failed to fetch dynamically imported module','module factory is not available'];var K='pyarcana-chunk-guard-last-reload';var C='pyarcana-chunk-guard-reload-count';var CD=30000;var M=3;function m(x){if(!x)return false;x=String(x);for(var i=0;i<P.length;i++){if(x.indexOf(P[i])!==-1)return true}return false}function r(){try{var c=Number(window.sessionStorage.getItem(C)||0);if(c>=M)return;var l=Number(window.sessionStorage.getItem(K)||0);if(Date.now()-l<CD)return;window.sessionStorage.setItem(K,String(Date.now()));window.sessionStorage.setItem(C,String(c+1))}catch(e){}window.location.reload()}window.addEventListener('error',function(e){var x=(e.error&&e.error.message)||e.message;if(m(x)){e.preventDefault();r()}},true);window.addEventListener('unhandledrejection',function(e){var x=e.reason;var msg=(x&&x.message)||x;if(m(msg)){e.preventDefault();r()}})}catch(e){}})();`,
+          }}
+        />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable} ${marcellus.variable} antialiased bg-background text-foreground`}
       >
-        {children}
-        <Toaster />
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

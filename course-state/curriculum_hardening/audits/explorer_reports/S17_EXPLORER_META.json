@@ -1,0 +1,9 @@
+{
+  "section": 17,
+  "id": "packaging",
+  "file": "src/lib/course/sections/s17-packaging.ts",
+  "score_1_to_10": 6.7,
+  "issue_count": 25,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

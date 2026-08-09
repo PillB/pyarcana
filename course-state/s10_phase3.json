@@ -1,0 +1,1023 @@
+{
+  "version": "3.2",
+  "section": "S10",
+  "section_id": "sklearn",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N1B-FACTORY — S09–S13 research blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1B-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S10 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S10 only (within N1B factory batch)",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, capstone notes",
+      "Count validation vs invariant vector",
+      "Platform gap notes (legacy retention)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "Editing large .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s10-sklearn.ts",
+      "prisma/seed.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/course_requirements.json",
+      "src/lib/course/index.ts"
+    ]
+  },
+  "section_meta": {
+    "id": "sklearn",
+    "index": 10,
+    "title_platform": "scikit-learn: Full ML Pipeline",
+    "title_v3": "Módulos, packaging y CLI profesional",
+    "title_decision": "KEEP platform id 'sklearn' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+    "estimatedHours": 10,
+    "level": "Principiante avanzado",
+    "phase": 0,
+    "prerequisites": [
+      "S09"
+    ],
+    "environment": "local-python",
+    "project_capstone": "CP-N1-B (empaquetado) / CP-N1-C (base de paquete)"
+  },
+  "learning_outcomes_section": [
+    "El estudiante organiza imports, evita dependencias circulares y usa `if __name__ == '__main__'` correctamente.",
+    "El estudiante define una API pública estable y mueve utilidades privadas fuera de la superficie exportada.",
+    "El estudiante crea un paquete instalable con layout src y pyproject.toml mínimo.",
+    "El estudiante aplica versionado semántico simple y declara requires-python / dependencies pinadas con criterio.",
+    "El estudiante implementa subcomandos argparse con exit codes significativos (0/1/2).",
+    "El estudiante separa datos (stdout) de diagnóstico (stderr) y escribe ayuda no ambigua.",
+    "El estudiante implementa precedencia flags > env > archivo > defaults y la documenta.",
+    "El estudiante mantiene secretos fuera del repo, aplica defaults seguros y valida config al arranque."
+  ],
+  "topics": [
+    {
+      "topic_id": "S10-T1",
+      "title": "Módulos",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S10-T1-A",
+          "slug": "imports-namespaces-main",
+          "title": "Imports, namespaces y __main__",
+          "outcome": "El estudiante organiza imports, evita dependencias circulares y usa `if __name__ == '__main__'` correctamente.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Imports, namespaces y __main__",
+              "must_cover": [
+                "import/from",
+                "__name__",
+                "__all__",
+                "circular imports",
+                "namespace packages intro"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T1-A-DEMO",
+              "title": "Separar normalize.py y cli.py; demo vía python -m",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T1-A-E1",
+                "kind": "guided",
+                "title": "Crear módulo con función pública y __all__",
+                "skill": "API pública",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T1-A-E2",
+                "kind": "independent",
+                "title": "Romper y arreglar import circular sintético",
+                "skill": "ciclos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T1-A-E3",
+                "kind": "transfer",
+                "title": "Elegir import absoluto vs relativo en layout src",
+                "skill": "namespaces",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S10-T1-B",
+          "slug": "public-api-dependencies",
+          "title": "Dependencias cíclicas y API pública",
+          "outcome": "El estudiante define una API pública estable y mueve utilidades privadas fuera de la superficie exportada.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Dependencias cíclicas y API pública",
+              "must_cover": [
+                "public vs private (_)",
+                "facade module",
+                "lazy import cuando aplica",
+                "version de API"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T1-B-DEMO",
+              "title": "familiarity_core/__init__.py exporta solo 4 símbolos",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T1-B-E1",
+                "kind": "guided",
+                "title": "Marcar helpers privados con _",
+                "skill": "privacidad de API",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T1-B-E2",
+                "kind": "independent",
+                "title": "Facade que reexporta normalize + compare",
+                "skill": "facade",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T1-B-E3",
+                "kind": "transfer",
+                "title": "Documentar breaking change de firma pública",
+                "skill": "compatibilidad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S10-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S10-T1-EVAL-1",
+            "title": "Módulo con API pública y demo __main__",
+            "authentic": true
+          },
+          {
+            "id": "S10-T1-EVAL-2",
+            "title": "Resolver import circular sintético y documentar regla",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S10-T2",
+      "title": "Paquetes",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S10-T2-A",
+          "slug": "src-layout-pyproject",
+          "title": "Layout src, pyproject.toml y builds",
+          "outcome": "El estudiante crea un paquete instalable con layout src y pyproject.toml mínimo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Layout src, pyproject.toml y builds",
+              "must_cover": [
+                "src/ layout",
+                "pyproject.toml",
+                "build backend",
+                "pip install -e ."
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T2-A-DEMO",
+              "title": "Inicializar familiarity_core editable install",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T2-A-E1",
+                "kind": "guided",
+                "title": "Completar pyproject.toml name/version",
+                "skill": "metadata",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T2-A-E2",
+                "kind": "independent",
+                "title": "Layout src + paquete importable",
+                "skill": "estructura",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T2-A-E3",
+                "kind": "transfer",
+                "title": "Diagnosticar ModuleNotFoundError post-install",
+                "skill": "builds",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S10-T2-B",
+          "slug": "versioning-compatibility",
+          "title": "Versionado y compatibilidad",
+          "outcome": "El estudiante aplica versionado semántico simple y declara requires-python / dependencies pinadas con criterio.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Versionado y compatibilidad",
+              "must_cover": [
+                "semver major.minor.patch",
+                "requires-python",
+                "dependencies vs optional",
+                "CHANGELOG stub"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T2-B-DEMO",
+              "title": "Bump 0.1.0 → 0.2.0 por subcomando nuevo",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T2-B-E1",
+                "kind": "guided",
+                "title": "Clasificar 4 cambios: major/minor/patch",
+                "skill": "semver",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T2-B-E2",
+                "kind": "independent",
+                "title": "Fijar dependencies mínimas del paquete",
+                "skill": "deps",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T2-B-E3",
+                "kind": "transfer",
+                "title": "Política de compatibilidad hacia S11 dominio",
+                "skill": "compat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S10-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S10-T2-EVAL-1",
+            "title": "Crear paquete src + install editable",
+            "authentic": true
+          },
+          {
+            "id": "S10-T2-EVAL-2",
+            "title": "Propuesta de version bump con justificación semver",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S10-T3",
+      "title": "CLI",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S10-T3-A",
+          "slug": "argparse-subcommands-exitcodes",
+          "title": "argparse, subcomandos y exit codes",
+          "outcome": "El estudiante implementa subcomandos argparse con exit codes significativos (0/1/2).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "argparse, subcomandos y exit codes",
+              "must_cover": [
+                "ArgumentParser",
+                "subparsers",
+                "exit 0 success",
+                "exit 2 usage",
+                "exit 1 runtime"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T3-A-DEMO",
+              "title": "CLI con ingest|normalize|compare|report",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T3-A-E1",
+                "kind": "guided",
+                "title": "Añadir subcomando report --format",
+                "skill": "subparsers",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T3-A-E2",
+                "kind": "independent",
+                "title": "Mapear errores a exit codes",
+                "skill": "exit codes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T3-A-E3",
+                "kind": "transfer",
+                "title": "Ayuda --help usable por operador no dev",
+                "skill": "UX CLI",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S10-T3-B",
+          "slug": "stdio-streams-help",
+          "title": "stdin/stdout/stderr y ayuda",
+          "outcome": "El estudiante separa datos (stdout) de diagnóstico (stderr) y escribe ayuda no ambigua.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "stdin/stdout/stderr y ayuda",
+              "must_cover": [
+                "stdin pipes",
+                "stdout data",
+                "stderr logs",
+                "epilog/help",
+                "no mezclar progress en stdout"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T3-B-DEMO",
+              "title": "cat data.json | familiarity normalize > out.json 2> log.txt",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T3-B-E1",
+                "kind": "guided",
+                "title": "Escribir resultados a stdout y logs a stderr",
+                "skill": "streams",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T3-B-E2",
+                "kind": "independent",
+                "title": "Soportar path o '-' para stdin",
+                "skill": "pipes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T3-B-E3",
+                "kind": "transfer",
+                "title": "Revisar CLI que contamina stdout con prints",
+                "skill": "higiene I/O",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S10-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S10-T3-EVAL-1",
+            "title": "CLI de 2 subcomandos con exit codes",
+            "authentic": true
+          },
+          {
+            "id": "S10-T3-EVAL-2",
+            "title": "Pipeline por pipes stdin/stdout sin contaminar stdout",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S10-T4",
+      "title": "Configuración",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S10-T4-A",
+          "slug": "config-precedence",
+          "title": "Archivo/env/flags y precedencia",
+          "outcome": "El estudiante implementa precedencia flags > env > archivo > defaults y la documenta.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Archivo/env/flags y precedencia",
+              "must_cover": [
+                "defaults",
+                "config file",
+                "env vars",
+                "CLI flags override",
+                "document precedence"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T4-A-DEMO",
+              "title": "FAMILIARITY_LOG_LEVEL vs --log-level",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T4-A-E1",
+                "kind": "guided",
+                "title": "Tabla de precedencia de 4 capas",
+                "skill": "precedencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T4-A-E2",
+                "kind": "independent",
+                "title": "Loader merge de config dict",
+                "skill": "merge",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T4-A-E3",
+                "kind": "transfer",
+                "title": "Caso conflictivo flag vs env — resultado esperado",
+                "skill": "diseño",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S10-T4-B",
+          "slug": "secrets-defaults-early-validation",
+          "title": "Secretos, defaults y validación temprana",
+          "outcome": "El estudiante mantiene secretos fuera del repo, aplica defaults seguros y valida config al arranque.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Secretos, defaults y validación temprana",
+              "must_cover": [
+                ".env not committed",
+                "no secrets in logs",
+                "validate required keys early",
+                "fail-fast config"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S10-T4-B-DEMO",
+              "title": "Abort si falta API_TOKEN solo cuando subcomando lo requiere",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S10-T4-B-E1",
+                "kind": "guided",
+                "title": "Checklist de secretos en .gitignore",
+                "skill": "secretos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T4-B-E2",
+                "kind": "independent",
+                "title": "validate_config() con errores claros",
+                "skill": "validación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S10-T4-B-E3",
+                "kind": "transfer",
+                "title": "Default inseguro → proponer default seguro",
+                "skill": "defaults",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S10-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S10-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S10-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S10-T4-EVAL-1",
+            "title": "Loader de config con 4 capas de precedencia",
+            "authentic": true
+          },
+          {
+            "id": "S10-T4-EVAL-2",
+            "title": "Validación temprana que aborta con mensaje accionable",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S10-PROJ",
+    "title": "Paquete familiarity_core + CLI profesional",
+    "replaces_legacy": "Churn Prediction Production Pipeline — legado ML; TARGET es packaging/CLI del dominio de familiaridad",
+    "objectives": [
+      "Layout src/ + pyproject.toml instalable en editable",
+      "Subcomandos ingest, normalize, compare, report",
+      "Lógica de dominio separada de I/O CLI",
+      "Config por precedencia y validación temprana",
+      "Ayuda --help y exit codes documentados"
+    ],
+    "requirements": [
+      "pip install -e . funciona en entorno limpio",
+      "python -m familiarity_core --help o entry point console_scripts",
+      "Sin secretos en repo; datos sintéticos",
+      "Errores de uso vs runtime distinguibles por exit code"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "Convierte ETL CP-N1-B en paquete; base de CP-N1-C"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'sklearn' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s10-sklearn.ts; orphans: ['src/lib/course/sections/s10-testing.ts']"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N1-B (empaquetado) / CP-N1-C (base de paquete)",
+    "increment_gate": "CLI ingest, normalize, compare y report; instalación limpia, ayuda útil, errores no ambiguos y lógica separada de I/O",
+    "project_id": "S10-PROJ",
+    "section_passed": false,
+    "notes": "S10 contributes to CP-N1-B (empaquetado) / CP-N1-C (base de paquete). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint quality aligned to S03 phase3 pattern. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 topic split gives clear 4×2 ownership for N1 second half",
+    "risk": "Display title still 'scikit-learn: Full ML Pipeline' until product rename; large topic mismatch may confuse learners if tagline not updated in PHASE 4",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S10-T1-A first"
+  }
+}

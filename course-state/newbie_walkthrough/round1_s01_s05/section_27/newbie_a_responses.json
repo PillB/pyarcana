@@ -1,0 +1,473 @@
+{
+  "agent": "a",
+  "section_index": 27,
+  "recorded_at": "2026-08-01T15:09:22.295245+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Pruebas unitarias",
+        "confidence": 0.8,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          4.15,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Una fuente de verdad determinista para el assert",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          2.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Está bien",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          0.0,
+          2.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "session: reutiliza estado entre todos los tests (ideal para mutar listas)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          9.0,
+          8.3,
+          7.0,
+          7.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S27-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · risk = impact*likelihood\n# DEFECT: suma en vez de producto\nimpact, likelihood = 5, 4\nprint(impact + likelihood)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "solo",
+          "imprime",
+          "bug",
+          "starter",
+          "oráculo",
+          "número"
+        ]
+      },
+      {
+        "exercise_id": "S27-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · orden por riesgo desc\n# DEFECT: ordena ascendente\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: (r[1]*r[2]))])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "datos",
+          "list",
+          "usa",
+          "signo",
+          "revisa",
+          "clave",
+          "comprehension",
+          "alteres"
+        ]
+      },
+      {
+        "exercise_id": "S27-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · capa del área de mayor score\n# DEFECT: usa min (elige el score más bajo)\nrisks = [('normalize', 20, 'unit'), ('ui_review', 4, 'e2e')]\ntop = min(risks, key=lambda r: r[1])\nprint(top[2])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "verifica",
+          "starter",
+          "mentalmente"
+        ]
+      },
+      {
+        "exercise_id": "S27-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · normalize whitespace+casefold\n# DEFECT: solo strip\ns=' A  B '\nprint(s.strip())\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "usa",
+          "bug",
+          "imprime",
+          "mentalmente",
+          "mayúsculas",
+          "desaparecen",
+          "comprueba"
+        ]
+      },
+      {
+        "exercise_id": "S27-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · casefold assert\n# DEFECT: imprime fail\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('fail')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "imprimir",
+          "revisa",
+          "alteres",
+          "debe",
+          "detenerse",
+          "starter",
+          "rompes"
+        ]
+      },
+      {
+        "exercise_id": "S27-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · equality after normalize\n# DEFECT: compara crudo\na,b='X Y','x  y'\nprint(a == b)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "booleano",
+          "mismo",
+          "hace",
+          "imprime",
+          "strings",
+          "aplica",
+          "lados",
+          "false"
+        ]
+      },
+      {
+        "exercise_id": "S27-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · discovery test_\n# DEFECT: no filtra\nnames=['test_a','helper','test_b']\nprint(names)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "orden",
+          "resultante",
+          "basta",
+          "lista",
+          "sin",
+          "filtrar",
+          "aparición"
+        ]
+      },
+      {
+        "exercise_id": "S27-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · assert equality\n# Este codigo tiene un defecto intencional que el learner debe corregir.\n# DEFECT: siempre ok\nleft,right='a','b'\nprint('ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "según",
+          "revisa",
+          "compara",
+          "imprime",
+          "prueba",
+          "cambies",
+          "valores",
+          "igualdad"
+        ]
+      },
+      {
+        "exercise_id": "S27-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · tabla parametrize + oráculo strip\n# DEFECT: compara crudo sin strip\ncases = [(' x ', 'x'), ('  Y  ', 'Y')]\nprint([raw == exp for raw, exp in cases])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "list",
+          "hace",
+          "usa",
+          "imprime",
+          "comprehension",
+          "borres",
+          "booleanos",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S27-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · deepcopy aislamiento\n# DEFECT: shallow copy\nfrom copy import copy\norig=[{'n':1}]\nc=copy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "usa",
+          "imprime",
+          "deja",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Scope seguro para datos mutables (default pytest)\n# DEFECT: elige session aunque no es safe_for_mutable\nsafe_for_mutable = {'function': True, 'class': False, 'module': False, 'session': False}\nchosen = 'session'\nprint(chosen)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "valor",
+          "busca",
+          "imprime",
+          "ese",
+          "next",
+          "hardcodea",
+          "todos",
+          "reescribas"
+        ]
+      },
+      {
+        "exercise_id": "S27-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · factory len\n# DEFECT: hardcode 0\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "define",
+          "reescribas",
+          "llama",
+          "pero",
+          "longitud",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · isclose float\n# DEFECT: == exacto\nimport math\nprint(0.1 + 0.2 == 0.3)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "booleano",
+          "solo",
+          "imprime",
+          "alteres",
+          "false",
+          "starter",
+          "literales"
+        ]
+      },
+      {
+        "exercise_id": "S27-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · raises + match fragment\n# DEFECT: no inspecciona el mensaje\ntry:\n    int('x')\n    matched = False\nexcept ValueError as e:\n    matched = False  # debería mirar str(e)\nprint(matched)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "booleano",
+          "input",
+          "casefold",
+          "imprime",
+          "starter",
+          "cambies",
+          "pone",
+          "buscando"
+        ]
+      },
+      {
+        "exercise_id": "S27-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · tempfile content\n# DEFECT: no lee\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path = f.name\nprint('')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "texto",
+          "usa",
+          "contenido",
+          "escribe",
+          "ese",
+          "imprime",
+          "pero",
+          "read_text"
+        ]
+      },
+      {
+        "exercise_id": "S27-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · mensaje ValueError\n# DEFECT: imprime tipo\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(type(e).__name__)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "mantén",
+          "borres",
+          "str",
+          "dado",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · validación mínima de email\n# DEFECT: marca ok aunque falte '@'\ns = 'sin-arroba'\nprint('ok')  # debería ser 'invalid' si falta '@'\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "condiciona",
+          "imprime",
+          "prueba",
+          "ciegas",
+          "cambies",
+          "string",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · mensaje inválido\n# Este codigo tiene un defecto intencional que el learner debe corregir.\n# DEFECT: mensaje genérico\nv=-1\nprint('error')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "línea",
+          "usa",
+          "sola",
+          "imprime",
+          "starter",
+          "cambies",
+          "string",
+          "nombre"
+        ]
+      },
+      {
+        "exercise_id": "S27-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · branches hi/lo\n# DEFECT: solo un branch\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "definición",
+          "hace",
+          "imprime",
+          "llamada",
+          "añade",
+          "cambies",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · non no en hit\n# DEFECT: non in hit\nhit={'auto','review'}\nprint('non' in hit)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "set",
+          "cambia",
+          "booleano",
+          "imprime",
+          "alteres",
+          "false",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · coverage percent\n# DEFECT: imprime k/n en fracción (≈0.666) en vez de porcentaje entero\nk, n = 2, 3\nprint(k / n)  # debería ser int(100 * k / n) → 66\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pida",
+          "truncar",
+          "solo",
+          "ese",
+          "contrato",
+          "truncado",
+          "menos",
+          "escala"
+        ]
+      },
+      {
+        "exercise_id": "S27-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · mutant fails oracle\n# DEFECT: no distingue mutant\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant == 'a')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "booleano",
+          "hace",
+          "imprime",
+          "segunda",
+          "alteres",
+          "comparación",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S27-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · falla útil con input\n# DEFECT: falta input; roles confusos\ninp, expected, actual = 'ANA', 'ana', 'Ana'\nprint({'expected': actual, 'actual': expected})\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "arma",
+          "imprime",
+          "correctos",
+          "tres",
+          "prueba",
+          "cambies",
+          "dict",
+          "campos"
+        ]
+      },
+      {
+        "exercise_id": "S27-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 27 · bug_repro → regression_test\n# DEFECT: aún en bug_repro (compara crudo, sin normalizar)\nraw, oracle = ' ANA ', 'ana'\nprint(raw == oracle)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hace",
+          "imprime",
+          "normaliza",
+          "false",
+          "cambies",
+          "oráculo",
+          "starter"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "209fcf3aa7d742fd"
+  }
+}

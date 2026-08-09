@@ -1,0 +1,226 @@
+{
+  "section_index": 40,
+  "title": "Arquitectura, DDD y decisiones técnicas",
+  "outcomes": [
+    "Captura FR y quality attributes",
+    "Documenta trade-offs y riesgos medibles",
+    "Diseña capas con baja coupling",
+    "Aplica ports/adapters hacia dominio",
+    "Delinea bounded contexts",
+    "Modela entities, VO y servicios",
+    "Documenta C4 y ADRs",
+    "Evoluciona APIs/eventos con compatibilidad"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S40: Arquitectura, DDD y decisiones técnicas",
+      "paragraphs": [
+        "En V3, **S40** retematiza el archivo de plataforma `agentic-architecture` hacia **Arquitectura, DDD y decisiones técnicas**.",
+        "Incremento: mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "requisitos funcionales y quality attributes",
+      "paragraphs": [
+        "**requisitos funcionales y quality attributes** — outcome del blueprint phase3 para `functional-quality-attrs`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "opts=[{\"n\":\"sync\",\"score\":3.8},{\"n\":\"async\",\"score\":2.2}]\nprint(\"best\", min(opts,key=lambda x:x[\"score\"])[\"n\"])\nprint(\"scores\", {o[\"n\"]:o[\"score\"] for o in opts})\nprint(\"criterion\", \"min_score\")"
+    },
+    {
+      "heading": "trade-offs, riesgos y criterios medibles",
+      "paragraphs": [
+        "**trade-offs, riesgos y criterios medibles** — outcome del blueprint phase3 para `tradeoffs-risks-measurable`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "layers=[\"presentation\",\"application\",\"domain\",\"infrastructure\"]\nprint(\"layers\", layers)\nprint(\"domain_pure\", True)\nprint(\"skip_forbidden\", True)"
+    },
+    {
+      "heading": "cohesión/coupling y capas",
+      "paragraphs": [
+        "**cohesión/coupling y capas** — outcome del blueprint phase3 para `cohesion-coupling-layers`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "class Repo:\n    def get(self, cid): return {\"status\":\"open\"}\nprint(\"status\", Repo().get(\"CASE-1\")[\"status\"])\nprint(\"dep\", \"domain<-adapters\")\nprint(\"port_ok\", True)"
+    },
+    {
+      "heading": "ports/adapters y dependencia hacia dominio",
+      "paragraphs": [
+        "**ports/adapters y dependencia hacia dominio** — outcome del blueprint phase3 para `ports-adapters-domain-dep`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "ctx={\"Intake\":[\"Case\"],\"ER\":[\"Record\",\"Score\"]}\nprint(\"contexts\", sorted(ctx))\nprint(\"er_terms\", ctx[\"ER\"])\nprint(\"case_not_in_er\", \"Case\" not in ctx[\"ER\"])"
+    },
+    {
+      "heading": "bounded contexts y lenguaje ubicuo",
+      "paragraphs": [
+        "**bounded contexts y lenguaje ubicuo** — outcome del blueprint phase3 para `bounded-contexts-ubiquitous`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "entities, value objects y servicios",
+      "paragraphs": [
+        "**entities, value objects y servicios** — outcome del blueprint phase3 para `entities-vo-services`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "diagramas C4/flujo y ADRs",
+      "paragraphs": [
+        "**diagramas C4/flujo y ADRs** — outcome del blueprint phase3 para `c4-flow-adr`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "v1={\"case_id\":\"CASE-1\",\"status\":\"open\"}\nv11={**v1,\"priority\":\"normal\"}\nprint(\"v1\", \"CASE-1:open\")\nprint(\"compat\", \"CASE-1:open\")\nprint(\"additive\", \"priority\" in v11)"
+    },
+    {
+      "heading": "APIs, eventos, deuda y evolución compatible",
+      "paragraphs": [
+        "**APIs, eventos, deuda y evolución compatible** — outcome del blueprint phase3 para `apis-events-debt-compat`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S40-T1-B-DEMO",
+      "description": "Demo: requisitos funcionales y quality attributes",
+      "why": "Demuestra el outcome de S40-T1-A con Python verificable.",
+      "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))"
+    },
+    {
+      "demoId": "S40-T2-A-DEMO",
+      "description": "Demo: trade-offs, riesgos y criterios medibles",
+      "why": "Demuestra el outcome de S40-T1-B con Python verificable.",
+      "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)"
+    },
+    {
+      "demoId": "S40-T2-B-DEMO",
+      "description": "Demo: cohesión/coupling y capas",
+      "why": "Demuestra el outcome de S40-T2-A con Python verificable.",
+      "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)"
+    },
+    {
+      "demoId": "S40-T3-A-DEMO",
+      "description": "Demo: ports/adapters y dependencia hacia dominio",
+      "why": "Demuestra el outcome de S40-T2-B con Python verificable.",
+      "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)"
+    },
+    {
+      "demoId": "S40-T3-B-DEMO",
+      "description": "Demo: bounded contexts y lenguaje ubicuo",
+      "why": "Demuestra el outcome de S40-T3-A con Python verificable.",
+      "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)"
+    },
+    {
+      "demoId": "S40-T4-A-DEMO",
+      "description": "Demo: entities, value objects y servicios",
+      "why": "Demuestra el outcome de S40-T3-B con Python verificable.",
+      "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)"
+    },
+    {
+      "demoId": "S40-T4-B-DEMO",
+      "description": "Demo: diagramas C4/flujo y ADRs",
+      "why": "Demuestra el outcome de S40-T4-A con Python verificable.",
+      "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: APIs, eventos, deuda y evolución compatible",
+      "why": "Demuestra el outcome de S40-T4-B con Python verificable.",
+      "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S40 que se preserva es:",
+      "options": [
+        "agentic-architecture",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S40 pertenece a:",
+      "options": [
+        "CP-N4-A (inicio)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel"
+  ]
+}

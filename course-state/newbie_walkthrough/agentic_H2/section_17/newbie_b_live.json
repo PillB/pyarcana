@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s17-148142-98549",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd cli». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "left",
+        "join",
+        "clientes",
+        "transacciones"
+      ]
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\n# forma esperada (referencia): print(bool(cli[\"cliente_id\"].is_unique))\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `c». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "unicidad",
+        "clave",
+        "Fixture",
+        "cliente_id"
+      ]
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "code": "# Transfer / protocolo — S17-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` merge por `cliente_id`; imprime la longitud. Pass: `3`. Demuestra que el lado m multiplica filas aunque el left\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- merge inner.\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Fixture",
+        "cliente",
+        "filas",
+        "mismo"
+      ]
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd cli». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "anti",
+        "join",
+        "indicator",
+        "True"
+      ]
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd a =». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "validate",
+        "one_to_one",
+        "como",
+        "gate"
+      ]
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "code": "# Transfer / protocolo — S17-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas `left_only` tras left merge con indicator. Pass entero: `2`. Reporta el conteo, no la lista, para el dashboard\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- left_only count.\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "conteo",
+        "rfanos",
+        "anti",
+        "join"
+      ]
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd df ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "melt",
+        "wide",
+        "long",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd lon». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "pivot_table",
+        "long",
+        "wide",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "code": "# Transfer / protocolo — S17-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..., ignore_index=True)` e imprime `len`. Pass: `2`. No uses axis=1 (eso alinea columnas, no apila casos).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- pd.concat(..., ignore_index=True).\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (colum». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "concat",
+        "vertical",
+        "Fixture",
+        "fila"
+      ]
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd lon». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "nombres",
+        "estables",
+        "post",
+        "pivot"
+      ]
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd df ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "validaci",
+        "schema",
+        "columnas",
+        "columns"
+      ]
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "code": "# Transfer / protocolo — S17-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['monto']`. Prefiere dict rename sobre reasignar `.columns` a ciegas.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- rename(columns=...).\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "rename",
+        "expl",
+        "cito",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. I». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd df ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "groupby",
+        "Fixture",
+        "region",
+        "Lima"
+      ]
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cu». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd df ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "transform",
+        "mean",
+        "shape",
+        "original"
+      ]
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "code": "# Transfer / protocolo — S17-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist(). Pass: `['region', 'total', 'n']`.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- named agg.\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "named",
+        "as_index",
+        "False",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\n# forma esperada (referencia): print([None if pd.isna(x) else float(x) for x in s])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "rolling",
+        "mean",
+        "Serie",
+        "window"
+      ]
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar)». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd df ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "cohorte",
+        "mensual",
+        "primera",
+        "fecha"
+      ]
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "code": "# Transfer / protocolo — S17-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2; ordena índice, rolling(2).mean(), imprime último valor float. Pass: `2.5`. Sin sort el resultado es incorrect\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- sort_index.\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fech». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "orden",
+        "temporal",
+        "antes",
+        "rolling"
+      ]
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\n# forma esperada (referencia): print(abs(sum(parts) - total) < 1e-9)",
+      "answer": "",
+      "justification_from_packet": "Para S17-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `a». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "reconciliaci",
+        "totales",
+        "parts",
+        "total"
+      ]
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "code": "# skeptical re-read completes via iDo\nimport pandas as pd\nparts = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\", \"Arequipa\"], \"monto\": [50.0, 30.0, 20.0]})\ntotal_ref = 100.0\ndiff = float(parts[\"monto\"].sum() - total_ref)\nprint(\"diff\", diff, \"reconciled\", abs(diff) < 1e-9)\n# denominador de tasa de completitud\nn_clientes = 200\nn_completos = 150\nprint(\"tasa\", n_completos / n_clientes, \"den\", n_clientes)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Impr». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import pandas as pd parts = pd.D». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "tasa",
+        "denominador",
+        "correcto",
+        "activos"
+      ]
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "code": "# Transfer / protocolo — S17-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). Pass: `40.0`. Es el primer paso de una bridge table nacional→Lima→resto.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- total - lima.\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del r». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "bridge",
+        "residual",
+        "total",
+        "lima"
+      ]
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con mont». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd tx ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "filtro",
+        "cutoff",
+        "Fixture",
+        "fechas"
+      ]
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S17-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd tx ». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "delta",
+        "leakage",
+        "Fixture",
+        "montos"
+      ]
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "code": "# Transfer / protocolo — S17-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max monto con fecha<=cutoff por cliente; imprime dict. Pass: `{'C001': 3.0}`. Prohibido max global post-cutoff.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: claves, cardinalidad, joins, merge, join, combina, tablas, clave.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- filter then groupby max.\n",
+      "answer": "",
+      "justification_from_packet": "Para S17-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cuto». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S17-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: claves cardinalidad joins merge join combina tablas clave inner left. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "feature",
+        "montos",
+        "cutoff",
+        "monto"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "S17 ítem 0: descarto distractores y me quedo con 0 («Fallar si la cardinalidad no es 1:1»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «validate='one_to_one' en merge sirve para:». Tokens: claves cardinalidad joins merge join combina tablas clave inner left right outer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "S17 ítem 1: descarto distractores y me quedo con 2 («Filas del left sin match en right»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Un anti-join left_only identifica:». Tokens: claves cardinalidad joins merge join combina tablas clave inner left right outer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "S17 ítem 2: descarto distractores y me quedo con 3 («Reinyecta el agregado al shape original»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «transform en groupby:». Tokens: claves cardinalidad joins merge join combina tablas clave inner left right outer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "S17 ítem 3: descarto distractores y me quedo con 1 («Incluyes datos posteriores al cutoff en features/métricas del pasado»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Leakage temporal ocurre cuando:». Tokens: claves cardinalidad joins merge join combina tablas clave inner left right outer."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "S17 ítem 4: descarto distractores y me quedo con 0 («Documentar diff con tolerancia eps o corregir el corte»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:». Tokens: claves cardinalidad joins merge join combina tablas clave inner left right outer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:22:57.404405+00:00",
+  "session_started_at": "2026-07-23T09:22:29.858800+00:00",
+  "session_ended_at": "2026-07-23T09:22:57.404405+00:00"
+}

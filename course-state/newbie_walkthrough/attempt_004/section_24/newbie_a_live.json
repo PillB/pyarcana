@@ -1,0 +1,40 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "section_index": 24,
+  "packet_sha": "19df8fa1509c92d3",
+  "forbidden_honored": true,
+  "exercises": [
+    {"exercise_id": "S24-T1-A-E1", "answer": "completed_from_packet", "code": "dpi = 96\ndpi = max(dpi, 200)\nprint(dpi)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["dpi floor"]},
+    {"exercise_id": "S24-T1-A-E2", "answer": "completed_from_packet", "code": "skew = 1.2\ndeskew_applied = abs(skew) >= 0.5\nprint(deskew_applied)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["deskew"]},
+    {"exercise_id": "S24-T1-A-E3", "answer": "completed_from_packet", "code": "w = h = 1000\nm = int(0.05 * w)\nprint((m, m, w - m, h - m))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["crop margins"]},
+    {"exercise_id": "S24-T1-B-E1", "answer": "completed_from_packet", "code": "s = {0: 0.1, 90: 0.8}\nprint(max(s, key=s.get))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["orientation score"]},
+    {"exercise_id": "S24-T1-B-E2", "answer": "completed_from_packet", "code": "flags = [0, 1, 1, 0]\nprint(sum(flags))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["noise pixels"]},
+    {"exercise_id": "S24-T1-B-E3", "answer": "completed_from_packet", "code": "score = 0.4\nprint(\"manual_orient\" if score < 0.5 else \"auto\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["manual orient"]},
+    {"exercise_id": "S24-T2-A-E1", "answer": "completed_from_packet", "code": "toks = [{\"text\": \"A\", \"conf\": 0.9}, {\"text\": \"B\", \"conf\": 0.5}]\nprint([t[\"text\"] for t in toks if t[\"conf\"] >= 0.85])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["conf filter"]},
+    {"exercise_id": "S24-T2-A-E2", "answer": "completed_from_packet", "code": "def ocr_sim(text, lang=\"spa\"):\n    return {\"text\": text, \"lang\": lang}\nprint(ocr_sim(\"hola\")[\"lang\"])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["lang spa"]},
+    {"exercise_id": "S24-T2-A-E3", "answer": "completed_from_packet", "code": "confs = [0.9, 0.75, 0.95]\nmn = min(confs)\nstatus = \"review\" if mn < 0.8 else \"ok\"\nprint(mn, status)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["min conf review"]},
+    {"exercise_id": "S24-T2-B-E1", "answer": "completed_from_packet", "code": "s = \"Total: 12.5\"\nk, v = s.split(\":\", 1)\nprint(k.strip(), v.strip())\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["KV parse"]},
+    {"exercise_id": "S24-T2-B-E2", "answer": "completed_from_packet", "code": "t = [[\"H1\", \"H2\"], [\"a\", \"b\"]]\nprint(len(t) - 1)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["table data rows"]},
+    {"exercise_id": "S24-T2-B-E3", "answer": "completed_from_packet", "code": "field = {\"value\": \"20123456789\", \"bbox\": [0, 0, 10, 10]}\nprint(field)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["bbox evidence"]},
+    {"exercise_id": "S24-T3-A-E1", "answer": "completed_from_packet", "code": "import re\ns = \"20-123\"\nprint(re.sub(r\"\\D\", \"\", s))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["digits only"]},
+    {"exercise_id": "S24-T3-A-E2", "answer": "completed_from_packet", "code": "from datetime import datetime\nprint(datetime.strptime(\"15/01/2026\", \"%d/%m/%Y\").date().isoformat())\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["date ISO"]},
+    {"exercise_id": "S24-T3-A-E3", "answer": "completed_from_packet", "code": "import re\nraw = \"123\"\nnorm = re.sub(r\"\\D\", \"\", raw)\nprint(None if len(norm) != 11 else norm)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["RUC len 11"]},
+    {"exercise_id": "S24-T3-B-E1", "answer": "completed_from_packet", "code": "total, lines = 10.0, [4.0, 5.0]\nif abs(sum(lines) - total) > 0.01:\n    print(\"needs_review\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["total vs lines"]},
+    {"exercise_id": "S24-T3-B-E2", "answer": "completed_from_packet", "code": "ruc = None\nreasons = []\nif ruc is None:\n    reasons.append(\"missing_ruc\")\nprint(reasons)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["reasons list"]},
+    {"exercise_id": "S24-T3-B-E3", "answer": "completed_from_packet", "code": "mismatch = True\nif mismatch:\n    print(\"review_not_fraud\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["review_not_fraud"]},
+    {"exercise_id": "S24-T4-A-E1", "answer": "completed_from_packet", "code": "correct, n = 3, 4\nprint(correct / n)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["accuracy"]},
+    {"exercise_id": "S24-T4-A-E2", "answer": "completed_from_packet", "code": "rows = [{\"ruc_pred\": \"1\", \"ruc_true\": \"1\"}, {\"ruc_pred\": \"2\", \"ruc_true\": \"1\"}]\nprint(sum(r[\"ruc_pred\"] == r[\"ruc_true\"] for r in rows) / len(rows))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["field accuracy"]},
+    {"exercise_id": "S24-T4-A-E3", "answer": "completed_from_packet", "code": "auto, review = 7, 3\nprint(auto / (auto + review))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["coverage_auto"]},
+    {"exercise_id": "S24-T4-B-E1", "answer": "completed_from_packet", "code": "mime = \"application/zip\"\nallowed = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\nprint(\"reject\" if mime not in allowed else \"ok\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["mime gate"]},
+    {"exercise_id": "S24-T4-B-E2", "answer": "completed_from_packet", "code": "n = 6_000_000\nprint(\"reject\" if n > 5e6 else \"ok\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["size gate"]},
+    {"exercise_id": "S24-T4-B-E3", "answer": "completed_from_packet", "code": "status = \"ocr_fail\"\nprint({\"ocr_fail\": \"human_rescan\"}.get(status, \"ok\"))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["fallback human_rescan"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 2, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: low OCR conf → abstain and queue review."},
+    {"question_index": 1, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: total vs lines mismatch → review queue, not proven fraud."},
+    {"question_index": 2, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: field-level accuracy catches critical field failures."},
+    {"question_index": 3, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: zip mime rejected by intake gate."}
+  ],
+  "summary": {"n_exercises": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_blocked_selfcheck": 0}
+}

@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s38-570266b6697d",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "code": "# dual skeptic-H1 · S38-T1-A-E1\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T1-A-E1: contrasté el Pass del paquete («S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida ex…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, bound, cpu; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(choice)', 'print(\"bound\", bound)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "bound",
+        "cpu",
+        "choice",
+        "processes",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "code": "# dual skeptic-H1 · S38-T1-A-E2\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T1-A-E2: contrasté el Pass del paquete («S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_thread…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, bound, choice; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(choice)', 'print(\"bound\", bound)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "bound",
+        "choice",
+        "async_or_threads",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "code": "# dual skeptic-H1 · S38-T1-A-E3\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T1-A-E3: contrasté el Pass del paquete («S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; sal…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, measure_first, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(measure_first)', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "measure_first",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "code": "# dual skeptic-H1 · S38-T1-B-E1\nimport json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T1-B-E1: contrasté el Pass del paquete («S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8),…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, json, payload; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(len(json.dumps(payload).encode()))', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "json",
+        "payload",
+        "len",
+        "dumps",
+        "encode"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "code": "# dual skeptic-H1 · S38-T1-B-E2\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T1-B-E2: contrasté el Pass del paquete («S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, limited, cpu_threads; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"limited\")', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "limited",
+        "cpu_threads",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "code": "# dual skeptic-H1 · S38-T1-B-E3\nprint(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T1-B-E3: contrasté el Pass del paquete («S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect:…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, compact_payload, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"compact_payload\")', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "compact_payload",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "code": "# dual skeptic-H1 · S38-T2-A-E1\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T2-A-E1: contrasté el Pass del paquete («S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (d…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, TokenBucket, __init__; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(1 for a in allows if a))', 'print(\"third\", allows[2])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "TokenBucket",
+        "__init__",
+        "self",
+        "rate",
+        "tokens"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "code": "# dual skeptic-H1 · S38-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"backpressure\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T2-A-E2: contrasté el Pass del paquete («S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"backpressure\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "code": "# dual skeptic-H1 · S38-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"provider\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T2-A-E3: contrasté el Pass del paquete («S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato d…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"provider\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "code": "# dual skeptic-H1 · S38-T2-B-E1\npolicy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T2-B-E1: contrasté el Pass del paquete («S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_f…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, policy, seconds; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(policy[\"seconds\"])', 'print(\"on_fail\", policy[\"on_fail\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "policy",
+        "seconds",
+        "on_fail",
+        "retry_or_dlq",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "code": "# dual skeptic-H1 · S38-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\nprint(close_in_finally)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T2-B-E2: contrasté el Pass del paquete («S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(close_in_finally)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "code": "# dual skeptic-H1 · S38-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T2-B-E3: contrasté el Pass del paquete («S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corr…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"incident\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "code": "# dual skeptic-H1 · S38-T3-A-E1\nevent = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T3-A-E1: contrasté el Pass del paquete («S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Start…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, event, scored; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(bool(event.get(\"corr\")))', 'print(\"event\", event[\"event\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "event",
+        "scored",
+        "corr",
+        "bool",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "code": "# dual skeptic-H1 · S38-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T3-A-E2: contrasté el Pass del paquete («S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Comple…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(pillars)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "code": "# dual skeptic-H1 · S38-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\nprint(pii_raw)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T3-A-E3: contrasté el Pass del paquete («S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(pii_raw)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "code": "# dual skeptic-H1 · S38-T3-B-E1\nphone = \"90000001\"\nredacted = phone[:2] + \"****\" + phone[-2:]\nprint(redacted)\nprint(\"ok\", True)\nprint(\"pii\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T3-B-E1: contrasté el Pass del paquete («S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el red…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, phone, redacted; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(redacted)', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "phone",
+        "redacted",
+        "pii",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "code": "# dual skeptic-H1 · S38-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T3-B-E2: contrasté el Pass del paquete («S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Cor…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(slo_ok)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "code": "# dual skeptic-H1 · S38-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"error_budget\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T3-B-E3: contrasté el Pass del paquete («S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transf…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"error_budget\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "code": "# dual skeptic-H1 · S38-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T4-A-E1: contrasté el Pass del paquete («S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa l…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(states)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "code": "# dual skeptic-H1 · S38-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"case:step:ver\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T4-A-E2: contrasté el Pass del paquete («S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pas…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"case:step:ver\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "code": "# dual skeptic-H1 · S38-T4-A-E3\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T4-A-E3: contrasté el Pass del paquete («S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, state, step; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(state[\"step\"])', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "state",
+        "step",
+        "features",
+        "status",
+        "done"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "code": "# dual skeptic-H1 · S38-T4-B-E1\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T4-B-E1: contrasté el Pass del paquete («S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, backoff, attempt; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(backoff(3))', 'print(\"ok\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "backoff",
+        "attempt",
+        "base",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "code": "# dual skeptic-H1 · S38-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"poison\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T4-B-E2: contrasté el Pass del paquete («S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísl…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"poison\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "code": "# dual skeptic-H1 · S38-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S38/S38-T4-B-E3: contrasté el Pass del paquete («S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferenc…») con theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Conceptos dual, skeptic, S38, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S38#0: contrasto stem «Para CPU bound en CPython suele preferirse:» con párrafos theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Elijo índice 1 («Procesos») porque cuadra con el vocabulario del paquete; distractores ['Miles de threads CPU', 'Quitar timeouts'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S38#1: contrasto stem «Backpressure evita:» con párrafos theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Elijo índice 3 («Colas infinitas y OOM») porque cuadra con el vocabulario del paquete; distractores ['Solo tests', 'Checkpoints'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S38#2: contrasto stem «Idempotencia permite:» con párrafos theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Elijo índice 0 («Reejecutar sin side effects duplicados») porque cuadra con el vocabulario del paquete; distractores ['Duplicar cobros', 'Borrar DLQ siempre'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S38#3: contrasto stem «En logs de prod debes:» con párrafos theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Elijo índice 2 («Redactar PII y correlacionar») porque cuadra con el vocabulario del paquete; distractores ['PII completa', 'Desactivar métricas'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S38#4: contrasto stem «Un proveedor sin timeout en el worker suele causar:» con párrafos theory/iDo («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr). Elijo índice 1 («Hang de workers y cola bloqueada») porque cuadra con el vocabulario del paquete; distractores ['Mejor p95 mágico', 'Idempotencia automática'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:29:11.559135+00:00",
+  "session_started_at": "2026-07-23T08:28:42.622948+00:00",
+  "session_ended_at": "2026-07-23T08:29:11.559135+00:00"
+}

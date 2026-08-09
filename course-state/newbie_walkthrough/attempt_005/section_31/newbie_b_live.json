@@ -1,0 +1,279 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 31,
+  "recorded_at": "2026-07-21T23:10:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "nodes edges directed weight": { "in_theory_or_demo": true, "where": "theory + S31-T1-B-DEMO" },
+        "multigraph provenance": { "in_theory_or_demo": true, "where": "theory + S31-T2-A-DEMO" },
+        "tables to graph aggregation": { "in_theory_or_demo": true, "where": "theory + S31-T2-B-DEMO + S31-T3-A-DEMO" },
+        "degree components BFS path": { "in_theory_or_demo": true, "where": "theory grado/caminos + S31-T3-B-DEMO" },
+        "centrality disclaimer": { "in_theory_or_demo": true, "where": "theory + S31-T4-A-DEMO" },
+        "ego subgraph redact evidence": { "in_theory_or_demo": true, "where": "theory + S31-T4-B-DEMO + last demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Posición estructural que requiere contexto, no culpa",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: centrality measures structure, not guilt."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Auditar source/record_id del hecho relacional",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory provenance for audit."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Conservar detalle o punteros además del agregado",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory aggregation keeps records list."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory shared phone is fact, not fraud/parentesco."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S31-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "nodes = {'E1': {}, 'E2': {}, 'A1': {}}\nedges = [\n    {'src': 'E1', 'dst': 'A1', 'etype': 'owns', 'weight': 1.0, 'directed': True},\n    {'src': 'E1', 'dst': 'E2', 'etype': 'share', 'weight': 1.0, 'directed': False},\n]\nprint(len(nodes), len(edges), sum(1 for e in edges if e['directed']))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["nodes", "edges", "directed"],
+        "note": "Demo nodes/edges with directed flag."
+      },
+      {
+        "exercise_id": "S31-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\nn = max(out, key=out.get)\nprint(n, out[n])\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["out-strength", "weight sum"],
+        "note": "Theory directed weight; accumulate out."
+      },
+      {
+        "exercise_id": "S31-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nn_dir = sum(1 for e in edges if e['directed'])\nn_und = sum(1 for e in edges if not e['directed'])\netypes = sorted({e['etype'] for e in edges})\nprint(n_dir, n_und, etypes)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["directed vs undirected", "etypes"],
+        "note": "Theory directed vs undirected."
+      },
+      {
+        "exercise_id": "S31-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(pair, n)\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["multiedge count", "Counter"],
+        "note": "Theory multigraph; Counter used in S31-T4-A-DEMO."
+      },
+      {
+        "exercise_id": "S31-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nfilt = [e for e in edges if e['ts'] >= '2026-02-01']\nprint(len(filt), all('record_id' in e for e in filt))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["time filter", "provenance"],
+        "note": "Theory temporal filter + record_id."
+      },
+      {
+        "exercise_id": "S31-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\nn_bad = sum(1 for e in edges if not str(e.get('source','')).strip() or not str(e.get('record_id','')).strip())\nprint(n_bad == 0, n_bad)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["provenance validation"],
+        "note": "Theory has_provenance all source+record_id."
+      },
+      {
+        "exercise_id": "S31-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nprint(sorted((a['owner'], a['id']) for a in accounts))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["owns edges from accounts"],
+        "note": "Theory/demo owns edges."
+      },
+      {
+        "exercise_id": "S31-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nby = defaultdict(set)\nfor e, v in contacts:\n    by[v].add(e)\nprint(sorted(v for v, ents in by.items() if len(ents) >= 2))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["shared contact detection"],
+        "note": "Theory shared phone synthetic pattern."
+      },
+      {
+        "exercise_id": "S31-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(len(nodes))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["node universe union"],
+        "note": "Theory nodes = entities | accounts | contact values."
+      },
+      {
+        "exercise_id": "S31-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\ncanon_edges = sorted({(canon.get(a, a), canon.get(b, b)) for a, b in edges})\nprint(canon_edges)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["raw_id → canonical", "dedup edges"],
+        "note": "Theory dedup after ER keeps map raw→canonical."
+      },
+      {
+        "exercise_id": "S31-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0.0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(agg[('A','B')]['sum'], agg[('A','B')]['records'])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["aggregate keep records"],
+        "note": "Theory agg + S31-T3-A-DEMO."
+      },
+      {
+        "exercise_id": "S31-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\nok = sum(v['n'] for v in aggs) == detail_n\nprint(ok, sum(v['n'] for v in aggs))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["detail_kept invariant"],
+        "note": "Theory detail_kept len(detail)==sum n."
+      },
+      {
+        "exercise_id": "S31-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1\n    deg[v] += 1\nprint({k: deg[k] for k in sorted(deg)})\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["undirected degree"],
+        "note": "Theory degree + S31-T4-A-DEMO Counter."
+      },
+      {
+        "exercise_id": "S31-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor start in sorted(adj):\n    if start in seen:\n        continue\n    q, comp = [start], []\n    seen.add(start)\n    while q:\n        n = q.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); q.append(m)\n    comps.append(sorted(comp))\nprint(sorted(comps, key=lambda c: c[0]))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["connected components", "DFS"],
+        "note": "Theory components() code."
+      },
+      {
+        "exercise_id": "S31-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\n\ndef path(s, t):\n    q = deque([(s, [s])])\n    seen = {s}\n    while q:\n        n, p = q.popleft()\n        if n == t:\n            return p\n        for m in sorted(adj[n]):\n            if m not in seen:\n                seen.add(m)\n                q.append((m, p + [m]))\n    return None\np = path('A', 'D')\nprint(p, len(p) - 1)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["BFS path", "hops"],
+        "note": "Theory bfs_path + S31-T3-B-DEMO."
+      },
+      {
+        "exercise_id": "S31-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "deg={'H':3,'A':1,'B':1,'C':1}\nmax_d = max(deg.values())\nnorm = {n: deg[n] / max_d for n in deg}\ntop = max(norm, key=norm.get)\nprint(top, round(norm[top], 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["normalized degree centrality"],
+        "note": "Theory norm degree / max_d."
+      },
+      {
+        "exercise_id": "S31-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "hub='INF-PAY'\nclase = 'infra' if hub.startswith('INF-') else 'person'\nprint(clase, 'structure_only_not_guilt')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["infra vs person hub", "disclaimer"],
+        "note": "Theory hub may be infrastructure; disclaimer not guilt."
+      },
+      {
+        "exercise_id": "S31-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "incident={'H':['transfer','transfer','shared_phone']}\nhigh_degree = sorted(n for n, et in incident.items() if len(et) >= 3)\nonly_transfer = set(incident['H']) == {'transfer'}\nprint(high_degree, only_transfer)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["etype mix", "high degree filter"],
+        "note": "Theory interpret with edge types."
+      },
+      {
+        "exercise_id": "S31-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    layer = {seed}\n    seen = {seed}\n    for _ in range(k):\n        nxt = set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    nxt.add(m); seen.add(m)\n        layer = nxt\n    return sorted(seen)\nprint(ego('A', 1), ego('A', 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["ego subgraph k hops"],
+        "note": "Theory ego() function."
+      },
+      {
+        "exercise_id": "S31-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = not any(e['src'] == e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(no_self, w_ok, prov)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["graph invariants"],
+        "note": "Theory tests: no self-loops, weights>=0, provenance."
+      },
+      {
+        "exercise_id": "S31-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "raw=[('a','b'),('b','c')]\ndef build(edges):\n    return sorted(frozenset(edges))\nprint(build(raw) == build(raw))\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["idempotent build"],
+        "note": "Theory idempotence of construction."
+      },
+      {
+        "exercise_id": "S31-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nprint(local[:2] + '***@' + domain)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["redact_email"],
+        "note": "Theory redact_email."
+      },
+      {
+        "exercise_id": "S31-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nprint([ev[(a, b)] for a, b in zip(path, path[1:])])\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["path evidence lists"],
+        "note": "Theory edge evidence along path."
+      },
+      {
+        "exercise_id": "S31-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "max_n=500\nfor n in (5000, 50):\n    print('summarize' if n > max_n else 'render')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["scalability policy"],
+        "note": "Theory visualize bounded subgraphs only."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

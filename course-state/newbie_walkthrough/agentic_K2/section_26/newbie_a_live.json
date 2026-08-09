@@ -1,0 +1,482 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s26-1fa63efaa58f",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "id": "S26-T1-A-E1",
+      "code": "print(['ingest','validate','analyze','report'])",
+      "justification_from_packet": "Como explorador en S26-T1-A-E1, sigo la instrucción del quiz_card: CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lis. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "CASO",
+        "con",
+        "path",
+        "cuatro",
+        "pasos",
+        "negocio",
+        "sin",
+        "email"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "id": "S26-T1-A-E2",
+      "code": "nodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)",
+      "justification_from_packet": "Como explorador en S26-T1-A-E2, sigo la instrucción del quiz_card: Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Dado",
+        "nodes",
+        "como",
+        "path",
+        "lineal",
+        "del",
+        "flow",
+        "construye"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "id": "S26-T1-A-E3",
+      "code": "tasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')",
+      "justification_from_packet": "Como explorador en S26-T1-A-E3, sigo la instrucción del quiz_card: Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', impri. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "estado",
+        "global",
+        "del",
+        "flow",
+        "tasks",
+        "success",
+        "failed",
+        "cualquier"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "id": "S26-T1-B-E1",
+      "code": "m={'run_id':'cpn2c-1'}\nprint(m['run_id'])",
+      "justification_from_packet": "Como explorador en S26-T1-B-E1, sigo la instrucción del quiz_card: Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: met. Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Metadata",
+        "run",
+        "run_id",
+        "Extrae",
+        "imprime",
+        "run_id",
+        "sin",
+        "mutar"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "id": "S26-T1-B-E2",
+      "code": "api_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')",
+      "justification_from_packet": "Como explorador en S26-T1-B-E2, sigo la instrucción del quiz_card: Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si ap. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Preflight",
+        "api_rpm",
+        "supera",
+        "umbral",
+        "del",
+        "adapter",
+        "Imprime",
+        "too_high"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "id": "S26-T1-B-E3",
+      "code": "print('0 6 * * 1-5', 'America/Lima')",
+      "justification_from_packet": "Como explorador en S26-T1-B-E3, sigo la instrucción del quiz_card: Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola l. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Schedule",
+        "del",
+        "escritorio",
+        "imprime",
+        "cron",
+        "las",
+        "zona",
+        "America"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "id": "S26-T2-A-E1",
+      "code": "attempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))",
+      "justification_from_packet": "Como explorador en S26-T2-A-E1, sigo la instrucción del quiz_card: Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Backoff",
+        "exponencial",
+        "reintentos",
+        "attempt",
+        "base",
+        "base",
+        "attempt",
+        "Imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "id": "S26-T2-A-E2",
+      "code": "dlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)",
+      "justification_from_packet": "Como explorador en S26-T2-A-E2, sigo la instrucción del quiz_card: Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq . Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Dead",
+        "letter",
+        "dlq",
+        "fail",
+        "True",
+        "modelan",
+        "item",
+        "irrecuperable"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "id": "S26-T2-A-E3",
+      "code": "ckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])",
+      "justification_from_packet": "Como explorador en S26-T2-A-E3, sigo la instrucción del quiz_card: Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Co. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Checkpoint",
+        "ckpt",
+        "items",
+        "Imprime",
+        "solo",
+        "los",
+        "ids",
+        "procesados"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "id": "S26-T2-B-E1",
+      "code": "store={}\n\ndef put(k,v):\n    if k not in store:\n        store[k]=v\nput('r','v1'); put('r','v2')\nprint(store['r'])",
+      "justification_from_packet": "Como explorador en S26-T2-B-E1, sigo la instrucción del quiz_card: Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1'). Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Write",
+        "idempotente",
+        "create",
+        "once",
+        "implementa",
+        "put",
+        "que",
+        "solo"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "id": "S26-T2-B-E2",
+      "code": "state={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)",
+      "justification_from_packet": "Como explorador en S26-T2-B-E2, sigo la instrucción del quiz_card: Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior sim. Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "rollback",
+        "state",
+        "report",
+        "draft",
+        "Elimina",
+        "key",
+        "draft",
+        "pop"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "id": "S26-T2-B-E3",
+      "code": "locked=True\nprint('busy' if locked else 'enter')",
+      "justification_from_packet": "Como explorador en S26-T2-B-E3, sigo la instrucción del quiz_card: Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Lock",
+        "optimista",
+        "concurrencia",
+        "locked",
+        "True",
+        "significa",
+        "otro",
+        "worker"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "id": "S26-T3-A-E1",
+      "code": "analysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))",
+      "justification_from_packet": "Como explorador en S26-T3-A-E1, sigo la instrucción del quiz_card: Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e impr. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Cola",
+        "HITL",
+        "analysis",
+        "analysis",
+        "status",
+        "pending",
+        "status",
+        "done"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "id": "S26-T3-A-E2",
+      "code": "q={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))",
+      "justification_from_packet": "Como explorador en S26-T3-A-E2, sigo la instrucción del quiz_card: Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Gate",
+        "multi",
+        "cola",
+        "analysis",
+        "report",
+        "recipient",
+        "Imprime",
+        "True"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "id": "S26-T3-A-E3",
+      "code": "print(['metrics','narrative','recipient'])",
+      "justification_from_packet": "Como explorador en S26-T3-A-E3, sigo la instrucción del quiz_card: Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient'. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Checklist",
+        "humana",
+        "antes",
+        "del",
+        "borrador",
+        "imprime",
+        "exactamente",
+        "metrics"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "id": "S26-T3-B-E1",
+      "code": "audit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])",
+      "justification_from_packet": "Como explorador en S26-T3-B-E1, sigo la instrucción del quiz_card: Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; i. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "append",
+        "only",
+        "audit",
+        "registra",
+        "Append",
+        "dict",
+        "con",
+        "action"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "id": "S26-T3-B-E2",
+      "code": "action, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')",
+      "justification_from_packet": "Como explorador en S26-T3-B-E2, sigo la instrucción del quiz_card: Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid';. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Reject",
+        "con",
+        "obligatoria",
+        "action",
+        "reject",
+        "reason",
+        "None",
+        "reject"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "id": "S26-T3-B-E3",
+      "code": "ver=1\nver += 1\nprint(ver)",
+      "justification_from_packet": "Como explorador en S26-T3-B-E3, sigo la instrucción del quiz_card: Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Con. Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Edit",
+        "versiona",
+        "artefacto",
+        "del",
+        "informe",
+        "partiendo",
+        "ver",
+        "editar"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "id": "S26-T4-A-E1",
+      "code": "rate=0.9\nprint('alert' if rate < 0.95 else 'ok')",
+      "justification_from_packet": "Como explorador en S26-T4-A-E1, sigo la instrucción del quiz_card: SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del . Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "SLO",
+        "success_rate",
+        "del",
+        "rate",
+        "rate",
+        "imprime",
+        "alert",
+        "Contrato"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "id": "S26-T4-A-E2",
+      "code": "n=1\nprint('P0_unapproved_send' if n>0 else 'ok')",
+      "justification_from_packet": "Como explorador en S26-T4-A-E2, sigo la instrucción del quiz_card: Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contra. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Control",
+        "cumplimiento",
+        "sends_without_approve",
+        "imprime",
+        "Contrato",
+        "cero"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "id": "S26-T4-A-E3",
+      "code": "print('disable_schedule -> drain -> page')",
+      "justification_from_packet": "Como explorador en S26-T4-A-E3, sigo la instrucción del quiz_card: Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de . Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Runbook",
+        "incidente",
+        "one",
+        "liner",
+        "imprime",
+        "secuencia",
+        "disable_schedule",
+        "drain"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "id": "S26-T4-B-E1",
+      "code": "steps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))",
+      "justification_from_packet": "Como explorador en S26-T4-B-E1, sigo la instrucción del quiz_card: E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. C. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "steps",
+        "ingest",
+        "validate",
+        "draft",
+        "con",
+        "status",
+        "success",
+        "todos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "id": "S26-T4-B-E2",
+      "code": "fraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')",
+      "justification_from_packet": "Como explorador en S26-T4-B-E2, sigo la instrucción del quiz_card: Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. M. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "anti",
+        "fraude",
+        "auto",
+        "fraud_labels",
+        "paquete",
+        "del",
+        "Imprime",
+        "fraud_labels"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "id": "S26-T4-B-E3",
+      "code": "print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'})",
+      "justification_from_packet": "Como explorador en S26-T4-B-E3, sigo la instrucción del quiz_card: Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Cierre",
+        "imprime",
+        "dict",
+        "con",
+        "critical",
+        "privacy",
+        "value_minutes_saved_est"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q0 elijo «Approve antes de draft_email» porque la teoría «tasks/flows/DAG y estados» del paquete dice: Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q1 elijo «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad» porque la teoría «límites, metadata y schedules» del paquete dice: **Rate limits** (api_rpm, max_parallel_tasks) protegen.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q2 elijo «Incidente P0» porque la teoría «checkpoints, retry/backoff y dead-letter» del paquete dice: Un **checkpoint** persiste ids ya procesados para reanudar sin rehacer ingest costoso: tras un crash a.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q3 elijo «0 — solo evidencia para humanos» porque la teoría «idempotencia, concurrencia y rollback» del paquete dice: Pasos **idempotentes** usan keys de negocio (run_id, entity_id): la segunda escritura.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:25:46.146728+00:00",
+  "session_started_at": "2026-07-23T15:24:54.342289Z",
+  "session_ended_at": "2026-07-23T15:25:46.145256Z",
+  "receipt_response_sha256": "681d921f7d1bd84ec164d18fe62ca19e28355b9265326d44a0c0ce0aeafbf968",
+  "receipt_exercises_sha256": "050053fe3d631c58dbe7e4d1e83129c893f8b8716c48caf7fae80aaea1d73e33",
+  "receipt_selfcheck_sha256": "3ffabfb6aedd7024d664674b29f6843e10b3eabce1b001277a08fe5ccc7d6099"
+}

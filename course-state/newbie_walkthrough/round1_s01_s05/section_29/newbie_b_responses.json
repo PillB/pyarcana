@@ -1,0 +1,505 @@
+{
+  "agent": "b",
+  "section_index": 29,
+  "recorded_at": "2026-08-01T15:09:33.493650+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          1.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "UPDATE del label in place sin rastro",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "Ser atómicas en la misma transacción lógica",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          2.0,
+          4.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          6.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "usar SELECT * sin WHERE para ir más rápido",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          4.0,
+          7.15
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 2,
+        "chosen_text": "solo cuando PRAGMA foreign_keys = ON en esa conexión",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          7.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "WHERE col == None (sintaxis Python)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.3,
+          6.0,
+          5.3,
+          5.3
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 1,
+        "chosen_text": "El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          12.3,
+          6.3,
+          8.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S29-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · PK entities\n# DEFECT: falta PRIMARY KEY; el segundo insert no falla y el count es 2\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table entities(id text)')\nc.execute(\"insert into entities values ('e1')\")\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tabla",
+          "abre",
+          "imprime",
+          "starter",
+          "deja",
+          "añade",
+          "sin",
+          "duplicado"
+        ]
+      },
+      {
+        "exercise_id": "S29-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · CHECK score 0..1\n# DEFECT: no intenta el insert inválido\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\nprint('skipped_check')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "IntegrityError",
+          "rango",
+          "revisa",
+          "alteres",
+          "imprime",
+          "INSERT",
+          "integrityerror",
+          "sin"
+        ]
+      },
+      {
+        "exercise_id": "S29-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: falta el PRAGMA; el insert de `e_missing` “pasa”.n2. Ejecuta `PRAGMA foreign_keys = ON` antes del `exe",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S29-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · labels de decisión append-only\n# DEFECT: hace UPDATE del label (borra historia) y cuenta 1 fila\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.execute(\"insert into d values ('p1','review')\")\nc.execute(\"update d set label='match' where pair='p1'\")\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "mantén",
+          "solo",
+          "imprime",
+          "segundo",
+          "deja",
+          "filtrado",
+          "INSERT"
+        ]
+      },
+      {
+        "exercise_id": "S29-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · provenance source/record\n# DEFECT: omite record en el dict\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table src(source text, record text)')\nc.execute(\"insert into src values ('crm_synth','r9')\")\nrow = c.execute('select source, record from src').fetchone()\nprint({'source': row[0]})\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "revisa",
+          "imprime",
+          "completo",
+          "incluye",
+          "tiene",
+          "hardcodes",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S29-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · valid_to abierto en SQL\n# DEFECT: usa = null (no encuentra la fila abierta)\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table hist(id text, valid_to text)')\nc.execute(\"insert into hist values ('e1', null)\")\nc.execute(\"insert into hist values ('e2', '2026-01-01')\")\nn = c.execute(\n    'select count(*) from hist where valid_to = null'\n).fetchone()[0]\nprint(n)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "imprime",
+          "predicado",
+          "alteres",
+          "lee",
+          "inserts",
+          "devuelve",
+          "fixture"
+        ]
+      },
+      {
+        "exercise_id": "S29-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · pairs sin decisión\n# DEFECT: INNER JOIN pierde p2\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.executescript(\n    '''\n    create table pairs(id text);\n    create table dec(pair_id text);\n    insert into pairs values ('p1'),('p2');\n    insert into dec values ('p1');\n    '''\n)\nprint(\n    [\n        r[0]\n        for r in c.execute(\n            'select p.id from pairs p join dec d on d.pair_id=p.id'\n        )\n    ]\n)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "solo",
+          "imprime",
+          "ids",
+          "reescribe",
+          "tablas",
+          "devuelve",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S29-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · top score con window\n# DEFECT: orden ASC y toma el peor\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table pairs(id text, score real)')\nc.executemany(\n    'insert into pairs values (?,?)',\n    [('p1', 0.2), ('p2', 0.9), ('p3', 0.5)],\n)\nq = '''\nselect id from (\n  select id, row_number() over (order by score asc) as rn\n  from pairs\n) where rn = 1\n'''\nprint(c.execute(q).fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "desc",
+          "cambia",
+          "elige",
+          "mantén",
+          "revisa",
+          "imprime",
+          "filtro",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S29-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · top-1 por block_key (PARTITION BY)\n# DEFECT: ranking global sin PARTITION BY → solo un ganador\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table pairs(id text, score real, block_key text)')\nc.executemany(\n    'insert into pairs values (?,?,?)',\n    [\n        ('p1', 0.9, 'A'),\n        ('p2', 0.4, 'A'),\n        ('p3', 0.7, 'B'),\n        ('p4', 0.5, 'B'),\n    ],\n)\nq = '''\nselect id from (\n  select id, row_number() over (order by score desc) as rn\n  from pairs\n) where rn = 1\norder by id\n'''\nprint([r[0] for r in c.execute(q)])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "lee",
+          "ids",
+          "añade",
+          "lista",
+          "ORDER"
+        ]
+      },
+      {
+        "exercise_id": "S29-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · cardinalidad de pares en SQL\n# DEFECT: self-join sin a.id < b.id cuenta n*n (incluye (i,i) y ambos sentidos)\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table e(id int)')\nc.executemany('insert into e values (?)', [(i,) for i in range(5)])\nn = c.execute(\n    'select count(*) from e a join e b'\n).fetchone()[0]\nprint(n)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "imprime",
+          "starter",
+          "añade",
+          "cambies",
+          "COUNT",
+          "número",
+          "fixture"
+        ]
+      },
+      {
+        "exercise_id": "S29-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · NULL en SQL (no uses analogía Python)\n# DEFECT: el segundo predicado también usa = null (debería ser IS NULL)\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (null)')\neq = c.execute('select count(*) from t where x = null').fetchone()[0]\nisn = c.execute('select count(*) from t where x = null').fetchone()[0]\nprint(eq, isn)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "imprime",
+          "alteres",
+          "revisa",
+          "starter",
+          "línea"
+        ]
+      },
+      {
+        "exercise_id": "S29-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · plan SCAN vs. INDEX\n# DEFECT: ignora el plan y asume INDEX\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table pairs(id text, block_key text)')\nc.execute(\"insert into pairs values ('p1','K')\")\nplan = '\\n'.join(\n    str(r)\n    for r in c.execute(\n        \"explain query plan select * from pairs where block_key='K'\"\n    )\n)\nprint('INDEX')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "texto",
+          "lee",
+          "imprime",
+          "inventes",
+          "OTHER",
+          "mirar",
+          "sin",
+          "other"
+        ]
+      },
+      {
+        "exercise_id": "S29-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · rollback deja 0 filas\n# DEFECT: commit en vez de rollback\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('commit')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "fila",
+          "hace",
+          "imprime",
+          "COUNT",
+          "starter",
+          "omitas"
+        ]
+      },
+      {
+        "exercise_id": "S29-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · atomicidad decisión+evidencia\n# DEFECT: commit de la decisión aunque evidence falle\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table decisions(pair_id text)')\nc.execute('create table evidence(pair_id text)')\nc.execute('begin')\nc.execute(\"insert into decisions values ('p1')\")\nc.execute('commit')\n# evidence nunca se escribió\nnd = c.execute('select count(*) from decisions').fetchone()[0]\nne = c.execute('select count(*) from evidence').fetchone()[0]\nprint(nd, ne)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "feliz",
+          "este",
+          "ejercicio",
+          "imprime",
+          "counts",
+          "revisa",
+          "envuelve",
+          "try"
+        ]
+      },
+      {
+        "exercise_id": "S29-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · abort sin evidencia\n# DEFECT: hace commit aunque evidence_ok sea False\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table decisions(pair_id text)')\nevidence_ok = False\nc.execute('begin')\nc.execute(\"insert into decisions values ('p1')\")\nif evidence_ok:\n    c.execute('rollback')\n    print('abort')\nelse:\n    c.execute('commit')\n    print('commit')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "feliz",
+          "salida",
+          "exacta",
+          "verifica",
+          "cuando",
+          "lee",
+          "queda"
+        ]
+      },
+      {
+        "exercise_id": "S29-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · UPSERT name\n# DEFECT: segundo insert sin ON CONFLICT → IntegrityError y name queda old\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\ntry:\n    c.execute(\"insert into e values ('1','B')\")\nexcept sqlite3.IntegrityError:\n    pass\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "imprime",
+          "deja",
+          "reescribe",
+          "cambies",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S29-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · job status pending tras crash\n# DEFECT: no reescribe running → pending\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table jobs(id text, status text)')\nc.execute(\"insert into jobs values ('er_block','running')\")\nprint(c.execute(\"select status from jobs where id='er_block'\").fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "alteres",
+          "revisa",
+          "SET",
+          "sin",
+          "WHERE",
+          "UPDATE",
+          "ejecuta"
+        ]
+      },
+      {
+        "exercise_id": "S29-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · orden canónico A<B + UNIQUE\n# DEFECT: sin CHECK; el espejo (e2,e1) se inserta y imprime ok\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute(\n    'create table pairs(entity_a text, entity_b text, unique(entity_a, entity_b))'\n)\nc.execute(\"insert into pairs values ('e1','e2')\")\ntry:\n    c.execute(\"insert into pairs values ('e2','e1')\")\n    print('ok')\nexcept sqlite3.IntegrityError:\n    print('order_rejected')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "añade",
+          "mantén",
+          "CREATE",
+          "lee"
+        ]
+      },
+      {
+        "exercise_id": "S29-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · schema_migrations max version\n# DEFECT: usa min(v)\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\n    \"insert into schema_migrations values (1,'init'),(2,'add_index')\"\n)\nprint(c.execute('select min(v) from schema_migrations').fetchone()[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "migration",
+          "imprime",
+          "borres",
+          "devuelve",
+          "filas",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S29-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · índice real + evidencia en el plan\n# DEFECT: no crea el índice; sqlite_master no lo encuentra\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table pairs(id text, block_key text)')\nc.execute(\"insert into pairs values ('p1','K')\")\n# falta: create index idx_pairs_block_key on pairs(block_key)\nrow = c.execute(\n    \"select name from sqlite_master where type='index' and name='idx_pairs_block_key'\"\n).fetchone()\nplan = '\\n'.join(\n    str(r)\n    for r in c.execute(\n        \"explain query plan select * from pairs where block_key='K'\"\n    )\n)\nprint(row[0] if row else 'missing_index')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "imprime",
+          "poder",
+          "CREATE",
+          "revisa",
+          "lee",
+          "inventes",
+          "confirmar"
+        ]
+      },
+      {
+        "exercise_id": "S29-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · no drop sin backup (tabla debe sobrevivir)\n# DEFECT: DROP de pairs aunque has_backup sea False\nimport sqlite3\nhas_backup = False\nc = sqlite3.connect(':memory:')\nc.execute('create table pairs(id text)')\nc.execute(\"insert into pairs values ('p1')\")\nc.execute('drop table pairs')\n# la tabla ya no existe; el lab exige conservar evidencia y reportar count+política\nprint('drop_ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exactas",
+          "verifica",
+          "lee",
+          "líneas",
+          "dos",
+          "ejercitado"
+        ]
+      },
+      {
+        "exercise_id": "S29-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · repo get\n# DEFECT: get pide e2 (no existe) → None\nimport sqlite3\n\nclass EntityRepo:\n    def __init__(self, con):\n        self.con = con\n    def get(self, eid):\n        row = self.con.execute(\n            'select name from entities where id=?', (eid,)\n        ).fetchone()\n        return row[0] if row else None\n\nc = sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key, name text)')\nc.execute(\"insert into entities values ('e1','Ana')\")\nprint(EntityRepo(c).get('e2'))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "imprime",
+          "llamada",
+          "reescribas",
+          "devuelve",
+          "correcto",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S29-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · conexiones configuradas\n# DEFECT: solo abre 1 conexión y no cierra\nimport sqlite3\nopened = 0\nc = sqlite3.connect(':memory:')\nc.execute('PRAGMA foreign_keys = ON')\nopened += 1\nprint(opened)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sola",
+          "imprime",
+          "revisa",
+          "reutilices",
+          "simular",
+          "loop",
+          "apertura",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S29-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-029 · pending_count real\n# DEFECT: hardcode 0 aunque el SQL podría contar 1\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.executescript(\n    '''\n    create table pairs(id text);\n    create table decisions(pair_id text not null);\n    insert into pairs values ('p1'),('p2');\n    insert into decisions values ('p1');\n    '''\n)\npending_count = c.execute(\n    '''\n    select count(*) from pairs p\n    where not exists (\n      select 1 from decisions d where d.pair_id = p.id\n    )\n    '''\n).fetchone()[0]\nprint(0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "anti",
+          "cambia",
+          "join",
+          "verifica",
+          "lee",
+          "mentalmente",
+          "pendiente",
+          "cuenta"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "4e3f51e77b4a0b83"
+  }
+}

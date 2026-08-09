@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s17-db0f19c1b0",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "id": "S17-T1-A-E1",
+      "code": "import pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nprint(len(cli.merge(tx, on='cliente_id', how='left')))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en joins/reshape/groupby pide `S17-T1-A-E1` — validate, anti-join y cutoff; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "id": "S17-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S17-T1-A-E2` — validate, anti-join y cutoff. Si no cuadra con theory de joins/reshape/groupby, no firmo el pass. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "id": "S17-T1-A-E3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S17-T1-A-E3` — validate, anti-join y cutoff. El iDo/theory de joins/reshape/groupby es la fuente, no mi memoria. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "id": "S17-T1-B-E1",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S17-T1-B-E1` — validate, anti-join y cutoff, alineado al contrato de joins/reshape/groupby del slim_packet. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "id": "S17-T1-B-E2",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]}); b = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S17-T1-B-E2` — validate, anti-join y cutoff. Sin eso el ejercicio de joins/reshape/groupby queda teatro. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "id": "S17-T1-B-E3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en joins/reshape/groupby pide `S17-T1-B-E3` — validate, anti-join y cutoff; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "id": "S17-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S17-T2-A-E1` — validate, anti-join y cutoff. Si no cuadra con theory de joins/reshape/groupby, no firmo el pass. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "id": "S17-T2-A-E2",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nwide = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(wide.columns.tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S17-T2-A-E2` — validate, anti-join y cutoff. El iDo/theory de joins/reshape/groupby es la fuente, no mi memoria. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "id": "S17-T2-A-E3",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], axis=0, ignore_index=True)))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S17-T2-A-E3` — validate, anti-join y cutoff, alineado al contrato de joins/reshape/groupby del slim_packet. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "id": "S17-T2-B-E1",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nwide = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\").reset_index()\nwide = wide.rename(columns={\"e\": \"monto_e\", \"f\": \"monto_f\"})\nprint([c for c in wide.columns if c.startswith(\"monto_\")])\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S17-T2-B-E1` — validate, anti-join y cutoff. Sin eso el ejercicio de joins/reshape/groupby queda teatro. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "id": "S17-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en joins/reshape/groupby pide `S17-T2-B-E2` — validate, anti-join y cutoff; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "id": "S17-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S17-T2-B-E3` — validate, anti-join y cutoff. Si no cuadra con theory de joins/reshape/groupby, no firmo el pass. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "id": "S17-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().sort_index().to_dict())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S17-T3-A-E1` — validate, anti-join y cutoff. El iDo/theory de joins/reshape/groupby es la fuente, no mi memoria. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "id": "S17-T3-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S17-T3-A-E2` — validate, anti-join y cutoff, alineado al contrato de joins/reshape/groupby del slim_packet. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "id": "S17-T3-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S17-T3-A-E3` — validate, anti-join y cutoff. Sin eso el ejercicio de joins/reshape/groupby queda teatro. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "id": "S17-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en joins/reshape/groupby pide `S17-T3-B-E1` — validate, anti-join y cutoff; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "id": "S17-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-15\", \"2024-03-01\", \"2024-02-10\"]),\n})\nfirst = df.groupby(\"cliente_id\")[\"fecha\"].min()\nprint({k: v.strftime(\"%Y-%m\") for k, v in first.items()})\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S17-T3-B-E2` — validate, anti-join y cutoff. Si no cuadra con theory de joins/reshape/groupby, no firmo el pass. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "id": "S17-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\ns = s.sort_index()\nprint(float(s.rolling(2).mean().iloc[-1]))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S17-T3-B-E3` — validate, anti-join y cutoff. El iDo/theory de joins/reshape/groupby es la fuente, no mi memoria. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "id": "S17-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S17-T4-A-E1` — validate, anti-join y cutoff, alineado al contrato de joins/reshape/groupby del slim_packet. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "id": "S17-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nactivos = 40\npagados = 10\nprint(pagados / activos)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S17-T4-A-E2` — validate, anti-join y cutoff. Sin eso el ejercicio de joins/reshape/groupby queda teatro. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "id": "S17-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal = 100.0\nlima = 60.0\nprint(total - lima)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en joins/reshape/groupby pide `S17-T4-A-E3` — validate, anti-join y cutoff; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "id": "S17-T4-B-E1",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S17-T4-B-E1` — validate, anti-join y cutoff. Si no cuadra con theory de joins/reshape/groupby, no firmo el pass. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "id": "S17-T4-B-E2",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nleak = float(tx.loc[tx[\"fecha\"] > cutoff, \"monto\"].sum())\nprint(leak)\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S17-T4-B-E2` — validate, anti-join y cutoff. El iDo/theory de joins/reshape/groupby es la fuente, no mi memoria. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "id": "S17-T4-B-E3",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\nok = tx[tx[\"fecha\"] <= cutoff]\nprint(ok.groupby(\"cliente_id\")[\"monto\"].max().to_dict())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S17-T4-B-E3` — validate, anti-join y cutoff, alineado al contrato de joins/reshape/groupby del slim_packet. (lectura directa del packet L1 s17).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Theory de joins/reshape/groupby: la opción «Fallar si la cardinalidad no es 1:1» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como skeptic descarto distractores: en joins/reshape/groupby, el slim_packet apunta a «Filas del left sin match en right».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de joins/reshape/groupby se ancla a «Reinyecta el agregado al shape original» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Releo outcomes de joins/reshape/groupby: «Incluyes datos posteriores al cutoff en features/métric» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Gate mental: si no es «Documentar diff con tolerancia eps o corregir el c», rompe el modelo mental de joins/reshape/groupby del iDo.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s17 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S18+ para resolver S17."
+  ],
+  "recorded_at": "2026-07-23T16:41:49.596580+00:00",
+  "session_started_at": "2026-07-23T16:40:49.458Z",
+  "session_ended_at": "2026-07-23T16:41:49.595Z",
+  "receipt_response_sha256": "669b84b88f93ec572a0e3a0d347ebbd6590bf0ed30d273d45b5e8e3c7ca78bd3",
+  "receipt_exercises_sha256": "b8e214b6ab07ad03308e27ec2dde5b8c740de88d1bda38e31d5e4ea163fb1dd1",
+  "receipt_selfcheck_sha256": "23fdc54d06a093cdb767005ea37779c842d578ae799ca07811c78d50aa9644fb"
+}

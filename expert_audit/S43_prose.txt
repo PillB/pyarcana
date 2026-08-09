@@ -1,0 +1,350 @@
+Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas
+
+En equipos de plataforma y producto, contenedores y reproducibilidad operativa empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root, health/readiness y shutdown limpio. Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados y los límites de recursos y CVE críticos están bajo control. Esta sección no cubre pipelines de fine-tuning de modelos: el foco es empaquetar y operar el servicio Python de forma reproducible.
+
+Ordenar layers de un Dockerfile (base → deps/lock → app → USER/CMD) y explicar cuándo se invalida el cache
+
+Elegir base parchable con digest, ejecutar como UID ≥1000 sin capabilities extras y acotar tamaño runtime
+
+Inyectar secretos solo en runtime, declarar config no secreta y clasificar volumes durable vs efímero
+
+Diseñar readiness/liveness y drenar trabajo en SIGTERM con grace period medible
+
+Componer API/worker/DB/cache con redes, health y retries de aplicación (depends_on no basta)
+
+Aplicar migraciones expand/contract, recrear datos efímeros y ensayar restore de durable
+
+Fijar locks con hash y multi-stage (toolchain solo en builder; runtime mínimo)
+
+Escanear CVEs, definir límites CPU/memoria > 0 y depurar sin shell root permanente
+
+Mapa de ideas (luego T1 las aterriza con un Dockerfile real). Layer cache: deps/lock antes de app para no invalidar en cada commit. Non-root: UID ≥1000 sin capabilities extras. Secret injection: solo en runtime, nunca en capas. Health/readiness: el proceso solo se declara listo cuando puede servir. Compose: API/worker/DB/cache con redes y health. Multi-stage: toolchain fuera de la imagen final. Resource limits: CPU/memoria acotados y > 0. SBOM/scan: inventario y CVEs antes de promover. En S44 conectarás estos gates al pipeline CI/CD.
+
+Esta sección empaqueta el servicio seguro de S42 en contenedores reproducibles sin exigir un cluster: aprendes los contratos de Dockerfile y Compose (referencia Docker oficial) y los verificas primero con modelos en Python/stdlib que puedes correr en el navegador o en local. El caso código (plataforma ficticia en Trujillo) es sintético: sin secretos reales ni registro remoto obligatorio.
+
+Producto incremental: Governed Python Service Platform. Entrada: código fijado, lock de deps, config no secreta y secretos inyectados en runtime. Salida: layers cacheables, non-root, health/readiness, compose API/worker/DB/cache y runbook de recovery. Error de promoción: root UID, secret horneado, health falso o migración no reversible.
+
+Orden de aprendizaje: T1 Dockerfile y non-root → T2 config, secretos y señales → T3 Compose y migraciones → T4 locks, multi-stage, scan y límites. En cada bloque verás el contrato, una demo que lo calcula y ejercicios que fallan cerrado si el build no es reproducible. Stack de práctica: stdlib para modelar el contrato; en el youDo documentas los artefactos reales (Dockerfile/Compose) listos para un entorno con Docker.
+
+Gate de promoción
+
+CP-N4-A · servicio reproducible en contenedores: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo. Si falta evidencia, no se promociona.
+
+Contrato de cache. Entrada: secuencia de layers código y lock de dependencias. Salida: código y digest lógico estable entre dos builds con el mismo lock. Error: copiar el source antes del lock (invalida cache en cada commit) o hornear secretos en una layer. Criterio: en el lab de Trujillo sintético, un cambio solo de app no re-resuelve pip si deps no cambió.
+
+Aplicación a código: modelas el Dockerfile de la API de la plataforma ficticia. Sin secretos en capas; el secret se inyecta en runtime (T2-A). Evidencia: dos builds con el mismo lock producen el mismo digest lógico de deps. Si el orden falla, código.
+
+Evidencia mínima de S43-T1-A: dos builds con el mismo lock producen el mismo digest lógico de deps. Si el orden falla, código; si falta evidencia, código.
+
+Bases, usuarios no root y tamaño
+
+Con el cache de layers en orden (T1-A), endureces la imagen de runtime. Una base mínima reduce superficie de ataque, pero debe seguir parchable: fija tag o digest (nunca código suelto). Distroless/slim recortan shell y paquetes; el trade-off es depuración más difícil (lo resuelves en T4-B con shells efímeros, no root permanente). Ejecuta como UID de aplicación (≥1000), sin código ni capabilities extras, y acota el tamaño runtime (MB).
+
+Contrato de base y usuario. Entrada: tag o digest de base, UID planificado (≥1000), conjunto de capabilities y techo de tamaño runtime. Salida: imagen con base fijada, proceso non-root y runtime bajo presupuesto de MB. Error de promoción: UID 0, capabilities extras, base mutable o imagen inflada sin justificación. Criterio local: código/código y tamaño se auditan antes de publicar.
+
+En código (API de la plataforma ficticia en Trujillo) eliges código (o distroless en runtime multi-stage) con digest, creas código 10001 y verificas non-root. El riesgo a documentar es superficie de ataque y privilegio, no identidad de personas. Sin evidencia de UID/base → código; breach → código.
+
+Antes de promover S43-T1-B, audita proceso non-root (UID ≥1000) y base fijada. Un breach activa código y una ausencia activa código.
+
+Partiendo de una imagen non-root (T1-B), la config no secreta (ENV de feature flags, puertos, log level) puede declararse en Compose o archivos montados. Los secretos (API keys, contraseñas DB) se inyectan en runtime vía secret store, env del orquestador o mounts de solo lectura; nunca van en código del Dockerfile ni en capas de build. Los volumes separan estado durable (DB) de efímero (cache, tmp): recrear el efímero no debe borrar el durable.
+
+Contrato de secretos y estado. Entrada: capas de imagen inspeccionables, referencias de secret (código), config declarada y clasificación de volumes. Salida: imagen e inspección sin valor secreto; DB en volume durable; cache/tmp efímeros. Error: secret horneado, código con secretos en la imagen, o DB montada como efímera. Criterio: código/inspección no revela secretos; rotación no requiere rebuild de app.
+
+La revisión de S43-T2-A exige imagen e inspección sin secreto. No conviertas código ni código en éxito silencioso.
+
+Contrato de health y shutdown. Entrada: red, probes readiness/liveness, handler de SIGTERM y grace period. Salida: health checks semánticos y shutdown limpio ensayados. Error: readiness que siempre devuelve 200, red pública a DB, o proceso que ignora SIGTERM. Criterio: simular DB caída → readiness 503; enviar SIGTERM → drain antes de exit.
+
+En código la API de Trujillo corre en red privada, valida DB en readiness y drena en 30s. Breach → código; falta de grace → código.
+
+Contrato S43-T2-B: demuestra health checks semánticos y shutdown ensayados. Falla cerrada con código; incertidumbre con código.
+
+Contrato de stack. Entrada: texto Compose (servicios + redes) o modelo equivalente, conjunto healthy y flag de retries de app. Salida: stack sano desde entorno limpio (un comando). Error: servicios declarados pero no healthy, sin retries a DB, o red única sin segmentación. Criterio: healthy == services, redes front/back presentes y token de retries en la API.
+
+En código los cuatro servicios de Trujillo están healthy con retries y redes front/back. Breach → código; falta de networks o de artefacto Compose → código.
+
+Para S43-T3-A, el artefacto comprobable es stack sano desde entorno limpio. Sin él corresponde código o, si faltan datos, código.
+
+Dependencias, migraciones y datos efímeros
+
+El stack de T3-A necesita orden de arranque de datos. Las migraciones de esquema son jobs controlados: patrón expand/contract (primero agregas columnas compatibles con código viejo; luego retiras lo obsoleto). Un código incompatible con código aún en producción bloquea el release. Datos efímeros (tmp, cache) se recrean; datos durables (DB) exigen backup y drill de restore antes de confiar en el rollback.
+
+Contrato de migración. Entrada: tipo de migración (código/código), compatibilidad con código viejo, reset de efímeros y evidencia de restore. Salida: migración y rollback de prueba documentados. Error: contract sin compat, efímero tratado como durable, o backup nunca restaurado. Criterio: migrate antes de servir API; restore drill aprobado.
+
+En código la plataforma de Trujillo aplica código compatible, recrea cache y tiene backup restaurado en lab. Breach → código; falta de restore → código.
+
+Promoción de S43-T3-B: prueba migración y rollback. Breach → código; ausencia de restore → código.
+
+En código el build de Trujillo usa builder+runtime, lock hasheado y runtime sin compiler. Breach → código; falta de lock de runtime → código.
+
+El dueño de S43-T4-A acepta solo lock verificado e imagen runtime reducida. Violación → código; registro incompleto → código.
+
+Cierra el camino a S44 (CI/CD): la imagen multi-stage (T4-A) entra a política de scan. Cero CVE críticos (o excepciones firmadas). Límites de memoria y CPU deben estar definidos y ser > 0 (cero o ausente = unlimited disfrazado; no pasa el gate). Depuración con logs redactados y shells efímeros; un shell root permanente en la imagen de prod es breach. OOM simulado o CVE crítica bloquean el deploy.
+
+Contrato de scan y límites. Entrada: conteo de CVE críticos, código, código, flag de debug shell y logs redactados. Salida: deploy permitido solo si scan limpio, límites en rango (0 < mem ≤ 512, 0 < cpu ≤ 1.0), sin shell de debug y logs sin secretos/PII. Error: CVE > 0, límites 0/ausentes, shell root o logs crudos. Criterio: código ante breach.
+
+En código la imagen de Trujillo tiene 0 CVE críticos, 512Mi/1 CPU, sin debug shell y logs redactados. Breach → código; falta de evidencia de logs → código.
+
+Cierre de S43-T4-B: CVE críticos o límites inválidos (incl. 0) bloquean con código; incertidumbre de scan va a código.
+
+Ocho demos de S43 calculan el contrato de contenedores (CP-N4-A): cada una deriva evidencia de entradas, no imprime un veredicto hardcodeado.
+
+Deriva código y digest lógico estable a partir del orden de layers y el lock; evidencia de T1-A sin daemon Docker.
+
+Demo: bases, usuarios no root y tamaño
+
+Audita base fijada, UID ≥1000, capabilities vacías y techo de MB: evidencia real de proceso non-root, no solo elección de imagen por tamaño.
+
+Inspecciona capas en busca de secretos horneados y clasifica volumes durable/efímero; evidencia de imagen limpia.
+
+Calcula códigos HTTP de readiness y el resultado de drain en SIGTERM a partir de grace y cola; no hardcodea graceful=True.
+
+Valida el conjunto Compose (servicios, healthy, retries, redes front/back); misma forma que el mini-compose de la teoría T3-A.
+
+Demo: dependencias, migraciones y datos efímeros
+
+Deriva estrategia expand/contract y OK de restore desde flags de migración; evidencia de rollback de prueba.
+
+Bloquea deploy si hay CVE críticos, límites ≤0 o shell de debug; evidencia de scan + límites, no solo conteo de CVE.
+
+S43 · Laboratorio Governed Python Service Platform reproducible: 24 retos. E1 repara el predicado de dominio, E2 separa válido/adverso/missing y E3 audita un artefacto de texto (Dockerfile, Compose, log de probes, runbook, scan) con CONTINUE | breach | incertidumbre. Un defecto ops intencional por ejercicio; fixtures código.
+
+S43-T1-A-E1 · Calcula el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar layer de dependencias reutilizable y digest estable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture modela dos builds que producen el mismo digest lógico; revisa dirección de comparación, conjuntos y negaciones.
+
+adverso: source antes de lock / deps no reutilizadas / rebuilds altos → REORDER_DOCKERFILE
+
+CASO-TRU-043-1A es sintético
+
+Después aplica la regla de S43-T1-A: layer de dependencias reutilizable y digest estable. El fixture adverso debe fallar por contenido, no por schema.
+
+Si código es None o vacío, no inventes layers: devuelve código.
+
+dockerfile None/vacío → INSPECTCACHEINVALIDATION
+
+S43-T1-A-E3: explica en qué líneas del texto falló el orden, por qué REORDERDOCKERFILE y por qué la ausencia exige INSPECTCACHE_INVALIDATION sin rellenar el Dockerfile.
+
+S43-T1-B-E1 · Compara el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar base fijada, UID non-root, cero capabilities y tamaño límite. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture conserva proceso non-root verificado; revisa dirección de comparación, conjuntos y negaciones.
+
+CASO-TRU-043-1B es sintético
+
+S43-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REBUILDNONROOT y por qué faltar maxmb exige SELECTPATCHABLEBASE.
+
+Primero se calcula código; ningún acceso a max_mb debe ocurrir antes de esa rama.
+
+Después aplica la regla de S43-T1-B: base fijada, UID non-root, cero capabilities y tamaño límite. El fixture adverso debe fallar por contenido, no por schema.
+
+La tabla cubre válido/adverso/campo código ausente y produce exactamente código.
+
+S43-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REBUILDNONROOT y por qué faltar maxmb exige SELECTPATCHABLEBASE.
+
+Si código es None, no audites tamaño: devuelve código.
+
+S43-T1-B-E3: explica qué token del Dockerfile (USER/FROM) activó REBUILDNONROOT y por qué la ausencia de maxmb exige SELECTPATCHABLEBASE.
+
+S43-T2-A-E1 · Filtra el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar secretos runtime y estado durable/efímero separado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture conserva imagen e inspección sin secreto; revisa dirección de comparación, conjuntos y negaciones.
+
+CASO-TRU-043-2A es sintético
+
+Después aplica la regla de S43-T2-A: secretos runtime y estado durable/efímero separado. El fixture adverso debe fallar por contenido, no por schema.
+
+S43-T2-A-E3 · Transferencia de artefacto: inspecciona historial de capas (strings de código sintético) y clasificación de volumes. Sin código/código en capas; código durable y código efímero. Tres entradas: capas limpias + mounts correctos → código, capa con secret o DB en efímero → código, código → código. El starter trata ausencia como CONTINUE y aprueba capas con secret: corrige ambas ramas. Salida: imprime el valor de meets_contract.
+
+Si código es None, no inventes mounts: devuelve código.
+
+Busca código o código en cada capa; exige código en durable y código en ephemeral.
+
+adverso: SECRET= en capa o db en ephemeral → REMOVEBAKEDSECRET
+
+S43-T2-A-E3: explica qué token de capa o mount activó REMOVEBAKEDSECRET y por qué la ausencia de ephemeral exige CLASSIFY_VOLUME sin rellenar volúmenes.
+
+S43-T2-B-E1 · Modela el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar network privada, health semántico y drain de SIGTERM. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture conserva health checks y shutdown ensayados; revisa dirección de comparación, conjuntos y negaciones.
+
+adverso: readiness falsa / sin drain SIGTERM / red pública → DRAINANDISOLATE
+
+CASO-TRU-043-2B es sintético
+
+Después aplica la regla de S43-T2-B: network privada, health semántico y drain de SIGTERM. El fixture adverso debe fallar por contenido, no por schema.
+
+Si el log es None o vacío, no inventes probes: devuelve código.
+
+log None/vacío → DIAGNOSEHEALTHSIGNAL
+
+adverso: readiness 200 con db caída / sin drain / red pública → DRAINANDISOLATE
+
+S43-T2-B-E3: explica qué línea del log (network, /readyz o SIGTERM) activó DRAINANDISOLATE y por qué la ausencia exige DIAGNOSEHEALTHSIGNAL sin rellenar el log.
+
+S43-T3-A-E1 · Verifica el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar cuatro servicios sanos, retries y redes segmentadas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture conserva stack sano desde entorno limpio; revisa dirección de comparación, conjuntos y negaciones.
+
+adverso: healthy≠services / sin retries / red única → STOPUNHEALTHYSTACK
+
+CASO-TRU-043-3A es sintético
+
+S43-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa STOPUNHEALTHYSTACK y por qué faltar networks exige WAITFORDEPENDENCY.
+
+Primero se calcula código; ningún acceso a networks debe ocurrir antes de esa rama.
+
+Después aplica la regla de S43-T3-A: cuatro servicios sanos, retries y redes segmentadas. El fixture adverso debe fallar por contenido, no por schema.
+
+La tabla cubre válido/adverso/campo código ausente y produce exactamente código.
+
+S43-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa STOPUNHEALTHYSTACK y por qué faltar networks exige WAITFORDEPENDENCY.
+
+Si código es None o vacío, no inventes servicios: devuelve código.
+
+compose None/vacío → WAITFORDEPENDENCY
+
+S43-T3-B-E1 · Clasifica el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar expand compatible, efímero recreable y restore aprobado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture conserva migración y rollback de prueba; revisa dirección de comparación, conjuntos y negaciones.
+
+adverso: contract sin compat / sin restore / efímero mal clasificado → ROLLBACKMIGRATION
+
+CASO-TRU-043-3B es sintético
+
+Después aplica la regla de S43-T3-B: expand compatible, efímero recreable y restore aprobado. El fixture adverso debe fallar por contenido, no por schema.
+
+Si el runbook es None o vacío, no inventes restore: devuelve código.
+
+runbook None/vacío → RUNRESTOREDRILL
+
+adverso: contract sin compat / restore SKIPPED / db efímero → ROLLBACKMIGRATION
+
+S43-T3-B-E3: explica qué línea del runbook (strategy, compat o restore) activó ROLLBACKMIGRATION y por qué la ausencia exige RUNRESTOREDRILL sin rellenar el archivo.
+
+S43-T4-A-E1 · Audita el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar lock con hash y runtime sin toolchain. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto debe ser verdadero porque el fixture conserva lock verificado e imagen runtime reducida; revisa dirección de comparación, conjuntos y negaciones.
+
+CASO-TRU-043-4A es sintético
+
+Después aplica la regla de S43-T4-A: lock con hash y runtime sin toolchain. El fixture adverso debe fallar por contenido, no por schema.
+
+Dockerfile multi-stage limpio, Dockerfile con compiler en runtime y lock ausente prueban CONTINUE / BLOCKUNPINNEDBUILD / REGENERATE_LOCK.
+
+S43-T4-A-E3: explica qué token del Dockerfile o del lock activó BLOCKUNPINNEDBUILD y por qué la ausencia de lock exige REGENERATE_LOCK.
+
+S43-T4-B-E1 · Decide el contrato de código sobre código. La entrada es el dict completo del starter; la operación debe demostrar scan limpio, límites estrictamente positivos (0 < mem ≤ 512, 0 < cpu ≤ 1.0) y debugging sin shell root. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: código; la misma operación sobre el fixture adverso debe activar código en E2.
+
+El predicado correcto exige CVE==0, límites > 0 en rango, sin debug shell y logs redactados. Un límite 0 no es «sin tope válido».
+
+adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE
+
+CASO-TRU-043-4B es sintético
+
+S43-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa QUARANTINEIMAGE y por qué faltar logsredacted exige TRIAGESCANFINDING.
+
+Primero se calcula código; ningún acceso a logs_redacted debe ocurrir antes de esa rama.
+
+Después aplica la regla de S43-T4-B: 0 CVE críticos, 0 < mem ≤ 512, 0 < cpu ≤ 1.0, sin debug shell y logs redactados. El fixture adverso (incl. límites 0) debe fallar por contenido.
+
+La tabla cubre válido/adverso/campo código ausente y produce exactamente código.
+
+S43-T4-B-E2: explica qué campo cambió la decisión (CVE, límite 0, shell o logs), por qué el adverso activa QUARANTINEIMAGE y por qué faltar logsredacted exige TRIAGESCANFINDING.
+
+Si el reporte es None o vacío, no inventes hallazgos: devuelve código.
+
+Parsea CRITICAL, memorylimitmb y cpulimit como números; exige CRITICAL==0, límites estrictamente positivos en rango, debugshell false y logs_redacted true.
+
+reporte None/vacío → TRIAGESCANFINDING
+
+S43-T4-B-E3: explica qué línea del reporte (CRITICAL, límites o debugshell) activó QUARANTINEIMAGE y por qué la ausencia exige TRIAGESCANFINDING sin rellenar el scan.
+
+Governed Python Service Platform reproducible. Trabaja sobre API, worker, base y cache locales de una plataforma ficticia en Trujillo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida: imágenes mínimas, servicios sanos y recuperación documentada con un comando. El gate se bloquea si hay imagen mutable, proceso root, health check falso o migración no reversible.
+
+Convertir código fijado, locks, configuración no secreta y secretos inyectados en runtime en imágenes mínimas, servicios sanos y recuperación documentada con un comando.
+
+Demostrar el gate: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.
+
+Probar el fallo: imagen mutable, proceso root, health check falso o migración no reversible.
+
+Usa exclusivamente fixtures sintéticos identificados por código.
+
+Incluye config/secrets/volumes documentados (secretos solo runtime; DB durable; cache efímero).
+
+Incluye runbook de migración expand/contract, señales SIGTERM, límites CPU/memoria > 0 y recuperación.
+
+Automatiza un caso normal (CONTINUE/PASS), uno de breach (p. ej. código, código o código) y uno incierto (código o código).
+
+Evidencia de CP-N4-A · servicio reproducible en contenedores: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (Dockerfile, compose.yaml, runbook), no cambiando asserts a True sin archivo.
+
+Pruebas normal/breach/uncertain y recuperación
+
+Operación: SLO, observabilidad y rollback
+
+Comunicación de trade-offs y límites
+
+¿Qué evidencia permite aprobar código en CASO-TRU-043?
+
+una captura de pantalla sin fuente
+
+dos builds con el mismo lock producen el mismo digest lógico de deps
+
+datos personales reales para que parezca auténtico
+
+La teoría exige que dos builds con el mismo lock produzcan el mismo digest lógico de deps; evidencia decorativa o PII no satisface el contrato.
+
+Si el health check no prueba readiness real o el proceso corre como root, ¿qué respuesta preserva seguridad y auditabilidad?
+
+emitir el código de breach del subtema (p. ej. REBUILDNONROOT o DRAINAND_ISOLATE) y conservar evidencia
+
+borrar el trace para reducir ruido
+
+Cada subtema falla cerrado con su código de breach; la incertidumbre usa rutas de inspección, no éxito silencioso.
+
+¿Cuál resultado demuestra el gate código?
+
+el archivo S43 existe, aunque no pruebe el gate
+
+build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo
+
+el README afirma que funciona
+
+se usó la herramienta más nueva
+
+El gate es conductual y medible: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.
+
+¿Qué tratamiento de secretos en la imagen de código respeta el alcance del curso?
+
+hornear la API key en una capa ENV del Dockerfile
+
+subir código con secretos al repositorio público
+
+imprimir secretos en logs de health para depurar más rápido
+
+inyectar secretos solo en runtime y verificar que la imagen no los contiene
+
+Los secretos se inyectan en runtime; la imagen e inspección no deben contener valores secretos horneados.
+
+Un Dockerfile que copia el source antes del lock de dependencias…
+
+maximiza cache: solo app cambia y deps no se re-resuelven
+
+invalida cache de deps en cada commit de código (reorder a depsbeforeapp)
+
+garantiza el mismo digest aunque el lock cambie
+
+Layers deben ir de estable a cambiante: deps/lock antes de app; copiar source primero rompe el cache de dependencias.
+
+Cache, non-root y tamaño
+
+Formato y contenido de imágenes
+
+Scan de CVEs en imágenes
+
+Contenedores y orquestación intro
+
+Stdlib primero, práctica incremental
+
+bases, usuarios no root y tamaño
+
+dependencias, migraciones y datos efímeros
+

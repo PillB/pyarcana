@@ -1,0 +1,9 @@
+{
+  "section": 42,
+  "id": "graph-rag",
+  "file": "src/lib/course/sections/s42-graph-rag.ts",
+  "score_1_to_10": 6.0,
+  "issue_count": 20,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

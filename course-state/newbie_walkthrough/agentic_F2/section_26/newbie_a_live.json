@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s26-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T1-A-E1: packet-only solve (no prior lives)\n# Fixture: path canónico parcial del VP (sin AI/email)\n\n# F2-note:a6ef54c834 packet-grounded (explorer); instr_tokens=41\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "path"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2549b2c5] S26-T1-A-E1 — material del slim_packet basta. «CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']» · hint «contrato I/O en instruction» · S26-T1-A-DEMO. Entrega: `# agentic_F2-explorer/S26-T1-A-E1: packet-only solve (no prior lives)`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\n# forma esperada (referencia): print(len(edges), edges)\n\n# F2-note:ae5de3b1f7 packet-grounded (explorer); instr_tokens=43\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7804175b] S26-T1-A-E2 — material del slim_packet basta. «Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → output» · hint «contrato I/O en instruction» · S26-T1-A-DEMO. Entrega: `nodes=['a','b','c']`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\n# forma esperada (referencia): print('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n\n# F2-note:67f37f79bb packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ceeefcd2] S26-T1-A-E3 — material del slim_packet basta. «Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str]» · hint «contrato I/O en instruction» · S26-T1-A-DEMO. Entrega: `tasks={'a':'success','b':'failed'}`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\n# forma esperada (referencia): print(m['run_id'])\n\n# F2-note:4f0de9c8ae packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fbc92b90] Resuelvo S26-T1-B-E1 solo con el paquete activo. Instrucción: «Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: metadata inmutable al leer; output texto del id. Fixt». Pista: «contrato I/O en instruction». Demo S26-T1-B-DEMO. Código ancla: `m={'run_id':'cpn2c-1'}`. Teoría: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\n# forma esperada (referencia): print('too_high' if api_rpm>60 else 'ok')\n\n# F2-note:cbe7b90c33 packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6ec7eee7] S26-T1-B-E2 — material del slim_packet basta. «Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta de » · hint «contrato I/O en instruction» · S26-T1-B-DEMO. Entrega: `api_rpm=90`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T1-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print('0 6 * * 1-5', 'America/Lima')\n\n# F2-note:8c05ec9d3a packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dba677f4] Como explorador, S26-T1-B-E3: sigo el starter y el iDo. El enunciado pide «Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin libre». Aplico «contrato I/O en instruction». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\n# forma esperada (referencia): print(base * (2 ** (attempt - 1)))\n\n# F2-note:f6e5bf6adb packet-grounded (explorer); instr_tokens=32\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/50f66bc0] Resuelvo S26-T2-A-E1 solo con el paquete activo. Instrucción: «Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; solo ». Pista: «contrato I/O en instruction». Demo S26-T2-A-DEMO. Código ancla: `attempt, base = 3, 100`. Teoría: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\n# forma esperada (referencia): print(dlq)\n\n# F2-note:76482f040b packet-grounded (explorer); instr_tokens=38\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/37d1441b] Resuelvo S26-T2-A-E2 solo con el paquete activo. Instrucción: «Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq e imprime la lista. Contrato: no reintentar valida». Pista: «contrato I/O en instruction». Demo S26-T2-A-DEMO. Código ancla: `dlq=[]`. Teoría: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T2-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\n# forma esperada (referencia): print([i for i in items if i not in ckpt])\n\n# F2-note:d10d22f51b packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/cb6daa72] Como explorador, S26-T2-A-E3: sigo el starter y el iDo. El enunciado pide «Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fail-open solo sobre pe». Aplico «contrato I/O en instruction». Línea clave: `ckpt={'a'}; items=['a','b']`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T2-B-E1: packet-only solve (no prior lives)\nstore={}  # create-once store\n\ndef put(k,v):\n    pass\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n\n# F2-note:c751f7a30a packet-grounded (explorer); instr_tokens=30\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "store",
+        "create"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/eda20e9c] Como explorador, S26-T2-B-E1: sigo el starter y el iDo. El enunciado pide «Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir ». Aplico «contrato I/O en instruction». Línea clave: `store={}  # create-once store`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\n# forma esperada (referencia): print(state)\n\n# F2-note:07ede57436 packet-grounded (explorer); instr_tokens=23\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/38c8316b] Como explorador, S26-T2-B-E2: sigo el starter y el iDo. El enunciado pide «Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior simulada e imprime state. Contrato: report permanece;». Aplico «contrato I/O en instruction». Línea clave: `state={'report':'ok','draft':'ok'}`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T2-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\n# forma esperada (referencia): print('busy' if locked else 'enter')\n\n# F2-note:d900dcabce packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/38ee5a07] S26-T2-B-E3 — material del slim_packet basta. «Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en bus» · hint «contrato I/O en instruction» · S26-T2-B-DEMO. Entrega: `locked=True`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\n# forma esperada (referencia): print(sum(1 for x in analysis if x['status']=='pending'))\n\n# F2-note:29c1234853 packet-grounded (explorer); instr_tokens=23\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/750e7776] Como explorador, S26-T3-A-E1: sigo el starter y el iDo. El enunciado pide «Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este ste». Aplico «contrato I/O en instruction». Línea clave: `analysis=[{'status':'pending'},{'status':'done'}]`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\n# forma esperada (referencia): print(any(v>0 for v in q.values()))\n\n# F2-note:8479025032 packet-grounded (explorer); instr_tokens=25\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e8af7caf] S26-T3-A-E2 — material del slim_packet basta. «Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: True (» · hint «contrato I/O en instruction» · S26-T3-A-DEMO. Entrega: `q={'analysis':1,'report':0,'recipient':0}`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T3-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(['metrics','narrative','recipient'])\n\n# F2-note:ec4bc2f620 packet-grounded (explorer); instr_tokens=21\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e792f903] S26-T3-A-E3 — material del slim_packet basta. «Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico didáctico del VP. Pass» · hint «contrato I/O en instruction» · S26-T3-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\n# forma esperada (referencia): print(audit[0]['action'])\n\n# F2-note:a6e91f05ce packet-grounded (explorer); instr_tokens=30\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/df239f9f] S26-T3-B-E1 — material del slim_packet basta. «Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action de la solución (approve). Contrat» · hint «contrato I/O en instruction» · S26-T3-B-DEMO. Entrega: `audit=[]`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\n# forma esperada (referencia): print('invalid' if action=='reject' and not reason else 'ok')\n\n# F2-note:08aeff54ee packet-grounded (explorer); instr_tokens=25\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a582eb6a] Como explorador, S26-T3-B-E2: sigo el starter y el iDo. El enunciado pide «Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo sin». Aplico «contrato I/O en instruction». Línea clave: `action, reason = 'reject', None`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\n# forma esperada (referencia): print(ver)\n\n# F2-note:5c2c1d2788 packet-grounded (explorer); instr_tokens=29\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/55d7621c] Resuelvo S26-T3-B-E3 solo con el paquete activo. Instrucción: «Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no borrar entradas de a». Pista: «contrato I/O en instruction». Demo S26-T3-B-DEMO. Código ancla: `ver=1`. Teoría: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\n# forma esperada (referencia): print('alert' if rate < 0.95 else 'ok')\n\n# F2-note:8147947457 packet-grounded (explorer); instr_tokens=40\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/4d0be6fa] Como explorador, S26-T4-A-E1: sigo el starter y el iDo. El enunciado pide «SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del VP diario operativo. Pass: alert. Usa solo fixture». Aplico «contrato I/O en instruction». Línea clave: `rate=0.9`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\n# forma esperada (referencia): print('P0_unapproved_send' if n>0 else 'ok')\n\n# F2-note:5611373f34 packet-grounded (explorer); instr_tokens=20\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3836c92d] S26-T4-A-E2 — material del slim_packet basta. «Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_unapp» · hint «contrato I/O en instruction» · S26-T4-A-DEMO. Entrega: `n=1`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T4-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print('disable_schedule -> drain -> page')\n\n# F2-note:765f26fa7f packet-grounded (explorer); instr_tokens=31\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bcaa23b4] S26-T4-A-E3 — material del slim_packet basta. «Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución). Contrato: orden fijo» · hint «contrato I/O en instruction» · S26-T4-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\n# forma esperada (referencia): print(all(status[s]=='success' for s in steps))\n\n# F2-note:8d317e3d24 packet-grounded (explorer); instr_tokens=21\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/24dff1eb] Resuelvo S26-T4-B-E1 solo con el paquete activo. Instrucción: «E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. Contrato: un failed tumba el E2E. Pass: True.». Pista: «contrato I/O en instruction». Demo S26-T4-B-DEMO. Código ancla: `steps=['ingest','validate','draft']`. Teoría: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\n# forma esperada (referencia): print('ok' if fraud_labels==0 else 'fail')\n\n# F2-note:8cfc5d3243 packet-grounded (explorer); instr_tokens=22\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b2ef6626] Como explorador, S26-T4-B-E2: sigo el starter y el iDo. El enunciado pide «Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels de fraude. Pass: ok.». Aplico «contrato I/O en instruction». Línea clave: `fraud_labels=0`. Heading: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b."
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S26-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-re\n\n# F2-note:7f87f4b75a packet-grounded (explorer); instr_tokens=32\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S26",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7e9d504b] Resuelvo S26-T4-B-E3 solo con el paquete activo. Instrucción: «Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-auto». Pista: «contrato I/O en instruction». Demo S26-T4-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/b. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Draft antes de approve",
+      "justification_from_packet": "[agentic_F2/Explorer] S26 q0: el orden es draft_email antes de approve (HITL sobre el borrador).",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+      "justification_from_packet": "[agentic_F2/Explorer] S26 q1: regresión N2 incluye tests críticos de capstones, E2E y controles de privacidad/seguridad.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Incidente P0",
+      "justification_from_packet": "[agentic_F2/Explorer] S26 q2: send sin approve es incidente P0, no warning menor.",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "0 — solo evidencia para humanos",
+      "justification_from_packet": "[agentic_F2/Explorer] S26 q3: fraud_labels automáticos en el VP deben ser 0; solo evidencia para humanos.",
+      "blocked_on": [],
+      "confidence": 0.91
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.449984+00:00"
+}

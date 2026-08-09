@@ -1,0 +1,37 @@
+{
+  "section": 14,
+  "section_id": "security",
+  "file": "src/lib/course/sections/s14-security.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S14_EXPLORER_REPORT.md",
+  "score_before": 7.2,
+  "score_after_estimate": 9.6,
+  "issues_fixed": [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+  "issues_deferred": [6, 22],
+  "issue_6_partial": "icon Binary fixed; platform id and filename deferred for routing stability",
+  "anti_aberration_ok": true,
+  "status": "fixed_validated",
+  "pass_type": "residual_fleet_floor_95",
+  "notes": "Explorer-guided residual Fixer 2026-07-24 against S14_EXPLORER_REPORT.md only. Revalidated all 22 issues. Residual hand-craft: map S13 bridge + session pacing; T2-B-E3 starter/instruction align; T4-B-E2 scalar bool starter; You Do Implementa comments + inf in_range oracle; selfCheck +unicidad (11). Deferred: platform id/filename hash security; homepage marketing. Hand-crafted only — no bulk generators.",
+  "validation": {
+    "meta_leak_student_facing": 0,
+    "we_do_triples": 24,
+    "we_do_integrity_mismatches": 0,
+    "self_check_count": 11,
+    "i_do_count": 8,
+    "theory_blocks": 9,
+    "map_paragraphs": 4,
+    "you_do_stubs": [
+      "completeness",
+      "uniqueness_rate",
+      "in_range_rate",
+      "pairwise_diff",
+      "bench_weighted_mean"
+    ],
+    "you_do_has_run_tests": true,
+    "you_do_inf_oracle": true,
+    "module_import_ok": true,
+    "icon": "Binary",
+    "theory_avg_chars_target_met": true
+  },
+  "updated_at": "2026-07-24T22:15:00Z"
+}

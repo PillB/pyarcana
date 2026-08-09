@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://aws.amazon.com/certification/certified-data-engineer-associate",
+    "name": "AWS Certified Data Engineer - Associate Certification",
+    "snippet": "Exam duration, 130 minutes. Exam format, 65 questions; either multiple choice or multiple response. design data models, manage data life cycles, and ensure  ...",
+    "host_name": "aws.amazon.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aws.amazon.com/certification/certified-machine-learning-specialty",
+    "name": "AWS Certified Machine Learning Specialty",
+    "snippet": "This certification is being retired. The last day to take this exam is March 31, 2026. Certification holders will still have an active certification for 3 years",
+    "host_name": "aws.amazon.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cloud.google.com/learn/certification/machine-learning-engineer",
+    "name": "Professional ML Engineer Certification | Learn",
+    "snippet": "The Professional Machine Learning Engineer exam assesses your ability to: Architect low-code AI solutions Collaborate within and across teams to manage data ...",
+    "host_name": "cloud.google.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate",
+    "name": "Microsoft Certified: Fabric Data Engineer Associate",
+    "snippet": "As a candidate for this certification , you should have subject matter expertise with data loading patterns, data architectures, and orchestration processes. Read more",
+    "host_name": "learn.microsoft.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.whizlabs.com/blog/best-aws-certification-courses-in-2025",
+    "name": "Best AWS Certification Courses in 2025",
+    "snippet": "This guide breaks down the best options for your career in cloud, AI. New certification in 2025 , aimed at building, optimizing, and managing data pipelines.  ...",
+    "host_name": "www.whizlabs.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aws.amazon.com/certification",
+    "name": "AWS Certification - Validate AWS Cloud Skills",
+    "snippet": "AWS Certified Machine Learning Engineer - Showcase your ability to design data models, manage data life cycles, As of January 2025 , Topics include serverless, ...",
+    "host_name": "aws.amazon.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.udemy.com/course/aws-data-engineer/?srsltid=AfmBOopWq1-9cUDq--PA6yPIpp4HJaDksA9u7JKSLqBfKBXdX8ADFxpu",
+    "name": "AWS Certified Data Engineer Associate 2026 - Hands On!",
+    "snippet": "Explore data engineering fundamentals highlighted in the exam guide , covering data structures, modeling, sampling, Git, and SQL for transforming and querying  ...",
+    "host_name": "www.udemy.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=pYYtYG6hU9w",
+    "name": "The ONLY Data Engineer Certifications You Need to Find a Job",
+    "snippet": "This video is your one stop shop guide to everything related to data engineering certificates. I've got you covered on what certificates should ...",
+    "host_name": "www.youtube.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datacamp.com/blog/best-data-engineer-certifications",
+    "name": "Best Data Engineer Certifications in 2026: A Practical Guide",
+    "snippet": "Jul 20, 2026 — Compare the top data engineer certifications in 2026 by cost, difficulty, and job-market value, including AWS , GCP, Databricks, ...",
+    "host_name": "www.datacamp.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.microsoft.com",
+    "name": "Microsoft – AI, Cloud, Productivity, Computing, Gaming & Apps",
+    "snippet": "Explore Microsoft products and services and support for your home or business. Shop Microsoft 365, Copilot, Teams, Xbox, Windows, Azure, Surface and more.",
+    "host_name": "www.microsoft.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

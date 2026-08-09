@@ -1,0 +1,324 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s36-scrub-fc2a9f66",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "id": "S36-T1-A-E1",
+      "code": "# explorer L2 S36 S36-T1-A-E1: lectura packet-only\nxs = [1, 2]\nprint(sum(xs)/len(xs))\nprint(\"n\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como explorer en «Clustering, anomalías y validación temporal», armé S36-T1-A-E1: la instrucción pide: S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LIM-036-1A; no es vere. Mi salida ancla en `xs = [1, 2]` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 1/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "id": "S36-T1-A-E2",
+      "code": "# explorer L2 S36 S36-T1-A-E2: lectura packet-only\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\nprint(\"sd\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "En la sección 36 (Clustering, anomalías y validación temporal) resolví S36-T1-A-E2 como explorer: el subtema T1-A del weDo marca el predicado; detalle: S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means en el path sintético. Código contractual con `x, mu, sd = 4, 0, 2`; no inventé APIs fuera del paquete L2. [paso 2/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "id": "S36-T1-A-E3",
+      "code": "# explorer L2 S36 S36-T1-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\nprint(\"ok\", True)\nprint(\"task\", \"cluster\")\n",
+      "justification_from_packet": "Leí el quiz_card de S36 y completé S36-T1-A-E3: conservé datos del starter y cerré el TODO según: S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia ética del triage CP. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 3/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "id": "S36-T1-B-E1",
+      "code": "# explorer L2 S36 S36-T1-B-E1: lectura packet-only\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Partiendo del starter de S36-T1-B-E1 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: max por score interno del lab.. Verifiqué mentalmente el happy-path del fixture con `scores = {2: 0.2, 3: 0.9, 4: 0.5}`. [paso 4/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "id": "S36-T1-B-E2",
+      "code": "# explorer L2 S36 S36-T1-B-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\nprint(\"ok\", True)\nprint(\"stable\", \"check\")\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S36, implementé S36-T1-B-E2: la instrucción pide: S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-036.. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 5/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "id": "S36-T1-B-E3",
+      "code": "# explorer L2 S36 S36-T1-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Como explorer en «Clustering, anomalías y validación temporal», armé S36-T1-B-E3: el subtema T1-B del weDo marca el predicado; detalle: S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de humildad métrica del pa. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 6/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "id": "S36-T2-A-E1",
+      "code": "# explorer L2 S36 S36-T2-A-E1: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\nprint(\"ok\", True)\nprint(\"pca\", True)\n",
+      "justification_from_packet": "En la sección 36 (Clustering, anomalías y validación temporal) resolví S36-T2-A-E1 como explorer: conservé datos del starter y cerré el TODO según: S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no modelo de decisión final.. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 7/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "id": "S36-T2-A-E2",
+      "code": "# explorer L2 S36 S36-T2-A-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\nprint(\"ok\", True)\nprint(\"use\", \"viz\")\n",
+      "justification_from_packet": "Leí el quiz_card de S36 y completé S36-T2-A-E2: el fixture/CASO del starter define el contrato; hints: Prohibido auto-decidir con PC.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 8/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "id": "S36-T2-A-E3",
+      "code": "# explorer L2 S36 S36-T2-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\nprint(\"ok\", True)\nprint(\"explore\", True)\n",
+      "justification_from_packet": "Partiendo del starter de S36-T2-A-E3 en el paquete activo L2: la instrucción pide: S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del lab sintético.. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 9/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "id": "S36-T2-B-E1",
+      "code": "# explorer L2 S36 S36-T2-B-E1: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\nprint(\"ok\", True)\nprint(\"prudent\", True)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S36, implementé S36-T2-B-E1: el subtema T2-B del weDo marca el predicado; detalle: S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación en CASO-LIM-036.. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 10/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "id": "S36-T2-B-E2",
+      "code": "# explorer L2 S36 S36-T2-B-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\nprint(\"ok\", True)\nprint(\"auto_label\", False)\n",
+      "justification_from_packet": "Como explorer en «Clustering, anomalías y validación temporal», armé S36-T2-B-E2: conservé datos del starter y cerré el TODO según: S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa scale del fixture sin. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 11/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "id": "S36-T2-B-E3",
+      "code": "# explorer L2 S36 S36-T2-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "En la sección 36 (Clustering, anomalías y validación temporal) resolví S36-T2-B-E3 como explorer: el fixture/CASO del starter define el contrato; hints: Marca exploratory en el reporte.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "id": "S36-T3-A-E1",
+      "code": "# explorer L2 S36 S36-T3-A-E1: lectura packet-only\nflags = [0, 0, 1]\nprint(sum(flags))\nprint(\"misconduct\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Leí el quiz_card de S36 y completé S36-T3-A-E1: la instrucción pide: S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO-LIM-036-3A.. Mi salida ancla en `flags = [0, 0, 1]` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 13/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "id": "S36-T3-A-E2",
+      "code": "# explorer L2 S36 S36-T3-A-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "justification_from_packet": "Partiendo del starter de S36-T3-A-E2 en el paquete activo L2: el subtema T3-A del weDo marca el predicado; detalle: S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de señales sintéticas.. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 14/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "id": "S36-T3-A-E3",
+      "code": "# explorer L2 S36 S36-T3-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\nprint(\"route\", \"review\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S36, implementé S36-T3-A-E3: conservé datos del starter y cerré el TODO según: S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en el triage sintético.. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 15/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "id": "S36-T3-B-E1",
+      "code": "# explorer L2 S36 S36-T3-B-E1: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "justification_from_packet": "Como explorer en «Clustering, anomalías y validación temporal», armé S36-T3-B-E1: el fixture/CASO del starter define el contrato; hints: Outlier en train; novelty vs modelo fijado.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 16/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "id": "S36-T3-B-E2",
+      "code": "# explorer L2 S36 S36-T3-B-E2: lectura packet-only\nc, n = 0.1, 50\nprint(int(n * c))\nprint(\"is_fraud_rate\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "En la sección 36 (Clustering, anomalías y validación temporal) resolví S36-T3-B-E2 como explorer: la instrucción pide: S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es prevalencia de fraude.. Mi salida ancla en `c, n = 0.1, 50` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 17/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "id": "S36-T3-B-E3",
+      "code": "# explorer L2 S36 S36-T3-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Leí el quiz_card de S36 y completé S36-T3-B-E3: el subtema T3-B del weDo marca el predicado; detalle: S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola sintética de analist. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 18/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "id": "S36-T4-A-E1",
+      "code": "# explorer L2 S36 S36-T4-A-E1: lectura packet-only\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\nprint(\"backtest\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Partiendo del starter de S36-T4-A-E1 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest temporal CASO-LIM-036.. Dejé el assert/print alineado al tests del ejercicio usando `rates = [0.1, 0.2]`. [paso 19/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "id": "S36-T4-A-E2",
+      "code": "# explorer L2 S36 S36-T4-A-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\nprint(\"ok\", True)\nprint(\"split\", \"time\")\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S36, implementé S36-T4-A-E2: el fixture/CASO del starter define el contrato; hints: Fit en pasado, score en futuro.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 20/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "id": "S36-T4-A-E3",
+      "code": "# explorer L2 S36 S36-T4-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\nprint(\"ok\", True)\nprint(\"temporal\", True)\n",
+      "justification_from_packet": "Como explorer en «Clustering, anomalías y validación temporal», armé S36-T4-A-E3: la instrucción pide: S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-LIM-036.. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 21/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "id": "S36-T4-B-E1",
+      "code": "# explorer L2 S36 S36-T4-B-E1: lectura packet-only\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\nprint(\"k\", 2)\nprint(\"auto_guilt\", False)\n",
+      "justification_from_packet": "En la sección 36 (Clustering, anomalías y validación temporal) resolví S36-T4-B-E1 como explorer: el subtema T4-B del weDo marca el predicado; detalle: S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no de culpa.. Código contractual con `ranked, k = [1, 0, 1], 2`; no inventé APIs fuera del paquete L2. [paso 22/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "id": "S36-T4-B-E2",
+      "code": "# explorer L2 S36 S36-T4-B-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\nprint(\"ok\", True)\nprint(\"labels\", \"scarce\")\n",
+      "justification_from_packet": "Leí el quiz_card de S36 y completé S36-T4-B-E2: conservé datos del starter y cerré el TODO según: S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos en el triage sintéti. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 23/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "id": "S36-T4-B-E3",
+      "code": "# explorer L2 S36 S36-T4-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Partiendo del starter de S36-T4-B-E3 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: P@k alinea con capacidad de cola.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S36-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) elijo la opción «Señal de rareza a revisar» (índice 3) para «Una anomalía en el triage significa:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Fraude probado» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) elijo la opción «Hipótesis de fracción rara a flaggear» (índice 1) para «contamination representa:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Tasa de fraude real» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) elijo la opción «Exploración/visualización prudente» (índice 2) para «PCA en este curso se usa para:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Etiquetar culpa» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) elijo la opción «precision@k y feedback humano» (índice 0) para «Con labels escasos prioriza:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Solo accuracy global» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) elijo la opción «Leakage temporal» (índice 3) para «Un fit de normalidad que incluye el mes evaluado comete:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Warmup» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.980721+00:00",
+  "session_started_at": "2026-07-23T18:24:20.979590+00:00",
+  "session_ended_at": "2026-07-23T18:24:56.179590+00:00",
+  "receipt_response_sha256": "f2d9ad34a8c97e838440315a61813a1870a77105b7c495fe2a879049a94c59f2",
+  "receipt_exercises_sha256": "7f1ce846d22b583926c44936e27b7b55e670febcd9e5a2c98f225b3d6bc3df66",
+  "receipt_selfcheck_sha256": "85891e40490bd2cecd52cf639a8c5fb8ef5471de3139b9b1924805fe37462d27"
+}

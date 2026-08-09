@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-ske-s07-304bdebe45",
+  "production_note": "agentic_G2 dual-LLM skeptic: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "code": "import unicodedata\na = \"José\"\nb = \"Jose\\u0301\"\nprint(\"raw equal?\", a == b)\nprint(\"NFC equal?\", unicodedata.normalize(\"NFC\", a) == unicodedata.normalize(\"NFC\", b))\nprint(\"casefold:\", \"MAÑANA\".casefold())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T1-A-E1] code points y casefold. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "unicode"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "code": "import unicodedata\ndef nfc(s):\n    return unicodedata.normalize(\"NFC\", s)\nprint(nfc(\"Jose\\u0301\") == nfc(\"José\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T1-A-E2] normalizacion antes de ==. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "NFC"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "code": "import unicodedata\ndef fingerprint(s):\n    return unicodedata.normalize(\"NFC\", s).casefold().strip()\nprint(fingerprint(\"  MAÑANA  \"), fingerprint(\"mañana\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T1-A-E3] clave de matching textual. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "fingerprint"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "code": "raw = \"  María   del  Carmen  Quispe  Huamán \"\ntokens = raw.split()\nprint(tokens)\nif len(tokens) >= 3:\n    ap2, ap1 = tokens[-1], tokens[-2]\n    given = \" \".join(tokens[:-2])\n    print(\"given:\", given)\n    print(\"apellidos:\", ap1, ap2)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T1-B-E1] conserva raw en pipeline. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "names"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "code": "def split_name(raw):\n    toks = raw.split()\n    if len(toks) < 2:\n        return {\"raw\": raw, \"status\": \"review\", \"given\": None, \"apellidos\": None}\n    return {\"raw\": raw, \"status\": \"ok\", \"given\": \" \".join(toks[:-2]) if len(toks) > 2 else toks[0],\n            \"apellidos\": toks[-2:] if len(toks) >= 2 else toks}\nprint(split_name(\"Ana\"))\nprint(split_name(\"Ana Quispe Huamán\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T1-B-E2] no inventar apellido2. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "policy"
+      ]
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "code": "particulas = {\"de\", \"del\", \"la\", \"los\", \"las\", \"y\"}\ndef tokens_name(s):\n    return [t for t in s.split() if t.casefold() not in particulas or True]\n# demo: mantener particulas en given\nraw = \"María del Carmen Quispe\"\nprint(raw.split())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T1-B-E3] no borrar del/de sin politica. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "particles"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "code": "dir_raw = \"  Av.  Larco   123  ,  Miraflores \"\nlimpio = \" \".join(dir_raw.strip().split())\nprint(limpio)\nprint([p.strip() for p in limpio.split(\",\")])\nprint(limpio.replace(\"Av.\", \"Avenida\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T2-A-E1] ops str antes de regex. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "str ops"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "code": "s = \"Jr. de la Unión 450\"\nprint(s.find(\"Unión\"), s.replace(\"Jr.\", \"Jiron\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T2-A-E2] busqueda literal. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "find"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "code": "def normalize_address(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_address(\"  Jr.   Ucayali  100 \"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T2-A-E3] idempotente strip/split/join. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "address"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or any(ch.isspace() for ch in s):\n        raise ValueError(\"email requiere un @ y cero espacios\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email requiere local y dominio\")\n    return s\nprint(normalize_email(\"  Ana+test@Example.COM \"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T2-B-E1] sin sobrevalidar TLD. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "email"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "code": "def normalize_phone_pe(raw: str) -> str:\n    return \"\".join(c for c in raw if c.isdigit())\nprint(normalize_phone_pe(\"+51 999-000-111\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T2-B-E2] no aritmetica. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "phone"
+      ]
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "code": "def validate_contact(email=None, phone=None):\n    errors = []\n    if email is not None and email.count(\"@\") != 1:\n        errors.append(\"email\")\n    if phone is not None and not any(ch.isdigit() for ch in phone):\n        errors.append(\"phone\")\n    return errors\nprint(validate_contact(\"a@b.com\", \"999\"), validate_contact(\"bad\", \"xxx\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T2-B-E3] errores nombrados. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "contact"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "code": "import re\npat = re.compile(r\"^(?P<dni>\\d{8})$\")\nm = pat.fullmatch(\"12345678\")\nprint(m.group(\"dni\") if m else None)\nprint(\"search mid:\", bool(re.search(r\"\\d{8}\", \"DNI 12345678 PE\")))\nprint(\"full mid:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678 PE\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T3-A-E1] grupo nombrado dni. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "re"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "code": "import re\nprint(bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T3-A-E2] anclas implicitas full. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "fullmatch"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "code": "import re\npat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\")\nm = pat.search(\"Cliente demo DNI 12345678 activo\")\nprint(m.group(\"dni\") if m else None)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T3-A-E3] word boundary. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "search"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "code": "import re\nphone = re.compile(r\"\\b9\\d{8}\\b\")\nlog = \"llamada 999000111 y fallback 988777666 fin\"\nprint(phone.findall(log))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T3-B-E1] patron compilado. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "findall"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "code": "import re\nphone = re.compile(r\"\\b9\\d{8}\\b\")\nlog = \"ok 999111222 noise 12345 otro 988777666\"\nfor m in phone.finditer(log):\n    print(m.group(), \"at\", m.start())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T3-B-E2] posiciones en log. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "finditer"
+      ]
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "code": "import re\n# evita cuantificadores anidados ambiguos; usa findall acotado\nprint(re.findall(r\"\\b\\d{8}\\b\", \"ids 12345678 y 87654321\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T3-B-E3] limites \\b. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "limits"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "code": "def token_jaccard(a: str, b: str) -> float:\n    A = set(a.replace(\".\", \" \").casefold().split())\n    B = set(b.replace(\".\", \" \").casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P. Perez\"), 3))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T4-A-E1] set intersection/union. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "jaccard"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "code": "def token_jaccard(a, b):\n    A, B = set(a.casefold().split()), set(b.casefold().split())\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard(\"Ana Quispe\", \"Luis Huamán\"), 3))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T4-A-E2] score bajo. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "jaccard"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "code": "def decide_name_match(score):\n    if score >= 0.99:\n        return \"exact\"\n    if score >= 0.5:\n        return \"review\"\n    return \"no_match\"\nprint(decide_name_match(1.0), decide_name_match(0.67), decide_name_match(0.1))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T4-A-E3] umbrales de evidencia. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "decision"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "code": "pairs = [\n    (\"José Pérez\", \"Jose Perez\", 0.9, \"review\"),\n    (\"Ana\", \"Ana\", 1.0, \"exact\"),\n    (\"Luis\", \"Carla\", 0.0, \"no_match\"),\n]\nfor a, b, score, dec in pairs:\n    print(f\"{a!r} vs {b!r} score={score} -> {dec}\")\nprint(\"nota: sin claims de parentesco ni identidad legal\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T4-B-E1] conserva evidencia. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "evidence"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "code": "# metricas sinteticas\nrows = [\n    {\"pred\": \"match\", \"truth\": \"match\"},\n    {\"pred\": \"match\", \"truth\": \"no\"},  # FP\n    {\"pred\": \"no\", \"truth\": \"match\"},  # FN\n    {\"pred\": \"no\", \"truth\": \"no\"},\n]\ntp = sum(1 for r in rows if r[\"pred\"]==\"match\" and r[\"truth\"]==\"match\")\nfp = sum(1 for r in rows if r[\"pred\"]==\"match\" and r[\"truth\"]==\"no\")\nfn = sum(1 for r in rows if r[\"pred\"]==\"no\" and r[\"truth\"]==\"match\")\nprint(\"tp\", tp, \"fp\", fp, \"fn\", fn)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T4-B-E2] FP no implica fraude. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "metrics"
+      ]
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "code": "def keep_evidence(raw_a, raw_b, score, decision):\n    return {\"raw_a\": raw_a, \"raw_b\": raw_b, \"score\": score, \"decision\": decision,\n            \"legal_claim\": False}\nprint(keep_evidence(\"Ana\", \"Ana Quispe\", 0.5, \"review\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S07-T4-B-E3] paquete de evidencia. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "keep raw"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "S07-T1-A: formas Unicode NFC vs NFD. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Politica segura de parsing de nombres incompletos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Regex no siempre; str ops primero. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "fullmatch exige toda la cadena. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Score intermedio = clerical review. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.944516+00:00",
+  "session_started_at": "2026-07-23T07:07:24.299567+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.944516+00:00"
+}

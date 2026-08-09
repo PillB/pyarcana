@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s29-2b73802a8c",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "id": "S29-T1-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select id from entities').fetchone()[0])\n",
+      "justification_from_packet": "Dudo del atajo: en S29-T1-A-E1 el card pide «Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local c81c97).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "id": "S29-T1-A-E2",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept Exception:\n    print('bad_score')\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S29-T1-A-E2 el card pide «CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 77fdd9).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "id": "S29-T1-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S29-T1-A-E3 el card pide «Imprime True si 'e1'<'e2' (orden canónico de par)…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local ad96df).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "id": "S29-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "justification_from_packet": "Verifico la salida contractual: en S29-T1-B-E1 el card pide «Inserta dos labels para pair p1; imprime número de filas de historia…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 0f086b).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "id": "S29-T1-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S29-T1-B-E2 el card pide «Imprime provenance dict source='crm_synth' record='r9'…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 8c1921).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "id": "S29-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S29-T1-B-E3 el card pide «valid_to NULL significa vigente: imprime 'open' si valid_to is None…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local ab53eb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "id": "S29-T2-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nrows = c.execute('select id from pairs where id not in (select pair_id from dec)').fetchall()\nprint([r[0] for r in rows])\n",
+      "justification_from_packet": "Dudo del atajo: en S29-T2-A-E1 el card pide «Con pairs p1,p2 y decision solo p1, lista ids sin decisión…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local c23d57).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "id": "S29-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S29-T2-A-E2 el card pide «Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local d3f2a1).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "id": "S29-T2-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S29-T2-A-E3 el card pide «Imprime el nombre de la CTE de ejemplo: ranked…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 0c4dd7).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "id": "S29-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S29-T2-B-E1 el card pide «C(n,2) para n=5 → 10…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local c5e4b8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "id": "S29-T2-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "justification_from_packet": "Dudo del atajo: en S29-T2-B-E2 el card pide «Imprime True si None is None (recuerda NULL SQL ≠ Python en joins)…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 22e95d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "id": "S29-T2-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "justification_from_packet": "Dudo del atajo: en S29-T2-B-E3 el card pide «Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como defa…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local bd7ac3).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "id": "S29-T3-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "justification_from_packet": "Verifico la salida contractual: en S29-T3-A-E1 el card pide «Tras BEGIN insert y ROLLBACK, count debe ser 0…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 834911).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "id": "S29-T3-A-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "justification_from_packet": "Verifico la salida contractual: en S29-T3-A-E2 el card pide «Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 18a926).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "id": "S29-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "justification_from_packet": "Dudo del atajo: en S29-T3-A-E3 el card pide «Si evidence_ok es False no hagas commit conceptual: imprime 'abort'…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 61a6d1).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "id": "S29-T3-B-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S29-T3-B-E1 el card pide «Upsert: segunda insert con mismo id actualiza; imprime name final 'B'…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 7c12e5).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "id": "S29-T3-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S29-T3-B-E2 el card pide «Recuperación: job status 'pending' tras crash; imprime status…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local a7e70c).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "id": "S29-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S29-T3-B-E3 el card pide «Conflicto de par duplicado → imprime 'retry'…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 25010a).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "id": "S29-T4-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S29-T4-A-E1 el card pide «Registra migration version 2 name 'add_index'; imprime max version…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 146924).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "id": "S29-T4-A-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "justification_from_packet": "Verifico la salida contractual: en S29-T4-A-E2 el card pide «Imprime nombre de índice sugerido idx_pairs_block_key…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local d41f49).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "id": "S29-T4-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "justification_from_packet": "Dudo del atajo: en S29-T4-A-E3 el card pide «Política: imprime 'no_drop_without_backup'…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 7f1734).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "id": "S29-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S29-T4-B-E1 el card pide «Repo.get: dict store {'e1':'Ana'}; imprime get e1…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local baffde).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "id": "S29-T4-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S29-T4-B-E2 el card pide «Pool size conceptual 5; imprime pool_size…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local d02173).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "id": "S29-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S29-T4-B-E3 el card pide «Test de repo: pending count 1; imprime 1…»; completo el TODO/defecto solo con lo que enseña SQL/constraints/transacción del paquete S29 (ref local 101b77).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Contraste con la theory del slim_packet: SC0 pregunta «entity_a < entity_b en el par sirve para:…» y la opción «Evitar duplicar el mismo par en orden invertido» es la que alinea el learning outcome de S29, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC1 pregunta «Append-only en decisions significa:…» y la opción «Nueva fila por cambio de decisión» es la que alinea el learning outcome de S29, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Contraste con la theory del slim_packet: SC2 pregunta «Decisión y evidencia deben:…» y la opción «Ser atómicas en la misma transacción lógica» es la que alinea el learning outcome de S29, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC3 pregunta «El repository pattern:…» y la opción «Encapsula acceso a datos y facilita tests con :memory:» es la que alinea el learning outcome de S29, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "S29: contrasté si el starter defectuoso invertía el predicado antes de confiar.",
+    "S29: revisé que no se filtre label/fraude automático en el contrato del card."
+  ],
+  "recorded_at": "2026-07-23T16:45:41.559351+00:00",
+  "session_started_at": "2026-07-23T16:44:48.405Z",
+  "session_ended_at": "2026-07-23T16:45:41.557Z",
+  "receipt_response_sha256": "cc22c6fc484d38b44aec1f97ddc22f756191b4bd35b53726bc941a4dab7e0633",
+  "receipt_exercises_sha256": "33da7964441884765f1acabf00468afdfce22a9f11b98dd5d7e5f101cdc6daf8",
+  "receipt_selfcheck_sha256": "52c7befb9641d84470514055b4c9f033bd062ce6cf9793f4262d3c49b94bd809"
+}

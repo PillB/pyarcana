@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F2",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-F2-s28-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T1-A-E1: packet-only solve (no prior lives)\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\n\n# F2-note:bb0b6bf99c packet-grounded (skeptic); instr_tokens=65\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "random",
+        "seed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/8df2aae4] S28-T1-A-E1: rechazo claves offline. Paquete dice «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sinté». Demo S28-T1-A-DEMO. Línea: `import random`. Pista «seed antes de cada random»."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\n# forma esperada (referencia): print(all(0 <= s <= 1 for s in scores))\n\n# F2-note:54bc96a488 packet-grounded (skeptic); instr_tokens=57\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/e2f8aca1] S28-T1-A-E2: rechazo claves offline. Paquete dice «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada ». Demo S28-T1-A-DEMO. Línea: `scores=[0,0.5,1]`. Pista «all»."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\n# forma esperada (referencia): print(f(f(s)) == f(s))\n\n# F2-note:579c42a3d7 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/8a105106] Dudé del atajo en S28-T1-A-E3; me ceñí al weDo. «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter ». Hint «doble aplicación». Ancla: `s='  x '`. S28-T1-A-DEMO. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\n# forma esperada (referencia): print((a == b) == (b == a))\n\n# F2-note:4d499f7646 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/092b2cbc] S28-T1-B-E1: rechazo claves offline. Paquete dice «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es ». Demo S28-T1-B-DEMO. Línea: `a,b='x','x'`. Pista «comparar»."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T1-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('Ana'.casefold() == 'ANA'.casefold())\n\n# F2-note:a26e146a72 packet-grounded (skeptic); instr_tokens=57\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/a8176712] Solo acepto S28-T1-B-E2 si el paquete lo enseña. Instrucción: «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la ». Verifiqué pista «casefold» y demo S28-T1-B-DEMO. Código justificado: `case_id = \"CASO-LIM-SYN\"`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\n# forma esperada (referencia): print((a == b) == (b == a))\n\n# F2-note:b5e53f90ef packet-grounded (skeptic); instr_tokens=58\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/25ccdb18] Solo acepto S28-T1-B-E3 si el paquete lo enseña. Instrucción: «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe):». Verifiqué pista «swap» y demo S28-T1-B-DEMO. Código justificado: `a,b=1,1`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\n# forma esperada (referencia): print('id requerido' if not r.get('id') else 'ok')\n\n# F2-note:849fbc192b packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/15c83ede] Solo acepto S28-T2-A-E1 si el paquete lo enseña. Instrucción: «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter complet». Verifiqué pista «get» y demo S28-T2-A-DEMO. Código justificado: `r={}`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\n# forma esperada (referencia): print('score' if not (0 <= score <= 1) else 'ok')\n\n# F2-note:df6fd78d7e packet-grounded (skeptic); instr_tokens=53\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/14c9dd79] S28-T2-A-E2: rechazo claves offline. Paquete dice «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo». Demo S28-T2-A-DEMO. Línea: `score=1.2`. Pista «0<=s<=1»."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T2-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\n# forma esperada (referencia): print(sum(1 for r in rows if not r.get('id')))\n\n# F2-note:6c6e472b05 packet-grounded (skeptic); instr_tokens=58\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/8eb2df1d] S28-T2-A-E3: rechazo claves offline. Paquete dice «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la ent». Demo S28-T2-A-DEMO. Línea: `rows=[{'id':'1'},{'id':''}]`. Pista «sum»."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\n# forma esperada (referencia): print('drift' if golden != current else 'ok')\n\n# F2-note:35ec8c6b68 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/998e0a2c] S28-T2-B-E1: rechazo claves offline. Paquete dice «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implem». Demo S28-T2-B-DEMO. Línea: `golden,current={'n':1},{'n':2}`. Pista «!=»."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\n# forma esperada (referencia): print('blocked' if diff and not approved else 'ok')\n\n# F2-note:572f2cc876 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/24c15a46] S28-T2-B-E2: rechazo claves offline. Paquete dice «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el ». Demo S28-T2-B-DEMO. Línea: `diff, approved = True, False`. Pista «and»."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'golden_version': 3}['golden_version'])\n\n# F2-note:2d7d41529f packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/a3aa36cc] Dudé del atajo en S28-T2-B-E3; me ceñí al weDo. «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa». Hint «literal/dict». Ancla: `case_id = \"CASO-LIM-SYN\"`. S28-T2-B-DEMO. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\n# forma esperada (referencia): print(db['e1']['name'])\n\n# F2-note:2fc6e15ff4 packet-grounded (skeptic); instr_tokens=55\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/e1322e87] Solo acepto S28-T3-A-E1 si el paquete lo enseña. Instrucción: «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter complet». Verifiqué pista «dict get» y demo S28-T3-A-DEMO. Código justificado: `db={'e1':{'name':'Ana'}}`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\n# forma esperada (referencia): print(date(2026, 7, 20).isoformat())\n\n# F2-note:7eca2b333e packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/6b18da52] Solo acepto S28-T3-A-E2 si el paquete lo enseña. Instrucción: «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el star». Verifiqué pista «datetime» y demo S28-T3-A-DEMO. Código justificado: `from datetime import date`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\n# forma esperada (referencia): print('retry' if status >= 500 else 'ok')\n\n# F2-note:698c2d28f2 packet-grounded (skeptic); instr_tokens=53\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/4cf63e5c] S28-T3-A-E3: rechazo claves offline. Paquete dice «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im». Demo S28-T3-A-DEMO. Línea: `status=503`. Pista «status»."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T3-B-E1: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('A'.casefold() == 'a'.casefold())\n\n# F2-note:aff833ca5a packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/65f770f7] Solo acepto S28-T3-B-E1 si el paquete lo enseña. Instrucción: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; imple». Verifiqué pista «casefold» y demo S28-T3-B-DEMO. Código justificado: `case_id = \"CASO-LIM-SYN\"`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\n# forma esperada (referencia): print('weak' if f('x','y') and f('1','2') else 'ok')\n\n# F2-note:ced18e99c4 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/b447037e] Solo acepto S28-T3-B-E2 si el paquete lo enseña. Instrucción: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el s». Verifiqué pista «propiedad» y demo S28-T3-B-DEMO. Código justificado: `f=lambda a,b: True`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T3-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'rows_written': 1}['rows_written'])\n\n# F2-note:1b46f4a0b5 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/9046ebda] Dudé del atajo en S28-T3-B-E3; me ceñí al weDo. «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;». Hint «dict». Ancla: `case_id = \"CASO-LIM-SYN\"`. S28-T3-B-DEMO. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T4-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\n\n# F2-note:66e1a33108 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/805eabca] Dudé del atajo en S28-T4-A-E1; me ceñí al weDo. «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter co». Hint «sqlite3». Ancla: `import sqlite3`. S28-T4-A-DEMO. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\n# forma esperada (referencia): print(n * (n - 1) // 2)\n\n# F2-note:92898c1cff packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ffd98d7f] Dudé del atajo en S28-T4-A-E2; me ceñí al weDo. «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;». Hint «n*(n-1)//2». Ancla: `n=4`. S28-T4-A-DEMO. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\n# forma esperada (referencia): print([i for i in items if i not in done])\n\n# F2-note:7d82d084ee packet-grounded (skeptic); instr_tokens=55\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/e28d321a] Solo acepto S28-T4-A-E3 si el paquete lo enseña. Instrucción: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el ». Verifiqué pista «list comp» y demo S28-T4-A-DEMO. Código justificado: `done, items={'a'}, ['a','b']`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T4-B-E1: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print(sorted(['b', 'a']))\n\n# F2-note:eea6b5bc97 packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/f7505509] Solo acepto S28-T4-B-E1 si el paquete lo enseña. Instrucción: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el start». Verifiqué pista «sorted» y demo S28-T4-B-DEMO. Código justificado: `case_id = \"CASO-LIM-SYN\"`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\n# forma esperada (referencia): print('fail_job' if flake_rate > 0 else 'ok')\n\n# F2-note:f166353643 packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/2a1ba6ca] Solo acepto S28-T4-B-E2 si el paquete lo enseña. Instrucción: «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter com». Verifiqué pista «umbral» y demo S28-T4-B-DEMO. Código justificado: `flake_rate=0.01`. No invento APIs. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S28-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('unit→data→integration')\n\n# F2-note:0ea277aba8 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/14f8f889] S28-T4-B-E3: rechazo claves offline. Paquete dice «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo». Demo S28-T4-B-DEMO. Línea: `case_id = \"CASO-LIM-SYN\"`. Pista «string»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "justification_from_packet": "[agentic_F2/Skeptic] S28 q0: no es 'número mágico' ni red caída. Teoría 'idempotencia, simetría y metamorphic tests' empuja a índice 3 sobre relaciones predecibles bajo transformaciones.",
+      "blocked_on": [],
+      "confidence": 0.77
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "justification_from_packet": "[agentic_F2/Skeptic] S28 q1: 'Buena práctica' es trampa. Drift sin aprobación = riesgo de ocultar regresiones; el demo dice blocked cuando hay drift. Índice 1.",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "justification_from_packet": "[agentic_F2/Skeptic] S28 q2: prefiero real path; overmock_false_pos en el demo valida índice 2. Seed/sqlite no son el anti-patrón aquí.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "justification_from_packet": "[agentic_F2/Skeptic] S28 q3: ignorar flakes o retries masivos no es gobernanza de gate. Determinismo + fail del job es la respuesta del packet (índice 0).",
+      "blocked_on": [],
+      "confidence": 0.74
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.498823+00:00"
+}

@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-s06-div-538c1d16",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(txs))\n",
+      "justification_from_packet": "Revisé la teoría «Estructuras anidadas y recorridos» del paquete: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `exte. En S06-T1-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS intacto', KEYS)\n",
+      "justification_from_packet": "El heading «Acceso seguro y valores faltantes» dice en sustancia: **Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruid. Por eso en S06-T1-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', e)\n    ids_list = list(ids)\n    ids_list.append('C003')\n    print(ids_list)\n    print('diagnóstico: tuple es inmutable; convertir a list para mutar')\n",
+      "justification_from_packet": "Anclé S06-T1-A-E3 en «Acceso seguro y valores faltantes»: Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1).. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "justification_from_packet": "En la lección, «Deduplicar con set y reportar conflictos sin borrarlos» aclara: Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** dedupl. Completé S06-T1-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n",
+      "justification_from_packet": "Tras leer «Ordenar con sorted(..., key=) de forma estable» (El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. ), resolví S06-T1-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('b')\nprint('orig tras shallow mut', rows)\nrows = [{'id': 'C1', 'tags': ['a']}]\ndeep = copy.deepcopy(rows)\ndeep[0]['tags'].append('z')\nprint('orig', rows)\nprint('deep', deep)\n",
+      "justification_from_packet": "El paquete L2 en «Una **list** es mutable y ordenada: ideal para filas que cre» sostiene: Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.. S06-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "justification_from_packet": "Revisé la teoría «Ordenamiento y key» del paquete: `sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-pl. En S06-T2-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "justification_from_packet": "El heading «`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(k» dice en sustancia: Elige estructura por **operación dominante**: muchos appends → list; muchos look. Por eso en S06-T2-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\n# peligro de update in-place\nd2 = defaults.copy()\nd2.update(override)\nprint('via copy+update', d2, 'defaults', defaults)\n",
+      "justification_from_packet": "Anclé S06-T2-A-E3 en «Estructuras anidadas y recorridos»: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `exte. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "justification_from_packet": "En la lección, «Un **dict** modela registros y **índices** `id → cliente`. L» aclara: **Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruid. Completé S06-T2-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('sym', sorted(a ^ b))\n",
+      "justification_from_packet": "Tras leer «Ordenar con sorted(..., key=) de forma estable» (Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1).), resolví S06-T2-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        else:\n            if seen[k] != r:\n                conflicts.append({'id': k, 'a': seen[k], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\n\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "justification_from_packet": "El paquete L2 en «Estructuras anidadas y recorridos» sostiene: Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** dedupl. S06-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "justification_from_packet": "Revisé la teoría «Campos opcionales: `contact.get('telefono')` puede devolver » del paquete: El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. . En S06-T3-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)\n",
+      "justification_from_packet": "El heading «Un **set** guarda elementos únicos (hashables). Ideal para *» dice en sustancia: Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.. Por eso en S06-T3-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n    print(c['id'], 'ok' if ok else 'review')\n",
+      "justification_from_packet": "Anclé S06-T3-A-E3 en «Elige estructura por **operación dominante**: muchos appends»: `sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-pl. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "justification_from_packet": "En la lección, «Navegar list[dict] anidados cliente→contactos→txs» aclara: Elige estructura por **operación dominante**: muchos appends → list; muchos look. Completé S06-T3-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "justification_from_packet": "Tras leer «Acceso seguro y valores faltantes» (Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `exte), resolví S06-T3-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "justification_from_packet": "El paquete L2 en «Elige estructura por **operación dominante**: muchos appends» sostiene: **Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruid. S06-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "justification_from_packet": "Revisé la teoría «Estructura adecuada, complejidad y determinismo» del paquete: Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1).. En S06-T4-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "justification_from_packet": "El heading «Ordenamiento y key» dice en sustancia: Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** dedupl. Por eso en S06-T4-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret)\nprint('rows mutada', rows)\nprint('base intacta', base, 'copy_sorted', copy_sorted)\n",
+      "justification_from_packet": "Anclé S06-T4-A-E3 en «Deduplicar con set y reportar conflictos sin borrarlos»: El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. . La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "jobs = {\n    'cola de llegada de filas': 'list',\n    'lookup frecuente por id': 'dict',\n    'emails únicos de un lote': 'set',\n}\nfor j, struct in jobs.items():\n    print(j, '->', struct)\n",
+      "justification_from_packet": "En la lección, «Acceder campos opcionales sin KeyError; missing vs vacío» aclara: Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.. Completé S06-T4-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "justification_from_packet": "Tras leer «Navegar list[dict] anidados cliente→contactos→txs» (`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-pl), resolví S06-T4-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\nprint('C003 in set', 'C003' in s)\n",
+      "justification_from_packet": "El paquete L2 en «Deduplicación y operaciones de set» sostiene: Elige estructura por **operación dominante**: muchos appends → list; muchos look. S06-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «[3,4]». La teoría («Una **list** es mutable y ordenada: ideal para filas que crecen (`appe») y el enunciado «¿Qué produce xs[-2:] si xs = [1,2,3,4]?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «a también ve el append (alias)». La teoría («**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin ín») y el enunciado «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «Listar conflicto en conflicts sin silenciar». La teoría («Un **dict** modela registros y **índices** `id → cliente`. Lookup prom») y el enunciado «Para reportar dos filas con mismo id y payload distinto debe» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «None (muta in-place)». La teoría («Un **set** guarda elementos únicos (hashables). Ideal para **ids/email») y el enunciado «rows.sort(key=...) retorna…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «salidas deterministas/reproducibles». La teoría («El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs:») y el enunciado «json.dumps(..., sort_keys=True) ayuda a…» coinciden.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:37:01.768028+00:00",
+  "session_started_at": "2026-07-23T18:37:01.766950+00:00",
+  "session_ended_at": "2026-07-23T18:37:43.566950+00:00",
+  "receipt_response_sha256": "72758cb8d91561cee00a9dcee8118cc99ed258875f9de7d54b14082bba9243ba",
+  "receipt_exercises_sha256": "96ca54ca8b306a3d1a9f6a8e2511fe79792f7f3f3b7136490a9569a76ca3e69c",
+  "receipt_selfcheck_sha256": "9a1492bcacecf7d56856d26d1922f7f4a5db895934fa8dfbe1e9a17f1963d63f"
+}

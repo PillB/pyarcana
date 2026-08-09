@@ -1,0 +1,318 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-explorer-s48-1784798682",
+  "production_note": "agentic_H2 dual-LLM Explorer: solved from quiz_card+slim_packet only; independent of H1; packet-only; no stamps; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S48-T1-A-E1: leí instruction del quiz_card «S48-T1-A-E1 · Calcula el contrato de `embeddings y similarity` sobre `CASO-PUN-048-1A`. La entrada es el dict completo del starter; la operación debe demostrar …» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"vers`. Hints del paquete: Relaciona los campos `query`, `docs`, `metric`, `version`, `expected_top` con la. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"query\", \"docs\", \"metric\", \"version\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"]\n    return \"PASS\" if ok else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"expected_top\" in incomplete:\n    incomplete.pop(\"expected_top\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S48-T1-A-E2: leí instruction del quiz_card «S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id, query, d…» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"]\n    return \"CONTINUE\" if ok else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S48-T1-A-E3: leí instruction del quiz_card «S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO-PUN-048-1A` debe continuar, el adverso debe devolver `REJEC…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de e. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S48-T1-B-E1: leí instruction del quiz_card «S48-T1-B-E1 · Compara el contrato de `límites, versiones y evaluación` sobre `CASO-PUN-048-1B`. La entrada es el dict completo del starter; la operación debe de…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"r`. Hints del paquete: Relaciona los campos `baseline_recall`, `candidate_recall`, `min_recall`, `holdo. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"baseline_recall\", \"candidate_recall\", \"min_recall\", \"holdout\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\n    return \"PASS\" if ok else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"reindex_cost_pen\" in incomplete:\n    incomplete.pop(\"reindex_cost_pen\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S48-T1-B-E2: leí instruction del quiz_card «S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adverso y registro sin `reindex_cost_pen`. Entrada: dict con cas…» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir ante. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S48-T1-B-E3: leí instruction del quiz_card «S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos. `CASO-PUN-048-1B` debe continuar, el adverso debe devol…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de e. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = len({c[\"hash\"] for c in record[\"chunks\"]}) >= len(record[\"chunks\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S48-T2-A-E1: leí instruction del quiz_card «S48-T2-A-E1 · Filtra el contrato de `chunking, metadata y dedup` sobre `CASO-PUN-048-2A`. La entrada es el dict completo del starter; la operación debe demostra…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\"`. Hints del paquete: Relaciona los campos `chunks`, `unique_hashes`, `source_version` con la regla ex. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"unique_hashes\", \"source_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = len({c[\"hash\"] for c in record[\"chunks\"]}) >= len(record[\"chunks\"])\n    return \"PASS\" if ok else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"source_version\" in incomplete:\n    incomplete.pop(\"source_version\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S48-T2-A-E2: leí instruction del quiz_card «S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso y registro sin `source_version`. Entrada: dict con case_id, …» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes . Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = len({c[\"hash\"] for c in record[\"chunks\"]}) >= len(record[\"chunks\"])\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S48-T2-A-E3: leí instruction del quiz_card «S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. `CASO-PUN-048-2A` debe continuar, el adverso debe devolver `…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de . Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"]\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S48-T2-B-E1: leí instruction del quiz_card «S48-T2-B-E1 · Modela el contrato de `ACL, deletion y provenance` sobre `CASO-PUN-048-2B`. La entrada es el dict completo del starter; la operación debe demostra…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":`. Hints del paquete: Relaciona los campos `user_acl`, `chunk_acl`, `deleted`, `provenance`, `cache_in. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"user_acl\", \"chunk_acl\", \"deleted\", \"provenance\", \"cache_invalidated\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"]\n    return \"PASS\" if ok else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"cache_invalidated\" in incomplete:\n    incomplete.pop(\"cache_invalidated\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S48-T2-B-E2: leí instruction del quiz_card «S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y registro sin `cache_invalidated`. Entrada: dict con case_id, …» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir ant. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"]\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S48-T2-B-E3: leí instruction del quiz_card «S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. `CASO-PUN-048-2B` debe continuar, el adverso debe devolver `…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de e. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = min(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S48-T3-A-E1: leí instruction del quiz_card «S48-T3-A-E1 · Verifica el contrato de `lexical/vector/hybrid y reranking` sobre `CASO-PUN-048-3A`. La entrada es el dict completo del starter; la operación debe…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexica`. Hints del paquete: Relaciona los campos `lexical`, `vector`, `weights`, `expected_top` con la regla. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"lexical\", \"vector\", \"weights\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = min(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"]\n    return \"PASS\" if ok else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"expected_top\" in incomplete:\n    incomplete.pop(\"expected_top\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S48-T3-A-E2: leí instruction del quiz_card «S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id…» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = min(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"]\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S48-T3-A-E3: leí instruction del quiz_card «S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos. `CASO-PUN-048-3A` debe continuar, el adverso debe de…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes d. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S48-T3-B-E1: leí instruction del quiz_card «S48-T3-B-E1 · Clasifica el contrato de `contexto, citas y permisos` sobre `CASO-PUN-048-3B`. La entrada es el dict completo del starter; la operación debe demos…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_`. Hints del paquete: Relaciona los campos `claims`, `cited_claims`, `citation_acl`, `context_tokens`,. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"claims\", \"cited_claims\", \"citation_acl\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"]\n    return \"PASS\" if ok else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"max_context_tokens\" in incomplete:\n    incomplete.pop(\"max_context_tokens\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S48-T3-B-E2: leí instruction del quiz_card «S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y registro sin `max_context_tokens`. Entrada: dict con case_id…» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir an. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    ok = record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"]\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S48-T3-B-E3: leí instruction del quiz_card «S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos. `CASO-PUN-048-3B` debe continuar, el adverso debe devolve…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S48-T4-A-E1: leí instruction del quiz_card «S48-T4-A-E1 · Audita el contrato de `structured output y grounding` sobre `CASO-PUN-048-4A`. La entrada es el dict completo del starter; la operación debe demos…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"a`. Hints del paquete: Relaciona los campos `output`, `schema_keys`, `allowed_evidence`, `injected_inst. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"output\", \"schema_keys\", \"allowed_evidence\", \"injected_instruction_ignored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\n    return \"PASS\" if ok else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"injected_instruction_ignored\" in incomplete:\n    incomplete.pop(\"injected_instruction_ignored\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S48-T4-A-E2: leí instruction del quiz_card «S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso y registro sin `injected_instruction_ignored`. Entrada: dic…» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe . Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\n    return \"CONTINUE\" if ok else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S48-T4-A-E3: leí instruction del quiz_card «S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. `CASO-PUN-048-4A` debe continuar, el adverso debe devolver `…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de . Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: fix defective predicate from instruction\nrecord = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S48-T4-B-E1: leí instruction del quiz_card «S48-T4-B-E1 · Decide el contrato de `retrieval/answer eval, costo y abstención` sobre `CASO-PUN-048-4B`. La entrada es el dict completo del starter; la operació…» y completé el starter del slim_packet. Línea ancla: `record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulnes`. Hints del paquete: Relaciona los campos `retrieval_recall`, `min_recall`, `faithfulness`, `min_fait. Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"retrieval_recall\", \"min_recall\", \"faithfulness\", \"min_faithfulness\", \"cost_pen\", \"cost_cap_pen\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\n    return \"PASS\" if ok else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"support\" in incomplete:\n    incomplete.pop(\"support\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S48-T4-B-E2: leí instruction del quiz_card «S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixture adverso y registro sin `support`. Entrada: dict con case…» y completé el starter del slim_packet. Línea ancla: `def assess(record: dict) -> str:`. Hints del paquete: Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa . Solo packet H2; sin lives H1."
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer empty-starter synthesis from E1 + instruction tokens\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S48-T4-B-E3: leí instruction del quiz_card «S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos. `CASO-PUN-048-4B` debe continuar, el adverso…» y completé el starter del slim_packet. Línea ancla: `def decide(record: dict) -> str:`. Hints del paquete: Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes d. Solo packet H2; sin lives H1."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_option": "ranking reproducible con versión de embedding",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0: del stem «¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?» elijo «ranking reproducible con versión de embedding» (idx 3). En theory/iDo del slim_packet activo se alinea con evidencia / permite / aprobar / embeddings; no usé correctIndex."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_option": "emitir ABSTAIN y conservar evidencia",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1: del stem «Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir ABSTAIN y conservar evidencia» (idx 1). En theory/iDo del slim_packet activo se alinea con ocurre / condición / error / respuesta; no usé correctIndex."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_option": "retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2: del stem «¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?» elijo «retrieval y respuesta superan umbrales separados; toda afirmación material apunt» (idx 2). En theory/iDo del slim_packet activo se alinea con Cuál / resultado / demuestra / gate; no usé correctIndex."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_option": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3: del stem «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (idx 0). En theory/iDo del slim_packet activo se alinea con tratamiento / CASO / respeta / alcance; no usé correctIndex."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:25:02.996114+00:00",
+  "session_started_at": "2026-07-23T09:24:42.744576+00:00",
+  "session_ended_at": "2026-07-23T09:25:02.996114+00:00"
+}

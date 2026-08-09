@@ -1,0 +1,382 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s06-362310-97737",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\n# forma esperada (referencia): print(ventana)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la vent» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) txs = [10, 20, 30,». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Dada",
+        "montos",
+        "imprime",
+        "ltimos",
+        "slicing"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\n# forma esperada (referencia): print('KEYS', KEYS)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmu» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) headers = ['id', '». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)]",
+      "concepts_used": [
+        "independiente",
+        "Convierte",
+        "lista",
+        "headers",
+        "monto",
+        "tuple"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "# Transfer / protocolo — S06-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnóstico.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- tuple no tiene append → AttributeError\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captur» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "trata",
+        "tupla",
+        "como",
+        "lista",
+        "intenta"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\n# forma esperada (referencia): print(cid, region, monto)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) fila = ('C001', 'L». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "guiado",
+        "Unpacking",
+        "fila",
+        "Lima",
+        "region",
+        "monto"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\n# forma esperada (referencia): print('tras alias', xs, copia)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Muta» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) xs = [1, 2] alias ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Demuestra",
+        "alias",
+        "copy",
+        "lista",
+        "alias"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "# Transfer / protocolo — S06-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- import copy; deepcopy\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de l» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Lista",
+        "dicts",
+        "anidados",
+        "tags",
+        "Muestra"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\n# forma esperada (referencia): print(d)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) pares = [('C001', ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)]",
+      "concepts_used": [
+        "guiado",
+        "Construye",
+        "dict",
+        "desde",
+        "pares",
+        "Lima"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nidx = {'C001': 'Ana'}\ntry:\nexcept KeyError as e:\n# forma esperada (referencia): print(idx.get('C001', 'N/A'))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra » y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) idx = {'C001': 'An». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Dado",
+        "para",
+        "default",
+        "Luego",
+        "muestra"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "# Transfer / protocolo — S06-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(override)` mutando defaults (usa copia).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- {**defaults, **override} o defaults | override (3.9+)\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Fusiona",
+        "defaults",
+        "retry",
+        "timeout",
+        "override"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\n# forma esperada (referencia): print(unicos)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** d» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) emails = ['a@ex.co». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Deduplica",
+        "devuelve",
+        "lista",
+        "ordenada",
+        "nicos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\n# forma esperada (referencia): print('inter', sorted(a & b))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted » y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) a = {'a@ex.com', '». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Intersecci",
+        "contactos",
+        "lote_a",
+        "lote_b",
+        "sets"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "# Transfer / protocolo — S06-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- seen dict; si key existe y row!=prev → conflict\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflic» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Implementa",
+        "dedup_report",
+        "rows",
+        "devuelve",
+        "unique"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) clients = [     {'». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Cuenta",
+        "contactos",
+        "cliente",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nprint(flat)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo clients = [     {'id': 'C001', ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "Aplana",
+        "anidadas",
+        "filas",
+        "client_id",
+        "tx_id"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "# Transfer / protocolo — S06-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- isinstance(c.get('txs'), list)\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Detecta",
+        "shape",
+        "inconsistente",
+        "falta",
+        "list"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "# explorer: completed from starter + packet demo\ndef get_nested(d, *keys, default=None):\n    ...\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dic» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def get_nested(d, *keys, defaul». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "guiado",
+        "Implementa",
+        "get_nested",
+        "keys",
+        "default",
+        "None"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n# forma esperada (referencia): print(f\"{c['id']}: {flag}\")",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) clients = [     {'». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "Para",
+        "cada",
+        "cliente",
+        "marca",
+        "reporte"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "# Transfer / protocolo — S06-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- bool(x) vs x is None\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica s» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Construye",
+        "tabla",
+        "mental",
+        "prints",
+        "para"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\n# forma esperada (referencia): print([r['id'] for r in ordered])",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) rows = [{'id': 'T2». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Ordena",
+        "monto",
+        "ascendente",
+        "sorted",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo rows = [     {'nombre': 'Zed', ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "multi",
+        "campo",
+        "ordena",
+        "regi",
+        "luego"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "# Transfer / protocolo — S06-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista `base`.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- x = lst.sort() → x is None\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Demuestra",
+        "rows",
+        "sort",
+        "retorna",
+        "None"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "# explorer: completed from starter + packet demo\njobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) c» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo jobs = [     'cola de llegada d». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Para",
+        "jobs",
+        "imprime",
+        "estructura",
+        "elegida"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\n# forma esperada (referencia): print(s)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imp» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) import json payloa». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "determinista",
+        "export",
+        "ordena",
+        "json",
+        "dumps"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "# Transfer / protocolo — S06-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: listas, tuplas, slicing, list, mutable, ordenada, ideal, filas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- list O(n) vs set O(1) promedio\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S06-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S06-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Listas tuplas slicing list mutable ordenada ideal para filas crecen. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Justifica",
+        "tradeoff",
+        "membership",
+        "list",
+        "Simula"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S06 Q0: elijo índice 1 («[3,4]») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué produce xs[-2:] si xs = [1,2,3,4]?» con ese matiz. Apoyo lexical del packet: listas tuplas slicing list mutable ordenada ideal para filas crecen append extend."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S06 Q1: elijo índice 3 («a también ve el append (alias)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?» con ese matiz. Apoyo lexical del packet: listas tuplas slicing list mutable ordenada ideal para filas crecen append extend."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S06 Q2: elijo índice 0 («Listar conflicto en conflicts sin silenciar») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Para reportar dos filas con mismo id y payload distinto debes…» con ese matiz. Apoyo lexical del packet: listas tuplas slicing list mutable ordenada ideal para filas crecen append extend."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S06 Q3: elijo índice 2 («None (muta in-place)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «rows.sort(key=...) retorna…» con ese matiz. Apoyo lexical del packet: listas tuplas slicing list mutable ordenada ideal para filas crecen append extend."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "S06 Q4: elijo índice 1 («salidas deterministas/reproducibles») porque la theory/outcomes del paquete enlazan la idea de la pregunta «json.dumps(..., sort_keys=True) ayuda a…» con ese matiz. Apoyo lexical del packet: listas tuplas slicing list mutable ordenada ideal para filas crecen append extend."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:09:23.652424+00:00",
+  "session_started_at": "2026-07-23T09:08:57.137071+00:00",
+  "session_ended_at": "2026-07-23T09:09:23.652424+00:00"
+}

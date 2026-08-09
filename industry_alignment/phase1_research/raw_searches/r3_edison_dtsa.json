@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.aimsciences.org/article/doi/10.3934/fods.2021031",
+    "name": "Evaluation of EDISON's data science competency",
+    "snippet": "by KRB Schmitt · 2023 · Cited by 9 — The EDISON-DSF includes both a Data Science Body of Knowledge (DS-BoK) and Competency Framework (CF-DS). This paper takes a critical look at how ...",
+    "host_name": "www.aimsciences.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://zenodo.org/records/7506445",
+    "name": "Part 1. Data Science Competence Framework (CF-DS)",
+    "snippet": "The CF-DS defines five groups of competences for Data Science that include Data Analytics, Data Science Engineering, Domain Knowledge, Data ...\nThis presented Data Science Competence Framework definition is based on the analysis of existing frameworks for Data Science and ICT competences and skills and is supported by the analysis of the demand side (job market) for Data Science professionals in industry and research.",
+    "host_name": "zenodo.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://edison-project.eu/sites/edison-project.eu/files/attached_files/node-488/edison-general-introduction-edsf.pdf",
+    "name": "The EDISON Data Science Framework (EDSF)",
+    "snippet": "Three proficiency levels are considered in EDSF: (1) general understanding of the Data Science concepts, (2) the ability to apply these concepts to solve ...",
+    "host_name": "edison-project.eu",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://e-irg.eu/wp-content/uploads/2023/05/edison2017-06-edsf-4eosc-v01.pdf",
+    "name": "EDISON Data Science Framework (EDSF)",
+    "snippet": "DSP Profiles mapping to corresponding CF-DS Competence Groups – Relevance level from 5 – maximum to 1 – minimum Malta, marking and organisational skills ...",
+    "host_name": "e-irg.eu",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/fullHtml/10.1145/3451400.3451409",
+    "name": "Data Scientist Professional Revisited: Competences",
+    "snippet": "by Y Demchenko · 2021 · Cited by 16 — The following competence areas and skills were included into Data Scientist competence profile: mathematics, statistics, computer skills, domain knowledge, and ...",
+    "host_name": "dl.acm.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.rd-alliance.org/sites/default/files/rda7-ig-etrd03-edison-data-competences-v02.pdf",
+    "name": "EDISON Data Science Competence Framework (CF-DS)",
+    "snippet": "Competence includes 5 areas/groups • Data Analytics • Data Science Engineering • Domain Expertise • Data Management",
+    "host_name": "www.rd-alliance.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://scholarworks.smith.edu/sds_facpubs/50",
+    "name": "\"Evaluation of EDISON's Data Science Competency",
+    "snippet": "by KRB Schmitt · 2023 · Cited by 9 — This paper takes a critical look at how EDISON's CF-DS compares to recent work and other published curricular or course materials.",
+    "host_name": "scholarworks.smith.edu",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "http://ieeexplore.ieee.org/document/8241134",
+    "name": "Model Curricula for Data Science EDISON",
+    "snippet": "This paper presents the Data Science Model Curriculum (MC-DS) that is based on the Data Science Competence Framework and Data Science Body of Knowledge defined.",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/322110918_Model_Curricula_for_Data_Science_EDISON_Data_Science_Framework",
+    "name": "(PDF) Model Curricula for Data Science EDISON Data",
+    "snippet": "Learning, Blooms This chapter presents a short overview of the MC-DS. organization and its application to deﬁning knowledge topics. (knowledge units) and ...",
+    "host_name": "www.researchgate.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://edison-project.eu/edison/edison-data-science-framework-edsf",
+    "name": "EDISON Data Science Framework (EDSF) - Edison Project",
+    "snippet": "Freely available, these documents have been developed to guide educators and trainers, emplyers and managers, and Data Scientists themselves. This collection of documents collectively breakdown the complexity of the skills and competences need to define Data Science as a professional practice.",
+    "host_name": "edison-project.eu",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

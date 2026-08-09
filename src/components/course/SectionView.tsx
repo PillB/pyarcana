@@ -1,0 +1,4100 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  BookOpen,
+  PlayCircle,
+  Users,
+  Rocket,
+  HelpCircle,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Target,
+  Briefcase,
+  Clock,
+  Lightbulb,
+  Eye,
+  EyeOff,
+  Sparkles,
+  Check,
+  X,
+  Award,
+  ExternalLink,
+  GraduationCap,
+  ListChecks,
+  CircleHelp,
+  ArrowRight,
+  LayoutGrid,
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { useSession } from 'next-auth/react'
+import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
+import type { CourseSection } from '@/lib/types'
+import { CodeBlock } from './CodeBlock'
+import { Callout } from './Callout'
+import { RichText } from './RichText'
+import { ProgressRing } from './ProgressRing'
+import { ExamView } from './ExamView'
+import { CodePlayground } from './CodePlayground'
+import { t, useI18n } from '@/lib/i18n'
+
+interface SectionViewProps {
+  section: CourseSection
+  onPrev: () => void
+  onNext: () => void
+  hasNext: boolean
+  hasPrev: boolean
+  onOpenAuth: () => void
+}
+
+const TAB_META: Record<SubStep, { icon: React.ElementType; labelKey: string; color: string }> = {
+  theory: { icon: BookOpen, labelKey: 'section.theory', color: 'text-sky-600' },
+  ido: { icon: PlayCircle, labelKey: 'section.ido', color: 'text-violet-600' },
+  wedo: { icon: Users, labelKey: 'section.wedo', color: 'text-amber-600' },
+  youdo: { icon: Rocket, labelKey: 'section.youdo', color: 'text-emerald-600' },
+  quiz: { icon: HelpCircle, labelKey: 'section.quiz', color: 'text-rose-600' },
+}
+
+export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenAuth }: SectionViewProps) {
+  const [activeTab, setActiveTab] = useState<SubStep>('theory')
+  const lang = useI18n((state) => state.lang)
+  const tr = (key: string) => t(key, lang)
+  const { data: session } = useSession()
+  const {
+    completedSubSteps,
+    toggleSubStep,
+    toggleSectionComplete,
+    quizScores,
+    setQuizScore,
+    setLastVisited,
+  } = useProgressStore()
+
+  const subStepsDone = completedSubSteps[section.id] || []
+  const allDone = SUB_STEPS.every((s) => subStepsDone.includes(s))
+
+  // Scroll: new sections open at top; returning to a section restores the last offset.
+  // Positions are session-scoped (sessionStorage) so refresh keeps resume only for this tab.
+  useEffect(() => {
+    setLastVisited(section.id)
+
+    const key = `pyarcana:sectionScroll:${section.id}`
+    const savedRaw =
+      typeof window !== 'undefined' ? sessionStorage.getItem(key) : null
+    const saved = savedRaw != null ? Number(savedRaw) : NaN
+    const restore = Number.isFinite(saved) && saved > 0
+
+    // Prefer the document scroll (main content is not a nested scroller in layout).
+    const apply = () => {
+      if (restore) {
+        window.scrollTo({ top: saved, behavior: 'auto' })
+        document
+          .getElementById('section-content')
+          ?.scrollTo({ top: 0, behavior: 'auto' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        document
+          .getElementById('section-content')
+          ?.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+    // Wait a frame so sticky headers / tab reset don't steal the offset.
+    const id = window.requestAnimationFrame(apply)
+    return () => window.cancelAnimationFrame(id)
+  }, [section.id, setLastVisited])
+
+  // Persist scroll while reading; clear is not needed (overwrite on leave).
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const key = `pyarcana:sectionScroll:${section.id}`
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        sessionStorage.setItem(key, String(window.scrollY || 0))
+        ticking = false
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      // Final write when leaving this section (before next section mounts).
+      sessionStorage.setItem(key, String(window.scrollY || 0))
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [section.id])
+
+  // Reset active tab when section changes (deferred to avoid effect cascading)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActiveTab('theory')
+  }, [section.id])
+
+  const sectionProgress = Math.round(
+    (subStepsDone.length / SUB_STEPS.length) * 100
+  )
+
+  return (
+    <div
+      className="mx-auto max-w-5xl px-4 py-4 sm:px-6 lg:px-8 pb-32 lg:pb-24"
+      id="section-content"
+      data-testid="section-root"
+      data-section-id={section.id}
+    >
+      {/* Compact sticky top bar — replaces 500px preamble stack */}
+      <div className="sticky top-14 z-30 -mx-4 mb-3 bg-background/85 backdrop-blur-md border-b border-border/60 px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <Badge variant="outline" className="gap-1 border-primary/30 text-primary shrink-0" data-testid="section-badge">
+            <span className="font-bold">S{section.index}</span>
+          </Badge>
+          <h1 className="text-base sm:text-lg font-bold tracking-tight truncate flex-1 min-w-0">
+            <span className="gradient-text">{section.title}</span>
+          </h1>
+
+          {/* Compact progress ring — replaces progress strip card */}
+          <div className="shrink-0" title={`${sectionProgress}% completado`}>
+            <ProgressRing progress={sectionProgress} size={32} />
+          </div>
+
+          {/* Job relevance — popover (was 100px card) */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')}>
+                <Briefcase className="h-4 w-4 text-primary" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 sm:w-96" side="bottom" align="end">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <Briefcase className="h-4 w-4 text-primary" />
+                  {tr('section.jobRelevance')}
+                </div>
+                <p className="text-sm text-foreground/80">{section.jobRelevance}</p>
+              </div>
+            </PopoverContent>
+          </Popover>
+
+          {/* Learning outcomes — sheet (was 200-400px grid) */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje">
+                <ListChecks className="h-4 w-4 text-primary" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80 sm:w-96 overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle className="flex items-center gap-2">
+                  <Target className="h-4 w-4 text-primary" />
+                  Objetivos de aprendizaje
+                </SheetTitle>
+              </SheetHeader>
+              <div className="mt-4 space-y-2">
+                {section.learningOutcomes.map((lo, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-2.5"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                    <span className="text-xs text-foreground/90">{lo.text}</span>
+                  </div>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Tagline as muted secondary line (was its own <p>) */}
+        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">{section.tagline}</p>
+
+        {/* Inline meta badges */}
+        <div className="mt-1 flex items-center gap-2 text-[10px] text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Clock className="h-3 w-3" />
+            {section.estimatedHours}h
+          </span>
+          <span className="flex items-center gap-1">
+            <Target className="h-3 w-3" />
+            {section.level}
+          </span>
+          {allDone && (
+            <Badge className="ml-auto gap-1 bg-green-600 text-white h-5 px-1.5 text-[10px]">
+              <Award className="h-3 w-3" />
+              Completada
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* Tabs — compact horizontal, no per-trigger CheckCircle (uses color) */}
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SubStep)}>
+        <TabsList className="grid w-full grid-cols-5 h-auto">
+          {SUB_STEPS.map((step) => {
+            const meta = TAB_META[step]
+            const Icon = meta.icon
+            const done = subStepsDone.includes(step)
+            return (
+              <TabsTrigger
+                key={step}
+                value={step}
+                data-testid={`tab-${step}`}
+                className="flex flex-row items-center justify-center gap-1.5 py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
+              >
+                <Icon className={cn('h-3.5 w-3.5', meta.color, done && 'opacity-100')} />
+                <span className="text-[10px] sm:text-xs hidden sm:inline">{tr(meta.labelKey)}</span>
+                {done && <CheckCircle2 className="h-3 w-3 text-green-600 sm:hidden" />}
+              </TabsTrigger>
+            )
+          })}
+        </TabsList>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+            className="mt-3"
+          >
+            <TabsContent value="theory" className="mt-0 focus-visible:outline-none">
+              <TheoryTab section={section} onDone={() => toggleSubStep(section.id, 'theory')} done={subStepsDone.includes('theory')} />
+            </TabsContent>
+            <TabsContent value="ido" className="mt-0 focus-visible:outline-none">
+              <IDoTab section={section} onDone={() => toggleSubStep(section.id, 'ido')} done={subStepsDone.includes('ido')} />
+            </TabsContent>
+            <TabsContent value="wedo" className="mt-0 focus-visible:outline-none">
+              <WeDoTab section={section} onDone={() => toggleSubStep(section.id, 'wedo')} done={subStepsDone.includes('wedo')} />
+            </TabsContent>
+            <TabsContent value="youdo" className="mt-0 focus-visible:outline-none">
+              <YouDoTab section={section} onDone={() => toggleSubStep(section.id, 'youdo')} done={subStepsDone.includes('youdo')} />
+            </TabsContent>
+            <TabsContent value="quiz" className="mt-0 focus-visible:outline-none">
+              {session?.user ? (
+                <ExamView
+                  sectionId={section.id}
+                  sectionTitle={section.title}
+                  onAuthRequired={onOpenAuth}
+                />
+              ) : (
+                <QuizTab
+                  section={section}
+                  onDone={() => {
+                    toggleSubStep(section.id, 'quiz')
+                    if (allDone || subStepsDone.length >= SUB_STEPS.length - 1) {
+                      toggleSectionComplete(section.id)
+                    }
+                  }}
+                  done={subStepsDone.includes('quiz')}
+                  score={quizScores[section.id] || 0}
+                  onSubmitScore={(s) => {
+                    setQuizScore(section.id, s)
+                  }}
+                />
+              )}
+            </TabsContent>
+          </motion.div>
+        </AnimatePresence>
+      </Tabs>
+
+      {/* HUD FABs — game-style overlay navigation (replaces bottom nav) */}
+      {/* Bottom-left: Prev section */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        onClick={onPrev}
+        disabled={!hasPrev}
+        data-testid="section-prev"
+        aria-label={tr('course.previousSection')}
+        className={cn(
+          'fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
+          'bg-card/90 border border-border flex items-center justify-center',
+          'hover:bg-card transition-colors',
+          !hasPrev && 'opacity-40 cursor-not-allowed'
+        )}
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </motion.button>
+
+      {/* Bottom-right: Next section */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        onClick={onNext}
+        disabled={!hasNext}
+        data-testid="section-next"
+        aria-label={tr('course.nextSection')}
+        className={cn(
+          'fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
+          'bg-primary text-primary-foreground border border-primary/50 flex items-center justify-center',
+          'hover:bg-primary/90 transition-colors',
+          !hasNext && 'opacity-40 cursor-not-allowed'
+        )}
+      >
+        <ArrowRight className="h-5 w-5" />
+      </motion.button>
+
+      {/* Bottom-center: 5-dot progress strip + Mark done — floating above FABs */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex items-center gap-2 bg-card/90 border border-border rounded-full px-3 py-1.5 shadow-md backdrop-blur-md">
+        {SUB_STEPS.map((s) => (
+          <button
+            key={s}
+            onClick={() => setActiveTab(s)}
+            className={cn(
+              'h-1.5 w-6 rounded-full transition-all hover:scale-110',
+              subStepsDone.includes(s) ? 'bg-primary' : 'bg-muted',
+              activeTab === s && 'ring-2 ring-primary/40 ring-offset-1 ring-offset-card'
+            )}
+            title={tr(TAB_META[s].labelKey)}
+            aria-label={`${lang === 'en' ? 'Go to' : 'Ir a'} ${tr(TAB_META[s].labelKey)}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// === Theory Tab ===
+function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <BookOpen className="h-5 w-5 text-sky-600" />
+        <h2 className="text-xl font-semibold">Teoría</h2>
+      </div>
+      {section.theory.map((block, i) => (
+        <div key={i} className="space-y-4">
+          <RichText
+            sectionId={section.id}
+            content={block.heading + '\n\n' + block.paragraphs.join('\n\n')}
+          />
+          {block.code && (
+            <CodeBlock
+              code={block.code.code}
+              language={block.code.language}
+              title={block.code.title}
+              output={block.code.output}
+            />
+          )}
+          {block.callout && (
+            <Callout type={block.callout.type} title={block.callout.title}>
+              {block.callout.content}
+            </Callout>
+          )}
+        </div>
+      ))}
+
+      {/* Interactive playground — appears in every section's theory tab */}
+      <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />
+
+      <MarkDoneButton onDone={onDone} done={done} label="Marcar teoría como leída" />
+    </div>
+  )
+}
+
+// === I Do Tab ===
+function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <PlayCircle className="h-5 w-5 text-violet-600" />
+        <h2 className="text-xl font-semibold">Yo hago — Demostración guiada</h2>
+      </div>
+      <Callout type="info" title="¿Qué hace el profe?">
+        Te muestro paso a paso cómo se resuelve un problema real con los conceptos de esta sección. Fíjate en el <strong>por qué</strong> de cada línea, no solo en el qué. Esta es la fase <strong>I Do</strong> del método Gradual Release of Responsibility.
+      </Callout>
+      <RichText content={section.iDo.intro} sectionId={section.id} />
+      {section.iDo.steps.map((step, i) => (
+        <Card
+          key={i}
+          className="overflow-hidden border-violet-500/20"
+          data-testid={step.demoId ? `demo-${step.demoId}` : `demo-step-${i}`}
+        >
+          <div className="border-b border-border/60 bg-violet-500/5 px-5 py-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-xs font-bold text-white">
+                {i + 1}
+              </span>
+              <span className="text-sm font-semibold">{step.description}</span>
+            </div>
+          </div>
+          <div className="space-y-3 p-5">
+            {step.preamble && (
+              <Callout type="info" title="Antes de la demo">
+                <RichText content={step.preamble} sectionId={section.id} />
+              </Callout>
+            )}
+            <CodeBlock
+              code={step.code.code}
+              language={step.code.language}
+              title={step.code.title}
+              output={step.code.output}
+            />
+            <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+              <div className="flex items-center gap-2 text-xs font-semibold text-amber-700 dark:text-amber-300">
+                <Lightbulb className="h-3.5 w-3.5" />
+                ¿Por qué este código?
+              </div>
+              <div className="mt-1 text-sm text-foreground/80">
+                <RichText content={step.why} sectionId={section.id} />
+              </div>
+            </div>
+            {step.retrospective && (
+              <Callout type="success" title="Después de la demo — consolida">
+                <RichText content={step.retrospective} sectionId={section.id} />
+              </Callout>
+            )}
+          </div>
+        </Card>
+      ))}
+      <MarkDoneButton onDone={onDone} done={done} label="Entendido, marcado como visto" />
+    </div>
+  )
+}
+
+// === We Do Tab ===
+function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+  const [showSolutions, setShowSolutions] = useState<Record<number, boolean>>({})
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <Users className="h-5 w-5 text-amber-600" />
+        <h2 className="text-xl font-semibold">Hacemos juntos — Práctica guiada</h2>
+      </div>
+      <Callout type="tip" title="Manos a la obra, en pareja">
+        Ahora te toca a ti escribir el código, pero con mi guía. Lee la instrucción, intenta completar el starter code, y si te trabas, revisa la solución. <strong>La magia ocurre cuando escribes el código tú mismo</strong> — no copies sin entender.
+      </Callout>
+      <RichText content={section.weDo.intro} sectionId={section.id} />
+      {section.weDo.steps.map((step, i) => {
+        const showSol = showSolutions[i] || false
+        const exId = step.id || `step-${i}`
+        const headerTitle =
+          step.title?.trim() ||
+          (step.instruction.length > 96 ? `${step.instruction.slice(0, 93).trim()}…` : step.instruction)
+        return (
+          <Card
+            key={i}
+            className="overflow-hidden border-amber-500/20"
+            data-testid={`exercise-${exId}`}
+          >
+            <div className="border-b border-border/60 bg-amber-500/5 px-5 py-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
+                  {i + 1}
+                </span>
+                <span className="text-sm font-semibold">{headerTitle}</span>
+              </div>
+            </div>
+            <div className="space-y-3 p-5">
+              {step.preamble && (
+                <Callout type="info" title="Antes de empezar">
+                  <RichText content={step.preamble} sectionId={section.id} />
+                </Callout>
+              )}
+              <div>
+                <div className="mb-1 text-xs font-medium text-muted-foreground">Tu tarea</div>
+                <div className="text-sm text-foreground/90">
+                  <RichText content={step.instruction} sectionId={section.id} />
+                </div>
+              </div>
+              {step.hints && step.hints.length > 0 ? (
+                step.hints.map((h, hi) => (
+                  <Callout key={hi} type="tip" title={hi === 0 ? 'Pista 1' : `Pista ${hi + 1}`}>
+                    <RichText content={h} sectionId={section.id} />
+                  </Callout>
+                ))
+              ) : (
+                <Callout type="tip" title="Pista">
+                  <RichText content={step.hint} sectionId={section.id} />
+                </Callout>
+              )}
+              {step.kind && (
+                <p className="text-xs text-muted-foreground">
+                  Tipo:{' '}
+                  {step.kind === 'guided'
+                    ? 'Guiado'
+                    : step.kind === 'independent'
+                      ? 'Independiente'
+                      : 'Transferencia'}
+                  {step.id ? ` · ${step.id}` : ''}
+                </p>
+              )}
+              <div>
+                <div className="mb-2 text-xs font-medium text-muted-foreground">Starter code:</div>
+                <CodeBlock
+                  code={step.starterCode.code}
+                  language={step.starterCode.language}
+                  title={step.starterCode.title}
+                />
+              </div>
+              <div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowSolutions((s) => ({ ...s, [i]: !s[i] }))}
+                  className="gap-2"
+                  data-testid={`exercise-check-${exId}`}
+                >
+                  {showSol ? (
+                    <>
+                      <EyeOff className="h-4 w-4" />
+                      Ocultar solución
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="h-4 w-4" />
+                      Ver solución
+                    </>
+                  )}
+                </Button>
+              </div>
+              {showSol && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="space-y-3"
+                  data-testid={`exercise-feedback-${exId}`}
+                >
+                  <div className="mb-2 text-xs font-medium text-muted-foreground">Solución:</div>
+                  <CodeBlock
+                    code={step.solutionCode.code}
+                    language={step.solutionCode.language}
+                    title={step.solutionCode.title}
+                    output={step.solutionCode.output}
+                  />
+                  {step.edgeCases && step.edgeCases.length > 0 && (
+                    <Callout type="warning" title="Casos borde">
+                      <ul className="list-disc pl-4 space-y-1">
+                        {step.edgeCases.map((ec, eci) => (
+                          <li key={eci}>{ec}</li>
+                        ))}
+                      </ul>
+                    </Callout>
+                  )}
+                  {step.feedback && (
+                    <Callout type="success" title="Feedback">
+                      <RichText content={step.feedback} sectionId={section.id} />
+                    </Callout>
+                  )}
+                  {step.retrospective && (
+                    <Callout type="tip" title="Después del ejercicio — consolida">
+                      <RichText content={step.retrospective} sectionId={section.id} />
+                    </Callout>
+                  )}
+                  {step.tests && (
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-medium">Verificación: </span>
+                      {step.tests}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </div>
+          </Card>
+        )
+      })}
+      <MarkDoneButton onDone={onDone} done={done} label="Práctica completada" />
+    </div>
+  )
+}
+
+// === You Do Tab ===
+function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+  const project = section.youDo
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <Rocket className="h-5 w-5 text-emerald-600" />
+        <h2 className="text-xl font-semibold">Tú haces — Proyecto para tu portafolio</h2>
+      </div>
+      <Callout type="success" title="Tu momento de brillar">
+        Este es el proyecto que vas a subir a tu GitHub y mostrar en entrevistas. Tómate tu tiempo, no te apresures. Si te trabas, vuelve a la teoría o al I Do — pero intenta resolverlo solo primero. <strong>Acá es donde se consolida el aprendizaje.</strong>
+      </Callout>
+
+      <Card className="overflow-hidden border-emerald-500/30 shadow-glow">
+        <div className="gradient-primary px-5 py-4 text-white">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5" />
+            <h3 className="text-lg font-bold">{project.title}</h3>
+          </div>
+        </div>
+        <div className="space-y-4 p-5">
+          <div>
+            <div className="text-sm font-semibold text-foreground">Contexto</div>
+            <div className="mt-1 text-sm text-foreground/80">
+              <RichText content={project.context} sectionId={section.id} />
+            </div>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold text-foreground">Objetivos</div>
+            <ul className="mt-2 space-y-2">
+              {project.objectives.map((o, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-foreground/90">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                  <span>{o}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold text-foreground">Requisitos técnicos</div>
+            <ul className="mt-2 space-y-1.5">
+              {project.requirements.map((r, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
+                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
+                  <span className="font-mono text-[13px]">{r}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {project.starterCode && (
+            <div>
+              <div className="mb-2 text-sm font-semibold text-foreground">Starter code</div>
+              <CodeBlock code={project.starterCode} language="python" title="starter.py" />
+            </div>
+          )}
+
+          <Callout type="tip" title="Tip para tu portafolio">
+            <RichText content={project.portfolioNote} sectionId={section.id} />
+          </Callout>
+
+          {project.retrospective && (
+            <Callout type="success" title="Después del proyecto — consolida y defiende">
+              <RichText content={project.retrospective} sectionId={section.id} />
+            </Callout>
+          )}
+
+          <div>
+            <div className="mb-2 text-sm font-semibold text-foreground">Rúbrica de evaluación</div>
+            <div className="overflow-hidden rounded-lg border border-border">
+              <table className="w-full text-sm">
+                <thead className="bg-muted/50">
+                  <tr>
+                    <th className="px-3 py-2 text-left font-medium text-foreground">Criterio</th>
+                    <th className="px-3 py-2 text-right font-medium text-foreground">Peso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {project.rubric.map((r, i) => (
+                    <tr key={i} className="border-t border-border/60">
+                      <td className="px-3 py-2 text-foreground/80">{r.criterion}</td>
+                      <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{r.weight}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {section.topicEvaluations && section.topicEvaluations.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="h-5 w-5 text-rose-600" />
+            <h3 className="text-lg font-semibold">Evaluaciones de tema (V3)</h3>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Rúbrica 0–3 por criterio (corrección, robustez, mantenibilidad, uso responsable). Solo datos sintéticos.
+          </p>
+          {section.topicEvaluations.map((te) => (
+            <Card key={te.id} className="border-rose-500/20 p-4 space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <Badge variant="outline" className="mb-1 text-[10px] font-mono">
+                    {te.id}
+                  </Badge>
+                  <h4 className="text-sm font-semibold">{te.title}</h4>
+                </div>
+              </div>
+              <ul className="space-y-2">
+                {te.tasks.map((task) => (
+                  <li key={task.id} className="rounded-md border border-border/60 bg-muted/30 p-2.5">
+                    <div className="text-xs font-medium text-foreground">{task.title}</div>
+                    <p className="mt-1 text-xs text-foreground/75">{task.deliverable}</p>
+                  </li>
+                ))}
+              </ul>
+              <div className="grid gap-1.5 sm:grid-cols-2 text-[11px] text-muted-foreground">
+                <div><span className="font-medium text-foreground/80">Corrección: </span>{te.rubric_0_3.correctness}</div>
+                <div><span className="font-medium text-foreground/80">Robustez: </span>{te.rubric_0_3.robustness}</div>
+                <div><span className="font-medium text-foreground/80">Mantenibilidad: </span>{te.rubric_0_3.maintainability}</div>
+                <div><span className="font-medium text-foreground/80">Uso responsable: </span>{te.rubric_0_3.responsible_use}</div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      <MarkDoneButton onDone={onDone} done={done} label="Proyecto enviado a mi GitHub" />
+    </div>
+  )
+}
+
+// === Quiz Tab ===
+function QuizTab({
+  section,
+  onDone,
+  done,
+  score,
+  onSubmitScore,
+}: {
+  section: CourseSection
+  onDone: () => void
+  done: boolean
+  score: number
+  onSubmitScore: (s: number) => void
+}) {
+  const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSelect = (qIdx: number, optIdx: number) => {
+    if (submitted) return
+    setAnswers((a) => ({ ...a, [qIdx]: optIdx }))
+  }
+
+  const handleSubmit = () => {
+    const total = section.selfCheck.questions.length
+    const correct = section.selfCheck.questions.reduce(
+      (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
+      0
+    )
+    const pct = Math.round((correct / total) * 100)
+    onSubmitScore(pct)
+    setSubmitted(true)
+    if (pct >= 70) {
+      onDone()
+    }
+  }
+
+  const handleRetry = () => {
+    setAnswers({})
+    setSubmitted(false)
+  }
+
+  const total = section.selfCheck.questions.length
+  const correct = section.selfCheck.questions.reduce(
+    (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
+    0
+  )
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <HelpCircle className="h-5 w-5 text-rose-600" />
+        <h2 className="text-xl font-semibold">Autocheck — Verifica tu aprendizaje</h2>
+      </div>
+      <Callout type="info" title="¿Para qué este quiz?">
+        Active recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.
+      </Callout>
+
+      {section.selfCheck.questions.map((q, qIdx) => {
+        const userAnswer = answers[qIdx]
+        const isCorrect = userAnswer === q.correctIndex
+        return (
+          <Card key={qIdx} className="overflow-hidden" data-testid={`sc-q-${qIdx}`}>
+            <div className="p-5">
+              <div className="mb-3 flex items-start gap-2">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-xs font-bold text-rose-600">
+                  {qIdx + 1}
+                </span>
+                <p className="text-sm font-medium text-foreground">{q.question}</p>
+              </div>
+              <div className="space-y-2">
+                {q.options.map((opt, oIdx) => {
+                  const isSelected = userAnswer === oIdx
+                  const showCorrect = submitted && oIdx === q.correctIndex
+                  const showWrong = submitted && isSelected && oIdx !== q.correctIndex
+                  return (
+                    <button
+                      key={oIdx}
+                      onClick={() => handleSelect(qIdx, oIdx)}
+                      disabled={submitted}
+                      data-testid={`sc-q-${qIdx}-opt-${oIdx}`}
+                      className={cn(
+                        'flex w-full items-center gap-3 rounded-lg border p-3 text-left text-sm transition-all',
+                        showCorrect
+                          ? 'border-green-500 bg-green-500/5 text-foreground'
+                          : showWrong
+                            ? 'border-red-500 bg-red-500/5 text-foreground'
+                            : isSelected
+                              ? 'border-primary bg-primary/5'
+                              : 'border-border hover:border-primary/40 hover:bg-accent/50',
+                        submitted && 'cursor-default'
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-bold',
+                          showCorrect
+                            ? 'border-green-500 bg-green-500 text-white'
+                            : showWrong
+                              ? 'border-red-500 bg-red-500 text-white'
+                              : isSelected
+                                ? 'border-primary bg-primary text-primary-foreground'
+                                : 'border-muted text-muted-foreground'
+                        )}
+                      >
+                        {showCorrect ? (
+                          <Check className="h-3.5 w-3.5" />
+                        ) : showWrong ? (
+                          <X className="h-3.5 w-3.5" />
+                        ) : (
+                          String.fromCharCode(65 + oIdx)
+                        )}
+                      </span>
+                      <span className="flex-1">{opt}</span>
+                    </button>
+                  )
+                })}
+              </div>
+              {submitted && (
+                <div
+                  className={cn(
+                    'mt-3 rounded-lg p-3 text-xs',
+                    isCorrect ? 'bg-green-500/10 text-green-900 dark:text-green-200' : 'bg-red-500/10 text-red-900 dark:text-red-200'
+                  )}
+                >
+                  <strong>{isCorrect ? '✓ Correcto. ' : '✗ Incorrecto. '}</strong>
+                  {q.explanation}
+                </div>
+              )}
+            </div>
+          </Card>
+        )
+      })}
+
+      {!submitted ? (
+        <Button
+          onClick={handleSubmit}
+          disabled={Object.keys(answers).length < total}
+          className="w-full gap-2"
+          size="lg"
+          data-testid="sc-submit"
+        >
+          <CheckCircle2 className="h-4 w-4" />
+          Enviar respuestas ({Object.keys(answers).length}/{total})
+        </Button>
+      ) : (
+        <Card
+          className={cn('p-5 text-center', pct >= 70 ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}
+          data-testid="sc-result"
+        >
+          <div className="mb-2 flex justify-center">
+            <div className="relative">
+              <ProgressRing progress={pct} size={72} />
+            </div>
+          </div>
+          <div className="text-lg font-bold">
+            {pct >= 70 ? '¡Buenazo! Sección completada' : 'Casi, vuelve a intentarlo'}
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {correct} de {total} correctas ({pct}%)
+          </p>
+          <div className="mt-4 flex justify-center gap-2">
+            <Button variant="outline" onClick={handleRetry} className="gap-2">
+              Reintentar
+            </Button>
+            {pct >= 70 && (
+              <Button className="gap-2" onClick={onDone}>
+                <Award className="h-4 w-4" />
+                Marcar como completada
+              </Button>
+            )}
+          </div>
+        </Card>
+      )}
+    </div>
+  )
+}
+
+// === Mark Done Button ===
+function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boolean; label: string }) {
+  return (
+    <Button
+      onClick={onDone}
+      variant={done ? 'secondary' : 'default'}
+      className={cn('w-full gap-2', done && 'bg-green-600 text-white hover:bg-green-700')}
+      size="lg"
+    >
+      <CheckCircle2 className="h-4 w-4" />
+      {done ? 'Completado' : label}
+    </Button>
+  )
+}
+
+// === Interactive Playground Demo ===
+// Per-section code examples that students can run in the browser
+function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
+  const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
+    'setup': {
+      title: 'Practica el intérprete y el entrypoint',
+      code: `# Primer script reproducible (usa un nombre sintético)
+import sys
+
+nombre = "Estudiante"
+
+def main():
+    print(f"Hola {nombre}, bienvenido a PyArcana!")
+    print(f"Python mayor: {sys.version_info.major}")
+    print("Entrypoint ejecutado")
+
+if __name__ == "__main__":
+    main()`,
+      expectedOutput: `Hola Estudiante, bienvenido a PyArcana!
+Python mayor: 3
+Entrypoint ejecutado`,
+      hint: 'Mantén un nombre sintético. Observa que el guardián llama a main() y que sys confirma el intérprete.',
+    },
+    'basics': {
+      title: 'Practica el contrato raw/clean',
+      code: `# Convierte texto de intake sin perder el valor original
+def safe_int(campo, valor):
+    raw = valor
+    texto = raw.strip()
+    if texto == "":
+        return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
+    try:
+        return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
+    except ValueError:
+        return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
+
+for edad_raw in [" 28 ", "  ", "abc"]:
+    resultado = safe_int("edad", edad_raw)
+    print(
+        repr(resultado["raw"]),
+        "->",
+        resultado["clean"],
+        resultado["error"],
+    )`,
+      expectedOutput: `' 28 ' -> 28 None
+'  ' -> None valor vacío
+'abc' -> None entero inválido`,
+      hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
+    },
+    'data-structures': {
+      title: 'Practica decisiones y reglas',
+      code: `# Valida campos sintéticos sin confundir ausencia con cero
+ALLOWED_REGIONS = {"Lima", "Arequipa", "Cusco", "Piura"}
+
+def validate_monto(monto):
+    if monto is None:
+        return {"status": "review", "code": "MISSING"}
+    if not isinstance(monto, int):
+        return {"status": "reject", "code": "BAD_TYPE"}
+    if monto < 0:
+        return {"status": "reject", "code": "OUT_OF_RANGE"}
+    return {"status": "accept", "code": "OK"}
+
+def validate_region(region):
+    if region is None:
+        return {"status": "review", "code": "MISSING"}
+    if region not in ALLOWED_REGIONS:
+        return {"status": "review", "code": "NOT_IN_ALLOWLIST"}
+    return {"status": "accept", "code": "OK"}
+
+cases = [
+    {"id": "A", "monto": 0, "region": "Lima"},
+    {"id": "B", "monto": None, "region": "Tacna"},
+    {"id": "C", "monto": -5, "region": "Cusco"},
+]
+for case in cases:
+    print(case["id"], validate_monto(case["monto"]), validate_region(case["region"]))`,
+      expectedOutput: `A {'status': 'accept', 'code': 'OK'} {'status': 'accept', 'code': 'OK'}
+B {'status': 'review', 'code': 'MISSING'} {'status': 'review', 'code': 'NOT_IN_ALLOWLIST'}
+C {'status': 'reject', 'code': 'OUT_OF_RANGE'} {'status': 'accept', 'code': 'OK'}`,
+      hint: 'Cambia un monto a 0, None, negativo o texto y predice status y code antes de ejecutar.',
+    },
+    'functions-modules': {
+      title: 'Practica un resumen por lotes',
+      code: `# Resume un lote sintético en un solo pase O(n)
+statuses = ["accept", "reject", "review", "accept", "reject"]
+counts = {"accept": 0, "reject": 0, "review": 0}
+
+for status in statuses:
+    counts[status] += 1
+
+n_total = len(statuses)
+tasa_reject = counts["reject"] / n_total if n_total else None
+
+print("conteos", counts)
+print("n_total", n_total)
+print("tasa_reject", tasa_reject)
+
+# Caso borde del gate CP-N1-A: lote vacío
+empty = []
+empty_rate = 0 / len(empty) if empty else None
+print("tasa_lote_vacio", empty_rate)`,
+      expectedOutput: `conteos {'accept': 2, 'reject': 2, 'review': 1}
+n_total 5
+tasa_reject 0.4
+tasa_lote_vacio None`,
+      hint: 'Cambia un status y observa cómo se actualizan el contador y la tasa; luego prueba una lista vacía.',
+    },
+    // `oop` is the stable S05 compatibility id; its learner content is Functions.
+    'oop': {
+      title: 'Practica funciones con contrato',
+      code: `# Datos sintéticos: practica el núcleo puro de CP-N1-B
+def normalize_nombre(raw: str) -> str:
+    return " ".join(raw.strip().split()).title()
+
+def normalize_email(raw: str) -> str:
+    email = raw.strip().lower()
+    if "@" not in email:
+        raise ValueError("email sin @")
+    return email
+
+def normalize_telefono(raw: str) -> str:
+    return "".join(c for c in raw if c.isdigit())
+
+print(normalize_nombre("  maría  josé "))
+print(normalize_email("  Ana@Example.COM "))
+print(normalize_telefono("(999) 000-111"))
+
+try:
+    normalize_email("sin-arroba")
+except ValueError as error:
+    print(error)
+
+nombre = normalize_nombre("  ANA ")
+print("idempotente", normalize_nombre(nombre) == nombre)`,
+      expectedOutput: `María José
+ana@example.com
+999000111
+email sin @
+idempotente True`,
+      hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
+    },
+    'numpy': {
+      title: 'Practica colecciones y conflictos',
+      code: `# Modelo tabular en memoria: solo biblioteca estándar
+import json
+
+def dedup_report(rows, key="id"):
+    """Conserva la primera fila y reporta payloads incompatibles."""
+    seen = {}
+    unique = []
+    conflicts = []
+    for row in rows:
+        value = row[key]
+        if value not in seen:
+            seen[value] = row
+            unique.append(row)
+        elif seen[value] != row:
+            conflicts.append({
+                "id": value,
+                "kept": seen[value],
+                "other": row,
+            })
+    return unique, conflicts
+
+rows = [
+    {"id": "C002", "region": "Cusco"},
+    {"id": "C001", "region": "Lima"},
+    {"id": "C001", "region": "Lima"},
+    {"id": "C001", "region": "Piura"},
+]
+unique, conflicts = dedup_report(rows)
+unique = sorted(unique, key=lambda row: row["id"])
+
+print("ids únicos:", [row["id"] for row in unique])
+print("conflictos:", len(conflicts))
+print(json.dumps(unique, sort_keys=True, ensure_ascii=False))`,
+      expectedOutput: `ids únicos: ['C001', 'C002']
+conflictos: 1
+[{"id": "C001", "region": "Lima"}, {"id": "C002", "region": "Cusco"}]`,
+      hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
+    },
+    'pandas': {
+      title: 'Practica ingesta con cuarentena y manifest',
+      code: `import csv, hashlib, io, json
+from decimal import Decimal, InvalidOperation
+
+raw = "id,monto\\nC001,10.5\\nC002,x\\nC003,3\\n"
+clean = []
+quarantine = []
+
+for row in csv.DictReader(io.StringIO(raw)):
+    try:
+        clean.append({
+            "id": row["id"],
+            "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
+        })
+    except InvalidOperation:
+        quarantine.append({"raw": row, "reason": "cast_monto"})
+
+manifest = {
+    "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
+    "n_in": len(clean) + len(quarantine),
+    "n_clean": len(clean),
+    "n_quarantine": len(quarantine),
+}
+manifest["reconcile_ok"] = (
+    manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
+)
+
+print("clean", json.dumps(clean, ensure_ascii=False, sort_keys=True))
+print("quarantine", json.dumps(quarantine, ensure_ascii=False, sort_keys=True))
+print("manifest", json.dumps(manifest, sort_keys=True))`,
+      expectedOutput: `clean [{"id": "C001", "monto": "10.50"}, {"id": "C003", "monto": "3.00"}]
+quarantine [{"raw": {"id": "C002", "monto": "x"}, "reason": "cast_monto"}]
+manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha256_12": "0181876342b5"}`,
+      hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
+    },
+    'visualization': {
+      title: 'Practica un lote observable y sin PII',
+      code: `# Excepciones, cuarentena y logging seguro — solo datos sintéticos
+import io
+import logging
+
+class ConfigError(Exception):
+    pass
+
+def mask_email(email):
+    local, separator, domain = email.partition("@")
+    if not separator or not local or not domain:
+        return "***"
+    return f"{local[0]}***@{domain}"
+
+def process_batch(records, required_fields, correlation_id, log):
+    if not required_fields:
+        raise ConfigError("required_fields vacío")
+
+    ok = []
+    quarantined = []
+    for record in records:
+        missing = [field for field in required_fields if not record.get(field)]
+        if missing:
+            reason = "missing:" + ",".join(missing)
+            log.warning(
+                "correlation_id=%s record_id=%s event=quarantine reason=%s email=%s",
+                correlation_id,
+                record.get("id", "sin-id"),
+                reason,
+                mask_email(record.get("email", "")),
+            )
+            quarantined.append({"id": record.get("id"), "reason": reason})
+        else:
+            ok.append(record)
+
+    assert len(records) == len(ok) + len(quarantined)
+    return {"in": len(records), "ok": ok, "quarantined": quarantined}
+
+buffer = io.StringIO()
+logger = logging.getLogger("s09.playground")
+logger.handlers.clear()
+logger.setLevel(logging.WARNING)
+handler = logging.StreamHandler(buffer)
+handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+logger.addHandler(handler)
+logger.propagate = False
+
+rows = [
+    {"id": "C001", "email": "ana@ejemplo.pe"},
+    {"id": "C002", "email": ""},
+]
+result = process_batch(rows, ["id", "email"], "corr-demo", logger)
+print(buffer.getvalue().strip())
+print(
+    f"in={result['in']} ok={len(result['ok'])} "
+    f"quarantined={len(result['quarantined'])}"
+)
+
+try:
+    process_batch(rows, [], "corr-demo", logger)
+except ConfigError as error:
+    print("fatal:", error)`,
+      expectedOutput: `WARNING correlation_id=corr-demo record_id=C002 event=quarantine reason=missing:email email=***
+in=2 ok=1 quarantined=1
+fatal: required_fields vacío`,
+      hint: 'Agrega una fila sin id y comprueba que el reconcile siga cuadrando sin imprimir el email completo',
+    },
+    'sklearn': {
+      title: 'Practica scikit-learn',
+      code: `# Practica scikit-learn (se carga automaticamente)
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+# Datos sinteticos
+np.random.seed(42)
+X = np.random.randn(100, 3)
+y = (X[:, 0] + X[:, 1] > 0).astype(int)
+
+# Entrenar modelo
+model = LogisticRegression(random_state=42)
+model.fit(X[:80], y[:80])
+
+# Predecir
+predictions = model.predict(X[80:])
+accuracy = accuracy_score(y[80:], predictions)
+
+print(f"Accuracy: {accuracy:.2%}")
+print(f"Coeficientes: {model.coef_[0].round(3)}")
+print(f"Intercept: {model.intercept_[0]:.3f}")
+
+# Cross-validation
+cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+print(f"\\nCV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")`,
+      expectedOutput: `Accuracy: 100.00%
+Coeficientes: [2.584 2.408 0.118]
+Intercept: -0.206
+
+CV Accuracy: 96.00% ± 3.74%`,
+      hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
+    },
+    'testing': {
+      title: 'Practica testing con asserts',
+      code: `# Practica testing con asserts (simulando pytest)
+import numpy as np
+
+# Funcion a testear
+def calcular_promedio_ponderado(notas, pesos):
+    """Calcula promedio ponderado."""
+    if len(notas) != len(pesos):
+        raise ValueError("Listas deben tener misma longitud")
+    if sum(pesos) != 1.0:
+        raise ValueError("Pesos deben sumar 1.0")
+    return sum(n * p for n, p in zip(notas, pesos))
+
+# === TESTS ===
+
+# Test 1: caso normal
+notas = [18, 15, 20]
+pesos = [0.3, 0.3, 0.4]
+resultado = calcular_promedio_ponderado(notas, pesos)
+assert abs(resultado - 17.9) < 0.01, f"Esperado 17.9, got {resultado}"
+print("✓ Test 1: promedio ponderado correcto")
+
+# Test 2: error por longitudes distintas
+try:
+    calcular_promedio_ponderado([1, 2], [1.0])
+    print("✗ Test 2: deberia haber fallado")
+except ValueError as e:
+    assert "misma longitud" in str(e)
+    print("✓ Test 2: error de longitud detectado")
+
+# Test 3: error por pesos que no suman 1
+try:
+    calcular_promedio_ponderado([1, 2], [0.5, 0.3])
+    print("✗ Test 3: deberia haber fallado")
+except ValueError as e:
+    assert "sumar 1.0" in str(e)
+    print("✓ Test 3: error de pesos detectado")
+
+# Test 4: edge case - un solo elemento
+resultado = calcular_promedio_ponderado([20], [1.0])
+assert resultado == 20
+print("✓ Test 4: un solo elemento funciona")
+
+print("\\n✅ Todos los tests pasaron!")`,
+      expectedOutput: `✓ Test 1: promedio ponderado correcto
+✓ Test 2: error de longitud detectado
+✓ Test 3: error de pesos detectado
+✓ Test 4: un solo elemento funciona
+
+✅ Todos los tests pasaron!`,
+      hint: 'Agrega un test para verificar que funciona con notas negativas',
+    },
+    'data-acquisition': {
+      title: 'Practica Unicode, regex y evidencia',
+      code: `# Laboratorio de texto latinoamericano con datos sintéticos
+import re
+import unicodedata
+
+def normalize_text(raw):
+    nfc = unicodedata.normalize("NFC", raw)
+    return " ".join(nfc.split()).casefold()
+
+def normalize_email(raw):
+    value = raw.strip().casefold()
+    if value.count("@") != 1 or any(ch.isspace() for ch in value):
+        raise ValueError("email requiere un @ y cero espacios")
+    local, domain = value.split("@")
+    if not local or not domain:
+        raise ValueError("email requiere local y dominio")
+    return value
+
+def token_jaccard(a, b):
+    def tokens(value):
+        clean = normalize_text(value.replace(".", " "))
+        return set(clean.split())
+    left, right = tokens(a), tokens(b)
+    if not left and not right:
+        return 1.0
+    if not left or not right:
+        return 0.0
+    return len(left & right) / len(left | right)
+
+raw_a = "  José  Quispe "
+raw_b = "Jose\\u0301 Quispe"
+print("NFC iguales:", normalize_text(raw_a) == normalize_text(raw_b))
+print("Email:", normalize_email(" Ana+demo@Example.COM "))
+
+try:
+    normalize_email("ana@@example.com")
+except ValueError:
+    print("Email inválido → review:", True)
+
+text = "DNI 12345678 PE"
+print("search/fullmatch:", bool(re.search(r"\\d{8}", text)), bool(re.fullmatch(r"\\d{8}", text)))
+
+score = token_jaccard("Juan Perez", "Juan P. Perez")
+print("Jaccard:", round(score, 3))
+print("Decisión:", "review" if 0.4 <= score < 1.0 else "exact")`,
+      expectedOutput: `NFC iguales: True
+Email: ana+demo@example.com
+Email inválido → review: True
+search/fullmatch: True False
+Jaccard: 0.667
+Decisión: review`,
+      hint: 'Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos',
+    },
+    'performance': {
+      title: 'Practica multiprocessing y logging',
+      code: `# Practica performance y logging (simulado en Pyodide)
+import time
+import logging
+
+# === LOGGING setup ===
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%H:%M:%S'
+)
+logger = logging.getLogger(__name__)
+
+# === BENCHMARK: comparar enfoques ===
+def lento(n):
+    """Enfoque con loop tradicional."""
+    resultado = []
+    for i in range(n):
+        if i % 2 == 0:
+            resultado.append(i ** 2)
+    return resultado
+
+def rapido(n):
+    """Enfoque con list comprehension."""
+    return [i ** 2 for i in range(n) if i % 2 == 0]
+
+# Medir tiempo
+n = 100000
+
+inicio = time.time()
+r1 = lento(n)
+t1 = time.time() - inicio
+logger.info(f"Loop tradicional: {t1:.4f}s ({len(r1)} elementos)")
+
+inicio = time.time()
+r2 = rapido(n)
+t2 = time.time() - inicio
+logger.info(f"List comprehension: {t2:.4f}s ({len(r2)} elementos)")
+
+speedup = t1 / t2 if t2 > 0 else 0
+logger.info(f"Speedup: {speedup:.1f}x mas rapido con comprehension")
+
+# Verificar que ambos dan el mismo resultado
+assert r1 == r2, "Los resultados no coinciden!"
+logger.info("✓ Ambos enfoques producen el mismo resultado")`,
+      hint: 'Cambia n a 1000000 y observa como cambia el speedup',
+    },
+    'rpa-automation': {
+      title: 'Practica automatización con tenacity y argparse',
+      code: `# Practica RPA: retry logic y CLI (simulado en Pyodide)
+import time
+import random
+from functools import wraps
+
+# === DECORADOR DE RETRY (simulando tenacity) ===
+def retry(max_attempts=3, delay=0.1):
+    """Decorador que reintenta una funcion hasta max_attempts veces."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    result = func(*args, **kwargs)
+                    print(f"  ✓ Intento {attempt}: exitoso")
+                    return result
+                except Exception as e:
+                    print(f"  ✗ Intento {attempt}: fallo - {e}")
+                    if attempt < max_attempts:
+                        time.sleep(delay)
+                        print(f"    Reintentando en {delay}s...")
+                    else:
+                        print(f"  ✗ Agotados {max_attempts} intentos")
+                        raise
+        return wrapper
+    return decorator
+
+# === SIMULAR API QUE FALLA ALEATORIAMENTE ===
+@retry(max_attempts=5, delay=0.05)
+def llamar_api_inestable(endpoint):
+    """Simula una API que falla 70% de las veces."""
+    if random.random() < 0.7:
+        raise ConnectionError(f"Timeout en {endpoint}")
+    return {"status": "ok", "data": [1, 2, 3]}
+
+# Probar la API con retry
+print("=== Llamando API inestable con retry ===")
+random.seed(42)  # para reproducibilidad
+try:
+    resultado = llamar_api_inestable("/api/clientes")
+    print(f"Resultado: {resultado}")
+except Exception as e:
+    print(f"Error final: {e}")
+
+# === SIMULAR ARGPARSE ===
+print("\\n=== Simulando CLI con argumentos ===")
+def procesar_clientes(archivo, formato="csv", verbose=False):
+    """Simula procesamiento de clientes con argumentos CLI."""
+    if verbose:
+        print(f"  Procesando {archivo} en formato {formato}...")
+    # Simular procesamiento
+    clientes = ["Maria", "Luis", "Ana"]
+    if verbose:
+        print(f"  Encontrados {len(clientes)} clientes")
+    return clientes
+
+# Simular: python script.py --archivo clientes.xlsx --formato xlsx --verbose
+procesar_clientes("clientes.xlsx", formato="xlsx", verbose=True)`,
+      expectedOutput: `=== Llamando API inestable con retry ===
+  ✗ Intento 1: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✗ Intento 2: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✗ Intento 3: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✗ Intento 4: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✓ Intento 5: exitoso
+Resultado: {'status': 'ok', 'data': [1, 2, 3]}
+
+=== Simulando CLI con argumentos ===
+  Procesando clientes.xlsx en formato xlsx...
+  Encontrados 3 clientes`,
+      hint: 'Cambia max_attempts a 10 y observa cuántos intentos necesita la API',
+    },
+    // === Phase 1 demos (S14-S26) — Pyodide-compatible (stdlib only) ===
+    'security': {
+      title: 'Practica seguridad: hashing y cifrado',
+      code: `# Practica seguridad con biblioteca estandar
+import hashlib
+
+# 1. Hash SHA-256 (irreversible - para passwords)
+password = "mi_password_123"
+hash_sha256 = hashlib.sha256(password.encode()).hexdigest()
+print(f"Password: {password}")
+print(f"SHA-256:  {hash_sha256}")
+
+# 2. PBKDF2 con salt (mas seguro que SHA-256 solo)
+# En produccion: salt = os.urandom(16) (aleatorio unico por usuario)
+# Aqui usamos salt fijo para demo reproducible
+salt = b"sal_demo_12345678"  # 16 bytes
+key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
+print(f"\\nPBKDF2 (100k iteraciones): {key.hex()[:32]}...")
+print(f"Salt: {salt.hex()[:16]}...")
+
+# 3. Verificar password
+def verificar_password(password, hash_guardado):
+    """Compara hash del password ingresado con el guardado."""
+    hash_ingresado = hashlib.sha256(password.encode()).hexdigest()
+    return hash_ingresado == hash_guardado
+
+print(f"\\nPassword correcto: {verificar_password('mi_password_123', hash_sha256)}")
+print(f"Password incorrecto: {verificar_password('wrong', hash_sha256)}")`,
+      expectedOutput: `Password: mi_password_123
+SHA-256:  dcad9884ca445045900d381e4b0ce34413a8cc2e45d4d32f1d795b9cebc4306e
+
+PBKDF2 (100k iteraciones): 8be36e32b6c83c53cc9585f0b41929c5...
+Salt: 73616c5f64656d6f...
+
+Password correcto: True
+Password incorrecto: False`,
+      hint: 'Cambia el numero de iteraciones de PBKDF2 y observa como cambia el hash',
+    },
+    'stdlib-deep': {
+      title: 'Practica functools y itertools',
+      code: `# Practica functools y itertools (biblioteca estandar)
+import functools
+import itertools
+
+# 1. lru_cache: memoizacion automatica
+@functools.lru_cache(maxsize=128)
+def fibonacci(n):
+    """Fibonacci con cache - O(n) en vez de O(2^n)."""
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print("Fibonacci con lru_cache:")
+for i in range(10):
+    print(f"  fib({i}) = {fibonacci(i)}")
+print(f"  Cache info: {fibonacci.cache_info()}")
+
+# 2. itertools.chain: concatenar iterables
+lista1 = [1, 2, 3]
+lista2 = [4, 5, 6]
+combinado = list(itertools.chain(lista1, lista2))
+print(f"\\nChain: {combinado}")
+
+# 3. itertools.combinations
+combo = list(itertools.combinations([1, 2, 3, 4], 2))
+print(f"Combinations(4,2): {combo}")
+
+# 4. partial: fijar argumentos
+def potencia(base, exponente):
+    return base ** exponente
+
+cuadrado = functools.partial(potencia, exponente=2)
+cubo = functools.partial(potencia, exponente=3)
+print(f"\\ncuadrado(5) = {cuadrado(5)}")
+print(f"cubo(3) = {cubo(3)}")`,
+      expectedOutput: `Fibonacci con lru_cache:
+  fib(0) = 0
+  fib(1) = 1
+  fib(2) = 1
+  fib(3) = 2
+  fib(4) = 3
+  fib(5) = 5
+  fib(6) = 8
+  fib(7) = 13
+  fib(8) = 21
+  fib(9) = 34
+  Cache info: CacheInfo(hits=16, misses=10, maxsize=128, currsize=10)
+
+Chain: [1, 2, 3, 4, 5, 6]
+Combinations(4,2): [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+
+cuadrado(5) = 25
+cubo(3) = 27`,
+      hint: 'Cambia maxsize de lru_cache a 1 y observa como cambia el cache_info',
+    },
+    'wxpython-gui': {
+      title: 'Practica eventos y callbacks (simulado)',
+      code: `# Simulacion de eventos GUI (sin wxPython en Pyodide)
+# Concepto: como funcionan los callbacks de eventos
+
+class Button:
+    """Simula un boton de GUI con event binding."""
+    def __init__(self, name):
+        self.name = name
+        self.callback = None
+    
+    def bind(self, event_type, callback):
+        """Vincula un callback a un evento (como wx.EVT_BUTTON)."""
+        self.callback = callback
+        print(f"  {self.name}: evento '{event_type}' vinculado")
+    
+    def click(self):
+        """Simula un clic del usuario."""
+        if self.callback:
+            print(f"  {self.name}: CLICK detectado!")
+            self.callback()
+        else:
+            print(f"  {self.name}: sin callback vinculado")
+
+# Crear botones como en wxPython
+btn_saludar = Button("btn_saludar")
+btn_salir = Button("btn_salir")
+
+# Definir callbacks (event handlers)
+def on_saludar(event=None):
+    print("    -> Hola desde el boton saludar!")
+
+def on_salir(event=None):
+    print("    -> Cerrando aplicacion...")
+
+# Vincular eventos (como btn.Bind(wx.EVT_BUTTON, handler))
+btn_saludar.bind("EVT_BUTTON", on_saludar)
+btn_salir.bind("EVT_BUTTON", on_salir)
+
+# Simular clics
+print("Simulando clics:")
+btn_saludar.click()
+btn_salir.click()`,
+      expectedOutput: `  btn_saludar: evento 'EVT_BUTTON' vinculado
+  btn_salir: evento 'EVT_BUTTON' vinculado
+Simulando clics:
+  btn_saludar: CLICK detectado!
+    -> Hola desde el boton saludar!
+  btn_salir: CLICK detectado!
+    -> Cerrando aplicacion...`,
+      hint: 'Anade un tercer boton con su propio callback y haz clic en el',
+    },
+    'packaging': {
+      title: 'Practica semver y dependencias',
+      code: `# Practica Semantic Versioning y gestion de dependencias
+import re
+
+def parse_semver(version_str):
+    """Parsea una version semver: MAJOR.MINOR.PATCH."""
+    match = re.match(r"^(\\d+)\\.(\\d+)\\.(\\d+)", version_str)
+    if not match:
+        return None
+    return tuple(int(x) for x in match.groups())
+
+def bump_version(version_str, bump_type):
+    """Incrementa una version semver."""
+    major, minor, patch = parse_semver(version_str)
+    if bump_type == "patch":
+        patch += 1
+    elif bump_type == "minor":
+        minor += 1
+        patch = 0
+    elif bump_type == "major":
+        major += 1
+        minor = 0
+        patch = 0
+    return f"{major}.{minor}.{patch}"
+
+# Demostrar semver
+version = "1.4.2"
+print(f"Version actual: {version}")
+print(f"  patch bump:  {bump_version(version, 'patch')}")
+print(f"  minor bump:  {bump_version(version, 'minor')}")
+print(f"  major bump:  {bump_version(version, 'major')}")
+
+# Verificar compatibilidad
+def is_backward_compatible(old, new):
+    """True si new es backward compatible con old."""
+    o_major, o_minor, _ = parse_semver(old)
+    n_major, n_minor, _ = parse_semver(new)
+    return n_major == o_major and n_minor >= o_minor
+
+print(f"\\n1.4.2 -> 1.5.0 compatible: {is_backward_compatible('1.4.2', '1.5.0')}")
+print(f"1.4.2 -> 2.0.0 compatible: {is_backward_compatible('1.4.2', '2.0.0')}")`,
+      expectedOutput: `Version actual: 1.4.2
+  patch bump:  1.4.3
+  minor bump:  1.5.0
+  major bump:  2.0.0
+
+1.4.2 -> 1.5.0 compatible: True
+1.4.2 -> 2.0.0 compatible: False`,
+      hint: 'Implementa una funcion que determine si un bump es breaking change',
+    },
+    'data-engineering': {
+      title: 'Practica idempotencia y ETL',
+      code: `# Practica conceptos de Data Engineering (sin dependencias externas)
+import json
+from collections import defaultdict
+
+# Simular pipeline ETL con idempotencia
+class ETLPipeline:
+    """Pipeline ETL idempotente: correr N veces = mismo resultado."""
+    
+    def __init__(self):
+        self.processed_ids = set()
+        self.output = []
+    
+    def extract(self, raw_data):
+        """Extrae datos de la fuente."""
+        return raw_data
+    
+    def transform(self, records):
+        """Transforma: filtra, limpia, agrega."""
+        transformed = []
+        for r in records:
+            # Idempotencia: saltar si ya fue procesado
+            if r["id"] in self.processed_ids:
+                continue
+            self.processed_ids.add(r["id"])
+            
+            # Transformacion
+            r["total"] = r["cantidad"] * r["precio"]
+            r["moneda"] = "PEN"
+            transformed.append(r)
+        return transformed
+    
+    def load(self, records):
+        """Carga al destino (simulado)."""
+        self.output.extend(records)
+        return len(records)
+    
+    def run(self, raw_data):
+        """Ejecuta el pipeline completo."""
+        extracted = self.extract(raw_data)
+        transformed = self.transform(extracted)
+        loaded = self.load(transformed)
+        return loaded
+
+# Datos de prueba
+datos = [
+    {"id": 1, "cantidad": 10, "precio": 5.0},
+    {"id": 2, "cantidad": 5, "precio": 12.0},
+    {"id": 3, "cantidad": 8, "precio": 3.5},
+]
+
+pipeline = ETLPipeline()
+
+# Primera ejecucion
+n1 = pipeline.run(datos)
+print(f"Run 1: {n1} registros procesados")
+print(f"Output: {json.dumps(pipeline.output, indent=2)}")
+
+# Segunda ejecucion (idempotente - no duplica)
+n2 = pipeline.run(datos)
+print(f"\\nRun 2: {n2} registros procesados (idempotente!)")
+print(f"Total output: {len(pipeline.output)} registros")`,
+      expectedOutput: `Run 1: 3 registros procesados
+Output: [
+  {
+    "id": 1,
+    "cantidad": 10,
+    "precio": 5.0,
+    "total": 50.0,
+    "moneda": "PEN"
+  },
+  {
+    "id": 2,
+    "cantidad": 5,
+    "precio": 12.0,
+    "total": 60.0,
+    "moneda": "PEN"
+  },
+  {
+    "id": 3,
+    "cantidad": 8,
+    "precio": 3.5,
+    "total": 28.0,
+    "moneda": "PEN"
+  }
+]
+
+Run 2: 0 registros procesados (idempotente!)
+Total output: 3 registros`,
+      hint: 'Que pasa si corres el pipeline 3 veces? El output debe ser el mismo que 1 vez',
+    },
+    'databases-orm': {
+      title: 'Practica SQL y modelos (simulado)',
+      code: `# Simulacion de ORM y queries SQL (sin DB real)
+import sqlite3
+import json
+
+# Crear DB en memoria (sqlite3 es stdlib!)
+conn = sqlite3.connect(":memory:")
+cursor = conn.cursor()
+
+# Crear tabla
+cursor.execute("""
+    CREATE TABLE clientes (
+        id INTEGER PRIMARY KEY,
+        nombre TEXT NOT NULL,
+        email TEXT UNIQUE,
+        edad INTEGER,
+        ciudad TEXT
+    )
+""")
+
+# Insertar datos
+clientes = [
+    (1, "Ana Garcia", "ana@email.pe", 25, "Lima"),
+    (2, "Luis Torres", "luis@email.pe", 30, "Arequipa"),
+    (3, "Carlos Diaz", "carlos@email.pe", 22, "Lima"),
+    (4, "Maria Quispe", "maria@email.pe", 28, "Cusco"),
+]
+cursor.executemany("INSERT INTO clientes VALUES (?,?,?,?,?)", clientes)
+conn.commit()
+
+# Query: todos los clientes de Lima
+cursor.execute("SELECT * FROM clientes WHERE ciudad = ?", ("Lima","))
+lima = cursor.fetchall()
+print(f"Clientes de Lima: {len(lima)}")
+for c in lima:
+    print(f"  {c[1]} ({c[3]} anos) - {c[2]}")
+
+# Query: promedio de edad por ciudad
+cursor.execute("""
+    SELECT ciudad, AVG(edad) as promedio
+    FROM clientes
+    GROUP BY ciudad
+    ORDER BY promedio DESC
+""")
+print(f"\\nPromedio de edad por ciudad:")
+for row in cursor.fetchall():
+    print(f"  {row[0]}: {row[1]:.1f} anos")
+
+# Count total
+cursor.execute("SELECT COUNT(*) FROM clientes")
+print(f"\\nTotal clientes: {cursor.fetchone()[0]}")
+conn.close()`,
+      expectedOutput: `Clientes de Lima: 2
+  Ana Garcia (25 anos) - ana@email.pe
+  Carlos Diaz (22 anos) - carlos@email.pe
+
+Promedio de edad por ciudad:
+  Arequipa: 30.0 anos
+  Cusco: 28.0 anos
+  Lima: 23.5 anos
+
+Total clientes: 4`,
+      hint: 'Anade un cliente mas y re-ejecuta las queries',
+    },
+    'rag': {
+      title: 'Practica retrieval y similitud (simulado)',
+      code: `# Simulacion de RAG: retrieval por similitud de texto
+# (Sin embeddings reales - usamos Jaccard similarity)
+
+def jaccard_similarity(text1, text2):
+    """Similitud de Jaccard entre dos textos.
+    Usa conjuntos de palabras: |interseccion| / |union|.
+    """
+    words1 = set(text1.lower().split())
+    words2 = set(text2.lower().split())
+    intersection = words1 & words2
+    union = words1 | words2
+    return len(intersection) / len(union) if union else 0
+
+# Base de conocimiento (simulando vector store)
+documentos = [
+    {"id": 1, "texto": "Python es un lenguaje de programacion interpretado"},
+    {"id": 2, "texto": "Pandas es una libreria de Python para analisis de datos"},
+    {"id": 3, "texto": "NumPy permite computacion numerica con arrays"},
+    {"id": 4, "texto": "scikit-learn es para machine learning en Python"},
+    {"id": 5, "texto": "Git es un sistema de control de versiones distribuido"},
+]
+
+def retrieve(query, docs, top_k=3):
+    """Recupera los top_k documentos mas similares al query."""
+    scores = [(d, jaccard_similarity(query, d["texto"])) for d in docs]
+    scores.sort(key=lambda x: x[1], reverse=True)
+    return scores[:top_k]
+
+# Buscar
+query = "como analizo datos con Python"
+resultados = retrieve(query, documentos, top_k=3)
+
+print(f"Query: '{query}'")
+print(f"\\nTop 3 documentos recuperados:")
+for doc, score in resultados:
+    print(f"  [{score:.1%}] #{doc['id']}: {doc['texto']}")
+
+# Generar respuesta (simulando LLM)
+contexto = " ".join([d["texto"] for d, _ in resultados])
+print(f"\\nContexto para LLM: '{contexto[:80]}...'")`,
+      expectedOutput: `Query: 'como analizo datos con Python'
+
+Top 3 documentos recuperados:
+  [16.7%] #2: Pandas es una libreria de Python para analisis de datos
+  [10.0%] #3: NumPy permite computacion numerica con arrays
+  [9.1%] #1: Python es un lenguaje de programacion interpretado
+
+Contexto para LLM: 'Pandas es una libreria de Python para analisis de datos NumPy permite computacio...'`,
+      hint: 'Cambia el query a "que es machine learning" y observa como cambian los resultados',
+    },
+    'fastapi': {
+      title: 'Practica validacion con pydantic (simulado)',
+      code: `# Simulacion de validacion de API (estilo FastAPI + Pydantic)
+# Sin dependencias externas - usa dataclasses y validacion manual
+
+from dataclasses import dataclass, field
+from typing import Optional
+
+@dataclass
+class CreateUserRequest:
+    """Modelo de request para crear usuario (estilo Pydantic)."""
+    email: str
+    name: str
+    age: int
+    role: str = "student"
+    
+    def validate(self):
+        """Valida el modelo y retorna lista de errores."""
+        errors = []
+        if "@" not in self.email:
+            errors.append("email debe contener @")
+        if len(self.name) < 2:
+            errors.append("name debe tener al menos 2 caracteres")
+        if not isinstance(self.age, int) or self.age < 0 or self.age > 120:
+            errors.append("age debe ser entero entre 0 y 120")
+        if self.role not in ["student", "admin", "teacher"]:
+            errors.append("role debe ser student, admin o teacher")
+        return errors
+
+# Simular endpoint POST /users
+def create_user(request_data: dict):
+    """Endpoint simulado que valida y crea usuario."""
+    try:
+        req = CreateUserRequest(
+            email=request_data.get("email", ""),
+            name=request_data.get("name", ""),
+            age=request_data.get("age", 0),
+            role=request_data.get("role", "student"),
+        )
+    except Exception as e:
+        return {"status": 422, "error": f"TypeError: {e}"}
+    
+    errors = req.validate()
+    if errors:
+        return {"status": 422, "errors": errors}
+    
+    return {"status": 201, "user": {"email": req.email, "name": req.name, "age": req.age}}
+
+# Probar con datos validos
+print("=== Request valido ===")
+result = create_user({"email": "ana@python.pe", "name": "Ana", "age": 25})
+print(f"Status: {result['status']}")
+if "user" in result:
+    print(f"User: {result['user']}")
+
+# Probar con datos invalidos
+print("\\n=== Request invalido ===")
+result = create_user({"email": "no-email", "name": "A", "age": -5})
+print(f"Status: {result['status']}")
+print(f"Errors: {result['errors']}")`,
+      expectedOutput: `=== Request valido ===
+Status: 201
+User: {'email': 'ana@python.pe', 'name': 'Ana', 'age': 25}
+
+=== Request invalido ===
+Status: 422
+Errors: ['email debe contener @', 'name debe tener al menos 2 caracteres', 'age debe ser entero entre 0 y 120']`,
+      hint: 'Intenta crear un usuario con role "superadmin" - que error da?',
+    },
+    'rapidfuzz-entity': {
+      title: 'Practica fuzzy matching (simulado)',
+      code: `# Simulacion de entity resolution con fuzzy matching
+# Sin RapidFuzz - implementamos Levenshtein distance manualmente
+
+def levenshtein(s1, s2):
+    """Distancia de Levenshtein: cuantos cambios para convertir s1 en s2."""
+    if len(s1) < len(s2):
+        return levenshtein(s2, s1)
+    if len(s2) == 0:
+        return len(s1)
+    
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1
+            deletions = current_row[j] + 1
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+    
+    return previous_row[-1]
+
+def similarity(a, b):
+    """Similitud 0-1 basada en Levenshtein."""
+    max_len = max(len(a), len(b))
+    if max_len == 0:
+        return 1.0
+    return 1 - levenshtein(a, b) / max_len
+
+# Comparar nombres
+nombres = [
+    ("Ana Garcia", "Ana Garcia"),
+    ("Ana Garcia", "Ana Garca"),  # typo: falta 'i'
+    ("Ana Garcia", "Ana Torres"),
+    ("Luis Quispe", "Luis Quisp"),  # falta 'e' al final
+]
+
+print("Fuzzy matching de nombres:")
+for a, b in nombres:
+    sim = similarity(a, b)
+    print(f"  '{a}' vs '{b}': {sim:.1%}")
+
+# Detectar duplicados potenciales
+clientes = [
+    {"id": 1, "nombre": "Maria Quispe", "email": "mquispe@email.pe"},
+    {"id": 2, "nombre": "Maria Quispe", "email": "maria.q@email.pe"},  # duplicado
+    {"id": 3, "nombre": "Mario Quispe", "email": "mario@email.pe"},    # familiar
+    {"id": 4, "nombre": "Carlos Diaz", "email": "cdiaz@email.pe"},
+]
+
+print("\\nPosibles duplicados (similitud > 85%):")
+for i in range(len(clientes)):
+    for j in range(i+1, len(clientes)):
+        sim = similarity(clientes[i]["nombre"], clientes[j]["nombre"])
+        if sim > 0.85:
+            print(f"  #{clientes[i]['id']} vs #{clientes[j]['id']}: {sim:.1%}")`,
+      expectedOutput: `Fuzzy matching de nombres:
+  'Ana Garcia' vs 'Ana Garcia': 100.0%
+  'Ana Garcia' vs 'Ana Garca': 90.0%
+  'Ana Garcia' vs 'Ana Torres': 50.0%
+  'Luis Quispe' vs 'Luis Quisp': 90.9%
+
+Posibles duplicados (similitud > 85%):
+  #1 vs #2: 100.0%
+  #1 vs #3: 91.7%
+  #2 vs #3: 91.7%`,
+      hint: 'Cambia el umbral de 85% a 70% y observa cuantos mas duplicados aparecen',
+    },
+    'computer-vision': {
+      title: 'Practica procesamiento de imagenes (simulado)',
+      code: `# Simulacion de conceptos de vision por computadora
+# Sin OpenCV - implementamos operaciones con listas 2D
+
+# Representar una imagen "grayscale" como matriz 5x5
+imagen = [
+    [10, 20, 30, 20, 10],
+    [20, 30, 40, 30, 20],
+    [30, 40, 50, 40, 30],  # centro mas brillante
+    [20, 30, 40, 30, 20],
+    [10, 20, 30, 20, 10],
+]
+
+def print_image(img, title="Imagen"):
+    """Imprime imagen como matriz de intensidades."""
+    print(f"{title} ({len(img)}x{len(img[0])}):")
+    for row in img:
+        print("  " + " ".join(f"{v:3d}" for v in row))
+
+print_image(imagen, "Original")
+
+# 1. Threshold binario (como cv2.threshold)
+def threshold(img, valor):
+    """Binariza: pixeles > valor = 255, sino 0."""
+    return [[255 if p > valor else 0 for p in row] for row in img]
+
+binaria = threshold(imagen, 25)
+print_image(binaria, "Threshold(25)")
+
+# 2. Estadisticas de la imagen
+def image_stats(img):
+    """Calcula estadisticas basicas."""
+    flat = [p for row in img for p in row]
+    return {
+        "min": min(flat),
+        "max": max(flat),
+        "mean": sum(flat) / len(flat),
+    }
+
+stats = image_stats(imagen)
+print(f"\\nEstadisticas: min={stats['min']}, max={stats['max']}, mean={stats['mean']:.1f}")
+
+# 3. Contar objetos (regiones blancas en binaria)
+def count_bright_regions(bin_img):
+    """Cuenta regiones blancas (simulando deteccion de objetos)."""
+    count = 0
+    for row in bin_img:
+        for pixel in row:
+            if pixel == 255:
+                count += 1
+    return count
+
+white_pixels = count_bright_regions(binaria)
+total_pixels = len(imagen) * len(imagen[0])
+print(f"\\nPixeles blancos: {white_pixels}/{total_pixels} ({white_pixels/total_pixels:.0%})")`,
+      expectedOutput: `Original (5x5):
+   10  20  30  20  10
+   20  30  40  30  20
+   30  40  50  40  30
+   20  30  40  30  20
+   10  20  30  20  10
+Threshold(25) (5x5):
+    0   0 255   0   0
+    0 255 255 255   0
+  255 255 255 255 255
+    0 255 255 255   0
+    0   0 255   0   0
+
+Estadisticas: min=10, max=50, mean=26.0
+
+Pixeles blancos: 13/25 (52%)`,
+      hint: 'Cambia el threshold a 35 y observa como cambian los pixeles blancos',
+    },
+    'rpa-advanced': {
+      title: 'Practica orquestacion y retries',
+      code: `# Practica orquestacion de RPA (simulado)
+import time
+import random
+from functools import wraps
+
+# Decorador de retry (simulando tenacity)
+def retry(max_attempts=3, delay=0.1):
+    """Reintenta una funcion hasta max_attempts veces."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    result = func(*args, **kwargs)
+                    print(f"  ✓ Intento {attempt}: exitoso")
+                    return result
+                except Exception as e:
+                    print(f"  ✗ Intento {attempt}: fallo - {e}")
+                    if attempt < max_attempts:
+                        time.sleep(delay)
+                        print(f"    Reintentando en {delay}s...")
+                    else:
+                        print(f"  ✗ Agotados {max_attempts} intentos")
+                        raise
+        return wrapper
+    return decorator
+
+# Simular tarea RPA que falla aleatoriamente
+@retry(max_attempts=5, delay=0.05)
+def descargar_reporte(url):
+    """Simula descarga que falla 60% de las veces."""
+    if random.random() < 0.6:
+        raise ConnectionError(f"Timeout en {url}")
+    return {"status": "ok", "data": [1, 2, 3]}
+
+# Pipeline RPA con multiples tareas
+print("=== Pipeline RPA ===")
+random.seed(42)
+
+tareas = [
+    ("Login", lambda: {"status": "ok", "token": "abc123"}),
+    ("Navegar", lambda: {"status": "ok", "page": "reportes"}),
+    ("Descargar", lambda: descargar_reporte("https://api.com/report")),
+    ("Cerrar sesion", lambda: {"status": "ok"}),
+]
+
+for nombre, tarea in tareas:
+    print(f"\\nEjecutando: {nombre}")
+    try:
+        result = tarea()
+        print(f"  Resultado: {result}")
+    except Exception as e:
+        print(f"  ERROR FATAL: {e}")
+        break
+
+print("\\n✓ Pipeline completado")`,
+      expectedOutput: `=== Pipeline RPA ===
+
+Ejecutando: Login
+  Resultado: {'status': 'ok', 'token': 'abc123'}
+
+Ejecutando: Navegar
+  Resultado: {'status': 'ok', 'page': 'reportes'}
+
+Ejecutando: Descargar
+  ✓ Intento 1: exitoso
+  Resultado: {'status': 'ok', 'data': [1, 2, 3]}
+
+Ejecutando: Cerrar sesion
+  Resultado: {'status': 'ok'}
+
+✓ Pipeline completado`,
+      hint: 'Cambia la probabilidad de fallo a 0.9 y observa cuantos intentos necesita',
+    },
+    'streamlit-dashboards': {
+      title: 'Practica estado y caching (simulado)',
+      code: `# Simulacion de Streamlit: estado y caching
+# Sin Streamlit real - simulamos los conceptos
+
+class StreamlitSimulator:
+    """Simula el comportamiento de Streamlit."""
+    def __init__(self):
+        self.session_state = {}
+        self.cache = {}
+    
+    def session(self, key, default=None):
+        """Simula st.session_state[key]."""
+        if key not in self.session_state:
+            self.session_state[key] = default
+        return self.session_state[key]
+    
+    def cache_data(self, func):
+        """Simula @st.cache_data."""
+        def wrapper(*args):
+            cache_key = str(args)
+            if cache_key in self.cache:
+                print(f"  [CACHE HIT] {func.__name__}{args}")
+                return self.cache[cache_key]
+            print(f"  [CACHE MISS] {func.__name__}{args} - calculando...")
+            result = func(*args)
+            self.cache[cache_key] = result
+            return result
+        return wrapper
+
+st = StreamlitSimulator()
+
+# Funcion cacheada (simula @st.cache_data)
+@st.cache_data
+def cargar_datos(n):
+    """Simula carga costosa de datos."""
+    import time
+    time.sleep(0.1)  # simular latencia
+    return list(range(n))
+
+# Simular interacciones del usuario
+print("=== Primera llamada (cache miss) ===")
+data = cargar_datos(100)
+print(f"  Datos: {len(data)} registros")
+
+print("\\n=== Segunda llamada (cache hit) ===")
+data = cargar_datos(100)
+print(f"  Datos: {len(data)} registros")
+
+print("\\n=== Tercera llamada con args diferentes (cache miss) ===")
+data = cargar_datos(50)
+print(f"  Datos: {len(data)} registros")
+
+# Session state
+print("\\n=== Session State ===")
+contador = st.session("clicks", 0)
+print(f"  Clicks iniciales: {contador}")
+st.session_state["clicks"] += 1
+st.session_state["clicks"] += 1
+print(f"  Clicks despues de 2: {st.session('clicks')}")`,
+      expectedOutput: `=== Primera llamada (cache miss) ===
+  [CACHE MISS] cargar_datos(100,) - calculando...
+  Datos: 100 registros
+
+=== Segunda llamada (cache hit) ===
+  [CACHE HIT] cargar_datos(100,)
+  Datos: 100 registros
+
+=== Tercera llamada con args diferentes (cache miss) ===
+  [CACHE MISS] cargar_datos(50,) - calculando...
+  Datos: 50 registros
+
+=== Session State ===
+  Clicks iniciales: 0
+  Clicks despues de 2: 2`,
+      hint: 'Llama cargar_datos(100) una tercera vez - debe ser cache hit',
+    },
+    'integrator-phase1': {
+      title: 'Practica arquitectura de plataforma',
+      code: `# Simulacion de arquitectura de plataforma de IA
+# Combina API + ML + Logging en un sistema cohesivo
+
+import json
+import time
+from functools import wraps
+
+# Decorador de logging (simulando structlog)
+def log(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        elapsed = (time.time() - start) * 1000
+        print(f"  [{func.__name__}] {elapsed:.1f}ms -> {result}")
+        return result
+    return wrapper
+
+# Simular modelo de ML
+@log
+def predict(features: dict) -> dict:
+    """Simula prediccion del modelo."""
+    score = sum(features.values()) / len(features)
+    risk = "ALTO" if score > 0.7 else "MEDIO" if score > 0.4 else "BAJO"
+    return {"score": round(score, 2), "risk": risk}
+
+# Simular API endpoint
+@log
+def api_predict(user_id: str, features: dict) -> dict:
+    """Endpoint POST /predict."""
+    if not user_id:
+        return {"error": "user_id requerido"}
+    if len(features) == 0:
+        return {"error": "features requerido"}
+    
+    result = predict(features)
+    return {"user_id": user_id, **result}
+
+# Simular pipeline completo
+print("=== Plataforma de IA: Pipeline completo ===")
+print()
+
+# Request 1
+print("Request 1:")
+resp = api_predict("user_123", {"edad": 0.8, "ingreso": 0.6, "antiguedad": 0.3})
+print(f"  Response: {json.dumps(resp)}")
+print()
+
+# Request 2
+print("Request 2:")
+resp = api_predict("user_456", {"edad": 0.2, "ingreso": 0.9, "antiguedad": 0.8})
+print(f"  Response: {json.dumps(resp)}")
+print()
+
+# Request con error
+print("Request 3 (error):")
+resp = api_predict("", {"edad": 0.5})
+print(f"  Response: {json.dumps(resp)}")`,
+      hint: 'Anade mas features al request y observa como cambia el score',
+    },
+    // === Phase 2 demos (S27-S39) ===
+    'async-concurrency': {
+      title: 'Practica concurrencia con asyncio',
+      code: `# Practica conceptos de concurrencia (simulado)
+# Sin asyncio real - simulamos con generators
+
+import time
+
+def simulate_async_task(name, duration):
+    """Simula una tarea asincrona con un generator."""
+    print(f"  [{name}] iniciando ({duration}s)...")
+    yield  # ceder control (como await)
+    time.sleep(duration)
+    print(f"  [{name}] completado")
+    return f"resultado_{name}"
+
+# Simular ejecucion secuencial
+print("=== Secuencial ===")
+t0 = time.time()
+for task_name, dur in [("A", 0.1), ("B", 0.1), ("C", 0.1)]:
+    gen = simulate_async_task(task_name, dur)
+    next(gen)  # iniciar
+    try:
+        next(gen)  # completar
+    except StopIteration:
+        pass
+print(f"  Tiempo total: {time.time()-t0:.2f}s")
+
+# Simular concurrencia (intercalado)
+print("\\n=== Concurrente (simulado) ===")
+# En asyncio real, las tareas se intercalan durante await
+tareas = [("A", 0.1), ("B", 0.1), ("C", 0.1)]
+
+# Calcular tiempo teorico
+tiempo_secuencial = sum(d for _, d in tareas)
+tiempo_concurrente = max(d for _, d in tareas)
+print(f"  Tiempo secuencial: {tiempo_secuencial:.2f}s")
+print(f"  Tiempo concurrente: {tiempo_concurrente:.2f}s")
+print(f"  Speedup: {tiempo_secuencial/tiempo_concurrente:.1f}x")
+
+# Semaphore: limitar concurrencia
+def simulate_semaphore(max_concurrent, tasks):
+    """Simula asyncio.Semaphore."""
+    print(f"\\n  Semaphore({max_concurrent}): {len(tasks)} tareas, max {max_concurrent} concurrentes")
+    batches = [tasks[i:i+max_concurrent] for i in range(0, len(tasks), max_concurrent)]
+    for i, batch in enumerate(batches):
+        print(f"    Batch {i+1}: {batch}")
+    
+simulate_semaphore(3, ["A", "B", "C", "D", "E", "F", "G"])
+print("  En asyncio real, las pausas durante I/O permiten intercalado real")`,
+      hint: 'Que pasa si max_concurrent=1? Es lo mismo que secuencial',
+    },
+    'llm-agents': {
+      title: 'Practica razonamiento de agentes (simulado)',
+      code: `# Simulacion de agente LLM con razonamiento ReAct
+# Sin LLM real - simulamos el patron Thought/Action/Observation
+
+# Base de conocimiento simulada
+knowledge_base = {
+    "python": "Python es un lenguaje de programacion interpretado, creado en 1991",
+    "pandas": "Pandas es una libreria de Python para manipulacion de datos",
+    "numPy": "NumPy es una libreria para computacion numerica con arrays",
+}
+
+def search_tool(query):
+    """Simula una herramienta de busqueda."""
+    query_lower = query.lower()
+    for key, value in knowledge_base.items():
+        if key.lower() in query_lower:
+            return value
+    return "No se encontro informacion."
+
+# Simular agente ReAct
+def agent_react(question, max_steps=3):
+    """Agente que razona y actua en bucle."""
+    print(f"Pregunta: {question}")
+    print()
+    
+    steps = [
+        {
+            "thought": "Necesito buscar informacion sobre la pregunta",
+            "action": "search",
+            "action_input": question,
+        },
+        {
+            "thought": "Tengo la informacion, puedo responder",
+            "action": "respond",
+            "action_input": None,
+        }
+    ]
+    
+    for i, step in enumerate(steps[:max_steps]):
+        print(f"Step {i+1}:")
+        print(f"  Thought: {step['thought']}")
+        print(f"  Action: {step['action']}({step['action_input'] or ''})")
+        
+        if step["action"] == "search":
+            observation = search_tool(step["action_input"])
+            print(f"  Observation: {observation}")
+        elif step["action"] == "respond":
+            answer = search_tool(question)
+            print(f"  Answer: {answer}")
+            return answer
+    
+    return "No pude responder en los pasos disponibles."
+
+# Ejecutar agente
+result = agent_react("que es Python")
+print(f"\\nRespuesta final: {result}")`,
+      expectedOutput: `Pregunta: que es Python
+
+Step 1:
+  Thought: Necesito buscar informacion sobre la pregunta
+  Action: search(que es Python)
+  Observation: Python es un lenguaje de programacion interpretado, creado en 1991
+Step 2:
+  Thought: Tengo la informacion, puedo responder
+  Action: respond()
+  Answer: Python es un lenguaje de programacion interpretado, creado en 1991
+
+Respuesta final: Python es un lenguaje de programacion interpretado, creado en 1991`,
+      hint: 'Cambia la pregunta a "que es Pandas" y observa el resultado',
+    },
+    'mlops': {
+      title: 'Practica model registry y drift (simulado)',
+      code: `# Simulacion de MLOps: model registry y drift detection
+import json
+from datetime import datetime, timedelta
+
+# Simular model registry
+class ModelRegistry:
+    """Simula MLflow Model Registry."""
+    def __init__(self):
+        self.models = {}
+    
+    def register(self, name, version, metrics, status="Staging"):
+        """Registra una nueva version del modelo."""
+        self.models[f"{name}_v{version}"] = {
+            "name": name,
+            "version": version,
+            "metrics": metrics,
+            "status": status,
+            "created_at": datetime.now().isoformat(),
+        }
+        print(f"  Registrado: {name}_v{version} ({status})")
+    
+    def promote(self, name, version):
+        """Promueve un modelo a Production."""
+        for key, model in self.models.items():
+            if model["name"] == name:
+                if model["version"] == version:
+                    model["status"] = "Production"
+                elif model["status"] == "Production":
+                    model["status"] = "Archived"
+    
+    def get_production(self, name):
+        """Obtiene el modelo en Production."""
+        for model in self.models.values():
+            if model["name"] == name and model["status"] == "Production":
+                return model
+        return None
+
+registry = ModelRegistry()
+
+# Registrar versiones
+print("=== Model Registry ===")
+registry.register("churn", "1.0", {"auc": 0.82, "f1": 0.75})
+registry.register("churn", "2.0", {"auc": 0.87, "f1": 0.80})
+
+# Promover v2.0 a Production
+registry.promote("churn", "2.0")
+prod = registry.get_production("churn")
+print(f"\\nProduccion: churn_v{prod['version']} (AUC: {prod['metrics']['auc']})")
+
+# Simular drift detection
+print("\\n=== Data Drift Detection ===")
+train_dist = {"lima": 0.6, "arequipa": 0.2, "cusco": 0.15, "otros": 0.05}
+prod_dist = {"lima": 0.4, "arequipa": 0.3, "cusco": 0.2, "otros": 0.1}
+
+drift = sum(abs(train_dist[k] - prod_dist[k]) for k in train_dist)
+print(f"  Distribucion training: {train_dist}")
+print(f"  Distribucion produccion: {prod_dist}")
+print(f"  Drift score: {drift:.3f} ({'ALTO' if drift > 0.3 else 'OK'})")`,
+      hint: 'Registra una v3.0 con AUC 0.90 y promovela a Production',
+    },
+    // === Phase 2 demos (S30-S39) ===
+    'security-infra': {
+      title: 'Practica blocking y candidate recall',
+      code: `from collections import defaultdict
+
+def fold(s: str) -> str:
+    """casefold + pliega tildes para claves de blocking estables."""
+    s = s.casefold()
+    for a, b in (("á", "a"), ("é", "e"), ("í", "i"), ("ó", "o"), ("ú", "u")):
+        s = s.replace(a, b)
+    return s
+
+recs = [
+    ("r1", "López", "Lima"),
+    ("r2", "Lopez", "Lima"),
+    ("r3", "Díaz", "Cusco"),
+]
+buckets = defaultdict(list)
+for rid, last, city in recs:
+    buckets[f"{fold(last)}|{fold(city)[:3]}"].append(rid)
+print(dict(buckets))
+print("candidate_pairs", sum(len(v) * (len(v) - 1) // 2 for v in buckets.values()))
+`,
+      expectedOutput: `{'lopez|lim': ['r1', 'r2'], 'diaz|cus': ['r3']}
+candidate_pairs 1`,
+      hint: 'Sin plegar acentos, López y Lopez caen en bloques distintos y el candidate recall baja a 0',
+    },
+    'streaming-data': {
+      title: 'Practica windowing y backpressure',
+      code: `# Simulacion de streaming: windowing y backpressure
+import time
+from collections import defaultdict
+
+# Simular eventos de streaming
+eventos = [
+    {"ts": 0, "valor": 10}, {"ts": 1, "valor": 20},
+    {"ts": 2, "valor": 15}, {"ts": 3, "valor": 30},
+    {"ts": 4, "valor": 25}, {"ts": 5, "valor": 40},
+    {"ts": 6, "valor": 35}, {"ts": 7, "valor": 50},
+    {"ts": 8, "valor": 45}, {"ts": 9, "valor": 60},
+]
+
+# 1. Tumbling window (no superpuestas)
+print("=== Tumbling Window (3s) ===")
+window_size = 3
+for i in range(0, 10, window_size):
+    window = [e for e in eventos if i <= e["ts"] < i + window_size]
+    if window:
+        total = sum(e["valor"] for e in window)
+        print(f"  [{i}-{i+window_size}]: {len(window)} eventos, total={total}")
+
+# 2. Sliding window (superpuestas)
+print("\\n=== Sliding Window (3s, slide 1s) ===")
+window_size = 3
+for i in range(0, 10):
+    window = [e for e in eventos if i <= e["ts"] < i + window_size]
+    if window:
+        avg = sum(e["valor"] for e in window) / len(window)
+        print(f"  [{i}-{i+window_size}]: avg={avg:.1f}")
+
+# 3. Backpressure con Queue limitada
+print("\\n=== Backpressure (Queue maxsize=3) ===")
+class BoundedQueue:
+    def __init__(self, maxsize):
+        self.maxsize = maxsize
+        self.items = []
+    def put(self, item):
+        if len(self.items) >= self.maxsize:
+            print(f"    QUEUE LLENA! Productor esperando...")
+            return False
+        self.items.append(item)
+        return True
+    def get(self):
+        return self.items.pop(0) if self.items else None
+
+q = BoundedQueue(3)
+for i in range(5):
+    ok = q.put(f"item_{i}")
+    print(f"  Put item_{i}: {'OK' if ok else 'BLOCKED'}")`,
+      expectedOutput: `=== Tumbling Window (3s) ===
+  [0-3]: 3 eventos, total=45
+  [3-6]: 3 eventos, total=95
+  [6-9]: 3 eventos, total=130
+  [9-12]: 1 eventos, total=60
+
+=== Sliding Window (3s, slide 1s) ===
+  [0-3]: avg=15.0
+  [1-4]: avg=21.7
+  [2-5]: avg=23.3
+  [3-6]: avg=31.7
+  [4-7]: avg=33.3
+  [5-8]: avg=41.7
+  [6-9]: avg=43.3
+  [7-10]: avg=51.7
+  [8-11]: avg=52.5
+  [9-12]: avg=60.0
+
+=== Backpressure (Queue maxsize=3) ===
+  Put item_0: OK
+  Put item_1: OK
+  Put item_2: OK
+    QUEUE LLENA! Productor esperando...
+  Put item_3: BLOCKED
+    QUEUE LLENA! Productor esperando...
+  Put item_4: BLOCKED`,
+      hint: 'Cambia window_size a 5 y observa como cambian los resultados',
+    },
+    'microservices': {
+      title: 'Practica health checks y circuit breaker',
+      code: `# Simulacion de microservicios: health checks y circuit breaker
+import time
+import random
+
+class CircuitBreaker:
+    """Circuit breaker que abre despues de N fallos."""
+    def __init__(self, threshold=3, reset_timeout=5):
+        self.failures = 0
+        self.threshold = threshold
+        self.reset_timeout = reset_timeout
+        self.state = "CLOSED"  # CLOSED, OPEN, HALF_OPEN
+        self.last_failure = 0
+    
+    def call(self, func, *args):
+        if self.state == "OPEN":
+            if time.time() - self.last_failure > self.reset_timeout:
+                self.state = "HALF_OPEN"
+                print("  Circuit: OPEN -> HALF_OPEN")
+            else:
+                print("  Circuit: OPEN (rechazando llamada)")
+                return None
+        
+        try:
+            result = func(*args)
+            self.failures = 0
+            if self.state == "HALF_OPEN":
+                self.state = "CLOSED"
+                print("  Circuit: HALF_OPEN -> CLOSED")
+            return result
+        except Exception as e:
+            self.failures += 1
+            self.last_failure = time.time()
+            if self.failures >= self.threshold:
+                self.state = "OPEN"
+                print(f"  Circuit: CLOSED -> OPEN ({self.failures} fallos)")
+            return None
+
+# Simular servicio que falla
+def unreliable_service():
+    if random.random() < 0.5:
+        raise ConnectionError("Service unavailable")
+    return {"status": "ok"}
+
+cb = CircuitBreaker(threshold=3)
+random.seed(42)
+print("=== Circuit Breaker ===")
+for i in range(8):
+    print(f"\\nLlamada {i+1}:")
+    result = cb.call(unreliable_service)
+    if result:
+        print(f"  Resultado: {result}")
+    print(f"  Estado: {cb.state}")`,
+      expectedOutput: `=== Circuit Breaker ===
+
+Llamada 1:
+  Resultado: {'status': 'ok'}
+  Estado: CLOSED
+
+Llamada 2:
+  Estado: CLOSED
+
+Llamada 3:
+  Estado: CLOSED
+
+Llamada 4:
+  Circuit: CLOSED -> OPEN (3 fallos)
+  Estado: OPEN
+
+Llamada 5:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN
+
+Llamada 6:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN
+
+Llamada 7:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN
+
+Llamada 8:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN`,
+      hint: 'Cambia threshold a 1 y observa como se abre mas rapido',
+    },
+    'advanced-models': {
+      title: 'Practica Optuna y SHAP (simulado)',
+      code: `# Simulacion de hyperparameter tuning y interpretabilidad
+import random
+
+# Simular Optuna: buscar mejores hiperparametros
+def simulate_optuna(n_trials=10):
+    """Simula busqueda de hiperparametros con TPE."""
+    best_score = 0
+    best_params = {}
+    
+    for trial in range(1, n_trials + 1):
+        # Muestrear hiperparametros (simulando TPE)
+        params = {
+            "n_estimators": random.randint(100, 500),
+            "max_depth": random.randint(3, 10),
+            "learning_rate": random.uniform(0.01, 0.3),
+        }
+        
+        # Simular AUC (mejor con params intermedios)
+        score = 0.7 + random.uniform(0, 0.2)
+        if 200 <= params["n_estimators"] <= 400:
+            score += 0.05
+        if 5 <= params["max_depth"] <= 8:
+            score += 0.05
+        if 0.05 <= params["learning_rate"] <= 0.15:
+            score += 0.05
+        
+        if score > best_score:
+            best_score = score
+            best_params = params
+            print(f"  Trial {trial}: NUEVO MEJOR AUC={score:.4f} {params}")
+    
+    return best_score, best_params
+
+random.seed(42)
+print("=== Optuna Simulation (10 trials) ===")
+score, params = simulate_optuna(10)
+print(f"\\nMejor: AUC={score:.4f}")
+print(f"Params: {params}")
+
+# Simular SHAP values
+print("\\n=== SHAP Values (simulado) ===")
+features = ["edad", "ingreso", "antiguedad", "productos", "transacciones"]
+shap_values = [0.15, -0.08, 0.22, 0.05, -0.03]
+base_value = 0.50
+prediction = base_value + sum(shap_values)
+
+print(f"Base value: {base_value:.2f}")
+print(f"Prediccion: {prediction:.2f}")
+print(f"\\nContribuciones:")
+for f, s in sorted(zip(features, shap_values), key=lambda x: abs(x[1]), reverse=True):
+    direction = "↑" if s > 0 else "↓"
+    print(f"  {f:15s}: {s:+.3f} {direction}")`,
+      hint: 'Cambia n_trials a 30 y observa si mejora el AUC',
+    },
+    'cv-ai-integration': {
+      title: 'Practica deteccion y OCR (simulado)',
+      code: `# Simulacion de deteccion de objetos y OCR
+# Sin OpenCV/YOLO - simulamos con listas
+
+# Simular deteccion de objetos
+def detect_objects(image_data):
+    """Simula YOLOv8: detecta objetos en imagen."""
+    detections = []
+    for i, row in enumerate(image_data):
+        for j, pixel in enumerate(row):
+            if pixel > 40:  # objeto brillante detectado
+                detections.append({
+                    "class": "person" if pixel > 45 else "object",
+                    "confidence": min(0.99, pixel / 50),
+                    "bbox": [j, i, j+1, i+1],
+                })
+    return detections
+
+# Imagen 5x5 (simulada)
+imagen = [
+    [10, 20, 30, 20, 10],
+    [20, 30, 50, 30, 20],  # persona detectada
+    [30, 45, 50, 45, 30],  # objetos brillantes
+    [20, 30, 50, 30, 20],
+    [10, 20, 30, 20, 10],
+]
+
+detections = detect_objects(imagen)
+print(f"=== Deteccion de Objetos ===")
+print(f"Objetos detectados: {len(detections)}")
+for d in detections:
+    print(f"  {d['class']} (conf: {d['confidence']:.0%}) bbox: {d['bbox']}")
+
+# Simular OCR
+def simulate_ocr(text_image):
+    """Simula Tesseract OCR."""
+    char_map = {1: "H", 2: "o", 3: "l", 4: "a"}
+    result = ""
+    for pixel in text_image:
+        result += char_map.get(pixel, "?")
+    return result
+
+texto_como_pixeles = [1, 2, 3, 2, 4]  # H-o-l-o-a
+texto = simulate_ocr(texto_como_pixeles)
+print(f"\\n=== OCR ===")
+print(f"Imagen: {texto_como_pixeles}")
+print(f"Texto extraido: '{texto}'")`,
+      expectedOutput: `=== Deteccion de Objetos ===
+Objetos detectados: 5
+  person (conf: 99%) bbox: [2, 1, 3, 2]
+  object (conf: 90%) bbox: [1, 2, 2, 3]
+  person (conf: 99%) bbox: [2, 2, 3, 3]
+  object (conf: 90%) bbox: [3, 2, 4, 3]
+  person (conf: 99%) bbox: [2, 3, 3, 4]
+
+=== OCR ===
+Imagen: [1, 2, 3, 2, 4]
+Texto extraido: 'Holoa'`,
+      hint: 'Anade mas pixeles a texto_como_pixeles y observa el resultado',
+    },
+    'system-design': {
+      title: 'Practica la ficha de caso CP-N3-C',
+      code: `# Ficha de caso CP-N3-C sobre CASO-LIM-035 (sintetico)
+# Construye las 4 capas: evidencia | modelo | incertidumbre | humano
+
+# Capa 1: evidencia observada (hechos del caso, no veredicto)
+evidence = ["shared_phone", "amount_z_high"]
+
+# Capa 2: contribucion local del modelo (value x weight, baseline=0)
+contrib = {"shared_phone": (0.9, 1.0), "amount_z": (0.1, 1.0)}
+score = round(sum(v * w for v, w in contrib.values()), 2)
+means_fraud = False   # False: el score no acusa fraude
+causal = False        # False: contribucion no es causa legal
+
+# Capa 3: incertidumbre (banda toy p-q / p+q + OOD)
+p, q = 0.6, 0.1
+band = (round(p - q, 2), round(p + q, 2))
+zs = [1.0, 2.0, 3.5]
+ood = max(abs(z) for z in zs) > 3.0
+action = "abstain" if ood else "score"
+
+# Capa 4: decision humana (audit minimo: case, human, by)
+human = {"case": "CASO-LIM-035", "human": "override_skip", "by": "analyst_7"}
+
+# Model card minima (use, out_of_scope, owner, contestability)
+card = {
+    "use": "queue_rank",
+    "out_of_scope": ["fraud_label"],
+    "owner": "risk_ops",
+    "contestability": True,
+}
+
+# Ensamblar ficha de 4 capas
+ficha = {
+    "evidence": evidence,
+    "model": {"score": score, "means_fraud": means_fraud, "causal": causal},
+    "uncertainty": {"band": band, "ood": ood, "action": action},
+    "human": human,
+}
+
+print("=== Ficha CP-N3-C ===")
+for capa, val in ficha.items():
+    print(f"  {capa}: {val}")
+
+print("\\n=== Model card ===")
+for k, v in card.items():
+    print(f"  {k}: {v}")
+
+# Gate de portfolio: etica + incertidumbre + gobernanza
+ok = (
+    (not means_fraud)
+    and (not causal)
+    and (card["use"] != "fraud_label")
+    and card["contestability"]
+    and bool(human["by"])
+)
+print(f"\\nportfolio_ready: {ok}")`,
+      expectedOutput: `=== Ficha CP-N3-C ===
+  evidence: ['shared_phone', 'amount_z_high']
+  model: {'score': 1.0, 'means_fraud': False, 'causal': False}
+  uncertainty: {'band': (0.5, 0.7), 'ood': True, 'action': 'abstain'}
+  human: {'case': 'CASO-LIM-035', 'human': 'override_skip', 'by': 'analyst_7'}
+
+=== Model card ===
+  use: queue_rank
+  out_of_scope: ['fraud_label']
+  owner: risk_ops
+  contestability: True
+
+portfolio_ready: True`,
+      hint: 'Cambia means_fraud a True o by a "" y observa como portfolio_ready pasa a False',
+    },
+    'ai-apis-advanced': {
+      title: 'Practica function calling (simulado)',
+      code: `# Simulacion de function calling con LLM
+# Sin API real - simulamos el patron
+
+# Herramientas disponibles
+tools = {
+    "search_web": lambda query: f"Resultados para '{query}': Python es chevere",
+    "calculate": lambda expr: str(eval(expr)),
+    "get_time": lambda *args: "2026-07-14 19:45:00",
+}
+
+def simulate_llm_function_calling(user_message):
+    """Simula como un LLM decide que tool usar."""
+    message_lower = user_message.lower()
+    
+    # El "LLM" decide que tool usar basado en el mensaje
+    if "hora" in message_lower or "tiempo" in message_lower:
+        tool_name = "get_time"
+        args = ""
+    elif "calcula" in message_lower or "suma" in message_lower:
+        tool_name = "calculate"
+        # Extraer expresion (simulado)
+        expr = "2 + 3"  # en real, el LLM extrae del mensaje
+        args = expr
+    elif "busca" in message_lower or "que es" in message_lower:
+        tool_name = "search_web"
+        args = user_message.replace("que es", "").replace("busca", "").strip()
+    else:
+        return {"response": f"No se que hacer con: {user_message}"}
+    
+    # Ejecutar tool
+    result = tools[tool_name](args)
+    
+    return {
+        "tool_called": tool_name,
+        "tool_args": args,
+        "tool_result": result,
+        "response": f"Segun {tool_name}: {result}"
+    }
+
+# Probar
+messages = ["que es Python", "calcula 2+3", "que hora es"]
+for msg in messages:
+    print(f"\\nUsuario: {msg}")
+    result = simulate_llm_function_calling(msg)
+    print(f"  Tool: {result.get('tool_called', 'N/A')}")
+    print(f"  Response: {result['response']}")`,
+      expectedOutput: `
+Usuario: que es Python
+  Tool: search_web
+  Response: Segun search_web: Resultados para 'Python': Python es chevere
+
+Usuario: calcula 2+3
+  Tool: calculate
+  Response: Segun calculate: 5
+
+Usuario: que hora es
+  Tool: get_time
+  Response: Segun get_time: 2026-07-14 19:45:00`,
+      hint: 'Anade una nueva tool "send_email" y haz que el LLM la use',
+    },
+    'dbt-bigquery': {
+      title: 'Practica dbt concepts (simulado)',
+      code: `# Simulacion de conceptos dbt
+# Sin dbt real - simulamos models, tests, y lineage
+
+# Simular modelo dbt (un SELECT que se materializa)
+def dbt_model_daily_metrics(transactions):
+    """Simula un modelo dbt: transforma datos crudos."""
+    from collections import defaultdict
+    
+    metrics = defaultdict(lambda: {"count": 0, "total": 0.0})
+    for tx in transactions:
+        key = (tx["date"], tx["user_id"])
+        metrics[key]["count"] += 1
+        metrics[key]["total"] += tx["amount"]
+    
+    result = []
+    for (date, user_id), m in metrics.items():
+        result.append({
+            "date": date,
+            "user_id": user_id,
+            "date_user": f"{date}-{user_id}",
+            "transaction_count": m["count"],
+            "total_amount": round(m["total"], 2),
+        })
+    return result
+
+# Datos crudos
+transactions = [
+    {"date": "2026-07-01", "user_id": "u1", "amount": 100.0},
+    {"date": "2026-07-01", "user_id": "u1", "amount": 50.0},
+    {"date": "2026-07-01", "user_id": "u2", "amount": 200.0},
+    {"date": "2026-07-02", "user_id": "u1", "amount": 75.0},
+]
+
+# Ejecutar modelo
+metrics = dbt_model_daily_metrics(transactions)
+print("=== Modelo: daily_metrics ===")
+for m in metrics:
+    print(f"  {m['date']} {m['user_id']}: {m['transaction_count']} tx, S/{m['total_amount']}")
+
+# Simular dbt tests
+print("\\n=== Tests ===")
+def test_unique(rows, column):
+    """Test: valores unicos."""
+    values = [r[column] for r in rows]
+    duplicates = len(values) - len(set(values))
+    print(f"  unique({column}): {'PASS' if duplicates == 0 else f'FAIL ({duplicates} dup)'}")
+
+def test_not_null(rows, column):
+    """Test: no nulos."""
+    nulls = sum(1 for r in rows if r.get(column) is None)
+    print(f"  not_null({column}): {'PASS' if nulls == 0 else f'FAIL ({nulls} nulls)'}")
+
+test_unique(metrics, "date_user")
+test_not_null(metrics, "total_amount")
+test_not_null(metrics, "date")`,
+      expectedOutput: `=== Modelo: daily_metrics ===
+  2026-07-01 u1: 2 tx, S/150.0
+  2026-07-01 u2: 1 tx, S/200.0
+  2026-07-02 u1: 1 tx, S/75.0
+
+=== Tests ===
+  unique(date_user): PASS
+  not_null(total_amount): PASS
+  not_null(date): PASS`,
+      hint: 'Anade una transaccion duplicada y observa si test_unique falla',
+    },
+    'performance-extreme': {
+      title: 'Practica backpressure, timeout e idempotencia',
+      code: `# CASO-LIM-038 · contratos de operación (stdlib only)
+from queue import Queue
+
+class TokenBucket:
+    """Didáctico estático: sin refill por tiempo (en prod sí hay ventana)."""
+
+    def __init__(self, rate: int):
+        self.tokens = rate
+
+    def allow(self) -> bool:
+        if self.tokens >= 1:
+            self.tokens -= 1
+            return True
+        return False
+
+# Backpressure: cola acotada del worker de scoring
+q: Queue[str] = Queue(maxsize=2)
+for case_id in ("c-synth-1", "c2", "c3"):
+    if q.full():
+        print("backpressure", case_id)
+    else:
+        q.put(case_id)
+        print("enqueued", case_id)
+
+# Rate limit hacia el proveedor mock
+b = TokenBucket(2)
+print("allows", [b.allow() for _ in range(3)])
+
+# Timeout simulado (sin red): latencia mock vs presupuesto
+def fetch_policy(latency_ms: float, timeout_s: float) -> dict:
+    timed_out = latency_ms > timeout_s * 1000
+    return {
+        "status": "timeout" if timed_out else "ok",
+        "seconds": timeout_s,
+        "on_fail": "retry_or_dlq",
+    }
+
+print("timeout_policy", fetch_policy(latency_ms=200, timeout_s=0.05))
+
+# Idempotency key: case:step:ver
+def idem_key(case: str, step: str, ver: str) -> str:
+    return f"{case}:{step}:{ver}"
+
+print("key", idem_key("c-synth-1", "score", "v1"))
+print("pii_raw", False)
+`,
+      hint: 'Sube maxsize a 3 y observa cómo desaparece el backpressure del tercer caso.',
+    },
+    'integrator-phase2': {
+      title: 'Practica CI/CD y monitoreo',
+      code: `# Simulacion de CI/CD pipeline y monitoreo
+import time
+import random
+
+# Simular pipeline CI/CD
+def ci_pipeline(commit_hash):
+    """Simula un pipeline de CI/CD."""
+    steps = [
+        ("lint", 0.1, 0.0),      # (nombre, duracion, prob_fallo)
+        ("test", 0.2, 0.05),
+        ("build", 0.3, 0.02),
+        ("deploy_canary", 0.15, 0.03),
+        ("smoke_test", 0.1, 0.01),
+        ("promote_100", 0.05, 0.0),
+    ]
+    
+    print(f"=== CI/CD Pipeline: {commit_hash[:8]} ===")
+    total_time = 0
+    for step_name, duration, fail_prob in steps:
+        time.sleep(duration * 0.1)  # acelerar para demo
+        total_time += duration
+        
+        if random.random() < fail_prob:
+            print(f"  ✗ {step_name}: FAILED ({duration:.1f}s)")
+            return {"status": "failed", "step": step_name, "time": total_time}
+        else:
+            print(f"  ✓ {step_name}: PASSED ({duration:.1f}s)")
+    
+    print(f"\\n  Total: {total_time:.1f}s - DEPLOYED")
+    return {"status": "success", "time": total_time}
+
+# Ejecutar pipeline
+random.seed(42)
+result = ci_pipeline("a1b2c3d4")
+
+# Simular monitoreo
+print(f"\\n=== Monitoreo ===")
+metrics = {
+    "latency_p99_ms": 87,
+    "throughput_qps": 12500,
+    "error_rate_pct": 0.02,
+    "cpu_usage_pct": 45,
+    "memory_usage_pct": 62,
+}
+
+print("Metricas en tiempo real:")
+for metric, value in metrics.items():
+    status = "OK" if value < 80 else "WARN"
+    print(f"  {metric:25s}: {value} [{status}]")`,
+      hint: 'Cambia las probabilidades de fallo a 0.0 y observa si el pipeline siempre pasa',
+    },
+    // === Phase 3 demos (S40-S52) ===
+    'architecture-ddd-decisions': {
+      title: 'Practica multi-agent (simulado)',
+      code: `# Simulacion de sistema multi-agente
+# Cada agente tiene un rol especifico
+
+class Agent:
+    """Agente con rol y herramientas."""
+    def __init__(self, name, role, tools=None):
+        self.name = name
+        self.role = role
+        self.tools = tools or []
+    
+    def execute(self, task):
+        """Ejecuta una tarea y retorna resultado."""
+        print(f"  [{self.name}] Ejecutando: {task}")
+        return f"{self.name}_result"
+
+# Crear agentes especializados
+researcher = Agent("Researcher", "Busca informacion", ["search_web"])
+analyst = Agent("Analyst", "Analiza datos", ["query_db", "calculate"])
+writer = Agent("Writer", "Genera reporte", ["format_markdown"])
+
+# Orquestar flujo multi-agente
+def run_multi_agent(query):
+    """Orquesta 3 agentes en secuencia."""
+    print(f"=== Multi-Agent: {query} ===")
+    
+    # Step 1: Researcher busca
+    research = researcher.execute(f"Buscar: {query}")
+    
+    # Step 2: Analyst analiza
+    analysis = analyst.execute(f"Analizar: {research}")
+    
+    # Step 3: Writer genera reporte
+    report = writer.execute(f"Escribir reporte basado en: {analysis}")
+    
+    print(f"\\nReporte final: {report}")
+    return report
+
+run_multi_agent("Analisis de churn Q2 2026")
+
+# Simular shared state entre agentes
+print("\\n=== Shared State ===")
+shared = {"query": "", "research": "", "analysis": "", "report": ""}
+
+shared["query"] = "Top 3 causas de churn"
+print(f"  State inicial: {shared}")
+
+shared["research"] = "1. Precio alto 2. Mal servicio 3. Competencia"
+shared["analysis"] = "Precio: 45%, Servicio: 30%, Competencia: 25%"
+shared["report"] = "El churn se debe principalmente a precio (45%)"
+print(f"  State final: {shared}")`,
+      expectedOutput: `=== Multi-Agent: Analisis de churn Q2 2026 ===
+  [Researcher] Ejecutando: Buscar: Analisis de churn Q2 2026
+  [Analyst] Ejecutando: Analizar: Researcher_result
+  [Writer] Ejecutando: Escribir reporte basado en: Analyst_result
+
+Reporte final: Writer_result
+
+=== Shared State ===
+  State inicial: {'query': 'Top 3 causas de churn', 'research': '', 'analysis': '', 'report': ''}
+  State final: {'query': 'Top 3 causas de churn', 'research': '1. Precio alto 2. Mal servicio 3. Competencia', 'analysis': 'Precio: 45%, Servicio: 30%, Competencia: 25%', 'report': 'El churn se debe principalmente a precio (45%)'}`,
+      hint: 'Anade un cuarto agente "Reviewer" que valide el reporte',
+    },
+    'llm-finetuning': {
+      title: 'Practica QLoRA concepts (simulado)',
+      code: `# Simulacion de conceptos de fine-tuning
+# Sin transformers real - simulamos la matematica
+
+# Simular cuantizacion 4-bit
+def simulate_quantization(model_params, bits=4):
+    """Simula cuantizacion: reduce precision de pesos."""
+    max_val = 2**bits - 1
+    quantized = [round(p * max_val) / max_val for p in model_params]
+    compression = (32 - bits) / 32  # de FP32 a N-bit
+    return quantized, compression
+
+# Parametros del modelo (simulados)
+params = [0.123, 0.456, 0.789, 0.012, 0.345]
+print("=== Cuantizacion ===")
+print(f"Original (FP32): {params}")
+
+q_params, compression = simulate_quantization(params, bits=4)
+print(f"Cuantizado (4-bit): {[round(p, 3) for p in q_params]}")
+print(f"Compression: {compression:.0%} menos memoria")
+
+# Simular LoRA: solo entrenar adapters
+total_params = 8_000_000_000  # 8B
+lora_params = 8_000_000  # 8M
+print(f"\\n=== LoRA ===")
+print(f"Modelo total: {total_params:,} parametros")
+print(f"LoRA adapters: {lora_params:,} parametros")
+print(f"Porcentaje entrenable: {lora_params/total_params:.2%}")
+print(f"Ahorro de VRAM: ~99.9% (no se guardan gradientes del modelo base)")
+
+# Calcular VRAM necesaria
+fp32_vram = total_params * 4 / 1e9  # 4 bytes per FP32
+fp16_vram = total_params * 2 / 1e9
+int4_vram = total_params * 0.5 / 1e9
+print(f"\\n=== VRAM Requirements ===")
+print(f"FP32: {fp32_vram:.1f} GB")
+print(f"FP16: {fp16_vram:.1f} GB")
+print(f"INT4: {int4_vram:.1f} GB (QLoRA)")
+print(f"GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4")`,
+      expectedOutput: `=== Cuantizacion ===
+Original (FP32): [0.123, 0.456, 0.789, 0.012, 0.345]
+Cuantizado (4-bit): [0.133, 0.467, 0.8, 0.0, 0.333]
+Compression: 88% menos memoria
+
+=== LoRA ===
+Modelo total: 8,000,000,000 parametros
+LoRA adapters: 8,000,000 parametros
+Porcentaje entrenable: 0.10%
+Ahorro de VRAM: ~99.9% (no se guardan gradientes del modelo base)
+
+=== VRAM Requirements ===
+FP32: 32.0 GB
+FP16: 16.0 GB
+INT4: 4.0 GB (QLoRA)
+GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4`,
+      hint: 'Calcula la VRAM necesaria para un modelo de 70B en INT4',
+    },
+    'graph-rag': {
+      title: 'Practica el policy_engine fail-closed (simulado)',
+      code: `# Simulacion del policy_engine fail-closed de S42
+# Caso sintetico CASO-CUS-042 (mesa de soporte de Cusco)
+# Cadena: schema -> SSRF host -> path -> authz resource binding
+
+ALLOWED_KEYS = {"case_id", "status"}
+ALLOWED_HOSTS = {"docs.local"}
+SAFE_ROOT = "/safe/reports"
+
+
+def policy_engine(req, actor, owner, scopes, host, user_path="a.txt", root=SAFE_ROOT):
+    """Decide CONTINUE / REJECT_SCHEMA / REJECT_UNTRUSTED_INPUT / DENY_CROSS_TENANT."""
+    # 1. Schema estricto: solo las claves permitidas, nada extra
+    if not ALLOWED_KEYS.issubset(req) or set(req) - ALLOWED_KEYS:
+        return "REJECT_SCHEMA"
+    # 2. SSRF: el host debe estar en la allowlist
+    if host not in ALLOWED_HOSTS:
+        return "REJECT_UNTRUSTED_INPUT"
+    # 3. Path traversal: ni '..' ni escape de la raiz
+    if ".." in user_path.split("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    joined = f"{root.rstrip('/')}/{user_path.lstrip('/')}"
+    if not joined.startswith(root.rstrip("/") + "/") and joined != root.rstrip("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    # 4. Authz: el actor debe ser el dueno y tener el scope cases:read
+    if "cases:read" not in scopes or actor != owner:
+        return "DENY_CROSS_TENANT"
+    return "CONTINUE"
+
+
+print("=== Policy Engine (CASO-CUS-042) ===")
+
+# 1. Happy path: analista abre su propio ticket
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "docs.local"))
+
+# 2. Schema reject: el cliente manda un campo extra (note_interna)
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open", "note_interna": "x"},
+    "user-a", "user-a", {"cases:read"}, "docs.local"))
+
+# 3. Cross-tenant: el analista user-a intenta leer el ticket de user-b
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-b", {"cases:read"}, "docs.local"))
+
+# 4. SSRF: el adjunto apunta a metadata cloud (169.254.169.254)
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "169.254.169.254"))
+
+# 5. Path traversal: el adjunto intenta leer /etc/passwd
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "docs.local",
+    user_path="../etc/passwd"))`,
+      expectedOutput: `=== Policy Engine (CASO-CUS-042) ===
+CONTINUE
+REJECT_SCHEMA
+DENY_CROSS_TENANT
+REJECT_UNTRUSTED_INPUT
+REJECT_UNTRUSTED_INPUT`,
+      hint: 'Cambia user_path a "subdir/a.txt" y observa CONTINUE; prueba sin cases:read en scopes',
+    },
+    'llmops': {
+      title: 'Practica tracing y eval (simulado)',
+      code: `# Simulacion de LLMOps: tracing y evaluacion
+import time
+from functools import wraps
+
+# Simular tracing (como LangSmith)
+def traced(name):
+    """Decorador que simula tracing de LangSmith."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            result = func(*args, **kwargs)
+            elapsed = (time.time() - start) * 1000
+            print(f"  [{name}] {elapsed:.1f}ms -> {str(result)[:50]}")
+            return result
+        return wrapper
+    return decorator
+
+# Simular pipeline RAG con tracing
+@traced("retriever")
+def retrieve(query):
+    """Recupera documentos relevantes."""
+    return [f"doc_{i}" for i in range(3)]
+
+@traced("generator")
+def generate(query, docs):
+    """Genera respuesta con LLM."""
+    return f"Respuesta basada en {len(docs)} documentos"
+
+@traced("rag_pipeline")
+def rag_pipeline(query):
+    """Pipeline completo con tracing."""
+    docs = retrieve(query)
+    response = generate(query, docs)
+    return response
+
+# Ejecutar
+print("=== Tracing ===")
+result = rag_pipeline("que es Python?")
+
+# Simular evaluacion RAGAS
+print(f"\\n=== Evaluacion RAGAS (simulada) ===")
+metrics = {
+    "faithfulness": 0.92,      # respuesta fundamentada en contexto
+    "answer_relevancy": 0.88,  # responde la pregunta
+    "context_precision": 0.85, # contexto recuperado es relevante
+    "context_recall": 0.90,    # contexto recuperado es completo
+}
+
+for metric, score in metrics.items():
+    status = "OK" if score > 0.8 else "WARN"
+    print(f"  {metric:25s}: {score:.2f} [{status}]")
+
+avg = sum(metrics.values()) / len(metrics)
+print(f"\\n  Promedio: {avg:.2f} ({'APROBADO' if avg > 0.8 else 'RECHAZADO'})")
+
+# Simular cost tracking
+print(f"\\n=== Cost Tracking ===")
+tokens = {"input": 1500, "output": 300}
+cost = (tokens["input"] * 0.0025 + tokens["output"] * 0.01) / 1000
+print(f"  Tokens: {tokens}")
+print(f"  Costo: ${'{cost:.4f}'}")`,
+      hint: 'Cambia faithfulness a 0.5 y observa como cambia el status',
+    },
+    'multimodal': {
+      title: 'Practica CLIP y Whisper (simulado)',
+      code: `# Simulacion de conceptos multi-modales
+# Sin transformers - simulamos con conceptos
+
+# Simular CLIP: alinear texto e imagen en espacio vectorial
+def text_embedding(text):
+    """Simula embedding de texto (CLIP)."""
+    words = text.lower().split()
+    # Hash simple como embedding simulado
+    return [len(w) / 10 for w in words]
+
+def cosine_sim(a, b):
+    """Similitud coseno entre dos vectores."""
+    dot = sum(x*y for x, y in zip(a, b))
+    norm_a = sum(x**2 for x in a)**0.5
+    norm_b = sum(y**2 for y in b)**0.5
+    return dot / (norm_a * norm_b) if norm_a and norm_b else 0
+
+# Buscar imagen por texto (zero-shot)
+texts = ["un gato", "un perro", "un auto"]
+# Simular embeddings de imagenes (pre-calculados)
+images = {
+    "img1.jpg": [0.5, 0.3, 0.4],  # similar a "un gato"
+    "img2.jpg": [0.4, 0.5, 0.3],  # similar a "un perro"
+    "img3.jpg": [0.3, 0.3, 0.9],  # similar a "un auto"
+}
+
+print("=== CLIP: Buscar imagen por texto ===")
+query = "un gato"
+query_emb = text_embedding(query)
+print(f"Query: '{query}' -> embedding: {query_emb}")
+
+for img_name, img_emb in images.items():
+    # Padding para igualar longitud
+    max_len = max(len(query_emb), len(img_emb))
+    q = query_emb + [0] * (max_len - len(query_emb))
+    i = img_emb + [0] * (max_len - len(img_emb))
+    sim = cosine_sim(q, i)
+    print(f"  {img_name}: similitud={sim:.2f}")
+
+# Simular Whisper: transcripcion
+print(f"\\n=== Whisper: Transcripcion (simulada) ===")
+audio_segments = [
+    {"start": 0.0, "end": 2.5, "text": "Hola, bienvenidos al curso"},
+    {"start": 2.5, "end": 5.0, "text": "de Python para Data Science"},
+    {"start": 5.0, "end": 7.5, "text": "vamos a aprender mucho"},
+]
+
+print("Transcripcion con timestamps:")
+for seg in audio_segments:
+    print(f"  [{seg['start']:.1f}s - {seg['end']:.1f}s] {seg['text']}")
+
+full_text = " ".join(seg["text"] for seg in audio_segments)
+print(f"\\nTexto completo: '{full_text}'")`,
+      expectedOutput: `=== CLIP: Buscar imagen por texto ===
+Query: 'un gato' -> embedding: [0.2, 0.4]
+  img1.jpg: similitud=0.70
+  img2.jpg: similitud=0.89
+  img3.jpg: similitud=0.40
+
+=== Whisper: Transcripcion (simulada) ===
+Transcripcion con timestamps:
+  [0.0s - 2.5s] Hola, bienvenidos al curso
+  [2.5s - 5.0s] de Python para Data Science
+  [5.0s - 7.5s] vamos a aprender mucho
+
+Texto completo: 'Hola, bienvenidos al curso de Python para Data Science vamos a aprender mucho'`,
+      hint: 'Cambia el query a "un auto" y observa cual imagen tiene mayor similitud',
+    },
+    'iac': {
+      title: 'Practica Terraform concepts',
+      code: `# Simulacion de conceptos de IaC
+# Sin Terraform real - simulamos el modelo declarativo
+
+# Simular Terraform: estado deseado vs estado actual
+class TerraformSimulator:
+    """Simula Terraform: plan, apply, destroy."""
+    def __init__(self):
+        self.resources = {}
+        self.state = {}
+    
+    def plan(self, desired):
+        """Muestra que cambiaria (como terraform plan)."""
+        to_create = []
+        to_modify = []
+        to_destroy = []
+        
+        for name, config in desired.items():
+            if name not in self.state:
+                to_create.append(name)
+            elif self.state[name] != config:
+                to_modify.append(name)
+        
+        for name in self.state:
+            if name not in desired:
+                to_destroy.append(name)
+        
+        return {"create": to_create, "modify": to_modify, "destroy": to_destroy}
+    
+    def apply(self, desired):
+        """Aplica cambios (como terraform apply)."""
+        plan = self.plan(desired)
+        for name in plan["create"]:
+            print(f"  + Creating {name}")
+            self.state[name] = desired[name]
+        for name in plan["modify"]:
+            print(f"  ~ Modifying {name}")
+            self.state[name] = desired[name]
+        for name in plan["destroy"]:
+            print(f"  - Destroying {name}")
+            del self.state[name]
+    
+    def destroy_all(self):
+        """Destruye todo (como terraform destroy)."""
+        for name in list(self.state.keys()):
+            print(f"  - Destroying {name}")
+            del self.state[name]
+
+tf = TerraformSimulator()
+
+# Estado deseado: cluster de ML
+desired = {
+    "ml_api": {"image": "ml-api:v1", "replicas": 3},
+    "redis": {"image": "redis:7", "port": 6379},
+    "prometheus": {"image": "prom:v2", "port": 9090},
+}
+
+print("=== terraform plan ===")
+plan = tf.plan(desired)
+print(f"  Create: {plan['create']}")
+print(f"  Modify: {plan['modify']}")
+print(f"  Destroy: {plan['destroy']}")
+
+print("\\n=== terraform apply ===")
+tf.apply(desired)
+print(f"  State: {list(tf.state.keys())}")
+
+print("\\n=== Actualizar (cambiar replicas) ===")
+desired["ml_api"]["replicas"] = 5
+tf.apply(desired)
+print(f"  ml_api replicas: {tf.state['ml_api']['replicas']}")
+
+print("\\n=== terraform destroy ===")
+tf.destroy_all()
+print(f"  State: {list(tf.state.keys())}")`,
+      expectedOutput: `=== terraform plan ===
+  Create: ['ml_api', 'redis', 'prometheus']
+  Modify: []
+  Destroy: []
+
+=== terraform apply ===
+  + Creating ml_api
+  + Creating redis
+  + Creating prometheus
+  State: ['ml_api', 'redis', 'prometheus']
+
+=== Actualizar (cambiar replicas) ===
+  ml_api replicas: 5
+
+=== terraform destroy ===
+  - Destroying ml_api
+  - Destroying redis
+  - Destroying prometheus
+  State: []`,
+      hint: 'Anade un nuevo recurso "grafana" al estado deseado y aplica',
+    },
+    'gpu-computing': {
+      title: 'Practica conceptos de GPU (simulado)',
+      code: `# Simulacion de conceptos de GPU computing
+import time
+import math
+
+# Simular multiplicacion de matrices: CPU vs GPU (conceptual)
+def matrix_multiply_cpu(A, B):
+    """Multiplicacion de matrices en CPU (O(n^3))."""
+    n = len(A)
+    C = [[0]*n for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                C[i][j] += A[i][k] * B[k][j]
+    return C
+
+# Simular conceptos de GPU
+print("=== GPU Computing Concepts ===")
+
+# 1. Paralelismo: CPU vs GPU
+print("\\n1. Paralelismo:")
+print("  CPU: 4-16 cores, cada uno hace trabajo complejo")
+print("  GPU: 1000s de cores, cada uno hace trabajo simple")
+print("  Para matrices 5000x5000:")
+print("    CPU (1 core):  ~2.1s")
+print("    GPU (CuPy):    ~0.05s (42x speedup)")
+
+# 2. Memory hierarchy
+print("\\n2. Jerarquia de memoria:")
+print("  CPU RAM:  16-64 GB, lento (100 GB/s)")
+print("  GPU VRAM: 8-80 GB, rapido (900 GB/s)")
+print("  Limitacion: datos deben caber en VRAM")
+print("  T4: 16GB | A100: 80GB | H100: 80GB")
+
+# 3. Simular benchmark de small matrix
+import random
+n = 100
+random.seed(42)
+A = [[random.random() for _ in range(n)] for _ in range(n)]
+B = [[random.random() for _ in range(n)] for _ in range(n)]
+
+t0 = time.time()
+C = matrix_multiply_cpu(A, B)
+t_cpu = time.time() - t0
+print(f"\\n3. Benchmark (matriz {n}x{n}):")
+print(f"  CPU (Python puro): {t_cpu:.4f}s")
+print(f"  GPU estimado:      {t_cpu/42:.4f}s (42x speedup)")
+print(f"  NumPy estimado:    {t_cpu/100:.4f}s (100x vs Python puro)")
+
+# 4. Conceptos de vLLM
+print("\\n4. vLLM (LLM serving):")
+print("  PagedAttention: gestiona KV cache como memoria virtual")
+print("  Permite batch de 100+ requests sin OOM")
+print("  3-5x mas rapido que HuggingFace transformers")`,
+      hint: 'Cambia n a 200 y observa como aumenta el tiempo cuadraticamente',
+    },
+    'opensource': {
+      title: 'Practica empaquetado y CI',
+      code: `# Simulacion de conceptos de open source
+import json
+
+# 1. Simular pyproject.toml
+pyproject = {
+    "build-system": {"requires": ["hatchling"], "build-backend": "hatchling.build"},
+    "project": {
+        "name": "pytools-cli",
+        "version": "1.0.0",
+        "description": "CLI toolkit para Data Science",
+        "requires-python": ">=3.10",
+        "dependencies": ["click>=8.0", "pandas>=2.0"],
+    },
+    "project.optional-dependencies": {
+        "dev": ["pytest", "ruff", "mypy"],
+        "ml": ["scikit-learn", "xgboost"],
+    },
+    "project.scripts": {
+        "pytools": "pytools_cli.main:cli"
+    }
+}
+
+print("=== pyproject.toml ===")
+print(f"  Nombre: {pyproject['project']['name']}")
+print(f"  Version: {pyproject['project']['version']}")
+print(f"  Entry point: {list(pyproject['project.scripts'].keys())[0]}")
+print(f"  Deps: {pyproject['project']['dependencies']}")
+print(f"  Extras: {list(pyproject['project.optional-dependencies'].keys())}")
+
+# 2. Semantic Versioning
+def check_compatibility(old, new):
+    """Verifica compatibilidad semver."""
+    o = [int(x) for x in old.split('.')]
+    n = [int(x) for x in new.split('.')]
+    if n[0] != o[0]:
+        return "BREAKING (major bump)"
+    elif n[1] > o[1]:
+        return "COMPATIBLE (minor bump - new features)"
+    elif n[2] > o[2]:
+        return "COMPATIBLE (patch bump - bugfix)"
+    return "SAME VERSION"
+
+print("\\n=== Semantic Versioning ===")
+versions = [("1.0.0", "1.0.1"), ("1.0.0", "1.1.0"), ("1.0.0", "2.0.0")]
+for old, new in versions:
+    compat = check_compatibility(old, new)
+    print(f"  {old} -> {new}: {compat}")
+
+# 3. Simular CI matrix
+print("\\n=== CI Matrix (simulado) ===")
+oses = ["ubuntu", "macos", "windows"]
+pythons = ["3.10", "3.11", "3.12"]
+print(f"  OS: {oses}")
+print(f"  Python: {pythons}")
+print(f"  Total jobs: {len(oses) * len(pythons)} (paralelo)")
+print(f"  Steps: checkout -> setup-python -> pip install -> ruff -> pytest")`,
+      expectedOutput: `=== pyproject.toml ===
+  Nombre: pytools-cli
+  Version: 1.0.0
+  Entry point: pytools
+  Deps: ['click>=8.0', 'pandas>=2.0']
+  Extras: ['dev', 'ml']
+
+=== Semantic Versioning ===
+  1.0.0 -> 1.0.1: COMPATIBLE (patch bump - bugfix)
+  1.0.0 -> 1.1.0: COMPATIBLE (minor bump - new features)
+  1.0.0 -> 2.0.0: BREAKING (major bump)
+
+=== CI Matrix (simulado) ===
+  OS: ['ubuntu', 'macos', 'windows']
+  Python: ['3.10', '3.11', '3.12']
+  Total jobs: 9 (paralelo)
+  Steps: checkout -> setup-python -> pip install -> ruff -> pytest`,
+      hint: 'Que pasa si cambio la version a 2.0.0? Es compatible con 1.x?',
+    },
+    'ai-governance': {
+      title: 'Practica bias y fairness',
+      code: `# Simulacion de bias detection y fairness
+import random
+
+# Simular predicciones de un modelo
+random.seed(42)
+n = 100
+genero = ["M"] * 50 + ["F"] * 50
+# Modelo con bias: aprueba mas hombres que mujeres
+predicciones = []
+for g in genero:
+    if g == "M":
+        predicciones.append(1 if random.random() < 0.7 else 0)
+    else:
+        predicciones.append(1 if random.random() < 0.5 else 0)
+
+# Calcular metricas de fairness
+def fairness_metrics(genero, predicciones):
+    """Calcula metricas de fairness basicas."""
+    m_aprobados = sum(p for g, p in zip(genero, predicciones) if g == "M")
+    f_aprobados = sum(p for g, p in zip(genero, predicciones) if g == "F")
+    m_total = sum(1 for g in genero if g == "M")
+    f_total = sum(1 for g in genero if g == "F")
+    
+    m_rate = m_aprobados / m_total
+    f_rate = f_aprobados / f_total
+    disparate_impact = min(m_rate, f_rate) / max(m_rate, f_rate)
+    
+    return {
+        "m_approval_rate": m_rate,
+        "f_approval_rate": f_rate,
+        "disparate_impact": disparate_impact,
+        "has_bias": disparate_impact < 0.8,
+    }
+
+metrics = fairness_metrics(genero, predicciones)
+print("=== Bias Detection ===")
+print(f"  Tasa aprobacion Hombres: {metrics['m_approval_rate']:.1%}")
+print(f"  Tasa aprobacion Mujeres: {metrics['f_approval_rate']:.1%}")
+print(f"  Disparate Impact: {metrics['disparate_impact']:.3f}")
+print(f"  Bias detectado: {'SI' if metrics['has_bias'] else 'NO'} (umbral: 0.8)")
+
+# Simular model card
+print("\\n=== Model Card ===")
+model_card = {
+    "name": "Credit Scoring Model v2.0",
+    "intended_use": "Scoring crediticio para clientes de banca",
+    "training_data": "10,000 registros historicos (2024)",
+    "metrics": {"auc": 0.87, "precision": 0.82},
+    "bias_check": f"Disparate impact: {metrics['disparate_impact']:.3f}",
+    "limitations": "Solo valido para clientes con > 3 meses de antiguedad",
+    "human_oversight": "Requerido para score > 80%",
+}
+for key, value in model_card.items():
+    print(f"  {key}: {value}")`,
+      expectedOutput: `=== Bias Detection ===
+  Tasa aprobacion Hombres: 76.0%
+  Tasa aprobacion Mujeres: 50.0%
+  Disparate Impact: 0.658
+  Bias detectado: SI (umbral: 0.8)
+
+=== Model Card ===
+  name: Credit Scoring Model v2.0
+  intended_use: Scoring crediticio para clientes de banca
+  training_data: 10,000 registros historicos (2024)
+  metrics: {'auc': 0.87, 'precision': 0.82}
+  bias_check: Disparate impact: 0.658
+  limitations: Solo valido para clientes con > 3 meses de antiguedad
+  human_oversight: Requerido para score > 80%`,
+      hint: 'Cambia la probabilidad de aprobacion de mujeres a 0.65 y observa si el bias desaparece',
+    },
+    'data-contracts': {
+      title: 'Practica agentes y tools',
+      code: `# Mini-lab de agente acotado (stdlib) con tool registry, idempotencia y gate HITL
+# CASO-AYA-049 (entidad ficticia en Ayacucho) — sin PII real, sin red, sin secretos.
+
+TOOLS = {
+    "get_case": {"scope": "case:read", "side_effect": False},
+    "prepare_report": {"scope": "report:prepare", "side_effect": True},
+    "prod_send": {"scope": "prod:write", "side_effect": True},
+}
+
+# Allowlist de scopes concedidos en el lab (least privilege).
+GRANTED = {"case:read", "report:prepare"}
+
+# Store de idempotencia: misma key => un solo side effect aplicado.
+idempotency_store: dict[str, dict] = {}
+
+
+def call_tool(name: str, key: str, human_ok: bool = False) -> dict:
+    """Llama una tool con schema estrecho, scope chequeado y replay seguro."""
+    tool = TOOLS[name]
+    # 1) Permiso: scope debe estar en el grant.
+    if tool["side_effect"] and tool["scope"] not in GRANTED:
+        return {"error": "forbidden", "kind": "terminal"}
+    if not tool["side_effect"] and tool["scope"] not in GRANTED:
+        return {"error": "forbidden", "kind": "terminal"}
+    # 2) Aprobacion humana si hay side effect.
+    if tool["side_effect"] and not human_ok:
+        return {"error": "needs_approval", "kind": "terminal"}
+    # 3) Replay idempotente: si la key ya se aplicó, devolvemos el mismo efecto.
+    if key in idempotency_store:
+        return idempotency_store[key]
+    # 4) Aplicamos el efecto una sola vez y lo guardamos.
+    result = {"ok": True, "name": name, "effect": 1 if tool["side_effect"] else 0}
+    idempotency_store[key] = result
+    return result
+
+
+# Trayectoria feliz + fallas del catálogo (fail-closed, nunca exito silencioso).
+print(call_tool("get_case", "k1"))
+print(call_tool("prepare_report", "k2", human_ok=False))
+print(call_tool("prepare_report", "k2", human_ok=True))
+print(call_tool("prepare_report", "k2", human_ok=True))  # replay idempotente
+print(call_tool("prod_send", "k3", human_ok=True))       # scope fuera del grant`,
+      expectedOutput: `{'ok': True, 'name': 'get_case', 'effect': 0}
+{'error': 'needs_approval', 'kind': 'terminal'}
+{'ok': True, 'name': 'prepare_report', 'effect': 1}
+{'ok': True, 'name': 'prepare_report', 'effect': 1}
+{'error': 'forbidden', 'kind': 'terminal'}`,
+      hint: 'Cambia human_ok de False a True en la segunda llamada y observa que la cuarta linea es idempotente: mismo efecto, sin duplicar el side effect.',
+    },
+    'tech-leadership': {
+      title: 'Practica design doc y postmortem',
+      code: `# Generador de templates de liderazgo tecnico
+
+def generate_design_doc(title, context, goals, design, alternatives, risks):
+    """Genera un design doc estructurado."""
+    doc = f"# Design Doc: {title}\\n"
+    doc += f"\\n## Context\\n{context}\\n"
+    doc += f"\\n## Goals\\n"
+    for g in goals:
+        doc += f"- {g}\\n"
+    doc += f"\\n## Design\\n{design}\\n"
+    doc += f"\\n## Alternatives\\n"
+    for a in alternatives:
+        doc += f"- {a}\\n"
+    doc += f"\\n## Risks\\n"
+    for r in risks:
+        doc += f"- {r}\\n"
+    return doc
+
+# Generar design doc real
+dd = generate_design_doc(
+    title="Sistema de Recomendacion en Tiempo Real",
+    context="Necesitamos recomendar productos en <50ms para 10K usuarios concurrentes.",
+    goals=["Latencia p99 < 50ms", "Throughput: 10K QPS", "Cobertura: 95% de catalogo"],
+    design="Redis cache + collaborative filtering + fallback a populares",
+    alternatives=["Batch pre-compute (descartado: no personalizado)", "ML en cada request (descartado: >200ms)"],
+    risks=["Cache invalidation staleness", "Cold start para nuevos usuarios"]
+)
+print(dd)
+
+# Generar postmortem template
+def generate_postmortem(summary, timeline, root_causes, actions):
+    """Genera un postmortem blameless."""
+    pm = f"# Postmortem: {summary}\\n"
+    pm += f"\\n## Timeline\\n"
+    for t in timeline:
+        pm += f"- {t}\\n"
+    pm += f"\\n## Root Cause (5 Whys)\\n"
+    for rc in root_causes:
+        pm += f"- {rc}\\n"
+    pm += f"\\n## Action Items\\n"
+    for a in actions:
+        pm += f"- [ ] {a}\\n"
+    return pm
+
+print("\\n" + "="*50)
+pm = generate_postmortem(
+    summary="API caida 23 min (12K requests fallidos)",
+    timeline=["12:03 Alerta error rate >5%", "12:05 Investigacion: Redis pool", "12:15 Rollback", "12:26 Restaurado"],
+    root_causes=["Pool agotado por leak", "No habia test de pool", "CI no cubre Redis"],
+    actions=["Anadir Redis a docker-compose test", "Contract test para pool", "Alerta pool > 80%"]
+)
+print(pm)`,
+      expectedOutput: `# Design Doc: Sistema de Recomendacion en Tiempo Real
+
+## Context
+Necesitamos recomendar productos en <50ms para 10K usuarios concurrentes.
+
+## Goals
+- Latencia p99 < 50ms
+- Throughput: 10K QPS
+- Cobertura: 95% de catalogo
+
+## Design
+Redis cache + collaborative filtering + fallback a populares
+
+## Alternatives
+- Batch pre-compute (descartado: no personalizado)
+- ML en cada request (descartado: >200ms)
+
+## Risks
+- Cache invalidation staleness
+- Cold start para nuevos usuarios
+
+
+==================================================
+# Postmortem: API caida 23 min (12K requests fallidos)
+
+## Timeline
+- 12:03 Alerta error rate >5%
+- 12:05 Investigacion: Redis pool
+- 12:15 Rollback
+- 12:26 Restaurado
+
+## Root Cause (5 Whys)
+- Pool agotado por leak
+- No habia test de pool
+- CI no cubre Redis
+
+## Action Items
+- [ ] Anadir Redis a docker-compose test
+- [ ] Contract test para pool
+- [ ] Alerta pool > 80%`,
+      hint: 'Escribe un design doc para tu propio proyecto',
+    },
+    'integrator-final': {
+      title: 'Practica arquitectura agenticaca',
+      code: `# Simulacion de plataforma agéntica completa
+from typing import TypedDict
+
+# Simular LangGraph StateGraph
+class AgentState(TypedDict):
+    query: str
+    research: str
+    analysis: str
+    report: str
+
+# Simular agentes especializados
+def researcher(state):
+    """Agente 1: busca informacion."""
+    print(f"  [Researcher] Buscando: {state['query']}")
+    return {"research": f"Datos encontrados sobre {state['query']}"}
+
+def analyst(state):
+    """Agente 2: analiza datos."""
+    print(f"  [Analyst] Analizando: {state['research'][:30]}...")
+    return {"analysis": f"Insights: {state['query']} tiene 3 patrones clave"}
+
+def writer(state):
+    """Agente 3: genera reporte."""
+    print(f"  [Writer] Escribiendo reporte...")
+    return {"report": f"# Reporte\\n\\nQuery: {state['query']}\\nAnalisis: {state['analysis']}"}
+
+# Orquestar (simulando LangGraph)
+def run_platform(query):
+    """Ejecuta la plataforma agéntica completa."""
+    print(f"=== Plataforma Agéntica ===")
+    print(f"Query: {query}\\n")
+    
+    state = {"query": query, "research": "", "analysis": "", "report": ""}
+    
+    # Flujo: researcher -> analyst -> writer
+    state.update(researcher(state))
+    state.update(analyst(state))
+    state.update(writer(state))
+    
+    print(f"\\n=== Reporte Final ===")
+    print(state["report"])
+    return state
+
+# Ejecutar
+result = run_platform("Analisis de churn Q2 2026")
+
+# Simular LLMOps
+print(f"\\n=== LLMOps ===")
+metrics = {
+    "latency_p99": 245,
+    "tokens_used": 1850,
+    "cost_usd": 0.0046,
+    "faithfulness": 0.92,
+}
+for k, v in metrics.items():
+    print(f"  {k}: {v}")`,
+      expectedOutput: `=== Plataforma Agéntica ===
+Query: Analisis de churn Q2 2026
+
+  [Researcher] Buscando: Analisis de churn Q2 2026
+  [Analyst] Analizando: Datos encontrados sobre Analis...
+  [Writer] Escribiendo reporte...
+
+=== Reporte Final ===
+# Reporte
+
+Query: Analisis de churn Q2 2026
+Analisis: Insights: Analisis de churn Q2 2026 tiene 3 patrones clave
+
+=== LLMOps ===
+  latency_p99: 245
+  tokens_used: 1850
+  cost_usd: 0.0046
+  faithfulness: 0.92`,
+      hint: 'Anade un cuarto agente "Reviewer" que valide el reporte antes de entregarlo',
+    },
+    'career-strategy': {
+      title: 'Practica portfolio y CV',
+      code: `# Generador de portfolio y CV tips
+
+# Simular portfolio site
+projects = [
+    {
+        "title": "Churn Prediction Pipeline",
+        "tech": ["Python", "XGBoost", "FastAPI", "Docker"],
+        "impact": "Redujo churn 15%, salvando S/2M anuales",
+        "metrics": {"auc": 0.87, "qps": 12500, "latency_ms": 87},
+    },
+    {
+        "title": "Familiarity Score Dashboard",
+        "tech": ["Python", "RapidFuzz", "Leaflet", "Next.js"],
+        "impact": "Detecto 500+ duplicados en base de 50K clientes",
+        "metrics": {"accuracy": 0.95, "records": 50000, "duplicates": 500},
+    },
+    {
+        "title": "Invoice Digitizer Bot",
+        "tech": ["Python", "Playwright", "Ollama", "Tesseract"],
+        "impact": "Automatizo 200h/mes de trabajo manual",
+        "metrics": {"hours_saved": 200, "accuracy": 0.89, "cost": "$0"},
+    },
+]
+
+print("=== Portfolio Site ===")
+for p in projects:
+    print(f"\\n  {p['title']}")
+    print(f"    Tech: {', '.join(p['tech'])}")
+    print(f"    Impacto: {p['impact']}")
+    print(f"    Metrics: {p['metrics']}")
+
+# Generar CV con logros cuantificables
+print(f"\\n=== CV: Logros Cuantificables ===")
+logros = [
+    ("Construi pipeline de churn con XGBoost, reduciendo churn 15% y salvando S/2M anuales"),
+    ("Procese 50M transacciones/dia con Kafka + Spark, reduciendo latencia 80%"),
+    ("Automatice 200h/mes de trabajo manual con Python + Playwright, 99.5% uptime"),
+    ("Implemente entity resolution con RapidFuzz, detectando 500+ duplicados en 50K registros"),
+]
+
+for i, logro in enumerate(logros, 1):
+    # Verificar que tiene numeros (ATS check)
+    has_numbers = any(c.isdigit() for c in logro)
+    print(f"  {i}. {'✓' if has_numbers else '✗'} {logro}")
+
+# Calcular keyword overlap (ATS)
+print(f"\\n=== ATS Keyword Check ===")
+job_desc = "Python pandas scikit-learn AWS Docker Kubernetes FastAPI"
+cv_keywords = "Python XGBoost FastAPI Docker pandas numpy"
+overlap = len(set(job_desc.lower().split()) & set(cv_keywords.lower().split()))
+total = len(set(job_desc.lower().split()))
+print(f"  Job desc keywords: {job_desc}")
+print(f"  CV keywords: {cv_keywords}")
+print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
+      expectedOutput: `=== Portfolio Site ===
+
+  Churn Prediction Pipeline
+    Tech: Python, XGBoost, FastAPI, Docker
+    Impacto: Redujo churn 15%, salvando S/2M anuales
+    Metrics: {'auc': 0.87, 'qps': 12500, 'latency_ms': 87}
+
+  Familiarity Score Dashboard
+    Tech: Python, RapidFuzz, Leaflet, Next.js
+    Impacto: Detecto 500+ duplicados en base de 50K clientes
+    Metrics: {'accuracy': 0.95, 'records': 50000, 'duplicates': 500}
+
+  Invoice Digitizer Bot
+    Tech: Python, Playwright, Ollama, Tesseract
+    Impacto: Automatizo 200h/mes de trabajo manual
+    Metrics: {'hours_saved': 200, 'accuracy': 0.89, 'cost': '$0'}
+
+=== CV: Logros Cuantificables ===
+  1. ✓ Construi pipeline de churn con XGBoost, reduciendo churn 15% y salvando S/2M anuales
+  2. ✓ Procese 50M transacciones/dia con Kafka + Spark, reduciendo latencia 80%
+  3. ✓ Automatice 200h/mes de trabajo manual con Python + Playwright, 99.5% uptime
+  4. ✓ Implemente entity resolution con RapidFuzz, detectando 500+ duplicados en 50K registros
+
+=== ATS Keyword Check ===
+  Job desc keywords: Python pandas scikit-learn AWS Docker Kubernetes FastAPI
+  CV keywords: Python XGBoost FastAPI Docker pandas numpy
+  Overlap: 4/7 (57%)`,
+      hint: 'Anade mas keywords de la job desc a tu CV para aumentar el overlap',
+    },
+  }
+  const demo = demos[sectionId]
+  if (!demo) return null
+
+  return (
+    <div className="space-y-3" data-testid={`demo-playground-${sectionId}`}>
+      <div className="flex items-center gap-2 border-t border-border pt-6">
+        <Sparkles className="h-5 w-5 text-gold" />
+        <h3 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-subdisplay)' }}>Pruébalo tú mismo</h3>
+      </div>
+      <Callout type="tip" title="Editor interactivo en tu navegador">
+        Este editor corre Python de verdad en tu browser (con Pyodide). Modifica el código, presiona <strong>Run</strong>, y experimenta. No necesitas instalar nada.
+      </Callout>
+      <CodePlayground
+        initialCode={demo.code}
+        expectedOutput={demo.expectedOutput}
+        hint={demo.hint}
+        title={demo.title}
+        testId={`demo-run-${sectionId}`}
+      />
+    </div>
+  )
+}

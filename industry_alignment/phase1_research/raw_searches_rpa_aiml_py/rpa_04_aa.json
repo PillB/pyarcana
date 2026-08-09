@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://pathfinder.automationanywhere.com/university",
+    "name": "Automation Anywhere University | Training and Certification",
+    "snippet": "Connect with developers and students , get expert guidance, and build real-world skills that move you from learning to leading, for free with Community Edition.",
+    "host_name": "pathfinder.automationanywhere.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.automationanywhere.com/developers-forum-36/development-guideline-and-framework-89024",
+    "name": "Development Guideline and framework",
+    "snippet": "Nov 7, 2024 — Hi Team,I am new to AA. Need the community help to understand what best practice experts here recommend: 1- What is official recommended BOT Development ...",
+    "host_name": "community.automationanywhere.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.automationanywhere.com/pathfinder-blog-85009/building-your-first-automation-360-bot-85099",
+    "name": "Building Your First Automation 360 Bot",
+    "snippet": "May 26, 2021 — In this tutorial, we'll be building a bot to automate logging in to a website . We'll look at how the bot can be built out and tested.",
+    "host_name": "community.automationanywhere.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gideonrobertuniversity.com/blog-article/1741807558/automation-anywhere-tutorial",
+    "name": "Automation Anywhere Tutorial",
+    "snippet": "There are no programming skills required to develop bots as recording any task is more straightforward than manually coding it.",
+    "host_name": "gideonrobertuniversity.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.automationanywhere.com/developers-forum-36/document-a-bot-in-a360-89397",
+    "name": "Document a bot in A360",
+    "snippet": "Feb 18, 2025 — Good morning,Is there any tool o method to document a bot ?I have to do it with all the bots already created and som of them are big one to re-write every ...",
+    "host_name": "community.automationanywhere.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.clariontech.com/platform-blog/important-features-of-automation-anywhere-a-complete-overview",
+    "name": "Key Features of Automation Anywhere: Complete Overview",
+    "snippet": "Automation anywhere tool employs software bots that enable several industries to automate their repetitive business processes. In addition to the comprehensive ...",
+    "host_name": "www.clariontech.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.automationanywhere.com/developers-forum-36/bot-development-actios-and-variables-to-be-used-90186",
+    "name": "Bot development actios and variables to be used",
+    "snippet": "Jul 12, 2025 — From given list of strings (separated by new lines), extract only the 9-digit numbers that start with 1.Input:0123456781234567892345678901234567890Expected ...",
+    "host_name": "community.automationanywhere.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.apriorit.com/dev-blog/754-web-automation-anywhere-bot",
+    "name": "Using Automation Anywhere to Create Bots for Task",
+    "snippet": "Nov 25, 2021 — Learn how to create a bot in Automation Anywhere (Automation 360) to automate various repetitive tasks.",
+    "host_name": "www.apriorit.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "section": 3,
+  "section_id": "data-structures",
+  "file": "src/lib/course/sections/s03-data-structures.ts",
+  "title": "Decisiones y reglas de validación",
+  "score_before": 7.5,
+  "score_after_estimate": 9.6,
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S03_EXPLORER_REPORT.md",
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-20",
+    "ISSUE-21",
+    "RESIDUAL-place-name-code-output-desync"
+  ],
+  "issues_deferred": [
+    "ISSUE-12"
+  ],
+  "anti_aberration_ok": true,
+  "status": "fixed_validated",
+  "meta_leak_count_after": 0,
+  "product_ts_edited_this_pass": true,
+  "revalidation_pass": "2026-07-24-residual95",
+  "notes": "Explorer-only residual pass. Re-executed all code/output pairs; found and fixed residual P0-class desync from broken place-name rewrite (Sucursal/Oficina/Cliente vs labels/outputs). Restored PE place names (Lima/Arequipa/Cusco/Piura/Tacna) in T3-A theory, T1-A DEMO, T3-A DEMO, T1-A-E1, T1-B-E2, T3-A-E1, You Do. 38/38 non-match pairs PASS; match blocks if-equivalent PASS; You Do red oracle; 0 hard meta-leaks. Deferred only ISSUE-12 platform id rename. Hand craft only — no bulk generation.",
+  "structural": {
+    "theory_blocks": 9,
+    "iDo": 8,
+    "weDo": 24,
+    "selfCheck": 8
+  },
+  "validation": {
+    "code_output_pairs_executed": 38,
+    "code_output_pairs_failed": 0,
+    "match_blocks_simulated": 4,
+    "youdo_red_oracle": true,
+    "youdo_notimplemented": false,
+    "instructions_min_chars": 156,
+    "instructions_all_ge_150": true,
+    "meta_leak_greps_clean": true,
+    "place_name_tokens_clean": true
+  },
+  "fleet_goal_met": true
+}

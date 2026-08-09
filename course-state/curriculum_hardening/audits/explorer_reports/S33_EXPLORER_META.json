@@ -1,0 +1,9 @@
+{
+  "section": 33,
+  "id": "advanced-models",
+  "file": "s33-advanced-models.ts",
+  "score_1_to_10": 5.5,
+  "issue_count": 24,
+  "meta_leak_count": 5,
+  "status": "complete"
+}

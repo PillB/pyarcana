@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-07-21T04:53:00Z",
+  "suite": "ux_campaign_glossary_a11y_i18n_e2e",
+  "ok": true,
+  "static_gates": {
+    "glossary_intro_forward_refs": 0,
+    "glossary_coverage_p1_advisory": 39,
+    "glossary_coverage_policy": "advisory (STRICT_GLOSSARY_COVERAGE=1 to fail CI)",
+    "i18n_parity": { "es-PE": 183, "es-ES": 183, "en": 183, "ok": true },
+    "i18n_hardcoded_chrome": 0,
+    "a11y_contrast_tokens": true,
+    "s01_first_use": true,
+    "s01_glossary_coverage": true
+  },
+  "product_fixes": [
+    "ExamView + Sidebar chrome migrated to useI18n/t() (3 locales)",
+    "New exam.* and sidebar.* i18n keys",
+    "Glossary aliases expanded for common ES/EN variants",
+    "glossary_coverage_audit.py + test:glossary-coverage",
+    "E2E: 07 dual-lang + dark contrast; 08 glossary density 52; 10 feedback flows",
+    "Exam sample density index%2; package.json test:ux-campaign:*"
+  ],
+  "playwright_evidence": {
+    "smoke_01_06_07_10": "15/15 passed",
+    "sections_tabs_52": "52/52 passed",
+    "shards_sampled": {
+      "0/13": "14/14 demos+quiz+exam+glossary",
+      "1/13": "15/15",
+      "6/13": "12/14 then glossary re-pass 4/4 after key-leak regex fix",
+      "12/13": "14/14"
+    },
+    "not_run_full_13_shards_this_session": "Run: for i in $(seq 0 12); do SECTION_SHARD=$i/13 npm run test:e2e-max:shard -- scripts/e2e_max/03_demos_exercises.shard.spec.ts scripts/e2e_max/04_quiz_options.shard.spec.ts scripts/e2e_max/05_exam_options.shard.spec.ts scripts/e2e_max/08_glossary_52.shard.spec.ts; done"
+  },
+  "residuals_p2": [
+    "Learner theory content remains Spanish; UI chrome is i18n",
+    "SSOT glossary firstSectionId vs V3 remapped curricula (~39 coverage gaps advisory)",
+    "Pyodide Run not asserted per demo (CDN flake)",
+    "Full 13-shard matrix not re-run end-to-end in this session (sampled 4 shards + full 52 tabs)",
+    "Admin chrome mostly Spanish (acceptable for admin-only ES)"
+  ],
+  "how_to_revalidate": {
+    "static": "npm run test:ux-campaign:static",
+    "smoke": "npm run test:ux-campaign:smoke",
+    "full_shards": "see playwright_evidence.not_run_full_13_shards_this_session"
+  }
+}

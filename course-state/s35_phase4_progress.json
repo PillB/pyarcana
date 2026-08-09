@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S35",
+  "section_id": "system-design",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:34Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget system-design section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s35-system-design.ts",
+      "course-state/s35_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "system-design",
+    "index": 35,
+    "title": "Explicabilidad, equidad e incertidumbre",
+    "shortTitle": "Explainability y equidad",
+    "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Ficha de caso: evidencia | modelo | incertidumbre | humano (CP-N3-C inicio)",
+    "icon": "Scale",
+    "legacy_note": "system-design retargeted to explainability CP-N3-C start",
+    "capstone": "CP-N3-C (inicio)"
+  },
+  "subtopics_authored": {
+    "S35-T1-A": {
+      "slug": "coefs-perm-importance",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T1-A-DEMO",
+      "exercises": [
+        "S35-T1-A-E1",
+        "S35-T1-A-E2",
+        "S35-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S35-T1-B": {
+      "slug": "local-corr-limits",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T1-B-DEMO",
+      "exercises": [
+        "S35-T1-B-E1",
+        "S35-T1-B-E2",
+        "S35-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S35-T2-A": {
+      "slug": "cohorts-slice-metrics",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T2-A-DEMO",
+      "exercises": [
+        "S35-T2-A-E1",
+        "S35-T2-A-E2",
+        "S35-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S35-T2-B": {
+      "slug": "proxies-sample-harm",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T2-B-DEMO",
+      "exercises": [
+        "S35-T2-B-E1",
+        "S35-T2-B-E2",
+        "S35-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S35-T3-A": {
+      "slug": "cal-intervals-conformal",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T3-A-DEMO",
+      "exercises": [
+        "S35-T3-A-E1",
+        "S35-T3-A-E2",
+        "S35-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S35-T3-B": {
+      "slug": "ood-abstention",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T3-B-DEMO",
+      "exercises": [
+        "S35-T3-B-E1",
+        "S35-T3-B-E2",
+        "S35-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S35-T4-A": {
+      "slug": "model-card-contestability",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T4-A-DEMO",
+      "exercises": [
+        "S35-T4-A-E1",
+        "S35-T4-A-E2",
+        "S35-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S35-T4-B": {
+      "slug": "approve-override-appeal-retire",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S35-T4-B-DEMO",
+      "exercises": [
+        "S35-T4-B-E1",
+        "S35-T4-B-E2",
+        "S35-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Ficha de caso: evidencia | modelo | incertidumbre | humano (CP-N3-C inicio)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S35-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S35-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

@@ -1,0 +1,72 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 40,
+  "section_id": "agentic-architecture",
+  "recorded_at": "2026-07-21T22:10:00+00:00",
+  "persona": "skeptic",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "agentic-architecture",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "active.jobRelevance + theory callout: id de plataforma `agentic-architecture` conservado (KEEP_PLATFORM_ID)."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "CP-N4-A (inicio)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "jobRelevance/youDo: contribuye a CP-N4-A (inicio) — mapa de arquitectura intake/ER/triage/reporting/IA."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Datos sintéticos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Repeated in jobRelevance, theory, and every weDo instruction: Datos sintéticos; sin PII real."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Misma entidad cuando aplique",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "note": "jobRelevance: ER/matching no implica fraude ni parentesco → el sentido restante del stem es misma entidad cuando aplique."
+      }
+    ],
+    "exercises": [
+      {"exercise_id": "S40-T1-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.12, "concepts_used": [], "note": "S40 active: starter only `# TODO`; instruction is bare Debes imprimir `2`; demos/theory print multi-line labeled lines (owners/budget_ok/qa_n or best/scores) not a single bare 2 with construction path."},
+      {"exercise_id": "S40-T1-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.12, "concepts_used": [], "note": "Same stub pattern for True; no E2 scaffold linking FR/QA attrs to that scalar."},
+      {"exercise_id": "S40-T1-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_API:{'functional':3,'quality':2}"], "confidence": 0.1, "concepts_used": [], "note": "Dict target never appears in S40 theory/iDo; inventing it would be outside packet."},
+      {"exercise_id": "S40-T1-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.12, "concepts_used": [], "note": "Target 1.0 not taught; risk demo uses sev 1.5/0.4."},
+      {"exercise_id": "S40-T1-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Bare `'b'` not in demos/theory construction."},
+      {"exercise_id": "S40-T1-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "timeout string not constructed in tradeoff demos for this exercise scaffold."},
+      {"exercise_id": "S40-T2-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:which_print_line_of_demo", "UNTAUGHT_TASK:starter_only_TODO"], "confidence": 0.2, "concepts_used": ["layers"], "note": "Theory lists layers but demo prints layers/domain_pure labels; instruction wants bare list only; starter empty — refuse to invent isolation of one demo line without scaffold."},
+      {"exercise_id": "S40-T2-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.15, "concepts_used": [], "note": "True appears in many places; no E2 path taught from starter."},
+      {"exercise_id": "S40-T2-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.15, "concepts_used": [], "note": "bc_count 3 is labeled in demo; exercise wants bare 3 without taught extraction."},
+      {"exercise_id": "S40-T2-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "{'ok': True} not in ports/adapters demos."},
+      {"exercise_id": "S40-T2-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:which_print_line_of_demo", "UNTAUGHT_TASK:starter_only_TODO"], "confidence": 0.2, "concepts_used": ["domain<-adapters"], "note": "String appears as print arg with label dep; no blank to fill for bare string only."},
+      {"exercise_id": "S40-T2-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_API:sent:hola", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "sent:hola absent from S40 packet demos."},
+      {"exercise_id": "S40-T3-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_CONCEPT:EntityResolution_label"], "confidence": 0.12, "concepts_used": [], "note": "Theory ctx uses Intake/ER keys; target EntityResolution naming not taught as exercise construction."},
+      {"exercise_id": "S40-T3-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.12, "concepts_used": [], "note": "Demo uses T-100 not T1; no starter mapping."},
+      {"exercise_id": "S40-T3-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.12, "concepts_used": [], "note": "Bare True without taught E3 transfer construction."},
+      {"exercise_id": "S40-T3-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "150 not in packet (latency demo uses 250)."},
+      {"exercise_id": "S40-T3-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:which_print_line_of_demo", "UNTAUGHT_TASK:starter_only_TODO"], "confidence": 0.18, "concepts_used": ["CASE-1"], "note": "CASE-1 appears inside dict payloads; exercise wants bare id string — no scaffold."},
+      {"exercise_id": "S40-T3-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:which_print_line_of_demo", "UNTAUGHT_TASK:starter_only_TODO"], "confidence": 0.18, "concepts_used": [], "note": "merged 0.7 is labeled demo line; E3 transfer still TODO-only starter."},
+      {"exercise_id": "S40-T4-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_API:api_worker_db_list"], "confidence": 0.1, "concepts_used": [], "note": "['api','worker','db'] not in C4 demos (steps/head/doc)."},
+      {"exercise_id": "S40-T4-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "accepted not taught as output construction."},
+      {"exercise_id": "S40-T4-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "Bare 2 without ADR construction path in starter."},
+      {"exercise_id": "S40-T4-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "sorted(['a','b']) is instruction-only target."},
+      {"exercise_id": "S40-T4-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction"], "confidence": 0.1, "concepts_used": [], "note": "Bare 2; no debt/events scaffold."},
+      {"exercise_id": "S40-T4-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:which_print_line_of_demo", "UNTAUGHT_TASK:starter_only_TODO"], "confidence": 0.18, "concepts_used": ["async_job"], "note": "paydown async_job labeled in final demo; still refuse bare print-target with TODO starter."}
+    ]
+  }
+}

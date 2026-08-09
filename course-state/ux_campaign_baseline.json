@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-07-21T04:29:00Z",
+  "phase": "F0",
+  "catalog": {
+    "sections": 52,
+    "demos": 416,
+    "exercises": 1248,
+    "selfCheckQuestions": 224,
+    "ok": true
+  },
+  "gates": {
+    "glossary_intro": true,
+    "i18n_parity": true,
+    "i18n_hardcoded_chrome": false,
+    "a11y_contrast_tokens": true,
+    "s01_pedagogy": true
+  },
+  "known_issues": [
+    {
+      "sev": "P1",
+      "area": "i18n",
+      "note": "ExamView.tsx and Sidebar.tsx lacked useI18n (hardcoded Spanish chrome)"
+    },
+    {
+      "sev": "P2",
+      "area": "glossary_coverage",
+      "note": "Many SSOT firstSectionIds lag V3 remapped section content; hover still works via termsAvailableAt when aliases appear later"
+    }
+  ]
+}

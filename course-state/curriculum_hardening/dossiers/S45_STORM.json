@@ -1,0 +1,1283 @@
+{
+  "section": 45,
+  "title": "Cloud, almacenamiento, colas e infraestructura",
+  "file": "s45-iac.ts",
+  "n_required": 45,
+  "n_logged": 45,
+  "generated_at": "2026-07-24T04:05:49.123133+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "idempotent retry; dlq; iam least privilege; budget measured",
+    "v3_retarget": "cloud storage queues infra not terraform-only",
+    "expert_pass_at": "2026-07-24T04:05:49.123133+00:00"
+  },
+  "unique_foci": 45,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "object store for artifacts",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        },
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 1/45: «object store for artifacts» via 12factor, AWS (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «object store for artifacts».",
+      "expand_scope": "E1/E2/E3 + docs for «object store for artifacts»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 1/45: «object store for artifacts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "relational for invariants queries",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        },
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 2/45: «relational for invariants queries» via AWS, NIST, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «relational for invariants queries».",
+      "expand_scope": "E1/E2/E3 + docs for «relational for invariants queries»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 2/45: «relational for invariants queries» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "cache disposable not source of truth",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        },
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 3/45: «cache disposable not source of truth» via AWS, CloudEvents, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cache disposable not source of truth».",
+      "expand_scope": "E1/E2/E3 + docs for «cache disposable not source of truth»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 3/45: «cache disposable not source of truth» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "consistency lifecycle backups",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 4/45: «consistency lifecycle backups» via 12factor, AWS, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «consistency lifecycle backups».",
+      "expand_scope": "E1/E2/E3 + docs for «consistency lifecycle backups»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 4/45: «consistency lifecycle backups» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "queue vs event bus choice",
+      "research": [
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 5/45: «queue vs event bus choice» via Harvard, NIST, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «queue vs event bus choice».",
+      "expand_scope": "E1/E2/E3 + docs for «queue vs event bus choice»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 5/45: «queue vs event bus choice» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "delivery semantics at-least-once",
+      "research": [
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud architecture",
+          "url": "https://www.coursera.org/courses?query=cloud%20architecture",
+          "note": "cloud MOOCs"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 6/45: «delivery semantics at-least-once» via CloudEvents, Coursera, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «delivery semantics at-least-once».",
+      "expand_scope": "E1/E2/E3 + docs for «delivery semantics at-least-once»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 6/45: «delivery semantics at-least-once» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "dedup idempotency key message",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 7/45: «dedup idempotency key message» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dedup idempotency key message».",
+      "expand_scope": "E1/E2/E3 + docs for «dedup idempotency key message»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 7/45: «dedup idempotency key message» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "ordering constraints when needed",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 8/45: «ordering constraints when needed» via Harvard, Live, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ordering constraints when needed».",
+      "expand_scope": "E1/E2/E3 + docs for «ordering constraints when needed»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 8/45: «ordering constraints when needed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "dead-letter poison messages",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud architecture",
+          "url": "https://www.coursera.org/courses?query=cloud%20architecture",
+          "note": "cloud MOOCs"
+        },
+        {
+          "family": "Docs",
+          "title": "queue module",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "queue semantics"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 9/45: «dead-letter poison messages» via Coursera, Docs, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dead-letter poison messages».",
+      "expand_scope": "E1/E2/E3 + docs for «dead-letter poison messages»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 9/45: «dead-letter poison messages» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "compute sizing autoscaling signals",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "observability"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 10/45: «compute sizing autoscaling signals» via MIT, OTel, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «compute sizing autoscaling signals».",
+      "expand_scope": "E1/E2/E3 + docs for «compute sizing autoscaling signals»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 10/45: «compute sizing autoscaling signals» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "networking private paths",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FinOps",
+          "title": "FinOps Foundation",
+          "url": "https://www.finops.org/",
+          "note": "cost"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 11/45: «networking private paths» via FinOps, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «networking private paths».",
+      "expand_scope": "E1/E2/E3 + docs for «networking private paths»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 11/45: «networking private paths» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "IAM least privilege roles",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Cloud architecture",
+          "url": "https://www.coursera.org/courses?query=cloud%20architecture",
+          "note": "cloud MOOCs"
+        },
+        {
+          "family": "Docs",
+          "title": "queue module",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "queue semantics"
+        },
+        {
+          "family": "GCP",
+          "title": "Architecture Framework",
+          "url": "https://cloud.google.com/architecture/framework",
+          "note": "cloud design"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 12/45: «IAM least privilege roles» via Coursera, Docs, GCP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «IAM least privilege roles».",
+      "expand_scope": "E1/E2/E3 + docs for «IAM least privilege roles»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 12/45: «IAM least privilege roles» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "egress allowlist control",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "observability"
+        },
+        {
+          "family": "Azure",
+          "title": "Architecture guide",
+          "url": "https://learn.microsoft.com/azure/architecture/guide/",
+          "note": "storage patterns"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 13/45: «egress allowlist control» via Azure, OTel, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «egress allowlist control».",
+      "expand_scope": "E1/E2/E3 + docs for «egress allowlist control»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 13/45: «egress allowlist control» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "declarative IaC environments",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FinOps",
+          "title": "FinOps Foundation",
+          "url": "https://www.finops.org/",
+          "note": "cost"
+        },
+        {
+          "family": "CNCF",
+          "title": "Cloud Native Glossary",
+          "url": "https://glossary.cncf.io/",
+          "note": "terminology"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 14/45: «declarative IaC environments» via CNCF, FinOps, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «declarative IaC environments».",
+      "expand_scope": "E1/E2/E3 + docs for «declarative IaC environments»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 14/45: «declarative IaC environments» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "cost budget and quotas",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "queue module",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "queue semantics"
+        },
+        {
+          "family": "GCP",
+          "title": "Architecture Framework",
+          "url": "https://cloud.google.com/architecture/framework",
+          "note": "cloud design"
+        },
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 15/45: «cost budget and quotas» via AWS, Docs, GCP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost budget and quotas».",
+      "expand_scope": "E1/E2/E3 + docs for «cost budget and quotas»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 15/45: «cost budget and quotas» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "recovery RTO RPO measured",
+      "research": [
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "observability"
+        },
+        {
+          "family": "Azure",
+          "title": "Architecture guide",
+          "url": "https://learn.microsoft.com/azure/architecture/guide/",
+          "note": "storage patterns"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 16/45: «recovery RTO RPO measured» via AWS, Azure, OTel (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «recovery RTO RPO measured».",
+      "expand_scope": "E1/E2/E3 + docs for «recovery RTO RPO measured»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 16/45: «recovery RTO RPO measured» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "portability multi-cloud caution",
+      "research": [
+        {
+          "family": "FinOps",
+          "title": "FinOps Foundation",
+          "url": "https://www.finops.org/",
+          "note": "cost"
+        },
+        {
+          "family": "CNCF",
+          "title": "Cloud Native Glossary",
+          "url": "https://glossary.cncf.io/",
+          "note": "terminology"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 17/45: «portability multi-cloud caution» via AWS, CNCF, FinOps (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «portability multi-cloud caution».",
+      "expand_scope": "E1/E2/E3 + docs for «portability multi-cloud caution»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 17/45: «portability multi-cloud caution» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "idempotent job retry no duplicate side effects",
+      "research": [
+        {
+          "family": "GCP",
+          "title": "Architecture Framework",
+          "url": "https://cloud.google.com/architecture/framework",
+          "note": "cloud design"
+        },
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        },
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 18/45: «idempotent job retry no duplicate side effects» via AWS, GCP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «idempotent job retry no duplicate side effects».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotent job retry no duplicate side effects»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 18/45: «idempotent job retry no duplicate side effects» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "ack after durable effect not before",
+      "research": [
+        {
+          "family": "Azure",
+          "title": "Architecture guide",
+          "url": "https://learn.microsoft.com/azure/architecture/guide/",
+          "note": "storage patterns"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        },
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 19/45: «ack after durable effect not before» via AWS, Azure, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ack after durable effect not before».",
+      "expand_scope": "E1/E2/E3 + docs for «ack after durable effect not before»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 19/45: «ack after durable effect not before» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "CASO-IQU-045 Iquitos synthetic reports",
+      "research": [
+        {
+          "family": "CNCF",
+          "title": "Cloud Native Glossary",
+          "url": "https://glossary.cncf.io/",
+          "note": "terminology"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        },
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 20/45: «CASO-IQU-045 Iquitos synthetic reports» via AWS, CNCF, CloudEvents (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-IQU-045 Iquitos synthetic reports».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-IQU-045 Iquitos synthetic reports»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 20/45: «CASO-IQU-045 Iquitos synthetic reports» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "V3 retarget not terraform-only vendor lock",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        },
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 21/45: «V3 retarget not terraform-only vendor lock» via 12factor, AWS (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not terraform-only vendor lock».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not terraform-only vendor lock»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 21/45: «V3 retarget not terraform-only vendor lock» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "CP-N4-B async job gate",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        },
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 22/45: «CP-N4-B async job gate» via AWS, NIST, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-B async job gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-B async job gate»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 22/45: «CP-N4-B async job gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "E1 guided store choice DEFECT",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        },
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 23/45: «E1 guided store choice DEFECT» via AWS, CloudEvents, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided store choice DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided store choice DEFECT»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 23/45: «E1 guided store choice DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "E2 independent DLQ dedup",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 24/45: «E2 independent DLQ dedup» via 12factor, AWS, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent DLQ dedup».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent DLQ dedup»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 24/45: «E2 independent DLQ dedup» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "E3 transfer IAM budget recovery",
+      "research": [
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 25/45: «E3 transfer IAM budget recovery» via Harvard, NIST, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer IAM budget recovery».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer IAM budget recovery»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 25/45: «E3 transfer IAM budget recovery» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "Well-Architected pillars",
+      "research": [
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud architecture",
+          "url": "https://www.coursera.org/courses?query=cloud%20architecture",
+          "note": "cloud MOOCs"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 26/45: «Well-Architected pillars» via CloudEvents, Coursera, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Well-Architected pillars».",
+      "expand_scope": "E1/E2/E3 + docs for «Well-Architected pillars»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 26/45: «Well-Architected pillars» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "SQS best practices competitive research",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 27/45: «SQS best practices competitive research» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SQS best practices competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «SQS best practices competitive research»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 27/45: «SQS best practices competitive research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "CloudEvents envelope",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 28/45: «CloudEvents envelope» via Harvard, Live, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CloudEvents envelope».",
+      "expand_scope": "E1/E2/E3 + docs for «CloudEvents envelope»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 28/45: «CloudEvents envelope» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "MIT 6.824 distributed systems mindset",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud architecture",
+          "url": "https://www.coursera.org/courses?query=cloud%20architecture",
+          "note": "cloud MOOCs"
+        },
+        {
+          "family": "Docs",
+          "title": "queue module",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "queue semantics"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 29/45: «MIT 6.824 distributed systems mindset» via Coursera, Docs, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «MIT 6.824 distributed systems mindset».",
+      "expand_scope": "E1/E2/E3 + docs for «MIT 6.824 distributed systems mindset»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 29/45: «MIT 6.824 distributed systems mindset» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "FinOps cost awareness",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "observability"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 30/45: «FinOps cost awareness» via MIT, OTel, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «FinOps cost awareness».",
+      "expand_scope": "E1/E2/E3 + docs for «FinOps cost awareness»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 30/45: «FinOps cost awareness» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "pair from S44 artifact to async job",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FinOps",
+          "title": "FinOps Foundation",
+          "url": "https://www.finops.org/",
+          "note": "cost"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 31/45: «pair from S44 artifact to async job» via FinOps, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S44 artifact to async job».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S44 artifact to async job»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 31/45: «pair from S44 artifact to async job» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "selfCheck cloud MCQ ≥5",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Cloud architecture",
+          "url": "https://www.coursera.org/courses?query=cloud%20architecture",
+          "note": "cloud MOOCs"
+        },
+        {
+          "family": "Docs",
+          "title": "queue module",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "queue semantics"
+        },
+        {
+          "family": "GCP",
+          "title": "Architecture Framework",
+          "url": "https://cloud.google.com/architecture/framework",
+          "note": "cloud design"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 32/45: «selfCheck cloud MCQ ≥5» via Coursera, Docs, GCP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck cloud MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck cloud MCQ ≥5»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 32/45: «selfCheck cloud MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "cache as truth is gate failure",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "observability"
+        },
+        {
+          "family": "Azure",
+          "title": "Architecture guide",
+          "url": "https://learn.microsoft.com/azure/architecture/guide/",
+          "note": "storage patterns"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 33/45: «cache as truth is gate failure» via Azure, OTel, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cache as truth is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «cache as truth is gate failure»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 33/45: «cache as truth is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "unauthorized egress is gate failure",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FinOps",
+          "title": "FinOps Foundation",
+          "url": "https://www.finops.org/",
+          "note": "cost"
+        },
+        {
+          "family": "CNCF",
+          "title": "Cloud Native Glossary",
+          "url": "https://glossary.cncf.io/",
+          "note": "terminology"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 34/45: «unauthorized egress is gate failure» via CNCF, FinOps, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «unauthorized egress is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «unauthorized egress is gate failure»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 34/45: «unauthorized egress is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "restore untested is gate failure",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "queue module",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "queue semantics"
+        },
+        {
+          "family": "GCP",
+          "title": "Architecture Framework",
+          "url": "https://cloud.google.com/architecture/framework",
+          "note": "cloud design"
+        },
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 35/45: «restore untested is gate failure» via AWS, Docs, GCP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «restore untested is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «restore untested is gate failure»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 35/45: «restore untested is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "NIST 800-53 controls analogy",
+      "research": [
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "observability"
+        },
+        {
+          "family": "Azure",
+          "title": "Architecture guide",
+          "url": "https://learn.microsoft.com/azure/architecture/guide/",
+          "note": "storage patterns"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 36/45: «NIST 800-53 controls analogy» via AWS, Azure, OTel (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST 800-53 controls analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST 800-53 controls analogy»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 36/45: «NIST 800-53 controls analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "12-factor backing services",
+      "research": [
+        {
+          "family": "FinOps",
+          "title": "FinOps Foundation",
+          "url": "https://www.finops.org/",
+          "note": "cost"
+        },
+        {
+          "family": "CNCF",
+          "title": "Cloud Native Glossary",
+          "url": "https://glossary.cncf.io/",
+          "note": "terminology"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 37/45: «12-factor backing services» via AWS, CNCF, FinOps (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12-factor backing services».",
+      "expand_scope": "E1/E2/E3 + docs for «12-factor backing services»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 37/45: «12-factor backing services» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "OpenTelemetry observability hooks",
+      "research": [
+        {
+          "family": "GCP",
+          "title": "Architecture Framework",
+          "url": "https://cloud.google.com/architecture/framework",
+          "note": "cloud design"
+        },
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        },
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 38/45: «OpenTelemetry observability hooks» via AWS, GCP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenTelemetry observability hooks».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenTelemetry observability hooks»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 38/45: «OpenTelemetry observability hooks» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "progressive disclosure stdlib queues",
+      "research": [
+        {
+          "family": "Azure",
+          "title": "Architecture guide",
+          "url": "https://learn.microsoft.com/azure/architecture/guide/",
+          "note": "storage patterns"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        },
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 39/45: «progressive disclosure stdlib queues» via AWS, Azure, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib queues».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib queues»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 39/45: «progressive disclosure stdlib queues» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "Azure architecture patterns transfer",
+      "research": [
+        {
+          "family": "CNCF",
+          "title": "Cloud Native Glossary",
+          "url": "https://glossary.cncf.io/",
+          "note": "terminology"
+        },
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        },
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 40/45: «Azure architecture patterns transfer» via AWS, CNCF, CloudEvents (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Azure architecture patterns transfer».",
+      "expand_scope": "E1/E2/E3 + docs for «Azure architecture patterns transfer»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 40/45: «Azure architecture patterns transfer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "GCP architecture framework",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "Well-Architected Framework",
+          "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+          "note": "pillars"
+        },
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 41/45: «GCP architecture framework» via 12factor, AWS (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «GCP architecture framework».",
+      "expand_scope": "E1/E2/E3 + docs for «GCP architecture framework»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 41/45: «GCP architecture framework» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "Terraform language declarative model",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "SQS best practices",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+          "note": "queues"
+        },
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 42/45: «Terraform language declarative model» via AWS, NIST, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Terraform language declarative model».",
+      "expand_scope": "E1/E2/E3 + docs for «Terraform language declarative model»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 42/45: «Terraform language declarative model» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "SRE cascading failures retry",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "SQS dead-letter queues",
+          "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+          "note": "DLQ"
+        },
+        {
+          "family": "CloudEvents",
+          "title": "CloudEvents",
+          "url": "https://cloudevents.io/",
+          "note": "event envelope"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 43/45: «SRE cascading failures retry» via AWS, CloudEvents, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SRE cascading failures retry».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE cascading failures retry»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 43/45: «SRE cascading failures retry» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "CNCF glossary terminology",
+      "research": [
+        {
+          "family": "AWS",
+          "title": "IAM best practices",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+          "note": "least privilege"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "backing services"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed systems"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 44/45: «CNCF glossary terminology» via 12factor, AWS, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CNCF glossary terminology».",
+      "expand_scope": "E1/E2/E3 + docs for «CNCF glossary terminology»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 44/45: «CNCF glossary terminology» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "budget measured before scale-out",
+      "research": [
+        {
+          "family": "Terraform",
+          "title": "Terraform language",
+          "url": "https://developer.hashicorp.com/terraform/language",
+          "note": "IaC"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-53",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+          "note": "controls"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S45 «Cloud, almacenamiento, colas e infraestructura» cycle 45/45: «budget measured before scale-out» via Harvard, NIST, Terraform (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «budget measured before scale-out».",
+      "expand_scope": "E1/E2/E3 + docs for «budget measured before scale-out»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 45/45: «budget measured before scale-out» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:05:49.123133+00:00"
+}

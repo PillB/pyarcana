@@ -1,0 +1,1068 @@
+{
+  "section_index": 24,
+  "section_id": "rpa-advanced",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S24-T1-A-E1",
+          "code": "dpi = 96\nprint(max(dpi, 200))\n",
+          "note": "",
+          "concepts_used": [
+            "dpi"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-A-E2",
+          "code": "skew = 1.2\nprint(abs(skew) >= 0.5)\n",
+          "note": "",
+          "concepts_used": [
+            "deskew"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-A-E3",
+          "code": "w = h = 1000\nprint((int(0.05 * w), int(0.05 * h), int(0.95 * w), int(0.95 * h)))\n",
+          "note": "",
+          "concepts_used": [
+            "crop"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-B-E1",
+          "code": "s = {0: 0.1, 90: 0.8}\nprint(max(s, key=s.get))\n",
+          "note": "",
+          "concepts_used": [
+            "orientation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-B-E2",
+          "code": "print(sum([0, 1, 1, 0]))\n",
+          "note": "",
+          "concepts_used": [
+            "noise"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-B-E3",
+          "code": "score = 0.4\nprint(\"manual_orient\" if score < 0.5 else \"auto\")\n",
+          "note": "",
+          "concepts_used": [
+            "orient threshold"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-A-E1",
+          "code": "toks = [{\"text\": \"A\", \"conf\": 0.9}, {\"text\": \"B\", \"conf\": 0.5}]\nprint([t[\"text\"] for t in toks if t[\"conf\"] >= 0.85])\n",
+          "note": "",
+          "concepts_used": [
+            "conf filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-A-E2",
+          "code": "def ocr(lang=\"spa\"):\n    return {\"lang\": lang}\nprint(ocr()[\"lang\"])\n",
+          "note": "",
+          "concepts_used": [
+            "lang spa"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-A-E3",
+          "code": "confs = [0.9, 0.75, 0.95]\nprint(\"review\" if min(confs) < 0.8 else \"auto\")\n",
+          "note": "",
+          "concepts_used": [
+            "min conf"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-B-E1",
+          "code": "s = \"Total: 12.5\"\nk, v = s.split(\":\", 1)\nprint(k.strip(), v.strip())\n",
+          "note": "",
+          "concepts_used": [
+            "KV"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-B-E2",
+          "code": "t = [[\"H1\", \"H2\"], [\"a\", \"b\"]]\nprint(len(t) - 1)\n",
+          "note": "",
+          "concepts_used": [
+            "table rows"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-B-E3",
+          "code": "print({\"name\": \"RUC\", \"value\": \"20123456789\", \"bbox\": [0, 0, 10, 10]})\n",
+          "note": "",
+          "concepts_used": [
+            "bbox"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-A-E1",
+          "code": "import re\nprint(re.sub(r\"\\D\", \"\", \"20-123\"))\n",
+          "note": "",
+          "concepts_used": [
+            "digits"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-A-E2",
+          "code": "from datetime import datetime\nprint(datetime.strptime(\"15/01/2026\", \"%d/%m/%Y\").date().isoformat())\n",
+          "note": "",
+          "concepts_used": [
+            "ISO date"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-A-E3",
+          "code": "import re\nd = re.sub(r\"\\D\", \"\", \"123\")\nprint(d if len(d) == 11 else None)\n",
+          "note": "",
+          "concepts_used": [
+            "RUC 11"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-B-E1",
+          "code": "total, lines = 10.0, [4.0, 5.0]\nif abs(sum(lines) - total) > 0.01:\n    print(\"needs_review\")\n",
+          "note": "",
+          "concepts_used": [
+            "cross-field"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-B-E2",
+          "code": "ruc, reasons = None, []\nif ruc is None:\n    reasons.append(\"missing_ruc\")\nprint(reasons)\n",
+          "note": "",
+          "concepts_used": [
+            "reasons"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-B-E3",
+          "code": "if True:\n    print(\"review_not_fraud\")\n",
+          "note": "",
+          "concepts_used": [
+            "policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-A-E1",
+          "code": "print(3 / 4)\n",
+          "note": "",
+          "concepts_used": [
+            "accuracy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-A-E2",
+          "code": "rows = [{\"ruc_pred\": \"1\", \"ruc_true\": \"1\"}, {\"ruc_pred\": \"2\", \"ruc_true\": \"1\"}]\nprint(sum(1 for r in rows if r[\"ruc_pred\"] == r[\"ruc_true\"]) / len(rows))\n",
+          "note": "",
+          "concepts_used": [
+            "field acc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-A-E3",
+          "code": "auto, review = 7, 3\nprint(auto / (auto + review))\n",
+          "note": "",
+          "concepts_used": [
+            "coverage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-B-E1",
+          "code": "mime = \"application/zip\"\nallowed = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\nprint(\"reject\" if mime not in allowed else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "mime gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-B-E2",
+          "code": "n = 6_000_000\nprint(\"reject\" if n > 5_000_000 else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "size gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-B-E3",
+          "code": "print({\"ocr_fail\": \"human_rescan\"}.get(\"ocr_fail\", \"retry\"))\n",
+          "note": "",
+          "concepts_used": [
+            "fallback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S24-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n",
+          "expected_head": "200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(50, 50, 950, 950)\n",
+          "expected_head": "(50, 50, 950, 950)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "90\n",
+          "expected_head": "90",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "manual_orient\n",
+          "expected_head": "manual_orient",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['A']\n",
+          "expected_head": "['A']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "spa\n",
+          "expected_head": "spa",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "review\n",
+          "expected_head": "0.75 review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Total 12.5\n",
+          "expected_head": "Total 12.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'name': 'RUC', 'value': '20123456789', 'bbox': [0, 0, 10, 10]}\n",
+          "expected_head": "[0, 0, 10, 10] 20123456789",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "20123\n",
+          "expected_head": "20123",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2026-01-15\n",
+          "expected_head": "2026-01-15",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None\n",
+          "expected_head": "None",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "needs_review\n",
+          "expected_head": "needs_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['missing_ruc']\n",
+          "expected_head": "['ruc_missing']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review_not_fraud\n",
+          "expected_head": "review_not_fraud",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.75\n",
+          "expected_head": "0.75",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.7\n",
+          "expected_head": "0.7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reject\n",
+          "expected_head": "reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reject\n",
+          "expected_head": "reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_rescan\n",
+          "expected_head": "human_rescan",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S24-T1-A-E1",
+          "code": "dpi = 96\ndpi = max(dpi, 200)\nprint(dpi)\n",
+          "note": "Starter 96 → 200.",
+          "concepts_used": [
+            "dpi min 200"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-A-E2",
+          "code": "skew = 1.2\ndeskew_applied = abs(skew) >= 0.5\nprint(deskew_applied)\n",
+          "note": "Hints abs>=0.5 True.",
+          "concepts_used": [
+            "deskew flag"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-A-E3",
+          "code": "w = h = 1000\nprint((int(0.05 * w), int(0.05 * h), int(0.95 * w), int(0.95 * h)))\n",
+          "note": "Hints 0.05 margins.",
+          "concepts_used": [
+            "crop 5%"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-B-E1",
+          "code": "s = {0: 0.1, 90: 0.8}\nprint(max(s, key=s.get))\n",
+          "note": "Hints max key → 90.",
+          "concepts_used": [
+            "orientation score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-B-E2",
+          "code": "flags = [0, 1, 1, 0]\nprint(sum(flags))\n",
+          "note": "Hints sum → 2.",
+          "concepts_used": [
+            "noise count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T1-B-E3",
+          "code": "score = 0.4\nprint(\"manual_orient\" if score < 0.5 else \"auto\")\n",
+          "note": "Starter 0.4 → manual_orient.",
+          "concepts_used": [
+            "orient threshold"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-A-E1",
+          "code": "toks = [{\"text\": \"A\", \"conf\": 0.9}, {\"text\": \"B\", \"conf\": 0.5}]\nprint([t[\"text\"] for t in toks if t[\"conf\"] >= 0.85])\n",
+          "note": "Hints conf>=0.85 → ['A'].",
+          "concepts_used": [
+            "conf filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-A-E2",
+          "code": "result = {\"lang\": \"spa\", \"text\": \"...\"}\nprint(result[\"lang\"])\n",
+          "note": "Hints default spa.",
+          "concepts_used": [
+            "ocr lang spa"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-A-E3",
+          "code": "confs = [0.9, 0.75, 0.95]\nstatus = \"review\" if min(confs) < 0.8 else \"ok\"\nprint(status)\n",
+          "note": "min 0.75 < 0.8 → review.",
+          "concepts_used": [
+            "min conf review"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-B-E1",
+          "code": "s = \"Total: 12.5\"\nk, v = s.split(\":\", 1)\nprint(k.strip(), v.strip())\n",
+          "note": "Hints split once strip.",
+          "concepts_used": [
+            "KV split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-B-E2",
+          "code": "t = [[\"H1\", \"H2\"], [\"a\", \"b\"]]\nprint(len(t) - 1)\n",
+          "note": "Hints len-1 → 1.",
+          "concepts_used": [
+            "table data rows"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T2-B-E3",
+          "code": "field = {\"name\": \"RUC\", \"value\": \"20123456789\", \"bbox\": [0, 0, 10, 10]}\nprint(field)\n",
+          "note": "Hints nested evidence dict.",
+          "concepts_used": [
+            "bbox evidence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-A-E1",
+          "code": "import re\ns = \"20-123\"\nprint(re.sub(r\"\\D\", \"\", s))\n",
+          "note": "Hints re.sub \\D.",
+          "concepts_used": [
+            "digits only"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-A-E2",
+          "code": "from datetime import datetime\nprint(datetime.strptime(\"15/01/2026\", \"%d/%m/%Y\").date().isoformat())\n",
+          "note": "Hints strptime d/m/Y.",
+          "concepts_used": [
+            "date ISO"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-A-E3",
+          "code": "import re\nraw = \"123\"\nd = re.sub(r\"\\D\", \"\", raw)\nprint(d if len(d) == 11 else None)\n",
+          "note": "raw 123 → None.",
+          "concepts_used": [
+            "RUC len 11"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-B-E1",
+          "code": "total, lines = 10.0, [4.0, 5.0]\nprint(\"needs_review\" if abs(sum(lines) - total) > 0.01 else \"ok\")\n",
+          "note": "4+5 != 10 → needs_review.",
+          "concepts_used": [
+            "cross-field total"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-B-E2",
+          "code": "ruc = None\nreasons = []\nif ruc is None:\n    reasons.append(\"missing_ruc\")\nprint(reasons)\n",
+          "note": "Hints append when ruc None.",
+          "concepts_used": [
+            "reasons list"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T3-B-E3",
+          "code": "mismatch = True\nif mismatch:\n    print(\"review_not_fraud\")\n",
+          "note": "Hints fixed policy message.",
+          "concepts_used": [
+            "policy string"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-A-E1",
+          "code": "correct, n = 3, 4\nprint(correct / n)\n",
+          "note": "3/4=0.75.",
+          "concepts_used": [
+            "accuracy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-A-E2",
+          "code": "rows = [{\"ruc_pred\": \"1\", \"ruc_true\": \"1\"}, {\"ruc_pred\": \"2\", \"ruc_true\": \"1\"}]\nacc = sum(1 for r in rows if r[\"ruc_pred\"] == r[\"ruc_true\"]) / len(rows)\nprint(acc)\n",
+          "note": "Hints → 0.5.",
+          "concepts_used": [
+            "per-field acc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-A-E3",
+          "code": "auto, review = 7, 3\nprint(auto / (auto + review))\n",
+          "note": "7/10=0.7.",
+          "concepts_used": [
+            "coverage_auto"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-B-E1",
+          "code": "mime = \"application/zip\"\nallowed = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\nprint(\"reject\" if mime not in allowed else \"ok\")\n",
+          "note": "zip not allowed → reject.",
+          "concepts_used": [
+            "mime gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-B-E2",
+          "code": "n = 6_000_000\nprint(\"reject\" if n > 5_000_000 else \"ok\")\n",
+          "note": "n>5e6 reject.",
+          "concepts_used": [
+            "size gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S24-T4-B-E3",
+          "code": "status = \"ocr_fail\"\nfb = {\"ocr_fail\": \"human_rescan\"}\nprint(fb.get(status, \"none\"))\n",
+          "note": "Hints map ocr_fail → human_rescan.",
+          "concepts_used": [
+            "fallback map"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S24-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n",
+          "expected_head": "200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(50, 50, 950, 950)\n",
+          "expected_head": "(50, 50, 950, 950)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "90\n",
+          "expected_head": "90",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "manual_orient\n",
+          "expected_head": "manual_orient",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['A']\n",
+          "expected_head": "['A']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "spa\n",
+          "expected_head": "spa",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "review\n",
+          "expected_head": "0.75 review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Total 12.5\n",
+          "expected_head": "Total 12.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'name': 'RUC', 'value': '20123456789', 'bbox': [0, 0, 10, 10]}\n",
+          "expected_head": "[0, 0, 10, 10] 20123456789",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "20123\n",
+          "expected_head": "20123",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2026-01-15\n",
+          "expected_head": "2026-01-15",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None\n",
+          "expected_head": "None",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "needs_review\n",
+          "expected_head": "needs_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['missing_ruc']\n",
+          "expected_head": "['ruc_missing']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review_not_fraud\n",
+          "expected_head": "review_not_fraud",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.75\n",
+          "expected_head": "0.75",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.7\n",
+          "expected_head": "0.7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reject\n",
+          "expected_head": "reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reject\n",
+          "expected_head": "reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S24-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_rescan\n",
+          "expected_head": "human_rescan",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

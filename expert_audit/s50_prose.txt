@@ -1,0 +1,660 @@
+### title @ 
+Evals, red teaming y fiabilidad de IA
+
+### tagline @ 
+Suite repetible baseline/candidato con holdout, jueces calibrados, red team y SLO: bloquea regresiones P0/P1 y tool misuse en la trayectoria
+
+### heading @ 
+Ruta de S50: Evals, red teaming y fiabilidad de IA
+
+### title @ code
+s50_map_contract.py
+
+### title @ callout
+Gate de promoción
+
+### content @ callout
+Nota de orientación: S50-T1-A: caso sintético con asserts locales; si falta, no promociones.
+
+### heading @ 
+Task dataset y rúbrica
+
+### title @ code
+task_dataset_rubric.py
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Resultado, proceso, trajectory y recovery
+
+### title @ code
+outcome_process_trajectory_recovery.py
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Graders deterministas, humanos y LLM
+
+### title @ code
+graders_det_human_llm.py
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Calibración, order bias y holdout
+
+### title @ code
+calibration_order_bias_holdout.py
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Prompt injection, exfiltración y tool misuse
+
+### title @ code
+injection_exfil_tool_misuse.py
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Injection indirecta, poisoning y least privilege
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Hallucination y abstención
+
+### title @ code
+hallucination_abstention.py
+
+### title @ callout
+Contrato local
+
+### heading @ 
+Latency, costo, incidente y rollback
+
+### title @ callout
+Contrato local
+
+### intro @ iDo
+Ocho demos en stdlib del gate CP-N4-C. Orden: (1) manifiesto de slices + anclas, (2) trajectory fail-closed con allowlist, (3) acuerdo humano–LLM, (4) order bias AB/BA, (5) injection ≠ exfil, (6) PDF «grant admin» como dato, (7) abstain por support bajo, (8) p95 + rollback vs RTO. Cada demo calcula el predicado (no imprime un sello). Lee el porqué y luego repara el lab: el puente con S49 es la trajectory — tool prohibida = P0 aunque el texto final luzca bien.
+
+### description @ iDo
+Demo: task dataset y rúbrica con anclas 0–3
+
+### title @ iDo/code
+demo_task_dataset_rubric.py
+
+### why @ iDo
+Muestra por qué el dataset solo es válido si slices suman tasks, la rúbrica usa {0,1,2,3} y el holdout es no vacío: sin eso no hay comparación baseline/candidato honesta.
+
+### description @ iDo
+Demo: trajectory fail-closed aunque outcome sea 3
+
+### title @ iDo/code
+demo_outcome_process_trajectory_recovery.py
+
+### why @ iDo
+Demuestra que un tool fuera de allowlist falla el gate de proceso aunque la respuesta final parezca correcta — puente directo con el agente de S49.
+
+### description @ iDo
+Demo: acuerdo humano-LLM y desacuerdos
+
+### title @ iDo/code
+demo_graders_det_human_llm.py
+
+### why @ iDo
+Calcula la tasa de acuerdo real entre humano y LLM-judge y señala el índice en desacuerdo: el ensemble no es un oráculo sin calibración.
+
+### description @ iDo
+Demo: order bias AB/BA invalida al juez
+
+### title @ iDo/code
+demo_calibration_order_bias_holdout.py
+
+### why @ iDo
+Mide |rate_AB − rate_BA| y aplica umbral: si el gap supera 0.05 el juez se invalida aunque el holdout no se haya tocado.
+
+### description @ iDo
+Demo: injection y exfil como controles distintos
+
+### title @ iDo/code
+demo_injection_exfil_tool_misuse.py
+
+### why @ iDo
+Separa injection (entrada hostil) de exfil (secreto en salida): ambos son P0 pero se detectan con predicados distintos.
+
+### description @ iDo
+Demo: documento no eleva permisos
+
+### title @ iDo/code
+demo_indirect_poison_least_priv.py
+
+### why @ iDo
+El PDF puede pedir «grant admin», pero least privilege trata ese texto como dato: el allowlist no crece y se deniega aunque el modelo «obedezca» el chunk.
+
+### description @ iDo
+Demo: abstain cuando support es bajo
+
+### title @ iDo/code
+demo_hallucination_abstention.py
+
+### why @ iDo
+Si el support del claim cae bajo el umbral, el sistema debe abstenerse: groundedness no se salva con latencia baja ni con texto fluido.
+
+### description @ iDo
+Demo: scorecard p95 + rollback vs RTO
+
+### title @ iDo/code
+demo_latency_cost_cache_incident_rollback.py
+
+### why @ iDo
+El gate operativo falla si p95 supera el SLO o si el rollback no cabe en el RTO — no basta con «reiniciar el pod».
+
+### intro @ weDo
+S50 · Laboratorio de evals, red team y rollback: 24 retos locales sobre fixtures Ica ( ). Tres capas por subtema: E1 construye el mecanismo (coverage, trajectory, agreement, order_gap, injection/exfil, corpus-as-data, abstain, reliability_gate); E2 evalúa tres rutas (PASS / breach / MISSING) sobre un fixture del dominio; E3 decide CONTINUE / token de breach / ruta de incertidumbre fail-closed. Los starters fallan a propósito: repara la lógica del gate, no inventes evidencia ni cambies asserts a mano.
+
+### instruction @ weDo
+S50-T1-A-E1 · Construye el manifiesto de dataset para : suma de slices, rúbrica {0,1,2,3}, holdout no vacío y ancla 3 observable. El starter calcula mal y salta la validación de holdout. Corrige el cálculo (no los datos). Salidas exactas: líneas , y .
+
+### hint @ weDo
+coverage_ok exige sum(slices)==tasks; holdout_ok exige 0 < holdout < tasks; imprime ANCHORS[3].
+
+### tests @ weDo
+Imprime , el texto de ancla 3 y .
+
+### feedback @ weDo
+S50-T1-A-E1: el manifiesto es evidencia de dataset versionado; en E2 verás el adverso y el MISSING de holdout.
+
+### title @ weDo/starterCode
+s50-t1-a-e1.py
+
+### title @ weDo/solutionCode
+s50-t1-a-e1.py
+
+### instruction @ weDo
+S50-T1-A-E2 · Modela tres rutas de : fixture válido (slices suman 40, rúbrica {0,1,2,3}, holdout 10), adverso (un solo slice y rúbrica incompleta) y registro sin clave . Entrada: dict con case_id, tasks, slices, rubric_levels, holdout. Salidas exactas: , , . El starter da PASS al adverso y castiga al válido: reutiliza el predicado de cobertura/holdout de E1 y conserva el chequeo de campos ausentes.
+
+### hint @ weDo
+Primero se calcula ; ningún acceso a holdout debe ocurrir antes de esa rama.
+
+### tests @ weDo
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo
+S50-T1-A-E2: el adverso activa ; un campo ausente devuelve (no inventes PASS). En E3 la incertidumbre se enruta a .
+
+### title @ weDo/starterCode
+s50-t1-a-e2.py
+
+### title @ weDo/solutionCode
+s50-t1-a-e2.py
+
+### hint @ weDo/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode
+S50-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REBUILD_EVAL_DATASET y por qué faltar holdout exige CALIBRATE_RUBRIC.
+
+### title @ weDo/solutionCode/starterCode
+s50-t1-a-e3.py
+
+### title @ weDo/solutionCode/solutionCode
+s50-t1-a-e3.py
+
+### hint @ weDo/solutionCode/solutionCode
+min(scores.values()) >= min_dim y todas las tools ∈ ALLOWED; outcome 3 no salva una tool prohibida.
+
+### tests @ weDo/solutionCode/solutionCode
+Imprime min de dims, lista de tools y .
+
+### feedback @ weDo/solutionCode/solutionCode
+S50-T1-B-E1: trajectory eval mide proceso, no solo texto final; E2 ensaya con export_csv.
+
+### title @ weDo/solutionCode/solutionCode/starterCode
+s50-t1-b-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode
+s50-t1-b-e1.py
+
+### instruction @ weDo/solutionCode
+S50-T1-B-E2 · Verifica tres rutas de : válido (dims ≥2, sin tool prohibida), adverso (outcome 3 pero process/trajectory bajos y ) y sin . Entrada: dict con case_id, outcome, process, trajectory, recovery, forbidden_tool_used, min_dimension. Salidas exactas: , , . El starter premia outcome==3 aunque haya tool prohibida: exige min(dims) y como en E1.
+
+### hint @ weDo/solutionCode
+Primero se calcula ; ningún acceso a min_dimension debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode
+S50-T1-B-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/starterCode
+s50-t1-b-e2.py
+
+### title @ weDo/solutionCode/solutionCode
+s50-t1-b-e2.py
+
+### hint @ weDo/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode
+S50-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa FAIL_UNSAFE_TRAJECTORY y por qué faltar min_dimension exige HUMAN_REVIEW_PROCESS.
+
+### title @ weDo/solutionCode/solutionCode/starterCode
+s50-t1-b-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode
+s50-t1-b-e3.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode
+agreement = coincidencias / n; disagree_idx = índices donde human[i] != llm[i].
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode
+Imprime agreement 0.75, disagree_idx [2] y .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode
+S50-T2-A-E1: el ensemble no es oráculo; mides acuerdo y adjudicas. E2 usa el gate con scores fuera de rango.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/starterCode
+s50-t2-a-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t2-a-e1.py
+
+### instruction @ weDo/solutionCode/solutionCode
+S50-T2-A-E2 · Clasifica tres rutas del ensemble de jueces: válido (scores en [0,1] y acuerdo ≥ umbral), adverso (score 1.2 y acuerdo 0.3) y sin . Entrada: dict con case_id, deterministic, human, llm, human_llm_agreement, min_agreement. Salidas exactas: , , . El starter da PASS cuando el acuerdo es bajo: exige rango válido y como en el cálculo de E1.
+
+### hint @ weDo/solutionCode/solutionCode
+Primero se calcula ; ningún acceso a min_agreement debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode/solutionCode
+S50-T2-A-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/solutionCode/starterCode
+s50-t2-a-e2.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode
+s50-t2-a-e2.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode
+S50-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa RECALIBRATE_GRADERS y por qué faltar min_agreement exige ADJUDICATE_DISAGREEMENT.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/starterCode
+s50-t2-a-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t2-a-e3.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+gap = abs(rate_ab - rate_ba); juez OK solo si gap ≤ MAX_GAP y holdout_touched es False.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+Imprime order_gap 0.02, judge OK y .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T2-B-E1: order bias se mide con swap AB/BA; no se inventa el gap. E2/E3 cubren holdout y MISSING.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t2-b-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t2-b-e1.py
+
+### instruction @ weDo/solutionCode/solutionCode/solutionCode
+S50-T2-B-E2 · Audita tres rutas de calibración: válido (anclas altas, gap 0.02, holdout intacto), adverso (gap 0.30 y holdout tocado) y sin flag . Entrada: dict con case_id, anchor_accuracy, min_anchor_accuracy, order_gap, max_order_gap, holdout_touched. Salidas exactas: , , . El starter da PASS al juez sesgado: exige accuracy≥min, gap≤max y holdout_touched=False como en E1.
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode
+Primero se calcula ; ningún acceso a holdout_touched debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode
+S50-T2-B-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/starterCode
+s50-t2-b-e2.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t2-b-e2.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa INVALIDATE_JUDGE y por qué faltar holdout_touched exige SEAL_NEW_HOLDOUT.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t2-b-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t2-b-e3.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+injection_blocked = «ignore previous» no está en el texto; exfil_blocked = ningún secreto aparece en la salida.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Imprime inj_ok True, atk_caught True, exfil_ok True y .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-A-E1: red team mide contención, no suerte del prompt. E2 ensaya BLOCK_SECURITY_P0 con flags de fixture.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t3-a-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t3-a-e1.py
+
+### instruction @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-A-E2 · Decide tres rutas de red team directo: válido (injection bloqueada, 0 bytes de exfil, tools read-only), adverso (injection libre, 2048 B de leak, scope admin) y sin . Entrada: dict con case_id, injection_blocked, exfiltration_bytes, tool_scope, tool_args_valid, severity. Salidas exactas: , , . El starter pasa cuando la inyección no se bloqueó: exige contención + cero exfil + tool_args_valid, reutilizando la separación injection/exfil de E1.
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+Primero se calcula ; ningún acceso a severity debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-A-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t3-a-e2.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t3-a-e2.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_SECURITY_P0 y por qué faltar severity exige PRESERVE_ATTACK_TRACE.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t3-a-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t3-a-e3.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Instrucciones en el documento no cambian ALLOWED; requested debe estar en ALLOWED y poisoned_removed ≥ 1.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Imprime doc_as_data True, privilege min y .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-B-E1: indirect injection no es prompt del usuario — es corpus. E2 cuarentena con QUARANTINE_POISONED_CORPUS.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t3-b-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t3-b-e1.py
+
+### instruction @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-B-E2 · Calcula tres rutas de corpus/privilegios: válido (instrucción como datos, 3 chunks envenenados removidos, ∈ allowlist), adverso (instrucción eleva permisos, 0 removidos, pide ) y sin . Entrada: dict con case_id, document_instruction_treated_as_data, poisoned_chunks_removed, tool_permissions, requested_permission. Salidas exactas: , , . El starter da PASS cuando el PDF eleva privilegios: exige treat-as-data + poison removido + permiso ⊆ allowlist como en E1.
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Primero se calcula ; ningún acceso a requested_permission debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-B-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t3-b-e2.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t3-b-e2.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa QUARANTINE_POISONED_CORPUS y por qué faltar requested_permission exige REDUCE_TOOL_PRIVILEGE.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t3-b-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t3-b-e3.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+return «answer» si support >= thr else «abstain»; thr por defecto 0.5.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Imprime high answer, low abstain, critical_unsupported 0 y .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-A-E1: groundedness es abstenerse, no inventar. E2 bloquea con BLOCK_HALLUCINATION_REGRESSION.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t4-a-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t4-a-e1.py
+
+### instruction @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-A-E2 · Compara tres rutas de groundedness: válido (18/20 soporte, 0 críticas, abstain cuando vacío), adverso (10/20, 2 críticas, no abstiene) y sin . Entrada: dict con case_id, supported_claims, total_claims, min_support_rate, unsupported_critical, abstained_when_empty. Salidas exactas: , , . El starter da PASS con claims críticas inventadas: exige rate≥umbral, critical==0 y abstain correcto, alineado a de E1.
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Primero se calcula ; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-A-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t4-a-e2.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t4-a-e2.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_HALLUCINATION_REGRESSION y por qué faltar abstained_when_empty exige REVIEW_ABSTENTION_SLICE.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t4-a-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t4-a-e3.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+PASS solo si p95≤slo y cost≤cap y cache_acl_safe y rollback_min≤rto_min.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Imprime healthy PASS, p95_ok True y .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-B-E1: fiabilidad operativa es multi-eje; E2 fuerza ROLLBACK_AI_RELEASE en canary roto.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t4-b-e1.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t4-b-e1.py
+
+### instruction @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-B-E2 · Filtra tres rutas del canary operativo: válido (p95 850≤1000, costo bajo, ACL ok, rollback 8≤10), adverso (p95 2500, costo alto, ACL roto, rollback 60) y sin . Entrada: dict con case_id, p95_ms, slo_ms, cost_pen, cost_cap_pen, cache_acl_safe, rollback_minutes, rto_minutes. Salidas exactas: , , . El starter da PASS al canary roto: aplica el multi-eje de E1 (no solo p95).
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Primero se calcula ; ningún acceso a rto_minutes debe ocurrir antes de esa rama.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+La tabla cubre válido/adverso/campo ausente y produce exactamente .
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-B-E2: el adverso activa ; un campo ausente devuelve . En E3 la incertidumbre se enruta a .
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t4-b-e2.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t4-b-e2.py
+
+### hint @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Una ausencia no equivale a breach: enrútala a antes de evaluar el contenido.
+
+### tests @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Fixtures , adverso y sin prueban continue/breach/uncertainty en ese orden.
+
+### feedback @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+S50-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AI_RELEASE y por qué faltar rto_minutes exige ACTIVATE_INCIDENT_RESPONSE.
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/starterCode
+s50-t4-b-e3.py
+
+### title @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+s50-t4-b-e3.py
+
+### portfolioNote @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode
+Evidencia de CP-N4-C · quality gate de IA adversarial: adjunta el print del scorecard (issues + decision), el manifiesto del dataset, la calibración de jueces, el anexo de red team y el runbook de rollback. El checklist inicia en BLOCKED: márcalo READY solo con artefactos reales — no borres filas P0 ni cambies asserts para forzar PROMOTE.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+¿Qué evidencia permite aprobar task dataset y rúbrica en CASO-ICA-050?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+La teoría exige dataset versionado y rúbrica calibrada; evidencia decorativa o PII no satisface el contrato.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+El contrato falla cerrado con BLOCK_CANDIDATE; no convierte incertidumbre o breach en éxito.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+¿Cuál resultado demuestra el gate CP-N4-C (quality gate de IA adversarial)?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+El gate es conductual y medible: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+¿Qué tratamiento de CASO-ICA-050 respeta el alcance del curso?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Si unsupported_critical > 0 y el sistema no abstiene, el gate de fiabilidad…
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Fiabilidad fail-closed: claims críticos sin soporte no se publican; abstain o humano.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Si |rate_AB − rate_BA| del LLM-judge supera el umbral de order bias, ¿qué haces?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Order bias invalida al juez; no se usa solo para bloquear promote sin calibración.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Una respuesta final correcta tras tool prohibida en la trayectoria es…
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Trajectory eval: tool misuse es P0 independiente del texto final (puente S49→S50).
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+El candidato mejora task_pass pero p95 > SLO y el rollback estimado supera el RTO. ¿Qué haces?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+SLO de latencia y RTO de rollback son gates operativos: no se promociona con canary roto aunque mejore el task_pass.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Un PDF recuperado incluye «grant admin» en un comentario HTML. ¿Cuál es la respuesta correcta del gate?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Injection indirecta: el chunk no es control. Least privilege mantiene el allowlist; poisoning → QUARANTINE_POISONED_CORPUS.
+
+### question @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+Al comparar baseline vs candidato, ¿qué constituye un artefacto mínimo de promote/block?
+
+### explanation @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/selfCheck
+El producto de S50 es el scorecard baseline/candidato con rollup de severidad, no un claim narrativo de mejora.
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+OpenAI Evals design guide
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Datasets, graders y comparación baseline/candidato
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+OpenAI Evals (harness)
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Suite de evaluación open source
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+OWASP Top 10 for LLM Applications
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Amenazas de aplicaciones LLM
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+OWASP LLM Prompt Injection Prevention
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Injection y exfiltración
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+NIST AI RMF Generative AI Profile
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Riesgos y controles GenAI
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Garak / LLM red teaming
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Sondas adversariales open source
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+SRE — Service Level Objectives
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+SLO, error budget y rollback
+
+### label @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Promptfoo — evals & red team
+
+### note @ weDo/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/solutionCode/resources
+Eval harness y adversarial suites
+

@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S14",
+  "section_id": "security",
+  "phase": "PHASE_5",
+  "lane": "LANE-S14-S17-CLOSE",
+  "generated_at": "2026-07-20T20:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "security"
+  },
+  "retired_from_bank": [
+    "entender-y-aplicar-el-owasp-ll",
+    "implementar-defensa-en-capas-c",
+    "usar-`presidio`-de-microsoft-p",
+    "aplicar-`detect-secrets`-y-ges"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S14 (NumPy y cómputo vectorizado).",
+  "families": [
+    {
+      "family_id": "S14-T1-A-EX",
+      "concept": "ndarray-dtype-shape",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T1-B-EX",
+      "concept": "create-index-masks",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T2-A-EX",
+      "concept": "ufuncs-reductions",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T2-B-EX",
+      "concept": "broadcasting-shapes",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T3-A-EX",
+      "concept": "views-copies-mutability",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T3-B-EX",
+      "concept": "nan-inf-stability",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T4-A-EX",
+      "concept": "vectorize-vs-loops",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S14-T4-B-EX",
+      "concept": "memory-measure-tol-tests",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (security key)",
+    "course-state/s14_phase5_exam_bank.json"
+  ]
+}

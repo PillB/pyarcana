@@ -1,0 +1,62 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "loc"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Asignación en cadena que no actualiza el DataFrame padre de forma fiable (chaine"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Convierte inválidos a NaN"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Filas, columnas y provenance/hash del artefacto"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Evita SettingWithCopyWarning y deja la asignación en el DataFrame original"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Convierte la columna fecha a datetime en la lectura"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fallar de forma explicable (p. ej. KeyError / missing column)"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Para evitar columnas Unnamed al reingestar si el index no es clave de negocio"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con "
+  },
+  {
+    "i": 9,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Mantener un index estable y documentado; no perder la clave al exportar si es ej"
+  }
+]

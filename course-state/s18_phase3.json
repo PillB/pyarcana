@@ -1,0 +1,1075 @@
+{
+  "version": "3.2",
+  "section": "S18",
+  "section_id": "data-engineering",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S18 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S18 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s18-data-engineering.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "data-engineering",
+    "index": 18,
+    "title_platform": "Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations",
+    "title_v3": "EDA, estadística descriptiva e incertidumbre",
+    "title_decision": "KEEP platform id 'data-engineering' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+    "estimatedHours": 12,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S17"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-B (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "data-engineering",
+    "platform_title": "Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations",
+    "v3_title": "EDA, estadística descriptiva e incertidumbre",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante resume distribuciones con centro, dispersión y cuantiles.",
+    "El estudiante elige métricas robustas y escalas honestas.",
+    "El estudiante identifica sesgo población/muestra.",
+    "El estudiante reporta intervalos y tamaños de efecto básicos.",
+    "El estudiante interpreta correlación sin confundir causalidad.",
+    "El estudiante segmenta y marca anomalías con límites claros.",
+    "El estudiante estructura preguntas, hipótesis y evidencia.",
+    "El estudiante entrega notebook reproducible con data notes."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S18-T1-A",
+      "slug": "center-spread-quantiles",
+      "title": "centro, dispersión y cuantiles"
+    },
+    {
+      "subtopic_id": "S18-T1-B",
+      "slug": "robust-metrics-scales",
+      "title": "métricas robustas y escalas"
+    },
+    {
+      "subtopic_id": "S18-T2-A",
+      "slug": "population-sample-bias",
+      "title": "población/muestra y sesgo"
+    },
+    {
+      "subtopic_id": "S18-T2-B",
+      "slug": "intervals-effect-size",
+      "title": "intervalos básicos y tamaño de efecto"
+    },
+    {
+      "subtopic_id": "S18-T3-A",
+      "slug": "correlation-confounds",
+      "title": "correlación y confusión"
+    },
+    {
+      "subtopic_id": "S18-T3-B",
+      "slug": "segments-anomalies-no-causal",
+      "title": "segmentación, anomalías y causalidad no demostrada"
+    },
+    {
+      "subtopic_id": "S18-T4-A",
+      "slug": "questions-hypotheses-evidence",
+      "title": "preguntas, hipótesis y evidencia"
+    },
+    {
+      "subtopic_id": "S18-T4-B",
+      "slug": "repro-notebook-data-notes",
+      "title": "notebook reproducible y data notes"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S18-T1",
+      "title": "Distribuciones",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S18-T1-A",
+          "slug": "center-spread-quantiles",
+          "title": "centro, dispersión y cuantiles",
+          "outcome": "El estudiante resume distribuciones con centro, dispersión y cuantiles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "centro, dispersión y cuantiles",
+              "must_cover": [
+                "mean/median",
+                "std/IQR",
+                "quantiles"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T1-A-DEMO",
+              "title": "Resumir distribución con centro/dispersión/cuantiles",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T1-A-E1",
+                "kind": "guided",
+                "title": "centro, dispersión y cuantiles — guided",
+                "skill": "center",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T1-A-E2",
+                "kind": "independent",
+                "title": "centro, dispersión y cuantiles — independent",
+                "skill": "center",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T1-A-E3",
+                "kind": "transfer",
+                "title": "centro, dispersión y cuantiles — transfer",
+                "skill": "center",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S18-T1-B",
+          "slug": "robust-metrics-scales",
+          "title": "métricas robustas y escalas",
+          "outcome": "El estudiante elige métricas robustas y escalas honestas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "métricas robustas y escalas",
+              "must_cover": [
+                "mad",
+                "log scale",
+                "winsor"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T1-B-DEMO",
+              "title": "Elegir métrica robusta y escala adecuada",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T1-B-E1",
+                "kind": "guided",
+                "title": "métricas robustas y escalas — guided",
+                "skill": "robust",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T1-B-E2",
+                "kind": "independent",
+                "title": "métricas robustas y escalas — independent",
+                "skill": "robust",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T1-B-E3",
+                "kind": "transfer",
+                "title": "métricas robustas y escalas — transfer",
+                "skill": "robust",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S18-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S18-T1-EVAL-1",
+            "title": "centro, dispersión y cuantiles — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S18-T1-EVAL-2",
+            "title": "métricas robustas y escalas — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S18-T2",
+      "title": "Muestreo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S18-T2-A",
+          "slug": "population-sample-bias",
+          "title": "población/muestra y sesgo",
+          "outcome": "El estudiante identifica sesgo población/muestra.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "población/muestra y sesgo",
+              "must_cover": [
+                "sampling frame",
+                "selection bias",
+                "representativeness"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T2-A-DEMO",
+              "title": "Diagnosticar sesgo de muestreo en dataset sintético",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T2-A-E1",
+                "kind": "guided",
+                "title": "población/muestra y sesgo — guided",
+                "skill": "population",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T2-A-E2",
+                "kind": "independent",
+                "title": "población/muestra y sesgo — independent",
+                "skill": "population",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T2-A-E3",
+                "kind": "transfer",
+                "title": "población/muestra y sesgo — transfer",
+                "skill": "population",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S18-T2-B",
+          "slug": "intervals-effect-size",
+          "title": "intervalos básicos y tamaño de efecto",
+          "outcome": "El estudiante reporta intervalos y tamaños de efecto básicos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "intervalos básicos y tamaño de efecto",
+              "must_cover": [
+                "CI simple",
+                "effect size",
+                "n impact"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T2-B-DEMO",
+              "title": "Reportar intervalo y tamaño de efecto",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T2-B-E1",
+                "kind": "guided",
+                "title": "intervalos básicos y tamaño de efecto — guided",
+                "skill": "intervals",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T2-B-E2",
+                "kind": "independent",
+                "title": "intervalos básicos y tamaño de efecto — independent",
+                "skill": "intervals",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T2-B-E3",
+                "kind": "transfer",
+                "title": "intervalos básicos y tamaño de efecto — transfer",
+                "skill": "intervals",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S18-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S18-T2-EVAL-1",
+            "title": "población/muestra y sesgo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S18-T2-EVAL-2",
+            "title": "intervalos básicos y tamaño de efecto — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S18-T3",
+      "title": "Relaciones",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S18-T3-A",
+          "slug": "correlation-confounds",
+          "title": "correlación y confusión",
+          "outcome": "El estudiante interpreta correlación sin confundir causalidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "correlación y confusión",
+              "must_cover": [
+                "corr",
+                "confounders",
+                "spurious"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T3-A-DEMO",
+              "title": "No inferir causalidad de correlación",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T3-A-E1",
+                "kind": "guided",
+                "title": "correlación y confusión — guided",
+                "skill": "correlation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T3-A-E2",
+                "kind": "independent",
+                "title": "correlación y confusión — independent",
+                "skill": "correlation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T3-A-E3",
+                "kind": "transfer",
+                "title": "correlación y confusión — transfer",
+                "skill": "correlation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S18-T3-B",
+          "slug": "segments-anomalies-no-causal",
+          "title": "segmentación, anomalías y causalidad no demostrada",
+          "outcome": "El estudiante segmenta y marca anomalías con límites claros.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "segmentación, anomalías y causalidad no demostrada",
+              "must_cover": [
+                "groupby segments",
+                "anomaly flags",
+                "causal limits"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T3-B-DEMO",
+              "title": "Segmentar y marcar anomalías sin claim causal",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T3-B-E1",
+                "kind": "guided",
+                "title": "segmentación, anomalías y causalidad no demostrada — guided",
+                "skill": "segments",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T3-B-E2",
+                "kind": "independent",
+                "title": "segmentación, anomalías y causalidad no demostrada — independent",
+                "skill": "segments",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T3-B-E3",
+                "kind": "transfer",
+                "title": "segmentación, anomalías y causalidad no demostrada — transfer",
+                "skill": "segments",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S18-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S18-T3-EVAL-1",
+            "title": "correlación y confusión — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S18-T3-EVAL-2",
+            "title": "segmentación, anomalías y causalidad no demostrada — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S18-T4",
+      "title": "Flujo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S18-T4-A",
+          "slug": "questions-hypotheses-evidence",
+          "title": "preguntas, hipótesis y evidencia",
+          "outcome": "El estudiante estructura preguntas, hipótesis y evidencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "preguntas, hipótesis y evidencia",
+              "must_cover": [
+                "question log",
+                "hypothesis",
+                "evidence link"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T4-A-DEMO",
+              "title": "Separar hallazgo / hipótesis / decisión",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T4-A-E1",
+                "kind": "guided",
+                "title": "preguntas, hipótesis y evidencia — guided",
+                "skill": "questions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T4-A-E2",
+                "kind": "independent",
+                "title": "preguntas, hipótesis y evidencia — independent",
+                "skill": "questions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T4-A-E3",
+                "kind": "transfer",
+                "title": "preguntas, hipótesis y evidencia — transfer",
+                "skill": "questions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S18-T4-B",
+          "slug": "repro-notebook-data-notes",
+          "title": "notebook reproducible y data notes",
+          "outcome": "El estudiante entrega notebook reproducible con data notes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "notebook reproducible y data notes",
+              "must_cover": [
+                "seed",
+                "run order",
+                "data notes"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S18-T4-B-DEMO",
+              "title": "Notebook reproducible con data notes",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S18-T4-B-E1",
+                "kind": "guided",
+                "title": "notebook reproducible y data notes — guided",
+                "skill": "repro",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T4-B-E2",
+                "kind": "independent",
+                "title": "notebook reproducible y data notes — independent",
+                "skill": "repro",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S18-T4-B-E3",
+                "kind": "transfer",
+                "title": "notebook reproducible y data notes — transfer",
+                "skill": "repro",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S18-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S18-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S18-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S18-T4-EVAL-1",
+            "title": "preguntas, hipótesis y evidencia — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S18-T4-EVAL-2",
+            "title": "notebook reproducible y data notes — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S18-PROJ",
+    "title": "EDA con incertidumbre declarada (inicio CP-N2-B)",
+    "replaces_legacy": "Legacy You Do de 'Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Cada conclusión referencia un cálculo",
+      "Diferenciar hallazgo, hipótesis y decisión",
+      "Declarar incertidumbre y límites",
+      "Notebook reproducible sintético"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-B (inicio)",
+    "increment_gate": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'data-engineering' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s18-data-engineering.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations' vs 'EDA, estadística descriptiva e incertidumbre'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-B (inicio)",
+    "increment_gate": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+    "project_id": "S18-PROJ",
+    "section_passed": false,
+    "notes": "S18 contributes to CP-N2-B (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations' until product rename; large topic mismatch vs V3 'EDA, estadística descriptiva e incertidumbre'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S18-T1-A first"
+  }
+}

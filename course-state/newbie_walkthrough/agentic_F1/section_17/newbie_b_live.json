@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s17",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T1-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "cli"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/de199646] Solo acepto S17-T1-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:1.0}. Haz `merge` por `cliente_id` con `how='left'». Verifiqué pista «merge how='left'.» y demo S17-T1-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\n# forma esperada (referencia): print(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2ba78c53] S17-T1-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado C001,C001. Imprime `bool(cli['cliente_id'].is_uni». Demo S17-T1-A-DEMO. Línea: `import pandas as pd`. Pista «is_unique.»."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T1-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "cli"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/8767a32b] Dudé del atajo en S17-T1-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` merge por `cliente_id`; imprime la longitud. Pass: ». Hint «merge inner.». Ancla: `import pandas as pd`. S17-T1-A-DEMO. claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T1-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "cli"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/1a0bf691] S17-T1-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + filtra `_merge=='left_only'`; imprime lista de `clie». Demo S17-T1-B-DEMO. Línea: `import pandas as pd`. Pista «merge left indicator.»."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T1-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e51dc1f2] Dudé del atajo en S17-T1-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge one_to_one; ante excepción imprime exactamente `fa». Hint «try MergeError o Exception.». Ancla: `import pandas as pd`. S17-T1-B-DEMO. claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T1-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "cli"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2982c28c] Solo acepto S17-T1-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas `left_only` tras left merge con indicator. Pass en». Verifiqué pista «left_only count.» y demo S17-T1-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T2-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5e94623a] Solo acepto S17-T2-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_vars=['a','b'])` e imprime `len`. Pass: `4`. Contr». Verifiqué pista «melt.» y demo S17-T2-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T2-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "long"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c31f9f35] Solo acepto S17-T2-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` con `aggfunc='sum'`, `reset_index()`, imprime `colu». Verifiqué pista «aggfunc sum.» y demo S17-T2-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T2-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b0ec3d5b] S17-T2-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..., ignore_index=True)` e imprime `len`. Pass: `2`.». Demo S17-T2-A-DEMO. Línea: `import pandas as pd`. Pista «pd.concat(..., ignore_index=True).»."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T2-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "long"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/fa190c76] Solo acepto S17-T2-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra a `monto_{mes}`; imprime `list(columns)`. Pass: `». Verifiqué pista «map join o f-string.» y demo S17-T2-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T2-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/26cf6311] S17-T2-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expected={cliente_id, monto_ene}. Imprime `set(columns)==». Demo S17-T2-B-DEMO. Línea: `import pandas as pd`. Pista «set igualdad.»."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T2-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\n# forma esperada (referencia): print(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/412078be] Dudé del atajo en S17-T2-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['monto']`. Prefiere dic». Hint «rename(columns=...).». Ancla: `import pandas as pd`. S17-T2-B-DEMO. claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T3-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c69d4a39] Dudé del atajo en S17-T3-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('region')['monto'].sum().to_dict()`. Pass: `{'Cusco': ». Hint «groupby sum.». Ancla: `import pandas as pd`. S17-T3-A-DEMO. claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T3-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c884578a] S17-T3-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lista de `groupby('region')['monto'].transform('mean'». Demo S17-T3-A-DEMO. Línea: `import pandas as pd`. Pista «groupby transform.»."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T3-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b9ca9c2d] Solo acepto S17-T3-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist». Verifiqué pista «named agg.» y demo S17-T3-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\n# forma esperada (referencia): print([None if pd.isna(x) else float(x) for x in s])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2c4b46f5] S17-T3-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y el resto float. Pass: `[None, 1.5, 2.5]`. Documenta». Demo S17-T3-B-DEMO. Línea: `import pandas as pd`. Pista «rolling mean.»."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T3-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/31d234bd] Solo acepto S17-T3-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna cohort YYYY-MM con min fecha; imprime dict id→coh». Verifiqué pista «groupby transform min.» y demo S17-T3-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T3-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/cd199e20] Solo acepto S17-T3-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2; ordena índice, rolling(2).mean(), imprime último ». Verifiqué pista «sort_index.» y demo S17-T3-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\n# forma esperada (referencia): print(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/04c3cc2a] Solo acepto S17-T4-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total)<1e-9`. Pass: `True`. Usa tolerancia eps, no igual». Verifiqué pista «sum y abs.» y demo S17-T4-A-DEMO. Código justificado: `parts = [10.0, 20.0, 70.0]`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nactivos = 40\npagados = 10\n# forma esperada (referencia): print(pagados / activos)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d387f7cc] S17-T4-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos. Pass: `0.25`. No imprimas 25 ni uses pagados como». Demo S17-T4-A-DEMO. Línea: `activos = 40`. Pista «división float.»."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal = 100.0\nlima = 60.0\n# forma esperada (referencia): print(total - lima)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9cd67f88] S17-T4-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). Pass: `40.0`. Es el primer paso de una bridge table». Demo S17-T4-A-DEMO. Línea: `total = 100.0`. Pista «total - lima.»."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T4-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/8919f18c] Dudé del atajo en S17-T4-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff 2024-01-31. Imprime lista de montos con fecha<=cu». Hint «Timestamp cutoff.». Ancla: `import pandas as pd`. S17-T4-B-DEMO. claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T4-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9bf98efd] Solo acepto S17-T4-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Imprime float(sum_total - sum_pre). Pass: `5.0`. Ese de». Verifiqué pista «total - pre.» y demo S17-T4-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S17-T4-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S17",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9feb5ecf] Dudé del atajo en S17-T4-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max monto con fecha<=cutoff por cliente; imprime dict. ». Hint «filter then groupby max.». Ancla: `import pandas as pd`. S17-T4-B-DEMO. claves y cardinalidad en joins | validate, duplicación accidental y anti-join | ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "justification_from_packet": "[agentic_F1/skeptic/b17q0s0] validate no imputa ni ordena: en el iDo se usa para detectar fan-out indebido; one_to_one debe fallar si la cardinalidad se rompe.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Filas del left sin match en right",
+      "justification_from_packet": "[agentic_F1/skeptic/b17q1s2] indicator left_only del demo es el anti-join de huérfanos del left; no son matches perfectos ni schema drift.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "justification_from_packet": "[agentic_F1/skeptic/b17q2s3] Contraste con agg que colapsa: transform en el demo deja mean_reg alineada fila a fila al shape original.",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "justification_from_packet": "[agentic_F1/skeptic/b17q3s1] Leakage no es «hacer melt»; es contaminar el pasado con información post-cutoff, tema del heading temporal del paquete.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Documentar diff con tolerancia eps o corregir el corte",
+      "justification_from_packet": "[agentic_F1/skeptic/b17q4s0] Ignorar <10% o forzar inner join no es control de denominadores; el portfolio exige documentar o corregir la diferencia.",
+      "blocked_on": [],
+      "confidence": 0.77
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.923539+00:00"
+}

@@ -1,0 +1,378 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s15-695155-98367",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd s = pd.Seri». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "code": "# Transfer / protocolo — S15-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Alinea dos Series por index (unión) sumando scores; imprime \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- s1.add(s2, fill_value=0).\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\nfrom io import StringIO\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd from io imp». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\nfrom io import StringIO\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd from io imp». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "code": "# Transfer / protocolo — S15-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee solo usecols cliente_id,monto desde CSV e imprime column\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- usecols=[...].\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "code": "# Transfer / protocolo — S15-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Imprime el valor iloc[1, 0] de un DF 2x2 de enteros [[1,2],[]]\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- iloc posición 1,0 → 3.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "code": "# Transfer / protocolo — S15-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Demuestra que modificar un copy no cambia el DF original: im\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- c = df.copy(); c.iloc[0,0]=99.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd s = pd.to_n». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "code": "# Transfer / protocolo — S15-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: to_datetime errors=coerce; cuenta NaT en ['2024-01-01','no-f]\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- isna().sum().\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "code": "# Transfer / protocolo — S15-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Castea cliente_id a string dtype e imprime str(dtype). Salid\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- astype('string').\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd from io imp». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\nfrom io import BytesIO\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd from io imp». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "code": "# Transfer / protocolo — S15-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Emite dict contrato {col: str(dtype)} para un DF de dos colu\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- dict comprehension.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import pandas as pd df = pd.Dat». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "code": "# Transfer / protocolo — S15-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: sha1 de to_csv index=False; imprime primeros 8 hex. Salida/p\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: series, dataframe, index, vector, tabla, columnas, alineadas, pandas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- hashlib.sha1(blob).hexdigest()[:8].\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S15-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S15-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Series DataFrame index Series vector Index DataFrame tabla columnas Series. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "selecci",
+        "tipos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "S15 Q0: elijo índice 2 («loc») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué método de selección usa etiquetas de index/columnas?» con ese matiz. Apoyo lexical del packet: series dataframe index vector tabla columnas alineadas pandas ingesta porqué operativo reduce."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "S15 Q1: elijo índice 0 («Asignación sobre slices que pueden ser view/copy (chained assignment)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «SettingWithCopyWarning se relaciona con:» con ese matiz. Apoyo lexical del packet: series dataframe index vector tabla columnas alineadas pandas ingesta porqué operativo reduce."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "S15 Q2: elijo índice 1 («Convierte inválidos a NaN») porque la theory/outcomes del paquete enlazan la idea de la pregunta «errors='coerce' en to_numeric:» con ese matiz. Apoyo lexical del packet: series dataframe index vector tabla columnas alineadas pandas ingesta porqué operativo reduce."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "S15 Q3: elijo índice 3 («Filas, columnas y provenance/hash del artefacto») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Un manifest de export debería incluir al menos:» con ese matiz. Apoyo lexical del packet: series dataframe index vector tabla columnas alineadas pandas ingesta porqué operativo reduce."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:19:57.629058+00:00",
+  "session_started_at": "2026-07-23T09:19:27.072759+00:00",
+  "session_ended_at": "2026-07-23T09:19:57.629058+00:00"
+}

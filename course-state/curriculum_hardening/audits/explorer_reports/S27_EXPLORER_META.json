@@ -1,0 +1,9 @@
+{
+  "section": 27,
+  "id": "async-concurrency",
+  "file": "src/lib/course/sections/s27-async-concurrency.ts",
+  "score_1_to_10": 4.8,
+  "issue_count": 22,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

@@ -1,0 +1,24 @@
+{
+  "progress_sanitize_exports": [
+    "PROGRESS_STORAGE_KEY",
+    "PROGRESS_FIELDS",
+    "EMPTY_PROGRESS",
+    "sanitizePersisted",
+    "parsePersistedEnvelope",
+    "mergeServerProgress",
+    "migrateProgressState",
+    "serializeProgressEnvelope",
+    "roundTripProgress"
+  ],
+  "progress_store_exports": [
+    "useProgressStore",
+    "SUB_STEPS",
+    "SUB_STEP_LABELS",
+    "useServerProgressSync"
+  ],
+  "storage_key": "python-ds-progress",
+  "active_course_api": {
+    "COURSE_SECTIONS": 52,
+    "COURSE_META.totalSections": 52
+  }
+}

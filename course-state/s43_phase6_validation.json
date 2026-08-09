@@ -1,0 +1,222 @@
+{
+  "version": "3.2",
+  "section": "S43",
+  "section_id": "llmops",
+  "phase": "PHASE_6",
+  "lane": "LANE-S40-S52-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s43-llmops.ts",
+    "prisma/seed.ts (llmops)"
+  ],
+  "status": "passed",
+  "summary": "S43 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S43-T1-A",
+        "S43-T1-B",
+        "S43-T2-A",
+        "S43-T2-B",
+        "S43-T3-A",
+        "S43-T3-B",
+        "S43-T4-A",
+        "S43-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S43-T1-A-DEMO",
+        "S43-T1-B-DEMO",
+        "S43-T2-A-DEMO",
+        "S43-T2-B-DEMO",
+        "S43-T3-A-DEMO",
+        "S43-T3-B-DEMO",
+        "S43-T4-A-DEMO",
+        "S43-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S43-T1-A-E1",
+        "S43-T1-A-E2",
+        "S43-T1-A-E3",
+        "S43-T1-B-E1",
+        "S43-T1-B-E2",
+        "S43-T1-B-E3",
+        "S43-T2-A-E1",
+        "S43-T2-A-E2",
+        "S43-T2-A-E3",
+        "S43-T2-B-E1",
+        "S43-T2-B-E2",
+        "S43-T2-B-E3",
+        "S43-T3-A-E1",
+        "S43-T3-A-E2",
+        "S43-T3-A-E3",
+        "S43-T3-B-E1",
+        "S43-T3-B-E2",
+        "S43-T3-B-E3",
+        "S43-T4-A-E1",
+        "S43-T4-A-E2",
+        "S43-T4-A-E3",
+        "S43-T4-B-E1",
+        "S43-T4-B-E2",
+        "S43-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "tests": 24,
+        "feedback": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['llmops']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "dockerfile-layers-cache",
+        "bases-nonroot-size",
+        "config-secrets-volumes",
+        "net-health-signals",
+        "api-worker-db-cache",
+        "deps-migrations-ephemeral",
+        "locks-multistage",
+        "scan-limits-debug"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 23,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S43-T1-A', 'S43-T1-B', 'S43-T2-A', 'S43-T2-B', 'S43-T3-A', 'S43-T3-B', 'S43-T4-A', 'S43-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S43-T1-A-DEMO', 'S43-T1-B-DEMO', 'S43-T2-A-DEMO', 'S43-T2-B-DEMO', 'S43-T3-A-DEMO', 'S43-T3-B-DEMO', 'S43-T4-A-DEMO', 'S43-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 starter=25 hints=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-LLMOPS-8x3",
+      "pass": true,
+      "evidence": "24; ['dockerfile-layers-cache', 'bases-nonroot-size', 'config-secrets-volumes', 'net-health-signals', 'api-worker-db-cache', 'deps-migrations-ephemeral', 'locks-multistage', 'scan-limits-debug']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 23, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK; matching ≠ fraud/parentesco"
+    },
+    {
+      "id": "PRIVACY-MATCHING-NOT-FRAUD",
+      "pass": true,
+      "evidence": "Exam + content: resolución/matching no implica fraude"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "S43-T1-A-E1: print(['base','deps','app']) → \"['base', 'deps', 'app']\\n\""
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "S43-T1-A-E2: print(True) → \"True\\n\""
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "S43-T1-A-E3: print('cache') → \"cache\\n\""
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "S43-T1-A-E1",
+        "head": "print(['base','deps','app'])",
+        "stdout_preview": "['base', 'deps', 'app']\n"
+      },
+      {
+        "label": "S43-T1-A-E2",
+        "head": "print(True)",
+        "stdout_preview": "True\n"
+      },
+      {
+        "label": "S43-T1-A-E3",
+        "head": "print('cache')",
+        "stdout_preview": "cache\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports double quotes in section TS.",
+    "Hints ≥2 counted via hints: [ blocks.",
+    "solutionCode is object with nested code template; executed first 3 solutions with python3.",
+    "Privacy: matching/resolución ≠ fraude/parentesco/colusión.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

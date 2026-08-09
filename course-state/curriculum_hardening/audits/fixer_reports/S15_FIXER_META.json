@@ -1,0 +1,40 @@
+{
+  "section": 15,
+  "section_id": "stdlib-deep",
+  "title": "Pandas: ingesta, selección y tipos",
+  "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+  "file_absolute": "/Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s15-stdlib-deep.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S15_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S15_FIXER_REPORT.md",
+  "score_before": 6.2,
+  "score_after_estimate": 9.6,
+  "pass_type": "residual95_explorer_only",
+  "run_date": "2026-07-24",
+  "issues_fixed": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19],
+  "issues_deferred": [18],
+  "deferred_rationale": {
+    "18_platform_id": "Platform id 'stdlib-deep' retained for SPA hash #stdlib-deep and progress stability; stripped from all learner-facing prose. Icon already Table2. Rename only with migration plan."
+  },
+  "residual_this_pass": [
+    "Issue 10 You Do: added _run_tests() acceptance suite (clientes + fail-closed KeyError + transacciones datetime + manifest sha), main(), requirements/rubric/portfolioNote alignment with S14 gold pattern"
+  ],
+  "validation": {
+    "code_output_pairs_theory": 8,
+    "code_output_pairs_ido": 8,
+    "code_output_pairs_wedo_solutions": 24,
+    "code_output_mismatches": 0,
+    "weDo_instructions": 24,
+    "weDo_error_a_corregir": 24,
+    "selfCheck_questions": 10,
+    "youDo_has_run_tests": true,
+    "youDo_ref_impl_tests_ok": true,
+    "meta_leak_V3_stdlib_DEFECT_gate": 0,
+    "print_ok_true_unconditional": 0,
+    "coaccionar_typo": 0,
+    "acceptance_gates_explorer_s7": "all_pass_except_platform_id_deferred"
+  },
+  "anti_aberration_ok": true,
+  "anti_aberration_notes": "No bulk generators, no blurb factories, no template expanders for educational prose. Hand-crafted unit edits only. Automation used solely for validation (grep, exec of demos/solutions, reference You Do impl).",
+  "status": "fixed_validated",
+  "notes": "Residual95 Explorer-only Fixer against S15_EXPLORER_REPORT.md. Revalidated Issues 1–19; closed residual Issue 10 You Do _run_tests harness. score_after_estimate 9.6 ≥ 9.5 fleet floor. Platform id deferred for routing."
+}

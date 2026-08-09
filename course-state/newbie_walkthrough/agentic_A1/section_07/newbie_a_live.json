@@ -1,0 +1,509 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A1",
+  "section_index": 7,
+  "packet_sha": "8c4859070b267af7",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_07/packet.json",
+  "recorded_at": "2026-07-21T22:05:58.714094+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "unicodedata",
+        "names",
+        "Jose",
+        "u0301",
+        "print",
+        "evidencia",
+        "conserva"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T1-A-E1. Instruction del paquete: E1 (guiado) — Normaliza a NFC la lista `['José', 'Jose\\u0301', '']` e imprime cada resultado. El vacío permanece vacío.. Hints: unicodedata.normalize('NFC', s); import unicodedata. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "a, b = 'MAÑANA', 'mañana'\nprint(\"evidencia se conserva; no se afirma parentesco\")\nprint(match)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "match",
+        "independiente",
+        "Usa"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T1-A-E2. Instruction del paquete: E2 (independiente) — Usa casefold para decidir si `'MAÑANA'` y `'mañana'` matchean. Imprime True/False.. Hints: a.casefold() == b.casefold(); lower también funciona en este caso; prefiere casefold en matching.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "unicodedata",
+        "Jose",
+        "u0301",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T1-A-E3. Instruction del paquete: E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad cruda, igualdad NFC y un mensaje de causa (NFD residual).. Hints: Compara sin/con normalize; Muestra code points con ord si ayuda.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = 'Ana María Quispe Huamán'\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "Ana",
+        "Quispe",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T1-B-E1. Instruction del paquete: E1 (guiado) — De `'Ana María Quispe Huamán'` extrae given y dos apellidos (últimos dos tokens). Imprímelos.. Hints: tokens[-2:]; given = join tokens[:-2]. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = 'María del Carmen Quispe Ríos'\nprint(\"evidencia se conserva; no se afirma parentesco\")\nprint(given)\nprint(ap1, ap2)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "Carmen",
+        "Quispe",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T1-B-E2. Instruction del paquete: E2 (independiente) — Preserva partículas en given: `'María del Carmen Quispe Ríos'`. given debe incluir `del Carmen`.. Hints: No borres tokens del medio al cortar apellidos finales.; Misma heurística últimos 2 = apellidos.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def parse_nombre(raw):\n    print(\"evidencia se conserva; no se afirma parentesco\")\n    ...\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "parse_nombre",
+        "raw",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T1-B-E3. Instruction del paquete: E3 (transferencia) — Si hay menos de 3 tokens, marca `status='review'` y no inventes apellido2. Prueba `'Madonna'` y un nombre completo.. Hints: len(toks) < 3 → review; Conserva raw siempre.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "line = 'C001, Ana , Lima'\nprint(\"evidencia se conserva; no se afirma parentesco\")\nprint(fields)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "line",
+        "C001",
+        "Ana",
+        "Lima",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T2-A-E1. Instruction del paquete: E1 (guiado) — Split CSV-like simple `'C001,Ana,Lima'` en lista de campos strippeados e imprime.. Hints: split(',') + strip por campo; Sin comillas en este ejercicio.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "toks = ['Jr.', 'Unión', '450']\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "toks",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "independiente",
+        "Une"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T2-A-E2. Instruction del paquete: E2 (independiente) — Une tokens `['Jr.', 'Unión', '450']` con espacio estable e imprime. Luego con `'-'`.. Hints: ' '.join(tokens); join no inserta al inicio/final.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw = '999.000-111'\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "transferencia",
+        "Normaliza"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T2-A-E3. Instruction del paquete: E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo cambia `.` y `-` a vacío para demo de dígitos+… o deja dígitos con filter. Imprime dígitos.. Hints: replace('.','').replace('-','') o filter isdigit; str primero.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw):\n    print(\"evidencia se conserva; no se afirma parentesco\")\n    ...\nprint(normalize_email('  A@B.COM '))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_email",
+        "raw",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T2-B-E1. Instruction del paquete: E1 (guiado) — `normalize_email` strip+lower; imprime resultado de `'  A@B.COM '`.. Hints: strip + lower; No uses regex.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = '(+51) 999-000-111'\nprint(\"evidencia se conserva; no se afirma parentesco\")\nprint(digits)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "digits",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T2-B-E2. Instruction del paquete: E2 (independiente) — Teléfono a dígitos: `'(+51) 999-000-111'` → `'51999000111'`.. Hints: filter isdigit; No valides operadora.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+\\.com$'\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "email",
+        "user",
+        "tag",
+        "example",
+        "com",
+        "pat",
+        "print"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T2-B-E3. Instruction del paquete: E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+` y mayúsculas ya lower. Imprime rejected=True y la política recomendada (modest check de @).. Hints: fullmatch sobre email lower; Print de política en español.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\npat = r'^[A-Z]{3}$'\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pat",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "guiado"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T3-A-E1. Instruction del paquete: E1 (guiado) — `fullmatch` de código región `^[A-Z]{3}$` sobre `'LIM'` y `'Lima'`. Imprime bools.. Hints: re.fullmatch; Case sensitive según patrón.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\npat = re.compile(r'^(?P<nom>\\w+) (?P<ap>\\w+)$')\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pat",
+        "compile",
+        "nom",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T3-A-E2. Instruction del paquete: E2 (independiente) — Extrae grupos nombre/apellido de `r'^(?P<nom>\\w+) (?P<ap>\\w+)$'` sobre `'Ana Quispe'`.. Hints: groupdict(); fullmatch. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\ntext = 'DNI 12345678'\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "text",
+        "DNI",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T3-A-E3. Instruction del paquete: E3 (transferencia) — Contrasta search vs fullmatch del patrón `\\d{8}` sobre `'DNI 12345678'`. Imprime ambos bools y cuándo usarías cada uno (print corto).. Hints: search True fullmatch False; Explica en una línea.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "guiado",
+        "Compila"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T3-B-E1. Instruction del paquete: E1 (guiado) — Compila `\\b9\\d{8}\\b` y reutiliza sobre dos strings; imprime findall de cada uno.. Hints: re.compile una vez; reuse en loop. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\nprint(\"evidencia se conserva; no se afirma parentesco\")\nprint(codes)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "log",
+        "LIM",
+        "CUS",
+        "fin",
+        "print",
+        "evidencia",
+        "conserva"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T3-B-E2. Instruction del paquete: E2 (independiente) — findall de códigos `[A-Z]{3}-\\d{2}` en un log sintético con dos códigos.. Hints: re.findall(pat, log); Patrón simple.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('patrón peligroso: (a+)+b sobre strings largos de a\\'s')\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "peligroso",
+        "sobre",
+        "strings",
+        "largos",
+        "evidencia",
+        "conserva",
+        "afirma"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T3-B-E3. Instruction del paquete: E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por qué preferimos `a+b` o str methods. No necesitas colgar el proceso: solo documenta.. Hints: Cuantificadores anidados ambiguos; Mensaje en español peruano/claro.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def norm(s):\n    print(\"evidencia se conserva; no se afirma parentesco\")\n    ...\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "norm",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "Juan"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T4-A-E1. Instruction del paquete: E1 (guiado) — Exact match tras normalize: collapse + casefold de `'  Juan  PEREZ '` vs `'juan perez'`.. Hints: join split + casefold; print bool. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def token_jaccard(a, b):\n    print(\"evidencia se conserva; no se afirma parentesco\")\n    ...\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "token_jaccard",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "round"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T4-A-E2. Instruction del paquete: E2 (independiente) — Implementa Jaccard de tokens y calcula score redondeado a 3 decimales para `'Juan Perez'` vs `'Juan P Perez'`.. Hints: |A∩B|/|A∪B|; set(split). Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nprint(\"evidencia se conserva; no se afirma parentesco\")\nprint(decision, a, b, score)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "Juan",
+        "Perez",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T4-A-E3. Instruction del paquete: E3 (transferencia) — Si score está en [0.4, 1.0) decide `review`; si 1.0 `exact`; si <0.4 `no_match`. Aplica a score 0.67 e imprime decisión + raws.. Hints: Umbrales explícitos; No auto-merge en review.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "cases",
+        "pred",
+        "match",
+        "truth",
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T4-B-E1. Instruction del paquete: E1 (guiado) — Clasifica FP/FN: pred match + truth no → FP; pred no + truth match → FN. Dos casos sintéticos.. Hints: Tabla de confusión 2x2 simplificada; print tag por caso. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"evidencia se conserva; no se afirma parentesco\")\nprint(evidence)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "evidence",
+        "independiente",
+        "Empaqueta"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T4-B-E2. Instruction del paquete: E2 (independiente) — Empaqueta evidencia `dict(raw_a, raw_b, score, decision, reason)` e imprímelo para un par sintético.. Hints: Un dict con 5 claves; reason en español. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"evidencia se conserva; no se afirma parentesco\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "evidencia",
+        "conserva",
+        "afirma",
+        "parentesco",
+        "transferencia",
+        "Redacta",
+        "prints"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S07-T4-B-E3. Instruction del paquete: E3 (transferencia) — Redacta en 2-3 prints por qué el pipeline **no** afirma parentesco ni identidad legal a partir de Jaccard.. Hints: Falta fuente autoritativa; riesgo ético; score ≠ prueba; Español claro.. Teoría activa: De “Adquisición multi-fuente” a texto Unicode y regex (mapa) | Code points, normalización y casefold | Tildes, ñ, partículas y apellidos compuestos | split / join / search / replace | Nombres, emails . iDo demos: S07-T1-B-DEMO | S07-T2-A-DEMO | S07-T2-B-DEMO | S07-T3-A-DEMO | S07-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Teoría Unicode: NFC vs NFD; sin normalize, '\"José\" == \"Jose\\u0301\"' puede ser False aunque se vean iguales — formas distintas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Marcar review y conservar raw",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Teoría de parser de nombres: si no hay segundo apellido, 'marca review en vez de inventar' y el normalizador conserva raw."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Cuando la transformación es literal/simple",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "Teoría: 'Antes de regex' usa strip/split/join/replace; el 80% de limpieza simple se resuelve con str methods cuando es literal/simple."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "None (no es full match)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "Teoría/iDo: fullmatch ancla inicio y fin; el demo imprime fullmatch de 'DNI 12345678' con r'\\d{8}' como False/None (no es full match de solo dígitos)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Ir a review con evidencia (raw, score)",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Teoría Jaccard: es señal débil; 'Score medio → review, no auto-merge'. No afirma parentesco ni fusiona identidades."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "persona_seed": "fa8d082a036d"
+}

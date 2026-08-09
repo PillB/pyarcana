@@ -1,93 +1,84 @@
-[
-  {
-    "capstoneId": "CP-N1-A",
-    "level": 1,
-    "gate": "S04",
-    "version": "1.3.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N1-B",
-    "level": 1,
-    "gate": "S08",
-    "version": "1.3.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N1-C",
-    "level": 1,
-    "gate": "S13",
-    "version": "1.4.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N2-A",
-    "level": 2,
-    "gate": "S17",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N2-B",
-    "level": 2,
-    "gate": "S21",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N2-C",
-    "level": 2,
-    "gate": "S26",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N3-A",
-    "level": 3,
-    "gate": "S30",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N3-B",
-    "level": 3,
-    "gate": "S34",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N3-C",
-    "level": 3,
-    "gate": "S39",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N4-A",
-    "level": 4,
-    "gate": "S43",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N4-B",
-    "level": 4,
-    "gate": "S47",
-    "version": "1.2.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-N4-C",
-    "level": 4,
-    "gate": "S51",
-    "version": "2.0.0",
-    "status": "implemented"
-  },
-  {
-    "capstoneId": "CP-FINAL",
-    "level": 4,
-    "gate": "S52",
-    "version": "1.1.0",
-    "status": "implemented"
-  }
-]
+{
+  "version": "1.0.0",
+  "total": 13,
+  "capstones": [
+    {
+      "id": "CP-N1-A",
+      "gate": "S04",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N1-B",
+      "gate": "S08",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N1-C",
+      "gate": "S13",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N2-A",
+      "gate": "S17",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N2-B",
+      "gate": "S21",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N2-C",
+      "gate": "S26",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N3-A",
+      "gate": "S30",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N3-B",
+      "gate": "S34",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N3-C",
+      "gate": "S39",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N4-A",
+      "gate": "S43",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N4-B",
+      "gate": "S47",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N4-C",
+      "gate": "S51",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-FINAL",
+      "gate": "S52",
+      "state": "named-only",
+      "requiredPresent": []
+    }
+  ]
+}

@@ -1,0 +1,522 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s17-live",
+  "attempt_id": "agentic_D2",
+  "section_index": 17,
+  "packet_sha": "4dfb9a19457db16f",
+  "packet_source": "course-state/newbie_walkthrough/agentic_D1/section_17/slim_packet.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nm = cli.merge(tx, on='cliente_id', how='left')\nprint(len(m))\n# D2-Skeptic: packet-only re-walk S17 S17-T1-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T1-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:1.0}. Haz `merge` por `cliente_id` con `how='left'. Hints: merge how='left'.; Cuenta filas.. Completé el TODO con patrón del fixture/starter y la línea «print(len(m))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n# D2-Skeptic: packet-only re-walk S17 S17-T1-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "pandas"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T1-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado C001,C001. Imprime `bool(cli['cliente_id'].is_uni. Hints: is_unique.; Series.cliente_id.. Completé el TODO con patrón del fixture/starter y la línea «print(bool(cli[\"cliente_id\"].is_unique))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nm = cli.merge(tx, on='cliente_id', how='inner')\nprint(len(m))\n# D2-Skeptic: packet-only re-walk S17 S17-T1-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "merge",
+        "how"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T1-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` merge por `cliente_id`; imprime la longitud. Pass: . Hints: merge inner.; print len.. Completé el TODO con patrón del fixture/starter y la línea «print(len(m))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on='cliente_id', how='left', indicator=True)\nprint(m.loc[m['_merge'] == 'left_only', 'cliente_id'].tolist())\n# D2-Skeptic: packet-only re-walk S17 S17-T1-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T1-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + filtra `_merge=='left_only'`; imprime lista de `clie. Hints: merge left indicator.; filtra _merge.. Completé el TODO con patrón del fixture/starter y la línea «print(m.loc[m['_merge'] == 'left_only', 'cliente_id'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on='id', validate='one_to_one')\n    print('ok')\nexcept Exception:\n    print('fail')\n# D2-Skeptic: packet-only re-walk S17 S17-T1-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "try",
+        "merge",
+        "validate",
+        "one_to_one",
+        "except",
+        "Exception"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T1-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge one_to_one; ante excepción imprime exactamente `fa. Hints: try MergeError o Exception.; validate=.. Completé el TODO con patrón del fixture/starter y la línea «    print('fail')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on='cliente_id', how='left', indicator=True)\nprint(int((m['_merge'] == 'left_only').sum()))\n# D2-Skeptic: packet-only re-walk S17 S17-T1-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "C003",
+        "merge"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T1-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas `left_only` tras left merge con indicator. Pass en. Hints: left_only count.; nunique o len.. Completé el TODO con patrón del fixture/starter y la línea «print(int((m['_merge'] == 'left_only').sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df.melt(id_vars='id', value_vars=['a', 'b'])))\n# D2-Skeptic: packet-only re-walk S17 S17-T2-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "len",
+        "melt",
+        "id_vars",
+        "value_vars",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T2-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_vars=['a','b'])` e imprime `len`. Pass: `4`. Contr. Hints: melt.; var_name value_name opcionales.. Completé el TODO con patrón del fixture/starter y la línea «print(len(df.melt(id_vars='id', value_vars=['a', 'b'])))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nw = long.pivot_table(index='id', columns='k', values='v', aggfunc='sum').reset_index()\nprint(w.columns.tolist())\n# D2-Skeptic: packet-only re-walk S17 S17-T2-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "long",
+        "DataFrame",
+        "pivot_table",
+        "index",
+        "columns",
+        "values",
+        "aggfunc"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T2-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` con `aggfunc='sum'`, `reset_index()`, imprime `colu. Hints: aggfunc sum.; reset_index.. Completé el TODO con patrón del fixture/starter y la línea «print(w.columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n# D2-Skeptic: packet-only re-walk S17 S17-T2-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "len",
+        "concat",
+        "ignore_index",
+        "transferencia",
+        "Concepto",
+        "vertical"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T2-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..., ignore_index=True)` e imprime `len`. Pass: `2`.. Hints: pd.concat(..., ignore_index=True).; mismas cols.. Completé el TODO con patrón del fixture/starter y la línea «print(len(pd.concat([a, b], ignore_index=True)))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nw = long.pivot_table(index='id', columns='mes', values='monto', aggfunc='sum')\nw.columns = [f'monto_{c}' for c in w.columns]\nprint(list(w.columns))\n# D2-Skeptic: packet-only re-walk S17 S17-T2-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "long",
+        "DataFrame",
+        "mes",
+        "monto",
+        "pivot_table",
+        "index",
+        "columns"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T2-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra a `monto_{mes}`; imprime `list(columns)`. Pass: `. Hints: map join o f-string.; tras pivot.. Completé el TODO con patrón del fixture/starter y la línea «print(list(w.columns))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n# D2-Skeptic: packet-only re-walk S17 S17-T2-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "columns",
+        "cliente_id",
+        "monto_ene",
+        "expected",
+        "set",
+        "independiente"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T2-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expected={cliente_id, monto_ene}. Imprime `set(columns)==. Hints: set igualdad.; expected fijo.. Completé el TODO con patrón del fixture/starter y la línea «print(set(df.columns) == expected)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n# D2-Skeptic: packet-only re-walk S17 S17-T2-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "pandas"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T2-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['monto']`. Prefiere dic. Hints: rename(columns=...).; inplace False.. Completé el TODO con patrón del fixture/starter y la línea «print(df.rename(columns={\"a\": \"monto\"}).columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby('region')['monto'].sum().to_dict())\n# D2-Skeptic: packet-only re-walk S17 S17-T3-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "sum"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T3-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('region')['monto'].sum().to_dict()`. Pass: `{'Cusco': . Hints: groupby sum.; to_dict.. Completé el TODO con patrón del fixture/starter y la línea «print(df.groupby('region')['monto'].sum().to_dict())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby('region')['monto'].transform('mean').tolist())\n# D2-Skeptic: packet-only re-walk S17 S17-T3-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "transform"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T3-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lista de `groupby('region')['monto'].transform('mean'. Hints: groupby transform.; mismas filas que df.. Completé el TODO con patrón del fixture/starter y la línea «print(df.groupby('region')['monto'].transform('mean').tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\ng = df.groupby('region', as_index=False).agg(total=('monto', 'sum'), n=('monto', 'count'))\nprint(g.columns.tolist())\n# D2-Skeptic: packet-only re-walk S17 S17-T3-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "as_index"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T3-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist. Hints: named agg.; as_index=False.. Completé el TODO con patrón del fixture/starter y la línea «print(g.columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n# D2-Skeptic: packet-only re-walk S17 S17-T3-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "pandas"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T3-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y el resto float. Pass: `[None, 1.5, 2.5]`. Documenta. Hints: rolling mean.; tolist y nan check.. Completé el TODO con patrón del fixture/starter y la línea «print([None if pd.isna(x) else float(x) for x in s])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\nfirst = df.groupby('cliente_id')['fecha'].min()\nprint({k: v.strftime('%Y-%m') for k, v in first.items()})\n# D2-Skeptic: packet-only re-walk S17 S17-T3-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "fecha",
+        "to_datetime",
+        "first"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T3-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna cohort YYYY-MM con min fecha; imprime dict id→coh. Hints: groupby transform min.; dt.to_period('M').. Completé el TODO con patrón del fixture/starter y la línea «print({k: v.strftime('%Y-%m') for k, v in first.items()})»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\ns2 = s.sort_index().rolling(2).mean()\nprint(float(s2.iloc[-1]))\n# D2-Skeptic: packet-only re-walk S17 S17-T3-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "index",
+        "to_datetime",
+        "sort_index",
+        "rolling",
+        "mean",
+        "float"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T3-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2; ordena índice, rolling(2).mean(), imprime último . Hints: sort_index.; rolling 2.. Completé el TODO con patrón del fixture/starter y la línea «print(float(s2.iloc[-1]))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n# D2-Skeptic: packet-only re-walk S17 S17-T4-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "parts"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T4-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total)<1e-9`. Pass: `True`. Usa tolerancia eps, no igual. Hints: sum y abs.; eps 1e-9.. Completé el TODO con patrón del fixture/starter y la línea «print(abs(sum(parts) - total) < 1e-9)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nactivos = 40\npagados = 10\nprint(pagados / activos)\n# D2-Skeptic: packet-only re-walk S17 S17-T4-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "activos"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T4-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos. Pass: `0.25`. No imprimas 25 ni uses pagados como. Hints: división float.; print tasa.. Completé el TODO con patrón del fixture/starter y la línea «print(pagados / activos)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal = 100.0\nlima = 60.0\nprint(total - lima)\n# D2-Skeptic: packet-only re-walk S17 S17-T4-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "total"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T4-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). Pass: `40.0`. Es el primer paso de una bridge table. Hints: total - lima.; residual.. Completé el TODO con patrón del fixture/starter y la línea «print(total - lima)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx['fecha'] <= cutoff, 'monto'].tolist())\n# D2-Skeptic: packet-only re-walk S17 S17-T4-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "loc"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T4-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff 2024-01-31. Imprime lista de montos con fecha<=cu. Hints: Timestamp cutoff.; máscara <=.. Completé el TODO con patrón del fixture/starter y la línea «print(tx.loc[tx['fecha'] <= cutoff, 'monto'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = float(tx.loc[tx['fecha'] <= cutoff, 'monto'].sum())\nprint(float(tx['monto'].sum() - pre))\n# D2-Skeptic: packet-only re-walk S17 S17-T4-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "pre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T4-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Imprime float(sum_total - sum_pre). Pass: `5.0`. Ese de. Hints: total - pre.; float.. Completé el TODO con patrón del fixture/starter y la línea «print(float(tx['monto'].sum() - pre))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\nsub = tx[tx['fecha'] <= cutoff]\nprint(sub.groupby('cliente_id')['monto'].max().to_dict())\n# D2-Skeptic: packet-only re-walk S17 S17-T4-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Joins, reshape, groupby y cierre analítico» para S17-T4-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max monto con fecha<=cutoff por cliente; imprime dict. . Hints: filter then groupby max.; un cliente.. Completé el TODO con patrón del fixture/starter y la línea «print(sub.groupby('cliente_id')['monto'].max().to_dict())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Fallar si la cardinalidad no es 1:1» para «validate='one_to_one' en merge sirve para:» porque el material de «Joins, reshape, groupby y cierre analítico» enseña: claves y cardinalidad en joins | `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, | validate, duplicación ac. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Filas del left sin match en right",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Filas del left sin match en right» para «Un anti-join left_only identifica:» porque el material de «Joins, reshape, groupby y cierre analítico» enseña: claves y cardinalidad en joins | `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, | validate, duplicación ac. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Reinyecta el agregado al shape original» para «transform en groupby:» porque el material de «Joins, reshape, groupby y cierre analítico» enseña: claves y cardinalidad en joins | `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, | validate, duplicación ac. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Incluyes datos posteriores al cutoff en features/métricas del pasado» para «Leakage temporal ocurre cuando:» porque el material de «Joins, reshape, groupby y cierre analítico» enseña: claves y cardinalidad en joins | `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, | validate, duplicación ac. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Documentar diff con tolerancia eps o corregir el corte",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Documentar diff con tolerancia eps o corregir el corte» para «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:» porque el material de «Joins, reshape, groupby y cierre analítico» enseña: claves y cardinalidad en joins | `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, | validate, duplicación ac. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "note": "Skeptic: only sequential packets through active section; no external solutions."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.188820+00:00",
+  "artifact_origin": "direct_agent_output"
+}

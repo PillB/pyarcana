@@ -1,0 +1,207 @@
+En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos: es abrir un CSV de clientes y un JSON de transacciones, no romper tildes ni montos, mandar filas irregulares a cuarentena con motivo, hashear el crudo y dejar un manifest que un auditor pueda releer. El gate CP-N1-B se cierra cuando demuestras eso en stdlib (pathlib, csv, json, hashlib, Decimal) con archivos con forma de negocio (sintéticos en el curso). Un groupby de demo impresiona menos en entrevista junior que un pipeline fail-closed con reconcile por fuente. El análisis tabular con pandas llega más adelante en el nivel de datos; aquí cierras ingesta confiable.
+
+Abrir archivos con pathlib/Path y with; encoding utf-8 explícito
+
+Manejar newlines y escritura atómica (temp + replace)
+
+Leer/escribir CSV con headers y casts controlados
+
+Enviar filas irregulares a cuarentena con motivo
+
+Serializar/deserializar JSON (array y JSONL)
+
+Validar schema mínimo, nulls y defaults compatibles
+
+Calcular hashes, backup y provenance de inputs
+
+Emitir manifest con conteos reconciliados in=clean+quarantine
+
+Al finalizar S08 demuestras un ETL local reproducible: clean + quarantine + manifest reconciliado por fuente, con hash del crudo y exit ≠ 0 si no cuadra. El CLI instalable llega en S10. Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.
+
+En Windows el default de texto no siempre es UTF-8. Para intake del gate: encoding='utf-8' siempre; si el export trae BOM de Excel, usa 'utf-8-sig' de forma documentada.
+
+Evita open(dest,'w') largos sin temp: un crash mid-write deja basura a consumidores del clean. Contrato del curso: name + '.tmp' + os.replace.
+
+InvalidOperation en monto → cuarentena con {raw, reason}. Export Excel en Latam suele usar delimiter=';' y a veces BOM: encoding='utf-8-sig'.
+
+La fila extra se pierde o desalinea columnas y corrompe n_in del manifest. Siempre quarantine + reason; nunca “arreglar” a ciegas.
+
+Para logs append-friendly de txs: una línea = un json.dumps(row). El demo I Do de T3-A escribe array y JSONL.
+
+Documenta en el contrato si null borra el valor o significa unknown. En Python: 'email' in obj distingue clave presente (aunque sea None) de clave ausente.
+
+El manifest referencia el hash del archivo crudo, no del clean. Si el clean cambia por una regla nueva, el hash del input debe seguir identificando la misma evidencia.
+
+Si reconcile falla, el pipeline debe terminar con exit non-zero. Clean y quarantine siempre explicables.
+
+S09 no cambia el stack de archivos: enseña a observar y fallar con traza cuando el contrato de ingesta se rompe en producción. Tu manifest de CP-N1-B sigue siendo la evidencia de conteos; el log cuenta el cómo falló.
+
+Ocho demos I Do (T1→T4) en local-python (filesystem/temp). Cada una modela una pieza del ETL del gate CP-N1-B: leé el código, anticipá la salida, luego contrastá. Datos sintéticos únicamente — sin PII real.
+
+Leer y escribir intake UTF-8 con Path
+
+Sin Path + UTF-8 explícito, el resto del ETL (CSV, JSON, hash) hereda mojibake y rutas frágiles. Esta demo es el primer ladrillo del gate.
+
+os.replace hace el swap atómico del artefacto de salida. Contrato único del curso: tmp = dest.with_name(dest.name + '.tmp') en el mismo directorio; al terminar no queda basura .tmp.
+
+Ingesta CSV con monto Decimal y fecha ISO string
+
+DictReader + Decimal desde texto, quantize a 0.01 y serialización como string: el mismo contrato de dinero de S02, ahora sobre filas CSV reales del pipeline.
+
+Cuarentena con reason estable (col_count) deja audit trail; clean solo tiene filas sanas. Sin esto, el reconcile de T4 no tiene de dónde sacar n_quarantine.
+
+Exportar results a JSON array + JSONL
+
+Array JSON para batch pequeño y relectura completa; JSONL (una línea = un objeto) para append y streaming de txs. Ambos salen del mismo list de dicts — eliges el formato por el caso de uso.
+
+Required estricto protege el gate; defaults opcionales (setdefault) permiten evolucionar el contrato sin romper productores viejos.
+
+sha256 de input CSV + backup .bak
+
+Hash + backup del crudo son la provenance mínima del gate: el manifest debe poder decir “corrimos sobre este bytes exactos”.
+
+manifest.json de una corrida ETL
+
+El manifest prueba reconciliación por fuente y agregada; ninguna fuente puede esconder pérdidas detrás de otra. Es la pieza final antes de ensamblar el You Do.
+
+Andamiaje E1→E2→E3 × 8 (24 ejercicios). Solo stdlib (pathlib, csv, json, hashlib, shutil, Decimal). Fail-closed en reconcile. Mapa puente al You Do (ensamblaje): T1-A → Path/read_text · T1-B → write_atomic · T2-A → cast Decimal + dialecto · T2-B → split clean/quarantine + reason · T3-A → JSON/JSONL · T3-B → validate_schema · T4-A → sha256 + backup · T4-B → manifest + run fail-closed. Al terminar T4 deberías reutilizar cada pieza sin mirar la solución; el proyecto CP-N1-B solo las conecta en un run(data_dir, out_dir). El E3 de T4-B es el mini-ensamblaje de salida (publicar solo si reconcilia).
+
+E1 (guiado) — Path write/exists: en un temp dir, crea demo.txt con write_text('hola', encoding='utf-8'), imprime p.exists(). Pass: True. Solo stdlib.
+
+exists evita abrir a ciegas.
+
+E2 (independiente) — Escribe tres líneas (a, b, c) con with path.open('w', encoding='utf-8'), relee con strip e imprime la lista. Pass: ['a', 'b', 'c']. Solo stdlib.
+
+with cierra el handle aunque falle el cuerpo.
+
+E3 (transferencia) — Escribe bytes no válidos en UTF-8 (write_bytes), intenta read_text(encoding='utf-8'), captura UnicodeDecodeError, imprime el nombre de la excepción y una acción (cuarentenar o reintentar con encoding documentado). Pass: primera línea UnicodeDecodeError.
+
+Encoding roto → cuarentena de archivo, no crash silencioso a medias.
+
+E1 (guiado) — Detecta CRLF: con samples win = b'a\r\nb\r\n' y unix = b'a\nb\n', imprime si cada uno contiene b'\r\n' (True luego False). Solo stdlib.
+
+Detectar newlines documenta origen del archivo.
+
+E2 (independiente) — Implementa write_atomic(path, text) con temp en el mismo dir: tmp = path.with_name(path.name + '.tmp') + os.replace. Escribe 'ok\n' e imprime el contenido final. Pass: línea ok. Solo stdlib.
+
+Pieza reutilizable del ETL de salida. Contrato tmp: name + '.tmp'.
+
+E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL', imprime mid …; luego atomic replace a 'COMPLETO' e imprime final …. Pass: mid PARCIAL y final COMPLETO.
+
+Atomic no arregla el pasado parcial; evita el estado intermedio al consumidor.
+
+E1 (guiado) — Con csv.DictReader sobre un StringIO cuyo header es id,nombre e imprime cada fila como dict. Pass: {'id': 'C001', 'nombre': 'Ana'}. Solo stdlib.
+
+DictReader mapea columnas por nombre.
+
+E2 (independiente) — Escribe CSV con DictWriter (fieldnames id,nombre): writeheader + una fila, relee e imprime len(rows) y rows[0]. Pass: 1 y el dict de Ana. Solo stdlib.
+
+Writer con header estable es contrato de salida clean.
+
+E3 (transferencia) — Cast de monto: Decimal desde texto + quantize a 0.01; si InvalidOperation → reject … motivo=cast_monto. Procesa ['10', 'x', '3.5']. Pass: ok 10.00 / reject x motivo=cast_monto / ok 3.50. Sin float().
+
+Cast fallido alimenta cuarentena con motivo.
+
+E1 (guiado) — Detecta fila irregular: header len 2, row = ['C1','Ana','x'] → len(row) != len(header) es True. Imprime el booleano. Pass: True.
+
+Chequeo barato antes de Dict zip.
+
+E2 (independiente) — Escribe una fila de cuarentena {raw, reason} a CSV en temp (newline='', fieldnames raw,reason), relee e imprime reason. Pass: col_count. Solo stdlib.
+
+Cuarentena es archivo de primera clase del gate.
+
+E3 (transferencia) — Dada reasons = ['col_count', 'cast_monto', 'col_count', 'schema'], imprime contador sorted: reason count por línea. Pass: cast_monto 1, col_count 2, schema 1.
+
+Resumen de motivos entra al manifest.
+
+E1 (guiado) — Parsea el string JSON crudo con id C001 usando json.loads (sin slices manuales del texto) e imprime obj['id']. Pass: C001. Solo stdlib.
+
+E2 (independiente) — Serializa un dict con tilde: json.dumps({'nombre': 'José'}, ensure_ascii=False) e imprime el string con José legible (sin escapes \u00e9). Pass: {"nombre": "José"}. Solo stdlib; útil para logs y clean en Latam.
+
+ensure_ascii=False para logs Latam legibles.
+
+E3 (transferencia) — Intenta json.dumps de un dict con datetime; captura TypeError e imprime el nombre de la excepción; luego serializa con .isoformat(). Pass: TypeError y {"ts": "2026-01-15T10:00:00"}.
+
+Serializa tipos no-JSON de forma explícita.
+
+E1 (guiado) — Implementa validate_schema(obj, required): con obj={'id':'C1'} y required=['id','email'] devuelves (False, ['email']) porque falta la clave. Imprime el tuple. Solo stdlib.
+
+Schema mínimo del contrato de ingesta.
+
+E2 (independiente) — Null explícito: obj = {'id':'C1','email': None}. Imprime 'email' in obj y obj['email']. Pass: True luego None (clave presente con valor nulo ≠ clave ausente).
+
+null JSON llega como None con clave presente.
+
+E3 (transferencia) — Añade campo opcional segment con default 'standard' vía setdefault sin pisar si ya existe. Dos objs: sin segment y con vip. Pass: {'id': 'C1', 'segment': 'standard'} y {'id': 'C2', 'segment': 'vip'}.
+
+E1 (guiado) — Escribe b'abc' a un temp file, calcula sha256 hex e imprime los primeros 8 chars y len(dig) (64). Pass: ba7816bf 64. Solo stdlib.
+
+Fingerprint del input para el manifest.
+
+E2 (independiente) — En un temp dir escribe in.csv con 'a\n', copia a in.csv.bak con shutil.copy2, e imprime si bak.read_bytes() == src.read_bytes(). Pass: True. Solo stdlib.
+
+Backup antes de cualquier mutación del workspace de entrada.
+
+E3 (transferencia) — Arma dict de provenance {path, sha256, bytes} para un temp clients.csv con contenido id\nC1\n (path solo name). Imprime el dict. Pass: path clients.csv, sha256 b776a3a3…, bytes 6.
+
+Provenance mínima por fuente del gate.
+
+E1 (guiado) — Construye un manifest con run_id y sources (clients.csv + transactions.json): cada fuente con name, sha256, n_in, n_clean, n_quarantine y reconcile_ok derivado. Totales con sum; no hardcodees. Pass: totales 5 4 1, ambas fuentes True, manifest True.
+
+El contrato conserva provenance y conteos por fuente.
+
+E2 (independiente) — Implementa reconcile_sources(sources): exige n_in == n_clean + n_quarantine por cada fuente y que los totales derivados cuadren. Pruébalo con un caso good y un compensated_bad (agregado 10==9+1 pero fuentes rotas). Pass: True luego False.
+
+La igualdad agregada sola es insuficiente.
+
+E3 (transferencia · mini-ensamblaje pre–You Do) — Implementa run(sources) como el núcleo de salida del ETL: publica solo si todas las fuentes cumplen n_in == n_clean + n_quarantine. Caso good (clients.csv 4=2+2) → OK / exit_code 0. Caso compensated_bad (clients y transactions rotos) → ERROR sources=clients.csv,transactions.json / exit_code 1. Fail-closed: no digas OK si alguna fuente no cuadra. Este es el mismo contrato que run() del You Do.
+
+Fail-closed protege consumidores del clean. En el You Do, este if es el último paso de run() antes de SystemExit.
+
+Cierras el gate CP-N1-B. Los We Do de T1–T4 te dieron las piezas; aquí las ensamblas en un ETL local-python. Receta de ensamblaje (orden sugerido): (1) sha256_file + backup del crudo (T4-A); (2) load_clients_csv con dialecto, Decimal, newline='' y cuarentena {raw, reason} (T2); (3) load_transactions_json con validate_schema + Decimal (T3); (4) write_atomic de clean y quarantine (T1-B); (5) build_manifest con totales derivados y reconcile_ok por fuente (T4-B); (6) run retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B). Rutas: data/clients.csv + data/transactions.json (sintéticos) → out/clean/, out/quarantine/, out/manifest.json. CLI instalable llega en S10. Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.
+
+Adjunta: (1) manifest de demo con reconcile_ok por fuente, (2) al menos 1 fila de cuarentena con reason estable, (3) hashes de ambos inputs crudos, (4) un test o corrida de reconciliación fallida (exit 1). Esa carpeta es la evidencia del gate CP-N1-B ante un revisor o entrevista junior de data engineering.
+
+¿Por qué declarar encoding='utf-8' al abrir texto?
+
+El default de texto no es portátil; UTF-8 explícito evita mojibake y DecodeError sorpresa.
+
+¿Cuál es la escritura atómica típica en este curso?
+
+temp + replace evita dejar dest truncado si hay crash mid-write. Contrato: path.with_name(path.name + '.tmp').
+
+Una fila CSV con columnas de más debe…
+
+Irregular → quarantine + reason estable; no desalinear en silencio.
+
+Reconciliación del manifest por fuente exige…
+
+Toda fila de entrada termina en clean o quarantine (para esa fuente).
+
+Si reconcile falla, el pipeline debe…
+
+Fail-closed protege a consumidores; el gate exige conteos cuadrados.
+
+En el manifest de ingesta, el sha256 debe calcularse sobre…
+
+La provenance fija el input; si el crudo cambia, el hash cambia.
+
+¿Qué es JSONL en este gate?
+
+JSONL: una línea = un json.dumps(row). Útil para streams de transacciones.
+
+Para montos en CSV/JSON del gate, ¿qué contrato usás?
+
+Continúa el contrato de S02: Decimal, nunca float; fallos de cast → cuarentena.
+
+null JSON con clave presente vs clave ausente…
+
+'email' in obj es True si email: null; False si la clave no existe.
+
+¿Por qué no alcanza validar solo n_in == n_clean + n_quarantine en el total agregado?
+
+Reconciliación por fuente evita errores compensados entre CSV y JSON.
+
+Al abrir un CSV en disco con el módulo csv, ¿por qué usas newline=''?
+
+newline='' deja el control de líneas al módulo csv; sin eso, Windows puede romper el dialecto al re-leer el clean.

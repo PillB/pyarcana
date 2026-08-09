@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 52,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-exp-s52-e847e2dd8d1e",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,\"metrics\":{\"ttr\",\"review_precision\"},\"baseline_frozen\":True}}\nmeets_contract = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S52-T1-A-E1, el fixture CASO-PER-052-1A deja ver que stakeholders/jobs/métricas y baseline revalidados. Corregí el predicado defectuoso del starter para que el escenario de «stakeholders, jobs y success metrics de CF-1» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_frozen', 'case_id', 'jobs', 'metrics', 'stakeholders'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"PASS\" if ok else \"REOPEN_CF1\"\n\nvalid = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\ninvalid = {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'baseline_frozen'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T1-A-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PER-052-1A reconstruí meets_contract alineado a «stakeholders, jobs y success metrics de CF-1» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'baseline_frozen', 'case_id', 'jobs', 'metrics', 'stakeholders'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"INTERVIEW_STAKEHOLDER\"\n    ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"CONTINUE\" if ok else \"REOPEN_CF1\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}},\n    {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-1A', **{'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}}.items() if k != 'baseline_frozen'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de stakeholders, jobs y success metrics de CF-1 en S52-T1-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_with_owner\":5,\"no_go\":{\"real-pii\",\"auto-risk-decision\"},\"residual_risk_accepted\":True}}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n",
+      "justification_from_packet": "En el paquete activo de S52-T1-B-E1, el fixture CASO-PER-052-1B deja ver que constraints, riesgos con owner y no-go explícitos. Corregí el predicado defectuoso del starter para que el escenario de «cambios, constraints, riesgos y no-go» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'constraints', 'no_go', 'residual_risk_accepted', 'risks_with_owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"PASS\" if ok else \"DECLARE_NO_GO\"\n\nvalid = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}}\ninvalid = {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': set(), 'residual_risk_accepted': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'residual_risk_accepted'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S52-T1-B-E2, el fixture CASO-PER-052-1B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «cambios, constraints, riesgos y no-go» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'constraints', 'no_go', 'residual_risk_accepted', 'risks_with_owner'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"INDEPENDENT_RISK_REVIEW\"\n    ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"CONTINUE\" if ok else \"DECLARE_NO_GO\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}},\n    {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': set(), 'residual_risk_accepted': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-1B', **{'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}}.items() if k != 'residual_risk_accepted'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T1-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PER-052-1B reconstruí meets_contract alineado a «cambios, constraints, riesgos y no-go» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de bounded contexts, APIs y eventos en S52-T2-A-E1. El paquete indica cinco contexts, contratos versionados y sin DB compartida; por eso el código valida CASO-PER-052-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'apis_versioned', 'case_id', 'contexts', 'contract_tests', 'events_versioned', 'shared_database'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"PASS\" if ok else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\ninvalid = {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}\nincomplete = {k: v for k, v in valid.items() if k != 'contract_tests'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de bounded contexts, APIs y eventos en S52-T2-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'apis_versioned', 'case_id', 'contexts', 'contract_tests', 'events_versioned', 'shared_database'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MAP_BOUNDED_CONTEXTS\"\n    ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"CONTINUE\" if ok else \"STOP_INTEGRATION_RELEASE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}},\n    {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-2A', **{'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}}.items() if k != 'contract_tests'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T2-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PER-052-2A reconstruí meets_contract alineado a «bounded contexts, APIs y eventos» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_prepares_draft\":True,\"rag_cites\":True,\"human_decides\":True,\"infers_fraud\":False}}\nmeets_contract = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n",
+      "justification_from_packet": "En el paquete activo de S52-T2-B-E1, el fixture CASO-PER-052-2B deja ver que ER/triage/RPA/RAG apoyan y persona decide. Corregí el predicado defectuoso del starter para que el escenario de «datos, modelos, RPA, RAG y human workflow» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'er_proposes_match', 'human_decides', 'infers_fraud', 'rag_cites', 'rpa_prepares_draft', 'triage_prioritizes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"PASS\" if ok else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}}\ninvalid = {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}}\nincomplete = {k: v for k, v in valid.items() if k != 'infers_fraud'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T2-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PER-052-2B reconstruí meets_contract alineado a «datos, modelos, RPA, RAG y human workflow» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'er_proposes_match', 'human_decides', 'infers_fraud', 'rag_cites', 'rpa_prepares_draft', 'triage_prioritizes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REQUEST_HUMAN_REVIEW\"\n    ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"CONTINUE\" if ok else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}},\n    {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-2B', **{'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}}.items() if k != 'infers_fraud'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S52-T2-B-E3, el fixture CASO-PER-052-2B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «datos, modelos, RPA, RAG y human workflow» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":True,\"red_team\":True,\"performance\":True,\"open_p0\":0,\"open_p1\":0}}\nmeets_contract = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T3-A-E1: la operación debe demostrar seis capas de verificación y cero P0/P1. Con el caso sintético CASO-PER-052-3A reconstruí meets_contract alineado a «tests/evals/red team y performance» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'contract', 'evals', 'integration', 'open_p0', 'open_p1', 'performance', 'red_team', 'unit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"PASS\" if ok else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\ninvalid = {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 0, 'open_p1': 0}}\nincomplete = {k: v for k, v in valid.items() if k != 'open_p1'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de tests/evals/red team y performance en S52-T3-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-3A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'contract', 'evals', 'integration', 'open_p0', 'open_p1', 'performance', 'red_team', 'unit'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"FIX_AND_RERUN_REGRESSION\"\n    ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"CONTINUE\" if ok else \"BLOCK_FINAL_ON_P0_P1\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}},\n    {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 0, 'open_p1': 0}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-3A', **{'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}}.items() if k != 'open_p1'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de tests/evals/red team y performance en S52-T3-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-3A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\":4,\"rollback_min\":8,\"rto_min\":15,\"disaster_exercise\":True}}\nmeets_contract = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T3-B-E1: la operación debe demostrar SLO/RPO/RTO y disaster drill aprobados. Con el caso sintético CASO-PER-052-3B reconstruí meets_contract alineado a «SLO, backup, rollback y disaster exercise» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'availability', 'backup_age_h', 'case_id', 'disaster_exercise', 'rollback_min', 'rpo_h', 'rto_min', 'slo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"PASS\" if ok else \"NO_GO_RESILIENCE\"\n\nvalid = {\"case_id\": 'CASO-PER-052-3B', **{'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\ninvalid = {\"case_id\": 'CASO-PER-052-3B', **{'availability': -0.0010000000000000009, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'disaster_exercise'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de SLO, backup, rollback y disaster exercise en S52-T3-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'availability', 'backup_age_h', 'case_id', 'disaster_exercise', 'rollback_min', 'rpo_h', 'rto_min', 'slo'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RUN_DISASTER_EXERCISE\"\n    ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"CONTINUE\" if ok else \"NO_GO_RESILIENCE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-3B', **{'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}},\n    {\"case_id\": 'CASO-PER-052-3B', **{'availability': -0.0010000000000000009, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-3B', **{'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}}.items() if k != 'disaster_exercise'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T3-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PER-052-3B reconstruí meets_contract alineado a «SLO, backup, rollback y disaster exercise» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S52-T4-A-E1: la operación debe demostrar mejora vs baseline sintético y narrativa atribuible. Con el caso sintético CASO-PER-052-4A reconstruí meets_contract alineado a «demo y narrativa CV» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'demo_minutes', 'personal_contribution', 'result_ttr_min'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"PASS\" if ok else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\ninvalid = {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 0, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'personal_contribution'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S52-T4-A-E2, el fixture CASO-PER-052-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «demo y narrativa CV» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'baseline_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'demo_minutes', 'personal_contribution', 'result_ttr_min'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RECORD_PERSONAL_CONTRIBUTION\"\n    ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"CONTINUE\" if ok else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}},\n    {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 0, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-4A', **{'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}}.items() if k != 'personal_contribution'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de demo y narrativa CV en S52-T4-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-4A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de arquitectura, READMEs, cards, licencia, video y defensa en S52-T4-B-E1. El paquete indica ocho artefactos, ejecución, trade-offs y rúbrica independiente; por eso el código valida CASO-PER-052-4B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifacts', 'case_id', 'cpn4c_independent', 'reproducible_command', 'tradeoffs_defended'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\n    return \"PASS\" if ok else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\ninvalid = {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': set(), 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'cpn4c_independent'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de arquitectura, READMEs, cards, licencia, video y defensa en S52-T4-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PER-052-4B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'artifacts', 'case_id', 'cpn4c_independent', 'reproducible_command', 'tradeoffs_defended'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"SCHEDULE_TECHNICAL_DEFENSE\"\n    ok = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\n    return \"CONTINUE\" if ok else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}},\n    {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': set(), 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PER-052-4B', **{'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}}.items() if k != 'cpn4c_independent'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S52-T4-B-E3, el fixture CASO-PER-052-4B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «arquitectura, READMEs, cards, licencia, video y defensa» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.75
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En self-check Q0 de S52 elegí «matriz stakeholder/job/métrica con evidencia» porque el theory/outcomes del paquete describen esa evidencia (Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. ). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En self-check Q1 de S52 elegí «emitir NO_GO_RELEASE y conservar evidencia» porque el theory/outcomes del paquete describen esa evidencia (Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. ). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En self-check Q2 de S52 elegí «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C» porque el theory/outcomes del paquete describen esa evidencia (Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. ). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Para la pregunta «¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?…» el packet de S52 sostiene «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.89
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:04:35.419836+00:00",
+  "session_started_at": "2026-07-23T18:03:28.540057+00:00",
+  "session_ended_at": "2026-07-23T18:04:35.416042+00:00",
+  "receipt_response_sha256": "21f3544c0692dff8c52cdc9f70624113eb1728f968fe5ecfa19dba0265c10025",
+  "receipt_exercises_sha256": "76259b4cd604cd958efab8a5b44bd4002005c48db7050b8bf0bc407256723c3a",
+  "receipt_selfcheck_sha256": "6fb9ec9913d34ecbbacfaafbbc232756e7b96c7b0e06e85c51c0e26449677b56"
+}

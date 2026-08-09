@@ -1,4 +1,5 @@
 import * as React from "react"
+import Link from "next/link"
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -46,9 +47,14 @@ function PaginationLink({
   className,
   isActive,
   size = "icon",
+  href,
   ...props
 }: PaginationLinkProps) {
-  return (
+  // When an `href` is provided, route through next/link so the configured
+  // basePath is applied automatically on static exports (e.g. /pyarcana on
+  // GitHub Pages). Without this, a raw <a href="/route"> would bypass
+  // basePath and 404 at the domain root.
+  const body = (
     <a
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
@@ -63,6 +69,10 @@ function PaginationLink({
       {...props}
     />
   )
+  if (href) {
+    return <Link href={href}>{body}</Link>
+  }
+  return body
 }
 
 function PaginationPrevious({

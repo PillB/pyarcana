@@ -1,0 +1,1082 @@
+{
+  "version": "3.2",
+  "section": "S14",
+  "section_id": "security",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S14 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S14 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s14-security.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "security",
+    "index": 14,
+    "title_platform": "Seguridad para Automatizaciones e Inteligencia Artificial",
+    "title_v3": "NumPy y cómputo vectorizado",
+    "title_decision": "KEEP platform id 'security' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al basel",
+    "estimatedHours": 10,
+    "level": "Principiante avanzado a competente",
+    "phase": 1,
+    "prerequisites": [
+      "Nivel 1 (S01–S13)"
+    ],
+    "environment": "local/browser compatible",
+    "project_capstone": "CP-N2-A (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "security",
+    "platform_title": "Seguridad para Automatizaciones e Inteligencia Artificial",
+    "v3_title": "NumPy y cómputo vectorizado",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante construye y valida ndarrays con dtype y shape correctos.",
+    "El estudiante indexa y filtra con máscaras booleanas de forma segura.",
+    "El estudiante aplica ufuncs y reducciones por eje para métricas de calidad.",
+    "El estudiante resuelve broadcasting y documenta compatibilidad de shapes.",
+    "El estudiante distingue views de copies y controla mutabilidad.",
+    "El estudiante maneja NaN/inf y evalúa estabilidad numérica.",
+    "El estudiante vectoriza frente a loops con benchmark honesto.",
+    "El estudiante mide memoria y prueba equivalencia con tolerancia."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S14-T1-A",
+      "slug": "ndarray-dtype-shape",
+      "title": "ndarray, dtype y shape"
+    },
+    {
+      "subtopic_id": "S14-T1-B",
+      "slug": "create-index-masks",
+      "title": "creación, indexación y máscaras"
+    },
+    {
+      "subtopic_id": "S14-T2-A",
+      "slug": "ufuncs-reductions",
+      "title": "ufuncs y reducciones"
+    },
+    {
+      "subtopic_id": "S14-T2-B",
+      "slug": "broadcasting-shapes",
+      "title": "broadcasting y compatibilidad de shapes"
+    },
+    {
+      "subtopic_id": "S14-T3-A",
+      "slug": "views-copies-mutability",
+      "title": "views/copies y mutabilidad"
+    },
+    {
+      "subtopic_id": "S14-T3-B",
+      "slug": "nan-inf-stability",
+      "title": "NaN, inf y estabilidad numérica"
+    },
+    {
+      "subtopic_id": "S14-T4-A",
+      "slug": "vectorize-vs-loops",
+      "title": "vectorización frente a loops"
+    },
+    {
+      "subtopic_id": "S14-T4-B",
+      "slug": "memory-measure-tol-tests",
+      "title": "memoria, medición y tests con tolerancia"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S14-T1",
+      "title": "Arrays",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S14-T1-A",
+          "slug": "ndarray-dtype-shape",
+          "title": "ndarray, dtype y shape",
+          "outcome": "El estudiante construye y valida ndarrays con dtype y shape correctos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ndarray, dtype y shape",
+              "must_cover": [
+                "ndarray",
+                "dtype",
+                "shape",
+                "ndim",
+                "itemsize"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T1-A-DEMO",
+              "title": "Crear array con dtype/shape documentados y validar ndim",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T1-A-E1",
+                "kind": "guided",
+                "title": "ndarray, dtype y shape — guided",
+                "skill": "ndarray",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T1-A-E2",
+                "kind": "independent",
+                "title": "ndarray, dtype y shape — independent",
+                "skill": "ndarray",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T1-A-E3",
+                "kind": "transfer",
+                "title": "ndarray, dtype y shape — transfer",
+                "skill": "ndarray",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S14-T1-B",
+          "slug": "create-index-masks",
+          "title": "creación, indexación y máscaras",
+          "outcome": "El estudiante indexa y filtra con máscaras booleanas de forma segura.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "creación, indexación y máscaras",
+              "must_cover": [
+                "np.array",
+                "arange/linspace",
+                "fancy index",
+                "boolean masks"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T1-B-DEMO",
+              "title": "Indexar y filtrar con máscara booleana sin copiar de más",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T1-B-E1",
+                "kind": "guided",
+                "title": "creación, indexación y máscaras — guided",
+                "skill": "create",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T1-B-E2",
+                "kind": "independent",
+                "title": "creación, indexación y máscaras — independent",
+                "skill": "create",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T1-B-E3",
+                "kind": "transfer",
+                "title": "creación, indexación y máscaras — transfer",
+                "skill": "create",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S14-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S14-T1-EVAL-1",
+            "title": "ndarray, dtype y shape — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S14-T1-EVAL-2",
+            "title": "creación, indexación y máscaras — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S14-T2",
+      "title": "Operaciones",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S14-T2-A",
+          "slug": "ufuncs-reductions",
+          "title": "ufuncs y reducciones",
+          "outcome": "El estudiante aplica ufuncs y reducciones por eje para métricas de calidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ufuncs y reducciones",
+              "must_cover": [
+                "ufunc",
+                "sum/mean/std",
+                "axis",
+                "keepdims"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T2-A-DEMO",
+              "title": "Reducir métricas por eje con ufuncs",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T2-A-E1",
+                "kind": "guided",
+                "title": "ufuncs y reducciones — guided",
+                "skill": "ufuncs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T2-A-E2",
+                "kind": "independent",
+                "title": "ufuncs y reducciones — independent",
+                "skill": "ufuncs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T2-A-E3",
+                "kind": "transfer",
+                "title": "ufuncs y reducciones — transfer",
+                "skill": "ufuncs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S14-T2-B",
+          "slug": "broadcasting-shapes",
+          "title": "broadcasting y compatibilidad de shapes",
+          "outcome": "El estudiante resuelve broadcasting y documenta compatibilidad de shapes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "broadcasting y compatibilidad de shapes",
+              "must_cover": [
+                "broadcast rules",
+                "newaxis",
+                "shape errors"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T2-B-DEMO",
+              "title": "Alinear shapes incompatibles vía broadcast explícito",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T2-B-E1",
+                "kind": "guided",
+                "title": "broadcasting y compatibilidad de shapes — guided",
+                "skill": "broadcasting",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T2-B-E2",
+                "kind": "independent",
+                "title": "broadcasting y compatibilidad de shapes — independent",
+                "skill": "broadcasting",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T2-B-E3",
+                "kind": "transfer",
+                "title": "broadcasting y compatibilidad de shapes — transfer",
+                "skill": "broadcasting",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S14-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S14-T2-EVAL-1",
+            "title": "ufuncs y reducciones — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S14-T2-EVAL-2",
+            "title": "broadcasting y compatibilidad de shapes — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S14-T3",
+      "title": "Semántica",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S14-T3-A",
+          "slug": "views-copies-mutability",
+          "title": "views/copies y mutabilidad",
+          "outcome": "El estudiante distingue views de copies y controla mutabilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "views/copies y mutabilidad",
+              "must_cover": [
+                "view vs copy",
+                "base",
+                "writeable",
+                "side effects"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T3-A-DEMO",
+              "title": "Demostrar mutación vía view y aislar con copy",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T3-A-E1",
+                "kind": "guided",
+                "title": "views/copies y mutabilidad — guided",
+                "skill": "views",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T3-A-E2",
+                "kind": "independent",
+                "title": "views/copies y mutabilidad — independent",
+                "skill": "views",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T3-A-E3",
+                "kind": "transfer",
+                "title": "views/copies y mutabilidad — transfer",
+                "skill": "views",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S14-T3-B",
+          "slug": "nan-inf-stability",
+          "title": "NaN, inf y estabilidad numérica",
+          "outcome": "El estudiante maneja NaN/inf y evalúa estabilidad numérica.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "NaN, inf y estabilidad numérica",
+              "must_cover": [
+                "isnan/isinf",
+                "nansum",
+                "eps",
+                "overflow"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T3-B-DEMO",
+              "title": "Calcular métrica robusta ignorando NaN/inf documentados",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T3-B-E1",
+                "kind": "guided",
+                "title": "NaN, inf y estabilidad numérica — guided",
+                "skill": "nan",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T3-B-E2",
+                "kind": "independent",
+                "title": "NaN, inf y estabilidad numérica — independent",
+                "skill": "nan",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T3-B-E3",
+                "kind": "transfer",
+                "title": "NaN, inf y estabilidad numérica — transfer",
+                "skill": "nan",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S14-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S14-T3-EVAL-1",
+            "title": "views/copies y mutabilidad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S14-T3-EVAL-2",
+            "title": "NaN, inf y estabilidad numérica — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S14-T4",
+      "title": "Rendimiento",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S14-T4-A",
+          "slug": "vectorize-vs-loops",
+          "title": "vectorización frente a loops",
+          "outcome": "El estudiante vectoriza frente a loops con benchmark honesto.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "vectorización frente a loops",
+              "must_cover": [
+                "vectorize",
+                "python loops cost",
+                "timing"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T4-A-DEMO",
+              "title": "Comparar loop vs vectorizado con timing honesto",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T4-A-E1",
+                "kind": "guided",
+                "title": "vectorización frente a loops — guided",
+                "skill": "vectorize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T4-A-E2",
+                "kind": "independent",
+                "title": "vectorización frente a loops — independent",
+                "skill": "vectorize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T4-A-E3",
+                "kind": "transfer",
+                "title": "vectorización frente a loops — transfer",
+                "skill": "vectorize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S14-T4-B",
+          "slug": "memory-measure-tol-tests",
+          "title": "memoria, medición y tests con tolerancia",
+          "outcome": "El estudiante mide memoria y prueba equivalencia con tolerancia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "memoria, medición y tests con tolerancia",
+              "must_cover": [
+                "nbytes",
+                "timeit",
+                "allclose",
+                "rtol/atol"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S14-T4-B-DEMO",
+              "title": "Test con np.allclose y presupuesto de memoria",
+              "environment": "local/browser compatible",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S14-T4-B-E1",
+                "kind": "guided",
+                "title": "memoria, medición y tests con tolerancia — guided",
+                "skill": "memory",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T4-B-E2",
+                "kind": "independent",
+                "title": "memoria, medición y tests con tolerancia — independent",
+                "skill": "memory",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S14-T4-B-E3",
+                "kind": "transfer",
+                "title": "memoria, medición y tests con tolerancia — transfer",
+                "skill": "memory",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S14-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S14-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S14-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S14-T4-EVAL-1",
+            "title": "vectorización frente a loops — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S14-T4-EVAL-2",
+            "title": "memoria, medición y tests con tolerancia — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S14-PROJ",
+    "title": "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)",
+    "replaces_legacy": "Legacy You Do de 'Seguridad para Automatizaciones e Inteligencia Artificial' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Implementar métricas de calidad vectorizadas (completitud, unicidad, rangos)",
+      "Calcular señales por pares con broadcasting documentado",
+      "Benchmark loop vs vectorizado con resultados equivalentes",
+      "Tests con allclose y datasets sintéticos"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-A (inicio)",
+    "increment_gate": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'security' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s14-security.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Seguridad para Automatizaciones e Inteligencia Artificial' vs 'NumPy y cómputo vectorizado'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-A (inicio)",
+    "increment_gate": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+    "project_id": "S14-PROJ",
+    "section_passed": false,
+    "notes": "S14 contributes to CP-N2-A (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Seguridad para Automatizaciones e Inteligencia Artificial' until product rename; large topic mismatch vs V3 'NumPy y cómputo vectorizado'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S14-T1-A first"
+  }
+}

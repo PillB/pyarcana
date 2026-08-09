@@ -1,0 +1,27 @@
+{
+  "status": "parity_verified",
+  "merged_sha": "038c2352ccc48f65b901c0689d2564f614a2cf96",
+  "tested_pr_tip_sha": "5bf0e89144b1b7954c8bfab44a33724090f93f36",
+  "tree_id": "9c115a7ed411b435ea06a0e8e53785d87cee8468",
+  "deploy_run": 31219792163,
+  "deploy_head_sha": "038c2352ccc48f65b901c0689d2564f614a2cf96",
+  "live_url": "https://pillb.github.io/pyarcana/",
+  "live_http": 200,
+  "live_last_modified": "Fri, 07 Aug 2026 21:24:00 GMT",
+  "live_content_markers": {
+    "PyArcana": true,
+    "Edición pública": true,
+    "static-site-notice": true,
+    "El arte de aprender Python": true
+  },
+  "live_assets": {
+    "logo.svg": 200,
+    "favicon.svg": 200
+  },
+  "live_playwright": {
+    "round1": "11/11 pass",
+    "round2": "11/11 pass"
+  },
+  "progress_fixtures": "progress-preservation 17/17 pass after deploy",
+  "curriculum_ids": "52 sections, 1248 exercises retained"
+}

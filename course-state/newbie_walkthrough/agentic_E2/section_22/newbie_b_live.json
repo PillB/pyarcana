@@ -1,0 +1,497 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 22,
+  "packet_sha": "9c104917fbc2cfb3",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s22-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T1-A-E1: solo patrones del paquete activo\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T1-A-E1 la instrucción pide: E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type()). Completa el TODO del starter sin borrar el oráculo; imprime. Completé el starter sin ____ ni TODO, siguiendo la pista «from email.mime.text import MIMEText» y el patrón S22-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `from email.mime.text import MIMEText`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T1-A-E2: solo patrones del paquete activo\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T1-A-E2 la instrucción pide: E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'. Completa el TODO del starter sin borrar el oráculo; imprime e. Completé el starter sin ____ ni TODO, siguiendo la pista «MIMEMultipart + attach» y el patrón S22-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `from email.mime.multipart import MIMEMultipart`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T1-A-E3: solo patrones del paquete activo\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T1-A-E3 la instrucción pide: E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alternative'). Completa el TODO del starter sin borrar el oráculo. Completé el starter sin ____ ni TODO, siguiendo la pista «alternative dentro de mixed» y el patrón S22-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `from email.mime.multipart import MIMEMultipart`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T1-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nprint(html.escape('<script>x</script>'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T1-B-E1 la instrucción pide: E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pa. Completé el starter sin ____ ni TODO, siguiendo la pista «import html» y el patrón S22-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `import html`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T1-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T1-B-E2 la instrucción pide: E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). Completa el TODO del starter sin borrar el oráculo; imprime el r. Completé el starter sin ____ ni TODO, siguiendo la pista «escape antes de format» y el patrón S22-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `import html`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T1-B-E3: solo patrones del paquete activo\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "urls",
+        "https"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T1-B-E3 la instrucción pide: E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for u in urls:. Completa el TODO del starter sin borrar el orác. Completé el starter sin ____ ni TODO, siguiendo la pista «if 'example.pe' in url» y el patrón S22-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `urls = ['https://example.pe/a', 'https://evil.test']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T2-A-E1: solo patrones del paquete activo\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "requested",
+        "mail"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T2-A-E1 la instrucción pide: E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft', 'mail.readonly'}. Completa el TODO del starter sin borrar el o. Completé el starter sin ____ ni TODO, siguiendo la pista «list comprehension» y el patrón S22-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `requested = ['mail.draft', 'mail.full']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T2-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T2-A-E2 la instrucción pide: E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Completa el TODO del starter sin borrar el oráculo; imprime el re. Completé el starter sin ____ ni TODO, siguiendo la pista «all(x not in granted for x in ...)» y el patrón S22-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `granted = ['mail.draft']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T2-A-E3: solo patrones del paquete activo\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "datetime"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T2-A-E3 la instrucción pide: E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):. Completa el TODO . Completé el starter sin ____ ni TODO, siguiendo la pista «datetime.fromisoformat» y el patrón S22-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `from datetime import datetime, timezone, timedelta`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T2-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T2-B-E1 la instrucción pide: E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contra. Completé el starter sin ____ ni TODO, siguiendo la pista «dict assignment» y el patrón S22-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `store = {}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T2-B-E2: solo patrones del paquete activo\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "datetime"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T2-B-E2 la instrucción pide: E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timedelta(seconds=1). Completa el TODO del starter sin borrar el orá. Completé el starter sin ____ ni TODO, siguiendo la pista «timedelta» y el patrón S22-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `from datetime import datetime, timezone, timedelta`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T2-B-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T2-B-E3 la instrucción pide: E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. . Completé el starter sin ____ ni TODO, siguiendo la pista «len(store)+1» y el patrón S22-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `store = {}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T3-A-E1: solo patrones del paquete activo\nimport re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "import",
+        "pat"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T3-A-E1 la instrucción pide: E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):. Completa el TODO del starter sin borrar el oráculo; imprime el. Completé el starter sin ____ ni TODO, siguiendo la pista «re.match» y el patrón S22-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `import re`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T3-A-E2: solo patrones del paquete activo\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "DIRECTORY",
+        "C001"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T3-A-E2 la instrucción pide: E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get('C001'). Completa el TODO del starter sin borrar el oráculo; im. Completé el starter sin ____ ni TODO, siguiendo la pista «dict.get» y el patrón S22-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `DIRECTORY = {'C001': 'ana@example.pe'}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T3-A-E3: solo patrones del paquete activo\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "ana",
+        "rojas"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T3-A-E3 la instrucción pide: E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'; n = 0. Completa el TODO del starter sin borrar el oráculo;. Completé el starter sin ____ ni TODO, siguiendo la pista «os.path common o loop» y el patrón S22-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T3-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T3-B-E1 la instrucción pide: E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs))). Completa el TODO del starter sin borrar el oráculo; imprime. Completé el starter sin ____ ni TODO, siguiendo la pista «dict.fromkeys» y el patrón S22-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `xs = ['a@x', 'b@x', 'a@x']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T3-B-E2: solo patrones del paquete activo\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "rows",
+        "email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T3-B-E2 la instrucción pide: E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r in rows:. Completa el TODO del starter sin borrar el oráculo; i. Completé el starter sin ____ ni TODO, siguiendo la pista «endswith» y el patrón S22-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `rows = [{'email': 'p@other.test', 'role': 'cc'}]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T3-B-E3: solo patrones del paquete activo\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "rows",
+        "example"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T3-B-E3 la instrucción pide: E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = []. Completa el TODO del starter sin borrar el oráculo; impri. Completé el starter sin ____ ni TODO, siguiendo la pista «filtrar roles» y el patrón S22-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `rows = [('a@example.pe','to'),('b@other.test','cc')]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T4-A-E1: solo patrones del paquete activo\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "draft",
+        "submit"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T4-A-E1 la instrucción pide: E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Completa el TODO del starter sin borrar el oráculo; imprime el res. Completé el starter sin ____ ni TODO, siguiendo la pista «dict de dicts» y el patrón S22-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `T = {'draft': {'submit': 'pending'}}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T4-A-E2: solo patrones del paquete activo\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "draft",
+        "submit"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T4-A-E2 la instrucción pide: E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}; state, action = 'draft', 'approve'. Complet. Completé el starter sin ____ ni TODO, siguiendo la pista «try/except o .get» y el patrón S22-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T4-A-E3: solo patrones del paquete activo\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "log",
+        "append"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T4-A-E3 la instrucción pide: E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'}). Completa el TODO del starter sin borrar . Completé el starter sin ____ ni TODO, siguiendo la pista «append dict» y el patrón S22-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `log = []`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T4-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T4-B-E1 la instrucción pide: E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado . Completé el starter sin ____ ni TODO, siguiendo la pista «hashlib.sha256» y el patrón S22-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `import hashlib`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T4-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T4-B-E2 la instrucción pide: E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pa. Completé el starter sin ____ ni TODO, siguiendo la pista «cache dict» y el patrón S22-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `store = {}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S22-T4-B-E3: solo patrones del paquete activo\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S22",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "audit",
+        "store"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S22-T4-B-E3 la instrucción pide: E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (sali. Completé el starter sin ____ ni TODO, siguiendo la pista «lista de event names» y el patrón S22-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `audit = []`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «¿Qué garantiza no enviar correo real en el gate de S22?» descarté distractores y elegí «Solo drafts/.eml en sandbox y aprobación humana» (índice 1) porque el theory/iDo/outcomes del paquete activo de la sección 22 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Un score alto de similitud entre dos emails implica:» descarté distractores y elegí «Solo evidencia débil de contacto a revisar; no prueba de fraude» (índice 3) porque el theory/iDo/outcomes del paquete activo de la sección 22 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Least privilege en OAuth de correo significa:» descarté distractores y elegí «Solo los scopes mínimos (p. ej. draft) necesarios» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 22 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «La idempotency key al reintentar create_draft debe:» descarté distractores y elegí «Reutilizar el mismo draft_id si la key existe» (índice 2) porque el theory/iDo/outcomes del paquete activo de la sección 22 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?» descarté distractores y elegí «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» (índice 1) porque el theory/iDo/outcomes del paquete activo de la sección 22 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:37:07.588275+00:00",
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

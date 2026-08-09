@@ -1,0 +1,819 @@
+     1→     1→import type { CourseSection } from '../../types'
+     2→     2→
+     3→     3→export const section10: CourseSection = {
+     4→     4→  id: 'testing',
+     5→     5→  index: 10,
+     6→     6→  title: 'Testing Your Python Code',
+     7→     7→  shortTitle: 'Testing',
+     8→     8→  tagline: 'pytest, fixtures, coverage y CI con GitHub Actions — el diferenciador senior',
+     9→     9→  estimatedHours: 6,
+    10→    10→  level: 'Avanzado',
+    11→    11→  icon: 'ShieldCheck',
+    12→    12→  accentColor: 'bg-gradient-to-br from-cyan-500 to-blue-600',
+    13→    13→  jobRelevance:
+    14→    14→    'Testing es lo que diferencia un junior de un senior a ojos de hiring managers. Un repo con tests + badge verde de CI dice "este developer es serio". En LATAM, donde la mayoría no hace tests, tener GitHub Actions con pytest-cov te posiciona como US-trained. Las empresas serias (Rimac, Interbank, Mercado Libre) exigen tests para merges a main. Sin tests, tu código no es production-ready.',
+    15→    15→  learningOutcomes: [
+    16→    16→    { text: 'Escribir tests con pytest: assert, funciones test_, archivos test_*.py' },
+    17→    17→    { text: 'Usar fixtures (@pytest.fixture) para setup/teardown reutilizable' },
+    18→    18→    { text: 'Parametrizar tests con @pytest.mark.parametrize' },
+    19→    19→    { text: 'Testear DataFrames: shape, dtypes, nulls, rangos' },
+    20→    20→    { text: 'Testear ML pipelines: output shape, no NaN, valid ranges' },
+    21→    21→    { text: 'Medir cobertura con pytest-cov' },
+    22→    22→    { text: 'Configurar GitHub Actions CI con badge en README' },
+    23→    23→  ],
+    24→    24→  theory: [
+    25→    25→    {
+    26→    26→      heading: 'Filosofía de testing — por qué y qué testear',
+    27→    27→      paragraphs: [
+    28→    28→        'El testing automático es la red de seguridad que te permite refactorizar y agregar features sin miedo. Sin tests, cada cambio es una lotería: "¿rompí algo?". Con tests, corres `pytest` antes de cada commit y sabes en 30 segundos si algo se rompió. El miedo a modificar código legacy (que paraliza equipos) viene de falta de tests.',
+    29→    29→        'La pirámide de tests: (1) Unit tests (muchos, rápidos, aislados), (2) Integration tests (algunos, medianos, prueban combinaciones), (3) E2E tests (pocos, lentos, prueban flujos completos). Para data science, los unit tests son sobre funciones de transformación, los integration tests sobre pipelines completos. E2E casi no se usa salvo en productos con UI.',
+    30→    30→        'Qué testear: (1) funciones puras (entradas → salidas sin side effects), (2) edge cases (input vacío, null, valores extremos), (3) invariantes (propiedades que siempre deben cumplirse, como "predicciones entre 0 y 1"). Qué NO testear: (1) librerías externas (confía en sus tests), (2) output exacto de números aleatorios (usa seed), (3) implementación interna (testea comportamiento, no código).',
+    31→    31→      ],
+    32→    32→      callout: {
+    33→    33→        type: 'info',
+    34→    34→        title: 'TDD vs Test-After',
+    35→    35→        content:
+    36→    36→          'TDD (Test-Driven Development): escribes el test primero, luego el código. Ideal para bugs conocidos y algoritmos complejos. Test-After: escribes código, luego tests. Más común en data science. Ambos son válidos — lo importante es que EXISTAN tests. No dogmatizes sobre TDD.',
+    37→    37→      },
+    38→    38→    },
+    39→    39→    {
+    40→    40→      heading: 'pytest — el estándar de testing en Python',
+    41→    41→      paragraphs: [
+    42→    42→        'pytest es el framework de testing más usado en Python. Más simple que unittest (built-in), más poderoso, con mejor output. Instalación: `pip install pytest pytest-cov`. Para correr tests: `pytest` (corre todos los test_*.py), `pytest test_file.py::test_function` (uno específico), `pytest -v` (verbose), `pytest --cov=mi_modulo` (cobertura).',
+    43→    43→        'Convenciones obligatorias: (1) archivos de test se llaman `test_*.py` o `*_test.py`, (2) funciones de test se llaman `test_*`, (3) clases de test se llaman `Test*` (sin __init__). pytest automáticamente descubre estos nombres. Si no los respetas, tus tests no corren.',
+    44→    44→        'El assert de pytest es mágico: si fallas, te muestra el diff exacto. `assert resultado == esperado` muestra "5 != 7" con colores. No necesitas self.assertEqual como en unittest. Para chequear excepciones: `with pytest.raises(ValueError): mi_funcion()`. Para warnings: `pytest.warns(UserWarning)`.',
+    45→    45→      ],
+    46→    46→      code: {
+    47→    47→        language: 'python',
+    48→    48→        title: 'test_calculadora.py',
+    49→    49→        code: `# Archivo: calculadora.py
+    50→    50→def sumar(a, b):
+    51→    51→    return a + b
+    52→    52→
+    53→    53→def dividir(a, b):
+    54→    54→    if b == 0:
+    55→    55→        raise ValueError("No se puede dividir por cero")
+    56→    56→    return a / b
+    57→    57→
+    58→    58→def es_par(n):
+    59→    59→    return n % 2 == 0
+    60→    60→
+    61→    61→# Archivo: test_calculadora.py
+    62→    62→import pytest
+    63→    63→from calculadora import sumar, dividir, es_par
+    64→    64→
+    65→    65→# Test básico
+    66→    66→def test_sumar():
+    67→    67→    assert sumar(2, 3) == 5
+    68→    68→    assert sumar(-1, 1) == 0
+    69→    69→    assert sumar(0, 0) == 0
+    70→    70→
+    71→    71→# Test con excepciones
+    72→    72→def test_dividir_por_cero():
+    73→    73→    with pytest.raises(ValueError, match="No se puede dividir por cero"):
+    74→    74→        dividir(10, 0)
+    75→    75→
+    76→    76→def test_dividir_normal():
+    77→    77→    assert dividir(10, 2) == 5
+    78→    78→    assert dividir(9, 3) == 3
+    79→    79→
+    80→    80→# Test parametrizado (corre el mismo test con múltiples inputs)
+    81→    81→@pytest.mark.parametrize("input, esperado", [
+    82→    82→    (2, True),
+    83→    83→    (4, True),
+    84→    84→    (3, False),
+    85→    85→    (0, True),    # 0 es par
+    86→    86→    (-2, True),   # negativos también
+    87→    87→    (-3, False),
+    88→    88→])
+    89→    89→def test_es_par(input, esperado):
+    90→    90→    assert es_par(input) == esperado
+    91→    91→
+    92→    92→# Test de edge cases
+    93→    93→def test_sumar_tipos():
+    94→    94→    # pytest te dice exactamente qué falló
+    95→    95→    assert sumar(2.5, 1.5) == 4.0
+    96→    96→    assert sumar("hola, ", "mundo") == "hola, mundo"
+    97→    97→
+    98→    98→# Correr: pytest test_calculadora.py -v
+    99→    99→# Output:
+   100→   100→# test_calculadora.py::test_sumar PASSED
+   101→   101→# test_calculadora.py::test_dividir_por_cero PASSED
+   102→   102→# test_calculadora.py::test_es_par[2-True] PASSED
+   103→   103→# test_calculadora.py::test_es_par[3-False] PASSED
+   104→   104→# ...`,
+   105→   105→      },
+   106→   106→    },
+   107→   107→    {
+   108→   108→      heading: 'Fixtures — setup/teardown reutilizable',
+   109→   109→      paragraphs: [
+   110→   110→        'Las fixtures son funciones que preparan datos o estado para tus tests. Se definen con `@pytest.fixture` y se inyectan como parámetros. Ejemplo: si 5 tests necesitan un DataFrame de prueba, en vez de crearlo en cada uno, defines una fixture `df_prueba` que lo crea una vez (por defecto, scope=function). Esto reduce duplicación y hace tests más legibles.',
+   111→   111→        'Los scopes controlan cuándo se crea la fixture: `function` (default, una vez por test), `class` (una vez por clase), `module` (una vez por archivo), `session` (una vez por toda la sesión). Para datos costosos de crear (conexiones DB, modelos ML), usa scope="session" para reutilizar. Para datos mutables, usa function para evitar side effects entre tests.',
+   112→   112→        'Para cleanup (teardown), usa `yield` en vez de `return`. El código antes de yield es el setup, el código después es el teardown (se ejecuta siempre, incluso si el test falla). Útil para cerrar conexiones, borrar archivos temporales, restaurar estado global.',
+   113→   113→      ],
+   114→   114→      code: {
+   115→   115→        language: 'python',
+   116→   116→        title: 'test_con_fixtures.py',
+   117→   117→        code: `import pytest
+   118→   118→import pandas as pd
+   119→   119→import numpy as np
+   120→   120→from pathlib import Path
+   121→   121→import tempfile
+   122→   122→
+   123→   123→# === FIXTURES ===
+   124→   124→
+   125→   125→@pytest.fixture
+   126→   126→def df_ventas():
+   127→   127→    """DataFrame de muestra para tests."""
+   128→   128→    return pd.DataFrame({
+   129→   129→        "producto": ["arroz", "aceite", "azucar"],
+   130→   130→        "cantidad": [10, 5, 8],
+   131→   131→        "precio": [4.5, 12.0, 3.8],
+   132→   132→        "region": ["Lima", "Lima", "Arequipa"]
+   133→   133→    })
+   134→   134→
+   135→   135→@pytest.fixture
+   136→   136→def df_con_nulos():
+   137→   137→    """DataFrame con valores nulos para tests de limpieza."""
+   138→   138→    return pd.DataFrame({
+   139→   139→        "a": [1, 2, np.nan, 4],
+   140→   140→        "b": ["x", np.nan, "z", "w"],
+   141→   141→        "c": [1.5, np.nan, np.nan, 4.5]
+   142→   142→    })
+   143→   143→
+   144→   144→@pytest.fixture(scope="session")
+   145→   145→def temp_dir():
+   146→   146→    """Directorio temporal persistente para toda la sesión."""
+   147→   147→    with tempfile.TemporaryDirectory() as tmpdir:
+   148→   148→        yield Path(tmpdir)
+   149→   149→
+   150→   150→# === TESTS que usan fixtures ===
+   151→   151→
+   152→   152→def test_df_ventas_tiene_3_filas(df_ventas):
+   153→   153→    assert len(df_ventas) == 3
+   154→   154→
+   155→   155→def test_df_ventas_columnas(df_ventas):
+   156→   156→    expected_cols = {"producto", "cantidad", "precio", "region"}
+   157→   157→    assert set(df_ventas.columns) == expected_cols
+   158→   158→
+   159→   159→def test_df_ventas_tipos(df_ventas):
+   160→   160→    assert df_ventas["cantidad"].dtype in [int, np.int64]
+   161→   161→    assert df_ventas["precio"].dtype in [float, np.float64]
+   162→   162→    assert df_ventas["producto"].dtype == object
+   163→   163→
+   164→   164→def test_no_nulos_despues_de_limpieza(df_con_nulos):
+   165→   165→    """Test que verifica que la limpieza elimina nulos."""
+   166→   166→    # Simular función de limpieza
+   167→   167→    df_limpio = df_con_nulos.dropna()
+   168→   168→    assert df_limpio.isnull().sum().sum() == 0
+   169→   169→    assert len(df_limpio) == 1  # solo la última fila no tiene nulos
+   170→   170→
+   171→   171→def test_calculo_total(df_ventas):
+   172→   172→    """Verifica que el cálculo de total es correcto."""
+   173→   173→    df_ventas["total"] = df_ventas["cantidad"] * df_ventas["precio"]
+   174→   174→    expected_totals = [45.0, 60.0, 30.4]
+   175→   175→    assert df_ventas["total"].tolist() == expected_totals
+   176→   176→
+   177→   177→# === FIXTURE con yield (teardown) ===
+   178→   178→@pytest.fixture
+   179→   179→def archivo_temporal():
+   180→   180→    """Crea archivo temporal y lo elimina después."""
+   181→   181→    p = Path("temp_test.csv")
+   182→   182→    p.write_text("a,b\\n1,2\\n3,4")
+   183→   183→    yield p  # el test recibe el path
+   184→   184→    # Teardown: se ejecuta siempre
+   185→   185→    if p.exists():
+   186→   186→        p.unlink()
+   187→   187→
+   188→   188→def test_leer_archivo(archivo_temporal):
+   189→   189→    import pandas as pd
+   190→   190→    df = pd.read_csv(archivo_temporal)
+   191→   191→    assert len(df) == 2
+   192→   192→    assert list(df.columns) == ["a", "b"]`,
+   193→   193→      },
+   194→   194→    },
+   195→   195→    {
+   196→   196→      heading: 'Testing DataFrames y ML pipelines — el caso de data science',
+   197→   197→      paragraphs: [
+   198→   198→        'En data science, los tests verifican propiedades de los datos y del pipeline, no outputs exactos. Patrones útiles: (1) **Shape**: `assert df.shape == (100, 5)`, (2) **No nulos después de limpieza**: `assert df.isnull().sum().sum() == 0`, (3) **Tipos correctos**: `assert df["col"].dtype == int`, (4) **Rangos válidos**: `assert df["edad"].between(0, 120).all()`, (5) **No duplicados**: `assert df.duplicated().sum() == 0`.',
+   199→   199→        'Para ML pipelines, los tests críticos: (1) **Output shape**: `assert predictions.shape[0] == X_test.shape[0]`, (2) **No NaN en predicciones**: `assert not np.isnan(predictions).any()`, (3) **Rangos válidos**: `assert (predictions >= 0).all() and (predictions <= 1).all()` para clasificación, (4) **No data leakage**: `assert len(set(train_idx) & set(test_idx)) == 0`, (5) **Determinismo con seed**: correr 2 veces y verificar same output.',
+   200→   200→        'Para testear funciones que dependen de APIs externas o DBs, usa `monkeypatch` (pytest built-in) para mock. `monkeypatch.setattr(mi_modulo, "fetch_data", mock_fetch)`. Esto reemplaza la función real por un mock durante el test. Para datos, guarda archivos de muestra en `tests/fixtures/` y cárgalos en tus fixtures.',
+   201→   201→      ],
+   202→   202→      code: {
+   203→   203→        language: 'python',
+   204→   204→        title: 'test_pipeline.py',
+   205→   205→        code: `import pytest
+   206→   206→import pandas as pd
+   207→   207→import numpy as np
+   208→   208→from sklearn.pipeline import Pipeline
+   209→   209→from sklearn.linear_model import LogisticRegression
+   210→   210→from sklearn.model_selection import train_test_split
+   211→   211→
+   212→   212→# === DATOS DE TEST ===
+   213→   213→@pytest.fixture
+   214→   214→def X_y():
+   215→   215→    """Dataset pequeño y determinístico para tests."""
+   216→   216→    np.random.seed(42)
+   217→   217→    X = np.random.randn(100, 5)
+   218→   218→    y = (X[:, 0] > 0).astype(int)  # y depende de primera feature
+   219→   219→    return X, y
+   220→   220→
+   221→   221→@pytest.fixture
+   222→   222→def df_clientes():
+   223→   223→    """DataFrame con propiedades conocidas para tests."""
+   224→   224→    return pd.DataFrame({
+   225→   225→        "cliente_id": range(1, 101),
+   226→   226→        "edad": np.random.randint(18, 80, 100),
+   227→   227→        "ingreso": np.random.randint(1500, 8000, 100),
+   228→   228→        "churn": np.random.choice([0, 1], 100, p=[0.8, 0.2])
+   229→   229→    })
+   230→   230→
+   231→   231→# === TESTS DE DATAFRAME ===
+   232→   232→
+   233→   233→def test_df_shape(df_clientes):
+   234→   234→    assert df_clientes.shape == (100, 4)
+   235→   235→
+   236→   236→def test_df_no_duplicados(df_clientes):
+   237→   237→    assert df_clientes["cliente_id"].duplicated().sum() == 0
+   238→   238→
+   239→   239→def test_df_rangos(df_clientes):
+   240→   240→    assert df_clientes["edad"].between(18, 80).all()
+   241→   241→    assert df_clientes["ingreso"].between(1500, 8000).all()
+   242→   242→
+   243→   243→def test_df_no_nulos(df_clientes):
+   244→   244→    assert df_clientes.isnull().sum().sum() == 0
+   245→   245→
+   246→   246→def test_df_tipos(df_clientes):
+   247→   247→    assert df_clientes["cliente_id"].dtype in [int, np.int64]
+   248→   248→    assert df_clientes["churn"].dtype in [int, np.int64]
+   249→   249→    assert set(df_clientes["churn"].unique()) == {0, 1}
+   250→   250→
+   251→   251→# === TESTS DE ML PIPELINE ===
+   252→   252→
+   253→   253→def test_modelo_aprende(X_y):
+   254→   254→    """El modelo debe predecir mejor que azar."""
+   255→   255→    X, y = X_y
+   256→   256→    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   257→   257→    model = LogisticRegression(random_state=42)
+   258→   258→    model.fit(X_train, y_train)
+   259→   259→    accuracy = model.score(X_test, y_test)
+   260→   260→    # Debe ser significativamente mejor que 0.5 (azar)
+   261→   261→    assert accuracy > 0.7, f"Accuracy {accuracy} no supera 0.7"
+   262→   262→
+   263→   263→def test_predicciones_shape(X_y):
+   264→   264→    """Las predicciones deben tener el shape correcto."""
+   265→   265→    X, y = X_y
+   266→   266→    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   267→   267→    model = LogisticRegression(random_state=42)
+   268→   268→    model.fit(X_train, y_train)
+   269→   269→    preds = model.predict(X_test)
+   270→   270→    assert preds.shape[0] == X_test.shape[0]
+   271→   271→    assert preds.shape[1] == 1 if preds.ndim > 1 else True
+   272→   272→
+   273→   273→def test_probabilidades_en_rango(X_y):
+   274→   274→    """Las probabilidades deben estar entre 0 y 1."""
+   275→   275→    X, y = X_y
+   276→   276→    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   277→   277→    model = LogisticRegression(random_state=42)
+   278→   278→    model.fit(X_train, y_train)
+   279→   279→    probas = model.predict_proba(X_test)
+   280→   280→    assert (probas >= 0).all() and (probas <= 1).all()
+   281→   281→    assert np.allclose(probas.sum(axis=1), 1.0)  # suman 1
+   282→   282→
+   283→   283→def test_no_data_leakage(X_y):
+   284→   284→    """Train y test no deben tener índices en común."""
+   285→   285→    X, y = X_y
+   286→   286→    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   287→   287→    train_idx = set(range(len(X_train)))
+   288→   288→    test_idx = set(range(len(X_train), len(X)))
+   289→   289→    # Como sklearn usa índices, no hay superposición
+   290→   290→    assert len(train_idx & test_idx) == 0
+   291→   291→
+   292→   292→def test_modelo_determinista(X_y):
+   293→   293→    """Con mismo seed, el modelo debe dar mismos resultados."""
+   294→   294→    X, y = X_y
+   295→   295→    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   296→   296→
+   297→   297→    model1 = LogisticRegression(random_state=42)
+   298→   298→    model1.fit(X_train, y_train)
+   299→   299→
+   300→   300→    model2 = LogisticRegression(random_state=42)
+   301→   301→    model2.fit(X_train, y_train)
+   302→   302→
+   303→   303→    np.testing.assert_array_almost_equal(
+   304→   304→        model1.predict_proba(X_test),
+   305→   305→        model2.predict_proba(X_test)
+   306→   306→    )`,
+   307→   307→      },
+   308→   308→    },
+   309→   309→    {
+   310→   310→      heading: 'Coverage y GitHub Actions — CI/CD profesional',
+   311→   311→      paragraphs: [
+   312→   312→        'Coverage mide qué porcentaje de tu código está cubierto por tests. `pip install pytest-cov` y corres `pytest --cov=mi_modulo --cov-report=term-missing`. El reporte muestra por archivo: total de statements, cubiertos, no cubiertos, y % cobertura. Idealmente buscas >80% en código crítico. No persigas 100% — algunos paths (error handling de errores irreproducibles) no vale la pena testear.',
+   313→   313→        'GitHub Actions es el CI más usado. Creas `.github/workflows/tests.yml` y en cada push/PR, GitHub corre tus tests en un entorno limpio. Si pasan, badge verde en tu README. Si fallan, badge rojo y no se permite merge (si configuras branch protection). Esto es lo que más posiciona a un LATAM dev como senior — un repo con badge verde dice "esto funciona, está probado".',
+   314→   314→        'El workflow mínimo: checkout del código, setup Python, instalar requirements, correr pytest con coverage. Configuración típica: matrix de Python 3.10, 3.11, 3.12; cache de pip para acelerar; upload de coverage report como artefacto. Con 30 líneas de YAML tienes CI profesional.',
+   315→   315→      ],
+   316→   316→      code: {
+   317→   317→        language: 'yaml',
+   318→   318→        title: '.github/workflows/tests.yml',
+   319→   319→        code: `name: Tests
+   320→   320→
+   321→   321→on:
+   322→   322→  push:
+   323→   323→    branches: [main, develop]
+   324→   324→  pull_request:
+   325→   325→    branches: [main]
+   326→   326→
+   327→   327→jobs:
+   328→   328→  test:
+   329→   329→    runs-on: ubuntu-latest
+   330→   330→    strategy:
+   331→   331→      matrix:
+   332→   332→        python-version: ['3.11', '3.12']
+   333→   333→
+   334→   334→    steps:
+   335→   335→    - uses: actions/checkout@v4
+   336→   336→
+   337→   337→    - name: Set up Python \${{ matrix.python-version }}
+   338→   338→      uses: actions/setup-python@v5
+   339→   339→      with:
+   340→   340→        python-version: \${{ matrix.python-version }}
+   341→   341→
+   342→   342→    - name: Cache pip
+   343→   343→      uses: actions/cache@v4
+   344→   344→      with:
+   345→   345→        path: ~/.cache/pip
+   346→   346→        key: \${{ runner.os }}-pip-\${{ hashFiles('requirements.txt') }}
+   347→   347→
+   348→   348→    - name: Install dependencies
+   349→   349→      run: |
+   350→   350→        python -m pip install --upgrade pip
+   351→   351→        pip install -r requirements.txt
+   352→   352→        pip install pytest pytest-cov
+   353→   353→
+   354→   354→    - name: Run tests with coverage
+   355→   355→      run: |
+   356→   356→        pytest --cov=src --cov-report=xml --cov-report=term-missing
+   357→   357→
+   358→   358→    - name: Upload coverage
+   359→   359→      uses: codecov/codecov-action@v4
+   360→   360→      with:
+   361→   361→        file: ./coverage.xml
+   362→   362→        fail_ci_if_error: false
+   363→   363→
+   364→   364→# === BADGE en README.md ===
+   365→   365→# Agrega esta línea al inicio del README:
+   366→   366→# ![Tests](https://github.com/USUARIO/REPO/actions/workflows/tests.yml/badge.svg)
+   367→   367→# Esto muestra un badge verde (passing) o rojo (failing) que se actualiza solo.`,
+   368→   368→      },
+   369→   369→    },
+   370→   370→  ],
+   371→   371→  iDo: {
+   372→   372→    intro:
+   373→   373→      'Vamos a construir juntos una suite de tests completa para el pipeline de churn de la sección 9. Tests de datos, tests de modelo, tests de edge cases. Es exactamente el tipo de suite de tests que esperarían en un proyecto de producción.',
+   374→   374→    steps: [
+   375→   375→      {
+   376→   376→        description: 'Crear tests para carga y validación de datos',
+   377→   377→        code: {
+   378→   378→          language: 'python',
+   379→   379→          title: 'tests/test_data.py',
+   380→   380→          code: `# tests/test_data.py
+   381→   381→import pytest
+   382→   382→import pandas as pd
+   383→   383→import numpy as np
+   384→   384→from pathlib import Path
+   385→   385→
+   386→   386→@pytest.fixture
+   387→   387→def df_churn():
+   388→   388→    """Dataset churn de muestra."""
+   389→   389→    np.random.seed(42)
+   390→   390→    return pd.DataFrame({
+   391→   391→        "cliente_id": range(1, 101),
+   392→   392→        "edad": np.random.randint(18, 80, 100),
+   393→   393→        "ingreso_mensual": np.random.randint(1500, 8000, 100),
+   394→   394→        "meses_antiguedad": np.random.randint(1, 72, 100),
+   395→   395→        "region": np.random.choice(["Lima", "Arequipa", "Cusco"], 100),
+   396→   396→        "churn": np.random.choice([0, 1], 100, p=[0.7, 0.3])
+   397→   397→    })
+   398→   398→
+   399→   399→# === TESTS DE ESTRUCTURA ===
+   400→   400→
+   401→   401→def test_shape_correcto(df_churn):
+   402→   402→    """El dataset debe tener 100 filas y 6 columnas."""
+   403→   403→    assert df_churn.shape == (100, 6)
+   404→   404→
+   405→   405→def test_columnas_esperadas(df_churn):
+   406→   406→    """Todas las columnas requeridas deben estar presentes."""
+   407→   407→    expected = {"cliente_id", "edad", "ingreso_mensual",
+   408→   408→                "meses_antiguedad", "region", "churn"}
+   409→   409→    assert set(df_churn.columns) == expected
+   410→   410→
+   411→   411→def test_no_nulos(df_churn):
+   412→   412→    """No debe haber valores nulos."""
+   413→   413→    assert df_churn.isnull().sum().sum() == 0
+   414→   414→
+   415→   415→def test_no_duplicados(df_churn):
+   416→   416→    """cliente_id debe ser único."""
+   417→   417→    assert df_churn["cliente_id"].duplicated().sum() == 0
+   418→   418→
+   419→   419→# === TESTS DE RANGOS Y DOMINIOS ===
+   420→   420→
+   421→   421→def test_edad_rango_valido(df_churn):
+   422→   422→    """Edad debe estar entre 18 y 80."""
+   423→   423→    assert df_churn["edad"].between(18, 80).all()
+   424→   424→
+   425→   425→def test_ingreso_positivo(df_churn):
+   426→   426→    """Ingreso debe ser positivo."""
+   427→   427→    assert (df_churn["ingreso_mensual"] > 0).all()
+   428→   428→
+   429→   429→def test_antiguedad_positiva(df_churn):
+   430→   430→    """Meses de antiguedad deben ser positivos."""
+   431→   431→    assert (df_churn["meses_antiguedad"] > 0).all()
+   432→   432→
+   433→   433→def test_churn_binario(df_churn):
+   434→   434→    """Churn debe ser 0 o 1."""
+   435→   435→    assert set(df_churn["churn"].unique()).issubset({0, 1})
+   436→   436→
+   437→   437→def test_regiones_validas(df_churn):
+   438→   438→    """Las regiones deben ser del conjunto esperado."""
+   439→   439→    valid_regions = {"Lima", "Arequipa", "Cusco"}
+   440→   440→    assert set(df_churn["region"].unique()).issubset(valid_regions)
+   441→   441→
+   442→   442→# === TESTS DE TIPOS ===
+   443→   443→
+   444→   444→def test_tipos_numericos(df_churn):
+   445→   445→    """Columnas numéricas deben tener tipo correcto."""
+   446→   446→    assert df_churn["cliente_id"].dtype in [int, np.int64]
+   447→   447→    assert df_churn["edad"].dtype in [int, np.int64]
+   448→   448→    assert df_churn["ingreso_mensual"].dtype in [int, np.int64]
+   449→   449→
+   450→   450→def test_tipo_churn(df_churn):
+   451→   451→    assert df_churn["churn"].dtype in [int, np.int64]`,
+   452→   452→        },
+   453→   453→        why: 'Tests de datos son la primera línea de defensa. Si los datos de entrada están mal, todo lo demás falla. Los tests de estructura (shape, columnas, tipos) son rápidos y detectan problemas obvios. Los tests de rango y dominio detectan datos imposibles (edad 200, ingreso negativo) que arruinan modelos.',
+   454→   454→      },
+   455→   455→      {
+   456→   456→        description: 'Crear tests para el pipeline de ML',
+   457→   457→        code: {
+   458→   458→          language: 'python',
+   459→   459→          title: 'tests/test_pipeline.py',
+   460→   460→          code: `# tests/test_pipeline.py
+   461→   461→import pytest
+   462→   462→import pandas as pd
+   463→   463→import numpy as np
+   464→   464→from sklearn.pipeline import Pipeline
+   465→   465→from sklearn.compose import ColumnTransformer
+   466→   466→from sklearn.preprocessing import StandardScaler, OneHotEncoder
+   467→   467→from sklearn.impute import SimpleImputer
+   468→   468→from sklearn.linear_model import LogisticRegression
+   469→   469→from sklearn.model_selection import train_test_split
+   470→   470→from sklearn.metrics import roc_auc_score
+   471→   471→
+   472→   472→@pytest.fixture
+   473→   473→def pipeline_churn():
+   474→   474→    """Pipeline completo de churn."""
+   475→   475→    numeric_features = ["edad", "ingreso_mensual", "meses_antiguedad"]
+   476→   476→    categorical_features = ["region"]
+   477→   477→
+   478→   478→    preprocessor = ColumnTransformer([
+   479→   479→        ("num", Pipeline([
+   480→   480→            ("imputer", SimpleImputer(strategy="median")),
+   481→   481→            ("scaler", StandardScaler())
+   482→   482→        ]), numeric_features),
+   483→   483→        ("cat", Pipeline([
+   484→   484→            ("imputer", SimpleImputer(strategy="most_frequent")),
+   485→   485→            ("onehot", OneHotEncoder(handle_unknown="ignore"))
+   486→   486→        ]), categorical_features)
+   487→   487→    ])
+   488→   488→
+   489→   489→    return Pipeline([
+   490→   490→        ("preprocessor", preprocessor),
+   491→   491→        ("classifier", LogisticRegression(random_state=42, max_iter=1000))
+   492→   492→    ])
+   493→   493→
+   494→   494→@pytest.fixture
+   495→   495→def datos_churn():
+   496→   496→    """Datos de test sintéticos."""
+   497→   497→    np.random.seed(42)
+   498→   498→    n = 200
+   499→   499→    X = pd.DataFrame({
+   500→   500→        "edad": np.random.randint(18, 80, n),
+   501→   501→        "ingreso_mensual": np.random.randint(1500, 8000, n),
+   502→   502→        "meses_antiguedad": np.random.randint(1, 72, n),
+   503→   503→        "region": np.random.choice(["Lima", "Arequipa", "Cusco"], n)
+   504→   504→    })
+   505→   505→    y = np.random.choice([0, 1], n, p=[0.7, 0.3])
+   506→   506→    return X, y
+   507→   507→
+   508→   508→# === TESTS DE PIPELINE ===
+   509→   509→
+   510→   510→def test_pipeline_fit_predict(pipeline_churn, datos_churn):
+   511→   511→    """Pipeline debe poder fittear y predecir."""
+   512→   512→    X, y = datos_churn
+   513→   513→    pipeline_churn.fit(X, y)
+   514→   514→    preds = pipeline_churn.predict(X)
+   515→   515→    assert len(preds) == len(y)
+   516→   516→
+   517→   517→def test_predict_proba_rango(pipeline_churn, datos_churn):
+   518→   518→    """Probabilidades deben estar entre 0 y 1."""
+   519→   519→    X, y = datos_churn
+   520→   520→    pipeline_churn.fit(X, y)
+   521→   521→    probas = pipeline_churn.predict_proba(X)
+   522→   522→    assert (probas >= 0).all() and (probas <= 1).all()
+   523→   523→    assert np.allclose(probas.sum(axis=1), 1.0)
+   524→   524→
+   525→   525→def test_no_nan_predicciones(pipeline_churn, datos_churn):
+   526→   526→    """Predicciones no deben tener NaN."""
+   527→   527→    X, y = datos_churn
+   528→   528→    pipeline_churn.fit(X, y)
+   529→   529→    preds = pipeline_churn.predict(X)
+   530→   530→    probas = pipeline_churn.predict_proba(X)
+   531→   531→    assert not np.isnan(preds).any()
+   532→   532→    assert not np.isnan(probas).any()
+   533→   533→
+   534→   534→def test_no_data_leakage(datos_churn):
+   535→   535→    """Train y test no deben compartir índices."""
+   536→   536→    X, y = datos_churn
+   537→   537→    X_train, X_test, y_train, y_test = train_test_split(
+   538→   538→        X, y, test_size=0.2, random_state=42, stratify=y
+   539→   539→    )
+   540→   540→    train_indices = set(X_train.index)
+   541→   541→    test_indices = set(X_test.index)
+   542→   542→    assert len(train_indices & test_indices) == 0
+   543→   543→
+   544→   544→def test_pipeline_determinista(pipeline_churn, datos_churn):
+   545→   545→    """Con mismo seed, mismo resultado."""
+   546→   546→    X, y = datos_churn
+   547→   547→    pipeline_churn.fit(X, y)
+   548→   548→    preds1 = pipeline_churn.predict(X)
+   549→   549→
+   550→   550→    # Crear nuevo pipeline con mismo seed
+   551→   551→    numeric_features = ["edad", "ingreso_mensual", "meses_antiguedad"]
+   552→   552→    categorical_features = ["region"]
+   553→   553→    preprocessor = ColumnTransformer([
+   554→   554→        ("num", Pipeline([
+   555→   555→            ("imputer", SimpleImputer(strategy="median")),
+   556→   556→            ("scaler", StandardScaler())
+   557→   557→        ]), numeric_features),
+   558→   558→        ("cat", Pipeline([
+   559→   559→            ("imputer", SimpleImputer(strategy="most_frequent")),
+   560→   560→            ("onehot", OneHotEncoder(handle_unknown="ignore"))
+   561→   561→        ]), categorical_features)
+   562→   562→    ])
+   563→   563→    pipeline2 = Pipeline([
+   564→   564→        ("preprocessor", preprocessor),
+   565→   565→        ("classifier", LogisticRegression(random_state=42, max_iter=1000))
+   566→   566→    ])
+   567→   567→    pipeline2.fit(X, y)
+   568→   568→    preds2 = pipeline2.predict(X)
+   569→   569→
+   570→   570→    np.testing.assert_array_equal(preds1, preds2)
+   571→   571→
+   572→   572→def test_pipeline_maneja_nuevas_categorias(pipeline_churn, datos_churn):
+   573→   573→    """Pipeline debe manejar categorías no vistas en training."""
+   574→   574→    X, y = datos_churn
+   575→   575→    pipeline_churn.fit(X, y)
+   576→   576→    # Crear dato con región no vista
+   577→   577→    nuevo = pd.DataFrame({
+   578→   578→        "edad": [35],
+   579→   579→        "ingreso_mensual": [3500],
+   580→   580→        "meses_antiguedad": [12],
+   581→   581→        "region": ["Piura"]  # nueva región
+   582→   582→    })
+   583→   583→    # No debe fallar
+   584→   584→    pred = pipeline_churn.predict(nuevo)
+   585→   585→    assert len(pred) == 1
+   586→   586→
+   587→   587→def test_auc_mejor_que_azar(pipeline_churn, datos_churn):
+   588→   588→    """El modelo debe predecir mejor que azar (AUC > 0.5)."""
+   589→   589→    X, y = datos_churn
+   590→   590→    X_train, X_test, y_train, y_test = train_test_split(
+   591→   591→        X, y, test_size=0.3, random_state=42, stratify=y
+   592→   592→    )
+   593→   593→    pipeline_churn.fit(X_train, y_train)
+   594→   594→    probas = pipeline_churn.predict_proba(X_test)[:, 1]
+   595→   595→    auc = roc_auc_score(y_test, probas)
+   596→   596→    # En datos aleatorios, AUC ~0.5. Permitimos >= 0.4 (margen)
+   597→   597→    assert auc >= 0.4, f"AUC {auc} muy bajo"`,
+   598→   598→        },
+   599→   599→        why: 'Estos tests validan invariantes del ML pipeline: output shape correcto, no NaN, rangos válidos, no leakage, determinismo, robustez a categorías nuevas. Si tu pipeline pasa estos tests, tienes alta confianza de que está bien construido. En producción, tests como estos detectan regresiones cuando actualizas scikit-learn o cambias el preprocesamiento.',
+   600→   600→      },
+   601→   601→    ],
+   602→   602→  },
+   603→   603→  weDo: {
+   604→   604→    intro:
+   605→   605→      'Te toca a ti escribir tests para una función simple de limpieza de datos. La función debe eliminar duplicados, imputar nulos con la mediana, y filtrar outliers.',
+   606→   606→    steps: [
+   607→   607→      {
+   608→   608→        instruction: 'Escribe tests para una función limpiar_df() que limpia un DataFrame',
+   609→   609→        hint: 'Test: no nulos después, no duplicados, rangos válidos, no falla con df vacío.',
+   610→   610→        starterCode: {
+   611→   611→          language: 'python',
+   612→   612→          title: 'tests/test_limpieza.py',
+   613→   613→          code: `import pytest
+   614→   614→import pandas as pd
+   615→   615→import numpy as np
+   616→   616→
+   617→   617→# Función a testear (asume que existe)
+   618→   618→def limpiar_df(df):
+   619→   619→    """Limpia un DataFrame: dedup, fillna mediana, sin outliers."""
+   620→   620→    df = df.drop_duplicates()
+   621→   621→    df = df.fillna(df.median(numeric_only=True))
+   622→   622→    # filtrar outliers con IQR
+   623→   623→    for col in df.select_dtypes(include=np.number).columns:
+   624→   624→        q1, q3 = df[col].quantile([0.25, 0.75])
+   625→   625→        iqr = q3 - q1
+   626→   626→        df = df[(df[col] >= q1 - 1.5*iqr) & (df[col] <= q3 + 1.5*iqr)]
+   627→   627→    return df
+   628→   628→
+   629→   629→# TODO: escribe al menos 4 tests
+   630→   630→# 1. test_no_nulos_despues_de_limpieza
+   631→   631→# 2. test_no_duplicados
+   632→   632→# 3. test_df_vacio_no_falla
+   633→   633→# 4. test_preserva_columnas`,
+   634→   634→        },
+   635→   635→        solutionCode: {
+   636→   636→          language: 'python',
+   637→   637→          title: 'tests/test_limpieza.py',
+   638→   638→          code: `import pytest
+   639→   639→import pandas as pd
+   640→   640→import numpy as np
+   641→   641→
+   642→   642→def limpiar_df(df):
+   643→   643→    """Limpia un DataFrame: dedup, fillna mediana, sin outliers."""
+   644→   644→    if df.empty:
+   645→   645→        return df
+   646→   646→    df = df.drop_duplicates()
+   647→   647→    df = df.fillna(df.median(numeric_only=True))
+   648→   648→    for col in df.select_dtypes(include=np.number).columns:
+   649→   649→        q1, q3 = df[col].quantile([0.25, 0.75])
+   650→   650→        iqr = q3 - q1
+   651→   651→        df = df[(df[col] >= q1 - 1.5*iqr) & (df[col] <= q3 + 1.5*iqr)]
+   652→   652→    return df
+   653→   653→
+   654→   654→@pytest.fixture
+   655→   655→def df_sucio():
+   656→   656→    return pd.DataFrame({
+   657→   657→        "edad": [25, 30, 25, np.nan, 35, 1000],  # dup, nan, outlier
+   658→   658→        "ingreso": [3000, 3500, 3000, 4000, np.nan, 5000]
+   659→   659→    })
+   660→   660→
+   661→   661→def test_no_nulos_despues_de_limpieza(df_sucio):
+   662→   662→    df_limpio = limpiar_df(df_sucio)
+   663→   663→    assert df_limpio.isnull().sum().sum() == 0
+   664→   664→
+   665→   665→def test_no_duplicados(df_sucio):
+   666→   666→    df_limpio = limpiar_df(df_sucio)
+   667→   667→    assert df_limpio.duplicated().sum() == 0
+   668→   668→
+   669→   669→def test_df_vacio_no_falla():
+   670→   670→    df_vacio = pd.DataFrame()
+   671→   671→    df_limpio = limpiar_df(df_vacio)
+   672→   672→    assert df_limpio.empty
+   673→   673→
+   674→   674→def test_preserva_columnas(df_sucio):
+   675→   675→    df_limpio = limpiar_df(df_sucio)
+   676→   676→    assert set(df_limpio.columns) == set(df_sucio.columns)
+   677→   677→
+   678→   678→def test_outlier_removido(df_sucio):
+   679→   679→    """El valor 1000 debe ser removido como outlier."""
+   680→   680→    df_limpio = limpiar_df(df_sucio)
+   681→   681→    assert 1000 not in df_limpio["edad"].values`,
+   682→   682→        },
+   683→   683→      },
+   684→   684→    ],
+   685→   685→  },
+   686→   686→  youDo: {
+   687→   687→    title: 'Test Suite for Your Churn Project — El diferenciador senior',
+   688→   688→    context:
+   689→   689→      'Vas a agregar tests al proyecto capstone de churn (sección 9). Es lo que hace que tu repo pase de "proyecto de curso" a "proyecto production-ready". Un repo con tests + GitHub Actions con badge verde te posiciona como US-trained engineer a ojos de hiring managers peruanos e internacionales.',
+   690→   690→    objectives: [
+   691→   691→      'Crear tests/test_data.py con validaciones del dataset',
+   692→   692→      'Crear tests/test_pipeline.py con tests del modelo',
+   693→   693→      'Configurar GitHub Actions workflow para CI',
+   694→   694→      'Agregar badge de tests al README',
+   695→   695→      'Lograr coverage > 70% en código crítico',
+   696→   696→    ],
+   697→   697→    requirements: [
+   698→   698→      'tests/test_data.py: shape, nulos, duplicados, rangos, tipos',
+   699→   699→      'tests/test_pipeline.py: fit/predict, no NaN, no leakage, determinismo',
+   700→   700→      'tests/test_model.py: AUC > azar, predicciones en rango',
+   701→   701→      'GitHub Actions .github/workflows/tests.yml',
+   702→   702→      'pytest --cov reportando cobertura',
+   703→   703→      'Badge en README: ![Tests](https://github.com/...) .../badge.svg',
+   704→   704→      'Al menos 15 tests en total',
+   705→   705→    ],
+   706→   706→    starterCode: `# tests/test_data.py
+   707→   707→import pytest
+   708→   708→import pandas as pd
+   709→   709→
+   710→   710→def test_shape(df_churn):
+   711→   711→    # TODO
+   712→   712→    pass
+   713→   713→
+   714→   714→def test_no_nulos(df_churn):
+   715→   715→    # TODO
+   716→   716→    pass
+   717→   717→
+   718→   718→# ... al menos 5 tests más
+   719→   719→
+   720→   720→# tests/test_pipeline.py
+   721→   721→def test_pipeline_fit(pipeline_churn, datos):
+   722→   722→    # TODO
+   723→   723→    pass
+   724→   724→
+   725→   725→# ... al menos 5 tests más
+   726→   726→
+   727→   727→# .github/workflows/tests.yml
+   728→   728→# Workflow que corre pytest en cada push`,
+   729→   729→    portfolioNote:
+   730→   730→      'En el README, junto al badge de tests, menciona el coverage %. "98% test coverage" es un statement poderoso que pocos candidatos pueden hacer. Los hiring managers saben que escribir tests requiere disciplina y pensamiento crítico sobre edge cases — exactamente lo que buscan en senior developers.',
+   731→   731→    rubric: [
+   732→   732→      { criterion: 'Tests de datos (shape, nulos, tipos, rangos)', weight: '25%' },
+   733→   733→      { criterion: 'Tests de pipeline (fit, predict, no NaN, no leakage)', weight: '25%' },
+   734→   734→      { criterion: 'GitHub Actions workflow funcionando', weight: '20%' },
+   735→   735→      { criterion: 'Badge de tests visible en README', weight: '10%' },
+   736→   736→      { criterion: 'Coverage reportado y > 70%', weight: '10%' },
+   737→   737→      { criterion: 'Al menos 15 tests en total', weight: '10%' },
+   738→   738→    ],
+   739→   739→  },
+   740→   740→  selfCheck: {
+   741→   741→    questions: [
+   742→   742→      {
+   743→   743→        question: '¿Cuál es la convención de nombres para que pytest descubra tus tests?',
+   744→   744→        options: [
+   745→   745→          'Cualquier archivo .py',
+   746→   746→          'Archivos test_*.py con funciones test_*',
+   747→   747→          'Solo en carpeta tests/',
+   748→   748→          'Clases Test* con métodos test_*',
+   749→   749→        ],
+   750→   750→        correctIndex: 1,
+   751→   751→        explanation:
+   752→   752→          'pytest busca archivos que empiecen con test_ o terminen con _test.py, y dentro de ellos funciones que empiecen con test_. Las clases Test* (sin __init__) también se descubren. Respetar esta convención es obligatorio para que tus tests corran.',
+   753→   753→      },
+   754→   754→      {
+   755→   755→        question: '¿Para qué sirve una fixture en pytest?',
+   756→   756→        options: [
+   757→   757→          'Para hacer tests más lentos',
+   758→   758→          'Para preparar datos/estado reutilizable entre tests',
+   759→   759→          'Para documentar tests',
+   760→   760→          'Es lo mismo que un mock',
+   761→   761→        ],
+   762→   762→        correctIndex: 1,
+   763→   763→        explanation:
+   764→   764→          'Una fixture es una función decorada con @pytest.fixture que prepara datos o estado. Se inyecta en los tests como parámetro. Evita duplicación: si 5 tests necesitan el mismo DataFrame, defines una fixture en vez de copiar el código 5 veces.',
+   765→   765→      },
+   766→   766→      {
+   767→   767→        question: '¿Qué hace `@pytest.mark.parametrize`?',
+   768→   768→        options: [
+   769→   769→          'Marca el test como lento',
+   770→   770→          'Corre el mismo test con múltiples combinaciones de inputs',
+   771→   771→          'Para el test si falla',
+   772→   772→          'Es lo mismo que una fixture',
+   773→   773→        ],
+   774→   774→        correctIndex: 1,
+   775→   775→        explanation:
+   776→   776→          'parametrize recibe una lista de tuplas (inputs, esperado) y corre el test una vez por cada tupla. Ideal para testear la misma función con múltiples casos. Si uno falla, pytest te dice exactamente cuál input falló.',
+   777→   777→      },
+   778→   778→      {
+   779→   779→        question: '¿Qué mide `pytest --cov=mi_modulo`?',
+   780→   780→        options: [
+   781→   781→          'El tiempo de ejecución',
+   782→   782→          'El porcentaje de líneas de código cubiertas por tests',
+   783→   783→          'El número de tests',
+   784→   784→          'La calidad de los tests',
+   785→   785→        ],
+   786→   786→        correctIndex: 1,
+   787→   787→        explanation:
+   788→   788→          'Coverage mide qué líneas de tu código se ejecutaron durante los tests. 80%+ es bueno. 100% es difícil y a veces innecesario (paths de error irreproducibles). El flag --cov-report=term-missing muestra qué líneas NO se cubrieron.',
+   789→   789→      },
+   790→   790→      {
+   791→   791→        question: '¿Para qué sirve GitHub Actions en testing?',
+   792→   792→        options: [
+   793→   793→          'Para desplegar a producción',
+   794→   794→          'Para correr tests automáticamente en cada push/PR',
+   795→   795→          'Para escribir tests',
+   796→   796→          'Para documentar el repositorio',
+   797→   797→        ],
+   798→   798→        correctIndex: 1,
+   799→   799→        explanation:
+   800→   800→          'GitHub Actions es CI/CD integrado a GitHub. Define workflows en .github/workflows/ que se ejecutan en eventos (push, PR). Para testing, corre pytest en un entorno limpio. Si falla, el badge del repo se pone rojo y (con branch protection) bloquea el merge.',
+   801→   801→      },
+   802→   802→    ],
+   803→   803→  },
+   804→   804→  resources: {
+   805→   805→    docs: [
+   806→   806→      { label: 'pytest — Official docs', url: 'https://docs.pytest.org/', note: 'Documentación completa de pytest' },
+   807→   807→      { label: 'pytest — Fixtures', url: 'https://docs.pytest.org/en/stable/explanation/fixtures.html', note: 'Guía detallada de fixtures' },
+   808→   808→      { label: 'pytest-cov', url: 'https://pytest-cov.readthedocs.io/', note: 'Plugin de cobertura' },
+   809→   809→      { label: 'GitHub Actions — Python', url: 'https://docs.github.com/es/actions/automating-builds-and-tests/building-and-testing-python', note: 'Guía oficial de CI para Python' },
+   810→   810→    ],
+   811→   811→    books: [
+   812→   812→      { label: 'Python Apprentice to Master', note: 'Capítulo sobre testing y buenas prácticas.' },
+   813→   813→    ],
+   814→   814→    courses: [
+   815→   815→      { label: 'Real Python — Testing', url: 'https://realpython.com/pytest-python-testing/', note: 'Tutorial completo de pytest' },
+   816→   816→    ],
+   817→   817→  },
+   818→   818→}
+   819→   819→

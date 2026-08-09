@@ -1,0 +1,169 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s30-9afb70400e5d",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "code": "# k2 explorer · S30-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nk2_out = 1.0 if a == b else 0.0\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S30-T1-A-E1 en K2: S30-T1-A-E1. Enunciado: «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter compl». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "code": "# k2 explorer · S30-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nk2_out = len(ta&tb)/len(ta|tb)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T1-A-E2. Enunciado: «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @e». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "code": "# k2 explorer · S30-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nk2_out = 1.0 if d == d else 0.0\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T1-A-E3. Enunciado: «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "code": "# k2 explorer · S30-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nk2_out = 'missing' if (not a or not b) else 'cmp'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T1-B-E1. Enunciado: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "code": "# k2 explorer · S30-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nk2_out = 1 / freq\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T1-B-E2. Enunciado: «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; impl». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "code": "# k2 explorer · S30-T1-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'informative_missing'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Entity resolution probabilístico»: S30-T1-B-E3. Enunciado: «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "code": "# k2 explorer · S30-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nk2_out = f'{last}|{city}'\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S30 leí el paquete activo: S30-T2-A-E1. Enunciado: «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "code": "# k2 explorer · S30-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nk2_out = found / gold_n\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Entity resolution probabilístico»: S30-T2-A-E2. Enunciado: «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter compl». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "code": "# k2 explorer · S30-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nk2_out = n*(n-1)//2\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Entity resolution probabilístico»: S30-T2-A-E3. Enunciado: «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es e». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "code": "# k2 explorer · S30-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "justification_from_packet": "Desde el starter de S30-T2-B-E1 en K2: S30-T2-B-E1. Enunciado: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(sum(n*(n-1)//2 for n in sizes))']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "code": "# k2 explorer · S30-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nk2_out = ta != tb\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S30 leí el paquete activo: S30-T2-B-E2. Enunciado: «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entra». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "code": "# k2 explorer · S30-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'filter_before_score'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S30-T2-B-E3 en K2: S30-T2-B-E3. Enunciado: «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter compl». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "code": "# k2 explorer · S30-T3-A-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = (1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T3-A-E1. Enunciado: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es e». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "code": "# k2 explorer · S30-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "justification_from_packet": "Seguí el slim_packet de «Entity resolution probabilístico»: S30-T3-A-E2. Enunciado: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, del. Salida: [\"print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "code": "# k2 explorer · S30-T3-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "justification_from_packet": "Como explorer en S30 leí el paquete activo: S30-T3-A-E3. Enunciado: «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: [\"print({'name': 0.9, 'email': 1.0})\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "code": "# k2 explorer · S30-T3-B-E1\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nk2_out = find(1)==find(3)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T3-B-E1. Enunciado: «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S30, find, while. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "code": "# k2 explorer · S30-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "justification_from_packet": "Como explorer en S30 leí el paquete activo: S30-T3-B-E2. Enunciado: «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: [\"print(['match', 'non_match', 'uncertain'])\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "code": "# k2 explorer · S30-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'ER_only_same_entity'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S30-T3-B-E3 en K2: S30-T3-B-E3. Enunciado: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el st». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "code": "# k2 explorer · S30-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "justification_from_packet": "Seguí el slim_packet de «Entity resolution probabilístico»: S30-T4-A-E1. Enunciado: «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, del. Salida: [\"print('train' if {a,b} <= train_e else 'test')\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "code": "# k2 explorer · S30-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nk2_out = matches / n\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Entity resolution probabilístico»: S30-T4-A-E2. Enunciado: «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "code": "# k2 explorer · S30-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'entity_split'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T4-A-E3. Enunciado: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "code": "# k2 explorer · S30-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "justification_from_packet": "Como explorer en S30 leí el paquete activo: S30-T4-B-E1. Enunciado: «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(round(tp/(tp+fp), 2))']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "code": "# k2 explorer · S30-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nk2_out = tp/(tp+fn)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Entity resolution probabilístico» en el quiz_card K2: S30-T4-B-E2. Enunciado: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa s». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "code": "# k2 explorer · S30-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = ['missing_phone']\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S30 leí el paquete activo: S30-T4-B-E3. Enunciado: «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @exampl». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S30, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Si dos registros son la misma entidad",
+      "justification_from_packet": "Self-check explorer S30 Q0: «El motor ER de CP-N3-A debe decidir:». Elijo índice 1 («Si dos registros son la misma entidad») porque la teoría del slim/quiz_card («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d) alinea ese concepto; descarto p.ej. ['Fraude automático', 'Parentescos']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+      "justification_from_packet": "Self-check explorer S30 Q1: «Candidate recall de blocking mide:». Elijo índice 3 («Fracción de verdaderos matches que sobreviven al blocking») porque la teoría del slim/quiz_card («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d) alinea ese concepto; descarto p.ej. ['Solo CPU', 'Precisión del scorer final únicamente']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "clerical review",
+      "justification_from_packet": "Self-check explorer S30 Q2: «Scores entre t_low y t_high van a:». Elijo índice 0 («clerical review») porque la teoría del slim/quiz_card («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d) alinea ese concepto; descarto p.ej. ['auto_match', 'non_match']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Leakage de identidad entre train y test",
+      "justification_from_packet": "Self-check explorer S30 Q3: «Split por entidad evita:». Elijo índice 2 («Leakage de identidad entre train y test») porque la teoría del slim/quiz_card («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d) alinea ese concepto; descarto p.ej. ['Usar sqlite', 'Blocking']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:21:55.091768+00:00",
+  "session_started_at": "2026-07-23T15:21:21.679645+00:00",
+  "session_ended_at": "2026-07-23T15:21:55.089125+00:00",
+  "receipt_response_sha256": "5f87afb8c758639e0a0ff60cbf2668a57580570bbd0798eec5fc6ae93a2d88c6",
+  "receipt_exercises_sha256": "e9461136d2c7366135c3e574ed3f10c5b420c1cd9014fd3ed55deff844fe36f8",
+  "receipt_selfcheck_sha256": "a97ab2c39989fd9d331bc84369bfde9363b3c89cd6e499506134762b025cdd7e"
+}

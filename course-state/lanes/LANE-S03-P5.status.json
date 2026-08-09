@@ -1,0 +1,43 @@
+{
+  "lane_id": "LANE-S03-P5",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK",
+  "section": "S03",
+  "section_id": "data-structures",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "concepts": 8,
+  "variants_per_concept": 3,
+  "variants_total": 24,
+  "language": "es-PE professional",
+  "format": "MCQ-4",
+  "concept_slugs": [
+    "comparisons-membership",
+    "truthiness-shortcircuit",
+    "if-elif-else",
+    "guard-clauses",
+    "allowlists-ranges",
+    "decision-tables-match",
+    "invariants-examples",
+    "actionable-messages-branch-tests"
+  ],
+  "retired_legacy_slugs": [
+    "json-load-vs-loads",
+    "with-statement",
+    "defaultdict",
+    "exception-type"
+  ],
+  "equivalence_review": "8 families × 3 parallel MCQs: same skill/format/demand within family; distinct scenarios (not cosmetic). Aligned to V3 S03 decision/rules theory in s03-data-structures.ts. Platform seed key remains data-structures.",
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s03_phase5_exam_bank.json",
+    "course-state/lanes/LANE-S03-P5.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "src/lib/course/sections/s01-setup.ts",
+    "src/lib/course/sections/s03-data-structures.ts"
+  ],
+  "next_action": "Orchestrator: merge PHASE 5 into checkpoint/section_ledger for S03; db:seed data-structures bank; proceed PHASE 6 isolated validation when ready."
+}

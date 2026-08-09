@@ -1,0 +1,2002 @@
+     1→'use client'
+     2→
+     3→import { useState, useEffect } from 'react'
+     4→import { motion, AnimatePresence } from 'framer-motion'
+     5→import {
+     6→  BookOpen,
+     7→  PlayCircle,
+     8→  Users,
+     9→  Rocket,
+    10→  HelpCircle,
+    11→  CheckCircle2,
+    12→  ChevronLeft,
+    13→  ChevronRight,
+    14→  Target,
+    15→  Briefcase,
+    16→  Clock,
+    17→  Lightbulb,
+    18→  Eye,
+    19→  EyeOff,
+    20→  Sparkles,
+    21→  Check,
+    22→  X,
+    23→  Award,
+    24→  ExternalLink,
+    25→  GraduationCap,
+    26→} from 'lucide-react'
+    27→import { cn } from '@/lib/utils'
+    28→import { Button } from '@/components/ui/button'
+    29→import { Badge } from '@/components/ui/badge'
+    30→import { Card } from '@/components/ui/card'
+    31→import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+    32→import { useSession } from 'next-auth/react'
+    33→import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
+    34→import type { CourseSection } from '@/lib/types'
+    35→import { CodeBlock } from './CodeBlock'
+    36→import { Callout } from './Callout'
+    37→import { RichText } from './RichText'
+    38→import { ProgressRing } from './ProgressRing'
+    39→import { ExamView } from './ExamView'
+    40→import { CodePlayground } from './CodePlayground'
+    41→
+    42→interface SectionViewProps {
+    43→  section: CourseSection
+    44→  onPrev: () => void
+    45→  onNext: () => void
+    46→  hasNext: boolean
+    47→  hasPrev: boolean
+    48→  onOpenAuth: () => void
+    49→}
+    50→
+    51→const TAB_META: Record<SubStep, { icon: React.ElementType; label: string; color: string }> = {
+    52→  theory: { icon: BookOpen, label: 'Teoría', color: 'text-sky-600' },
+    53→  ido: { icon: PlayCircle, label: 'Yo hago', color: 'text-violet-600' },
+    54→  wedo: { icon: Users, label: 'Hacemos juntos', color: 'text-amber-600' },
+    55→  youdo: { icon: Rocket, label: 'Tú haces', color: 'text-emerald-600' },
+    56→  quiz: { icon: HelpCircle, label: 'Autocheck', color: 'text-rose-600' },
+    57→}
+    58→
+    59→export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenAuth }: SectionViewProps) {
+    60→  const [activeTab, setActiveTab] = useState<SubStep>('theory')
+    61→  const { data: session } = useSession()
+    62→  const {
+    63→    completedSubSteps,
+    64→    toggleSubStep,
+    65→    toggleSectionComplete,
+    66→    quizScores,
+    67→    setQuizScore,
+    68→    setLastVisited,
+    69→  } = useProgressStore()
+    70→
+    71→  const subStepsDone = completedSubSteps[section.id] || []
+    72→  const allDone = SUB_STEPS.every((s) => subStepsDone.includes(s))
+    73→
+    74→  useEffect(() => {
+    75→     
+    76→    setLastVisited(section.id)
+    77→    // scroll to top
+    78→    document.getElementById('section-content')?.scrollTo({ top: 0, behavior: 'smooth' })
+    79→  }, [section.id, setLastVisited])
+    80→
+    81→  // Reset active tab when section changes (deferred to avoid effect cascading)
+    82→  useEffect(() => {
+    83→    // eslint-disable-next-line react-hooks/set-state-in-effect
+    84→    setActiveTab('theory')
+    85→  }, [section.id])
+    86→
+    87→  const sectionProgress = Math.round(
+    88→    (subStepsDone.length / SUB_STEPS.length) * 100
+    89→  )
+    90→
+    91→  return (
+    92→    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8" id="section-content">
+    93→      {/* Header */}
+    94→      <motion.div
+    95→        initial={{ opacity: 0, y: 12 }}
+    96→        animate={{ opacity: 1, y: 0 }}
+    97→        transition={{ duration: 0.4 }}
+    98→        className="mb-6"
+    99→      >
+   100→        <div className="flex flex-wrap items-center gap-3 mb-3">
+   101→          <Badge variant="outline" className="gap-1.5 border-primary/30 text-primary">
+   102→            <span className="font-bold">Sección {section.index}</span>
+   103→          </Badge>
+   104→          <Badge variant="secondary" className="gap-1.5">
+   105→            <Clock className="h-3 w-3" />
+   106→            {section.estimatedHours}h estimadas
+   107→          </Badge>
+   108→          <Badge variant="secondary" className="gap-1.5">
+   109→            <Target className="h-3 w-3" />
+   110→            {section.level}
+   111→          </Badge>
+   112→        </div>
+   113→        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+   114→          <span className="gradient-text">{section.title}</span>
+   115→        </h1>
+   116→        <p className="mt-2 text-lg text-muted-foreground">{section.tagline}</p>
+   117→
+   118→        {/* Job relevance strip */}
+   119→        <Card className="mt-4 border-primary/20 bg-primary/5 p-4">
+   120→          <div className="flex items-start gap-3">
+   121→            <Briefcase className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+   122→            <div>
+   123→              <div className="text-sm font-semibold text-foreground">
+   124→                ¿Para qué te sirve esto en el trabajo?
+   125→              </div>
+   126→              <p className="mt-1 text-sm text-foreground/80">{section.jobRelevance}</p>
+   127→            </div>
+   128→          </div>
+   129→        </Card>
+   130→
+   131→        {/* Learning outcomes */}
+   132→        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+   133→          {section.learningOutcomes.map((lo, i) => (
+   134→            <motion.div
+   135→              key={i}
+   136→              initial={{ opacity: 0, x: -8 }}
+   137→              animate={{ opacity: 1, x: 0 }}
+   138→              transition={{ delay: 0.1 + i * 0.05 }}
+   139→              className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-3"
+   140→            >
+   141→              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+   142→              <span className="text-sm text-foreground/90">{lo.text}</span>
+   143→            </motion.div>
+   144→          ))}
+   145→        </div>
+   146→      </motion.div>
+   147→
+   148→      {/* Progress strip */}
+   149→      <div className="mb-6 flex items-center gap-4 rounded-xl border border-border/60 bg-card p-4">
+   150→        <ProgressRing progress={sectionProgress} size={56} />
+   151→        <div className="flex-1">
+   152→          <div className="text-sm font-semibold">Progreso de la sección</div>
+   153→          <div className="text-xs text-muted-foreground">
+   154→            {subStepsDone.length} de {SUB_STEPS.length} etapas completadas
+   155→          </div>
+   156→        </div>
+   157→        {allDone && (
+   158→          <Badge className="gap-1 bg-green-600 text-white">
+   159→            <Award className="h-3 w-3" />
+   160→            Completada
+   161→          </Badge>
+   162→        )}
+   163→      </div>
+   164→
+   165→      {/* Tabs */}
+   166→      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SubStep)}>
+   167→        <TabsList className="grid w-full grid-cols-5 h-auto">
+   168→          {SUB_STEPS.map((step) => {
+   169→            const meta = TAB_META[step]
+   170→            const Icon = meta.icon
+   171→            const done = subStepsDone.includes(step)
+   172→            return (
+   173→              <TabsTrigger
+   174→                key={step}
+   175→                value={step}
+   176→                className="flex flex-col gap-1 py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
+   177→              >
+   178→                <div className="flex items-center gap-1.5">
+   179→                  <Icon className={cn('h-4 w-4', meta.color)} />
+   180→                  {done && <CheckCircle2 className="h-3 w-3 text-green-600" />}
+   181→                </div>
+   182→                <span className="text-[11px] sm:text-xs">{meta.label}</span>
+   183→              </TabsTrigger>
+   184→            )
+   185→          })}
+   186→        </TabsList>
+   187→
+   188→        <AnimatePresence mode="wait">
+   189→          <motion.div
+   190→            key={activeTab}
+   191→            initial={{ opacity: 0, y: 8 }}
+   192→            animate={{ opacity: 1, y: 0 }}
+   193→            exit={{ opacity: 0, y: -8 }}
+   194→            transition={{ duration: 0.2 }}
+   195→            className="mt-6"
+   196→          >
+   197→            <TabsContent value="theory" className="mt-0 focus-visible:outline-none">
+   198→              <TheoryTab section={section} onDone={() => toggleSubStep(section.id, 'theory')} done={subStepsDone.includes('theory')} />
+   199→            </TabsContent>
+   200→            <TabsContent value="ido" className="mt-0 focus-visible:outline-none">
+   201→              <IDoTab section={section} onDone={() => toggleSubStep(section.id, 'ido')} done={subStepsDone.includes('ido')} />
+   202→            </TabsContent>
+   203→            <TabsContent value="wedo" className="mt-0 focus-visible:outline-none">
+   204→              <WeDoTab section={section} onDone={() => toggleSubStep(section.id, 'wedo')} done={subStepsDone.includes('wedo')} />
+   205→            </TabsContent>
+   206→            <TabsContent value="youdo" className="mt-0 focus-visible:outline-none">
+   207→              <YouDoTab section={section} onDone={() => toggleSubStep(section.id, 'youdo')} done={subStepsDone.includes('youdo')} />
+   208→            </TabsContent>
+   209→            <TabsContent value="quiz" className="mt-0 focus-visible:outline-none">
+   210→              {session?.user ? (
+   211→                <ExamView
+   212→                  sectionId={section.id}
+   213→                  sectionTitle={section.title}
+   214→                  onAuthRequired={onOpenAuth}
+   215→                />
+   216→              ) : (
+   217→                <QuizTab
+   218→                  section={section}
+   219→                  onDone={() => {
+   220→                    toggleSubStep(section.id, 'quiz')
+   221→                    if (allDone || subStepsDone.length >= SUB_STEPS.length - 1) {
+   222→                      toggleSectionComplete(section.id)
+   223→                    }
+   224→                  }}
+   225→                  done={subStepsDone.includes('quiz')}
+   226→                  score={quizScores[section.id] || 0}
+   227→                  onSubmitScore={(s) => {
+   228→                    setQuizScore(section.id, s)
+   229→                  }}
+   230→                />
+   231→              )}
+   232→            </TabsContent>
+   233→          </motion.div>
+   234→        </AnimatePresence>
+   235→      </Tabs>
+   236→
+   237→      {/* Bottom nav */}
+   238→      <div className="mt-10 flex items-center justify-between border-t border-border pt-6">
+   239→        <Button
+   240→          variant="outline"
+   241→          onClick={onPrev}
+   242→          disabled={!hasPrev}
+   243→          className="gap-2"
+   244→        >
+   245→          <ChevronLeft className="h-4 w-4" />
+   246→          Anterior
+   247→        </Button>
+   248→        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+   249→          {SUB_STEPS.map((s) => (
+   250→            <span
+   251→              key={s}
+   252→              className={cn(
+   253→                'h-1.5 w-6 rounded-full transition-colors',
+   254→                subStepsDone.includes(s) ? 'bg-primary' : 'bg-muted'
+   255→              )}
+   256→            />
+   257→          ))}
+   258→        </div>
+   259→        <Button
+   260→          onClick={onNext}
+   261→          disabled={!hasNext}
+   262→          className="gap-2"
+   263→        >
+   264→          Siguiente
+   265→          <ChevronRight className="h-4 w-4" />
+   266→        </Button>
+   267→      </div>
+   268→    </div>
+   269→  )
+   270→}
+   271→
+   272→// === Theory Tab ===
+   273→function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+   274→  return (
+   275→    <div className="space-y-6">
+   276→      <div className="flex items-center gap-2">
+   277→        <BookOpen className="h-5 w-5 text-sky-600" />
+   278→        <h2 className="text-xl font-semibold">Teoría</h2>
+   279→      </div>
+   280→      {section.theory.map((block, i) => (
+   281→        <RichText key={i} content={block.heading + '\n\n' + block.paragraphs.join('\n\n')} />
+   282→      ))}
+   283→      {/* Renderizar bloques estructurados si existen */}
+   284→      {section.theory.map((block, i) => (
+   285→        <div key={`structured-${i}`}>
+   286→          {block.code && (
+   287→            <CodeBlock
+   288→              code={block.code.code}
+   289→              language={block.code.language}
+   290→              title={block.code.title}
+   291→              output={block.code.output}
+   292→            />
+   293→          )}
+   294→          {block.callout && (
+   295→            <Callout type={block.callout.type} title={block.callout.title}>
+   296→              {block.callout.content}
+   297→            </Callout>
+   298→          )}
+   299→        </div>
+   300→      ))}
+   301→
+   302→      {/* Interactive playground — appears in every section's theory tab */}
+   303→      <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />
+   304→
+   305→      <MarkDoneButton onDone={onDone} done={done} label="Marcar teoría como leída" />
+   306→    </div>
+   307→  )
+   308→}
+   309→
+   310→// === I Do Tab ===
+   311→function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+   312→  return (
+   313→    <div className="space-y-6">
+   314→      <div className="flex items-center gap-2">
+   315→        <PlayCircle className="h-5 w-5 text-violet-600" />
+   316→        <h2 className="text-xl font-semibold">Yo hago — Demostración guiada</h2>
+   317→      </div>
+   318→      <Callout type="info" title="¿Qué hace el profe?">
+   319→        Te muestro paso a paso cómo se resuelve un problema real con los conceptos de esta sección. Fíjate en el <strong>por qué</strong> de cada línea, no solo en el qué. Esta es la fase <strong>I Do</strong> del método Gradual Release of Responsibility.
+   320→      </Callout>
+   321→      <RichText content={section.iDo.intro} />
+   322→      {section.iDo.steps.map((step, i) => (
+   323→        <Card key={i} className="overflow-hidden border-violet-500/20">
+   324→          <div className="border-b border-border/60 bg-violet-500/5 px-5 py-3">
+   325→            <div className="flex items-center gap-2">
+   326→              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-xs font-bold text-white">
+   327→                {i + 1}
+   328→              </span>
+   329→              <span className="text-sm font-semibold">{step.description}</span>
+   330→            </div>
+   331→          </div>
+   332→          <div className="p-5">
+   333→            <CodeBlock
+   334→              code={step.code.code}
+   335→              language={step.code.language}
+   336→              title={step.code.title}
+   337→              output={step.code.output}
+   338→            />
+   339→            <div className="mt-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+   340→              <div className="flex items-center gap-2 text-xs font-semibold text-amber-700 dark:text-amber-300">
+   341→                <Lightbulb className="h-3.5 w-3.5" />
+   342→                ¿Por qué este código?
+   343→              </div>
+   344→              <p className="mt-1 text-sm text-foreground/80">{step.why}</p>
+   345→            </div>
+   346→          </div>
+   347→        </Card>
+   348→      ))}
+   349→      <MarkDoneButton onDone={onDone} done={done} label="Entendido, marcado como visto" />
+   350→    </div>
+   351→  )
+   352→}
+   353→
+   354→// === We Do Tab ===
+   355→function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+   356→  const [showSolutions, setShowSolutions] = useState<Record<number, boolean>>({})
+   357→
+   358→  return (
+   359→    <div className="space-y-6">
+   360→      <div className="flex items-center gap-2">
+   361→        <Users className="h-5 w-5 text-amber-600" />
+   362→        <h2 className="text-xl font-semibold">Hacemos juntos — Práctica guiada</h2>
+   363→      </div>
+   364→      <Callout type="tip" title="Manos a la obra, en pareja">
+   365→        Ahora te toca a ti escribir el código, pero con mi guía. Lee la instrucción, intenta completar el starter code, y si te trabas, revisa la solución. <strong>La magia ocurre cuando escribes el código tú mismo</strong> — no copies sin entender.
+   366→      </Callout>
+   367→      <RichText content={section.weDo.intro} />
+   368→      {section.weDo.steps.map((step, i) => {
+   369→        const showSol = showSolutions[i] || false
+   370→        return (
+   371→          <Card key={i} className="overflow-hidden border-amber-500/20">
+   372→            <div className="border-b border-border/60 bg-amber-500/5 px-5 py-3">
+   373→              <div className="flex items-center gap-2">
+   374→                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
+   375→                  {i + 1}
+   376→                </span>
+   377→                <span className="text-sm font-semibold">{step.instruction}</span>
+   378→              </div>
+   379→            </div>
+   380→            <div className="space-y-3 p-5">
+   381→              <Callout type="tip" title="Pista">
+   382→                {step.hint}
+   383→              </Callout>
+   384→              <div>
+   385→                <div className="mb-2 text-xs font-medium text-muted-foreground">Starter code:</div>
+   386→                <CodeBlock
+   387→                  code={step.starterCode.code}
+   388→                  language={step.starterCode.language}
+   389→                  title={step.starterCode.title}
+   390→                />
+   391→              </div>
+   392→              <div>
+   393→                <Button
+   394→                  variant="outline"
+   395→                  size="sm"
+   396→                  onClick={() => setShowSolutions((s) => ({ ...s, [i]: !s[i] }))}
+   397→                  className="gap-2"
+   398→                >
+   399→                  {showSol ? (
+   400→                    <>
+   401→                      <EyeOff className="h-4 w-4" />
+   402→                      Ocultar solución
+   403→                    </>
+   404→                  ) : (
+   405→                    <>
+   406→                      <Eye className="h-4 w-4" />
+   407→                      Ver solución
+   408→                    </>
+   409→                  )}
+   410→                </Button>
+   411→              </div>
+   412→              {showSol && (
+   413→                <motion.div
+   414→                  initial={{ opacity: 0, height: 0 }}
+   415→                  animate={{ opacity: 1, height: 'auto' }}
+   416→                >
+   417→                  <div className="mb-2 text-xs font-medium text-muted-foreground">Solución:</div>
+   418→                  <CodeBlock
+   419→                    code={step.solutionCode.code}
+   420→                    language={step.solutionCode.language}
+   421→                    title={step.solutionCode.title}
+   422→                    output={step.solutionCode.output}
+   423→                  />
+   424→                </motion.div>
+   425→              )}
+   426→            </div>
+   427→          </Card>
+   428→        )
+   429→      })}
+   430→      <MarkDoneButton onDone={onDone} done={done} label="Práctica completada" />
+   431→    </div>
+   432→  )
+   433→}
+   434→
+   435→// === You Do Tab ===
+   436→function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+   437→  const project = section.youDo
+   438→  return (
+   439→    <div className="space-y-6">
+   440→      <div className="flex items-center gap-2">
+   441→        <Rocket className="h-5 w-5 text-emerald-600" />
+   442→        <h2 className="text-xl font-semibold">Tú haces — Proyecto para tu portafolio</h2>
+   443→      </div>
+   444→      <Callout type="success" title="Tu momento de brillar">
+   445→        Este es el proyecto que vas a subir a tu GitHub y mostrar en entrevistas. Tómate tu tiempo, no te apresures. Si te trabas, vuelve a la teoría o al I Do — pero intenta resolverlo solo primero. <strong>Acá es donde se consolida el aprendizaje.</strong>
+   446→      </Callout>
+   447→
+   448→      <Card className="overflow-hidden border-emerald-500/30 shadow-glow">
+   449→        <div className="gradient-primary px-5 py-4 text-white">
+   450→          <div className="flex items-center gap-2">
+   451→            <Sparkles className="h-5 w-5" />
+   452→            <h3 className="text-lg font-bold">{project.title}</h3>
+   453→          </div>
+   454→        </div>
+   455→        <div className="space-y-4 p-5">
+   456→          <div>
+   457→            <div className="text-sm font-semibold text-foreground">Contexto</div>
+   458→            <p className="mt-1 text-sm text-foreground/80">{project.context}</p>
+   459→          </div>
+   460→
+   461→          <div>
+   462→            <div className="text-sm font-semibold text-foreground">Objetivos</div>
+   463→            <ul className="mt-2 space-y-2">
+   464→              {project.objectives.map((o, i) => (
+   465→                <li key={i} className="flex items-start gap-2 text-sm text-foreground/90">
+   466→                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+   467→                  <span>{o}</span>
+   468→                </li>
+   469→              ))}
+   470→            </ul>
+   471→          </div>
+   472→
+   473→          <div>
+   474→            <div className="text-sm font-semibold text-foreground">Requisitos técnicos</div>
+   475→            <ul className="mt-2 space-y-1.5">
+   476→              {project.requirements.map((r, i) => (
+   477→                <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
+   478→                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
+   479→                  <span className="font-mono text-[13px]">{r}</span>
+   480→                </li>
+   481→              ))}
+   482→            </ul>
+   483→          </div>
+   484→
+   485→          {project.starterCode && (
+   486→            <div>
+   487→              <div className="mb-2 text-sm font-semibold text-foreground">Starter code</div>
+   488→              <CodeBlock code={project.starterCode} language="python" title="starter.py" />
+   489→            </div>
+   490→          )}
+   491→
+   492→          <Callout type="tip" title="Tip para tu portafolio">
+   493→            {project.portfolioNote}
+   494→          </Callout>
+   495→
+   496→          <div>
+   497→            <div className="mb-2 text-sm font-semibold text-foreground">Rúbrica de evaluación</div>
+   498→            <div className="overflow-hidden rounded-lg border border-border">
+   499→              <table className="w-full text-sm">
+   500→                <thead className="bg-muted/50">
+   501→                  <tr>
+   502→                    <th className="px-3 py-2 text-left font-medium text-foreground">Criterio</th>
+   503→                    <th className="px-3 py-2 text-right font-medium text-foreground">Peso</th>
+   504→                  </tr>
+   505→                </thead>
+   506→                <tbody>
+   507→                  {project.rubric.map((r, i) => (
+   508→                    <tr key={i} className="border-t border-border/60">
+   509→                      <td className="px-3 py-2 text-foreground/80">{r.criterion}</td>
+   510→                      <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{r.weight}</td>
+   511→                    </tr>
+   512→                  ))}
+   513→                </tbody>
+   514→              </table>
+   515→            </div>
+   516→          </div>
+   517→        </div>
+   518→      </Card>
+   519→
+   520→      <MarkDoneButton onDone={onDone} done={done} label="Proyecto enviado a mi GitHub" />
+   521→    </div>
+   522→  )
+   523→}
+   524→
+   525→// === Quiz Tab ===
+   526→function QuizTab({
+   527→  section,
+   528→  onDone,
+   529→  done,
+   530→  score,
+   531→  onSubmitScore,
+   532→}: {
+   533→  section: CourseSection
+   534→  onDone: () => void
+   535→  done: boolean
+   536→  score: number
+   537→  onSubmitScore: (s: number) => void
+   538→}) {
+   539→  const [answers, setAnswers] = useState<Record<number, number>>({})
+   540→  const [submitted, setSubmitted] = useState(false)
+   541→
+   542→  const handleSelect = (qIdx: number, optIdx: number) => {
+   543→    if (submitted) return
+   544→    setAnswers((a) => ({ ...a, [qIdx]: optIdx }))
+   545→  }
+   546→
+   547→  const handleSubmit = () => {
+   548→    const total = section.selfCheck.questions.length
+   549→    const correct = section.selfCheck.questions.reduce(
+   550→      (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
+   551→      0
+   552→    )
+   553→    const pct = Math.round((correct / total) * 100)
+   554→    onSubmitScore(pct)
+   555→    setSubmitted(true)
+   556→    if (pct >= 70) {
+   557→      onDone()
+   558→    }
+   559→  }
+   560→
+   561→  const handleRetry = () => {
+   562→    setAnswers({})
+   563→    setSubmitted(false)
+   564→  }
+   565→
+   566→  const total = section.selfCheck.questions.length
+   567→  const correct = section.selfCheck.questions.reduce(
+   568→    (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
+   569→    0
+   570→  )
+   571→  const pct = total > 0 ? Math.round((correct / total) * 100) : 0
+   572→
+   573→  return (
+   574→    <div className="space-y-6">
+   575→      <div className="flex items-center gap-2">
+   576→        <HelpCircle className="h-5 w-5 text-rose-600" />
+   577→        <h2 className="text-xl font-semibold">Autocheck — Verifica tu aprendizaje</h2>
+   578→      </div>
+   579→      <Callout type="info" title="¿Para qué este quiz?">
+   580→        Active recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.
+   581→      </Callout>
+   582→
+   583→      {section.selfCheck.questions.map((q, qIdx) => {
+   584→        const userAnswer = answers[qIdx]
+   585→        const isCorrect = userAnswer === q.correctIndex
+   586→        return (
+   587→          <Card key={qIdx} className="overflow-hidden">
+   588→            <div className="p-5">
+   589→              <div className="mb-3 flex items-start gap-2">
+   590→                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-xs font-bold text-rose-600">
+   591→                  {qIdx + 1}
+   592→                </span>
+   593→                <p className="text-sm font-medium text-foreground">{q.question}</p>
+   594→              </div>
+   595→              <div className="space-y-2">
+   596→                {q.options.map((opt, oIdx) => {
+   597→                  const isSelected = userAnswer === oIdx
+   598→                  const showCorrect = submitted && oIdx === q.correctIndex
+   599→                  const showWrong = submitted && isSelected && oIdx !== q.correctIndex
+   600→                  return (
+   601→                    <button
+   602→                      key={oIdx}
+   603→                      onClick={() => handleSelect(qIdx, oIdx)}
+   604→                      disabled={submitted}
+   605→                      className={cn(
+   606→                        'flex w-full items-center gap-3 rounded-lg border p-3 text-left text-sm transition-all',
+   607→                        showCorrect
+   608→                          ? 'border-green-500 bg-green-500/5 text-foreground'
+   609→                          : showWrong
+   610→                            ? 'border-red-500 bg-red-500/5 text-foreground'
+   611→                            : isSelected
+   612→                              ? 'border-primary bg-primary/5'
+   613→                              : 'border-border hover:border-primary/40 hover:bg-accent/50',
+   614→                        submitted && 'cursor-default'
+   615→                      )}
+   616→                    >
+   617→                      <span
+   618→                        className={cn(
+   619→                          'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-bold',
+   620→                          showCorrect
+   621→                            ? 'border-green-500 bg-green-500 text-white'
+   622→                            : showWrong
+   623→                              ? 'border-red-500 bg-red-500 text-white'
+   624→                              : isSelected
+   625→                                ? 'border-primary bg-primary text-primary-foreground'
+   626→                                : 'border-muted text-muted-foreground'
+   627→                        )}
+   628→                      >
+   629→                        {showCorrect ? (
+   630→                          <Check className="h-3.5 w-3.5" />
+   631→                        ) : showWrong ? (
+   632→                          <X className="h-3.5 w-3.5" />
+   633→                        ) : (
+   634→                          String.fromCharCode(65 + oIdx)
+   635→                        )}
+   636→                      </span>
+   637→                      <span className="flex-1">{opt}</span>
+   638→                    </button>
+   639→                  )
+   640→                })}
+   641→              </div>
+   642→              {submitted && (
+   643→                <div
+   644→                  className={cn(
+   645→                    'mt-3 rounded-lg p-3 text-xs',
+   646→                    isCorrect ? 'bg-green-500/10 text-green-900 dark:text-green-200' : 'bg-red-500/10 text-red-900 dark:text-red-200'
+   647→                  )}
+   648→                >
+   649→                  <strong>{isCorrect ? '✓ Correcto. ' : '✗ Incorrecto. '}</strong>
+   650→                  {q.explanation}
+   651→                </div>
+   652→              )}
+   653→            </div>
+   654→          </Card>
+   655→        )
+   656→      })}
+   657→
+   658→      {!submitted ? (
+   659→        <Button
+   660→          onClick={handleSubmit}
+   661→          disabled={Object.keys(answers).length < total}
+   662→          className="w-full gap-2"
+   663→          size="lg"
+   664→        >
+   665→          <CheckCircle2 className="h-4 w-4" />
+   666→          Enviar respuestas ({Object.keys(answers).length}/{total})
+   667→        </Button>
+   668→      ) : (
+   669→        <Card className={cn('p-5 text-center', pct >= 70 ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}>
+   670→          <div className="mb-2 flex justify-center">
+   671→            <div className="relative">
+   672→              <ProgressRing progress={pct} size={72} />
+   673→            </div>
+   674→          </div>
+   675→          <div className="text-lg font-bold">
+   676→            {pct >= 70 ? '¡Buenazo! Sección completada' : 'Casi, vuelve a intentarlo'}
+   677→          </div>
+   678→          <p className="mt-1 text-sm text-muted-foreground">
+   679→            {correct} de {total} correctas ({pct}%)
+   680→          </p>
+   681→          <div className="mt-4 flex justify-center gap-2">
+   682→            <Button variant="outline" onClick={handleRetry} className="gap-2">
+   683→              Reintentar
+   684→            </Button>
+   685→            {pct >= 70 && (
+   686→              <Button className="gap-2" onClick={onDone}>
+   687→                <Award className="h-4 w-4" />
+   688→                Marcar como completada
+   689→              </Button>
+   690→            )}
+   691→          </div>
+   692→        </Card>
+   693→      )}
+   694→    </div>
+   695→  )
+   696→}
+   697→
+   698→// === Mark Done Button ===
+   699→function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boolean; label: string }) {
+   700→  return (
+   701→    <Button
+   702→      onClick={onDone}
+   703→      variant={done ? 'secondary' : 'default'}
+   704→      className={cn('w-full gap-2', done && 'bg-green-600 text-white hover:bg-green-700')}
+   705→      size="lg"
+   706→    >
+   707→      <CheckCircle2 className="h-4 w-4" />
+   708→      {done ? 'Completado' : label}
+   709→    </Button>
+   710→  )
+   711→}
+   712→
+   713→// === Interactive Playground Demo ===
+   714→// Per-section code examples that students can run in the browser
+   715→function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
+   716→  const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
+   717→    'setup': {
+   718→      title: 'Tu primer programa en Python',
+   719→      code: `# Tu primer programa en Python
+   720→# Escribe tu nombre y ejecuta con Run
+   721→nombre = "Estudiante"
+   722→print(f"Hola {nombre}, bienvenido a Python DS Perú!")
+   723→
+   724→# Calcula tu edad en meses
+   725→edad_anos = 25
+   726→edad_meses = edad_anos * 12
+   727→print(f"Tu edad en meses: {edad_meses}")`,
+   728→      expectedOutput: `Hola Estudiante, bienvenido a Python DS Perú!
+   729→Tu edad en meses: 300`,
+   730→      hint: 'Cambia el valor de nombre y edad_anos por tus datos',
+   731→    },
+   732→    'basics': {
+   733→      title: 'Practica variables y tipos',
+   734→      code: `# Practica los tipos basicos de Python
+   735→edad = 25
+   736→altura = 1.75
+   737→nombre = "Ana"
+   738→es_alumno = True
+   739→
+   740→# Imprime el tipo de cada variable
+   741→print(f"edad: {edad} -> {type(edad).__name__}")
+   742→print(f"altura: {altura} -> {type(altura).__name__}")
+   743→print(f"nombre: {nombre} -> {type(nombre).__name__}")
+   744→print(f"es_alumno: {es_alumno} -> {type(es_alumno).__name__}")
+   745→
+   746→# Operacion: lista comprehension
+   747→numeros = [1, 2, 3, 4, 5]
+   748→cuadrados = [n**2 for n in numeros]
+   749→print(f"Cuadrados: {cuadrados}")`,
+   750→      expectedOutput: `edad: 25 -> int
+   751→altura: 1.75 -> float
+   752→nombre: Ana -> str
+   753→es_alumno: True -> bool
+   754→Cuadrados: [1, 4, 9, 16, 25]`,
+   755→      hint: 'Cambia los valores y observa cómo cambia el output',
+   756→    },
+   757→    'data-structures': {
+   758→      title: 'Practica dict y list',
+   759→      code: `# Practica estructuras de datos
+   760→alumnos = [
+   761→    {"nombre": "Ana", "nota": 18},
+   762→    {"nombre": "Luis", "nota": 15},
+   763→    {"nombre": "Carlos", "nota": 20}
+   764→]
+   765→
+   766→# List comprehension para extraer nombres
+   767→nombres = [a["nombre"] for a in alumnos]
+   768→print(f"Nombres: {nombres}")
+   769→
+   770→# Promedio de notas
+   771→promedio = sum(a["nota"] for a in alumnos) / len(alumnos)
+   772→print(f"Promedio: {promedio}")
+   773→
+   774→# Dict comprehension: nombre -> aprobado?
+   775→resultados = {a["nombre"]: "Aprobado" if a["nota"] >= 14 else "Desaprobado" for a in alumnos}
+   776→print(f"Resultados: {resultados}")`,
+   777→      expectedOutput: `Nombres: ['Ana', 'Luis', 'Carlos']
+   778→Promedio: 17.666666666666668
+   779→Resultados: {'Ana': 'Aprobado', 'Luis': 'Aprobado', 'Carlos': 'Aprobado'}`,
+   780→      hint: 'Agrega un cuarto alumno y observa cómo cambian los resultados',
+   781→    },
+   782→    'functions-modules': {
+   783→      title: 'Practica funciones y decorators',
+   784→      code: `# Practica funciones y decorators
+   785→import functools
+   786→import time
+   787→
+   788→def timing(func):
+   789→    @functools.wraps(func)
+   790→    def wrapper(*args, **kwargs):
+   791→        inicio = time.time()
+   792→        result = func(*args, **kwargs)
+   793→        elapsed = (time.time() - inicio) * 1000
+   794→        print(f"⏱️  {func.__name__} tardó {elapsed:.2f}ms")
+   795→        return result
+   796→    return wrapper
+   797→
+   798→@timing
+   799→def fibonacci(n):
+   800→    """Calcula el n-ésimo número de Fibonacci."""
+   801→    if n <= 1:
+   802→        return n
+   803→    return fibonacci(n-1) + fibonacci(n-2)
+   804→
+   805→# Probar
+   806→resultado = fibonacci(10)
+   807→print(f"fibonacci(10) = {resultado}")`,
+   808→      hint: 'Intenta con fibonacci(15) o fibonacci(20) para ver cómo crece el tiempo',
+   809→    },
+   810→    'oop': {
+   811→      title: 'Practica clases y herencia',
+   812→      code: `# Practica OOP
+   813→class Animal:
+   814→    def __init__(self, nombre, edad):
+   815→        self.nombre = nombre
+   816→        self.edad = edad
+   817→
+   818→    def hacer_sonido(self):
+   819→        return "sonido generico"
+   820→
+   821→    def __str__(self):
+   822→        return f"{self.nombre} ({self.edad} años)"
+   823→
+   824→class Perro(Animal):
+   825→    def __init__(self, nombre, edad, raza):
+   826→        super().__init__(nombre, edad)
+   827→        self.raza = raza
+   828→
+   829→    def hacer_sonido(self):
+   830→        return "Guau!"
+   831→
+   832→    def __str__(self):
+   833→        return f"{self.nombre}, {self.raza}, {self.edad} años"
+   834→
+   835→# Crear instancias
+   836→animal = Animal("Generico", 5)
+   837→fido = Perro("Fido", 3, "Labrador")
+   838→
+   839→print(animal)
+   840→print(f"Sonido: {animal.hacer_sonido()}")
+   841→print()
+   842→print(fido)
+   843→print(f"Sonido: {fido.hacer_sonido()}")`,
+   844→      hint: 'Crea una clase Gato que herede de Animal y haga "Miau!"',
+   845→    },
+   846→    'numpy': {
+   847→      title: 'Practica NumPy vectorizado',
+   848→      code: `# Practica NumPy (se carga automaticamente)
+   849→import numpy as np
+   850→
+   851→# Crear array
+   852→arr = np.array([1, 2, 3, 4, 5])
+   853→print(f"Array: {arr}")
+   854→print(f"Shape: {arr.shape}")
+   855→print(f"Mean: {arr.mean()}")
+   856→
+   857→# Operaciones vectorizadas
+   858→print(f"Cuadrados: {arr ** 2}")
+   859→print(f"Doble: {arr * 2}")
+   860→
+   861→# Boolean masking
+   862→print(f"Mayores a 3: {arr[arr > 3]}")
+   863→
+   864→# Matriz 2D
+   865→matriz = np.array([[1, 2, 3], [4, 5, 6]])
+   866→print(f"\\nMatriz:\\n{matriz}")
+   867→print(f"Suma por columnas: {matriz.sum(axis=0)}")
+   868→print(f"Suma por filas: {matriz.sum(axis=1)}")`,
+   869→      hint: 'Crea una matriz 3x3 y calcula su transpuesta con .T',
+   870→    },
+   871→    'pandas': {
+   872→      title: 'Practica pandas DataFrame',
+   873→      code: `# Practica pandas (se carga automaticamente)
+   874→import pandas as pd
+   875→
+   876→# Crear DataFrame
+   877→df = pd.DataFrame({
+   878→    "producto": ["arroz", "aceite", "azucar", "arroz"],
+   879→    "region": ["Lima", "Lima", "Arequipa", "Cusco"],
+   880→    "ventas": [1500, 800, 900, 1200]
+   881→})
+   882→
+   883→print("=== DataFrame ===")
+   884→print(df)
+   885→print(f"\\nShape: {df.shape}")
+   886→
+   887→# GroupBy: ventas por producto
+   888→print("\\n=== Ventas por producto ===")
+   889→print(df.groupby("producto")["ventas"].sum())
+   890→
+   891→# Filtrado
+   892→print("\\n=== Solo Lima ===")
+   893→print(df[df["region"] == "Lima"])
+   894→
+   895→# Estadisticas
+   896→print(f"\\nVentas totales: {df['ventas'].sum()}")
+   897→print(f"Ticket promedio: {df['ventas'].mean():.2f}")`,
+   898→      expectedOutput: `=== DataFrame ===
+   899→  producto   region  ventas
+   900→0    arroz     Lima    1500
+   901→1   aceite     Lima     800
+   902→2  azucar  Arequipa     900
+   903→3    arroz    Cusco    1200
+   904→
+   905→Shape: (4, 3)`,
+   906→      hint: 'Agrega una quinta fila y observa cómo cambian los groupby',
+   907→    },
+   908→    'visualization': {
+   909→      title: 'Practica matplotlib',
+   910→      code: `# Practica matplotlib (se carga automaticamente)
+   911→import matplotlib.pyplot as plt
+   912→import numpy as np
+   913→
+   914→# Datos
+   915→meses = ["Ene", "Feb", "Mar", "Abr", "May"]
+   916→ventas_2024 = [120, 145, 138, 165, 178]
+   917→ventas_2025 = [135, 158, 162, 180, 195]
+   918→
+   919→# Crear grafico
+   920→fig, ax = plt.subplots(figsize=(8, 4))
+   921→ax.plot(meses, ventas_2024, marker='o', label='2024')
+   922→ax.plot(meses, ventas_2025, marker='s', label='2025')
+   923→ax.set_title('Ventas mensuales')
+   924→ax.set_xlabel('Mes')
+   925→ax.set_ylabel('Ventas')
+   926→ax.legend()
+   927→ax.grid(True, alpha=0.3)
+   928→
+   929→plt.tight_layout()
+   930→plt.savefig('plot.png', dpi=100)
+   931→print("Grafico creado y guardado como plot.png")
+   932→print(f"Crecimiento May: {((ventas_2025[-1] - ventas_2024[-1]) / ventas_2024[-1] * 100):.1f}%")`,
+   933→      hint: 'Cambia los datos y vuelve a ejecutar para ver cómo cambia el gráfico',
+   934→    },
+   935→    'sklearn': {
+   936→      title: 'Practica scikit-learn',
+   937→      code: `# Practica scikit-learn (se carga automaticamente)
+   938→from sklearn.linear_model import LogisticRegression
+   939→from sklearn.model_selection import cross_val_score
+   940→from sklearn.metrics import accuracy_score
+   941→import numpy as np
+   942→
+   943→# Datos sinteticos
+   944→np.random.seed(42)
+   945→X = np.random.randn(100, 3)
+   946→y = (X[:, 0] + X[:, 1] > 0).astype(int)
+   947→
+   948→# Entrenar modelo
+   949→model = LogisticRegression(random_state=42)
+   950→model.fit(X[:80], y[:80])
+   951→
+   952→# Predecir
+   953→predictions = model.predict(X[80:])
+   954→accuracy = accuracy_score(y[80:], predictions)
+   955→
+   956→print(f"Accuracy: {accuracy:.2%}")
+   957→print(f"Coeficientes: {model.coef_[0].round(3)}")
+   958→print(f"Intercept: {model.intercept_[0]:.3f}")
+   959→
+   960→# Cross-validation
+   961→cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+   962→print(f"\\nCV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")`,
+   963→      hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
+   964→    },
+   965→    'testing': {
+   966→      title: 'Practica testing con asserts',
+   967→      code: `# Practica testing con asserts (simulando pytest)
+   968→import numpy as np
+   969→
+   970→# Funcion a testear
+   971→def calcular_promedio_ponderado(notas, pesos):
+   972→    """Calcula promedio ponderado."""
+   973→    if len(notas) != len(pesos):
+   974→        raise ValueError("Listas deben tener misma longitud")
+   975→    if sum(pesos) != 1.0:
+   976→        raise ValueError("Pesos deben sumar 1.0")
+   977→    return sum(n * p for n, p in zip(notas, pesos))
+   978→
+   979→# === TESTS ===
+   980→
+   981→# Test 1: caso normal
+   982→notas = [18, 15, 20]
+   983→pesos = [0.3, 0.3, 0.4]
+   984→resultado = calcular_promedio_ponderado(notas, pesos)
+   985→assert abs(resultado - 17.9) < 0.01, f"Esperado 17.9, got {resultado}"
+   986→print("✓ Test 1: promedio ponderado correcto")
+   987→
+   988→# Test 2: error por longitudes distintas
+   989→try:
+   990→    calcular_promedio_ponderado([1, 2], [1.0])
+   991→    print("✗ Test 2: deberia haber fallado")
+   992→except ValueError as e:
+   993→    assert "misma longitud" in str(e)
+   994→    print("✓ Test 2: error de longitud detectado")
+   995→
+   996→# Test 3: error por pesos que no suman 1
+   997→try:
+   998→    calcular_promedio_ponderado([1, 2], [0.5, 0.3])
+   999→    print("✗ Test 3: deberia haber fallado")
+  1000→except ValueError as e:
+  1001→    assert "sumar 1.0" in str(e)
+  1002→    print("✓ Test 3: error de pesos detectado")
+  1003→
+  1004→# Test 4: edge case - un solo elemento
+  1005→resultado = calcular_promedio_ponderado([20], [1.0])
+  1006→assert resultado == 20
+  1007→print("✓ Test 4: un solo elemento funciona")
+  1008→
+  1009→print("\\n✅ Todos los tests pasaron!")`,
+  1010→      expectedOutput: `✓ Test 1: promedio ponderado correcto
+  1011→✓ Test 2: error de longitud detectado
+  1012→✓ Test 3: error de pesos detectado
+  1013→✓ Test 4: un solo elemento funciona
+  1014→
+  1015→✅ Todos los tests pasaron!`,
+  1016→      hint: 'Agrega un test para verificar que funciona con notas negativas',
+  1017→    },
+  1018→    'advanced-topics': {
+  1019→      title: 'Practica generators y collections',
+  1020→      code: `# Practica generators y collections
+  1021→from collections import Counter, defaultdict
+  1022→import re
+  1023→
+  1024→# === GENERATOR: procesar datos en streaming ===
+  1025→def leer_ventas_sinteticas():
+  1026→    """Simula leer ventas de un archivo grande."""
+  1027→    for i in range(10):
+  1028→        yield {
+  1029→            "producto": ["arroz", "aceite", "azucar"][i % 3],
+  1030→            "monto": (i + 1) * 100,
+  1031→            "region": ["Lima", "Arequipa", "Cusco"][i % 3]
+  1032→        }
+  1033→
+  1034→# Procesar con generator (sin cargar todo en memoria)
+  1035→ventas_por_producto = defaultdict(float)
+  1036→for venta in leer_ventas_sinteticas():
+  1037→    ventas_por_producto[venta["producto"]] += venta["monto"]
+  1038→
+  1039→print("=== Ventas por producto (generator) ===")
+  1040→for producto, total in ventas_por_producto.items():
+  1041→    print(f"  {producto}: S/{total}")
+  1042→
+  1043→# === COUNTER: frecuencias ===
+  1044→texto = "el arte de python es el camino al dato"
+  1045→palabras = texto.split()
+  1046→contador = Counter(palabras)
+  1047→
+  1048→print("\\n=== Top 3 palabras ===")
+  1049→for palabra, freq in contador.most_common(3):
+  1050→    print(f"  '{palabra}': {freq}x")
+  1051→
+  1052→# === REGEX: extraer datos ===
+  1053→datos_mixtos = "Contacto: ana@python.pe, 999-888-777. Luis: luis@data.pe"
+  1054→emails = re.findall(r'[\\w.-]+@[\\w.-]+', datos_mixtos)
+  1055→telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', datos_mixtos)
+  1056→
+  1057→print(f"\\n=== Regex ===")
+  1058→print(f"Emails: {emails}")
+  1059→print(f"Telefonos: {telefonos}")`,
+  1060→      hint: 'Modifica el generator para que genere 20 ventas en vez de 10',
+  1061→    },
+  1062→    'data-acquisition': {
+  1063→      title: 'Practica scraping, regex y SQL',
+  1064→      code: `# Practica adquisicion de datos (sin librerias externas en Pyodide)
+  1065→import re
+  1066→import sqlite3
+  1067→from collections import Counter, defaultdict
+  1068→
+  1069→# === REGEX: extraer datos de texto desestructurado ===
+  1070→texto_clientes = """
+  1071→Cliente 1: Maria Quispe, DNI 12345678, tel 999-888-777, maria@email.pe
+  1072→Cliente 2: Luis Garcia, DNI 87654321, tel 987-654-321, luis.garcia@empresa.com
+  1073→Cliente 3: Ana Flores, DNI 11223344, tel 999-111-222, ana.f@pe.org
+  1074→"""
+  1075→
+  1076→# Extraer todos los DNIs (8 digitos)
+  1077→dnis = re.findall(r'\\b\\d{8}\\b', texto_clientes)
+  1078→print(f"DNIs encontrados: {dnis}")
+  1079→
+  1080→# Extraer emails
+  1081→emails = re.findall(r'[\\w.-]+@[\\w.-]+\\.\\w+', texto_clientes)
+  1082→print(f"Emails: {emails}")
+  1083→
+  1084→# Extraer telefonos (formato XXX-XXX-XXX)
+  1085→telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', texto_clientes)
+  1086→print(f"Telefonos: {telefonos}")
+  1087→
+  1088→# === COUNTER: frecuencias ===
+  1089→nombres = ["Maria", "Luis", "Ana", "Maria", "Carlos", "Maria", "Luis"]
+  1090→contador = Counter(nombres)
+  1091→print(f"\\nTop 2 nombres mas frecuentes: {contador.most_common(2)}")
+  1092→
+  1093→# === DEFAULTDICT: agrupar ===
+  1094→ventas = [("Maria", 100), ("Luis", 200), ("Maria", 150), ("Ana", 300)]
+  1095→por_vendedor = defaultdict(list)
+  1096→for nombre, monto in ventas:
+  1097→    por_vendedor[nombre].append(monto)
+  1098→
+  1099→print("\\nVentas por vendedor:")
+  1100→for vendedor, montos in por_vendedor.items():
+  1101→    print(f"  {vendedor}: {montos} (total: {sum(montos)})")`,
+  1102→      hint: 'Intenta extraer los nombres del texto con regex (palabras despues de "Cliente N:")',
+  1103→    },
+  1104→    'performance': {
+  1105→      title: 'Practica multiprocessing y logging',
+  1106→      code: `# Practica performance y logging (simulado en Pyodide)
+  1107→import time
+  1108→import logging
+  1109→
+  1110→# === LOGGING setup ===
+  1111→logging.basicConfig(
+  1112→    level=logging.INFO,
+  1113→    format='%(asctime)s - %(levelname)s - %(message)s',
+  1114→    datefmt='%H:%M:%S'
+  1115→)
+  1116→logger = logging.getLogger(__name__)
+  1117→
+  1118→# === BENCHMARK: comparar enfoques ===
+  1119→def lento(n):
+  1120→    """Enfoque con loop tradicional."""
+  1121→    resultado = []
+  1122→    for i in range(n):
+  1123→        if i % 2 == 0:
+  1124→            resultado.append(i ** 2)
+  1125→    return resultado
+  1126→
+  1127→def rapido(n):
+  1128→    """Enfoque con list comprehension."""
+  1129→    return [i ** 2 for i in range(n) if i % 2 == 0]
+  1130→
+  1131→# Medir tiempo
+  1132→n = 100000
+  1133→
+  1134→inicio = time.time()
+  1135→r1 = lento(n)
+  1136→t1 = time.time() - inicio
+  1137→logger.info(f"Loop tradicional: {t1:.4f}s ({len(r1)} elementos)")
+  1138→
+  1139→inicio = time.time()
+  1140→r2 = rapido(n)
+  1141→t2 = time.time() - inicio
+  1142→logger.info(f"List comprehension: {t2:.4f}s ({len(r2)} elementos)")
+  1143→
+  1144→speedup = t1 / t2 if t2 > 0 else 0
+  1145→logger.info(f"Speedup: {speedup:.1f}x mas rapido con comprehension")
+  1146→
+  1147→# Verificar que ambos dan el mismo resultado
+  1148→assert r1 == r2, "Los resultados no coinciden!"
+  1149→logger.info("✓ Ambos enfoques producen el mismo resultado")`,
+  1150→      hint: 'Cambia n a 1000000 y observa como cambia el speedup',
+  1151→    },
+  1152→    'rpa-automation': {
+  1153→      title: 'Practica automatización con tenacity y argparse',
+  1154→      code: `# Practica RPA: retry logic y CLI (simulado en Pyodide)
+  1155→import time
+  1156→import random
+  1157→from functools import wraps
+  1158→
+  1159→# === DECORADOR DE RETRY (simulando tenacity) ===
+  1160→def retry(max_attempts=3, delay=0.1):
+  1161→    """Decorador que reintenta una funcion hasta max_attempts veces."""
+  1162→    def decorator(func):
+  1163→        @wraps(func)
+  1164→        def wrapper(*args, **kwargs):
+  1165→            for attempt in range(1, max_attempts + 1):
+  1166→                try:
+  1167→                    result = func(*args, **kwargs)
+  1168→                    print(f"  ✓ Intento {attempt}: exitoso")
+  1169→                    return result
+  1170→                except Exception as e:
+  1171→                    print(f"  ✗ Intento {attempt}: fallo - {e}")
+  1172→                    if attempt < max_attempts:
+  1173→                        time.sleep(delay)
+  1174→                        print(f"    Reintentando en {delay}s...")
+  1175→                    else:
+  1176→                        print(f"  ✗ Agotados {max_attempts} intentos")
+  1177→                        raise
+  1178→        return wrapper
+  1179→    return decorator
+  1180→
+  1181→# === SIMULAR API QUE FALLA ALEATORIAMENTE ===
+  1182→@retry(max_attempts=5, delay=0.05)
+  1183→def llamar_api_inestable(endpoint):
+  1184→    """Simula una API que falla 70% de las veces."""
+  1185→    if random.random() < 0.7:
+  1186→        raise ConnectionError(f"Timeout en {endpoint}")
+  1187→    return {"status": "ok", "data": [1, 2, 3]}
+  1188→
+  1189→# Probar la API con retry
+  1190→print("=== Llamando API inestable con retry ===")
+  1191→random.seed(42)  # para reproducibilidad
+  1192→try:
+  1193→    resultado = llamar_api_inestable("/api/clientes")
+  1194→    print(f"Resultado: {resultado}")
+  1195→except Exception as e:
+  1196→    print(f"Error final: {e}")
+  1197→
+  1198→# === SIMULAR ARGPARSE ===
+  1199→print("\\n=== Simulando CLI con argumentos ===")
+  1200→def procesar_clientes(archivo, formato="csv", verbose=False):
+  1201→    """Simula procesamiento de clientes con argumentos CLI."""
+  1202→    if verbose:
+  1203→        print(f"  Procesando {archivo} en formato {formato}...")
+  1204→    # Simular procesamiento
+  1205→    clientes = ["Maria", "Luis", "Ana"]
+  1206→    if verbose:
+  1207→        print(f"  Encontrados {len(clientes)} clientes")
+  1208→    return clientes
+  1209→
+  1210→# Simular: python script.py --archivo clientes.xlsx --formato xlsx --verbose
+  1211→procesar_clientes("clientes.xlsx", formato="xlsx", verbose=True)`,
+  1212→      hint: 'Cambia max_attempts a 10 y observa cuántos intentos necesita la API',
+  1213→    },
+  1214→    // === Phase 1 demos (S14-S26) — Pyodide-compatible (stdlib only) ===
+  1215→    'security': {
+  1216→      title: 'Practica seguridad: hashing y cifrado',
+  1217→      code: `# Practica seguridad con biblioteca estandar
+  1218→import hashlib
+  1219→import os
+  1220→
+  1221→# 1. Hash SHA-256 (irreversible - para passwords)
+  1222→password = "mi_password_123"
+  1223→hash_sha256 = hashlib.sha256(password.encode()).hexdigest()
+  1224→print(f"Password: {password}")
+  1225→print(f"SHA-256:  {hash_sha256}")
+  1226→
+  1227→# 2. PBKDF2 con salt (mas seguro que SHA-256 solo)
+  1228→salt = os.urandom(16)
+  1229→key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
+  1230→print(f"\\nPBKDF2 (100k iteraciones): {key.hex()[:32]}...")
+  1231→print(f"Salt: {salt.hex()[:16]}...")
+  1232→
+  1233→# 3. Verificar password
+  1234→def verificar_password(password, hash_guardado):
+  1235→    """Compara hash del password ingresado con el guardado."""
+  1236→    hash_ingresado = hashlib.sha256(password.encode()).hexdigest()
+  1237→    return hash_ingresado == hash_guardado
+  1238→
+  1239→print(f"\\nPassword correcto: {verificar_password('mi_password_123', hash_sha256)}")
+  1240→print(f"Password incorrecto: {verificar_password('wrong', hash_sha256)}")`,
+  1241→      hint: 'Cambia el numero de iteraciones de PBKDF2 y observa como cambia el hash',
+  1242→    },
+  1243→    'stdlib-deep': {
+  1244→      title: 'Practica functools y itertools',
+  1245→      code: `# Practica functools y itertools (biblioteca estandar)
+  1246→import functools
+  1247→import itertools
+  1248→
+  1249→# 1. lru_cache: memoizacion automatica
+  1250→@functools.lru_cache(maxsize=128)
+  1251→def fibonacci(n):
+  1252→    """Fibonacci con cache - O(n) en vez de O(2^n)."""
+  1253→    if n <= 1:
+  1254→        return n
+  1255→    return fibonacci(n-1) + fibonacci(n-2)
+  1256→
+  1257→print("Fibonacci con lru_cache:")
+  1258→for i in range(10):
+  1259→    print(f"  fib({i}) = {fibonacci(i)}")
+  1260→print(f"  Cache info: {fibonacci.cache_info()}")
+  1261→
+  1262→# 2. itertools.chain: concatenar iterables
+  1263→lista1 = [1, 2, 3]
+  1264→lista2 = [4, 5, 6]
+  1265→combinado = list(itertools.chain(lista1, lista2))
+  1266→print(f"\\nChain: {combinado}")
+  1267→
+  1268→# 3. itertools.combinations
+  1269→combo = list(itertools.combinations([1, 2, 3, 4], 2))
+  1270→print(f"Combinations(4,2): {combo}")
+  1271→
+  1272→# 4. partial: fijar argumentos
+  1273→def potencia(base, exponente):
+  1274→    return base ** exponente
+  1275→
+  1276→cuadrado = functools.partial(potencia, exponente=2)
+  1277→cubo = functools.partial(potencia, exponente=3)
+  1278→print(f"\\ncuadrado(5) = {cuadrado(5)}")
+  1279→print(f"cubo(3) = {cubo(3)}")`,
+  1280→      hint: 'Cambia maxsize de lru_cache a 1 y observa como cambia el cache_info',
+  1281→    },
+  1282→    'wxpython-gui': {
+  1283→      title: 'Practica eventos y callbacks (simulado)',
+  1284→      code: `# Simulacion de eventos GUI (sin wxPython en Pyodide)
+  1285→# Concepto: como funcionan los callbacks de eventos
+  1286→
+  1287→class Button:
+  1288→    """Simula un boton de GUI con event binding."""
+  1289→    def __init__(self, name):
+  1290→        self.name = name
+  1291→        self.callback = None
+  1292→    
+  1293→    def bind(self, event_type, callback):
+  1294→        """Vincula un callback a un evento (como wx.EVT_BUTTON)."""
+  1295→        self.callback = callback
+  1296→        print(f"  {self.name}: evento '{event_type}' vinculado")
+  1297→    
+  1298→    def click(self):
+  1299→        """Simula un clic del usuario."""
+  1300→        if self.callback:
+  1301→            print(f"  {self.name}: CLICK detectado!")
+  1302→            self.callback()
+  1303→        else:
+  1304→            print(f"  {self.name}: sin callback vinculado")
+  1305→
+  1306→# Crear botones como en wxPython
+  1307→btn_saludar = Button("btn_saludar")
+  1308→btn_salir = Button("btn_salir")
+  1309→
+  1310→# Definir callbacks (event handlers)
+  1311→def on_saludar(event=None):
+  1312→    print("    -> Hola desde el boton saludar!")
+  1313→
+  1314→def on_salir(event=None):
+  1315→    print("    -> Cerrando aplicacion...")
+  1316→
+  1317→# Vincular eventos (como btn.Bind(wx.EVT_BUTTON, handler))
+  1318→btn_saludar.bind("EVT_BUTTON", on_saludar)
+  1319→btn_salir.bind("EVT_BUTTON", on_salir)
+  1320→
+  1321→# Simular clics
+  1322→print("Simulando clics:")
+  1323→btn_saludar.click()
+  1324→btn_salir.click()`,
+  1325→      hint: 'Anade un tercer boton con su propio callback y haz clic en el',
+  1326→    },
+  1327→    'packaging': {
+  1328→      title: 'Practica semver y dependencias',
+  1329→      code: `# Practica Semantic Versioning y gestion de dependencias
+  1330→import re
+  1331→
+  1332→def parse_semver(version_str):
+  1333→    """Parsea una version semver: MAJOR.MINOR.PATCH."""
+  1334→    match = re.match(r"^(\\d+)\\.(\\d+)\\.(\\d+)", version_str)
+  1335→    if not match:
+  1336→        return None
+  1337→    return tuple(int(x) for x in match.groups())
+  1338→
+  1339→def bump_version(version_str, bump_type):
+  1340→    """Incrementa una version semver."""
+  1341→    major, minor, patch = parse_semver(version_str)
+  1342→    if bump_type == "patch":
+  1343→        patch += 1
+  1344→    elif bump_type == "minor":
+  1345→        minor += 1
+  1346→        patch = 0
+  1347→    elif bump_type == "major":
+  1348→        major += 1
+  1349→        minor = 0
+  1350→        patch = 0
+  1351→    return f"{major}.{minor}.{patch}"
+  1352→
+  1353→# Demostrar semver
+  1354→version = "1.4.2"
+  1355→print(f"Version actual: {version}")
+  1356→print(f"  patch bump:  {bump_version(version, 'patch')}")
+  1357→print(f"  minor bump:  {bump_version(version, 'minor')}")
+  1358→print(f"  major bump:  {bump_version(version, 'major')}")
+  1359→
+  1360→# Verificar compatibilidad
+  1361→def is_backward_compatible(old, new):
+  1362→    """True si new es backward compatible con old."""
+  1363→    o_major, o_minor, _ = parse_semver(old)
+  1364→    n_major, n_minor, _ = parse_semver(new)
+  1365→    return n_major == o_major and n_minor >= o_minor
+  1366→
+  1367→print(f"\\n1.4.2 -> 1.5.0 compatible: {is_backward_compatible('1.4.2', '1.5.0')}")
+  1368→print(f"1.4.2 -> 2.0.0 compatible: {is_backward_compatible('1.4.2', '2.0.0')}")`,
+  1369→      hint: 'Implementa una funcion que determine si un bump es breaking change',
+  1370→    },
+  1371→    'data-engineering': {
+  1372→      title: 'Practica idempotencia y ETL',
+  1373→      code: `# Practica conceptos de Data Engineering (sin dependencias externas)
+  1374→import json
+  1375→from collections import defaultdict
+  1376→
+  1377→# Simular pipeline ETL con idempotencia
+  1378→class ETLPipeline:
+  1379→    """Pipeline ETL idempotente: correr N veces = mismo resultado."""
+  1380→    
+  1381→    def __init__(self):
+  1382→        self.processed_ids = set()
+  1383→        self.output = []
+  1384→    
+  1385→    def extract(self, raw_data):
+  1386→        """Extrae datos de la fuente."""
+  1387→        return raw_data
+  1388→    
+  1389→    def transform(self, records):
+  1390→        """Transforma: filtra, limpia, agrega."""
+  1391→        transformed = []
+  1392→        for r in records:
+  1393→            # Idempotencia: saltar si ya fue procesado
+  1394→            if r["id"] in self.processed_ids:
+  1395→                continue
+  1396→            self.processed_ids.add(r["id"])
+  1397→            
+  1398→            # Transformacion
+  1399→            r["total"] = r["cantidad"] * r["precio"]
+  1400→            r["moneda"] = "PEN"
+  1401→            transformed.append(r)
+  1402→        return transformed
+  1403→    
+  1404→    def load(self, records):
+  1405→        """Carga al destino (simulado)."""
+  1406→        self.output.extend(records)
+  1407→        return len(records)
+  1408→    
+  1409→    def run(self, raw_data):
+  1410→        """Ejecuta el pipeline completo."""
+  1411→        extracted = self.extract(raw_data)
+  1412→        transformed = self.transform(extracted)
+  1413→        loaded = self.load(transformed)
+  1414→        return loaded
+  1415→
+  1416→# Datos de prueba
+  1417→datos = [
+  1418→    {"id": 1, "cantidad": 10, "precio": 5.0},
+  1419→    {"id": 2, "cantidad": 5, "precio": 12.0},
+  1420→    {"id": 3, "cantidad": 8, "precio": 3.5},
+  1421→]
+  1422→
+  1423→pipeline = ETLPipeline()
+  1424→
+  1425→# Primera ejecucion
+  1426→n1 = pipeline.run(datos)
+  1427→print(f"Run 1: {n1} registros procesados")
+  1428→print(f"Output: {json.dumps(pipeline.output, indent=2)}")
+  1429→
+  1430→# Segunda ejecucion (idempotente - no duplica)
+  1431→n2 = pipeline.run(datos)
+  1432→print(f"\\nRun 2: {n2} registros procesados (idempotente!)")
+  1433→print(f"Total output: {len(pipeline.output)} registros")`,
+  1434→      hint: 'Que pasa si corres el pipeline 3 veces? El output debe ser el mismo que 1 vez',
+  1435→    },
+  1436→    'databases-orm': {
+  1437→      title: 'Practica SQL y modelos (simulado)',
+  1438→      code: `# Simulacion de ORM y queries SQL (sin DB real)
+  1439→import sqlite3
+  1440→import json
+  1441→
+  1442→# Crear DB en memoria (sqlite3 es stdlib!)
+  1443→conn = sqlite3.connect(":memory:")
+  1444→cursor = conn.cursor()
+  1445→
+  1446→# Crear tabla
+  1447→cursor.execute("""
+  1448→    CREATE TABLE clientes (
+  1449→        id INTEGER PRIMARY KEY,
+  1450→        nombre TEXT NOT NULL,
+  1451→        email TEXT UNIQUE,
+  1452→        edad INTEGER,
+  1453→        ciudad TEXT
+  1454→    )
+  1455→""")
+  1456→
+  1457→# Insertar datos
+  1458→clientes = [
+  1459→    (1, "Ana Garcia", "ana@email.pe", 25, "Lima"),
+  1460→    (2, "Luis Torres", "luis@email.pe", 30, "Arequipa"),
+  1461→    (3, "Carlos Diaz", "carlos@email.pe", 22, "Lima"),
+  1462→    (4, "Maria Quispe", "maria@email.pe", 28, "Cusco"),
+  1463→]
+  1464→cursor.executemany("INSERT INTO clientes VALUES (?,?,?,?,?)", clientes)
+  1465→conn.commit()
+  1466→
+  1467→# Query: todos los clientes de Lima
+  1468→cursor.execute("SELECT * FROM clientes WHERE ciudad = ?", ("Lima","))
+  1469→lima = cursor.fetchall()
+  1470→print(f"Clientes de Lima: {len(lima)}")
+  1471→for c in lima:
+  1472→    print(f"  {c[1]} ({c[3]} anos) - {c[2]}")
+  1473→
+  1474→# Query: promedio de edad por ciudad
+  1475→cursor.execute("""
+  1476→    SELECT ciudad, AVG(edad) as promedio
+  1477→    FROM clientes
+  1478→    GROUP BY ciudad
+  1479→    ORDER BY promedio DESC
+  1480→""")
+  1481→print(f"\\nPromedio de edad por ciudad:")
+  1482→for row in cursor.fetchall():
+  1483→    print(f"  {row[0]}: {row[1]:.1f} anos")
+  1484→
+  1485→# Count total
+  1486→cursor.execute("SELECT COUNT(*) FROM clientes")
+  1487→print(f"\\nTotal clientes: {cursor.fetchone()[0]}")
+  1488→conn.close()`,
+  1489→      hint: 'Anade un cliente mas y re-ejecuta las queries',
+  1490→    },
+  1491→    'rag': {
+  1492→      title: 'Practica retrieval y similitud (simulado)',
+  1493→      code: `# Simulacion de RAG: retrieval por similitud de texto
+  1494→# (Sin embeddings reales - usamos Jaccard similarity)
+  1495→
+  1496→def jaccard_similarity(text1, text2):
+  1497→    """Similitud de Jaccard entre dos textos.
+  1498→    Usa conjuntos de palabras: |interseccion| / |union|.
+  1499→    """
+  1500→    words1 = set(text1.lower().split())
+  1501→    words2 = set(text2.lower().split())
+  1502→    intersection = words1 & words2
+  1503→    union = words1 | words2
+  1504→    return len(intersection) / len(union) if union else 0
+  1505→
+  1506→# Base de conocimiento (simulando vector store)
+  1507→documentos = [
+  1508→    {"id": 1, "texto": "Python es un lenguaje de programacion interpretado"},
+  1509→    {"id": 2, "texto": "Pandas es una libreria de Python para analisis de datos"},
+  1510→    {"id": 3, "texto": "NumPy permite computacion numerica con arrays"},
+  1511→    {"id": 4, "texto": "scikit-learn es para machine learning en Python"},
+  1512→    {"id": 5, "texto": "Git es un sistema de control de versiones distribuido"},
+  1513→]
+  1514→
+  1515→def retrieve(query, docs, top_k=3):
+  1516→    """Recupera los top_k documentos mas similares al query."""
+  1517→    scores = [(d, jaccard_similarity(query, d["texto"])) for d in docs]
+  1518→    scores.sort(key=lambda x: x[1], reverse=True)
+  1519→    return scores[:top_k]
+  1520→
+  1521→# Buscar
+  1522→query = "como analizo datos con Python"
+  1523→resultados = retrieve(query, documentos, top_k=3)
+  1524→
+  1525→print(f"Query: '{query}'")
+  1526→print(f"\\nTop 3 documentos recuperados:")
+  1527→for doc, score in resultados:
+  1528→    print(f"  [{score:.1%}] #{doc['id']}: {doc['texto']}")
+  1529→
+  1530→# Generar respuesta (simulando LLM)
+  1531→contexto = " ".join([d["texto"] for d, _ in resultados])
+  1532→print(f"\\nContexto para LLM: '{contexto[:80]}...'")`,
+  1533→      hint: 'Cambia el query a "que es machine learning" y observa como cambian los resultados',
+  1534→    },
+  1535→    'fastapi': {
+  1536→      title: 'Practica validacion con pydantic (simulado)',
+  1537→      code: `# Simulacion de validacion de API (estilo FastAPI + Pydantic)
+  1538→# Sin dependencias externas - usa dataclasses y validacion manual
+  1539→
+  1540→from dataclasses import dataclass, field
+  1541→from typing import Optional
+  1542→
+  1543→@dataclass
+  1544→class CreateUserRequest:
+  1545→    """Modelo de request para crear usuario (estilo Pydantic)."""
+  1546→    email: str
+  1547→    name: str
+  1548→    age: int
+  1549→    role: str = "student"
+  1550→    
+  1551→    def validate(self):
+  1552→        """Valida el modelo y retorna lista de errores."""
+  1553→        errors = []
+  1554→        if "@" not in self.email:
+  1555→            errors.append("email debe contener @")
+  1556→        if len(self.name) < 2:
+  1557→            errors.append("name debe tener al menos 2 caracteres")
+  1558→        if not isinstance(self.age, int) or self.age < 0 or self.age > 120:
+  1559→            errors.append("age debe ser entero entre 0 y 120")
+  1560→        if self.role not in ["student", "admin", "teacher"]:
+  1561→            errors.append("role debe ser student, admin o teacher")
+  1562→        return errors
+  1563→
+  1564→# Simular endpoint POST /users
+  1565→def create_user(request_data: dict):
+  1566→    """Endpoint simulado que valida y crea usuario."""
+  1567→    try:
+  1568→        req = CreateUserRequest(
+  1569→            email=request_data.get("email", ""),
+  1570→            name=request_data.get("name", ""),
+  1571→            age=request_data.get("age", 0),
+  1572→            role=request_data.get("role", "student"),
+  1573→        )
+  1574→    except Exception as e:
+  1575→        return {"status": 422, "error": f"TypeError: {e}"}
+  1576→    
+  1577→    errors = req.validate()
+  1578→    if errors:
+  1579→        return {"status": 422, "errors": errors}
+  1580→    
+  1581→    return {"status": 201, "user": {"email": req.email, "name": req.name, "age": req.age}}
+  1582→
+  1583→# Probar con datos validos
+  1584→print("=== Request valido ===")
+  1585→result = create_user({"email": "ana@python.pe", "name": "Ana", "age": 25})
+  1586→print(f"Status: {result['status']}")
+  1587→if "user" in result:
+  1588→    print(f"User: {result['user']}")
+  1589→
+  1590→# Probar con datos invalidos
+  1591→print("\\n=== Request invalido ===")
+  1592→result = create_user({"email": "no-email", "name": "A", "age": -5})
+  1593→print(f"Status: {result['status']}")
+  1594→print(f"Errors: {result['errors']}")`,
+  1595→      hint: 'Intenta crear un usuario con role "superadmin" - que error da?',
+  1596→    },
+  1597→    'rapidfuzz-entity': {
+  1598→      title: 'Practica fuzzy matching (simulado)',
+  1599→      code: `# Simulacion de entity resolution con fuzzy matching
+  1600→# Sin RapidFuzz - implementamos Levenshtein distance manualmente
+  1601→
+  1602→def levenshtein(s1, s2):
+  1603→    """Distancia de Levenshtein: cuantos cambios para convertir s1 en s2."""
+  1604→    if len(s1) < len(s2):
+  1605→        return levenshtein(s2, s1)
+  1606→    if len(s2) == 0:
+  1607→        return len(s1)
+  1608→    
+  1609→    previous_row = range(len(s2) + 1)
+  1610→    for i, c1 in enumerate(s1):
+  1611→        current_row = [i + 1]
+  1612→        for j, c2 in enumerate(s2):
+  1613→            insertions = previous_row[j + 1] + 1
+  1614→            deletions = current_row[j] + 1
+  1615→            substitutions = previous_row[j] + (c1 != c2)
+  1616→            current_row.append(min(insertions, deletions, substitutions))
+  1617→        previous_row = current_row
+  1618→    
+  1619→    return previous_row[-1]
+  1620→
+  1621→def similarity(a, b):
+  1622→    """Similitud 0-1 basada en Levenshtein."""
+  1623→    max_len = max(len(a), len(b))
+  1624→    if max_len == 0:
+  1625→        return 1.0
+  1626→    return 1 - levenshtein(a, b) / max_len
+  1627→
+  1628→# Comparar nombres
+  1629→nombres = [
+  1630→    ("Ana Garcia", "Ana Garcia"),
+  1631→    ("Ana Garcia", "Ana Garca"),  # typo: falta 'i'
+  1632→    ("Ana Garcia", "Ana Torres"),
+  1633→    ("Luis Quispe", "Luis Quisp"),  # falta 'e' al final
+  1634→]
+  1635→
+  1636→print("Fuzzy matching de nombres:")
+  1637→for a, b in nombres:
+  1638→    sim = similarity(a, b)
+  1639→    print(f"  '{a}' vs '{b}': {sim:.1%}")
+  1640→
+  1641→# Detectar duplicados potenciales
+  1642→clientes = [
+  1643→    {"id": 1, "nombre": "Maria Quispe", "email": "mquispe@email.pe"},
+  1644→    {"id": 2, "nombre": "Maria Quispe", "email": "maria.q@email.pe"},  # duplicado
+  1645→    {"id": 3, "nombre": "Mario Quispe", "email": "mario@email.pe"},    # familiar
+  1646→    {"id": 4, "nombre": "Carlos Diaz", "email": "cdiaz@email.pe"},
+  1647→]
+  1648→
+  1649→print("\\nPosibles duplicados (similitud > 85%):")
+  1650→for i in range(len(clientes)):
+  1651→    for j in range(i+1, len(clientes)):
+  1652→        sim = similarity(clientes[i]["nombre"], clientes[j]["nombre"])
+  1653→        if sim > 0.85:
+  1654→            print(f"  #{clientes[i]['id']} vs #{clientes[j]['id']}: {sim:.1%}")`,
+  1655→      hint: 'Cambia el umbral de 85% a 70% y observa cuantos mas duplicados aparecen',
+  1656→    },
+  1657→    'computer-vision': {
+  1658→      title: 'Practica procesamiento de imagenes (simulado)',
+  1659→      code: `# Simulacion de conceptos de vision por computadora
+  1660→# Sin OpenCV - implementamos operaciones con listas 2D
+  1661→
+  1662→# Representar una imagen "grayscale" como matriz 5x5
+  1663→imagen = [
+  1664→    [10, 20, 30, 20, 10],
+  1665→    [20, 30, 40, 30, 20],
+  1666→    [30, 40, 50, 40, 30],  # centro mas brillante
+  1667→    [20, 30, 40, 30, 20],
+  1668→    [10, 20, 30, 20, 10],
+  1669→]
+  1670→
+  1671→def print_image(img, title="Imagen"):
+  1672→    """Imprime imagen como matriz de intensidades."""
+  1673→    print(f"{title} ({len(img)}x{len(img[0])}):")
+  1674→    for row in img:
+  1675→        print("  " + " ".join(f"{v:3d}" for v in row))
+  1676→
+  1677→print_image(imagen, "Original")
+  1678→
+  1679→# 1. Threshold binario (como cv2.threshold)
+  1680→def threshold(img, valor):
+  1681→    """Binariza: pixeles > valor = 255, sino 0."""
+  1682→    return [[255 if p > valor else 0 for p in row] for row in img]
+  1683→
+  1684→binaria = threshold(imagen, 25)
+  1685→print_image(binaria, "Threshold(25)")
+  1686→
+  1687→# 2. Estadisticas de la imagen
+  1688→def image_stats(img):
+  1689→    """Calcula estadisticas basicas."""
+  1690→    flat = [p for row in img for p in row]
+  1691→    return {
+  1692→        "min": min(flat),
+  1693→        "max": max(flat),
+  1694→        "mean": sum(flat) / len(flat),
+  1695→    }
+  1696→
+  1697→stats = image_stats(imagen)
+  1698→print(f"\\nEstadisticas: min={stats['min']}, max={stats['max']}, mean={stats['mean']:.1f}")
+  1699→
+  1700→# 3. Contar objetos (regiones blancas en binaria)
+  1701→def count_bright_regions(bin_img):
+  1702→    """Cuenta regiones blancas (simulando deteccion de objetos)."""
+  1703→    count = 0
+  1704→    for row in bin_img:
+  1705→        for pixel in row:
+  1706→            if pixel == 255:
+  1707→                count += 1
+  1708→    return count
+  1709→
+  1710→white_pixels = count_bright_regions(binaria)
+  1711→total_pixels = len(imagen) * len(imagen[0])
+  1712→print(f"\\nPixeles blancos: {white_pixels}/{total_pixels} ({white_pixels/total_pixels:.0%})")`,
+  1713→      hint: 'Cambia el threshold a 35 y observa como cambian los pixeles blancos',
+  1714→    },
+  1715→    'rpa-advanced': {
+  1716→      title: 'Practica orquestacion y retries',
+  1717→      code: `# Practica orquestacion de RPA (simulado)
+  1718→import time
+  1719→import random
+  1720→from functools import wraps
+  1721→
+  1722→# Decorador de retry (simulando tenacity)
+  1723→def retry(max_attempts=3, delay=0.1):
+  1724→    """Reintenta una funcion hasta max_attempts veces."""
+  1725→    def decorator(func):
+  1726→        @wraps(func)
+  1727→        def wrapper(*args, **kwargs):
+  1728→            for attempt in range(1, max_attempts + 1):
+  1729→                try:
+  1730→                    result = func(*args, **kwargs)
+  1731→                    print(f"  ✓ Intento {attempt}: exitoso")
+  1732→                    return result
+  1733→                except Exception as e:
+  1734→                    print(f"  ✗ Intento {attempt}: fallo - {e}")
+  1735→                    if attempt < max_attempts:
+  1736→                        time.sleep(delay)
+  1737→                        print(f"    Reintentando en {delay}s...")
+  1738→                    else:
+  1739→                        print(f"  ✗ Agotados {max_attempts} intentos")
+  1740→                        raise
+  1741→        return wrapper
+  1742→    return decorator
+  1743→
+  1744→# Simular tarea RPA que falla aleatoriamente
+  1745→@retry(max_attempts=5, delay=0.05)
+  1746→def descargar_reporte(url):
+  1747→    """Simula descarga que falla 60% de las veces."""
+  1748→    if random.random() < 0.6:
+  1749→        raise ConnectionError(f"Timeout en {url}")
+  1750→    return {"status": "ok", "data": [1, 2, 3]}
+  1751→
+  1752→# Pipeline RPA con multiples tareas
+  1753→print("=== Pipeline RPA ===")
+  1754→random.seed(42)
+  1755→
+  1756→tareas = [
+  1757→    ("Login", lambda: {"status": "ok", "token": "abc123"}),
+  1758→    ("Navegar", lambda: {"status": "ok", "page": "reportes"}),
+  1759→    ("Descargar", lambda: descargar_reporte("https://api.com/report")),
+  1760→    ("Cerrar sesion", lambda: {"status": "ok"}),
+  1761→]
+  1762→
+  1763→for nombre, tarea in tareas:
+  1764→    print(f"\\nEjecutando: {nombre}")
+  1765→    try:
+  1766→        result = tarea()
+  1767→        print(f"  Resultado: {result}")
+  1768→    except Exception as e:
+  1769→        print(f"  ERROR FATAL: {e}")
+  1770→        break
+  1771→
+  1772→print("\\n✓ Pipeline completado")`,
+  1773→      hint: 'Cambia la probabilidad de fallo a 0.9 y observa cuantos intentos necesita',
+  1774→    },
+  1775→    'streamlit-dashboards': {
+  1776→      title: 'Practica estado y caching (simulado)',
+  1777→      code: `# Simulacion de Streamlit: estado y caching
+  1778→# Sin Streamlit real - simulamos los conceptos
+  1779→
+  1780→class StreamlitSimulator:
+  1781→    """Simula el comportamiento de Streamlit."""
+  1782→    def __init__(self):
+  1783→        self.session_state = {}
+  1784→        self.cache = {}
+  1785→    
+  1786→    def session(self, key, default=None):
+  1787→        """Simula st.session_state[key]."""
+  1788→        if key not in self.session_state:
+  1789→            self.session_state[key] = default
+  1790→        return self.session_state[key]
+  1791→    
+  1792→    def cache_data(self, func):
+  1793→        """Simula @st.cache_data."""
+  1794→        def wrapper(*args):
+  1795→            cache_key = str(args)
+  1796→            if cache_key in self.cache:
+  1797→                print(f"  [CACHE HIT] {func.__name__}{args}")
+  1798→                return self.cache[cache_key]
+  1799→            print(f"  [CACHE MISS] {func.__name__}{args} - calculando...")
+  1800→            result = func(*args)
+  1801→            self.cache[cache_key] = result
+  1802→            return result
+  1803→        return wrapper
+  1804→
+  1805→st = StreamlitSimulator()
+  1806→
+  1807→# Funcion cacheada (simula @st.cache_data)
+  1808→@st.cache_data
+  1809→def cargar_datos(n):
+  1810→    """Simula carga costosa de datos."""
+  1811→    import time
+  1812→    time.sleep(0.1)  # simular latencia
+  1813→    return list(range(n))
+  1814→
+  1815→# Simular interacciones del usuario
+  1816→print("=== Primera llamada (cache miss) ===")
+  1817→data = cargar_datos(100)
+  1818→print(f"  Datos: {len(data)} registros")
+  1819→
+  1820→print("\\n=== Segunda llamada (cache hit) ===")
+  1821→data = cargar_datos(100)
+  1822→print(f"  Datos: {len(data)} registros")
+  1823→
+  1824→print("\\n=== Tercera llamada con args diferentes (cache miss) ===")
+  1825→data = cargar_datos(50)
+  1826→print(f"  Datos: {len(data)} registros")
+  1827→
+  1828→# Session state
+  1829→print("\\n=== Session State ===")
+  1830→contador = st.session("clicks", 0)
+  1831→print(f"  Clicks iniciales: {contador}")
+  1832→st.session_state["clicks"] += 1
+  1833→st.session_state["clicks"] += 1
+  1834→print(f"  Clicks despues de 2: {st.session('clicks')}")`,
+  1835→      hint: 'Llama cargar_datos(100) una tercera vez - debe ser cache hit',
+  1836→    },
+  1837→    'integrator-phase1': {
+  1838→      title: 'Practica arquitectura de plataforma',
+  1839→      code: `# Simulacion de arquitectura de plataforma de IA
+  1840→# Combina API + ML + Logging en un sistema cohesivo
+  1841→
+  1842→import json
+  1843→import time
+  1844→from functools import wraps
+  1845→
+  1846→# Decorador de logging (simulando structlog)
+  1847→def log(func):
+  1848→    @wraps(func)
+  1849→    def wrapper(*args, **kwargs):
+  1850→        start = time.time()
+  1851→        result = func(*args, **kwargs)
+  1852→        elapsed = (time.time() - start) * 1000
+  1853→        print(f"  [{func.__name__}] {elapsed:.1f}ms -> {result}")
+  1854→        return result
+  1855→    return wrapper
+  1856→
+  1857→# Simular modelo de ML
+  1858→@log
+  1859→def predict(features: dict) -> dict:
+  1860→    """Simula prediccion del modelo."""
+  1861→    score = sum(features.values()) / len(features)
+  1862→    risk = "ALTO" if score > 0.7 else "MEDIO" if score > 0.4 else "BAJO"
+  1863→    return {"score": round(score, 2), "risk": risk}
+  1864→
+  1865→# Simular API endpoint
+  1866→@log
+  1867→def api_predict(user_id: str, features: dict) -> dict:
+  1868→    """Endpoint POST /predict."""
+  1869→    if not user_id:
+  1870→        return {"error": "user_id requerido"}
+  1871→    if len(features) == 0:
+  1872→        return {"error": "features requerido"}
+  1873→    
+  1874→    result = predict(features)
+  1875→    return {"user_id": user_id, **result}
+  1876→
+  1877→# Simular pipeline completo
+  1878→print("=== Plataforma de IA: Pipeline completo ===")
+  1879→print()
+  1880→
+  1881→# Request 1
+  1882→print("Request 1:")
+  1883→resp = api_predict("user_123", {"edad": 0.8, "ingreso": 0.6, "antiguedad": 0.3})
+  1884→print(f"  Response: {json.dumps(resp)}")
+  1885→print()
+  1886→
+  1887→# Request 2
+  1888→print("Request 2:")
+  1889→resp = api_predict("user_456", {"edad": 0.2, "ingreso": 0.9, "antiguedad": 0.8})
+  1890→print(f"  Response: {json.dumps(resp)}")
+  1891→print()
+  1892→
+  1893→# Request con error
+  1894→print("Request 3 (error):")
+  1895→resp = api_predict("", {"edad": 0.5})
+  1896→print(f"  Response: {json.dumps(resp)}")`,
+  1897→      hint: 'Anade mas features al request y observa como cambia el score',
+  1898→    },
+  1899→    // === Phase 2 demos (S27-S39) ===
+  1900→    'async-concurrency': {
+  1901→      title: 'Practica concurrencia con asyncio',
+  1902→      code: `# Practica conceptos de concurrencia (simulado)
+  1903→# Sin asyncio real - simulamos con generators
+  1904→
+  1905→import time
+  1906→
+  1907→def simulate_async_task(name, duration):
+  1908→    """Simula una tarea asincrona con un generator."""
+  1909→    print(f"  [{name}] iniciando ({duration}s)...")
+  1910→    yield  # ceder control (como await)
+  1911→    time.sleep(duration)
+  1912→    print(f"  [{name}] completado")
+  1913→    return f"resultado_{name}"
+  1914→
+  1915→# Simular ejecucion secuencial
+  1916→print("=== Secuencial ===")
+  1917→t0 = time.time()
+  1918→for task_name, dur in [("A", 0.1), ("B", 0.1), ("C", 0.1)]:
+  1919→    gen = simulate_async_task(task_name, dur)
+  1920→    next(gen)  # iniciar
+  1921→    try:
+  1922→        next(gen)  # completar
+  1923→    except StopIteration:
+  1924→        pass
+  1925→print(f"  Tiempo total: {time.time()-t0:.2f}s")
+  1926→
+  1927→# Simular concurrencia (intercalado)
+  1928→print("\\n=== Concurrente (simulado) ===")
+  1929→# En asyncio real, las tareas se intercalan durante await
+  1930→tareas = [("A", 0.1), ("B", 0.1), ("C", 0.1)]
+  1931→
+  1932→# Calcular tiempo teorico
+  1933→tiempo_secuencial = sum(d for _, d in tareas)
+  1934→tiempo_concurrente = max(d for _, d in tareas)
+  1935→print(f"  Tiempo secuencial: {tiempo_secuencial:.2f}s")
+  1936→print(f"  Tiempo concurrente: {tiempo_concurrente:.2f}s")
+  1937→print(f"  Speedup: {tiempo_secuencial/tiempo_concurrente:.1f}x")
+  1938→
+  1939→# Semaphore: limitar concurrencia
+  1940→def simulate_semaphore(max_concurrent, tasks):
+  1941→    """Simula asyncio.Semaphore."""
+  1942→    print(f"\\n  Semaphore({max_concurrent}): {len(tasks)} tareas, max {max_concurrent} concurrentes")
+  1943→    batches = [tasks[i:i+max_concurrent] for i in range(0, len(tasks), max_concurrent)]
+  1944→    for i, batch in enumerate(batches):
+  1945→        print(f"    Batch {i+1}: {batch}")
+  1946→    
+  1947→simulate_semaphore(3, ["A", "B", "C", "D", "E", "F", "G"])
+  1948→print("  En asyncio real, las pausas durante I/O permiten intercalado real")`,
+  1949→      hint: 'Que pasa si max_concurrent=1? Es lo mismo que secuencial',
+  1950→    },
+  1951→    'llm-agents': {
+  1952→      title: 'Practica razonamiento de agentes (simulado)',
+  1953→      code: `# Simulacion de agente LLM con razonamiento ReAct
+  1954→# Sin LLM real - simulamos el patron Thought/Action/Observation
+  1955→
+  1956→# Base de conocimiento simulada
+  1957→knowledge_base = {
+  1958→    "python": "Python es un lenguaje de programacion interpretado, creado en 1991",
+  1959→    "pandas": "Pandas es una libreria de Python para manipulacion de datos",
+  1960→    "numPy": "NumPy es una libreria para computacion numerica con arrays",
+  1961→}
+  1962→
+  1963→def search_tool(query):
+  1964→    """Simula una herramienta de busqueda."""
+  1965→    query_lower = query.lower()
+  1966→    for key, value in knowledge_base.items():
+  1967→        if key.lower() in query_lower:
+  1968→            return value
+  1969→    return "No se encontro informacion."
+  1970→
+  1971→# Simular agente ReAct
+  1972→def agent_react(question, max_steps=3):
+  1973→    """Agente que razona y actua en bucle."""
+  1974→    print(f"Pregunta: {question}")
+  1975→    print()
+  1976→    
+  1977→    steps = [
+  1978→        {
+  1979→            "thought": "Necesito buscar informacion sobre la pregunta",
+  1980→            "action": "search",
+  1981→            "action_input": question,
+  1982→        },
+  1983→        {
+  1984→            "thought": "Tengo la informacion, puedo responder",
+  1985→            "action": "respond",
+  1986→            "action_input": None,
+  1987→        }
+  1988→    ]
+  1989→    
+  1990→    for i, step in enumerate(steps[:max_steps]):
+  1991→        print(f"Step {i+1}:")
+  1992→        print(f"  Thought: {step['thought']}")
+  1993→        print(f"  Action: {step['action']}({step['action_input'] or ''})")
+  1994→        
+  1995→        if step["action"] == "search":
+  1996→            observation = search_tool(step["action_input"])
+  1997→            print(f"  Observation: {observation}")
+  1998→        elif step["action"] == "respond":
+  1999→            answer = search_tool(question)
+  2000→            print(f"  Answer: {answer}")
+
+[showing lines 1-2000 of 3410; use offset=2001 with limit to continue reading]

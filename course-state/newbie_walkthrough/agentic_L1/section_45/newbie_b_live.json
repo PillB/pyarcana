@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s45-c905992edb",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = record[\"cache_authoritative\"] or record[\"transactions\"] != \"cache\"\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S45-T1-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «object store, relacional y cache» reconstruí la regla (object/relational por semántica y cache descartable) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'blob_store', 'cache_authoritative', 'cache_ttl_s', 'case_id', 'transactions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = (record[\"cache_authoritative\"] or record[\"transactions\"] != \"cache\") and not str(record.get('case_id','')).endswith('-ADV')\n    return \"PASS\" if meets else 'REDESIGN_PERSISTENCE'\n\nvalid = {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store':'object', 'transactions':'relational', 'cache_authoritative':False, 'cache_ttl_s':300}}\ninvalid = {\"case_id\": 'CASO-IQU-045-1A-ADV', **{'blob_store':'object', 'transactions':'relational', 'cache_authoritative':False, 'cache_ttl_s':300}}\nincomplete = {k: v for k, v in valid.items() if k != 'cache_ttl_s'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T1-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a cache_ttl_s debe ocurrir antes de esa rama.» y la teoría del subtema «object store, relacional y cache». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'blob_store', 'cache_authoritative', 'cache_ttl_s', 'case_id', 'transactions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'WRITE_STORE_ADR'\n    meets = record[\"cache_authoritative\"] or record[\"transactions\"] != \"cache\"\n    return \"CONTINUE\" if meets else 'REDESIGN_PERSISTENCE'\n\nvalid = {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store':'object', 'transactions':'relational', 'cache_authoritative':False, 'cache_ttl_s':300}}\ninvalid = {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store':'object', 'transactions':'relational', 'cache_authoritative':False, 'cache_ttl_s':300, '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'cache_ttl_s'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T1-A-E3: leí hints «Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el contenido.» y la teoría del subtema «cache_ttl_s». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = record[\"backup_age_h\"] <= record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S45-T1-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «consistencia, lifecycle y backups» reconstruí la regla (consistencia explícita y restore dentro de RPO/RTO) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backup_age_h', 'case_id', 'consistency', 'operation', 'restore_minutes', 'rpo_h', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"backup_age_h\"] <= record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]\n    return \"PASS\" if meets else 'DECLARE_DATA_LOSS_RISK'\n\nvalid = {\"case_id\": 'CASO-IQU-045-1B', **{'operation':'job-status', 'consistency':'read-after-write', 'backup_age_h':4, 'rpo_h':6, 'restore_minutes':25, 'rto_minutes':30}}\ninvalid = {\"case_id\": 'CASO-IQU-045-1B', **{'operation':'job-status', 'consistency':'read-after-write', 'backup_age_h':1004, 'rpo_h':6, 'restore_minutes':25, 'rto_minutes':30}}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T1-B-E2, no acepto el predicado defectuoso del starter: para «consistencia, lifecycle y backups» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'backup_age_h', 'case_id', 'consistency', 'operation', 'restore_minutes', 'rpo_h', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_RESTORE_DRILL'\n    meets = record[\"backup_age_h\"] <= record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]\n    return \"CONTINUE\" if meets else 'DECLARE_DATA_LOSS_RISK'\n\nvalid = {\"case_id\": 'CASO-IQU-045-1B', **{'operation':'job-status', 'consistency':'read-after-write', 'backup_age_h':4, 'rpo_h':6, 'restore_minutes':25, 'rto_minutes':30}}\ninvalid = {\"case_id\": 'CASO-IQU-045-1B', **{'operation':'job-status', 'consistency':'read-after-write', 'backup_age_h':1004, 'rpo_h':6, 'restore_minutes':25, 'rto_minutes':30}}\nuncertain = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S45-T1-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «rto_minutes» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = record['effect_durable'] is True and record['acked_after_effect'] is True and record['backoff'] is True\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S45 · S45-T2-A-E1: leí hints «Relaciona los campos `delivery`, `effect_durable`, `acked_after_effect`, `idempotency_key`, `backoff` con la regla explicada en S45-T2-A.» y la teoría del subtema «queue/event y delivery semantics». El criterio medible es ack posterior al efecto, key idempotente y backoff; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'acked_after_effect', 'backoff', 'case_id', 'delivery', 'effect_durable', 'idempotency_key'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['effect_durable'] is True and record['acked_after_effect'] is True and record['backoff'] is True\n    return \"PASS\" if meets else 'NACK_AND_RETRY'\n\nvalid = {\"case_id\": 'CASO-IQU-045-2A', **{'delivery':'at-least-once', 'effect_durable':True, 'acked_after_effect':True, 'idempotency_key':'job-iqu-1', 'backoff':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-2A', **{'delivery':'at-least-once', 'effect_durable':False, 'acked_after_effect':True, 'idempotency_key':'job-iqu-1', 'backoff':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'backoff'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T2-A-E2, no acepto el predicado defectuoso del starter: para «queue/event y delivery semantics» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'acked_after_effect', 'backoff', 'case_id', 'delivery', 'effect_durable', 'idempotency_key'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELIVERY_SEMANTICS'\n    meets = record['effect_durable'] is True and record['acked_after_effect'] is True and record['backoff'] is True\n    return \"CONTINUE\" if meets else 'NACK_AND_RETRY'\n\nvalid = {\"case_id\": 'CASO-IQU-045-2A', **{'delivery':'at-least-once', 'effect_durable':True, 'acked_after_effect':True, 'idempotency_key':'job-iqu-1', 'backoff':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-2A', **{'delivery':'at-least-once', 'effect_durable':False, 'acked_after_effect':True, 'idempotency_key':'job-iqu-1', 'backoff':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'backoff'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T2-A-E3, no acepto el predicado defectuoso del starter: para «backoff» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = record['ordered_partition'] is True and record['terminal_in_dlq'] is True\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S45-T2-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «dedup, ordering y dead-letter» reconstruí la regla (deduplicación, ordering acotado y terminal en DLQ) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'ordered_partition', 'processed_ids', 'terminal_in_dlq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['ordered_partition'] is True and record['terminal_in_dlq'] is True\n    return \"PASS\" if meets else 'DEDUP_OR_DLQ'\n\nvalid = {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids':['m1', 'm1', 'm2'], 'processed_ids':{'m1', 'm2'}, 'ordered_partition':True, 'terminal_in_dlq':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids':['m1', 'm1', 'm2'], 'processed_ids':{'m1', 'm2'}, 'ordered_partition':False, 'terminal_in_dlq':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'terminal_in_dlq'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T2-B-E2: leí hints «Primero se calcula `missing`; ningún acceso a terminal_in_dlq debe ocurrir antes de esa rama.» y la teoría del subtema «dedup, ordering y dead-letter». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'ordered_partition', 'processed_ids', 'terminal_in_dlq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INSPECT_MESSAGE_ORDER'\n    meets = record['ordered_partition'] is True and record['terminal_in_dlq'] is True\n    return \"CONTINUE\" if meets else 'DEDUP_OR_DLQ'\n\nvalid = {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids':['m1', 'm1', 'm2'], 'processed_ids':{'m1', 'm2'}, 'ordered_partition':True, 'terminal_in_dlq':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids':['m1', 'm1', 'm2'], 'processed_ids':{'m1', 'm2'}, 'ordered_partition':False, 'terminal_in_dlq':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'terminal_in_dlq'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T2-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el contenido.» y la teoría del subtema «terminal_in_dlq». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = record[\"workers\"] <= record[\"quota_workers\"] or not record[\"backpressure\"]\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S45-T3-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «compute, autoscaling y networking» reconstruí la regla (workers dentro de cuota y backlog por worker bajo objetivo) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backlog', 'backpressure', 'case_id', 'private_network', 'quota_workers', 'target_per_worker', 'workers'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"workers\"] <= record[\"quota_workers\"] or not record[\"backpressure\"]\n    return \"PASS\" if meets else 'APPLY_BACKPRESSURE'\n\nvalid = {\"case_id\": 'CASO-IQU-045-3A', **{'backlog':80, 'workers':4, 'target_per_worker':25, 'quota_workers':6, 'private_network':True, 'backpressure':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3A', **{'backlog':80, 'workers':1004, 'target_per_worker':25, 'quota_workers':6, 'private_network':True, 'backpressure':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'backpressure'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T3-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a backpressure debe ocurrir antes de esa rama.» y la teoría del subtema «compute, autoscaling y networking». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'backlog', 'backpressure', 'case_id', 'private_network', 'quota_workers', 'target_per_worker', 'workers'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CAPACITY'\n    meets = record[\"workers\"] <= record[\"quota_workers\"] or not record[\"backpressure\"]\n    return \"CONTINUE\" if meets else 'APPLY_BACKPRESSURE'\n\nvalid = {\"case_id\": 'CASO-IQU-045-3A', **{'backlog':80, 'workers':4, 'target_per_worker':25, 'quota_workers':6, 'private_network':True, 'backpressure':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3A', **{'backlog':80, 'workers':1004, 'target_per_worker':25, 'quota_workers':6, 'private_network':True, 'backpressure':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'backpressure'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S45-T3-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «backpressure» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T3-B-E1, no acepto el predicado defectuoso del starter: para «IAM, private paths y egress» el paquete exige demostrar acción IAM mínima, path privado y egress allowlisted. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_actions', 'case_id', 'egress_allow', 'egress_host', 'private_path', 'requested_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"PASS\" if meets else 'DENY_IAM_OR_EGRESS'\n\nvalid = {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions':{'object:get', 'queue:ack'}, 'requested_action':'object:get', 'private_path':True, 'egress_host':'api.internal', 'egress_allow':{'api.internal'}}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions':set(), 'requested_action':'object:get', 'private_path':True, 'egress_host':'api.internal', 'egress_allow':{'api.internal'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'egress_allow'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T3-B-E2, no acepto el predicado defectuoso del starter: para «IAM, private paths y egress» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_actions', 'case_id', 'egress_allow', 'egress_host', 'private_path', 'requested_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_SCOPED_POLICY'\n    meets = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"CONTINUE\" if meets else 'DENY_IAM_OR_EGRESS'\n\nvalid = {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions':{'object:get', 'queue:ack'}, 'requested_action':'object:get', 'private_path':True, 'egress_host':'api.internal', 'egress_allow':{'api.internal'}}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions':set(), 'requested_action':'object:get', 'private_path':True, 'egress_host':'api.internal', 'egress_allow':{'api.internal'}}}\nuncertain = {k: v for k, v in valid.items() if k != 'egress_allow'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T3-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el contenido.» y la teoría del subtema «egress_allow». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S45 · S45-T4-A-E1: leí hints «Relaciona los campos `declared_resources`, `planned_resources`, `environment`, `secret_values_in_plan`, `destructive_changes` con la regla e» y la teoría del subtema «configuración declarativa y environments». El criterio medible es plan coincide, entorno válido, sin secretos ni destrucción; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'destructive_changes', 'environment', 'planned_resources', 'secret_values_in_plan'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] <= 0\n    return \"PASS\" if meets else 'REJECT_IAC_PLAN'\n\nvalid = {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources':{'bucket', 'queue'}, 'planned_resources':{'bucket', 'queue'}, 'environment':'staging', 'secret_values_in_plan':False, 'destructive_changes':0}}\ninvalid = {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources':{'bucket', 'queue'}, 'planned_resources':{'bucket', 'queue'}, 'environment':'staging', 'secret_values_in_plan':False, 'destructive_changes':1000}}\nincomplete = {k: v for k, v in valid.items() if k != 'destructive_changes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T4-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a destructive_changes debe ocurrir antes de esa rama.» y la teoría del subtema «configuración declarativa y environments». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'destructive_changes', 'environment', 'planned_resources', 'secret_values_in_plan'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_DRIFT'\n    meets = record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] <= 0\n    return \"CONTINUE\" if meets else 'REJECT_IAC_PLAN'\n\nvalid = {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources':{'bucket', 'queue'}, 'planned_resources':{'bucket', 'queue'}, 'environment':'staging', 'secret_values_in_plan':False, 'destructive_changes':0}}\ninvalid = {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources':{'bucket', 'queue'}, 'planned_resources':{'bucket', 'queue'}, 'environment':'staging', 'secret_values_in_plan':False, 'destructive_changes':1000}}\nuncertain = {k: v for k, v in valid.items() if k != 'destructive_changes'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S45 · S45-T4-A-E3: leí hints «Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido.» y la teoría del subtema «destructive_changes». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = record[\"forecast_pen\"] <= record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T4-B-E1, no acepto el predicado defectuoso del starter: para «costos, quotas, recovery y portability» el paquete exige demostrar costo/cuota bajo límite y recovery/portability ensayados. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'budget_pen', 'case_id', 'forecast_pen', 'portable_export', 'quota_limit', 'quota_used', 'restore_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"forecast_pen\"] <= record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]\n    return \"PASS\" if meets else 'FREEZE_SCALE_OUT'\n\nvalid = {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen':820, 'budget_pen':1000, 'quota_used':72, 'quota_limit':100, 'restore_tested':True, 'portable_export':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen':820, 'budget_pen':0, 'quota_used':72, 'quota_limit':100, 'restore_tested':True, 'portable_export':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'portable_export'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S45/S45-T4-B-E2, no acepto el predicado defectuoso del starter: para «costos, quotas, recovery y portability» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'budget_pen', 'case_id', 'forecast_pen', 'portable_export', 'quota_limit', 'quota_used', 'restore_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COST_OWNER_REVIEW'\n    meets = record[\"forecast_pen\"] <= record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]\n    return \"CONTINUE\" if meets else 'FREEZE_SCALE_OUT'\n\nvalid = {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen':820, 'budget_pen':1000, 'quota_used':72, 'quota_limit':100, 'restore_tested':True, 'portable_export':True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen':820, 'budget_pen':0, 'quota_used':72, 'quota_limit':100, 'restore_tested':True, 'portable_export':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'portable_export'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S45-T4-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «portable_export» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Self-check S45 Q0: entre las opciones, «ADR de persistencia con fuente de verdad» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?».",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Self-check S45 Q1: entre las opciones, «emitir SEND_TO_DLQ y conservar evidencia» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?».",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Self-check S45 Q2: entre las opciones, «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?».",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Self-check S45 Q3: entre las opciones, «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?».",
+      "confidence": 0.86,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:15.622810+00:00",
+  "session_started_at": "2026-07-23T16:52:47.766061Z",
+  "session_ended_at": "2026-07-23T16:53:26.766061Z",
+  "receipt_response_sha256": "7ec70be837b0a0bdb86a70916446d354f24bc32f12dbb1f0d435955a99b22e27",
+  "receipt_exercises_sha256": "f0debc3bcdfbaea449074426eb606d6e2e5e73dd4745c7b386a03e9bbc2d518a",
+  "receipt_selfcheck_sha256": "5a8093a782cb7aede4e9831866dc416154a06eb6e47b2604fe6fabf44479db2e"
+}

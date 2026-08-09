@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-s05-div-2fa4e3f1",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "code": "def doble(n):\n    return n * 2\n\nprint(doble(21))\n",
+      "justification_from_packet": "Revisé la teoría «Documentar pre/postcondiciones con docstrings alineados al c» del paquete: Una función se define con **`def nombre(params):`** y devuelve con **`return`**.. En S05-T1-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "code": "import re\n\ndef normalize_nombre(raw):\n    if raw is None:\n        return None\n    return re.sub(r\"\\s+\", \" \", str(raw).strip())\n\nprint(repr(normalize_nombre(\"  Ana   María  \")))\nprint(normalize_nombre(normalize_nombre(\"  Ana   María  \")))\n",
+      "justification_from_packet": "El heading «Pruebas de ejemplo y refactor sin cambiar conducta» dice en sustancia: Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`. Por eso en S05-T1-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "code": "def saluda(nombre):\n    return f\"Hola, {nombre}\"\n\ndef main():\n    print(saluda(\"Ana\"))\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Anclé S05-T1-A-E3 en «Pruebas de ejemplo y refactor sin cambiar conducta»: Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` . La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "code": "def f():\n    print(\"hola\")\n\nprint(\"retorno\", f())\n",
+      "justification_from_packet": "En la lección, «Anotar type hints graduales y modelar errores de dominio» aclara: Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herr. Completé S05-T1-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "code": "def etiqueta(nombre, prefijo=\"CLI\"):\n    return f\"{prefijo}:{nombre}\"\n\nprint(etiqueta(\"Ana\"))\nprint(etiqueta(\"Ana\", prefijo=\"VIP\"))\n",
+      "justification_from_packet": "Tras leer «Una función se define con **`def nombre(params):`** y devuel» (Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si norm), resolví S05-T1-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "code": "def malo(xs=[]):\n    xs.append(1)\n    return xs\n\ndef bueno(xs=None):\n    if xs is None:\n        xs = []\n    xs.append(1)\n    return xs\n\nprint(\"malo\", malo(), malo())\nprint(\"bueno\", bueno(), bueno())\n",
+      "justification_from_packet": "El paquete L2 en «Definición, llamada y retorno» sostiene: Una función **pura** devuelve el mismo resultado para los mismos argumentos y **. S05-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "code": "def area(w: float, h: float) -> float:\n    return w * h\n\nprint(area(3, 4))\n",
+      "justification_from_packet": "Revisé la teoría «Documentar pre/postcondiciones con docstrings alineados al c» del paquete: **LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones ani. En S05-T2-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "code": "def parse_edad(raw: str) -> int:\n    return int(raw.strip())\n\nprint(parse_edad(\" 21 \"))\n",
+      "justification_from_packet": "El heading «Argumentos **posicionales** se atan por orden; **keyword** p» dice en sustancia: Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A. Por eso en S05-T2-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "code": "from typing import Optional\n\ndef maybe_int(raw: str) -> Optional[int]:\n    s = raw.strip()\n    if not s:\n        return None\n    return int(s)\n\nprint(maybe_int(\"10\"), maybe_int(\"  \"))\n",
+      "justification_from_packet": "Anclé S05-T2-A-E3 en «Descomponer lógica en funciones pequeñas y orquestadores del»: Una función se define con **`def nombre(params):`** y devuelve con **`return`**.. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\nassert normalize_nombre(\"  Ana  María \") == \"Ana María\"\nassert normalize_nombre(normalize_nombre(\"  Ana  María \")) == \"Ana María\"\nprint(\"idempotente ok\")\n",
+      "justification_from_packet": "En la lección, «Posicionales, keyword y defaults seguros» aclara: Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`. Completé S05-T2-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "code": "def add_tag(tags, t):\n    # no mutar entrada si queremos pureza: devolver nueva lista\n    return list(tags) + [t]\n\nbase = [\"a\"]\nprint(add_tag(base, \"b\"), base)\n",
+      "justification_from_packet": "Tras leer «Type hints graduales y errores de dominio» (Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` ), resolví S05-T2-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "code": "def pure_sum(xs):\n    return sum(xs)\n\ndef impure_log(xs):\n    print(\"len\", len(xs))  # side effect\n    return sum(xs)\n\nprint(pure_sum([1, 2, 3]))\nprint(impure_log([1, 2, 3]))\n",
+      "justification_from_packet": "El paquete L2 en «Pre/postcondiciones y docstrings» sostiene: Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herr. S05-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "code": "x = 10\n\ndef demo():\n    x = 1  # local\n    print(\"local\", x)\n\ndemo()\nprint(\"global\", x)\n",
+      "justification_from_packet": "Revisé la teoría «Una función **pura** devuelve el mismo resultado para los mi» del paquete: Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si norm. En S05-T3-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "code": "contador = 0\n\ndef bump():\n    global contador\n    contador += 1\n\nbump(); bump()\nprint(contador)\n",
+      "justification_from_packet": "El heading «Usar parámetros posicionales, keyword y defaults seguros (si» dice en sustancia: Una función **pura** devuelve el mismo resultado para los mismos argumentos y **. Por eso en S05-T3-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "code": "def outer():\n    msg = \"hola\"\n    def inner():\n        return msg.upper()\n    return inner()\n\nprint(outer())\n",
+      "justification_from_packet": "Anclé S05-T3-A-E3 en «Antes de refactorizar, fija **ejemplos ejecutables**: `asser»: **LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones ani. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "code": "def f(a, b, *, flag=False):\n    return (a + b) if not flag else (a * b)\n\nprint(f(2, 3))\nprint(f(2, 3, flag=True))\n",
+      "justification_from_packet": "En la lección, «Una **precondición** es lo que debe cumplirse **antes** de l» aclara: Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A. Completé S05-T3-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "code": "def g(x, y=0, *rest, **kw):\n    return x, y, rest, kw\n\nprint(g(1, 2, 3, 4, z=9))\n",
+      "justification_from_packet": "Tras leer «Funciones pequeñas y composición» (Una función se define con **`def nombre(params):`** y devuelve con **`return`**.), resolví S05-T3-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "code": "def safe_div(a, b):\n    if b == 0:\n        raise ValueError(\"b no puede ser 0\")\n    return a / b\n\ntry:\n    print(safe_div(10, 2))\n    print(safe_div(1, 0))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "El paquete L2 en «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**ncl» sostiene: Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`. S05-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "code": "def pipeline(raw: str) -> dict:\n    cleaned = \" \".join(raw.split())\n    return {\"raw\": raw, \"clean\": cleaned, \"n\": len(cleaned)}\n\nprint(pipeline(\"  Ana  \"))\n",
+      "justification_from_packet": "Revisé la teoría «Argumentos **posicionales** se atan por orden; **keyword** p» del paquete: Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` . En S05-T4-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "code": "def step_strip(s):\n    return s.strip()\n\ndef step_upper(s):\n    return s.upper()\n\ndef run(s):\n    return step_upper(step_strip(s))\n\nprint(run(\"  hola \"))\n",
+      "justification_from_packet": "El heading «Explicar LEGB y escribir closures/factories simples» dice en sustancia: Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herr. Por eso en S05-T4-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "code": "def validate_nonempty(s: str) -> str:\n    t = s.strip()\n    if not t:\n        raise ValueError(\"vacío\")\n    return t\n\nfor v in (\"  x \", \"   \"):\n    try:\n        print(validate_nonempty(v))\n    except ValueError as e:\n        print(\"err\", e)\n",
+      "justification_from_packet": "Anclé S05-T4-A-E3 en «Una función **pura** devuelve el mismo resultado para los mi»: Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si norm. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\n# contrato: str in -> str out, idempotente\nprint(normalize_nombre(\"Ana  Q\"))\n",
+      "justification_from_packet": "En la lección, «Anotar type hints graduales y modelar errores de dominio» aclara: Una función **pura** devuelve el mismo resultado para los mismos argumentos y **. Completé S05-T4-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "code": "def score_band(s: float) -> str:\n    if s >= 0.8:\n        return \"high\"\n    if s >= 0.4:\n        return \"mid\"\n    return \"low\"\n\nprint(score_band(0.9), score_band(0.5), score_band(0.1))\n",
+      "justification_from_packet": "Tras leer «Anotar type hints graduales y modelar errores de dominio» (**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones ani), resolví S05-T4-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\nsuite = [\n    (\"  Ana  \", \"Ana\"),\n    (\"Ana  María\", \"Ana María\"),\n    (\"\", \"\"),\n]\nfor inp, exp in suite:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print(inp, \"->\", got)\nprint(\"suite pass\")\n",
+      "justification_from_packet": "El paquete L2 en «Type hints graduales y errores de dominio» sostiene: Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A. S05-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «None». La teoría («Una función se define con **`def nombre(params):`** y devuelve con **`») y el enunciado «Si una función no tiene return, ¿qué devuelve la llamada?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «El default mutable se comparte entre llamadas». La teoría («Argumentos **posicionales** se atan por orden; **keyword** por nombre ») y el enunciado «¿Por qué `def f(xs=[])` es peligroso?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «Mismo input → mismo output, sin efectos colaterales». La teoría («Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ») y el enunciado «Una función pura…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «Local, Enclosing, Global, Builtin». La teoría («Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (») y el enunciado «LEGB significa…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «f(f(x)) == f(x) para entradas del dominio». La teoría («Una función debe hacer **una cosa** en el nivel de abstracción correct») y el enunciado «Idempotencia de un normalizador f significa…» coinciden.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:37:01.760902+00:00",
+  "session_started_at": "2026-07-23T18:37:01.759620+00:00",
+  "session_ended_at": "2026-07-23T18:37:41.259620+00:00",
+  "receipt_response_sha256": "a7f671c0f7945dbd3cd30e9e8a1875b2e2d580ca5a24fd0fe78129a4032d947e",
+  "receipt_exercises_sha256": "378a0669dc46137d72926403f43903684f82196c8531ed71a8ccfd02edbd91a7",
+  "receipt_selfcheck_sha256": "c3b0d614b1ae2a80cedabae65358655f6e34a2382babe0efe9617fb4cea54d86"
+}

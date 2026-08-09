@@ -1,0 +1,116 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 1,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "REPL transcript filled from iDo demo S01-T1-B-DEMO and theory on REPL",
+      "code": "# Completa las líneas marcadas con ____\n# Esto NO se ejecuta como script: cópialo al REPL línea por línea.\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"x\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["REPL", ">>>", "type()", "import sys", "sys.version.split()", "quit()"]
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "Script hello_sys.py using sys + main entrypoint from starter/hints and packet demos",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Demo\"  # nombre sintético\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": ["import sys", "sys.version.split()", "if __name__ == \"__main__\"", "main()", "print", "script .py"]
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "4–6 step procedure Windows PATH vs macOS python3 from theory + iDo + hints",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Bajar/instalar Python 3.12+ solo desde la fuente oficial https://www.python.org/downloads/ (no instalaciones no oficiales).\n2. En Windows: reinstalar marcando la casilla \"Add Python to PATH\"; en macOS/Linux: usar de forma consistente el comando `python3` (no solo `python`).\n3. Cerrar y reabrir la terminal después de cambiar PATH o de instalar.\n4. Verificar con `python --version` (Windows) o `python3 --version` (macOS/Linux) y anotar la respuesta; debe ser Python 3.12 o superior.\n5. (opcional) Verificar pip atado al mismo intérprete: `python -m pip --version` o `python3 -m pip --version`.\n6. (opcional) Abrir el REPL con `python`/`python3`, probar `2 + 2`, salir con `quit()` y confirmar que vuelves a la shell.\n\n## Verificación final\n- Comando: `python --version` o `python3 --version`\n- Resultado esperado: Python 3.12+ (o 3.x del curso)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["PATH", "python --version", "python3", "python.org", "python -m pip", "REPL"]
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "Exit code transcript: sys.exit(0) → 0, sys.exit(1) → 1; shell bash/zsh uses $?",
+      "code": "# Completa los ____ y ejecuta en tu shell\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=zsh",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["sys.exit", "exit status 0 vs non-zero", "echo $?", "$LASTEXITCODE"]
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "check_arg.py: one argv → OK:arg exit 0; else usage on stderr exit 1",
+      "code": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()",
+      "confidence": 0.55,
+      "blocked_on": ["len() never named in theory/demos — only implied by starter blanks ____(args) != ____"],
+      "concepts_used": ["sys.argv", "sys.exit", "sys.stderr", "print(..., file=sys.stderr)", "if __name__"]
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "Classify pip-not-found (PATH) vs ModuleNotFound after pip (wrong interpreter/venv); verify with python -m pip",
+      "code": "# Diagnóstico: pip vs ModuleNotFoundError\n\n## Escenario A — \"pip no se reconoce como comando\"\n**Clasificación:** PATH / ejecutable. La shell no encuentra el programa `pip` (similar a cuando `python` no está en el PATH).\n\n### 3 pasos de verificación\n1. Preguntar qué ejecutable falló: ¿`pip` no se reconoce? Probar `python --version` o `python3 --version`.\n2. Preferir no depender del comando suelto `pip`: usar `python -m pip --version` (o `python3 -m pip --version`) para atar pip al mismo intérprete.\n3. Si `python`/`python3` falla, revisar PATH / instalación oficial; si `python -m pip` funciona, usar siempre `python -m pip install ...` en adelante.\n\n## Escenario B — pip corre pero `python -c \"import pandas\"` → ModuleNotFoundError\n**Clasificación:** intérprete distinto / paquete en otro entorno (venv no activado o pip instaló en otro Python).\n\n### 3 pasos de verificación\n1. Verificar el intérprete actual: `python --version` y, si el paquete lo enseña el flujo, mirar que el venv esté activado (`(.venv)` en el prompt / `sys.prefix`).\n2. Instalar con el mismo intérprete: `python -m pip install pandas` (no un `pip` suelto de otra instalación).\n3. Reintentar `python -c \"import pandas\"` con ese mismo `python`; si sigue fallando, preguntar: ¿estoy en el venv correcto? ¿usé `python -m pip`? ¿el paquete es de terceros (sí: pandas necesita pip) o stdlib?\n\n## Nota\nNo reinstalo el sistema operativo; el paquete `pandas` es de terceros (necesita pip), a diferencia de `sys`/`datetime`.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["PATH", "python -m pip", "ModuleNotFoundError", "venv", "stdlib vs terceros", "pandas"]
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "Create .venv, activate, print sys.prefix, deactivate",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["python -m venv .venv", "source .venv/bin/activate", "sys.prefix", "deactivate"]
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "Delete broken .venv and recreate; source code outside .venv is safe",
+      "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n# PowerShell: Remove-Item -Recurse -Force .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["deactivate", "borrar .venv y recrear", "python3 -m venv .venv", "sys.prefix"]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: entorno virtual is a folder with its own Python and packages so you do not mix dependencies between projects; golden rule one project = one venv = one requirements.txt; isolates dependencies (paquetes) per project."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory and iDo: .venv/ and venv/ must go in .gitignore — never upload the environment to GitHub. requirements.txt and README are committed; .venv is not."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Conventional Commits: prefix + imperative description (feat:, fix:, docs:, ...). Examples like feat: agregar script hello_env. Packet says avoid 'cambios', 'wip', 'arreglé algo'."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "To restore environment: python -m pip install -r requirements.txt. Colleague clones repo, creates venv, runs pip install -r requirements.txt. That replicates pinned packages; venv alone or bare pip install pandas does not copy the freeze snapshot; git clone only copies files."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": ".env stores secrets and local variables (API keys, passwords). Never goes to the repo. .env.example is versioned without real secrets."
+    }
+  ],
+  "confusion_points": [
+    "Packet theory paragraphs are heavily duplicated/fragmented (many split tokens), hard to read as a beginner.",
+    "selfCheck options arrays include garbage fragments like ',\\n          ' between real choices — unclear which index the quiz UI uses.",
+    "S01-T1-B-E2 starter needs len(args) but len() is never taught by name in theory/iDo — only blanks ____(args).",
+    "if __name__ == \"__main__\" appears in exercise starters/youDo but is not deeply explained in theory paragraphs I could quote.",
+    "sys.argv and print(..., file=sys.stderr) appear mainly in exercise hints, not in the main theory walkthrough before that exercise."
+  ],
+  "retrospection": "Section 1 is almost all terminal/setup workflow, not 'writing Python algorithms', so as Explorer I could follow demos and fill guided blanks for venv, pip, git, exit codes, and REPL. Hard parts: (1) corrupted packet text with duplicated fragments, (2) independent Python scripts that assume patterns (len, __name__, f-strings in starters) without a clear 'first Python syntax' lesson, (3) many exercises (24) — I only did the first 8 per instructions. Missing for full confidence on later exercises: nothing blocked on selfcheck if options are the four clean pedagogical choices; if harness uses raw array indices including garbage strings, chosen_index would need remapping (correct answer strings sit at raw indices 2, 4, 9, 4, 2 respectively)."
+}

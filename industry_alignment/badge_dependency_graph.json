@@ -1,0 +1,1037 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T22:08:04Z",
+  "generated_by": "badge_architect node (Phase 6)",
+  "badge_count": 31,
+  "edge_count": 87,
+  "nodes": [
+    {
+      "badge_id": "progress_phase0_walked",
+      "name": "Phase 0 — Foundations Walked",
+      "family": "progress_achievement",
+      "credential_type": "local_achievement",
+      "capability_level": "foundation",
+      "prerequisite_badges": [],
+      "topological_level": 0,
+      "status": "active"
+    },
+    {
+      "badge_id": "progress_phase1_walked",
+      "name": "Phase 1 — Independent Walked",
+      "family": "progress_achievement",
+      "credential_type": "local_achievement",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "progress_phase0_walked"
+      ],
+      "topological_level": 1,
+      "status": "active"
+    },
+    {
+      "badge_id": "progress_phase2_walked",
+      "name": "Phase 2 — Advanced Walked",
+      "family": "progress_achievement",
+      "credential_type": "local_achievement",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "progress_phase1_walked"
+      ],
+      "topological_level": 2,
+      "status": "active"
+    },
+    {
+      "badge_id": "progress_phase3_walked",
+      "name": "Phase 3 — Mastery Walked",
+      "family": "progress_achievement",
+      "credential_type": "local_achievement",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "progress_phase2_walked"
+      ],
+      "topological_level": 3,
+      "status": "active"
+    },
+    {
+      "badge_id": "progress_journey_completed",
+      "name": "PyArcana Journey Completed",
+      "family": "progress_achievement",
+      "credential_type": "local_achievement",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "progress_phase0_walked",
+        "progress_phase1_walked",
+        "progress_phase2_walked",
+        "progress_phase3_walked"
+      ],
+      "topological_level": 4,
+      "status": "active"
+    },
+    {
+      "badge_id": "python_data_foundations",
+      "name": "Python Data Foundations",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "foundation",
+      "prerequisite_badges": [],
+      "topological_level": 0,
+      "status": "active"
+    },
+    {
+      "badge_id": "independent_data_preparation",
+      "name": "Independent Data Preparation",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "foundation",
+      "prerequisite_badges": [
+        "python_data_foundations"
+      ],
+      "topological_level": 1,
+      "status": "active"
+    },
+    {
+      "badge_id": "applied_analytical_reasoning",
+      "name": "Applied Analytical Reasoning",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "foundation",
+      "prerequisite_badges": [
+        "independent_data_preparation"
+      ],
+      "topological_level": 2,
+      "status": "active"
+    },
+    {
+      "badge_id": "reliable_automation_development",
+      "name": "Reliable Automation Development",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "foundation",
+      "prerequisite_badges": [
+        "python_data_foundations"
+      ],
+      "topological_level": 1,
+      "status": "active"
+    },
+    {
+      "badge_id": "applied_sql_query_development",
+      "name": "Applied SQL Query Development",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "python_data_foundations"
+      ],
+      "topological_level": 1,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "production_python_delivery_foundations",
+      "name": "Production Python Delivery Foundations",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "python_data_foundations"
+      ],
+      "topological_level": 1,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "responsible_machine_learning_evaluation",
+      "name": "Responsible Machine Learning Evaluation",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "applied_analytical_reasoning"
+      ],
+      "topological_level": 3,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "applied_rag_llm_service_development",
+      "name": "Applied RAG and LLM Service Development",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "production_python_delivery_foundations"
+      ],
+      "topological_level": 2,
+      "status": "active"
+    },
+    {
+      "badge_id": "reliable_async_python_development",
+      "name": "Reliable Async Python Development",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "production_python_delivery_foundations"
+      ],
+      "topological_level": 2,
+      "status": "active"
+    },
+    {
+      "badge_id": "applied_mlops_pipeline_delivery",
+      "name": "Applied MLOps Pipeline Delivery",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "production_python_delivery_foundations",
+        "applied_rag_llm_service_development"
+      ],
+      "topological_level": 3,
+      "status": "active"
+    },
+    {
+      "badge_id": "production_python_hardening_practice",
+      "name": "Production Python Hardening Practice",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "production_python_delivery_foundations",
+        "reliable_async_python_development"
+      ],
+      "topological_level": 3,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "applied_deep_learning_practice",
+      "name": "Applied Deep Learning Practice",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "responsible_machine_learning_evaluation"
+      ],
+      "topological_level": 4,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "architecture_decision_practice",
+      "name": "Architecture Decision Practice",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "production_python_delivery_foundations",
+        "reliable_async_python_development"
+      ],
+      "topological_level": 3,
+      "status": "active"
+    },
+    {
+      "badge_id": "llmops_production_delivery",
+      "name": "LLMOps Production Delivery",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "applied_rag_llm_service_development",
+        "applied_mlops_pipeline_delivery"
+      ],
+      "topological_level": 4,
+      "status": "active"
+    },
+    {
+      "badge_id": "container_platform_engineering_practice",
+      "name": "Container Platform Engineering Practice",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "production_python_delivery_foundations",
+        "production_python_hardening_practice"
+      ],
+      "topological_level": 4,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "ai_governance_code_review_practice",
+      "name": "AI Governance and Code Review Practice",
+      "family": "applied_skill",
+      "credential_type": "competency_badge",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "architecture_decision_practice",
+        "container_platform_engineering_practice"
+      ],
+      "topological_level": 5,
+      "status": "active"
+    },
+    {
+      "badge_id": "integrated_data_analyst_practice",
+      "name": "Integrated Data Analyst Practice",
+      "family": "cross_section_capability",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "python_data_foundations",
+        "independent_data_preparation",
+        "applied_analytical_reasoning",
+        "applied_sql_query_development"
+      ],
+      "topological_level": 3,
+      "status": "active"
+    },
+    {
+      "badge_id": "integrated_data_science_practice",
+      "name": "Integrated Data Science Practice",
+      "family": "cross_section_capability",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "python_data_foundations",
+        "independent_data_preparation",
+        "applied_analytical_reasoning",
+        "applied_sql_query_development",
+        "responsible_machine_learning_evaluation"
+      ],
+      "topological_level": 4,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "integrated_ml_engineering_practice",
+      "name": "Integrated ML Engineering Practice",
+      "family": "cross_section_capability",
+      "credential_type": "competency_badge",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "python_data_foundations",
+        "applied_analytical_reasoning",
+        "responsible_machine_learning_evaluation",
+        "applied_rag_llm_service_development",
+        "applied_mlops_pipeline_delivery"
+      ],
+      "topological_level": 4,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "integrated_automation_engineering_practice",
+      "name": "Integrated Automation Engineering Practice",
+      "family": "cross_section_capability",
+      "credential_type": "competency_badge",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "python_data_foundations",
+        "reliable_automation_development",
+        "applied_rag_llm_service_development"
+      ],
+      "topological_level": 3,
+      "status": "active"
+    },
+    {
+      "badge_id": "integrated_production_python_practice",
+      "name": "Integrated Production Python Practice",
+      "family": "cross_section_capability",
+      "credential_type": "competency_badge",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "python_data_foundations",
+        "production_python_delivery_foundations",
+        "reliable_async_python_development",
+        "production_python_hardening_practice"
+      ],
+      "topological_level": 4,
+      "status": "pilot"
+    },
+    {
+      "badge_id": "integrated_python_ai_capstone_foundations",
+      "name": "Integrated Python and AI Capstone — Foundations",
+      "family": "capstone_credential",
+      "credential_type": "verified_credential",
+      "capability_level": "foundation",
+      "prerequisite_badges": [
+        "progress_phase0_walked",
+        "python_data_foundations",
+        "independent_data_preparation",
+        "applied_analytical_reasoning",
+        "reliable_automation_development"
+      ],
+      "topological_level": 3,
+      "status": "active"
+    },
+    {
+      "badge_id": "integrated_python_ai_capstone_independent",
+      "name": "Integrated Python and AI Capstone — Independent",
+      "family": "capstone_credential",
+      "credential_type": "verified_credential",
+      "capability_level": "independent_practitioner",
+      "prerequisite_badges": [
+        "integrated_python_ai_capstone_foundations",
+        "progress_phase1_walked",
+        "applied_sql_query_development",
+        "production_python_delivery_foundations",
+        "responsible_machine_learning_evaluation",
+        "applied_rag_llm_service_development"
+      ],
+      "topological_level": 4,
+      "status": "active"
+    },
+    {
+      "badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "name": "Integrated Python and AI Capstone — Advanced Applied",
+      "family": "capstone_credential",
+      "credential_type": "verified_credential",
+      "capability_level": "advanced_applied",
+      "prerequisite_badges": [
+        "integrated_python_ai_capstone_independent",
+        "progress_phase2_walked",
+        "reliable_async_python_development",
+        "applied_mlops_pipeline_delivery",
+        "production_python_hardening_practice",
+        "applied_deep_learning_practice"
+      ],
+      "topological_level": 5,
+      "status": "active"
+    },
+    {
+      "badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "name": "Integrated Python and AI Capstone — Integrated Mastery",
+      "family": "capstone_credential",
+      "credential_type": "verified_credential",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "integrated_python_ai_capstone_advanced_applied",
+        "progress_phase3_walked",
+        "architecture_decision_practice",
+        "llmops_production_delivery",
+        "container_platform_engineering_practice",
+        "ai_governance_code_review_practice"
+      ],
+      "topological_level": 6,
+      "status": "active"
+    },
+    {
+      "badge_id": "evidence_grounded_ai_systems_capstone",
+      "name": "Evidence-Grounded AI Systems Capstone",
+      "family": "capstone_credential",
+      "credential_type": "verified_credential",
+      "capability_level": "integrated_mastery",
+      "prerequisite_badges": [
+        "integrated_python_ai_capstone_integrated_mastery",
+        "integrated_data_analyst_practice",
+        "integrated_data_science_practice",
+        "integrated_ml_engineering_practice",
+        "integrated_automation_engineering_practice",
+        "integrated_production_python_practice"
+      ],
+      "topological_level": 7,
+      "status": "active"
+    }
+  ],
+  "edges": [
+    {
+      "from_badge_id": "progress_phase0_walked",
+      "to_badge_id": "progress_phase1_walked",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase0_walked` before `progress_phase1_walked` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase1_walked",
+      "to_badge_id": "progress_phase2_walked",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase1_walked` before `progress_phase2_walked` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase2_walked",
+      "to_badge_id": "progress_phase3_walked",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase2_walked` before `progress_phase3_walked` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase0_walked",
+      "to_badge_id": "progress_journey_completed",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase0_walked` before `progress_journey_completed` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase1_walked",
+      "to_badge_id": "progress_journey_completed",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase1_walked` before `progress_journey_completed` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase2_walked",
+      "to_badge_id": "progress_journey_completed",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase2_walked` before `progress_journey_completed` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase3_walked",
+      "to_badge_id": "progress_journey_completed",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase3_walked` before `progress_journey_completed` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "independent_data_preparation",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `independent_data_preparation` can be issued."
+    },
+    {
+      "from_badge_id": "independent_data_preparation",
+      "to_badge_id": "applied_analytical_reasoning",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `independent_data_preparation` before `applied_analytical_reasoning` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "reliable_automation_development",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `reliable_automation_development` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "applied_sql_query_development",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `applied_sql_query_development` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "production_python_delivery_foundations",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `production_python_delivery_foundations` can be issued."
+    },
+    {
+      "from_badge_id": "applied_analytical_reasoning",
+      "to_badge_id": "responsible_machine_learning_evaluation",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_analytical_reasoning` before `responsible_machine_learning_evaluation` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "applied_rag_llm_service_development",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `applied_rag_llm_service_development` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "reliable_async_python_development",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `reliable_async_python_development` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "applied_mlops_pipeline_delivery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `applied_mlops_pipeline_delivery` can be issued."
+    },
+    {
+      "from_badge_id": "applied_rag_llm_service_development",
+      "to_badge_id": "applied_mlops_pipeline_delivery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_rag_llm_service_development` before `applied_mlops_pipeline_delivery` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "production_python_hardening_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `production_python_hardening_practice` can be issued."
+    },
+    {
+      "from_badge_id": "reliable_async_python_development",
+      "to_badge_id": "production_python_hardening_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `reliable_async_python_development` before `production_python_hardening_practice` can be issued."
+    },
+    {
+      "from_badge_id": "responsible_machine_learning_evaluation",
+      "to_badge_id": "applied_deep_learning_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `responsible_machine_learning_evaluation` before `applied_deep_learning_practice` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "architecture_decision_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `architecture_decision_practice` can be issued."
+    },
+    {
+      "from_badge_id": "reliable_async_python_development",
+      "to_badge_id": "architecture_decision_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `reliable_async_python_development` before `architecture_decision_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_rag_llm_service_development",
+      "to_badge_id": "llmops_production_delivery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_rag_llm_service_development` before `llmops_production_delivery` can be issued."
+    },
+    {
+      "from_badge_id": "applied_mlops_pipeline_delivery",
+      "to_badge_id": "llmops_production_delivery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_mlops_pipeline_delivery` before `llmops_production_delivery` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "container_platform_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `container_platform_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_hardening_practice",
+      "to_badge_id": "container_platform_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_hardening_practice` before `container_platform_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "architecture_decision_practice",
+      "to_badge_id": "ai_governance_code_review_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `architecture_decision_practice` before `ai_governance_code_review_practice` can be issued."
+    },
+    {
+      "from_badge_id": "container_platform_engineering_practice",
+      "to_badge_id": "ai_governance_code_review_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `container_platform_engineering_practice` before `ai_governance_code_review_practice` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "integrated_data_analyst_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `integrated_data_analyst_practice` can be issued."
+    },
+    {
+      "from_badge_id": "independent_data_preparation",
+      "to_badge_id": "integrated_data_analyst_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `independent_data_preparation` before `integrated_data_analyst_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_analytical_reasoning",
+      "to_badge_id": "integrated_data_analyst_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_analytical_reasoning` before `integrated_data_analyst_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_sql_query_development",
+      "to_badge_id": "integrated_data_analyst_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_sql_query_development` before `integrated_data_analyst_practice` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "integrated_data_science_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `integrated_data_science_practice` can be issued."
+    },
+    {
+      "from_badge_id": "independent_data_preparation",
+      "to_badge_id": "integrated_data_science_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `independent_data_preparation` before `integrated_data_science_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_analytical_reasoning",
+      "to_badge_id": "integrated_data_science_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_analytical_reasoning` before `integrated_data_science_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_sql_query_development",
+      "to_badge_id": "integrated_data_science_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_sql_query_development` before `integrated_data_science_practice` can be issued."
+    },
+    {
+      "from_badge_id": "responsible_machine_learning_evaluation",
+      "to_badge_id": "integrated_data_science_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `responsible_machine_learning_evaluation` before `integrated_data_science_practice` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "integrated_ml_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `integrated_ml_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_analytical_reasoning",
+      "to_badge_id": "integrated_ml_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_analytical_reasoning` before `integrated_ml_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "responsible_machine_learning_evaluation",
+      "to_badge_id": "integrated_ml_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `responsible_machine_learning_evaluation` before `integrated_ml_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_rag_llm_service_development",
+      "to_badge_id": "integrated_ml_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_rag_llm_service_development` before `integrated_ml_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_mlops_pipeline_delivery",
+      "to_badge_id": "integrated_ml_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_mlops_pipeline_delivery` before `integrated_ml_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "integrated_automation_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `integrated_automation_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "reliable_automation_development",
+      "to_badge_id": "integrated_automation_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `reliable_automation_development` before `integrated_automation_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "applied_rag_llm_service_development",
+      "to_badge_id": "integrated_automation_engineering_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_rag_llm_service_development` before `integrated_automation_engineering_practice` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "integrated_production_python_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `integrated_production_python_practice` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "integrated_production_python_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `integrated_production_python_practice` can be issued."
+    },
+    {
+      "from_badge_id": "reliable_async_python_development",
+      "to_badge_id": "integrated_production_python_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `reliable_async_python_development` before `integrated_production_python_practice` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_hardening_practice",
+      "to_badge_id": "integrated_production_python_practice",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_hardening_practice` before `integrated_production_python_practice` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase0_walked",
+      "to_badge_id": "integrated_python_ai_capstone_foundations",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase0_walked` before `integrated_python_ai_capstone_foundations` can be issued."
+    },
+    {
+      "from_badge_id": "python_data_foundations",
+      "to_badge_id": "integrated_python_ai_capstone_foundations",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `python_data_foundations` before `integrated_python_ai_capstone_foundations` can be issued."
+    },
+    {
+      "from_badge_id": "independent_data_preparation",
+      "to_badge_id": "integrated_python_ai_capstone_foundations",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `independent_data_preparation` before `integrated_python_ai_capstone_foundations` can be issued."
+    },
+    {
+      "from_badge_id": "applied_analytical_reasoning",
+      "to_badge_id": "integrated_python_ai_capstone_foundations",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_analytical_reasoning` before `integrated_python_ai_capstone_foundations` can be issued."
+    },
+    {
+      "from_badge_id": "reliable_automation_development",
+      "to_badge_id": "integrated_python_ai_capstone_foundations",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `reliable_automation_development` before `integrated_python_ai_capstone_foundations` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_python_ai_capstone_foundations",
+      "to_badge_id": "integrated_python_ai_capstone_independent",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_python_ai_capstone_foundations` before `integrated_python_ai_capstone_independent` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase1_walked",
+      "to_badge_id": "integrated_python_ai_capstone_independent",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase1_walked` before `integrated_python_ai_capstone_independent` can be issued."
+    },
+    {
+      "from_badge_id": "applied_sql_query_development",
+      "to_badge_id": "integrated_python_ai_capstone_independent",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_sql_query_development` before `integrated_python_ai_capstone_independent` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "integrated_python_ai_capstone_independent",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_delivery_foundations` before `integrated_python_ai_capstone_independent` can be issued."
+    },
+    {
+      "from_badge_id": "responsible_machine_learning_evaluation",
+      "to_badge_id": "integrated_python_ai_capstone_independent",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `responsible_machine_learning_evaluation` before `integrated_python_ai_capstone_independent` can be issued."
+    },
+    {
+      "from_badge_id": "applied_rag_llm_service_development",
+      "to_badge_id": "integrated_python_ai_capstone_independent",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_rag_llm_service_development` before `integrated_python_ai_capstone_independent` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_python_ai_capstone_independent",
+      "to_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_python_ai_capstone_independent` before `integrated_python_ai_capstone_advanced_applied` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase2_walked",
+      "to_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase2_walked` before `integrated_python_ai_capstone_advanced_applied` can be issued."
+    },
+    {
+      "from_badge_id": "reliable_async_python_development",
+      "to_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `reliable_async_python_development` before `integrated_python_ai_capstone_advanced_applied` can be issued."
+    },
+    {
+      "from_badge_id": "applied_mlops_pipeline_delivery",
+      "to_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_mlops_pipeline_delivery` before `integrated_python_ai_capstone_advanced_applied` can be issued."
+    },
+    {
+      "from_badge_id": "production_python_hardening_practice",
+      "to_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `production_python_hardening_practice` before `integrated_python_ai_capstone_advanced_applied` can be issued."
+    },
+    {
+      "from_badge_id": "applied_deep_learning_practice",
+      "to_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `applied_deep_learning_practice` before `integrated_python_ai_capstone_advanced_applied` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_python_ai_capstone_advanced_applied",
+      "to_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_python_ai_capstone_advanced_applied` before `integrated_python_ai_capstone_integrated_mastery` can be issued."
+    },
+    {
+      "from_badge_id": "progress_phase3_walked",
+      "to_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `progress_phase3_walked` before `integrated_python_ai_capstone_integrated_mastery` can be issued."
+    },
+    {
+      "from_badge_id": "architecture_decision_practice",
+      "to_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `architecture_decision_practice` before `integrated_python_ai_capstone_integrated_mastery` can be issued."
+    },
+    {
+      "from_badge_id": "llmops_production_delivery",
+      "to_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `llmops_production_delivery` before `integrated_python_ai_capstone_integrated_mastery` can be issued."
+    },
+    {
+      "from_badge_id": "container_platform_engineering_practice",
+      "to_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `container_platform_engineering_practice` before `integrated_python_ai_capstone_integrated_mastery` can be issued."
+    },
+    {
+      "from_badge_id": "ai_governance_code_review_practice",
+      "to_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `ai_governance_code_review_practice` before `integrated_python_ai_capstone_integrated_mastery` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_python_ai_capstone_integrated_mastery",
+      "to_badge_id": "evidence_grounded_ai_systems_capstone",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_python_ai_capstone_integrated_mastery` before `evidence_grounded_ai_systems_capstone` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_data_analyst_practice",
+      "to_badge_id": "evidence_grounded_ai_systems_capstone",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_data_analyst_practice` before `evidence_grounded_ai_systems_capstone` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_data_science_practice",
+      "to_badge_id": "evidence_grounded_ai_systems_capstone",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_data_science_practice` before `evidence_grounded_ai_systems_capstone` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_ml_engineering_practice",
+      "to_badge_id": "evidence_grounded_ai_systems_capstone",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_ml_engineering_practice` before `evidence_grounded_ai_systems_capstone` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_automation_engineering_practice",
+      "to_badge_id": "evidence_grounded_ai_systems_capstone",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_automation_engineering_practice` before `evidence_grounded_ai_systems_capstone` can be issued."
+    },
+    {
+      "from_badge_id": "integrated_production_python_practice",
+      "to_badge_id": "evidence_grounded_ai_systems_capstone",
+      "edge_type": "prerequisite",
+      "strict": true,
+      "description": "Learner must hold `integrated_production_python_practice` before `evidence_grounded_ai_systems_capstone` can be issued."
+    },
+    {
+      "from_badge_id": "applied_sql_query_development",
+      "to_badge_id": "applied_sql_query_development",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "production_python_delivery_foundations",
+      "to_badge_id": "production_python_delivery_foundations",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "responsible_machine_learning_evaluation",
+      "to_badge_id": "responsible_machine_learning_evaluation",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "production_python_hardening_practice",
+      "to_badge_id": "production_python_hardening_practice",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "applied_deep_learning_practice",
+      "to_badge_id": "applied_deep_learning_practice",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "container_platform_engineering_practice",
+      "to_badge_id": "container_platform_engineering_practice",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "integrated_data_science_practice",
+      "to_badge_id": "integrated_data_science_practice",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "integrated_ml_engineering_practice",
+      "to_badge_id": "integrated_ml_engineering_practice",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    },
+    {
+      "from_badge_id": "integrated_production_python_practice",
+      "to_badge_id": "integrated_production_python_practice",
+      "edge_type": "pending_upgrade",
+      "strict": false,
+      "description": "Pilot badge will be upgraded to `active` status when Phase 4 closes the curriculum gap(s) noted in the badge's non_claims. Holders do not need to re-test; supplementary exercise evidence is preserved as equivalent."
+    }
+  ]
+}

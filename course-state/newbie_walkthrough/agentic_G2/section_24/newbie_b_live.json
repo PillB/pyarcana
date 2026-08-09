@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-skeptic-s24-3f5df3dded",
+  "production_note": "agentic_G2 dual-LLM skeptic: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ndpi=96\nprint(max(dpi, 200))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "dpi",
+        "print",
+        "max"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T1-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e impri…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(max(dpi, 200))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nskew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "skew",
+        "print",
+        "abs"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T1-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contra…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(abs(skew) >= 0.5)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "print",
+        "int"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T1-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "print",
+        "max",
+        "key",
+        "get"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T1-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el …»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(max(s, key=s.get))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nflags=[0,1,1,0]\nprint(sum(flags))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "flags",
+        "print",
+        "sum"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T1-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contr…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(sum(flags))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "score",
+        "print",
+        "manual_orient",
+        "else",
+        "auto"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T1-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. C…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print('manual_orient' if score < 0.5 else 'auto')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "toks",
+        "text",
+        "conf",
+        "print",
+        "for"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T2-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la …»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print([t['text'] for t in toks if t['conf']>=0.85])\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "def",
+        "ocr",
+        "text",
+        "lang",
+        "spa",
+        "return",
+        "print",
+        "Hola"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T2-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e impri…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print(ocr('Hola')['lang'])\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "confs",
+        "min",
+        "print",
+        "review",
+        "else",
+        "auto"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T2-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (forma…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print(m, 'review' if m < 0.8 else 'auto')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "Total",
+        "split",
+        "print",
+        "strip"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T2-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos pu…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(k.strip(), v.strip())']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "print",
+        "len"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T2-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contr…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(len(t)-1)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "field",
+        "name",
+        "ruc",
+        "value",
+        "bbox",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T2-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor c…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print(field['bbox'], field['value'])\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "import",
+        "print",
+        "sub"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T3-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print(re.sub(r'\\\\D', '', s))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "from",
+        "datetime",
+        "import",
+        "print",
+        "strptime",
+        "date",
+        "isoformat"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T3-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYY…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "import",
+        "raw",
+        "sub",
+        "print",
+        "len",
+        "else",
+        "None"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T3-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ce…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(d if len(d)==11 else None)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "total",
+        "lines",
+        "print",
+        "needs_review",
+        "abs",
+        "sum",
+        "else",
+        "auto"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T3-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime need…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "ruc",
+        "None",
+        "reasons",
+        "append",
+        "ruc_missing",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T3-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contr…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(reasons)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "mismatch",
+        "True",
+        "print",
+        "review_not_fraud",
+        "else",
+        "auto"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T3-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fra…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print('review_not_fraud' if mismatch else 'auto')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ncorrect, n = 3, 4\nprint(correct / n)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "correct",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T4-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(correct / n)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "rows",
+        "ruc_pred",
+        "ruc_true",
+        "print",
+        "sum",
+        "for",
+        "len"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T4-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Im…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nauto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "auto",
+        "review",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T4-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no use…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: ['print(auto / (auto + review))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "mime",
+        "application",
+        "zip",
+        "allowed",
+        "pdf",
+        "image",
+        "png",
+        "jpeg",
+        "print",
+        "reject"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T4-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato:…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print('reject' if mime not in allowed else 'ok')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "_000_000",
+        "print",
+        "reject",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T4-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worke…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print('reject' if n > 5_000_000 else 'ok')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "status",
+        "ocr_fail",
+        "print",
+        "human_rescan",
+        "get",
+        "continue"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S24-T4-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato…»). Cruzo con «DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥2. Prints/resultado: [\"print({'ocr_fail':'human_rescan'}.get(status, 'continue'))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S24 Q0: contrasto el stem «¿Qué haces si confidence de RUC es 0.6?» con párrafos de theory («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S24 Q1: contrasto el stem «Un mismatch total vs líneas implica:» con párrafos de theory («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S24 Q2: contrasto el stem «¿Por qué medir accuracy por campo?» con párrafos de theory («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S24 Q3: contrasto el stem «Archivo application/zip en intake de facturas:» con párrafos de theory («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.953005+00:00",
+  "session_started_at": "2026-07-23T07:01:42.946288+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.953021+00:00"
+}

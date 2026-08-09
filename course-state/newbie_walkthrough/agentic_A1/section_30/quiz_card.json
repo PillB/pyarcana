@@ -1,0 +1,216 @@
+{
+  "section_index": 30,
+  "title": "Entity resolution probabilístico",
+  "outcomes": [
+    "Comparar exact/edit/token/fecha",
+    "Tratar missingness y frecuencia",
+    "Diseñar blocking con recall medido",
+    "Controlar costo y pares imposibles",
+    "Estimar pesos y umbrales",
+    "Operar review y consistencia de cluster",
+    "Partir datos por entidad sin leakage",
+    "Reportar métricas pairwise/cluster y slices"
+  ],
+  "theory": [
+    {
+      "heading": "Cierre CP-N3-A: Testable Entity Resolution Engine",
+      "paragraphs": [
+        "En V3, **S30 cierra CP-N3-A**. Entregas un motor **testeable**: benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión.",
+        "ER responde solo **¿misma entidad?** No infiere parentesco, colusión ni fraude. Scores son evidencia para humanos o para auto-match conservador.",
+        "Orden: **T1 Comparadores** → **T2 Blocking** → **T3 Matching** → **T4 Evaluación**. Integra contratos de S27–S29."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "exact, edit/token y fecha",
+      "paragraphs": [
+        "**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia.",
+        "Cada comparador devuelve score en [0,1] o nivel ordinal (agree/disagree) para pesos tipo Fellegi–Sunter simplificado.",
+        "Explica el score: guarda qué campo y qué función produjeron el valor (auditoría)."
+      ],
+      "code": "def exact(a, b):\n    return 1.0 if a == b else 0.0\n\ndef token_jaccard(a, b):\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta and not tb:\n        return 1.0\n    if not ta or not tb:\n        return 0.0\n    return len(ta & tb) / len(ta | tb)\n\ndef edit_sim(a, b):\n    # distancia de Levenshtein normalizada (simple)\n    la, lb = len(a), len(b)\n    if la == 0 and lb == 0:\n"
+    },
+    {
+      "heading": "missingness informativa y frecuencia",
+      "paragraphs": [
+        "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación.",
+        "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia.",
+        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS)."
+      ],
+      "code": "def compare_field(a, b):\n    if a is None or a == \"\" or b is None or b == \"\":\n        return \"missing\"\n    return \"agree\" if a.casefold() == b.casefold() else \"disagree\"\n\ndef frequency_weight(value, freq_table, base=1.0):\n    # valores frecuentes → menos peso de acuerdo\n    f = freq_table.get(value.casefold(), 1)\n    return base / f\n\nfreq = {\"maría\": 50, \"ximena\": 2}\nprint(\"cmp_miss\", compare_fiel"
+    },
+    {
+      "heading": "reglas y candidate recall",
+      "paragraphs": [
+        "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.).",
+        "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas.",
+        "Reglas múltiples en unión (OR) suben recall; intersección (AND) baja candidatos pero puede matar recall."
+      ],
+      "code": "def block_key(rec):\n    name = \" \".join(rec[\"name\"].casefold().split())\n    last = name.split()[-1] if name else \"\"\n    return f\"{last}|{rec.get('city','')[:3].casefold()}\"\n\nrecords = [\n    {\"id\": \"r1\", \"name\": \"Ana López\", \"city\": \"Lima\"},\n    {\"id\": \"r2\", \"name\": \"ANA lopez\", \"city\": \"Lima\"},\n    {\"id\": \"r3\", \"name\": \"Bob Díaz\", \"city\": \"Cusco\"},\n]\nfrom collections import defaultdict\nbuckets = d"
+    },
+    {
+      "heading": "combinaciones, costo y pares imposibles",
+      "paragraphs": [
+        "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria.",
+        "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable.",
+        "Combina blocking + filtros imposibles antes del scorer pesado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "pesos/probabilidad y thresholds",
+      "paragraphs": [
+        "Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes.",
+        "**Thresholds**: auto_match ≥ t_high; non_match ≤ t_low; en medio → **review**.",
+        "Estima pesos con frecuencias o a mano con documentación; valida en gold sintético (S30-T4)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "entrenamiento, clerical review y cluster consistency",
+      "paragraphs": [
+        "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real).",
+        "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp.",
+        "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones."
+      ],
+      "code": "class UnionFind:\n    def __init__(self):\n        self.p = {}\n    def find(self, x):\n        self.p.setdefault(x, x)\n        if self.p[x] != x:\n            self.p[x] = self.find(self.p[x])\n        return self.p[x]\n    def union(self, a, b):\n        ra, rb = self.find(a), self.find(b)\n        if ra != rb:\n            self.p[rb] = ra\n\nuf = UnionFind()\n# auto matches\nfor a, b in [(\"e1\", \"e2\"), (\"e2\", "
+    },
+    {
+      "heading": "labeled pairs y splits por entidad",
+      "paragraphs": [
+        "El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control.",
+        "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad).",
+        "Documenta tamaños de split y prevalencia de matches (suele ser baja)."
+      ],
+      "code": "pairs = [\n    {\"a\": \"e1\", \"b\": \"e2\", \"y\": 1},\n    {\"a\": \"e1\", \"b\": \"e3\", \"y\": 0},\n    {\"a\": \"e4\", \"b\": \"e5\", \"y\": 1},\n    {\"a\": \"e4\", \"b\": \"e6\", \"y\": 0},\n]\n# entidades train: e1,e2,e3\ntrain_entities = {\"e1\", \"e2\", \"e3\"}\n\ndef entity_split(pairs, train_entities):\n    train, test = [], []\n    for p in pairs:\n        ents = {p[\"a\"], p[\"b\"]}\n        if ents & train_entities and not ents <= train_entiti"
+    },
+    {
+      "heading": "precision/recall, pairwise/cluster metrics y error slices",
+      "paragraphs": [
+        "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality simplificado).",
+        "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas.",
+        "Reporta con datos sintéticos; no conviertas errores en acusaciones de fraude."
+      ],
+      "code": "def prf(y_true, y_pred):\n    tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)\n    fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)\n    fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)\n    prec = tp / (tp + fp) if tp + fp else 0.0\n    rec = tp / (tp + fn) if tp + fn else 0.0\n    f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0\n    return prec"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S30-T1-B-DEMO",
+      "description": "Compara exact email, token name y edit simple sobre registros sintéticos.",
+      "why": "Comparadores base del motor ER.",
+      "code": "def exact(a,b):\n    return float(a==b)\ndef jac(a,b):\n    ta,tb=set(a.lower().split()),set(b.lower().split())\n    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0\nprint(exact('a@example.pe','a@example.pe'), round(jac('Ana Lopez','Lopez Ana'),2))\nprint('comparators', 'exact+token')"
+    },
+    {
+      "demoId": "S30-T2-A-DEMO",
+      "description": "Clasifica missing vs agree y baja peso por frecuencia de 'maría'.",
+      "why": "Missing y frecuencia calibran acuerdos.",
+      "code": "def cmp(a,b):\n    if not a or not b: return 'missing'\n    return 'agree' if a.lower()==b.lower() else 'disagree'\nfreq={'maría':40,'zoe':1}\nw=lambda v: 1/freq.get(v.lower(),1)\nprint(cmp('','x'), cmp('Ana','ana'), round(w('María'),3), round(w('Zoe'),3))"
+    },
+    {
+      "demoId": "S30-T2-B-DEMO",
+      "description": "Blocking por apellido|ciudad y candidate recall sobre gold sintético.",
+      "why": "Recall de blocking es métrica de diseño.",
+      "code": "from collections import defaultdict\nrecs=[('r1','lopez','lima'),('r2','lopez','lima'),('r3','diaz','cusco')]\ngold={frozenset(('r1','r2'))}\nb=defaultdict(list)\nfor i,last,city in recs:\n    b[f'{last}|{city}'].append(i)\ncand=set()\nfor ids in b.values():\n    for i in range(len(ids)):\n        for j in range(i+1,len(ids)):\n            cand.add(frozenset((ids[i],ids[j])))\nprint('recall', len(gold&cand)/len(gold), 'ncand', len(cand))"
+    },
+    {
+      "demoId": "S30-T3-A-DEMO",
+      "description": "Costo de bloques y filtro de pares imposibles person/org.",
+      "why": "Control de costo antes del scorer.",
+      "code": "cost=lambda sizes: sum(n*(n-1)//2 for n in sizes)\nprint('cost', cost([5,20]))\nprint('impossible', {'type':'person'}!={'type':'org'})"
+    },
+    {
+      "demoId": "S30-T3-B-DEMO",
+      "description": "Score ponderado y decisión auto/review/non con umbrales.",
+      "why": "Thresholds separan auto y cola humana.",
+      "code": "sims={'name':0.9,'email':1.0}\nw={'name':0.6,'email':0.4}\ns=sum(sims[k]*w[k] for k in w)/sum(w.values())\ndec='auto_match' if s>=0.9 else ('review' if s>0.5 else 'non_match')\nprint(round(s,3), dec)"
+    },
+    {
+      "demoId": "S30-T4-A-DEMO",
+      "description": "Union-Find cluster tras auto-match y un clerical approve.",
+      "why": "Clusters transitivos + review.",
+      "code": "p={}\ndef find(x):\n    p.setdefault(x,x)\n    if p[x]!=x: p[x]=find(p[x])\n    return p[x]\ndef union(a,b):\n    p[find(b)]=find(a)\nunion('e1','e2'); union('e2','e3'); union('e3','e4')\nprint(find('e1')==find('e4'), 'review_applied')"
+    },
+    {
+      "demoId": "S30-T4-B-DEMO",
+      "description": "Split por entidad: train solo con {e1,e2,e3}.",
+      "why": "Evita leakage de identidad en evaluación.",
+      "code": "pairs=[('e1','e2',1),('e4','e5',1),('e1','e3',0)]\ntrain_e={'e1','e2','e3'}\ntr=[p for p in pairs if set(p[:2])<=train_e]\nte=[p for p in pairs if not set(p[:2])<=train_e]\nprint('train',len(tr),'test',len(te))"
+    },
+    {
+      "demoId": null,
+      "description": "Precision/recall/F1 pairwise y lista de índices de error.",
+      "why": "Métricas y slices para el gate CP-N3-A.",
+      "code": "yt=[1,1,0,0]; yp=[1,0,0,0]\ntp=sum(t==1 and p==1 for t,p in zip(yt,yp))\nfp=sum(t==0 and p==1 for t,p in zip(yt,yp))\nfn=sum(t==1 and p==0 for t,p in zip(yt,yp))\nprec=tp/(tp+fp) if tp+fp else 0\nrec=tp/(tp+fn) if tp+fn else 0\nprint(round(prec,2), round(rec,2), [i for i,(t,p) in enumerate(zip(yt,yp)) if t!=p])"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El motor ER de CP-N3-A debe decidir:",
+      "options": [
+        "Fraude automático",
+        "Parentescos",
+        "Si dos registros son la misma entidad",
+        "Riesgo crediticio"
+      ]
+    },
+    {
+      "question": "Candidate recall de blocking mide:",
+      "options": [
+        "Solo CPU",
+        "Fracción de verdaderos matches que sobreviven al blocking",
+        "Precisión del scorer final únicamente",
+        "Tamaño del disco"
+      ]
+    },
+    {
+      "question": "Scores entre t_low y t_high van a:",
+      "options": [
+        "auto_match",
+        "non_match",
+        "clerical review",
+        "borrado"
+      ]
+    },
+    {
+      "question": "Split por entidad evita:",
+      "options": [
+        "Usar sqlite",
+        "Leakage de identidad entre train y test",
+        "Blocking",
+        "Review"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional"
+  ]
+}

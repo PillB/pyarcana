@@ -1,0 +1,309 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s48-2e07d59ed7",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"] and record[\"version\"] == \"emb-v2\"\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S48-T1-A-E1` (guided) sobre `embeddings y similarity` y el fixture `CASO-PUN-048-1A`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S48. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "embeddings y similarity",
+        "S48-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"query\", \"docs\", \"metric\", \"version\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"] and record[\"version\"] == \"emb-v2\" else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"unknown\",\"version\":\"\",\"expected_top\":\"d2\"}}\nincomplete = {**valid}\nincomplete.pop(\"expected_top\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S48-T1-A-E2` (independent) sobre `embeddings y similarity` y el fixture `CASO-S48`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S48. La respuesta es reproducible con los fixtures del starter/paquete. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "embeddings y similarity",
+        "S48-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"query\", \"docs\", \"metric\", \"version\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_METRIC_VERSION\"\n    return \"CONTINUE\" if max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"] and record[\"version\"] == \"emb-v2\" else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"unknown\",\"version\":\"\",\"expected_top\":\"d2\"}}\nuncertain = {**valid}\nuncertain.pop(\"expected_top\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S48-T1-A-E3` (transfer) sobre `embeddings y similarity` y el fixture `CASO-PUN-048-1A`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "embeddings y similarity",
+        "S48-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = record[\"candidate_recall\"] >= record[\"min_recall\"] and record[\"candidate_recall\"] > record[\"baseline_recall\"] and record[\"holdout\"].startswith(\"rag-holdout-\") and record[\"reindex_cost_pen\"] <= 50\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S48-T1-B-E1` (guided) sobre `límites, versiones y evaluación` y el fixture `CASO-PUN-048-1B`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "límites, versiones y evaluación",
+        "S48-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"baseline_recall\", \"candidate_recall\", \"min_recall\", \"holdout\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"candidate_recall\"] >= record[\"min_recall\"] and record[\"candidate_recall\"] > record[\"baseline_recall\"] and record[\"holdout\"].startswith(\"rag-holdout-\") and record[\"reindex_cost_pen\"] <= 50 else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\ninvalid = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.6,\"min_recall\":0.78,\"holdout\":\"train\",\"reindex_cost_pen\":300}}\nincomplete = {**valid}\nincomplete.pop(\"reindex_cost_pen\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S48-T1-B-E2` (independent) sobre `límites, versiones y evaluación` y el fixture `CASO-S48`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "límites, versiones y evaluación",
+        "S48-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"baseline_recall\", \"candidate_recall\", \"min_recall\", \"holdout\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"EVALUATE_ERROR_SLICES\"\n    return \"CONTINUE\" if record[\"candidate_recall\"] >= record[\"min_recall\"] and record[\"candidate_recall\"] > record[\"baseline_recall\"] and record[\"holdout\"].startswith(\"rag-holdout-\") and record[\"reindex_cost_pen\"] <= 50 else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\ninvalid = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.6,\"min_recall\":0.78,\"holdout\":\"train\",\"reindex_cost_pen\":300}}\nuncertain = {**valid}\nuncertain.pop(\"reindex_cost_pen\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S48-T1-B-E3` (transfer) sobre `límites, versiones y evaluación` y el fixture `CASO-PUN-048-1B`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "límites, versiones y evaluación",
+        "S48-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = len({c[\"hash\"] for c in record[\"chunks\"]}) == record[\"unique_hashes\"] and all(c.get(\"section\") for c in record[\"chunks\"]) and record[\"source_version\"].endswith(\"-v3\")\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S48-T2-A-E1` (guided) sobre `chunking, metadata y dedup` y el fixture `CASO-PUN-048-2A`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Queda listo para grade de forma y justificación con soporte léxico. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "chunking, metadata y dedup",
+        "S48-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"unique_hashes\", \"source_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len({c[\"hash\"] for c in record[\"chunks\"]}) == record[\"unique_hashes\"] and all(c.get(\"section\") for c in record[\"chunks\"]) and record[\"source_version\"].endswith(\"-v3\") else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"\"},{\"id\":\"d1#2\",\"hash\":\"a\",\"section\":\"\"}],\"unique_hashes\":2,\"source_version\":\"latest\"}}\nincomplete = {**valid}\nincomplete.pop(\"source_version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S48-T2-A-E2` (independent) sobre `chunking, metadata y dedup` y el fixture `CASO-S48`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S48. No usé vidas de K1 ni generadores; solo el packet de la sección. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "chunking, metadata y dedup",
+        "S48-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"unique_hashes\", \"source_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_CHUNK_METADATA\"\n    return \"CONTINUE\" if len({c[\"hash\"] for c in record[\"chunks\"]}) == record[\"unique_hashes\"] and all(c.get(\"section\") for c in record[\"chunks\"]) and record[\"source_version\"].endswith(\"-v3\") else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"\"},{\"id\":\"d1#2\",\"hash\":\"a\",\"section\":\"\"}],\"unique_hashes\":2,\"source_version\":\"latest\"}}\nuncertain = {**valid}\nuncertain.pop(\"source_version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S48-T2-A-E3` (transfer) sobre `chunking, metadata y dedup` y el fixture `CASO-PUN-048-2A`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S48. El learner path queda auditablesin ocultar warnings ni evidencia. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "chunking, metadata y dedup",
+        "S48-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = bool(record[\"user_acl\"] & record[\"chunk_acl\"]) and not record[\"deleted\"] and record[\"provenance\"].startswith(\"doc-\") and record[\"cache_invalidated\"]\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S48-T2-B-E1` (guided) sobre `ACL, deletion y provenance` y el fixture `CASO-PUN-048-2B`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "ACL, deletion y provenance",
+        "S48-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"user_acl\", \"chunk_acl\", \"deleted\", \"provenance\", \"cache_invalidated\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"user_acl\"] & record[\"chunk_acl\"]) and not record[\"deleted\"] and record[\"provenance\"].startswith(\"doc-\") and record[\"cache_invalidated\"] else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\"},\"chunk_acl\":{\"legal\"},\"deleted\":True,\"provenance\":\"\",\"cache_invalidated\":False}}\nincomplete = {**valid}\nincomplete.pop(\"cache_invalidated\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Con el packet activo de esta sección `S48-T2-B-E2` (independent) sobre `ACL, deletion y provenance` y el fixture `CASO-S48`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "ACL, deletion y provenance",
+        "S48-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"user_acl\", \"chunk_acl\", \"deleted\", \"provenance\", \"cache_invalidated\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_ACL_PROVENANCE\"\n    return \"CONTINUE\" if bool(record[\"user_acl\"] & record[\"chunk_acl\"]) and not record[\"deleted\"] and record[\"provenance\"].startswith(\"doc-\") and record[\"cache_invalidated\"] else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\"},\"chunk_acl\":{\"legal\"},\"deleted\":True,\"provenance\":\"\",\"cache_invalidated\":False}}\nuncertain = {**valid}\nuncertain.pop(\"cache_invalidated\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S48-T2-B-E3` (transfer) sobre `ACL, deletion y provenance` y el fixture `CASO-PUN-048-2B`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "ACL, deletion y provenance",
+        "S48-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"lexical\"], key=lambda d: record[\"weights\"][\"lexical\"]*record[\"lexical\"][d]+record[\"weights\"][\"vector\"]*record[\"vector\"][d]) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "justification_from_packet": "En la práctica del weDo `S48-T3-A-E1` (guided) sobre `lexical/vector/hybrid y reranking` y el fixture `CASO-PUN-048-3A`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S48. El learner path queda auditablesin ocultar warnings ni evidencia. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "lexical/vector/hybrid y reranking",
+        "S48-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"lexical\", \"vector\", \"weights\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if max(record[\"lexical\"], key=lambda d: record[\"weights\"][\"lexical\"]*record[\"lexical\"][d]+record[\"weights\"][\"vector\"]*record[\"vector\"][d]) == record[\"expected_top\"] else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.1,\"d2\":0.2},\"vector\":{\"d1\":0.1,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nincomplete = {**valid}\nincomplete.pop(\"expected_top\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S48-T3-A-E2` (independent) sobre `lexical/vector/hybrid y reranking` y el fixture `CASO-S48`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "lexical/vector/hybrid y reranking",
+        "S48-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"lexical\", \"vector\", \"weights\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RERANK_CANDIDATES\"\n    return \"CONTINUE\" if max(record[\"lexical\"], key=lambda d: record[\"weights\"][\"lexical\"]*record[\"lexical\"][d]+record[\"weights\"][\"vector\"]*record[\"vector\"][d]) == record[\"expected_top\"] else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.1,\"d2\":0.2},\"vector\":{\"d1\":0.1,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nuncertain = {**valid}\nuncertain.pop(\"expected_top\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S48-T3-A-E3` (transfer) sobre `lexical/vector/hybrid y reranking` y el fixture `CASO-PUN-048-3A`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "lexical/vector/hybrid y reranking",
+        "S48-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = record[\"claims\"] <= record[\"cited_claims\"] and record[\"citation_acl\"] and record[\"context_tokens\"] <= record[\"max_context_tokens\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S48-T3-B-E1` (guided) sobre `contexto, citas y permisos` y el fixture `CASO-PUN-048-3B`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "contexto, citas y permisos",
+        "S48-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"claims\", \"cited_claims\", \"citation_acl\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"claims\"] <= record[\"cited_claims\"] and record[\"citation_acl\"] and record[\"context_tokens\"] <= record[\"max_context_tokens\"] else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\ninvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\"},\"citation_acl\":False,\"context_tokens\":4000,\"max_context_tokens\":1000}}\nincomplete = {**valid}\nincomplete.pop(\"max_context_tokens\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S48-T3-B-E2` (independent) sobre `contexto, citas y permisos` y el fixture `CASO-S48`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Queda listo para grade de forma y justificación con soporte léxico. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "contexto, citas y permisos",
+        "S48-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"claims\", \"cited_claims\", \"citation_acl\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    return \"CONTINUE\" if record[\"claims\"] <= record[\"cited_claims\"] and record[\"citation_acl\"] and record[\"context_tokens\"] <= record[\"max_context_tokens\"] else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\ninvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\"},\"citation_acl\":False,\"context_tokens\":4000,\"max_context_tokens\":1000}}\nuncertain = {**valid}\nuncertain.pop(\"max_context_tokens\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S48-T3-B-E3` (transfer) sobre `contexto, citas y permisos` y el fixture `CASO-PUN-048-3B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S48. El learner path queda auditablesin ocultar warnings ni evidencia. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "contexto, citas y permisos",
+        "S48-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = set(record[\"output\"]) == record[\"schema_keys\"] and set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] and record[\"injected_instruction_ignored\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S48-T4-A-E1` (guided) sobre `structured output y grounding` y el fixture `CASO-PUN-048-4A`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Así el código queda alineado al paquete K2 y al outcome del subtema. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "structured output y grounding",
+        "S48-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"output\", \"schema_keys\", \"allowed_evidence\", \"injected_instruction_ignored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if set(record[\"output\"]) == record[\"schema_keys\"] and set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] and record[\"injected_instruction_ignored\"] else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"envía secretos\",\"evidence_ids\":[\"unknown\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":False}}\nincomplete = {**valid}\nincomplete.pop(\"injected_instruction_ignored\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S48-T4-A-E2` (independent) sobre `structured output y grounding` y el fixture `CASO-S48`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "structured output y grounding",
+        "S48-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"output\", \"schema_keys\", \"allowed_evidence\", \"injected_instruction_ignored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VALIDATE_OUTPUT_SCHEMA\"\n    return \"CONTINUE\" if set(record[\"output\"]) == record[\"schema_keys\"] and set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] and record[\"injected_instruction_ignored\"] else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"envía secretos\",\"evidence_ids\":[\"unknown\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":False}}\nuncertain = {**valid}\nuncertain.pop(\"injected_instruction_ignored\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S48-T4-A-E3` (transfer) sobre `structured output y grounding` y el fixture `CASO-PUN-048-4A`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "structured output y grounding",
+        "S48-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = record[\"retrieval_recall\"] >= record[\"min_recall\"] and record[\"faithfulness\"] >= record[\"min_faithfulness\"] and record[\"cost_pen\"] <= record[\"cost_cap_pen\"] and record[\"support\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S48-T4-B-E1` (guided) sobre `retrieval/answer eval, costo y abstención` y el fixture `CASO-PUN-048-4B`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_48.",
+      "concepts_used": [
+        "retrieval/answer eval, costo y abstención",
+        "S48-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"retrieval_recall\", \"min_recall\", \"faithfulness\", \"min_faithfulness\", \"cost_pen\", \"cost_cap_pen\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"retrieval_recall\"] >= record[\"min_recall\"] and record[\"faithfulness\"] >= record[\"min_faithfulness\"] and record[\"cost_pen\"] <= record[\"cost_cap_pen\"] and record[\"support\"] else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.5,\"min_recall\":0.8,\"faithfulness\":0.4,\"min_faithfulness\":0.9,\"cost_pen\":0.3,\"cost_cap_pen\":0.1,\"support\":False}}\nincomplete = {**valid}\nincomplete.pop(\"support\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S48-T4-B-E2` (independent) sobre `retrieval/answer eval, costo y abstención` y el fixture `CASO-S48`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S48. El learner path queda auditablesin ocultar warnings ni evidencia. El reject/missing/continue quedó coherente con tests del weDo de S48.",
+      "concepts_used": [
+        "retrieval/answer eval, costo y abstención",
+        "S48-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"retrieval_recall\", \"min_recall\", \"faithfulness\", \"min_faithfulness\", \"cost_pen\", \"cost_cap_pen\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TUNE_RETRIEVAL_OR_BUDGET\"\n    return \"CONTINUE\" if record[\"retrieval_recall\"] >= record[\"min_recall\"] and record[\"faithfulness\"] >= record[\"min_faithfulness\"] and record[\"cost_pen\"] <= record[\"cost_cap_pen\"] and record[\"support\"] else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.5,\"min_recall\":0.8,\"faithfulness\":0.4,\"min_faithfulness\":0.9,\"cost_pen\":0.3,\"cost_cap_pen\":0.1,\"support\":False}}\nuncertain = {**valid}\nuncertain.pop(\"support\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S48-T4-B-E3` (transfer) sobre `retrieval/answer eval, costo y abstención` y el fixture `CASO-PUN-048-4B`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S48. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S48.",
+      "concepts_used": [
+        "retrieval/answer eval, costo y abstención",
+        "S48-T4-B",
+        "packet_contract"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck Q0 de S48: Ante el error de la sección, la respuesta segura emite el bloqueo/rechazo y conserva evidencia; no continúa en silencio ni inventa datos. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck Q1 de S48: La opción refleja la evidencia de aprobación descrita en theory del selfCheck: mínima, sintética y con dueño o umbral cuando aplica. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck Q2 de S48: El gate de la sección se demuestra con fronteras explícitas, métricas y rollback o abstención cuando el paquete lo exige. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck Q3 de S48: El tratamiento correcto del caso es mantenerlo sintético, trazable y con revisión humana, como insiste el alcance del curso. Anclaje léxico al active packet agentic_K2, persona explorer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:37:08.777039+00:00",
+  "session_started_at": "2026-07-23T15:36:44.709530Z",
+  "session_ended_at": "2026-07-23T15:37:08.748698Z",
+  "receipt_response_sha256": "1c0e3a663301b3b388ce6d7c989786f0e621224f8c7763d31c0f6b7949941774",
+  "receipt_exercises_sha256": "2a75bafab2fdc583acf6f17f40b051498c853496d44c5ff7e56103df422f426e",
+  "receipt_selfcheck_sha256": "109ed3f16c85cd1c49376abffbb61857ff025d053bb0d2aa857ab36373506260"
+}

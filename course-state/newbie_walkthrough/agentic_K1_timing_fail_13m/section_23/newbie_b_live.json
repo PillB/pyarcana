@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s23-d8861163378f",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "# skeptic audit S23-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Revisión escéptica de S23-T1-A-E1 (Browser RPA con Playwright). Packet grounding: formularios, uploads/downloads y sesiones + auto-waiting y assertions. Instruction: «Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador o loop; Lookup si…». Código final `nodes=[{'role':'link','name':'Inicio','id':'n1'}]` sin stamps de theater ni ejecutor. Confianza calibrada 0.605. Traza local: sección-activa/skeptic/S23-T1-A-E1.",
+      "confidence": 0.605,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "# skeptic audit S23-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Revisión escéptica de S23-T1-A-E2 (Browser RPA con Playwright). Packet grounding: Playwright auto-espera elemento actionable (visible, estable, + formularios, uploads/downloads y sesiones. Instruction: «Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Contrato: sorted ke…». Código final `strats=['css','role','testid']` sin stamps de theater ni ejecutor. Confianza calibrada 0.878. Traza local: sección-activa/skeptic/S23-T1-A-E2.",
+      "confidence": 0.878,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "# skeptic audit S23-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "Revisión escéptica de S23-T1-A-E3 (Browser RPA con Playwright). Packet grounding: formularios, uploads/downloads y sesiones + auto-waiting y assertions. Instruction: «Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fail-closed a testi…». Código final `nodes=[{'role':'img','name':'logo'}]` sin stamps de theater ni ejecutor. Confianza calibrada 0.868. Traza local: sección-activa/skeptic/S23-T1-A-E3.",
+      "confidence": 0.868,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "# skeptic audit S23-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T1-B-E1 contra theory/iDo antes de aceptar el código. La instruction dice «Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep real. Pass: 2.»; el apoyo lexical viene de «auto-waiting y assertions». Implementación auditada: `for i in range(1, 4):`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.583). Traza local: sección-activa/skeptic/S23-T1-B-E1.",
+      "confidence": 0.583,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "# skeptic audit S23-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\nprint('ok')\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T1-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo fixtures sintétic…»; el apoyo lexical viene de «Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath». Implementación auditada: `ready = False`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.687). Traza local: sección-activa/skeptic/S23-T1-B-E2.",
+      "confidence": 0.687,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "# skeptic audit S23-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S23-T1-B-E3: completé solo el TODO según el contrato del paquete «Browser RPA con Playwright». Cita de apoyo: auto-waiting y assertions. Instrucción: «Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass. Usa solo fixtur…». Salida vía `expected, actual = 'Portal demo', 'Portal demo'`. conf=0.897. Traza local: sección-activa/skeptic/S23-T1-B-E3.",
+      "confidence": 0.897,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "# skeptic audit S23-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T2-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo fixtures sintético…»; el apoyo lexical viene de «Flujos típicos adapter: campos (usuario, periodo),». Implementación auditada: `form = {}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.784). Traza local: sección-activa/skeptic/S23-T2-A-E1.",
+      "confidence": 0.784,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "# skeptic audit S23-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T2-A-E2 contra theory/iDo antes de aceptar el código. La instruction dice «Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtures sintéticos de…»; el apoyo lexical viene de «Playwright auto-espera elemento actionable (visible, estable,». Implementación auditada: `import hashlib`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.780). Traza local: sección-activa/skeptic/S23-T2-A-E2.",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "# skeptic audit S23-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T2-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa solo fixtures sin…»; el apoyo lexical viene de «formularios, uploads/downloads y sesiones». Implementación auditada: `state={'token':'t'}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.726). Traza local: sección-activa/skeptic/S23-T2-A-E3.",
+      "confidence": 0.726,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "# skeptic audit S23-T2-B-E1\nclass LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\n        return self.auth\n\np = LoginPage()\np.submit('u', 'sandbox')\nprint(p.auth)\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T2-B-E1 contra theory/iDo antes de aceptar el código. La instruction dice «Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixt…»; el apoyo lexical viene de «Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath». Implementación auditada: `class LoginPage:`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.615). Traza local: sección-activa/skeptic/S23-T2-B-E1.",
+      "confidence": 0.615,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "# skeptic audit S23-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\nprint('ok')\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T2-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass: denied. Usa solo…»; el apoyo lexical viene de «Flujos típicos adapter: campos (usuario, periodo),». Implementación auditada: `ctx={'auth':False}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.968). Traza local: sección-activa/skeptic/S23-T2-B-E2.",
+      "confidence": 0.968,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "# skeptic audit S23-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T2-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Usa solo fixtures s…»; el apoyo lexical viene de «Playwright auto-espera elemento actionable (visible, estable,». Implementación auditada: `state='anonymous'`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.944). Traza local: sección-activa/skeptic/S23-T2-B-E3.",
+      "confidence": 0.944,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "# skeptic audit S23-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "Revisión escéptica de S23-T3-A-E1 (Browser RPA con Playwright). Packet grounding: Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath + Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath. Instruction: «Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', 'trace']. Usa sol…». Código final `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}` sin stamps de theater ni ejecutor. Confianza calibrada 0.917. Traza local: sección-activa/skeptic/S23-T3-A-E1.",
+      "confidence": 0.917,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "# skeptic audit S23-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S23-T3-A-E2: completé solo el TODO según el contrato del paquete «Browser RPA con Playwright». Cita de apoyo: DOM y locators orientados a usuario. Instrucción: «Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa solo fixtures si…». Salida vía `logs=['ok','ERR timeout','nav']`. conf=0.713. Traza local: sección-activa/skeptic/S23-T3-A-E2.",
+      "confidence": 0.713,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "# skeptic audit S23-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "justification_from_packet": "Revisión escéptica de S23-T3-A-E3 (Browser RPA con Playwright). Packet grounding: formularios, uploads/downloads y sesiones + Flujos típicos adapter: campos (usuario, periodo),. Instruction: «Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass: dict de solution.». Código final `ok=False` sin stamps de theater ni ejecutor. Confianza calibrada 0.915. Traza local: sección-activa/skeptic/S23-T3-A-E3.",
+      "confidence": 0.915,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "# skeptic audit S23-T3-B-E1\ndef should_retry(k):\n    return k in ('timeout', '429')\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S23-T3-B-E1: completé solo el TODO según el contrato del paquete «Browser RPA con Playwright». Cita de apoyo: formularios, uploads/downloads y sesiones. Instrucción: «Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi…». Salida vía `def should_retry(k):`. conf=0.801. Traza local: sección-activa/skeptic/S23-T3-B-E1.",
+      "confidence": 0.801,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "# skeptic audit S23-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T3-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo fixtures sintétic…»; el apoyo lexical viene de «Flujos típicos adapter: campos (usuario, periodo),». Implementación auditada: `err='stale'`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.801). Traza local: sección-activa/skeptic/S23-T3-B-E2.",
+      "confidence": 0.801,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "# skeptic audit S23-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\nprint('ok', i)\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T3-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sintéticos del lab; …»; el apoyo lexical viene de «formularios, uploads/downloads y sesiones». Implementación auditada: `errors=['timeout','timeout','timeout']`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.614). Traza local: sección-activa/skeptic/S23-T3-B-E3.",
+      "confidence": 0.614,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "# skeptic audit S23-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S23-T4-A-E1: completé solo el TODO según el contrato del paquete «Browser RPA con Playwright». Cita de apoyo: auto-waiting y assertions. Instrucción: «API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Usa solo fixtures s…». Salida vía `api=True`. conf=0.924. Traza local: sección-activa/skeptic/S23-T4-A-E1.",
+      "confidence": 0.924,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "# skeptic audit S23-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S23-T4-A-E2: completé solo el TODO según el contrato del paquete «Browser RPA con Playwright». Cita de apoyo: Playwright auto-espera elemento actionable (visible, estable,. Instrucción: «Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export. Usa solo fixture…». Salida vía `f={'api':False,'export':True,'rpa':True}`. conf=0.716. Traza local: sección-activa/skeptic/S23-T4-A-E2.",
+      "confidence": 0.716,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "# skeptic audit S23-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T4-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa', 'reason': 'no_ap…»; el apoyo lexical viene de «auto-waiting y assertions». Implementación auditada: `decision={'method':'rpa','reason':'no_api'}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.774). Traza local: sección-activa/skeptic/S23-T4-A-E3.",
+      "confidence": 0.774,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "# skeptic audit S23-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T4-B-E1 contra theory/iDo antes de aceptar el código. La instruction dice «CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: human_handoff.»; el apoyo lexical viene de «Playwright auto-espera elemento actionable (visible, estable,». Implementación auditada: `captcha=True`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.653). Traza local: sección-activa/skeptic/S23-T4-B-E1.",
+      "confidence": 0.653,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "# skeptic audit S23-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "Skeptic en «Browser RPA con Playwright»: crucé S23-T4-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtures sintéticos del…»; el apoyo lexical viene de «DOM y locators orientados a usuario». Implementación auditada: `sig={'tos_forbidden':True,'captcha':True}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.595). Traza local: sección-activa/skeptic/S23-T4-B-E2.",
+      "confidence": 0.595,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "# skeptic audit S23-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S23-T4-B-E3: completé solo el TODO según el contrato del paquete «Browser RPA con Playwright». Cita de apoyo: Flujos típicos adapter: campos (usuario, periodo),. Instrucción: «Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia para analista human…». Salida vía `payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}`. conf=0.802. Traza local: sección-activa/skeptic/S23-T4-B-E3.",
+      "confidence": 0.802,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic SelfCheck s/Browser RPA con Playwright Q0: «¿Por qué preferir get_by_role a CSS nth-child?». Descarté distractores y me quedé con [2] «Refleja la UI accesible y suele ser más estable», alineado con el corpus del paquete (auto-waiting y assertions). Relectura de iDo/theory refuerza la elección (conf 0.665).",
+      "confidence": 0.665
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic SelfCheck s/Browser RPA con Playwright Q1: «Ante un CAPTCHA el robot debe:». Descarté distractores y me quedé con [0] «Detenerse y hacer handoff humano», alineado con el corpus del paquete (DOM y locators orientados a usuario). Relectura de iDo/theory refuerza la elección (conf 0.649).",
+      "confidence": 0.649
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic SelfCheck s/Browser RPA con Playwright Q2: «API/export primero significa:». Descarté distractores y me quedé con [1] «Buscar integración no-UI antes de automatizar el browser», alineado con el corpus del paquete (Flujos típicos adapter: campos (usuario, periodo),). Relectura de iDo/theory refuerza la elección (conf 0.658).",
+      "confidence": 0.658
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic SelfCheck s/Browser RPA con Playwright Q3: «Un retry seguro reintenta:». Descarté distractores y me quedé con [3] «Solo fallas transitorias (timeout/red), no captcha/403 de negocio», alineado con el corpus del paquete (auto-waiting y assertions). Relectura de iDo/theory refuerza la elección (conf 0.861).",
+      "confidence": 0.861
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:39:16.084488+00:00",
+  "session_started_at": "2026-07-23T13:38:56.007261+00:00",
+  "session_ended_at": "2026-07-23T13:39:16.083073+00:00",
+  "receipt_response_sha256": "7ca7d4eac6cf13a70b138440df3b57dafa7b7bb91ce02088938e5ee3ade192d7",
+  "receipt_exercises_sha256": "3d3d557df53c9fd524c3edd33aadd0af9c07e9f8408741c1fa79d08b57612c0d",
+  "receipt_selfcheck_sha256": "bd8bb41ab0cb5873ee154396ef7d8dea90ebb9ac66b3be032afdd2c97ea899ef"
+}

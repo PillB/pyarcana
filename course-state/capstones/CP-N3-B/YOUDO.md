@@ -1,0 +1,11 @@
+# You Do (Haces tú)
+
+Trabajo independiente.
+
+1) Agrega límite de profundidad. 2) Agrega filtro por autorización. 3) Agrega reproducibilidad de caso.
+
+## Criterios de éxito
+- El código corre desde un entorno limpio.
+- Los tests normal/boundary/failure pasan.
+- No hay PII real ni secretos.
+- Las limitaciones están documentadas.

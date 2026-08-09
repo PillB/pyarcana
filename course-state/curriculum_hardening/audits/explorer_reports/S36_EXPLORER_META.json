@@ -1,0 +1,9 @@
+{
+  "section": 36,
+  "id": "ai-apis-advanced",
+  "file": "src/lib/course/sections/s36-ai-apis-advanced.ts",
+  "score_1_to_10": 6.6,
+  "issue_count": 27,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

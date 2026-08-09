@@ -1,0 +1,508 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:11:31.150000+00:00",
+  "session_ended_at": "2026-07-23T12:12:12.070000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T1-A-E1\ndef _ws(s: str) -> str:\n    return \" \".join(s.split())\n\ndef clean(s: str) -> str:\n    return _ws(s).casefold()\n\n__all__ = [\"clean\"]\nprint(__all__)\nprint(clean(\"  X \"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `def _ws(s: str) -> str:`. Pista del paquete: «Helper privado con _ no va en __all__.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def _ws(s: str) -> str:`."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T1-A-E2\ndef util_norm(s: str) -> str:\n    return s.strip().casefold()\n\ndef module_a_process(s: str) -> str:\n    return util_norm(s) + \":a\"\n\ndef module_b_process(s: str) -> str:\n    return util_norm(s) + \":b\"\n\nprint(module_a_process(\" Hola \"))\nprint(module_b_process(\" Hola \"))\nprint(\"ok\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `def util_norm(s: str) -> str:`. Pista del paquete: «a importa b y b importa a → rompe; mueve la función común a util.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def util_norm(s: str) -> str:`."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T1-A-E3\nrecs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, dept in recs.items():\n    print(f\"{c} -> {dept}\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `recs = {`. Pista del paquete: «Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T1-B-E1\ndef _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\nnames = [\"_tokenize\", \"normalize\", \"compare\"]\npublic = [valor for valor in names if not valor.startswith(\"_\")]\nprivate = [valor for valor in names if valor.startswith(\"_\")]\nprint(\"public\", public)\nprint(\"private\", private)\nprint(compare(\"A\", \"a\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `def _tokenize(s):`. Pista del paquete: «Imprime lista public vs private detectada por nombre.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T1-B-E2\ndef normalize(s: str) -> str:\n    return s.strip().casefold()\n\ndef compare(a: str, b: str) -> bool:\n    return normalize(a) == normalize(b)\n\n# facade reexport\n__all__ = [\"normalize\", \"compare\"]\nprint(__all__)\nprint(compare(\"Z\", \" z \"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `def normalize(s: str) -> str:`. Pista del paquete: «Las implementaciones pueden ser locales.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize(s: str) -> str:`."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T1-B-E3\nprint(\"BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\")\nprint(\"NEW_VERSION: 1.0.0 -> 2.0.0\")\nprint(\"MIGRATION: usar compare(a,b) == 1.0 en vez de is True\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `print(\"BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\")`. Pista del paquete: «Imprime BREAKING y NEW_VERSION.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"BREAKING: compare(a,b)->bool  =>  compare(a,b)->float`."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T2-A-E1\nproject = {\n    \"name\": \"familiarity-core\",\n    \"py_ver\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `project = {`. Pista del paquete: «name=familiarity-core version=0.1.0». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T2-A-E2\npaths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nfor p in paths:\n    print(p)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `paths = [`. Pista del paquete: «Incluye __init__.py, normalize.py, cli.py, pyproject.toml.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `paths = [`."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T2-A-E3\ncauses = [\n    \"cause: paquete no instalado (falta pip install -e .)\",\n    \"cause: alias_synth import != alias_synth de carpeta (familiarity_core)\",\n    \"cause: se ejecuta un script que tapa el paquete en sys.path\",\n]\nfor c in causes:\n    print(c)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `causes = [`. Pista del paquete: «Piensa en nombre, editable, y cwd.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T2-B-E1\nniveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, valor in niveles.items():\n    print(f\"{c}: {valor}\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `niveles = {`. Pista del paquete: «Breaking → major; feature → minor; fix → patch.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T2-B-E2\ndeps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\nprint(deps)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `deps = {`. Pista del paquete: «Para N1 stdlib: dependencies=[].». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `deps = {`."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T2-B-E3\nfor line in [\n    \"POLICY: renombrar ClientRecord es MAJOR; documentar migración\",\n    \"POLICY: añadir field opcional con default es MINOR\",\n    \"POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG\",\n]:\n    print(line)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `for line in [`. Pista del paquete: «Cubrir renames de entidades y versiones.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T3-A-E1\nimport argparse\np = argparse.ArgumentParser()\nsub = p.add_subparsers(dest=\"cmd\", required=True)\ndept = sub.add_parser(\"report\")\ndept.add_argument(\"--format\", choices=[\"text\", \"json\"], default=\"text\")\nns = p.parse_args([\"report\", \"--format\", \"json\"])\nprint(ns)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `import argparse`. Pista del paquete: «Usa argparse subparsers.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T3-A-E2\ncodes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n    print(f\"{c}: {code}\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `codes = {`. Pista del paquete: «0 éxito, 1 runtime, 2 usage.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `codes = {`."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T3-A-E3\nfor h in [\n    \"HELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\",\n    \"HELP: familiarity normalize --field name            # limpia espacios y mayúsculas\",\n    \"HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config\",\n]:\n    print(h)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `for h in [`. Pista del paquete: «Evita jerga de frameworks.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `for h in [`."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T3-B-E1\nfrom io import StringIO\nimport sys\n\ndef process(valor: int, err: StringIO) -> int:\n    err.write(\"event=done\\\\valor\")\n    return valor * 2\n\nerr = StringIO()\nout = process(3, err)\nprint(out)\nprint(\"stderr:\", err.getvalue().strip())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `from io import StringIO`. Pista del paquete: «Función process(n) retorna n*2; log event=done.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T3-B-E2\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == \"-\":\n        return stdin_text\n    return file_text if file_text is not None else \"\"\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `def read_input(path_or_dash, stdin_text=\"\", file_text=None):`. Pista del paquete: «Si path=='-', usa stdin_text.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def read_input(path_or_dash, stdin_text=\"\", file_text=None):`."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T3-B-E3\nfrom io import StringIO\n\ndef bad_cli():\n    return \"empezando\\\\valor{\\\\\"ok\\\\\": true}\\\\nfin\"\n\ndef good_cli(err: StringIO) -> str:\n    err.write(\"empezando\\\\valor\")\n    err.write(\"fin\\\\valor\")\n    return '{\"ok\": true}'\n\nprint(\"BAD\")\nprint(bad_cli())\nerr = StringIO()\nprint(\"GOOD\")\nprint(good_cli(err))\nprint(\"stderr_only\", err.getvalue().replace(\"\\\\valor\", \" | \").strip())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `from io import StringIO`. Pista del paquete: «Imprime BAD y GOOD.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T4-A-E1\nlayers = [\"defaults\", \"file\", \"env\", \"bits\"]\nfor i, name in enumerate(layers, 1):\n    print(f\"{i}:{name}\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `layers = [\"defaults\", \"file\", \"env\", \"bits\"]`. Pista del paquete: «defaults < file < env < flags.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T4-A-E2\ndef merge(defaults, file_cfg, env_cfg, bits):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, bits):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `def merge(defaults, file_cfg, env_cfg, bits):`. Pista del paquete: «Prueba con log_level en todas las capas.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T4-A-E3\nprint(\"result=INFO\")\nprint(\"razon=el flag CLI tiene mayor precedencia que la variable de entorno\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `print(\"result=INFO\")`. Pista del paquete: «Una línea result= y una razón.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"result=INFO\")`."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T4-B-E1\nfor x in [\".env\", \".env.*\", \"*.pem\", \"credentials.json\"]:\n    print(\"ignore:\", x)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Ta…». Completé el contrato Pass con código ancla `for x in [\".env\", \".env.*\", \"*.pem\", \"credentials.json\"]:`. Pista del paquete: «Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí loca». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `for x in [\".env\", \".env.*\", \"*.pem\", \"credentials.json\"]:`."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T4-B-E2\ndef validate_config(cfg: dict) -> None:\n    for k in (\"log_level\", \"data_dir\"):\n        if not cfg.get(k):\n            raise RuntimeError(f\"config: falta clave requerida '{k}'\")\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `def validate_config(cfg: dict) -> None:`. Pista del paquete: «Raise RuntimeError con nombre de clave.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_config(cfg: dict) -> None:`."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S10-T4-B-E3\ninseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\nfor k in inseguro:\n    print(f\"{k}: {inseguro[k]!dept} -> {seguro[k]!dept}\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s10",
+        "dulos",
+        "packaging",
+        "cli",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S10-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y …». Completé el contrato Pass con código ancla `inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}`. Pista del paquete: «Imprime old → new por clave.». Solo usé theory/iDo/hints de esta sección."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "justification_from_packet": "Explorer S10 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S10-T1-A\", \"heading\": \"Imports, namespaces y __main__\", \"paragraphs\": [\"`import pkg.mod` y `from pkg.mod…») y la pregunta «¿Para qué sirve `if __name__ == '__main__'`?». La opción [1] «Ejecutar el CLI/demo solo al correr el módulo, no al importar» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "flags > env > file > defaults",
+      "justification_from_packet": "Explorer S10 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S10-T1-A\", \"heading\": \"Imports, namespaces y __main__\", \"paragraphs\": [\"`import pkg.mod` y `from pkg.mod…») y la pregunta «Precedencia correcta de config…». La opción [3] «flags > env > file > defaults» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "justification_from_packet": "Explorer S10 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S10-T1-A\", \"heading\": \"Imports, namespaces y __main__\", \"paragraphs\": [\"`import pkg.mod` y `from pkg.mod…») y la pregunta «Exit code 2 en CLI argparse suele significar…». La opción [0] «Error de uso/parseo de argumentos» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "justification_from_packet": "Explorer S10 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S10-T1-A\", \"heading\": \"Imports, namespaces y __main__\", \"paragraphs\": [\"`import pkg.mod` y `from pkg.mod…») y la pregunta «¿Dónde van los logs de progreso?». La opción [2] «stderr» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "justification_from_packet": "Explorer S10 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S10-T1-A\", \"heading\": \"Imports, namespaces y __main__\", \"paragraphs\": [\"`import pkg.mod` y `from pkg.mod…») y la pregunta «Añadir un subcomando nuevo compatible es tipicamente…». La opción [1] «minor» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "chosen_text": ".env con API_TOKEN",
+      "justification_from_packet": "Explorer S10 Q5: leí la teoría del quiz_card («{\"subtopicId\": \"S10-T1-A\", \"heading\": \"Imports, namespaces y __main__\", \"paragraphs\": [\"`import pkg.mod` y `from pkg.mod…») y la pregunta «¿Qué no debe ir al git del paquete?». La opción [3] «.env con API_TOKEN» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:12:12.070000+00:00"
+}

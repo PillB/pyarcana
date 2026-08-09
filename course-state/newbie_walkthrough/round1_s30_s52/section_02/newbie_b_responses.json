@@ -1,0 +1,547 @@
+{
+  "agent": "b",
+  "section_index": 2,
+  "recorded_at": "2026-08-01T15:12:03.259101+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "NoneType",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          0.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          2.0,
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Porque no es una cantidad aritmética y puede necesitar ceros o formato",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          4.0,
+          3.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "Error",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 1,
+        "chosen_text": "Error",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          3.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.15,
+          3.15,
+          1.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          3.0,
+          2.15,
+          3.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 1,
+        "chosen_text": "errors lista el campo; edad_raw sigue siendo \"abc\"",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          7.15,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 9,
+        "chosen_index": 3,
+        "chosen_text": "raw conserva los espacios; clean es \"Ñahui\" y es otro str",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.3,
+          6.3,
+          4.15,
+          7.45
+        ]
+      },
+      {
+        "question_index": 10,
+        "chosen_index": 3,
+        "chosen_text": "Error: Decimal no admite :.2f",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          2.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S02-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T1-A-E1\n# Completa el cuerpo del bucle: imprime repr(lit) y el nombre del tipo.\nliterales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(____, \"→\", ____)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "esperada",
+          "ejecuta",
+          "compara",
+          "líneas",
+          "cinco",
+          "salida",
+          "revisa",
+          "dos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T1-A-E2\n# Completa cada print: tipos, igualdad cruda, igualdad tras str(), isinstance.\ncodigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", ____, ____)\nprint(\"igualdad cruda:\", ____)\nprint(\"igualdad tras str():\", ____)\nprint(\"isinstance(True, int) →\", ____)\nprint(\"Nota: ____\")  # una frase sobre no abusar",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "cierra",
+          "tratar",
+          "montos",
+          "imprime",
+          "starter"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T1-A-E3\n# Completa valor y tipo esperado (int, float, str, bool).\n# El teléfono (contacto) DEBE ser str, no int.\ncampos = {\n    \"nombres\": (\"____\", str),\n    \"apellido_paterno\": (\"____\", str),\n    \"apellido_materno\": (\"____\", str),\n    \"contacto\": (\"____\", str),  # teléfono\n    \"edad\": (____, int),\n    \"activo\": (____, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "true",
+          "entre",
+          "ejecuta",
+          "mostrar",
+          "líneas",
+          "comillas",
+          "string",
+          "asegura"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T1-B-E1\n# Construye edad a partir de raw con strip + int, luego imprime valor y tipo.\nraw = \" 21 \"\nedad = ____\nprint(edad, type(edad).__name__)\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "quedar",
+          "mentalmente",
+          "str",
+          "debe",
+          "verifica"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-002 · T1-B-E2\n# Implementa safe_int: vacío tras strip → error; int OK → (True, n, None);\n# ValueError → (False, None, msg accionable con nombre de campo).\ndef safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    # 1) si texto == \"\" → (False, None, mensaje de vacío)\n    # 2) try int(texto) → (True, n, None)\n    # 3) except ValueError → (False, None, mensaje con valor!r)\n    pass\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ejecuta",
+          "compara",
+          "líneas",
+          "prueba",
+          "cuatro",
+          "solución",
+          "deja",
+          "cuerpo"
+        ]
+      },
+      {
+        "exercise_id": "S02-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Implementa `pipeline(edad_txt, anios_txt)`.n2. Llama `safe_int` para `\"edad\"` y `\"anios_cliente\"`; acumula errores.n3",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S02-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T2-A-E1\n# Antes (malo): NombreCliente, AP, x, l, EdadMaxima\n# Después (bueno): renombra a PEP 8 y asigna los valores sintéticos.\n____ = \"Luis\"\n____ = \"Ramos\"\n____ = 0\n____ = 5\n____ = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "sin",
+          "ejecuta",
+          "nameerror",
+          "nombre",
+          "cinco",
+          "cada",
+          "correcto",
+          "sustituye"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-002 · T2-A-E2\n# Bug hunt: tres comparaciones usan = en lugar de ==.\n# Corrígelas para que el archivo corra e imprima tres líneas ok.\nestado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado = \"activo\":\n    print(\"ok estado\")\nif codigo = 10:\n    print(\"ok codigo\")\nif flag = True:\n    print(\"ok flag\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "rotas",
+          "ejecuta",
+          "sean",
+          "localiza",
+          "confirma",
+          "válidas"
+        ]
+      },
+      {
+        "exercise_id": "S02-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-002 · T2-A-E3\n# Completa el dict mapeo: encabezado original → nombre snake_case.\nencabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    # \"Nombres\": \"nombres\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ejecuta",
+          "impresión",
+          "seis",
+          "usa",
+          "incluye",
+          "apellido_materno"
+        ]
+      },
+      {
+        "exercise_id": "S02-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T2-B-E1\n# Completa cada expresión y un comentario: cuándo usar is vs ==.\nprint(\"None is None →\", ____)\nprint(\"[] == [] →\", ____)\nprint(\"[] is [] →\", ____)\nprint(\"1 == True →\", ____)\nprint(\"1 is True →\", ____)\n# Comentario: ____",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ejecuta",
+          "tabla",
+          "escribe",
+          "correspondiente",
+          "línea",
+          "verifica",
+          "bools"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T2-B-E2\n# Crea trabajo como copia (no alias), muta y verifica original intacto.\n# (Lista solo como preview mínimo de mutabilidad — colecciones a fondo después.)\noriginal = [\"a\", \"b\"]\ntrabajo = ____  # debe ser copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "asigna",
+          "ambas",
+          "haz",
+          "listas",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-002 · T2-B-E3\n# Devuelve dict con *_raw y campos limpios (strip). Luego el test muta clean.\ndef make_record(nombres: str, contacto: str) -> dict:\n    # Completa: nombres_raw, contacto_raw, nombres, contacto\n    pass\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "implementa",
+          "confirma",
+          "claves",
+          "bloque",
+          "cuatro",
+          "pasan",
+          "asserts",
+          "corre"
+        ]
+      },
+      {
+        "exercise_id": "S02-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T3-A-E1\n# Imprime n//d, n%d, 2**4 y n/d. Explica en un print por qué / devuelve float.\nn = 17\nd = 5\nprint(\"//\", ____)\nprint(\"%\", ____)\nprint(\"**\", ____)\nprint(\"/\", ____)\nprint(\"nota: ____\")\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ejecuta",
+          "compara",
+          "añade",
+          "cuatro",
+          "solución",
+          "sobre",
+          "completa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T3-A-E2\n# Demuestra la trampa de precedencia y asigna cuadrado_neg = 9.\nprint(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = ____  # debe ser 9\nassert cuadrado_neg == 9\nprint(\"assert OK\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ejecuta",
+          "confirma",
+          "potencia",
+          "ambas",
+          "mentalmente",
+          "deja",
+          "formas",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T3-A-E3\n# Calcula subtotal y total con IGV 18% y paréntesis explícitos.\nlinea_a = 50\nlinea_b = 30\nsubtotal = ____\ntotal = ____\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "multiplicando",
+          "líneas",
+          "round",
+          "suma",
+          "todavía",
+          "ambos",
+          "dos",
+          "arregles"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T3-B-E1\n# Imprime float 0.1+0.2 y Decimal(\"0.1\")+Decimal(\"0.2\"). Luego el assert.\nfrom decimal import Decimal\n\nprint(\"float\", ____)\nprint(\"Decimal\", ____)\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\nprint(\"assert OK\")\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ejecuta",
+          "intacto",
+          "ver",
+          "hasta",
+          "dos",
+          "deja",
+          "starter",
+          "completa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T3-B-E2\n# Calcula propina 10% y total con quantize a 0.01 (ROUND_HALF_EVEN). Sin float.\nfrom decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = ____\ntotal = ____\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "decimales",
+          "ejecuta",
+          "dos",
+          "quantizado",
+          "asserts",
+          "quantizada",
+          "starter"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-002 · T3-B-E3\n# parse_monto: strip, vacío, Decimal desde str, quantize 0.01, error accionable.\nfrom decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    # Devuelve (ok, Decimal|None, error|None)\n    pass\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "strings",
+          "salidas",
+          "rechaza",
+          "ejecuta",
+          "compara",
+          "construir",
+          "cuatro",
+          "implementa"
+        ]
+      },
+      {
+        "exercise_id": "S02-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T4-A-E1\n# Construye mensaje con f-string (debe interpolar nombre) y luego imprímelo.\n# Salida esperada: Hola, José. Bienvenido al intake.\nnombre = \"José\"\nmensaje = ____\nprint(mensaje)\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "interpolando",
+          "completo",
+          "acento",
+          "texto",
+          "verifica"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T4-A-E2\n# Construye el reporte multi-línea: cada print debe ser un f-string completo.\n# Incluye las 4 etiquetas y monto con :.2f (salida: S/ 99.50).\nfrom decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(\"Resumen cliente\")\nprint(____)  # f-string: nombres\nprint(____)  # f-string: apellido_paterno\nprint(____)  # f-string: contacto\nprint(____)  # f-string: monto S/ con :.2f",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "strings",
+          "ejecuta",
+          "compara",
+          "cuatro",
+          "solución",
+          "completa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T4-A-E3\n# No llames input(). Devuelve campos + types (type(...).__name__ de cada uno).\ndef simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    # Completa: dict con nombres, contacto, edad y subdict types\n    pass\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "implementa",
+          "campo",
+          "usa",
+          "retorno",
+          "complejidad",
+          "evitas",
+          "asserts",
+          "corre"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-002 · T4-B-E1\n# Completa parse_nombres: nombres_raw, nombres (strip o None), errors.\ndef parse_nombres(valor: str) -> dict:\n    # Si vacío tras strip → error accionable; raw siempre = valor original\n    pass\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ejecuta",
+          "agrega",
+          "clean",
+          "deja",
+          "asserts",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S02-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-002 · T4-B-E2\n# Conserva raw con espacios; clean con strip. Unicode debe sobrevivir.\noriginal = \"  Ñahui  \"\nraw = ____\nclean = ____\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "sin",
+          "idéntico",
+          "asigna",
+          "tocar",
+          "asserts",
+          "corre",
+          "codificación"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S02-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Implementa `safe_int` (vacío / OK / basura) con el contrato de la sección.n2. Implementa `parse_client`: todas las cl",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "eb432f97ca2d77c5"
+  }
+}

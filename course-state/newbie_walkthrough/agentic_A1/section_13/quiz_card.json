@@ -1,0 +1,208 @@
+{
+  "section_index": 13,
+  "title": "Familiarity Evidence Dashboard y cierre de nivel",
+  "outcomes": [
+    "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+    "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+    "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+    "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+    "Producir score de evidencia con incertidumbre y explicación legible",
+    "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+    "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+    "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+  ],
+  "theory": [
+    {
+      "heading": "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)",
+      "paragraphs": [
+        "En V3, **S13 no es el path principal de Playwright, Ollama, OCR ni Prefect**. Ese material se reubica al tramo de automatización avanzada. Aquí cierras **CP-N1-C** con un **Familiarity Evidence Dashboard**: ER por reglas, señales de relación separadas, explicación humana y operación responsable.",
+        "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados.",
+        "Orden: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Normalización, blocking y entity resolution",
+      "paragraphs": [
+        "Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región).",
+        "ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+).",
+        "No colapses ER con señales de relación: son scores **separados** en la ficha de caso."
+      ],
+      "code": "import re\n\ndef norm_doc(d: str) -> str:\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\ndef norm_name(n: str) -> str:\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\n\ndef block_key(rec):\n    ap = norm_name(rec[\"name\"]).split()[-1]\n    return f\"{ap}|{rec['region'].casefold()}\"\n\na = {\"name\": \"Ana Quispe\", \"document_id\": \"D-12.34\", \"region\": \"Lima\"}\nb = {\"name\": \"ANA  QUISPE\", \"document_id\": "
+    },
+    {
+      "heading": "Verdad etiquetada, precision/recall y revisión clerical",
+      "paragraphs": [
+        "Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples.",
+        "Scores en **banda de duda** van a **cola clerical** (humano), no a auto-merge.",
+        "Un **FP no implica fraude**: es error de matching de identidad, no veredicto legal."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Email/teléfono/dirección compartidos, distancia y apellidos",
+      "paragraphs": [
+        "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido.",
+        "Agrégalas en `relationship_signal_score` con pesos documentados. **No es veredicto de parentesco**.",
+        "Cada señal debe poder listarse en la explicación de la ficha."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Transacciones directas y contrapartes comunes",
+      "paragraphs": [
+        "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión.",
+        "Modela un graphlet simple y emite objetos `RelationshipEvidence` con tipo y traza.",
+        "Disclaimer obligatorio: common counterparty ≠ collusion claim."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Score de evidencia, incertidumbre y explicación",
+      "paragraphs": [
+        "Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles.",
+        "Campos de auditoría: inputs usados, missing fields, versión de reglas.",
+        "Señales conflictivas → explicación honesta, no score maquillado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Umbral de revisión, abstención y no inferencia automática",
+      "paragraphs": [
+        "Umbrales: accept_pair / needs_review / abstain según score e incertidumbre. **Nunca** `auto_fraud=true` ni `is_family=true`.",
+        "Human-in-the-loop: la acción operativa es de **datos** (revisar/aceptar/rechazar par), no veredicto legal.",
+        "Auditoría: elimina cualquier path que setee parentesco/fraude automático."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Dashboard/mapa pseudonimizado y ficha de caso",
+      "paragraphs": [
+        "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable.",
+        "**Pseudonimiza** nombres en vista (`A*** Q***`). Ficha muestra ER score **y** relationship score por separado.",
+        "No es un design system completo (eso es tramo producto/UI posterior)."
+      ],
+      "code": "def pseudonymize(name: str) -> str:\n    parts = name.split()\n    return \" \".join(p[0] + \"***\" for p in parts if p)\n\ncases = [\n    {\n        \"case_id\": \"CASE-1\",\n        \"display_name\": pseudonymize(\"Ana Quispe\"),\n        \"entity_resolution_score\": 0.92,\n        \"relationship_signal_score\": 0.41,\n        \"lat\": -12.0464,\n        \"lon\": -77.0428,\n        \"geo_tooltip\": \"geo_distance_km=1.2; source=m"
+    },
+    {
+      "heading": "Privacidad, acceso, pruebas, demo y runbook",
+      "paragraphs": [
+        "**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer).",
+        "**Tests green** de ER, señales y umbrales. **Demo de un comando**. **Runbook** incluye incidente de PII en log.",
+        "Artefactos **CF-1** + notas de **regresión level-1 (S01–S13)** cierran el nivel."
+      ],
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"egress_public_geocoder\": \"city_address_only\",\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nrunbook_steps = [\n    \"setup venv\",\n    \"load synthetic fixtures\",\n    \"run ER + signals\",\n    \"open dashboard\",\n    \"process review queue\",\n]\nincident = {\n    \"trigger\": \"token_or_name_in_log\",\n    \"action\": [\"rotate_secret\", \"redact_logs"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S13-T1-B-DEMO",
+      "description": "Emparejar 2 registros sintéticos por documento normalizado + bloque región.",
+      "why": "Reglas deterministas transparentes antes de cualquier modelo probabilístico.",
+      "code": ""
+    },
+    {
+      "demoId": "S13-T2-A-DEMO",
+      "description": "Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.",
+      "why": "Métricas + cola clerical cierran el loop de calidad de ER.",
+      "code": "import random\nrandom.seed(13)\n# synthetic labels and scores\npairs = []\nfor i in range(20):\n    y = 1 if i % 3 == 0 else 0\n    score = 0.85 if y == 1 else 0.2\n    if i in (4, 9, 15):\n        score = 0.55  # gray band\n    pairs.append({\"id\": f\"P{i}\", \"y\": y, \"score\": score, \"pred\": int(score >= 0.7)})\ntp = sum(1 for p in pairs if p[\"y\"] == 1 and p[\"pred\"] == 1)\nfp = sum(1 for p in pairs if p[\"y\"] == 0 and p[\"pred\"] == 1)\nfn = sum(1 for p in pairs if p[\"y\"] == 1 and p[\"pred\"] == 0)\nreview = [p[\"id\""
+    },
+    {
+      "demoId": "S13-T2-B-DEMO",
+      "description": "Dos entidades: shared phone + 1.2 km → señales con explicación.",
+      "why": "Explicación lista para la ficha sin veredicto de parentesco.",
+      "code": ""
+    },
+    {
+      "demoId": "S13-T3-A-DEMO",
+      "description": "Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.",
+      "why": "Graphlet mínimo con disclaimers operativos.",
+      "code": ""
+    },
+    {
+      "demoId": "S13-T3-B-DEMO",
+      "description": "Ficha con score, uncertainty low/med/high y 3 bullets de por qué.",
+      "why": "La ficha es el artefacto humano del dashboard.",
+      "code": ""
+    },
+    {
+      "demoId": "S13-T4-A-DEMO",
+      "description": "Scores en zona gris → status=needs_review; nunca auto_fraud=true.",
+      "why": "Política de abstención y revisión protege al estudiante y al usuario final.",
+      "code": "def decide(score, unc):\n    if unc == \"high\" or 0.4 <= score <= 0.7:\n        return \"needs_review\"\n    if score < 0.4:\n        return \"abstain\"\n    return \"accept_pair\"\n\nsamples = [(0.55, \"med\"), (0.9, \"low\"), (0.15, \"low\")]\nfor sc, u in samples:\n    print({\"score\": sc, \"uncertainty\": u, \"status\": decide(sc, u), \"auto_fraud\": False, \"is_family\": False})"
+    },
+    {
+      "demoId": "S13-T4-B-DEMO",
+      "description": "Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.",
+      "why": "Producto mínimo: ficha + mapa con scores separados.",
+      "code": "def pseudo(n):\n    return \" \".join(p[0] + \"***\" for p in n.split())\n\ncases = [\n    (\"CASE-1\", \"Ana Quispe\", 0.91, 0.4, -12.0464, -77.0428),\n    (\"CASE-2\", \"Luis Huamán\", 0.52, 0.66, -16.4090, -71.5375),\n    (\"CASE-3\", \"María Rojas\", 0.77, 0.22, -12.05, -77.12),\n]\nfor cid, name, er, rel, lat, lon in cases:\n    print({\n        \"case_id\": cid,\n        \"display\": pseudo(name),\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n        \"map\": (lat, lon),\n    })"
+    },
+    {
+      "demoId": null,
+      "description": "Runbook: setup → load synthetic → run ER → open dashboard → review queue (+ regresión N1).",
+      "why": "Operación N1 completa sin marcar passed en checkpoint/ledger.",
+      "code": "steps = [\n    \"1. setup: python -m venv .venv && pip install -r requirements.txt\",\n    \"2. load synthetic fixtures (no real PII)\",\n    \"3. run ER + relationship signals\",\n    \"4. open dashboard scaffold\",\n    \"5. process clerical review queue\",\n    \"6. level-1 regression notes: re-run critical checks S01-S13\",\n    \"7. CF-1: privacy sheet + demo script + access notes\",\n]\nfor s in steps:\n    print(s)\nprint(\"demo_cmd: python -m demo_n1_dashboard --synthetic\")\nprint(\"section_passed_written_by_this_l"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "entity_resolution_score y relationship_signal_score deben…",
+      "options": [
+        "Fusionarse siempre en un solo número sin etiqueta",
+        "Mantenerse separados en la ficha de caso",
+        "Reemplazarse por is_family",
+        "Ocultarse al revisor"
+      ]
+    },
+    {
+      "question": "Un false positive de ER implica…",
+      "options": [
+        "Fraude confirmado",
+        "Parentesco automático",
+        "Error de matching; no es veredicto legal de fraude",
+        "Borrar la cola clerical"
+      ]
+    },
+    {
+      "question": "En zona gris de score el sistema debe…",
+      "options": [
+        "Marcar auto_fraud=true",
+        "Encolar needs_review / abstenerse según política",
+        "Setear is_family",
+        "Publicar PII real en el mapa"
+      ]
+    },
+    {
+      "question": "CF-1 en S13 incluye…",
+      "options": [
+        "Solo un modelo de deep learning",
+        "Privacy sheet, acceso, tests, demo y runbook",
+        "Hardcodear tokens en el repo",
+        "Marcar section_passed desde el author lane"
+      ]
+    },
+    {
+      "question": "Level-1 regression notes en el You Do exigen…",
+      "options": [
+        "Ignorar S01–S12",
+        "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+        "Borrar el dashboard",
+        "Enviar PII a geocoder público"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables"
+  ]
+}

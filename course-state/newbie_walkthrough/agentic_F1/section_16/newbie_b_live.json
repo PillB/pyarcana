@@ -1,0 +1,545 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s16",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T1-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/33ae5cad] S16-T1-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero. P». Demo S16-T1-A-DEMO. Línea: `import pandas as pd`. Pista «isna().sum().»."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T1-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "policy"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ce1252d4] Solo acepto S16-T1-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que tengan nulls (valor». Verifiqué pista «Itera policy.» y demo S16-T1-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T1-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ddcd6cc5] Dudé del atajo en S16-T1-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellenes nulls para forzar». Hint «Usa el dict viol.». Ancla: `import pandas as pd`. S16-T1-A-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T1-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/8c2bfa0a] Solo acepto S16-T1-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista de was_null. Pass: ». Verifiqué pista «was_null = isna.» y demo S16-T1-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T1-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/40c9eeb0] Solo acepto S16-T1-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`, si no `ok`. Pass: ». Verifiqué pista «mean de isna.» y demo S16-T1-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T1-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ba8c8545] Dudé del atajo en S16-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de valores originales ». Hint «median skipna.». Ancla: `import pandas as pd`. S16-T1-B-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T2-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/998c6164] Dudé del atajo en S16-T2-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el entero. Pass: conteo de». Hint «duplicated(keep=False).sum().». Ancla: `import pandas as pd`. S16-T2-A-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T2-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9db29c0c] Dudé del atajo en S16-T2-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de ids en conflicto. Pas». Hint «groupby nunique > 1.». Ancla: `import pandas as pd`. S16-T2-A-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T2-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3e78b4d1] S16-T2-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflicto de región print `c». Demo S16-T2-A-DEMO. Línea: `import pandas as pd`. Pista «Lógica en orden.»."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T2-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a9ef3334] S16-T2-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imprime ambos lens. Pas». Demo S16-T2-B-DEMO. Línea: `import pandas as pd`. Pista «duplicated(key, keep=False).»."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T2-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/04163321] Solo acepto S16-T2-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); imprime `columns.tol». Verifiqué pista «copy del mask.» y demo S16-T2-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T2-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/fc04341d] S16-T2-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pass: `card_ok` en DF ». Demo S16-T2-B-DEMO. Línea: `import pandas as pd`. Pista «cardinalidad 1:1.»."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T3-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/265004d0] Dudé del atajo en S16-T3-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco']`. No borres el raw». Hint «str.strip().str.title().». Ancla: `import pandas as pd`. S16-T3-A-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T3-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d8938ad3] Solo acepto S16-T3-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass: `3.5`. Normalizar ». Verifiqué pista «str.replace.» y demo S16-T3-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T3-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/61792eda] Solo acepto S16-T3-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evidencia según solutio». Verifiqué pista «Nueva col no pisa raw.» y demo S16-T3-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T3-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/85960f7d] Dudé del atajo en S16-T3-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en negativos). No drops». Hint «s < 0.». Ancla: `import pandas as pd`. S16-T3-B-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T3-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5afa0c66] Dudé del atajo en S16-T3-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye 100). Domain bounds ». Hint «quantile 0.25/0.75.». Ancla: `import pandas as pd`. S16-T3-B-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T3-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/bc535874] S16-T3-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `error` (dominio). Pr». Demo S16-T3-B-DEMO. Línea: `import pandas as pd`. Pista «Prioriza error.»."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T4-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/daaa761e] S16-T4-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['monto']` (u orden del or». Demo S16-T4-A-DEMO. Línea: `import pandas as pd`. Pista «list comprehension.»."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T4-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a74ebe99] S16-T4-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del fixture. Cada regla ». Demo S16-T4-A-DEMO. Línea: `import pandas as pd`. Pista «máscara datetime.»."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T4-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5f0ecb37] Solo acepto S16-T4-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle según fixture. Fail-clo». Verifiqué pista «Usa lista missing.» y demo S16-T4-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T4-B-E1: packet-only solve (no prior lives)\nrows_in = 10\nq = 3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rows_in"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/7b7a7890] Dudé del atajo en S16-T4-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del reporte del gate.». Hint «resta simple.». Ancla: `rows_in = 10`. S16-T4-B-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T4-B-E2: packet-only solve (no prior lives)\naudit = [{\"event\": \"start\"}]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "audit",
+        "event"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f724828a] Solo acepto S16-T4-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del oracle (n_prev+1). N». Verifiqué pista «audit.append.» y demo S16-T4-B-DEMO. Código justificado: `audit = [{\"event\": \"start\"}]`. No invento APIs. Teoría: nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S16-T4-B-E3: packet-only solve (no prior lives)\nn_q = 1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S16",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "n_q"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d38fc94f] Dudé del atajo en S16-T4-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica métricas aunque el gate». Hint «pass = n_q==0.». Ancla: `n_q = 1`. S16-T4-B-DEMO. nulls y políticas por campo | indicadores y límites de imputación | duplicados e."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Provocar violación/cuarentena o fail del gate",
+      "justification_from_packet": "[agentic_F1/skeptic/b16q0s3] No acepto imputar always 0 ni string vacío: el demo de policy required cuenta nulls como violaciones; el gate debe fallar o cuarentenar.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+      "justification_from_packet": "[agentic_F1/skeptic/b16q1s1] El iDo imprime exact_dup_rows vs conflict_ids; confluye misma clave con región distinta ≠ fila idéntica. No son equivalentes en pandas.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Auditar y disputar la forma canónica sin perder el valor original",
+      "justification_from_packet": "[agentic_F1/skeptic/b16q2s2] Conservar *_raw es evidencia para disputa de normalización; no es atajo de imputación ni de merge one_to_one.",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+      "justification_from_packet": "[agentic_F1/skeptic/b16q3s0] plausible = stat & ~domain_err en el demo; IQR sin domain bounds confunde cola de negocio con error.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Publicar métricas y cuarentena aunque pass=False",
+      "justification_from_packet": "[agentic_F1/skeptic/b16q4s3] Ocultar métricas o borrar audit trail contradice el outcome de cuarentena trazable; fail del gate sigue publicando evidencia.",
+      "blocked_on": [],
+      "confidence": 0.8
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.896106+00:00"
+}

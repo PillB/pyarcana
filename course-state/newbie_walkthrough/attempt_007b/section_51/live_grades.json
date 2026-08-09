@@ -1,0 +1,1116 @@
+{
+  "section_index": 51,
+  "section_id": "integrator-final",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S51-T1-A-E1",
+          "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "traces",
+            "spans",
+            "iDo_S51-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-A-E2",
+          "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "traces",
+            "spans",
+            "iDo_S51-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-A-E3",
+          "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "traces",
+            "spans",
+            "iDo_S51-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-B-E1",
+          "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)\n",
+          "note": "",
+          "concepts_used": [
+            "tokens",
+            "redaction",
+            "iDo_S51-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-B-E2",
+          "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)\n",
+          "note": "",
+          "concepts_used": [
+            "tokens",
+            "redaction",
+            "iDo_S51-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-B-E3",
+          "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)\n",
+          "note": "",
+          "concepts_used": [
+            "tokens",
+            "redaction",
+            "iDo_S51-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-A-E1",
+          "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry",
+            "versions",
+            "iDo_S51-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-A-E2",
+          "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry",
+            "versions",
+            "iDo_S51-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-A-E3",
+          "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry",
+            "versions",
+            "iDo_S51-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-B-E1",
+          "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "access",
+            "retention",
+            "iDo_S51-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-B-E2",
+          "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "access",
+            "retention",
+            "iDo_S51-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-B-E3",
+          "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "access",
+            "retention",
+            "iDo_S51-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-A-E1",
+          "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "drift",
+            "iDo_S51-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-A-E2",
+          "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "drift",
+            "iDo_S51-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-A-E3",
+          "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "drift",
+            "iDo_S51-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-B-E1",
+          "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "incident",
+            "postmortem",
+            "iDo_S51-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-B-E2",
+          "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "incident",
+            "postmortem",
+            "iDo_S51-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-B-E3",
+          "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "incident",
+            "postmortem",
+            "iDo_S51-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-A-E1",
+          "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "uncertainty",
+            "cites",
+            "iDo_S51-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-A-E2",
+          "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "uncertainty",
+            "cites",
+            "iDo_S51-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-A-E3",
+          "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "uncertainty",
+            "cites",
+            "iDo_S51-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-B-E1",
+          "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "a11y",
+            "contest",
+            "iDo_S51-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-B-E2",
+          "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "a11y",
+            "contest",
+            "iDo_S51-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-B-E3",
+          "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "a11y",
+            "contest",
+            "iDo_S51-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S51-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True\n",
+          "expected_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True\n",
+          "expected_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True\n",
+          "expected_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tokens 1200\nredaction True\nlatency_ms 900\n",
+          "expected_head": "tokens 1200\nredaction True\nlatency_ms 900",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tokens 1200\nredaction True\nlatency_ms 900\n",
+          "expected_head": "tokens 1200\nredaction True\nlatency_ms 900",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tokens 1200\nredaction True\nlatency_ms 900\n",
+          "expected_head": "tokens 1200\nredaction True\nlatency_ms 900",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "registry True\nversions {'model': 'm-2'}\npin True\n",
+          "expected_head": "registry True\nversions {'model': 'm-2'}\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "registry True\nversions {'model': 'm-2'}\npin True\n",
+          "expected_head": "registry True\nversions {'model': 'm-2'}\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "registry True\nversions {'model': 'm-2'}\npin True\n",
+          "expected_head": "registry True\nversions {'model': 'm-2'}\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "access_log True\nretention 180\nchange_control True\n",
+          "expected_head": "access_log True\nretention 180\nchange_control True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "access_log True\nretention 180\nchange_control True\n",
+          "expected_head": "access_log True\nretention 180\nchange_control True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "access_log True\nretention 180\nchange_control True\n",
+          "expected_head": "access_log True\nretention 180\nchange_control True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo True\ndrift_watch True\nfeedback_loop True\n",
+          "expected_head": "slo True\ndrift_watch True\nfeedback_loop True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo True\ndrift_watch True\nfeedback_loop True\n",
+          "expected_head": "slo True\ndrift_watch True\nfeedback_loop True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo True\ndrift_watch True\nfeedback_loop True\n",
+          "expected_head": "slo True\ndrift_watch True\nfeedback_loop True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback m-1\npostmortem True\naction_items True\n",
+          "expected_head": "rollback m-1\npostmortem True\naction_items True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback m-1\npostmortem True\naction_items True\n",
+          "expected_head": "rollback m-1\npostmortem True\naction_items True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback m-1\npostmortem True\naction_items True\n",
+          "expected_head": "rollback m-1\npostmortem True\naction_items True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uncertainty True\ncites True\nconfirm_gate True\n",
+          "expected_head": "uncertainty True\ncites True\nconfirm_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uncertainty True\ncites True\nconfirm_gate True\n",
+          "expected_head": "uncertainty True\ncites True\nconfirm_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uncertainty True\ncites True\nconfirm_gate True\n",
+          "expected_head": "uncertainty True\ncites True\nconfirm_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a11y True\ncorrection True\ncontest True\n",
+          "expected_head": "a11y True\ncorrection True\ncontest True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a11y True\ncorrection True\ncontest True\n",
+          "expected_head": "a11y True\ncorrection True\ncontest True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a11y True\ncorrection True\ncontest True\n",
+          "expected_head": "a11y True\ncorrection True\ncontest True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S51-T1-A-E1",
+          "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-A-E2",
+          "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-A-E3",
+          "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-B-E1",
+          "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-B-E2",
+          "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T1-B-E3",
+          "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-A-E1",
+          "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-A-E2",
+          "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-A-E3",
+          "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-B-E1",
+          "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-B-E2",
+          "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T2-B-E3",
+          "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-A-E1",
+          "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-A-E2",
+          "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-A-E3",
+          "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-B-E1",
+          "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-B-E2",
+          "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T3-B-E3",
+          "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-A-E1",
+          "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-A-E2",
+          "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-A-E3",
+          "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-B-E1",
+          "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-B-E2",
+          "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S51-T4-B-E3",
+          "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S51-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S51-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True\n",
+          "expected_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True\n",
+          "expected_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True\n",
+          "expected_head": "trace_id t-1\nspans ['prompt', 'retrieve', 'tool']\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tokens 1200\nredaction True\nlatency_ms 900\n",
+          "expected_head": "tokens 1200\nredaction True\nlatency_ms 900",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tokens 1200\nredaction True\nlatency_ms 900\n",
+          "expected_head": "tokens 1200\nredaction True\nlatency_ms 900",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tokens 1200\nredaction True\nlatency_ms 900\n",
+          "expected_head": "tokens 1200\nredaction True\nlatency_ms 900",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "registry True\nversions {'model': 'm-2'}\npin True\n",
+          "expected_head": "registry True\nversions {'model': 'm-2'}\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "registry True\nversions {'model': 'm-2'}\npin True\n",
+          "expected_head": "registry True\nversions {'model': 'm-2'}\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "registry True\nversions {'model': 'm-2'}\npin True\n",
+          "expected_head": "registry True\nversions {'model': 'm-2'}\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "access_log True\nretention 180\nchange_control True\n",
+          "expected_head": "access_log True\nretention 180\nchange_control True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "access_log True\nretention 180\nchange_control True\n",
+          "expected_head": "access_log True\nretention 180\nchange_control True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "access_log True\nretention 180\nchange_control True\n",
+          "expected_head": "access_log True\nretention 180\nchange_control True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo True\ndrift_watch True\nfeedback_loop True\n",
+          "expected_head": "slo True\ndrift_watch True\nfeedback_loop True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo True\ndrift_watch True\nfeedback_loop True\n",
+          "expected_head": "slo True\ndrift_watch True\nfeedback_loop True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo True\ndrift_watch True\nfeedback_loop True\n",
+          "expected_head": "slo True\ndrift_watch True\nfeedback_loop True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback m-1\npostmortem True\naction_items True\n",
+          "expected_head": "rollback m-1\npostmortem True\naction_items True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback m-1\npostmortem True\naction_items True\n",
+          "expected_head": "rollback m-1\npostmortem True\naction_items True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback m-1\npostmortem True\naction_items True\n",
+          "expected_head": "rollback m-1\npostmortem True\naction_items True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uncertainty True\ncites True\nconfirm_gate True\n",
+          "expected_head": "uncertainty True\ncites True\nconfirm_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uncertainty True\ncites True\nconfirm_gate True\n",
+          "expected_head": "uncertainty True\ncites True\nconfirm_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uncertainty True\ncites True\nconfirm_gate True\n",
+          "expected_head": "uncertainty True\ncites True\nconfirm_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a11y True\ncorrection True\ncontest True\n",
+          "expected_head": "a11y True\ncorrection True\ncontest True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a11y True\ncorrection True\ncontest True\n",
+          "expected_head": "a11y True\ncorrection True\ncontest True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S51-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a11y True\ncorrection True\ncontest True\n",
+          "expected_head": "a11y True\ncorrection True\ncontest True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

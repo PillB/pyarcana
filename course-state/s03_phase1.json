@@ -1,0 +1,374 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T12:30:00Z",
+  "lane": "LANE-S03",
+
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s03-data-structures.ts",
+    "total_lines": 585,
+    "structure": {
+      "id": "data-structures",
+      "index": 3,
+      "title": "Data Structures & File Handling",
+      "shortTitle": "Estructuras & Archivos",
+      "tagline": "Dicts, listas, CSV, JSON y manejo de errores como en producción",
+      "estimatedHours": 8,
+      "level": "Principiante",
+      "phase": 0,
+      "icon": "Database"
+    },
+
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "List, dict y set — operaciones que debes tener en la yema",
+        "paragraphs": 3,
+        "has_code": true,
+        "has_callout": false,
+        "v3_alignment": "none — maps to V3 S6 collections, not S3 decisions"
+      },
+      {
+        "block": 2,
+        "heading": "Estructuras anidadas — modelando datos reales",
+        "paragraphs": 3,
+        "has_code": true,
+        "has_callout": true,
+        "v3_alignment": "none — maps to V3 S6 composition"
+      },
+      {
+        "block": 3,
+        "heading": "Archivos CSV y JSON — entrada/salida estándar",
+        "paragraphs": 3,
+        "has_code": true,
+        "has_callout": false,
+        "v3_alignment": "none — file I/O later sections; not S3 V3"
+      },
+      {
+        "block": 4,
+        "heading": "Manejo de errores — try/except/finally",
+        "paragraphs": 3,
+        "has_code": true,
+        "has_callout": false,
+        "v3_alignment": "tangential — custom exceptions for business rules touch S3 T4 messages, but focus is exceptions not decision rules"
+      }
+    ],
+
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "list/dict/set avanzado",
+      "estructuras anidadas",
+      "CSV DictReader/writer",
+      "JSON load/loads/dump/dumps",
+      "try/except/finally + custom exceptions",
+      "with statement"
+    ],
+
+    "iDo_steps": [
+      {
+        "step": 1,
+        "description": "Crear CSV de muestra y función de lectura robusta",
+        "language": "python",
+        "has_code": true
+      },
+      {
+        "step": 2,
+        "description": "Leer CSV y construir estructura anidada",
+        "language": "python",
+        "has_code": true
+      },
+      {
+        "step": 3,
+        "description": "Agregar por categoría y exportar resumen JSON",
+        "language": "python",
+        "has_code": true
+      }
+    ],
+
+    "weDo_steps": [
+      {
+        "step": 1,
+        "instruction": "Crea una función que lea un JSON de configuración y valide que tenga las keys obligatorias",
+        "has_starter": true,
+        "has_solution": true,
+        "language": "python",
+        "note": "Única validación presente: keys obligatorias — no es motor accept/reject/review"
+      }
+    ],
+
+    "youDo_project": {
+      "title": "Sales Log Parser — Tu primer pipeline ETL",
+      "objectives_count": 5,
+      "requirements_count": 7,
+      "has_starter_code": true,
+      "rubric_criteria_count": 6,
+      "maps_to_capstone_current": "none explicit",
+      "maps_to_capstone_v3_target": "CP-N1-A motor de reglas (reemplazo requerido)"
+    },
+
+    "selfCheck_questions": {
+      "total": 5,
+      "concepts_covered": [
+        "json-load-vs-loads",
+        "context-manager / with",
+        "defaultdict",
+        "FileNotFoundError",
+        "dict.items iteration"
+      ],
+      "v3_s3_coverage": "0/8 subtopics"
+    },
+
+    "codePlayground_demo": {
+      "demo_id": "none_dedicated_in_section_file",
+      "note": "No hay bloque codePlayground embebido en s03; demos viven en iDo.steps. V3 requiere 8 demos por subtema.",
+      "verified": false
+    },
+
+    "resources": {
+      "docs_count": 4,
+      "books_count": 2,
+      "courses_count": 1,
+      "topics": ["csv", "json", "files", "exceptions"]
+    }
+  },
+
+  "related_content_outside_s03": {
+    "s02_basics_overlap": {
+      "file": "src/lib/course/sections/s02-basics.ts",
+      "covers_v3_s3_topics": [
+        "if/elif/else",
+        "operadores de comparación",
+        "and/or/not",
+        "truthiness (0, '', [], {}, None)"
+      ],
+      "exam_slugs_in_basics_seed": ["assignment-vs-equality", "truthiness", "list-comprehension", "kwargs-semantics", "enumerate-idiom"],
+      "note": "Ownership canónico V3 de truthiness/control se mueve a S03; S02 provisional hasta reescritura."
+    },
+    "v3_s6_destination": {
+      "v3_title": "Colecciones y estructuras de datos",
+      "legacy_s03_blocks_map": [
+        "theory block 1 list/dict/set → S6",
+        "theory block 2 nested → S6 T3",
+        "CSV/JSON file ops → later I/O / data sections",
+        "try/except → errors section or keep partial with validation messages"
+      ]
+    }
+  },
+
+  "exam_bank_inventory": {
+    "source_file": "prisma/seed.ts",
+    "section_id": "data-structures",
+    "total_questions": 12,
+    "unique_concepts": 4,
+    "variants_per_concept": 3,
+    "concepts": [
+      {
+        "slug": "json-load-vs-loads",
+        "variants": 3,
+        "bloom_target": "Aplicar",
+        "format": "mcq",
+        "coverage": "Legacy file I/O — NOT V3 S3"
+      },
+      {
+        "slug": "with-statement",
+        "variants": 3,
+        "bloom_target": "Aplicar",
+        "format": "mcq",
+        "coverage": "Legacy context managers — NOT V3 S3 (roadmap label: context-manager)"
+      },
+      {
+        "slug": "defaultdict",
+        "variants": 3,
+        "bloom_target": "Analizar",
+        "format": "mcq",
+        "coverage": "Legacy collections — NOT V3 S3 (roadmap: defaultdict-use-case)"
+      },
+      {
+        "slug": "exception-type",
+        "variants": 3,
+        "bloom_target": "Recordar/Aplicar",
+        "format": "mcq",
+        "coverage": "Legacy exceptions — partial touch to messaging; NOT decision rules"
+      }
+    ],
+    "roadmap_vs_seed_mismatch": {
+      "roadmap_only": ["dict-iteration-idiom"],
+      "seed_slug_aliases": {
+        "context-manager": "with-statement",
+        "defaultdict-use-case": "defaultdict",
+        "file-error-handling": "exception-type (partial)"
+      }
+    },
+    "gap_vs_v3": {
+      "current_concepts": 4,
+      "v3_target_subtopics": 8,
+      "missing_subtopics": 8,
+      "missing_concept_slugs": [
+        "comparisons-membership (V3 T1-A)",
+        "truthiness-shortcircuit (V3 T1-B)",
+        "if-elif-else (V3 T2-A)",
+        "guard-clauses (V3 T2-B)",
+        "allowlists-ranges (V3 T3-A)",
+        "decision-tables-match (V3 T3-B)",
+        "invariants-examples (V3 T4-A)",
+        "actionable-messages-branch-tests (V3 T4-B)"
+      ],
+      "note": "truthiness exists under section 'basics', not 'data-structures'"
+    }
+  },
+
+  "platform_inventory": {
+    "section_renders": true,
+    "tabs_visible": ["theory", "ido", "wedo", "youdo", "quiz"],
+    "hud_overlay_present": true,
+    "codeplayground_functional": "unknown_for_s03_specific",
+    "section_registered_in_index": true
+  },
+
+  "counting_summary": {
+    "current_state": {
+      "topics": 4,
+      "topics_v3_aligned": 0,
+      "subtopics": 0,
+      "subtopics_legacy_as_theory_blocks": 4,
+      "demos": 3,
+      "student_exercises": 1,
+      "topic_evaluations": 0,
+      "exam_variants": 12,
+      "section_exam": 1,
+      "project_increments": 1,
+      "selfCheck_mcq": 5
+    },
+    "v3_target": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variants": 24,
+      "section_exam": 1,
+      "project_increments": 1
+    },
+    "gap": {
+      "topics": 0,
+      "topics_need_full_retheme": 4,
+      "subtopics": 8,
+      "demos": 5,
+      "student_exercises": 23,
+      "topic_evaluations": 4,
+      "exam_variants": 12,
+      "section_exam": 0,
+      "project_increments": 0,
+      "project_needs_retheme": true
+    }
+  },
+
+  "issues_found": [
+    {
+      "issue_id": "S03-CONTENT-001",
+      "severity": "P0",
+      "status": "open",
+      "category": "topic_mismatch",
+      "observed_evidence": "s03-data-structures.ts enseña list/dict/set/CSV/JSON/exceptions. V3 S3 exige Booleanos, Control, Reglas, Verificación (motor de reglas).",
+      "expected": "4 temas V3 con 8 subtemas de decisiones y validación",
+      "root_cause": "Contenido escrito bajo roadmap V2/plataforma; V3 redefinió S3",
+      "impact": "Cero cobertura de outcomes V3 S3; bloquea cualquier claim de compliance",
+      "fix": "PHASE 3–5: retematizar S03 a V3; preservar archivo legado hasta migración a S6; no borrar sin reemplazo",
+      "verification": [
+        "Theory headings match V3 T1–T4",
+        "You Do is rules engine not Sales Log Parser"
+      ]
+    },
+    {
+      "issue_id": "S03-CONTENT-002",
+      "severity": "P1",
+      "status": "open",
+      "category": "counting_contract",
+      "observed_evidence": "0 subtemas 4×2; 12 exam variants; 1 student exercise formal (We Do)",
+      "expected": "8 subtopics, 24 exam variants, 24 exercises, 8 demos, 4 topic evals",
+      "root_cause": "Estructura V2 (pocos conceptos por sección)",
+      "impact": "Insuficiente práctica y evaluación para mastery learning",
+      "fix": "Expandir a 8 slugs y vector canónico en PHASE 3–5",
+      "verification": ["Count subtopics=8", "Count variants=24", "Count exercises=24"]
+    },
+    {
+      "issue_id": "S03-CONTENT-003",
+      "severity": "P1",
+      "status": "open",
+      "category": "capstone_alignment",
+      "observed_evidence": "You Do = Sales Log Parser. V3 gate = reglas accept/reject/review sin confundir ausencia con falsy válido.",
+      "expected": "Motor de reglas del intake con 3 estados de decisión y distinción None vs False/0/''",
+      "root_cause": "Proyecto legacy de portafolio ETL",
+      "impact": "CP-N1-A pierde el incremento de reglas en S3",
+      "fix": "Rediseñar You Do en PHASE 3/4 como rules engine sintético",
+      "verification": [
+        "Project returns accept|reject|review",
+        "Test case: missing field ≠ False"
+      ]
+    },
+    {
+      "issue_id": "S03-CONTENT-004",
+      "severity": "P1",
+      "status": "open",
+      "category": "exam_bank",
+      "observed_evidence": "4 conceptos de archivos/estructuras; 0 de decisiones V3. Slug truthiness en 'basics'.",
+      "expected": "8 familias A/B/C en section_id data-structures (o migración de id coordinada) cubriendo T1–T4",
+      "root_cause": "Banco alineado a título de plataforma, no a V3 S3",
+      "impact": "Examen no mide skills V3",
+      "fix": "PHASE 5: 8×3 variantes nuevas; reasignar legacy a S6 seed cuando exista",
+      "verification": ["8 concepts × 3 variants under S03 production plan"]
+    },
+    {
+      "issue_id": "S03-CONTENT-005",
+      "severity": "P2",
+      "status": "open",
+      "category": "cross_section_overlap",
+      "observed_evidence": "s02-basics.ts ya cubre if/elif/else y truthiness que V3 asigna a S3",
+      "expected": "Fronteras claras S2 (valores/tipos/I/O) vs S3 (decisiones/reglas)",
+      "root_cause": "V2 empaquetó basics juntos; V3 separó",
+      "impact": "Duplicación temporal y confusión de ownership de exam slugs",
+      "fix": "Documentar en S02 lane; S03 asume ownership canónico V3 sin editar s02 aquí",
+      "verification": ["S02/S03 ledgers reference same boundary decision"]
+    },
+    {
+      "issue_id": "S03-CONTENT-006",
+      "severity": "P2",
+      "status": "open",
+      "category": "topic_evaluations",
+      "observed_evidence": "0 topic evaluations; solo selfCheck de sección",
+      "expected": "4 evaluaciones de tema (2 tareas auténticas cada una + rúbrica 0–3)",
+      "root_cause": "Shape CourseSection no modela topic evals aún",
+      "impact": "Sin assessment formativo por tema",
+      "fix": "Blueprint PHASE 3 declara 4 paquetes; implementación en PHASE 5–6 / platform extension",
+      "verification": ["topic_evaluations count = 4 in blueprint"]
+    },
+    {
+      "issue_id": "S03-CONTENT-007",
+      "severity": "P3",
+      "status": "open",
+      "category": "seed_roadmap_drift",
+      "observed_evidence": "Roadmap slug context-manager vs seed with-statement; falta dict-iteration-idiom en seed",
+      "expected": "Slugs alineados entre roadmap y seed",
+      "root_cause": "Drift histórico de naming",
+      "impact": "Menor; se supera con reescritura V3 del banco",
+      "fix": "Al reescribir banco S03, unificar slugs V3",
+      "verification": ["No orphan roadmap slugs for S03"]
+    }
+  ],
+
+  "phase_1_gate": {
+    "all_paths_inspected": true,
+    "all_artifacts_counted": true,
+    "all_gaps_registered": true,
+    "issues_count": 7,
+    "issues_P0": 1,
+    "issues_P1": 3,
+    "issues_P2": 2,
+    "issues_P3": 1,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2",
+    "notes": "P0 es de desalineación temática, no de corrupción de plataforma. Research puede continuar; no marcar sección passed."
+  }
+}

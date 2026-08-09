@@ -1,0 +1,487 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s20-fb6ce627c2de",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "id": "S20-T1-A-E1",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)",
+      "justification_from_packet": "Como explorador en S20-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workb. Aplico el hint «ws.title y ws['A1'].» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "crear",
+        "hoja",
+        "celda",
+        "encabezado",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "id": "S20-T1-A-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)",
+      "justification_from_packet": "Como explorador en S20-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbo. Aplico el hint «ws.append.» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "append",
+        "filas",
+        "datos",
+        "Fixture",
+        "datos",
+        "Workbook"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "id": "S20-T1-A-E3",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)",
+      "justification_from_packet": "Como explorador en S20-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = W. Aplico el hint «create_sheet.» y dejo.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "sheetnames",
+        "estables",
+        "Fixture",
+        "datos",
+        "Workbook"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "id": "S20-T1-B-E1",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))",
+      "justification_from_packet": "Como explorador en S20-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook(); . Aplico el hint «cell value string.» y.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "escribir",
+        "celda",
+        "Fixture",
+        "datos",
+        "Workbook"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "id": "S20-T1-B-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)",
+      "justification_from_packet": "Como explorador en S20-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = W. Aplico el hint «Suma .value numéricos.».",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "materializar",
+        "valor",
+        "Fixture",
+        "datos",
+        "Workbook"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "id": "S20-T1-B-E3",
+      "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))",
+      "justification_from_packet": "Como explorador en S20-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_. Aplico el hint «isinstance str.» y dejo.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "detectar",
+        "celda",
+        "con",
+        "prefijo",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "id": "S20-T2-A-E1",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)",
+      "justification_from_packet": "Como explorador en S20-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Work. Aplico el hint «Font(bold=True).» y.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "aplicar",
+        "estilo",
+        "fuente",
+        "header",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "id": "S20-T2-A-E2",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill.fgColor is not None)",
+      "justification_from_packet": "Como explorador en S20-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb. Aplico el hint «PatternFill.» y dejo el.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "freeze_panes",
+        "print",
+        "Fixture",
+        "datos",
+        "Workboo"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "id": "S20-T2-A-E3",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True, color=\"FFFFFF\")\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"H\"\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)",
+      "justification_from_packet": "Como explorador en S20-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: . Aplico el hint «Función mutadora.» y.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "plantilla",
+        "con",
+        "hoja",
+        "fija",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "id": "S20-T2-B-E1",
+      "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())",
+      "justification_from_packet": "Como explorador en S20-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workboo. Aplico el hint «datetime.date.» y dejo.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "fecha",
+        "ISO",
+        "celda",
+        "metadata",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "id": "S20-T2-B-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)",
+      "justification_from_packet": "Como explorador en S20-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb = . Aplico el hint «merge_cells.» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "evitar",
+        "merge",
+        "rango",
+        "datos",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "id": "S20-T2-B-E3",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))",
+      "justification_from_packet": "Como explorador en S20-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Work. Aplico el hint.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "flag",
+        "writable",
+        "Fixture",
+        "datos",
+        "Workbook"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "id": "S20-T3-A-E1",
+      "code": "det = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)",
+      "justification_from_packet": "Como explorador en S20-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintéticos: det = 10 + 5; . Aplico el hint «abs(diff)<0.01.» y dejo.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "suma",
+        "reconciliada",
+        "hoja",
+        "Fixture",
+        "datos",
+        "det"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "id": "S20-T3-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())",
+      "justification_from_packet": "Como explorador en S20-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.Data. Aplico el hint «groupby sum.» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "conteo",
+        "filas",
+        "datos",
+        "Fixture",
+        "datos",
+        "DataFrame"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "id": "S20-T3-A-E3",
+      "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))",
+      "justification_from_packet": "Como explorador en S20-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def . Aplico el hint «abs <= tol o <.» y dejo.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "pivot",
+        "materializado",
+        "suma",
+        "Fixture",
+        "datos",
+        "def"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "id": "S20-T3-B-E1",
+      "code": "expected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)",
+      "justification_from_packet": "Como explorador en S20-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sintéticos: expected = [. Aplico el hint «list compare.» y dejo.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "validar",
+        "encabezados",
+        "requeridos",
+        "Fixture",
+        "datos",
+        "expected"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "id": "S20-T3-B-E2",
+      "code": "allowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])",
+      "justification_from_packet": "Como explorador en S20-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos sintéticos: allowed . Aplico el hint «list comp.» y dejo el.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "structural_ok",
+        "sheetnames",
+        "Fixture",
+        "datos",
+        "allowed",
+        "Lima"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "id": "S20-T3-B-E3",
+      "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))",
+      "justification_from_packet": "Como explorador en S20-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def valid. Aplico el hint «Comprensión.» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "preservar",
+        "hoja",
+        "Fixture",
+        "datos",
+        "def",
+        "validate_rows"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "id": "S20-T4-A-E1",
+      "code": "st = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))",
+      "justification_from_packet": "Como explorador en S20-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos: st = [\"ok\", \"corru. Aplico el hint «sum genexp.» y dejo el.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "contadores",
+        "batch",
+        "skip",
+        "Fixture",
+        "datos",
+        "corrupt"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "id": "S20-T4-A-E2",
+      "code": "name = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")",
+      "justification_from_packet": "Como explorador en S20-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sintéticos: name = \"repo. Aplico el hint «Regla simple.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "aislar",
+        "archivo",
+        "corrupto",
+        "Fixture",
+        "datos",
+        "name"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "id": "S20-T4-A-E3",
+      "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))",
+      "justification_from_packet": "Como explorador en S20-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files . Aplico el hint «Counter o dict.» y dejo.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "resumen",
+        "JSON",
+        "corrida",
+        "batch",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "id": "S20-T4-B-E1",
+      "code": "print({\"backup\": \"out/prev.bak\", \"idempotent\": True})",
+      "justification_from_packet": "Como explorador en S20-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: print({\"backup\": \"ou. Aplico el hint «dict.» y dejo el.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "backup",
+        "path",
+        "versionado",
+        "Fixture",
+        "datos",
+        "print"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "id": "S20-T4-B-E2",
+      "code": "import hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))",
+      "justification_from_packet": "Como explorador en S20-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sintéticos: def dig(row. Aplico el hint «sorted + sha1.» y dejo.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "digest",
+        "filas",
+        "Fixture",
+        "datos",
+        "def",
+        "dig"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "id": "S20-T4-B-E3",
+      "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))",
+      "justification_from_packet": "Como explorador en S20-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def stru. Aplico el hint «set issuperset.» y dejo.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "structural_ok",
+        "need",
+        "sheets",
+        "Fixture",
+        "datos",
+        "def"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q0 elijo «No; suele devolver la fórmula o cache si existe» porque la teoría «sheets, celdas, tablas y named ranges» del paquete dice: Un libro es un grafo de **hojas + celdas + tablas + named ranges**..",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q1 elijo «Escribir en la celda ancla (top-left)» porque la teoría «fórmulas vs valores cacheados» del paquete dice: Las **fórmulas** viven en la celda; los **valores cacheados** son lo que Excel/openpyxl.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q2 elijo «Estados de batch, conciliación y backups» porque la teoría «estilos, charts y plantillas» del paquete dice: Estilos (fuentes, fills, borders), charts embebidos y plantillas reutilizables dan.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q3 elijo «Misma entrada → mismo resultado lógico» porque la teoría «fechas, locales, celdas combinadas y protección» del paquete dice: Fechas y locales: serializa fechas ISO o datetime timezone-aware.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q4 elijo «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)» porque la teoría «conciliación y pivots» del paquete dice: **Conciliación**: totales del.",
+      "confidence": 0.9,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:20:56.488228+00:00",
+  "session_started_at": "2026-07-23T15:20:07.577391Z",
+  "session_ended_at": "2026-07-23T15:20:56.486678Z",
+  "receipt_response_sha256": "99bbcadbd7a074c14174a0f121167a51967e768288b8bbd8c189a981df9fc17b",
+  "receipt_exercises_sha256": "ca08e7ef7779db32b6e8a2804aab5da39be4bca23ec837dcc074ef4b034597ec",
+  "receipt_selfcheck_sha256": "0dbb9c9d8e7882f2108608d45c3a51da8ae911d39b2f2dd36e1a75a179892d0f"
+}

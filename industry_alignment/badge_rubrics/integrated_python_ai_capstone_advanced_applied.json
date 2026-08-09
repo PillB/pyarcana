@@ -1,0 +1,295 @@
+{
+  "badge_id": "integrated_python_ai_capstone_advanced_applied",
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T22:08:04Z",
+  "generated_by": "badge_architect node (Phase 6)",
+  "provisional_floors": {
+    "self_check_pct": 85,
+    "you_do_pct": 80,
+    "section_exam_pct": 85,
+    "integrator_project_pct": 85,
+    "critical_competency_pct": 100,
+    "minimum_overall_pct": 85
+  },
+  "components": [
+    {
+      "component_id": "self_check",
+      "description": "Aggregate of section self-check questions across required sections. Self-checks are MCQ-only and low-authenticity; they are weighted lightly and used as a participation/engagement signal, not as a proficiency signal.",
+      "required_score_pct": 85,
+      "weight": 0.15,
+      "evidence_source": "self_check activities",
+      "critical_competency": false
+    },
+    {
+      "component_id": "you_do_projects",
+      "description": "Aggregate of section You Do project rubric scores across required sections. You Do projects are independent (no step-by-step guidance) and high-authenticity; they are the primary evidence of independent capability.",
+      "required_score_pct": 80,
+      "weight": 0.4,
+      "evidence_source": "you_do activities + section rubric",
+      "critical_competency": false
+    },
+    {
+      "component_id": "section_exams",
+      "description": "Aggregate of section exam scores across required sections. Exams are server-graded MCQs (pass@70 baseline); the badge floor is stricter at 85%.",
+      "required_score_pct": 85,
+      "weight": 0.2,
+      "evidence_source": "exam activities (server-graded)",
+      "critical_competency": false
+    },
+    {
+      "component_id": "integrator_project",
+      "description": "Badge-specific integrator project (independent exercise specified in the badge rubric). For applied-skill badges, this is a bounded exercise that ties together the required sections' skills. For cross-section badges, this is a synthesis project. For capstone credentials, this is the phase capstone defense plus a synthesis writeup.",
+      "required_score_pct": 85,
+      "weight": 0.25,
+      "evidence_source": "badge rubric evaluation (server-verified)",
+      "critical_competency": false
+    },
+    {
+      "component_id": "defense",
+      "description": "Oral or written defense of the capstone synthesis. The learner must articulate (a) the business question, (b) the design decisions and tradeoffs, (c) the competencies demonstrated, and (d) the limitations of the work. Defense is graded pass/fail with a written rubric; a fail blocks the credential.",
+      "required_score_pct": 100,
+      "weight": 0.0,
+      "evidence_source": "defense rubric (server-verified)",
+      "critical_competency": true
+    }
+  ],
+  "scoring_rules": {
+    "aggregation_method": "weighted_average_with_non_compensatory_gates",
+    "minimum_overall_score": 85,
+    "critical_competency_floor": 100,
+    "non_compensatory": true,
+    "rounding": "down",
+    "gates": [
+      {
+        "gate_id": "per_component_floor",
+        "description": "Each scored component must meet its own required_score_pct. A single component below floor blocks the badge, regardless of the weighted average."
+      },
+      {
+        "gate_id": "critical_competency_floor",
+        "description": "Each critical_competency in the badge must be individually scored at 100% (full rubric credit). Critical competencies are non-compensatory: strength elsewhere cannot offset a critical-competency gap."
+      },
+      {
+        "gate_id": "overall_floor",
+        "description": "Even when every component and every critical competency passes its floor, the weighted average must still meet the minimum_overall_score."
+      }
+    ]
+  },
+  "integrator_spec": {
+    "project_id": "BADGE:integrated_python_ai_capstone_advanced_applied:synthesis",
+    "project_type": "synthesis_defense",
+    "estimated_hours": 8,
+    "deliverables": [
+      "Synthesis document (1,500-3,000 words) covering every required capstone",
+      "Oral defense recording (30 min) or async written review",
+      "Critical-competency evidence map (one pointer per competency)"
+    ],
+    "rubric_criteria": [
+      {
+        "criterion_id": "synthesis_breadth",
+        "description": "Synthesis covers every required capstone.",
+        "weight": 0.2,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "business_framing",
+        "description": "Each capstone is framed against a business question.",
+        "weight": 0.2,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "tradeoff_articulation",
+        "description": ">=2 documented options per major decision.",
+        "weight": 0.2,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "competency_evidence_map",
+        "description": "Every critical competency has a pointer to rubric evidence.",
+        "weight": 0.2,
+        "floor_pct": 100
+      },
+      {
+        "criterion_id": "limitations_honesty",
+        "description": "Limitations are named with a path to address them.",
+        "weight": 0.1,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "defense_quality",
+        "description": "Oral defense demonstrates live recall, not reading.",
+        "weight": 0.1,
+        "floor_pct": 85
+      }
+    ],
+    "minimum_overall_pct": 85,
+    "non_compensatory": true
+  },
+  "critical_competency_rubrics": {
+    "reproducibility_determinism": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "reproducibility_determinism_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "communication_audience_tuned": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "communication_audience_tuned_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "communication_audience_tuned_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "communication_audience_tuned_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "communication_audience_tuned_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "business_framing_judgment": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "business_framing_judgment_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "business_framing_judgment_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "business_framing_judgment_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "business_framing_judgment_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "mlops_fluency": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "mlops_fluency_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "mlops_fluency_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "mlops_fluency_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "mlops_fluency_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    }
+  },
+  "gap_closure_exercises": {},
+  "defense_rubric": {
+    "defense_format": "30 min oral or async written review",
+    "reviewer": "PyArcana reviewer or designated industry mentor",
+    "rubric_criteria": [
+      {
+        "criterion_id": "business_framing_recall",
+        "description": "Learner articulates the business question and stakeholder without prompting.",
+        "weight": 0.2,
+        "floor_pct": 100
+      },
+      {
+        "criterion_id": "design_decision_recall",
+        "description": "Learner articulates the major design decisions and tradeoffs without reading from notes.",
+        "weight": 0.2,
+        "floor_pct": 100
+      },
+      {
+        "criterion_id": "competency_evidence_recall",
+        "description": "For every critical competency, learner points to specific evidence in the synthesis artifact.",
+        "weight": 0.2,
+        "floor_pct": 100
+      },
+      {
+        "criterion_id": "limitations_honesty",
+        "description": "Learner names the limitations of the work without prompting.",
+        "weight": 0.15,
+        "floor_pct": 100
+      },
+      {
+        "criterion_id": "audience_tuning",
+        "description": "Learner adjusts explanation level when reviewer asks for a non-technical version.",
+        "weight": 0.15,
+        "floor_pct": 100
+      },
+      {
+        "criterion_id": "live_question_handling",
+        "description": "Learner handles at least one unscripted question without deflecting.",
+        "weight": 0.1,
+        "floor_pct": 100
+      }
+    ],
+    "minimum_overall_pct": 100,
+    "non_compensatory": true,
+    "notes": "The defense is graded pass/fail. A single criterion below floor blocks the credential. The defense recording is stored server-side and linked to the learner's credential record."
+  }
+}

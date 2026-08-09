@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Priorizar revisión con evidencia y ranking"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Calidad del ranking bajo capacidad k"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Solo dentro del train de cada fold"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Enviar banda gris a humano"
+  }
+]

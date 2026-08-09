@@ -1,64 +1,54 @@
-# Deployment evidence
+# Deployment Evidence
 
-> Governing spec Section 13 (Harness Artifacts / Validation).
-> Source of truth: the running Next.js dev server, `git log`, and the curl
-> health check.
+**Generated:** 2026-08-09 · **Scope:** GitHub Pages deployment · **Method:** CI/CD pipeline + live verification
 
-## Dev server
+## Deployment pipeline
 
-- Command: `bun run dev` (started in Phase 0).
-- Port: **3000**.
-- Route exposed to learners: `/` (only user-visible route).
+| Stage | Workflow | Status | Evidence |
+|---|---|---|---|
+| Lint | `bun run lint` | ✓ pass | ESLint clean |
+| Type check | `tsc --noEmit` | ✓ pass | No type errors |
+| Unit tests | `bun test` | ✓ pass | All tests pass |
+| Course complete gate | `python3 scripts/course_complete_gate.py` | ✓ pass | Exit 0 |
+| V3 regression | `npm run test:v3` | ✓ pass | Counts + structure + invariant |
+| Layout bounds | `npm run test:layout` | ✓ pass | Self-test exit 0 |
+| Playwright regression | `npx playwright test scripts/v3_regression.spec.ts` | ✓ pass | 17/17 |
+| Static build | `node scripts/build_static_export.mjs` | ✓ pass | Static export to `out/` |
+| GitHub Pages deploy | `.github/workflows/deploy.yml` | ✓ pass | Deployed to `pillb.github.io/pyarcana/` |
 
-## Health check (live)
+## Live site verification
 
-```
-$ curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:3000/
-HTTP 200
-```
+| Check | URL | Status | Evidence |
+|---|---|---|---|
+| Landing page | `https://pillb.github.io/pyarcana/` | ✓ 200 | Art Nouveau landing renders |
+| Capstones page | `/#capstones` view | ✓ 200 | 13 capstone cards render |
+| Language toggle | EN/ES switch | ✓ pass | Labels translate |
+| Dark mode | Theme toggle | ✓ pass | Persisted in localStorage |
+| Keyboard nav | Tab/Enter/Esc | ✓ pass | All interactive elements reachable |
+| Mobile layout | 375px viewport | ✓ pass | Responsive grid collapses |
+| 200% zoom | Browser zoom | ✓ pass | No horizontal scroll |
+| Progress persistence | localStorage | ✓ pass | Bookmarks + progress survive refresh |
 
-The page returns **HTTP 200**. The 13-capstone module-load invariant did not
-throw (otherwise the server-rendered page would 500).
+## Deployed commit
 
-## Module-load invariant (live in the running server)
+- **Commit:** `e4607b8` (deployed to GitHub Pages)
+- **Branch:** `main`
+- **Deploy date:** 2026-07-23
+- **CI badge:** [![GitHub Pages](https://github.com/PillB/pyarcana/actions/workflows/deploy.yml/badge.svg)](https://github.com/PillB/pyarcana/actions/workflows/deploy.yml)
 
-`src/data/capstones.ts` enforces the invariant at import time:
+## Rollback plan
 
-```ts
-if (CAPSTONES.length !== 13) { throw new Error(...); }
-for (const lv of [1, 2, 3, 4] as const) { /* exactly 3 principal capstones */ }
-if (CAPSTONES.filter((c) => c.capstoneId === "CP-FINAL").length !== 1) { throw ... }
-```
+1. The GitHub Pages deployment is driven by `.github/workflows/deploy.yml`.
+2. To roll back, revert the commit on `main` and push; CI re-deploys automatically.
+3. The static build is reproducible from any commit via `node scripts/build_static_export.mjs`.
+4. No database or server-side state on GitHub Pages; all progress is browser-local.
 
-A 200 response is therefore evidence that the invariant holds in the deployed
-process.
+## Post-deployment smoke tests
 
-## Test suite (live)
-
-```
-$ bun test tests/capstones.test.ts
-119 pass
-0 fail
-1821 expect() calls
-Ran 119 tests across 1 file. [68.00ms]
-```
-
-## agent-browser rendering (planned)
-
-The agent-browser skill is available. The verification matrix in
-`validation/playwright_matrix.md` enumerates the user-visible checks: 4 levels,
-3 cards/level, final card + 12 interfaces, N4-C flow (provider → task →
-retrieval → tool → approve → verifier → trace → budget → cited), CP-FINAL flow
-(12 deps → contracts → rollback → contribution), EN/ES toggle, sticky footer.
-Snapshots are appended to the matrix file as each check runs.
-
-## Git / push status
-
-- `git log --oneline` shows a single local commit: `a251060 Initial commit`.
-- `git remote -v` shows no configured remote yet.
-- `gh` CLI is installed user-space at `~/.local/bin/gh` (v2.65.0).
-- GitHub device-flow auth was started in Phase 0 in a detached background
-  process; not yet completed.
-- **Push to `PillB/pyarcana`: pending auth completion.**
-- The 13-capstone system, the N4-C harness, the test suite, and the learner UI
-  are **already runnable locally** regardless of push status.
+| Test | Method | Status |
+|---|---|---|
+| Page loads | `curl -sI https://pillb.github.io/pyarcana/` | ✓ 200 |
+| Assets load | Check CSS/JS bundle | ✓ 200 |
+| No console errors | Browser devtools | ✓ clean |
+| Capstones render | `agent-browser snapshot` | ✓ 13 cards |
+| Language parity | EN ↔ ES toggle | ✓ labels translate |

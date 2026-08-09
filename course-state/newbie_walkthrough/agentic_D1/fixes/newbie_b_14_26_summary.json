@@ -1,0 +1,217 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "batch": "14_26",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "live_dual_llm_agentic_from_packet_only_D1",
+  "sections": [
+    {
+      "section_index": 14,
+      "title": "NumPy y cómputo vectorizado",
+      "packet_sha": "80ec9fb58d350d03",
+      "n_exercises": 24,
+      "n_selfcheck": 4,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_14/newbie_b_live.json",
+      "selfcheck_choices": [
+        1,
+        3,
+        0,
+        2
+      ]
+    },
+    {
+      "section_index": 15,
+      "title": "Pandas: ingesta, selección y tipos",
+      "packet_sha": "fff23fb297025459",
+      "n_exercises": 24,
+      "n_selfcheck": 4,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_15/newbie_b_live.json",
+      "selfcheck_choices": [
+        2,
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "section_index": 16,
+      "title": "Calidad, limpieza y contratos de datos",
+      "packet_sha": "bf1b1f93ca6fbcee",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_16/newbie_b_live.json",
+      "selfcheck_choices": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "section_index": 17,
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "packet_sha": "4dfb9a19457db16f",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_17/newbie_b_live.json",
+      "selfcheck_choices": [
+        0,
+        2,
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "section_index": 18,
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "packet_sha": "e42d9a39f6f4973a",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_18/newbie_b_live.json",
+      "selfcheck_choices": [
+        1,
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "section_index": 19,
+      "title": "Visualización y comunicación accesible",
+      "packet_sha": "2607badf23d76722",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_19/newbie_b_live.json",
+      "selfcheck_choices": [
+        2,
+        0,
+        1,
+        3,
+        1
+      ]
+    },
+    {
+      "section_index": 20,
+      "title": "Automatización robusta de Excel",
+      "packet_sha": "c50414946e8bee44",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_20/newbie_b_live.json",
+      "selfcheck_choices": [
+        3,
+        1,
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "section_index": 21,
+      "title": "Documentos, plantillas y reportes trazables",
+      "packet_sha": "6b4c3320865094ee",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_21/newbie_b_live.json",
+      "selfcheck_choices": [
+        0,
+        2,
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "section_index": 22,
+      "title": "Email, identidad y aprobación humana",
+      "packet_sha": "9c104917fbc2cfb3",
+      "n_exercises": 24,
+      "n_selfcheck": 5,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_22/newbie_b_live.json",
+      "selfcheck_choices": [
+        1,
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "section_index": 23,
+      "title": "Browser RPA con Playwright",
+      "packet_sha": "ec53a90850587d18",
+      "n_exercises": 24,
+      "n_selfcheck": 4,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_23/newbie_b_live.json",
+      "selfcheck_choices": [
+        2,
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "section_index": 24,
+      "title": "OCR y Document AI",
+      "packet_sha": "b630b1d121c06add",
+      "n_exercises": 24,
+      "n_selfcheck": 4,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_24/newbie_b_live.json",
+      "selfcheck_choices": [
+        3,
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "section_index": 25,
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "packet_sha": "9fece9e9f16058bf",
+      "n_exercises": 24,
+      "n_selfcheck": 4,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_25/newbie_b_live.json",
+      "selfcheck_choices": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "section_index": 26,
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "packet_sha": "98a22dbe9fbc9742",
+      "n_exercises": 24,
+      "n_selfcheck": 4,
+      "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_D1/section_26/newbie_b_live.json",
+      "selfcheck_choices": [
+        1,
+        3,
+        0,
+        2
+      ]
+    }
+  ],
+  "summary": {
+    "sections": 13,
+    "total_exercises": 312,
+    "total_selfcheck": 59,
+    "issues": [],
+    "justification_min_chars": 80,
+    "persona": "skeptic",
+    "meta": {
+      "attempt_id": "agentic_D1",
+      "method": "llm_packet_only_no_generator",
+      "production_note": "live_dual_llm_agentic_from_packet_only_D1",
+      "persona": "skeptic",
+      "agent": "newbie_b_live",
+      "agent_instance_id": "nbB-D1-sk-1276a172426694c9",
+      "scope": "exercises+selfcheck sections 14-26",
+      "source": "agentic_D1 slim_packet + exercise_batch_14_26 only"
+    }
+  }
+}

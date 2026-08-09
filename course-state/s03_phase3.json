@@ -1,0 +1,778 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T13:45:00Z",
+  "lane": "LANE-S03",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-S03.status.json"
+  },
+
+  "preamble": {
+    "objective": "Lock S03 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S03 only",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, CP-N1-A rules-engine increment",
+      "Count validation vs invariant vector",
+      "Platform gap notes (legacy content retention plan)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "Editing s01/s02/seed/checkpoint/ledgers",
+      "Deleting s03-data-structures.ts content",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics with pedagogical components planned each; totals equal S03 slice of canonical vector; no long-form authorship; gate authorizes PHASE 4 only.",
+    "inputs_used": [
+      "course-state/s03_phase2.json (DEC-S03-R01..R08)",
+      "course-state/s03_phase1.json (gaps)",
+      "learning_roadmap_52_V3.md S3",
+      "src/lib/types.ts CourseSection shape (implicit)",
+      "src/lib/course/sections/s03-data-structures.ts",
+      "prisma/seed.ts data-structures concepts"
+    ]
+  },
+
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "findings": [
+      "Blueprint curricular: outcomes medibles → demo I Do → E1 guiado / E2 independiente / E3 transferencia → evaluación por tema → banco A/B/C.",
+      "Bloom S03 (novato+): Comprender/Aplicar dominantes; Analizar en truthiness edge cases y ramas muertas.",
+      "Plataforma CourseSection actual no modela 8 demos ni 24 ejercicios ni topic evals — blueprint declara IDs estables embebibles o extensión futura.",
+      "Exam seed: 4 concepts legacy × 3; target 8 × 3 = 24 V3 decision slugs."
+    ],
+    "sources": [
+      "V3 prompt §4 counting",
+      "s03_phase2 source_registry SRC-S03-001..010"
+    ]
+  },
+
+  "section_meta": {
+    "id": "data-structures",
+    "index": 3,
+    "title_platform": "Data Structures & File Handling",
+    "title_v3": "Decisiones y reglas de validación",
+    "title_decision": "KEEP platform id 'data-structures' (learning_roadmap.md). Production content rethemes to V3 decisions. Optional future rename of display title coordinated with platform; shortTitle may become 'Decisiones & Reglas' in PHASE 4 UI pass.",
+    "tagline_target": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+    "estimatedHours": 8,
+    "level": "Principiante",
+    "phase": 0,
+    "prerequisites": ["S02"],
+    "environment": "browser-pyodide + local-python",
+    "project_capstone": "CP-N1-A rules-engine increment",
+    "next_section_prereq_for_s04": "S03 completed: tri-state field rules + examples/tests of branches"
+  },
+
+  "learning_outcomes_section": [
+    "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+    "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+    "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+    "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+    "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+    "Leer una decision table y expresar reglas claras con if o match según el caso",
+    "Enunciar invariantes de campo con ejemplos accept/reject/review",
+    "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+  ],
+
+  "topics": [
+    {
+      "topic_id": "S03-T1",
+      "title": "Booleanos",
+      "bloom_focus": ["Comprender", "Aplicar", "Analizar"],
+      "subtopics": [
+        {
+          "subtopic_id": "S03-T1-A",
+          "slug": "comparisons-membership",
+          "title": "Comparaciones y pertenencia",
+          "outcome": "El estudiante elige el operador de comparación o pertenencia correcto y predice el booleano resultante para valores sintéticos de intake.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Comparaciones y el operador in",
+              "must_cover": ["== != < <= > >=", "is None vs ==", "in/not in", "encadenamiento x < y <= z"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T1-A-DEMO",
+              "title": "Comparar región y monto de un registro sintético",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Imprime True/False correctos para 4 comparaciones y 2 membership checks",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S03-T1-A-E1",
+                "kind": "guided",
+                "title": "Completar comparaciones de edad y región",
+                "skill": "Operadores de comparación y pertenencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["igualdad en frontera min/max"],
+                "tests": "assert expected bools",
+                "feedback": true
+              },
+              {
+                "id": "S03-T1-A-E2",
+                "kind": "independent",
+                "title": "Allowlist de tipo de documento",
+                "skill": "in con set de literales",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["case sensitivity de códigos"],
+                "tests": "3 inputs → 3 bools",
+                "feedback": true
+              },
+              {
+                "id": "S03-T1-A-E3",
+                "kind": "transfer",
+                "title": "Diagnosticar comparación incorrecta (is vs ==)",
+                "skill": "Elegir is None vs == valor",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["True == 1"],
+                "tests": "rubric + fixed snippet",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T1-A-EX", "variant": "A", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T1-A-EX", "variant": "B", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T1-A-EX", "variant": "C", "bloom": "Aplicar", "format": "mcq"}
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S03-T1-B",
+          "slug": "truthiness-shortcircuit",
+          "title": "Truthiness y short-circuit",
+          "outcome": "El estudiante predice truthiness de valores comunes y el resultado de and/or con short-circuit, sin tratar ausencia como falsy de negocio.",
+          "content_status": "new_plus_migrate_from_s02",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Qué es verdadero en un if (y qué no es 'ausente')",
+              "must_cover": ["lista de falsy", "None vs 0 vs ''", "and/or devuelven operando", "short-circuit", "bool()"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T1-B-DEMO",
+              "title": "Tres campos: None, 0 y '' bajo reglas distintas",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Muestra decisiones distintas para None vs 0 cuando la política lo exige",
+              "maps_existing": "none in s03; conceptual overlap s02"
+            },
+            "exercises": [
+              {
+                "id": "S03-T1-B-E1",
+                "kind": "guided",
+                "title": "Tabla truthiness: rellenar bool(v)",
+                "skill": "Recordar valores falsy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["range(0)", "False"],
+                "tests": "checklist",
+                "feedback": true
+              },
+              {
+                "id": "S03-T1-B-E2",
+                "kind": "independent",
+                "title": "Predecir and/or con strings y números",
+                "skill": "Short-circuit y valor devuelto",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["'' or 'default'"],
+                "tests": "assert results",
+                "feedback": true
+              },
+              {
+                "id": "S03-T1-B-E3",
+                "kind": "transfer",
+                "title": "Bug: validador rechaza monto 0",
+                "skill": "Reescribir test de presencia con is None",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["0 válido; None review"],
+                "tests": "cases accept/review",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T1-B-EX", "variant": "A", "bloom": "Analizar", "format": "mcq"},
+              {"family_id": "S03-T1-B-EX", "variant": "B", "bloom": "Analizar", "format": "mcq"},
+              {"family_id": "S03-T1-B-EX", "variant": "C", "bloom": "Aplicar", "format": "mcq"}
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S03-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S03-T1-EVAL-1",
+            "title": "Clasificar 6 valores por truthiness y por política de campo",
+            "authentic": true
+          },
+          {
+            "id": "S03-T1-EVAL-2",
+            "title": "Escribir chequeos de presencia y de rango sin colapsarlos",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": ["correctness", "robustness", "maintainability", "responsible_use"],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S03-T2",
+      "title": "Control",
+      "bloom_focus": ["Aplicar", "Comprender", "Analizar"],
+      "subtopics": [
+        {
+          "subtopic_id": "S03-T2-A",
+          "slug": "if-elif-else",
+          "title": "if/elif/else",
+          "outcome": "El estudiante traza y escribe cadenas if/elif/else que asignan exactamente un estado de decisión por registro de campo.",
+          "content_status": "new_plus_migrate_from_s02",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Ramas de decisión con if/elif/else",
+              "must_cover": ["sintaxis", "primera condición verdadera gana", "else catch-all", "indentación"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T2-A-DEMO",
+              "title": "Clasificar score de calidad en accept/review/reject",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Tres scores distintos caen en tres ramas distintas",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S03-T2-A-E1",
+                "kind": "guided",
+                "title": "Completar elif para bandas de score",
+                "skill": "if/elif/else",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["frontera exacta"],
+                "tests": "assert status",
+                "feedback": true
+              },
+              {
+                "id": "S03-T2-A-E2",
+                "kind": "independent",
+                "title": "Reescribir ifs independientes a if/elif",
+                "skill": "Exclusión mutua de ramas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["doble asignación"],
+                "tests": "single status key",
+                "feedback": true
+              },
+              {
+                "id": "S03-T2-A-E3",
+                "kind": "transfer",
+                "title": "Trazar output de 4 entradas",
+                "skill": "Simulación mental de ramas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["else path"],
+                "tests": "table match",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T2-A-EX", "variant": "A", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T2-A-EX", "variant": "B", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T2-A-EX", "variant": "C", "bloom": "Aplicar", "format": "mcq"}
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S03-T2-B",
+          "slug": "guard-clauses",
+          "title": "Guard clauses, anidamiento y ramas alcanzables",
+          "outcome": "El estudiante refactoriza anidamiento a guards y detecta ramas muertas por orden incorrecto de condiciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Salidas tempranas y ramas que nunca se tocan",
+              "must_cover": ["early return/status", "pirámide de if", "orden de condiciones", "rama muerta"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T2-B-DEMO",
+              "title": "De pirámide a guards en validate_edad",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Misma matriz de casos; código lineal con guards",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S03-T2-B-E1",
+                "kind": "guided",
+                "title": "Añadir guards de None y tipo",
+                "skill": "Early exit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["None antes de comparación"],
+                "tests": "no TypeError",
+                "feedback": true
+              },
+              {
+                "id": "S03-T2-B-E2",
+                "kind": "independent",
+                "title": "Refactor de 3 niveles de if anidados",
+                "skill": "Legibilidad con guards",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["mantener semántica"],
+                "tests": "same outputs",
+                "feedback": true
+              },
+              {
+                "id": "S03-T2-B-E3",
+                "kind": "transfer",
+                "title": "Encontrar la rama muerta",
+                "skill": "Análisis de alcanzabilidad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["condiciones superpuestas"],
+                "tests": "identify dead branch line",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T2-B-EX", "variant": "A", "bloom": "Analizar", "format": "mcq"},
+              {"family_id": "S03-T2-B-EX", "variant": "B", "bloom": "Analizar", "format": "mcq"},
+              {"family_id": "S03-T2-B-EX", "variant": "C", "bloom": "Aplicar", "format": "mcq"}
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S03-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S03-T2-EVAL-1",
+            "title": "Implementar clasificador tri-estado con if/elif/else",
+            "authentic": true
+          },
+          {
+            "id": "S03-T2-EVAL-2",
+            "title": "Refactor + justificar eliminación de una rama muerta",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": ["correctness", "robustness", "maintainability", "responsible_use"],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S03-T3",
+      "title": "Reglas",
+      "bloom_focus": ["Aplicar", "Comprender"],
+      "subtopics": [
+        {
+          "subtopic_id": "S03-T3-A",
+          "slug": "allowlists-ranges",
+          "title": "Rangos, listas permitidas y combinaciones",
+          "outcome": "El estudiante implementa reglas de dominio con rangos y allowlists combinadas que devuelven accept/reject/review.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Reglas de dominio: rangos y listas permitidas",
+              "must_cover": ["min/max chained", "ALLOWED set", "and/or de reglas", "constantes UPPER_CASE"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T3-A-DEMO",
+              "title": "Regla combinada región + edad",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Matriz 4 casos con statuses correctos",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S03-T3-A-E1",
+                "kind": "guided",
+                "title": "Allowlist de regiones del Perú (sintético)",
+                "skill": "in ALLOWED",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["región desconocida → review"],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S03-T3-A-E2",
+                "kind": "independent",
+                "title": "Rango de monto_ingreso + review si outlier suave",
+                "skill": "rangos + tri-estado",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["0 válido; negativo reject"],
+                "tests": "table",
+                "feedback": true
+              },
+              {
+                "id": "S03-T3-A-E3",
+                "kind": "transfer",
+                "title": "Combinar tipo_doc allowlist + longitud",
+                "skill": "and de restricciones",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["tipo ok longitud mal"],
+                "tests": "codes MISSING/OUT_OF_RANGE/NOT_IN_ALLOWLIST",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T3-A-EX", "variant": "A", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T3-A-EX", "variant": "B", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T3-A-EX", "variant": "C", "bloom": "Aplicar", "format": "mcq"}
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S03-T3-B",
+          "slug": "decision-tables-match",
+          "title": "Decision tables y match",
+          "outcome": "El estudiante traduce una decision table a código y usa match/case cuando el sujeto es un literal/estado finito, con case _ explícito.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Tablas de decisión y match/case",
+              "must_cover": ["filas condición→acción", "match case _", "OR patterns", "cuándo preferir if"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T3-B-DEMO",
+              "title": "Misma tabla en if/elif y en match",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ambas implementaciones coinciden en 5 casos; case _ cubierto",
+              "maps_existing": "none",
+              "note": "Verify pyodide Python >= 3.10 in PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S03-T3-B-E1",
+                "kind": "guided",
+                "title": "Rellenar decision table de 4 filas",
+                "skill": "Leer tabla de negocio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["fila default"],
+                "tests": "table complete",
+                "feedback": true
+              },
+              {
+                "id": "S03-T3-B-E2",
+                "kind": "independent",
+                "title": "Implementar tabla con match",
+                "skill": "match/case literales",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["wildcard"],
+                "tests": "assert statuses",
+                "feedback": true
+              },
+              {
+                "id": "S03-T3-B-E3",
+                "kind": "transfer",
+                "title": "Elegir if vs match y justificar",
+                "skill": "Diseño de claridad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["rango numérico no ideal en match"],
+                "tests": "rubric short answer + code",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T3-B-EX", "variant": "A", "bloom": "Comprender", "format": "mcq"},
+              {"family_id": "S03-T3-B-EX", "variant": "B", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T3-B-EX", "variant": "C", "bloom": "Aplicar", "format": "mcq"}
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S03-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S03-T3-EVAL-1",
+            "title": "Implementar 2 reglas (rango + allowlist) con códigos de error",
+            "authentic": true
+          },
+          {
+            "id": "S03-T3-EVAL-2",
+            "title": "Decision table de 5 filas → código (if o match)",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": ["correctness", "robustness", "maintainability", "responsible_use"],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S03-T4",
+      "title": "Verificación",
+      "bloom_focus": ["Aplicar", "Analizar", "Comprender"],
+      "subtopics": [
+        {
+          "subtopic_id": "S03-T4-A",
+          "slug": "invariants-examples",
+          "title": "Invariantes y ejemplos",
+          "outcome": "El estudiante enuncia un invariante de campo en español y adjunta ejemplos canónicos por cada estado de decisión.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Invariantes: promesas que el dato debe cumplir",
+              "must_cover": ["definición invariante", "ejemplos como especificación", "mínimo 1 caso por estado", "límites de assert"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T4-A-DEMO",
+              "title": "Invariante de campo contacto + 4 ejemplos",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Dict de regla con invariant_text y examples[] ejecutables",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S03-T4-A-E1",
+                "kind": "guided",
+                "title": "Completar ejemplos accept/reject/review/missing",
+                "skill": "Ejemplos canónicos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["missing key"],
+                "tests": "4 examples present",
+                "feedback": true
+              },
+              {
+                "id": "S03-T4-A-E2",
+                "kind": "independent",
+                "title": "Escribir invariante para apellidos (dos campos)",
+                "skill": "Invariante multi-campo simple",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["uno vacío"],
+                "tests": "text + examples",
+                "feedback": true
+              },
+              {
+                "id": "S03-T4-A-E3",
+                "kind": "transfer",
+                "title": "Detectar invariante roto por un contraejemplo",
+                "skill": "Análisis",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["regla demasiado estricta"],
+                "tests": "identify broken claim",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T4-A-EX", "variant": "A", "bloom": "Comprender", "format": "mcq"},
+              {"family_id": "S03-T4-A-EX", "variant": "B", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T4-A-EX", "variant": "C", "bloom": "Analizar", "format": "mcq"}
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S03-T4-B",
+          "slug": "actionable-messages-branch-tests",
+          "title": "Mensajes accionables y pruebas de ramas",
+          "outcome": "El estudiante produce mensajes que indican campo, problema y acción, y escribe al menos un caso de prueba por rama del validador.",
+          "content_status": "expand_from_partial",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Mensajes que se pueden ejecutar y pruebas por rama",
+              "must_cover": ["plantilla de mensaje", "codes estables", "un test por rama", "no loguear secretos"]
+            },
+            "demo_ido": {
+              "demo_id": "S03-T4-B-DEMO",
+              "title": "Suite mínima de pruebas del motor de reglas",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Loop de casos; todos pass; un mensaje muestra campo+esperado",
+              "maps_existing": "partial — We Do validation messages"
+            },
+            "exercises": [
+              {
+                "id": "S03-T4-B-E1",
+                "kind": "guided",
+                "title": "Reescribir 3 mensajes vagos",
+                "skill": "Mensajes accionables",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["no incluir PII extra"],
+                "tests": "rubric keywords",
+                "feedback": true
+              },
+              {
+                "id": "S03-T4-B-E2",
+                "kind": "independent",
+                "title": "Añadir tests por cada elif",
+                "skill": "Cobertura de ramas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["else path"],
+                "tests": "N cases for N branches",
+                "feedback": true
+              },
+              {
+                "id": "S03-T4-B-E3",
+                "kind": "transfer",
+                "title": "Test rojo → arreglar regla",
+                "skill": "Depurar con ejemplos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["off-by-one en rango"],
+                "tests": "all green after fix",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {"family_id": "S03-T4-B-EX", "variant": "A", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T4-B-EX", "variant": "B", "bloom": "Aplicar", "format": "mcq"},
+              {"family_id": "S03-T4-B-EX", "variant": "C", "bloom": "Analizar", "format": "mcq"}
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S03-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S03-T4-EVAL-1",
+            "title": "Documentar invariante + ejemplos para un campo nuevo del intake",
+            "authentic": true
+          },
+          {
+            "id": "S03-T4-EVAL-2",
+            "title": "Entregar validador con mensajes + tests de ramas (mín. 4 casos)",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": ["correctness", "robustness", "maintainability", "responsible_use"],
+        "scale": "0-3"
+      }
+    }
+  ],
+
+  "project_increment": {
+    "id": "S03-PROJ",
+    "title": "Motor de reglas del intake (incremento CP-N1-A)",
+    "replaces_legacy": "Sales Log Parser — se conserva en archivo legacy hasta migración; no es el TARGET",
+    "objectives": [
+      "Definir ≥3 reglas de campo sobre registro sintético de cliente",
+      "Devolver status accept|reject|review + code + message por campo",
+      "Distinguir ausencia (None/missing) de valores falsy válidos (0, '')",
+      "Incluir tabla de ejemplos/pruebas con ≥1 caso por rama crítica",
+      "Documentar invariantes en español en README o docstrings"
+    ],
+    "requirements": [
+      "Función o módulo validate_record(record: dict) → dict de resultados por campo",
+      "Códigos estables: MISSING, OUT_OF_RANGE, NOT_IN_ALLOWLIST, NEEDS_REVIEW, OK",
+      "Sin PII real; dataset sintético en data/ o embebido",
+      "if __name__ == '__main__' demo reproducible",
+      "No usar assert como única validación de negocio"
+    ],
+    "rubric": [
+      {"criterion": "Tri-estado correcto en todos los campos definidos", "weight": "25%"},
+      {"criterion": "Ausencia no se confunde con falsy válido", "weight": "25%"},
+      {"criterion": "Mensajes accionables con campo y expectativa", "weight": "20%"},
+      {"criterion": "Pruebas/ejemplos por rama", "weight": "15%"},
+      {"criterion": "Código legible (guards, constantes, sin pirámide)", "weight": "10%"},
+      {"criterion": "Documentación de invariantes en español", "weight": "5%"}
+    ],
+    "capstone_link": "CP-N1-A gate at S4; S4 agregará iteración multi-registro y tasas"
+  },
+
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+
+  "platform_extension_notes": [
+    "CourseSection shape needs subtopic IDs or nested weDo groups for 24 exercises — Implementer may embed as structured comments/IDs in steps until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar until SectionView supports them",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces; dual-content window acceptable under research rules",
+    "seed.ts: add 8 concepts under 'data-structures' in PHASE 5; retire or rehome json-load-vs-loads etc. to future S6 section id when produced",
+    "Coordinate with S02 lane on truthiness slug ownership"
+  ],
+
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Blueprint quality comparable to S01 phase3. Authorship next; preserve legacy file content until replacement verified."
+  },
+
+  "retrospection": {
+    "what_worked": "V3 gate tri-estado unifica T1–T4 en un solo proyecto coherente",
+    "risk": "Display title still Data Structures until product rename; learners may be confused if tagline not updated in PHASE 4",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S03-T1-A first (comparisons), then T1-B (truthiness gate-critical)"
+  }
+}

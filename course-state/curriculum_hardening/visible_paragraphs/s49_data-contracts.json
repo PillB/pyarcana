@@ -1,0 +1,599 @@
+{
+  "index": 49,
+  "id": "data-contracts",
+  "title": "Agentes, herramientas y context engineering",
+  "file": "s49-data-contracts.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S49: Agentes, herramientas y context engineering",
+      "len": 56
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. Workflow: pasos conocidos y deterministas. Agente: elige tools con beneficio medible y tope de iteraciones. Tool: función de responsabilidad única, schema y permisos. Idempotencia: misma clave ⇒ un efecto. JIT retrieval: trae contexto solo cuando hace falta. Checkpoint/LKG: estado restaurable. Sandbox: red/fs restringidos. HITL: aprobación humana para acciones sensibles.",
+      "len": 386
+    },
+    {
+      "i": 2,
+      "text": "S49 acota el copiloto: puede preparar propuestas, no escribir producción. Id data-contracts es legacy; el path V3 es agentes/tools/context engineering.",
+      "len": 151
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida: propuesta + checkpoint; nunca cambio de prod. Error: tool no permitida, budget agotado o estado incierto → stop.",
+      "len": 213
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-AYA-049 (entidad ficticia de preparación de reportes en Ayacucho (Wari Ops Lab)): preparación sintética de reportes. T1 arquitectura → T2 tools → T3 estado → T4 control. Stdlib.",
+      "len": 187
+    },
+    {
+      "i": 6,
+      "text": "Prefiere workflow cuando pasos y ramas son conocidos y el baseline determinista gana o empata al agente. Reserva agente solo si hay incertidumbre acotada con beneficio medible.",
+      "len": 176
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: known_steps, branch_count≤3, not tool_choice_uncertain, baseline_success≥agent_success.",
+      "len": 98
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: métricas de baseline vs agente. Salida: ADR de elección. Error: agente peor/incierto → KEEP_DETERMINISTIC_WORKFLOW.",
+      "len": 134
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-AYA-049-1A: pasos conocidos, 2 ramas, baseline ≥ agente en éxito sintético.",
+      "len": 91
+    },
+    {
+      "i": 10,
+      "text": "routing, planner/worker y evaluator–optimizer",
+      "len": 45
+    },
+    {
+      "i": 11,
+      "text": "Router elige case/report; planner acota pasos; workers producen salidas; evaluator aprueba o corta el loop.",
+      "len": 107
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: route ∈ {case,report}, plan_steps≤max, worker_outputs==plan_steps, evaluator_pass.",
+      "len": 93
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: plan y outputs. Salida: trayectoria válida. Error: loop o exceso → STOP_AGENT_LOOP.",
+      "len": 102
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-AYA-049-1B: route=report, 3 pasos ≤5, 3 outputs, evaluator_pass.",
+      "len": 80
+    },
+    {
+      "i": 15,
+      "text": "funciones de responsabilidad única",
+      "len": 34
+    },
+    {
+      "i": 16,
+      "text": "Cada tool hace una cosa: un schema mínimo, sin side_effect oculto, con errores tipados.",
+      "len": 87
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: responsibilities==1, schema_fields exacto, not side_effect, typed_errors.",
+      "len": 84
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: definición de tool. Salida: tool admisible. Error: tool overbroad → DISABLE_OVERBROAD_TOOL.",
+      "len": 110
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-AYA-049-2A: get_case_status con solo case_id, sin side_effect.",
+      "len": 78
+    },
+    {
+      "i": 20,
+      "text": "schema, permisos, idempotencia y errores",
+      "len": 40
+    },
+    {
+      "i": 21,
+      "text": "Antes de ejecutar: schema_valid, scope en granted, idempotency_key, un solo efecto y error_kind tipado (retryable|terminal).",
+      "len": 124
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: predicado conjunto sobre esos campos; effects==1 en replay.",
+      "len": 70
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: call record. Salida: allow/deny. Error: scope o schema → DENY_TOOL_CALL.",
+      "len": 91
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-AYA-049-2B: report:prepare concedido, key presente, effects=1, error_kind tipado.",
+      "len": 97
+    },
+    {
+      "i": 25,
+      "text": "contexto mínimo, retrieval JIT y checkpoints",
+      "len": 44
+    },
+    {
+      "i": 26,
+      "text": "Mantén contexto mínimo, recupera just-in-time y escribe checkpoint después del efecto, con provenance.",
+      "len": 102
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: tokens≤max, retrieved_just_in_time, checkpoint_after_effect, provenance truthy.",
+      "len": 90
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: tokens y flags. Salida: estado reanudable. Error: contexto inflado → COMPACT_AND_CHECKPOINT.",
+      "len": 111
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-AYA-049-3A: 1200≤2000 tokens, JIT True, checkpoint post-efecto, provenance.",
+      "len": 91
+    },
+    {
+      "i": 30,
+      "text": "memoria, compaction y last-known-good",
+      "len": 37
+    },
+    {
+      "i": 31,
+      "text": "La compaction no puede perder restricciones críticas; LKG (last-known-good) es un checkpoint restaurable; retención de memoria acotada (≤7 días sintéticos).",
+      "len": 156
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: facts_before ⊆ facts_after post-compact, retention≤7, lkg startswith cp-.",
+      "len": 84
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: facts y LKG. Salida: memoria segura. Error: pérdida de restricción → RESTORE_LAST_KNOWN_GOOD.",
+      "len": 112
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-AYA-049-3B: facts case_id/budget/no_prod_write se conservan; LKG cp-*.",
+      "len": 86
+    },
+    {
+      "i": 35,
+      "text": "stopping conditions y budgets",
+      "len": 29
+    },
+    {
+      "i": 36,
+      "text": "El agente se detiene por goal_met o por budgets de pasos/tokens/costo. Agotar budget es éxito de control, no fallo silencioso.",
+      "len": 126
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: goal_met y steps/tokens/cost ≤ máximos.",
+      "len": 50
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: contadores y goal. Salida: stop con razón. Error: overrun → STOP_BUDGET_EXHAUSTED.",
+      "len": 101
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-AYA-049-4A: goal_met, 4≤6 pasos, tokens y cost dentro de tope.",
+      "len": 78
+    },
+    {
+      "i": 40,
+      "text": "sandbox, human approval y recuperación",
+      "len": 38
+    },
+    {
+      "i": 41,
+      "text": "Sandbox: network none, filesystem workspace-read. Acciones sensibles exigen approval_present. Recovery no re-ejecuta efectos (replayed_effects==0).",
+      "len": 147
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: predicado de sandbox + (not approval_required or approval_present) + checkpoint + replayed_effects==0.",
+      "len": 113
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: sandbox flags y approval. Salida: run seguro. Error: prod sin aprobación → SANDBOX_AND_STOP.",
+      "len": 111
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-AYA-049-4B: network none, fs workspace-read, approval si sensitive, cp-*, replayed_effects 0.",
+      "len": 109
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S49: Agentes, herramientas y context engineering",
+      "text": "Ruta de S49: Agentes, herramientas y context engineering"
+    },
+    {
+      "i": 1,
+      "len": 386,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. Workflow: pasos conocidos y deterministas. Agente: elige tools con beneficio medible y tope de iteraciones. Tool: función de responsabilidad única, schema y permisos. ",
+      "text": "Diccionario. Workflow: pasos conocidos y deterministas. Agente: elige tools con beneficio medible y tope de iteraciones. Tool: función de responsabilidad única, schema y permisos. Idempotencia: misma clave ⇒ un efecto. JIT retrieval: trae contexto solo cuando hace falta. Checkpoint/LKG: estado restaurable. Sandbox: red/fs restringidos. HITL: aprobación humana para acciones sensibles."
+    },
+    {
+      "i": 2,
+      "len": 151,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S49 acota el copiloto: puede preparar propuestas, no escribir producción. Id data-contracts es legacy; el path V3 es agentes/tools/context engineering.",
+      "text": "S49 acota el copiloto: puede preparar propuestas, no escribir producción. Id data-contracts es legacy; el path V3 es agentes/tools/context engineering."
+    },
+    {
+      "i": 3,
+      "len": 213,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida: propuesta + checkpoint; nunca cambio de prod. Error: tool no permitida, budget ",
+      "text": "Contrato. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida: propuesta + checkpoint; nunca cambio de prod. Error: tool no permitida, budget agotado o estado incierto → stop."
+    },
+    {
+      "i": 4,
+      "len": 187,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-AYA-049 (entidad ficticia de preparación de reportes en Ayacucho (Wari Ops Lab)): preparación sintética de reportes. T1 arquitectura → T2 tools → T3 estado → T4 control. ",
+      "text": "Caso CASO-AYA-049 (entidad ficticia de preparación de reportes en Ayacucho (Wari Ops Lab)): preparación sintética de reportes. T1 arquitectura → T2 tools → T3 estado → T4 control. Stdlib."
+    },
+    {
+      "i": 6,
+      "len": 176,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prefiere workflow cuando pasos y ramas son conocidos y el baseline determinista gana o empata al agente. Reserva agente solo si hay incertidumbre acotada con beneficio medible.",
+      "text": "Prefiere workflow cuando pasos y ramas son conocidos y el baseline determinista gana o empata al agente. Reserva agente solo si hay incertidumbre acotada con beneficio medible."
+    },
+    {
+      "i": 7,
+      "len": 98,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: known_steps, branch_count≤3, not tool_choice_uncertain, baseline_success≥agent_success.",
+      "text": "Mecanismo: known_steps, branch_count≤3, not tool_choice_uncertain, baseline_success≥agent_success."
+    },
+    {
+      "i": 8,
+      "len": 134,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: métricas de baseline vs agente. Salida: ADR de elección. Error: agente peor/incierto → KEEP_DETERMINISTIC_WORKFLOW.",
+      "text": "Contrato. Entrada: métricas de baseline vs agente. Salida: ADR de elección. Error: agente peor/incierto → KEEP_DETERMINISTIC_WORKFLOW."
+    },
+    {
+      "i": 9,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-1A: pasos conocidos, 2 ramas, baseline ≥ agente en éxito sintético.",
+      "text": "Aplicación CASO-AYA-049-1A: pasos conocidos, 2 ramas, baseline ≥ agente en éxito sintético."
+    },
+    {
+      "i": 10,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "routing, planner/worker y evaluator–optimizer",
+      "text": "routing, planner/worker y evaluator–optimizer"
+    },
+    {
+      "i": 11,
+      "len": 107,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Router elige case/report; planner acota pasos; workers producen salidas; evaluator aprueba o corta el loop.",
+      "text": "Router elige case/report; planner acota pasos; workers producen salidas; evaluator aprueba o corta el loop."
+    },
+    {
+      "i": 12,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: route ∈ {case,report}, plan_steps≤max, worker_outputs==plan_steps, evaluator_pass.",
+      "text": "Mecanismo: route ∈ {case,report}, plan_steps≤max, worker_outputs==plan_steps, evaluator_pass."
+    },
+    {
+      "i": 13,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: plan y outputs. Salida: trayectoria válida. Error: loop o exceso → STOP_AGENT_LOOP.",
+      "text": "Contrato. Entrada: plan y outputs. Salida: trayectoria válida. Error: loop o exceso → STOP_AGENT_LOOP."
+    },
+    {
+      "i": 14,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-1B: route=report, 3 pasos ≤5, 3 outputs, evaluator_pass.",
+      "text": "Aplicación CASO-AYA-049-1B: route=report, 3 pasos ≤5, 3 outputs, evaluator_pass."
+    },
+    {
+      "i": 15,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "funciones de responsabilidad única",
+      "text": "funciones de responsabilidad única"
+    },
+    {
+      "i": 16,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada tool hace una cosa: un schema mínimo, sin side_effect oculto, con errores tipados.",
+      "text": "Cada tool hace una cosa: un schema mínimo, sin side_effect oculto, con errores tipados."
+    },
+    {
+      "i": 17,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: responsibilities==1, schema_fields exacto, not side_effect, typed_errors.",
+      "text": "Mecanismo: responsibilities==1, schema_fields exacto, not side_effect, typed_errors."
+    },
+    {
+      "i": 18,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: definición de tool. Salida: tool admisible. Error: tool overbroad → DISABLE_OVERBROAD_TOOL.",
+      "text": "Contrato. Entrada: definición de tool. Salida: tool admisible. Error: tool overbroad → DISABLE_OVERBROAD_TOOL."
+    },
+    {
+      "i": 19,
+      "len": 78,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-2A: get_case_status con solo case_id, sin side_effect.",
+      "text": "Aplicación CASO-AYA-049-2A: get_case_status con solo case_id, sin side_effect."
+    },
+    {
+      "i": 20,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "schema, permisos, idempotencia y errores",
+      "text": "schema, permisos, idempotencia y errores"
+    },
+    {
+      "i": 21,
+      "len": 124,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Antes de ejecutar: schema_valid, scope en granted, idempotency_key, un solo efecto y error_kind tipado (retryable|terminal).",
+      "text": "Antes de ejecutar: schema_valid, scope en granted, idempotency_key, un solo efecto y error_kind tipado (retryable|terminal)."
+    },
+    {
+      "i": 22,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: predicado conjunto sobre esos campos; effects==1 en replay.",
+      "text": "Mecanismo: predicado conjunto sobre esos campos; effects==1 en replay."
+    },
+    {
+      "i": 23,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: call record. Salida: allow/deny. Error: scope o schema → DENY_TOOL_CALL.",
+      "text": "Contrato. Entrada: call record. Salida: allow/deny. Error: scope o schema → DENY_TOOL_CALL."
+    },
+    {
+      "i": 24,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-2B: report:prepare concedido, key presente, effects=1, error_kind tipado.",
+      "text": "Aplicación CASO-AYA-049-2B: report:prepare concedido, key presente, effects=1, error_kind tipado."
+    },
+    {
+      "i": 25,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "contexto mínimo, retrieval JIT y checkpoints",
+      "text": "contexto mínimo, retrieval JIT y checkpoints"
+    },
+    {
+      "i": 26,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mantén contexto mínimo, recupera just-in-time y escribe checkpoint después del efecto, con provenance.",
+      "text": "Mantén contexto mínimo, recupera just-in-time y escribe checkpoint después del efecto, con provenance."
+    },
+    {
+      "i": 27,
+      "len": 90,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: tokens≤max, retrieved_just_in_time, checkpoint_after_effect, provenance truthy.",
+      "text": "Mecanismo: tokens≤max, retrieved_just_in_time, checkpoint_after_effect, provenance truthy."
+    },
+    {
+      "i": 28,
+      "len": 111,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: tokens y flags. Salida: estado reanudable. Error: contexto inflado → COMPACT_AND_CHECKPOINT.",
+      "text": "Contrato. Entrada: tokens y flags. Salida: estado reanudable. Error: contexto inflado → COMPACT_AND_CHECKPOINT."
+    },
+    {
+      "i": 29,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-3A: 1200≤2000 tokens, JIT True, checkpoint post-efecto, provenance.",
+      "text": "Aplicación CASO-AYA-049-3A: 1200≤2000 tokens, JIT True, checkpoint post-efecto, provenance."
+    },
+    {
+      "i": 30,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "memoria, compaction y last-known-good",
+      "text": "memoria, compaction y last-known-good"
+    },
+    {
+      "i": 31,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La compaction no puede perder restricciones críticas; LKG (last-known-good) es un checkpoint restaurable; retención de memoria acotada (≤7 días sintéticos).",
+      "text": "La compaction no puede perder restricciones críticas; LKG (last-known-good) es un checkpoint restaurable; retención de memoria acotada (≤7 días sintéticos)."
+    },
+    {
+      "i": 32,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: facts_before ⊆ facts_after post-compact, retention≤7, lkg startswith cp-.",
+      "text": "Mecanismo: facts_before ⊆ facts_after post-compact, retention≤7, lkg startswith cp-."
+    },
+    {
+      "i": 33,
+      "len": 112,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: facts y LKG. Salida: memoria segura. Error: pérdida de restricción → RESTORE_LAST_KNOWN_GOOD.",
+      "text": "Contrato. Entrada: facts y LKG. Salida: memoria segura. Error: pérdida de restricción → RESTORE_LAST_KNOWN_GOOD."
+    },
+    {
+      "i": 34,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-3B: facts case_id/budget/no_prod_write se conservan; LKG cp-*.",
+      "text": "Aplicación CASO-AYA-049-3B: facts case_id/budget/no_prod_write se conservan; LKG cp-*."
+    },
+    {
+      "i": 35,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "stopping conditions y budgets",
+      "text": "stopping conditions y budgets"
+    },
+    {
+      "i": 36,
+      "len": 126,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El agente se detiene por goal_met o por budgets de pasos/tokens/costo. Agotar budget es éxito de control, no fallo silencioso.",
+      "text": "El agente se detiene por goal_met o por budgets de pasos/tokens/costo. Agotar budget es éxito de control, no fallo silencioso."
+    },
+    {
+      "i": 37,
+      "len": 50,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: goal_met y steps/tokens/cost ≤ máximos.",
+      "text": "Mecanismo: goal_met y steps/tokens/cost ≤ máximos."
+    },
+    {
+      "i": 38,
+      "len": 101,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: contadores y goal. Salida: stop con razón. Error: overrun → STOP_BUDGET_EXHAUSTED.",
+      "text": "Contrato. Entrada: contadores y goal. Salida: stop con razón. Error: overrun → STOP_BUDGET_EXHAUSTED."
+    },
+    {
+      "i": 39,
+      "len": 78,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-4A: goal_met, 4≤6 pasos, tokens y cost dentro de tope.",
+      "text": "Aplicación CASO-AYA-049-4A: goal_met, 4≤6 pasos, tokens y cost dentro de tope."
+    },
+    {
+      "i": 40,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "sandbox, human approval y recuperación",
+      "text": "sandbox, human approval y recuperación"
+    },
+    {
+      "i": 41,
+      "len": 147,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Sandbox: network none, filesystem workspace-read. Acciones sensibles exigen approval_present. Recovery no re-ejecuta efectos (replayed_effects==0).",
+      "text": "Sandbox: network none, filesystem workspace-read. Acciones sensibles exigen approval_present. Recovery no re-ejecuta efectos (replayed_effects==0)."
+    },
+    {
+      "i": 42,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: predicado de sandbox + (not approval_required or approval_present) + checkpoint + replayed_effects==0.",
+      "text": "Mecanismo: predicado de sandbox + (not approval_required or approval_present) + checkpoint + replayed_effects==0."
+    },
+    {
+      "i": 43,
+      "len": 111,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: sandbox flags y approval. Salida: run seguro. Error: prod sin aprobación → SANDBOX_AND_STOP.",
+      "text": "Contrato. Entrada: sandbox flags y approval. Salida: run seguro. Error: prod sin aprobación → SANDBOX_AND_STOP."
+    },
+    {
+      "i": 44,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-AYA-049-4B: network none, fs workspace-read, approval si sensitive, cp-*, replayed_effects 0.",
+      "text": "Aplicación CASO-AYA-049-4B: network none, fs workspace-read, approval si sensitive, cp-*, replayed_effects 0."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 10448
+}

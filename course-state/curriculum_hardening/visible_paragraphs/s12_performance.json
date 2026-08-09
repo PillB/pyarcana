@@ -1,0 +1,482 @@
+{
+  "index": 12,
+  "id": "performance",
+  "title": "APIs, SQL y geodatos responsables",
+  "file": "s12-performance.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
+      "len": 74
+    },
+    {
+      "i": 1,
+      "text": "En V3, S12 no es el path principal de multiprocessing, profiling ni logging de producción. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el incremento CP-N1-C de adquisición y geoevidencia: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado sin PII bancaria a servicios públicos.",
+      "len": 352
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un adaptador de señales sintéticas (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (example.com, Lima/Arequipa, ids C00x). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no.",
+      "len": 509
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 HTTP → T2 Auth/cache/contracts → T3 SQL → T4 Geodatos responsables. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 363
+    },
+    {
+      "i": 4,
+      "text": "requests/responses, status y JSON",
+      "len": 33
+    },
+    {
+      "i": 5,
+      "text": "Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedagogía es status + parse, no la librería de red. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 398
+    },
+    {
+      "i": 6,
+      "text": "2xx = éxito; 4xx = error del cliente (no reintentes a ciegas); 5xx = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 479
+    },
+    {
+      "i": 7,
+      "text": "Timeout es obligatorio: sin timeout= un socket colgado congela el pipeline. Headers (Accept, User-Agent) documentan el contrato del adaptador. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «requests/responses, status y JSON»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 387
+    },
+    {
+      "i": 8,
+      "text": "Timeout, paginación, retry/backoff y rate limit",
+      "len": 47
+    },
+    {
+      "i": 9,
+      "text": "Timeout acota la espera por request. Paginación (page o cursor/next) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 316
+    },
+    {
+      "i": 10,
+      "text": "Retry/backoff solo en errores transitorios (429, 503, timeouts). Un 400 o 404 no se reintenta. Respeta Retry-After y un max_retries duro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 437
+    },
+    {
+      "i": 11,
+      "text": "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos sleep simbólico o contador de delays. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Timeout, paginación, retry/backoff y rate limit»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 376
+    },
+    {
+      "i": 12,
+      "text": "Auth, secretos, cache y provenance",
+      "len": 34
+    },
+    {
+      "i": 13,
+      "text": "Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 331
+    },
+    {
+      "i": 14,
+      "text": "Cache de GET por hash de URL con TTL reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 428
+    },
+    {
+      "i": 15,
+      "text": "Provenance: cada fetch deja source_url, fetched_at, status_code, cache_hit. Nunca loguees el token. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Auth, secretos, cache y provenance»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 345
+    },
+    {
+      "i": 16,
+      "text": "Contract tests y fallback",
+      "len": 25
+    },
+    {
+      "i": 17,
+      "text": "Un contract test fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 328
+    },
+    {
+      "i": 18,
+      "text": "Fallback degradado: si 5xx o red caída, lee coordenadas/precomputados locales y marca mode=offline en provenance. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 413
+    },
+    {
+      "i": 19,
+      "text": "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Contract tests y fallback»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 319
+    },
+    {
+      "i": 21,
+      "text": "SQLite vía sqlite3 basta para el almacén local de CP-N1-C: tablas clients, transactions, evidence. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 291
+    },
+    {
+      "i": 22,
+      "text": "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). JOIN une evidencias a entidades por entity_id. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 405
+    },
+    {
+      "i": 23,
+      "text": "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Esquema, CRUD y joins»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 338
+    },
+    {
+      "i": 24,
+      "text": "Parámetros, transacciones, constraints e índices",
+      "len": 48
+    },
+    {
+      "i": 25,
+      "text": "Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 291
+    },
+    {
+      "i": 26,
+      "text": "executemany + BEGIN/COMMIT hacen batch atómico; un UNIQUE roto → ROLLBACK y reporte de fila. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 392
+    },
+    {
+      "i": 27,
+      "text": "UNIQUE/NOT NULL e índices en document_id / entity_id aceleran lookups del dashboard. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Parámetros, transacciones, constraints e índices»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 344
+    },
+    {
+      "i": 28,
+      "text": "Normalización y geocoding autorizado",
+      "len": 36
+    },
+    {
+      "i": 29,
+      "text": "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 305
+    },
+    {
+      "i": 30,
+      "text": "Solo geocoder autorizado/mock. Política del curso: no envíes PII bancaria (docs, cuentas, montos) a proveedores públicos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 421
+    },
+    {
+      "i": 31,
+      "text": "MockGeocoder devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización y geocoding autorizado»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 353
+    },
+    {
+      "i": 32,
+      "text": "Calidad de coordenada, Haversine, caching y política",
+      "len": 52
+    },
+    {
+      "i": 33,
+      "text": "Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+      "len": 290
+    },
+    {
+      "i": 34,
+      "text": "Haversine estima km entre dos puntos; sirve como geoseñal de relación, no como veredicto de parentesco o fraude. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+      "len": 412
+    },
+    {
+      "i": 35,
+      "text": "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es señal, no kinship. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Calidad de coordenada, Haversine, caching y política»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 358
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
+      "text": "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 352,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S12 no es el path principal de multiprocessing, profiling ni logging de producción. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes e",
+      "text": "En V3, S12 no es el path principal de multiprocessing, profiling ni logging de producción. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el incremento CP-N1-C de adquisición y geoevidencia: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado sin PII bancaria a servicios públicos."
+    },
+    {
+      "i": 2,
+      "len": 509,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un adaptador de señales sintéticas (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos lat",
+      "text": "El hilo conductor es un adaptador de señales sintéticas (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (example.com, Lima/Arequipa, ids C00x). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no."
+    },
+    {
+      "i": 3,
+      "len": 363,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 HTTP → T2 Auth/cache/contracts → T3 SQL → T4 Geodatos responsables. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métri",
+      "text": "Orden: T1 HTTP → T2 Auth/cache/contracts → T3 SQL → T4 Geodatos responsables. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 4,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "requests/responses, status y JSON",
+      "text": "requests/responses, status y JSON"
+    },
+    {
+      "i": 5,
+      "len": 398,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedagogía es status + pars",
+      "text": "Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedagogía es status + parse, no la librería de red. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 479,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "2xx = éxito; 4xx = error del cliente (no reintentes a ciegas); 5xx = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido. ",
+      "text": "2xx = éxito; 4xx = error del cliente (no reintentes a ciegas); 5xx = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 7,
+      "len": 387,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Timeout es obligatorio: sin timeout= un socket colgado congela el pipeline. Headers (Accept, User-Agent) documentan el contrato del adaptador. Caso sintético Perú: endpoints sintét",
+      "text": "Timeout es obligatorio: sin timeout= un socket colgado congela el pipeline. Headers (Accept, User-Agent) documentan el contrato del adaptador. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «requests/responses, status y JSON»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Timeout, paginación, retry/backoff y rate limit",
+      "text": "Timeout, paginación, retry/backoff y rate limit"
+    },
+    {
+      "i": 9,
+      "len": 316,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Timeout acota la espera por request. Paginación (page o cursor/next) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el porqué es operativo: reduce ambig",
+      "text": "Timeout acota la espera por request. Paginación (page o cursor/next) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 437,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Retry/backoff solo en errores transitorios (429, 503, timeouts). Un 400 o 404 no se reintenta. Respeta Retry-After y un max_retries duro. Contrato: entrada explícita → transformaci",
+      "text": "Retry/backoff solo en errores transitorios (429, 503, timeouts). Un 400 o 404 no se reintenta. Respeta Retry-After y un max_retries duro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 11,
+      "len": 376,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos sleep simbólico o contador de delays. Caso sintético Perú: endpoints sintéticos, SQL local, coords L",
+      "text": "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos sleep simbólico o contador de delays. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Timeout, paginación, retry/backoff y rate limit»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 12,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Auth, secretos, cache y provenance",
+      "text": "Auth, secretos, cache y provenance"
+    },
+    {
+      "i": 13,
+      "len": 331,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, el porqué es operativ",
+      "text": "Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 428,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cache de GET por hash de URL con TTL reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política. Contrato: entrada explícita → transformación docume",
+      "text": "Cache de GET por hash de URL con TTL reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 15,
+      "len": 345,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Provenance: cada fetch deja source_url, fetched_at, status_code, cache_hit. Nunca loguees el token. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Doc",
+      "text": "Provenance: cada fetch deja source_url, fetched_at, status_code, cache_hit. Nunca loguees el token. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Auth, secretos, cache y provenance»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Contract tests y fallback",
+      "text": "Contract tests y fallback"
+    },
+    {
+      "i": 17,
+      "len": 328,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un contract test fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el porqué es operativo: ",
+      "text": "Un contract test fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 413,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fallback degradado: si 5xx o red caída, lee coordenadas/precomputados locales y marca mode=offline en provenance. Contrato: entrada explícita → transformación documentada → salida ",
+      "text": "Fallback degradado: si 5xx o red caída, lee coordenadas/precomputados locales y marca mode=offline en provenance. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 19,
+      "len": 319,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, ",
+      "text": "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Contract tests y fallback»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 21,
+      "len": 291,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SQLite vía sqlite3 basta para el almacén local de CP-N1-C: tablas clients, transactions, evidence. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locale",
+      "text": "SQLite vía sqlite3 basta para el almacén local de CP-N1-C: tablas clients, transactions, evidence. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 405,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). JOIN une evidencias a entidades por entity_id. Contrato: entrada explícita → transformación documentada → salida medible;",
+      "text": "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). JOIN une evidencias a entidades por entity_id. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 23,
+      "len": 338,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticia",
+      "text": "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Esquema, CRUD y joins»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 48,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Parámetros, transacciones, constraints e índices",
+      "text": "Parámetros, transacciones, constraints e índices"
+    },
+    {
+      "i": 25,
+      "len": 291,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locale",
+      "text": "Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 26,
+      "len": 392,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "executemany + BEGIN/COMMIT hacen batch atómico; un UNIQUE roto → ROLLBACK y reporte de fila. Contrato: entrada explícita → transformación documentada → salida medible; si falta evi",
+      "text": "executemany + BEGIN/COMMIT hacen batch atómico; un UNIQUE roto → ROLLBACK y reporte de fila. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 27,
+      "len": 344,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "UNIQUE/NOT NULL e índices en document_id / entity_id aceleran lookups del dashboard. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión",
+      "text": "UNIQUE/NOT NULL e índices en document_id / entity_id aceleran lookups del dashboard. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Parámetros, transacciones, constraints e índices»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Normalización y geocoding autorizado",
+      "text": "Normalización y geocoding autorizado"
+    },
+    {
+      "i": 29,
+      "len": 305,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pi",
+      "text": "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 421,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Solo geocoder autorizado/mock. Política del curso: no envíes PII bancaria (docs, cuentas, montos) a proveedores públicos. Contrato: entrada explícita → transformación documentada →",
+      "text": "Solo geocoder autorizado/mock. Política del curso: no envíes PII bancaria (docs, cuentas, montos) a proveedores públicos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 31,
+      "len": 353,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "MockGeocoder devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticia",
+      "text": "MockGeocoder devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización y geocoding autorizado»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Calidad de coordenada, Haversine, caching y política",
+      "text": "Calidad de coordenada, Haversine, caching y política"
+    },
+    {
+      "i": 33,
+      "len": 290,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales",
+      "text": "Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 412,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Haversine estima km entre dos puntos; sirve como geoseñal de relación, no como veredicto de parentesco o fraude. Contrato: entrada explícita → transformación documentada → salida m",
+      "text": "Haversine estima km entre dos puntos; sirve como geoseñal de relación, no como veredicto de parentesco o fraude. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14."
+    },
+    {
+      "i": 35,
+      "len": 358,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es señal, no kinship. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Document",
+      "text": "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es señal, no kinship. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Calidad de coordenada, Haversine, caching y política»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 17811
+}

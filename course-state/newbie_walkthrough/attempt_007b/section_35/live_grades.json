@@ -1,0 +1,1076 @@
+{
+  "section_index": 35,
+  "section_id": "system-design",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S35-T1-A-E1",
+          "code": "drop = {'a': 0.1, 'b': 0.4, 'c': 0.05}\ntop = max(drop, key=drop.get)\nprint('top', top)\nprint('drop', drop[top])\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "importance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-A-E2",
+          "code": "imp = {'x': 0.2, 'y': 0.9, 'z': 0.1}\nprint(sorted(imp, key=imp.get, reverse=True))\nprint('n', len(imp))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "feature order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-A-E3",
+          "code": "print('causal', False)\nprint('means', 'model_sensitivity')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "perm importance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-B-E1",
+          "code": "print('contrib', 2.0 * 0.5)\nprint('value', 2.0)\nprint('weight', 0.5)\n",
+          "note": "",
+          "concepts_used": [
+            "contrib local"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-B-E2",
+          "code": "print({'evidence': True, 'model': True, 'uncertainty': True, 'human': True})\nprint('layers', 4)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "ficha 4 capas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-B-E3",
+          "code": "print('limit', 'correlation_not_causation')\nprint('causal', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "límites explicación"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-A-E1",
+          "code": "n = 20\nprint('low_n', n < 30)\nprint('n', n)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "slice n"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-A-E2",
+          "code": "lim, aqp = 0.8, 0.5\nprint('delta', round(lim - aqp, 2))\nprint('LIM', lim)\nprint('AQP', aqp)\n",
+          "note": "",
+          "concepts_used": [
+            "slice delta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-A-E3",
+          "code": "print('precision', 0.7)\nprint('n', 40)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "report n"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-B-E1",
+          "code": "print(['region', 'channel'])\nprint('risk', 'high')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "proxy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-B-E2",
+          "code": "print('fp_A', 0.1)\nprint('fp_B', 0.3)\nprint('harm', True)\n",
+          "note": "",
+          "concepts_used": [
+            "disparidad FP"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-B-E3",
+          "code": "print('action', 'remove_or_constrain_proxy')\nprint('audit', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "mitigación"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-A-E1",
+          "code": "p, q = 0.5, 0.1\nprint(round(p - q, 2), round(p + q, 2))\nprint('level', 'toy')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "intervalo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-A-E2",
+          "code": "print('coverage', 'nominal_level')\nprint('not_guarantee', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "cobertura"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-A-E3",
+          "code": "print('brier', 'point_calibration')\nprint('interval', 'range_uncertainty')\nprint('complementary', True)\n",
+          "note": "",
+          "concepts_used": [
+            "Brier vs interval"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-B-E1",
+          "code": "zs = [1, 2, 3.5]\nprint(max(abs(x) for x in zs) > 3)\nprint('action', 'abstain')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "OOD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-B-E2",
+          "code": "print('ood', True)\nprint('policy', 'abstain')\nprint('channel', 'new')\n",
+          "note": "",
+          "concepts_used": [
+            "OOD policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-B-E3",
+          "code": "print('auto_fraud', False)\nprint('ood', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "no fraud OOD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-A-E1",
+          "code": "print(['intended_use', 'out_of_scope', 'metrics', 'limitations'])\nprint('n', 4)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "model card"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-A-E2",
+          "code": "print('out_of_scope', 'fraud_label')\nprint('use', 'queue_rank')\nprint('card', True)\n",
+          "note": "",
+          "concepts_used": [
+            "out_of_scope"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-A-E3",
+          "code": "print('contestability', True)\nprint('human_override', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "contestability"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-B-E1",
+          "code": "print('next', 'monitored_serve')\nprint('from', 'approved')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "lifecycle"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-B-E2",
+          "code": "print({'case': 'c1', 'human': 'override', 'by': 'u1'})\nprint('audit', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "override log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-B-E3",
+          "code": "drift = True\nprint('retire', drift)\nprint('reason', 'drift')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "retiro drift"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S35-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top b\ndrop 0.4\nok True\n",
+          "expected_head": "b\n0.2\nfraud False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['y', 'x', 'z']\nn 3\nok True\n",
+          "expected_head": "['y', 'x']\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "causal False\nmeans model_sensitivity\nok True\n",
+          "expected_head": "causal False\ntype global\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "contrib 1.0\nvalue 2.0\nweight 0.5\n",
+          "expected_head": "0.6\nfeature f\ncausal False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'evidence': True, 'model': True, 'uncertainty': True, 'human': True}\nlayers 4\nok True\n",
+          "expected_head": "['evidence', 'model', 'uncertainty', 'human']\nn 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "limit correlation_not_causation\ncausal False\nok True\n",
+          "expected_head": "corr_is_cause False\nok True\nnote limits",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "low_n True\nn 20\nok True\n",
+          "expected_head": "low_n\nn 12\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "delta 0.3\nLIM 0.8\nAQP 0.5\n",
+          "expected_head": "0.1\nslice LIM-AQP\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "precision 0.7\nn 40\nok True\n",
+          "expected_head": "{'n': 40, 'precision': 0.7}\nok True\nrequired n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['region', 'channel']\nrisk high\nok True\n",
+          "expected_head": "['zip_code']\nn 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fp_A 0.1\nfp_B 0.3\nharm True\n",
+          "expected_head": "harm True\nfp_A 0.2\nfp_B 0.05",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "action remove_or_constrain_proxy\naudit True\nok True\n",
+          "expected_head": "action remove_or_constrain\nok True\nfraud_eq False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.4 0.6\nlevel toy\nok True\n",
+          "expected_head": "0.4 0.6\np 0.5\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "coverage nominal_level\nnot_guarantee True\nok True\n",
+          "expected_head": "coverage approx\nnot_proof True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "brier point_calibration\ninterval range_uncertainty\ncomplementary True\n",
+          "expected_head": "both True\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\naction abstain\nok True\n",
+          "expected_head": "True\naction abstain\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ood True\npolicy abstain\nchannel new\n",
+          "expected_head": "ood True\nchannel new\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "auto_fraud False\nood True\nok True\n",
+          "expected_head": "auto_fraud False\nroute human\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['intended_use', 'out_of_scope', 'metrics', 'limitations']\nn 4\nok True\n",
+          "expected_head": "['intended_use', 'name', 'out_of_scope', 'owner']\nn 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "out_of_scope fraud_label\nuse queue_rank\ncard True\n",
+          "expected_head": "out_of_scope fraud_parentesco\nok True\ncard True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contestability True\nhuman_override True\nok True\n",
+          "expected_head": "contestability True\nchannel appeal\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "next monitored_serve\nfrom approved\nok True\n",
+          "expected_head": "production\nfrom approved\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'case': 'c1', 'human': 'override', 'by': 'u1'}\naudit True\nok True\n",
+          "expected_head": "['case', 'human_decision', 'by', 'ts']\nn 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "retire True\nreason drift\nok True\n",
+          "expected_head": "retire True\nreason drift\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 15,
+      "code_tried": 24,
+      "code_ratio": 0.625,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S35-T1-A-E1",
+          "code": "drops = {\"shared_phone\": 0.10, \"amount_7d\": 0.03, \"region\": 0.01}\nimp = sorted(drops, key=drops.get, reverse=True)\nprint(imp[0])\nprint(drops[imp[0]])\nprint(\"fraud\", False)\n",
+          "note": "Theory drops: top shared_phone / drop 0.1 / fraud False (means_fraud False).",
+          "concepts_used": [
+            "perm importance",
+            "shared_phone"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-A-E2",
+          "code": "drops = {\"shared_phone\": 0.10, \"amount_7d\": 0.03, \"region\": 0.01}\nprint(sorted(drops, key=drops.get, reverse=True))\nprint(\"n\", len(drops))\nprint(\"ok\", True)\n",
+          "note": "Theory sorted drops desc: shared_phone, amount_7d, region.",
+          "concepts_used": [
+            "importance order",
+            "shared_phone"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-A-E3",
+          "code": "print(\"causal\", False)\nprint(\"means_fraud\", False)\nprint(\"ok\", True)\n",
+          "note": "Theory: importance ≠ causa; means_fraud False.",
+          "concepts_used": [
+            "not causation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-B-E1",
+          "code": "v, w = 1.0, 0.9\nprint(round(v * w, 3))\nprint(\"feature\", \"shared_phone\")\nprint(\"causal\", False)\n",
+          "note": "Theory local: shared_phone value*weight=0.9; causal False.",
+          "concepts_used": [
+            "local contrib",
+            "shared_phone"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-B-E2",
+          "code": "print([\"evidence\", \"model\", \"uncertainty\", \"human\"])\nprint(\"n\", 4)\nprint(\"ok\", True)\n",
+          "note": "Theory plantilla 4 capas.",
+          "concepts_used": [
+            "4 capas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T1-B-E3",
+          "code": "print(\"causal\", False)\nprint(\"ok\", True)\nprint(\"note\", \"limits\")\n",
+          "note": "Theory: correlación ≠ causa; límites.",
+          "concepts_used": [
+            "correlation limits"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-A-E1",
+          "code": "n = 5\nprint(\"low_n\" if n < 30 else \"ok_n\")\nprint(\"n\", n)\nprint(\"ok\", True)\n",
+          "note": "iDo slice demo: flag low_n if n<30; n=5.",
+          "concepts_used": [
+            "low_n"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-A-E2",
+          "code": "lim, aqp = 0.6, 0.9\nprint(round(abs(lim - aqp), 1))\nprint(\"slice\", \"LIM-AQP\")\nprint(\"ok\", True)\n",
+          "note": "Theory slices LIM 0.6 / AQP 0.9; delta labeled LIM-AQP.",
+          "concepts_used": [
+            "LIM",
+            "AQP",
+            "slice delta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-A-E3",
+          "code": "print({\"n\": 100, \"precision\": 0.6})\nprint(\"ok\", True)\nprint(\"required\", \"n\")\n",
+          "note": "Theory LIM slice: n with precision; always report n.",
+          "concepts_used": [
+            "report n"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-B-E1",
+          "code": "features = [\"amount_7d\", \"district_code\", \"shared_phone\"]\nproxy_risk = {\"amount_7d\": \"low\", \"district_code\": \"high\", \"shared_phone\": \"medium\"}\nprint(\"high_proxy\", [f for f in features if proxy_risk[f] == \"high\"])\nprint(\"n\", 1)\nprint(\"ok\", True)\n",
+          "note": "Theory/iDo: high_proxy ['district_code'] only.",
+          "concepts_used": [
+            "district_code",
+            "high_proxy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-B-E2",
+          "code": "print(\"harm\", True)\nprint(\"fp_A\", 0.15)\nprint(\"fp_B\", 0.04)\n",
+          "note": "Instruction FP A vs B daño; theory differential harm (any rates, labels matter).",
+          "concepts_used": [
+            "differential FP harm"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T2-B-E3",
+          "code": "print(\"action\", \"review_feature\")\nprint(\"ok\", True)\nprint(\"fraud_eq\", False)\n",
+          "note": "Theory proxy: action review_feature; fraud_eq False.",
+          "concepts_used": [
+            "review_feature"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-A-E1",
+          "code": "p, q = 0.5, 0.1\nprint(round(p - q, 2), round(p + q, 2))\nprint(\"p\", p)\nprint(\"ok\", True)\n",
+          "note": "Instruction p=0.5 q=0.1; iDo interval pattern.",
+          "concepts_used": [
+            "interval p±q"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-A-E2",
+          "code": "print(\"coverage\", \"approx_80pct\")\nprint(\"not_proof\", True)\nprint(\"ok\", True)\n",
+          "note": "Theory level approx_80pct; guarantee conceptual only.",
+          "concepts_used": [
+            "approx_80pct",
+            "conceptual"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-A-E3",
+          "code": "print(\"both\", True)\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+          "note": "Theory: Brier + interval complementary (both).",
+          "concepts_used": [
+            "Brier",
+            "interval complementary"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-B-E1",
+          "code": "def ood(z, thr=3.0):\n    return max(abs(x) for x in z) > thr\nprint(ood([0.1, 0.2, 4.5]))\nprint(\"action\", \"abstain\")\nprint(\"ok\", True)\n",
+          "note": "Theory ood([0.1,0.2,4.5]); action abstain.",
+          "concepts_used": [
+            "OOD z-score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-B-E2",
+          "code": "print(\"ood\", True)\nprint(\"channel\", \"new\")\nprint(\"ok\", True)\n",
+          "note": "Theory: canal nuevo → OOD; policy abstain.",
+          "concepts_used": [
+            "new channel OOD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T3-B-E3",
+          "code": "print(\"auto_fraud\", False)\nprint(\"action\", \"abstain\")\nprint(\"ok\", True)\n",
+          "note": "Theory/iDo: auto_fraud False on OOD.",
+          "concepts_used": [
+            "no auto fraud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-A-E1",
+          "code": "print(sorted([\"name\", \"intended_use\", \"out_of_scope\", \"owner\"]))\nprint(\"n\", 4)\nprint(\"ok\", True)\n",
+          "note": "Theory card keys: name, intended_use, out_of_scope, owner.",
+          "concepts_used": [
+            "model card keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-A-E2",
+          "code": "print(\"out_of_scope\", \"etiqueta de fraude o parentesco\")\nprint(\"ok\", True)\nprint(\"card\", True)\n",
+          "note": "Theory card out_of_scope text; iDo also fraud_label.",
+          "concepts_used": [
+            "out_of_scope"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-A-E3",
+          "code": "print(\"contestability\", True)\nprint(\"ok\", True)\nprint(\"card\", True)\n",
+          "note": "Theory print contestability True.",
+          "concepts_used": [
+            "contestability"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-B-E1",
+          "code": "states = [\"proposed\", \"approved\", \"production\", \"retired\"]\nprint(\"production\")\nprint(\"lifecycle\", \" > \".join(states))\nprint(\"ok\", True)\n",
+          "note": "Theory: approved → production in lifecycle.",
+          "concepts_used": [
+            "lifecycle"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-B-E2",
+          "code": "print({\"case\": \"c1\", \"human\": \"override\", \"by\": \"u1\"})\nprint(\"n\", 4)\nprint(\"ok\", True)\n",
+          "note": "iDo override audit fields case/human/by.",
+          "concepts_used": [
+            "override audit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S35-T4-B-E3",
+          "code": "drift = True\nprint(\"retire\", drift)\nprint(\"reason\", \"drift\")\nprint(\"ok\", True)\n",
+          "note": "Theory: retiro si drift.",
+          "concepts_used": [
+            "retire on drift"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S35-T1-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "shared_phone\n0.1\nfraud False\n",
+          "expected_head": "b\n0.2\nfraud False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['shared_phone', 'amount_7d', 'region']\nn 3\nok True\n",
+          "expected_head": "['y', 'x']\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "causal False\nmeans_fraud False\nok True\n",
+          "expected_head": "causal False\ntype global\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9\nfeature shared_phone\ncausal False\n",
+          "expected_head": "0.6\nfeature f\ncausal False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['evidence', 'model', 'uncertainty', 'human']\nn 4\nok True\n",
+          "expected_head": "['evidence', 'model', 'uncertainty', 'human']\nn 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "causal False\nok True\nnote limits\n",
+          "expected_head": "corr_is_cause False\nok True\nnote limits",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "low_n\nn 5\nok True\n",
+          "expected_head": "low_n\nn 12\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3\nslice LIM-AQP\nok True\n",
+          "expected_head": "0.1\nslice LIM-AQP\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n': 100, 'precision': 0.6}\nok True\nrequired n\n",
+          "expected_head": "{'n': 40, 'precision': 0.7}\nok True\nrequired n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high_proxy ['district_code']\nn 1\nok True\n",
+          "expected_head": "['zip_code']\nn 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "harm True\nfp_A 0.15\nfp_B 0.04\n",
+          "expected_head": "harm True\nfp_A 0.2\nfp_B 0.05",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "action review_feature\nok True\nfraud_eq False\n",
+          "expected_head": "action remove_or_constrain\nok True\nfraud_eq False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.4 0.6\np 0.5\nok True\n",
+          "expected_head": "0.4 0.6\np 0.5\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "coverage approx_80pct\nnot_proof True\nok True\n",
+          "expected_head": "coverage approx\nnot_proof True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "both True\nok True\nn 2\n",
+          "expected_head": "both True\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\naction abstain\nok True\n",
+          "expected_head": "True\naction abstain\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ood True\nchannel new\nok True\n",
+          "expected_head": "ood True\nchannel new\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "auto_fraud False\naction abstain\nok True\n",
+          "expected_head": "auto_fraud False\nroute human\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['intended_use', 'name', 'out_of_scope', 'owner']\nn 4\nok True\n",
+          "expected_head": "['intended_use', 'name', 'out_of_scope', 'owner']\nn 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "out_of_scope etiqueta de fraude o parentesco\nok True\ncard True\n",
+          "expected_head": "out_of_scope fraud_parentesco\nok True\ncard True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contestability True\nok True\ncard True\n",
+          "expected_head": "contestability True\nchannel appeal\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "production\nlifecycle proposed > approved > production > retired\nok True\n",
+          "expected_head": "production\nfrom approved\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'case': 'c1', 'human': 'override', 'by': 'u1'}\nn 4\nok True\n",
+          "expected_head": "['case', 'human_decision', 'by', 'ts']\nn 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S35-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "retire True\nreason drift\nok True\n",
+          "expected_head": "retire True\nreason drift\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s50-2585659eb0",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T1-A-E1: no confío en demos sin assert; la regla «slices suman tasks, rúbrica 0–3 y holdout» del instruction exige fixtures y etiqueta de breach REBUILD_EVAL_DATASET. Theory/outcome de anclaje: Calibra jueces y evita order bias. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es ",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'holdout', 'rubric_levels', 'slices', 'tasks'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REBUILD_EVAL_DATASET\"\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10, '__adverse__': True}\nincomplete = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T1-A-E2: no confío en demos sin assert; la regla «S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. En» del instruction exige fixtures y etiqueta de breach REBUILD_EVAL_DATASET. Theory/outcome de anclaje: calibración, order bias y conjunto retenido. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y regist",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'holdout' not in record or record.get('holdout') in (None, \"\", [], set(), {}):\n        return \"CALIBRATE_RUBRIC\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REBUILD_EVAL_DATASET\"\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10, '__adverse__': True}\nincomplete = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T1-A-E3: no confío en demos sin assert; la regla «S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe cont» del instruction exige fixtures y etiqueta de breach REBUILD_EVAL_DATASET. Theory/outcome de anclaje: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos ob. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-I",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T1-B-E1: no confío en demos sin assert; la regla «cuatro dimensiones sobre mínimo y ninguna tool prohibida» del instruction exige fixtures y etiqueta de breach FAIL_UNSAFE_TRAJECTORY. Theory/outcome de anclaje: Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se der. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'forbidden_tool_used', 'min_dimension', 'outcome', 'process', 'recovery', 'trajectory'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"PASS\" if ok else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T1-B-E2: no confío en demos sin assert; la regla «S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y regi» del instruction exige fixtures y etiqueta de breach FAIL_UNSAFE_TRAJECTORY. Theory/outcome de anclaje: Opera latency/cost e incidentes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fi",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'min_dimension' not in record or record.get('min_dimension') in (None, \"\", [], set(), {}):\n        return \"FAIL_UNSAFE_TRAJECTORY\"\n    ok = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"CONTINUE\" if ok else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T1-B-E3: no confío en demos sin assert; la regla «S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO» del instruction exige fixtures y etiqueta de breach HUMAN_REVIEW_PROCESS. Theory/outcome de anclaje: Mitiga injection indirecta y poisoning. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtu",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\nmeets_contract = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T2-A-E1: no confío en demos sin assert; la regla «scores acotados y acuerdo humano-LLM sobre umbral» del instruction exige fixtures y etiqueta de breach RECALIBRATE_GRADERS. Theory/outcome de anclaje: graders deterministas/humanos/LLM. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La ",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'deterministic', 'human', 'human_llm_agreement', 'llm', 'min_agreement'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    return \"PASS\" if ok else \"RECALIBRATE_GRADERS\"\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 99.75}\nincomplete = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T2-A-E2: no confío en demos sin assert; la regla «S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro si» del instruction exige fixtures y etiqueta de breach RECALIBRATE_GRADERS. Theory/outcome de anclaje: Opera latency/cost e incidentes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture a",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'min_agreement' not in record or record.get('min_agreement') in (None, \"\", [], set(), {}):\n        return \"ADJUDICATE_DISAGREEMENT\"\n    ok = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    return \"CONTINUE\" if ok else \"RECALIBRATE_GRADERS\"\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 99.75}\nincomplete = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T2-A-E3: no confío en demos sin assert; la regla «S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050» del instruction exige fixtures y etiqueta de breach RECALIBRATE_GRADERS. Theory/outcome de anclaje: Opera latency/cost e incidentes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures dist",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nmeets_contract = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T2-B-E1: no confío en demos sin assert; la regla «anclas calibradas, order bias bajo y holdout intacto» del instruction exige fixtures y etiqueta de breach INVALIDATE_JUDGE. Theory/outcome de anclaje: Combina graders det/humanos/LLM. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-05",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'anchor_accuracy', 'case_id', 'holdout_touched', 'max_order_gap', 'min_anchor_accuracy', 'order_gap'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    return \"PASS\" if ok else \"INVALIDATE_JUDGE\"\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 99.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T2-B-E2: no confío en demos sin assert; la regla «S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y regi» del instruction exige fixtures y etiqueta de breach INVALIDATE_JUDGE. Theory/outcome de anclaje: task dataset y rubric. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fi",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'holdout_touched' not in record or record.get('holdout_touched') in (None, \"\", [], set(), {}):\n        return \"SEAL_NEW_HOLDOUT\"\n    ok = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    return \"CONTINUE\" if ok else \"INVALIDATE_JUDGE\"\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 99.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T2-B-E3: no confío en demos sin assert; la regla «S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CA» del instruction exige fixtures y etiqueta de breach INVALIDATE_JUDGE. Theory/outcome de anclaje: Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se der. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fix",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nmeets_contract = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T3-A-E1: no confío en demos sin assert; la regla «injection contenida, cero exfil y tool read-only» del instruction exige fixtures y etiqueta de breach BLOCK_SECURITY_P0. Theory/outcome de anclaje: resultado, proceso, trajectory y recovery. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'exfiltration_bytes', 'injection_blocked', 'severity', 'tool_args_valid', 'tool_scope'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    return \"PASS\" if ok else \"BLOCK_SECURITY_P0\"\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T3-A-E2: no confío en demos sin assert; la regla «S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y reg» del instruction exige fixtures y etiqueta de breach BLOCK_SECURITY_P0. Theory/outcome de anclaje: Indirect injection llega en documentos/tools; poisoning altera corpus y least privilege reduce radio aunque el. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, f",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'severity' not in record or record.get('severity') in (None, \"\", [], set(), {}):\n        return \"PRESERVE_ATTACK_TRACE\"\n    ok = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    return \"CONTINUE\" if ok else \"BLOCK_SECURITY_P0\"\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T3-A-E3: no confío en demos sin assert; la regla «S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `» del instruction exige fixtures y etiqueta de breach BLOCK_SECURITY_P0. Theory/outcome de anclaje: Red team intenta injection, exfiltration y tool misuse en argumentos y resultados; éxito significa que el cont. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres f",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T3-B-E1: no confío en demos sin assert; la regla «indirect injection como datos, poisoning removido y permiso mínimo» del instruction exige fixtures y etiqueta de breach QUARANTINE_POISONED_CORPUS. Theory/outcome de anclaje: indirect injection, data poisoning y least privilege. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre ",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'requested_permission', 'tool_permissions'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"PASS\" if ok else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T3-B-E2: no confío en demos sin assert; la regla «S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adve» del instruction exige fixtures y etiqueta de breach QUARANTINE_POISONED_CORPUS. Theory/outcome de anclaje: Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se der. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture ",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'requested_permission' not in record or record.get('requested_permission') in (None, \"\", [], set(), {}):\n        return \"REDUCE_TOOL_PRIVILEGE\"\n    ok = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"CONTINUE\" if ok else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T3-B-E3: no confío en demos sin assert; la regla «S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures di» del instruction exige fixtures y etiqueta de breach QUARANTINE_POISONED_CORPUS. Theory/outcome de anclaje: task dataset y rubric. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` ",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\nmeets_contract = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T4-A-E1: no confío en demos sin assert; la regla «support rate, cero claim crítica y abstención correcta» del instruction exige fixtures y etiqueta de breach BLOCK_HALLUCINATION_REGRESSION. Theory/outcome de anclaje: Latencia/costo/cache forman SLO; incident response congela versión, preserva traces redactados y rollback rest. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'abstained_when_empty', 'case_id', 'min_support_rate', 'supported_claims', 'total_claims', 'unsupported_critical'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    return \"PASS\" if ok else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1000000, 'abstained_when_empty': True}\nincomplete = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T4-A-E2: no confío en demos sin assert; la regla «S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstai» del instruction exige fixtures y etiqueta de breach BLOCK_HALLUCINATION_REGRESSION. Theory/outcome de anclaje: Arma dataset y rúbrica de tareas. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y ",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'abstained_when_empty' not in record or record.get('abstained_when_empty') in (None, \"\", [], set(), {}):\n        return \"REVIEW_ABSTENTION_SLICE\"\n    ok = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    return \"CONTINUE\" if ok else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1000000, 'abstained_when_empty': True}\nincomplete = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T4-A-E3: no confío en demos sin assert; la regla «S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe » del instruction exige fixtures y etiqueta de breach BLOCK_HALLUCINATION_REGRESSION. Theory/outcome de anclaje: Detecta hallucination y abstiene. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CA",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T4-B-E1: no confío en demos sin assert; la regla «latencia/costo/cache dentro de gate y rollback en RTO» del instruction exige fixtures y etiqueta de breach ROLLBACK_AI_RELEASE. Theory/outcome de anclaje: latency/cost/caching, incident response y rollback. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'cache_acl_safe', 'case_id', 'cost_cap_pen', 'cost_pen', 'p95_ms', 'rollback_minutes', 'rto_minutes', 'slo_ms'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1000850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S50/S50-T4-B-E2: no confío en demos sin assert; la regla «S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso» del instruction exige fixtures y etiqueta de breach ROLLBACK_AI_RELEASE. Theory/outcome de anclaje: Calibra contra ejemplos ancla, alterna orden para medir bias y protege holdout para que la optimización no lo . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture vál",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'rto_minutes' not in record or record.get('rto_minutes') in (None, \"\", [], set(), {}):\n        return \"ACTIVATE_INCIDENT_RESPONSE\"\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1000850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S50/S50-T4-B-E3: no confío en demos sin assert; la regla «S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distin» del instruction exige fixtures y etiqueta de breach ROLLBACK_AI_RELEASE. Theory/outcome de anclaje: Arma dataset y rúbrica de tareas. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con ",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S50 self-check Q0: escojo «dataset versionado y rúbrica calibrada» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?. Ancla: task dataset y rubric. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.74,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S50 self-check Q1: escojo «emitir BLOCK_CANDIDATE y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos ob. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S50 self-check Q2: escojo «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?. Ancla: resultado, proceso, trajectory y recovery. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S50 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?. Ancla: Evalúa outcome, proceso, trayectoria y recovery: una respuesta correcta tras una tool prohibida sigue siendo f. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.89,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.938393+00:00",
+  "session_started_at": "2026-07-23T15:45:56.906613+00:00",
+  "session_ended_at": "2026-07-23T15:46:55.106613+00:00",
+  "receipt_response_sha256": "c86595f842f85f65781f89eb26e966af694c405d0f7edd781f67c291c8c6bacf",
+  "receipt_exercises_sha256": "c9461aa036c9667c92a7ac27be281c58a0154a53cab82f60bc55fcb703579465",
+  "receipt_selfcheck_sha256": "66cbb9ad9eba9a2ec07aa7b9ea2db647483d394a887de40355d902e7a386c55d"
+}

@@ -1,0 +1,40 @@
+# CODEOWNERS — sensitive paths require review (when branch protection enforces it).
+# Protect this file itself and the agent policy.
+
+# Agent / safety policy
+/AGENTS.md @PillB
+/.github/CODEOWNERS @PillB
+/audit/safe-agent/ @PillB
+/scripts/preservation_sentinel.mjs @PillB
+/scripts/generate_preservation_manifest.mjs @PillB
+/scripts/preservation/ @PillB
+
+# CI and deployment
+/.github/workflows/ @PillB
+/next.config.ts @PillB
+/vercel.json @PillB
+/firebase.json @PillB
+/firestore.rules @PillB
+/DEPLOY.md @PillB
+
+# Curriculum and learner progress
+/src/lib/course/ @PillB
+/src/lib/progress-store.ts @PillB
+/src/lib/progress-sanitize.ts @PillB
+/learning_roadmap_52_V3.md @PillB
+/learning_roadmap.md @PillB
+
+# Persistence schema
+/prisma/ @PillB
+
+# Auth and security-sensitive libs
+/src/lib/auth.ts @PillB
+/src/lib/permissions.ts @PillB
+/src/lib/registration-security.ts @PillB
+/src/app/api/ @PillB
+
+# Public assets and tests
+/public/ @PillB
+/tests/ @PillB
+/scripts/static_public.spec.ts @PillB
+/scripts/regression.spec.ts @PillB

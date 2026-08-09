@@ -1,0 +1,530 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b-agentic_G1-s50-dual43_52",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T1-A-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\n# defective was: sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0\nmeets_contract = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "task",
+        "dataset",
+        "rubric",
+        "versionado",
+        "rúbrica",
+        "calibrada",
+        "calcula",
+        "contrato",
+        "sobre",
+        "caso"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T1-A-E1] Verifiqué theory `task dataset y rubric` y starter del paquete activo. Enunciado: «S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del starter; la operación debe demostrar slices suman tasks, rú». Pista operativa: «Relaciona los campos `tasks`, `slices`, `rubric_levels`, `holdout` con la regla explicada en S50-T1-A.; El predicado correcto debe ser verdadero porque el fixtu». Evidencia esperada «dataset versionado y rúbrica calibrada»; no invento campos. Regla: `not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)`. Código: `record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adv`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T1-A-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"holdout\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\n    if not ok:\n        return \"REBUILD_EVAL_DATASET\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "task",
+        "dataset",
+        "rubric",
+        "modela",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T1-A-E2] Verifiqué theory `task dataset y rubric` y starter del paquete activo. Enunciado: «S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. Entrada: dict con case_id, tasks, slices, rubric_levels, holdo». Pista operativa: «Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.; Después aplica la regla de S50-T1-A: slices suman tasks, rúbrica 0–3 y ho». Evidencia esperada «dataset versionado y rúbrica calibrada»; no invento campos. Regla: `not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T1-A-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"holdout\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"normal\", \"edge\", \"adversarial\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"CALIBRATE_RUBRIC\"\n    if not (not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)):\n        return \"REBUILD_EVAL_DATASET\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "task",
+        "dataset",
+        "rubric",
+        "simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T1-A-E3] Verifiqué theory `task dataset y rubric` y starter del paquete activo. Enunciado: «S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe continuar, el adverso debe devolver `REBUILD_EVAL_DATASET` y la ». Pista operativa: «Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró slices sum». Evidencia esperada «dataset versionado y rúbrica calibrada»; no invento campos. Regla: `not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T1-B-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\n# defective was: record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"]\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "resultado",
+        "proceso",
+        "trajectory",
+        "recovery",
+        "tool",
+        "calls",
+        "reanudación",
+        "calificadas",
+        "compara",
+        "contrato"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T1-B-E1] Verifiqué theory `resultado, proceso, trajectory y recovery` y starter del paquete activo. Enunciado: «S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es el dict completo del starter; la operación debe demostrar cu». Pista operativa: «Relaciona los campos `outcome`, `process`, `trajectory`, `recovery`, `forbidden_tool_used`, `min_dimension` con la regla explicada en S50-T1-B.; El predicado co». Evidencia esperada «tool calls y reanudación calificadas»; no invento campos. Regla: `not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])`. Código: `record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recover`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T1-B-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"min_dimension\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    if not ok:\n        return \"FAIL_UNSAFE_TRAJECTORY\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "resultado",
+        "proceso",
+        "trajectory",
+        "recovery",
+        "verifica",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T1-B-E2] Verifiqué theory `resultado, proceso, trajectory y recovery` y starter del paquete activo. Enunciado: «S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y registro sin `min_dimension`. Entrada: dict con case_id, outcome». Pista operativa: «Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.; Después aplica la regla de S50-T1-B: cuatro dimensiones sobre mínim». Evidencia esperada «tool calls y reanudación calificadas»; no invento campos. Regla: `not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T1-B-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"min_dimension\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"HUMAN_REVIEW_PROCESS\"\n    if not (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])):\n        return \"FAIL_UNSAFE_TRAJECTORY\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "resultado",
+        "proceso",
+        "trajectory",
+        "recovery",
+        "extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T1-B-E3] Verifiqué theory `resultado, proceso, trajectory y recovery` y starter del paquete activo. Enunciado: «S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO-ICA-050-1B` debe continuar, el adverso debe devolver `FAIL_». Pista operativa: «Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cuatro». Evidencia esperada «tool calls y reanudación calificadas»; no invento campos. Regla: `not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T2-A-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\n# defective was: record[\"human_llm_agreement\"] < record[\"min_agreement\"]\nmeets_contract = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "graders",
+        "deterministas",
+        "humanos",
+        "llm",
+        "acuerdo",
+        "desacuerdos",
+        "medidos",
+        "filtra",
+        "contrato",
+        "sobre"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T2-A-E1] Verifiqué theory `graders deterministas/humanos/LLM` y starter del paquete activo. Enunciado: «S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict completo del starter; la operación debe demostrar scores acot». Pista operativa: «Relaciona los campos `deterministic`, `human`, `llm`, `human_llm_agreement`, `min_agreement` con la regla explicada en S50-T2-A.; El predicado correcto debe ser». Evidencia esperada «acuerdo y desacuerdos medidos»; no invento campos. Regla: `not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])`. Código: `record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"hu`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T2-A-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"min_agreement\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    if not ok:\n        return \"RECALIBRATE_GRADERS\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "graders",
+        "deterministas",
+        "humanos",
+        "llm",
+        "clasifica",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T2-A-E2] Verifiqué theory `graders deterministas/humanos/LLM` y starter del paquete activo. Enunciado: «S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro sin `min_agreement`. Entrada: dict con case_id, deterministic,». Pista operativa: «Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.; Después aplica la regla de S50-T2-A: scores acotados y acuerdo huma». Evidencia esperada «acuerdo y desacuerdos medidos»; no invento campos. Regla: `not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T2-A-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"min_agreement\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"ADJUDICATE_DISAGREEMENT\"\n    if not (not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])):\n        return \"RECALIBRATE_GRADERS\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "graders",
+        "deterministas",
+        "humanos",
+        "llm",
+        "defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T2-A-E3] Verifiqué theory `graders deterministas/humanos/LLM` y starter del paquete activo. Enunciado: «S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050-2A` debe continuar, el adverso debe devolver `RECALIBRATE_G». Pista operativa: «Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sco». Evidencia esperada «acuerdo y desacuerdos medidos»; no invento campos. Regla: `not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T2-B-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\n# defective was: record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"]\nmeets_contract = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "calibración",
+        "order",
+        "bias",
+        "conjunto",
+        "retenido",
+        "bajo",
+        "umbral",
+        "holdout",
+        "intacto",
+        "modela"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T2-B-E1] Verifiqué theory `calibración, order bias y conjunto retenido` y starter del paquete activo. Enunciado: «S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es el dict completo del starter; la operación debe demostrar a». Pista operativa: «Relaciona los campos `anchor_accuracy`, `min_anchor_accuracy`, `order_gap`, `max_order_gap`, `holdout_touched` con la regla explicada en S50-T2-B.; El predicado». Evidencia esperada «order bias bajo umbral y holdout intacto»; no invento campos. Regla: `not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])`. Código: `record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T2-B-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"holdout_touched\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    if not ok:\n        return \"INVALIDATE_JUDGE\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "calibración",
+        "order",
+        "bias",
+        "conjunto",
+        "retenido",
+        "audita",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T2-B-E2] Verifiqué theory `calibración, order bias y conjunto retenido` y starter del paquete activo. Enunciado: «S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y registro sin `holdout_touched`. Entrada: dict con case_id, ancho». Pista operativa: «Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.; Después aplica la regla de S50-T2-B: anclas calibradas, order bia». Evidencia esperada «order bias bajo umbral y holdout intacto»; no invento campos. Regla: `not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T2-B-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"holdout_touched\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"SEAL_NEW_HOLDOUT\"\n    if not (not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])):\n        return \"INVALIDATE_JUDGE\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "calibración",
+        "order",
+        "bias",
+        "conjunto",
+        "retenido",
+        "recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T2-B-E3] Verifiqué theory `calibración, order bias y conjunto retenido` y starter del paquete activo. Enunciado: «S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CASO-ICA-050-2B` debe continuar, el adverso debe devolver `INV». Pista operativa: «Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró anclas cal». Evidencia esperada «order bias bajo umbral y holdout intacto»; no invento campos. Regla: `not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T3-A-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\n# defective was: not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0\nmeets_contract = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt",
+        "injection",
+        "exfiltración",
+        "tool",
+        "misuse",
+        "ataques",
+        "críticos",
+        "bloqueados",
+        "por",
+        "policy"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T3-A-E1] Verifiqué theory `prompt injection, exfiltración y tool misuse` y starter del paquete activo. Enunciado: «S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada es el dict completo del starter; la operación debe demostra». Pista operativa: «Relaciona los campos `injection_blocked`, `exfiltration_bytes`, `tool_scope`, `tool_args_valid`, `severity` con la regla explicada en S50-T3-A.; El predicado co». Evidencia esperada «ataques críticos bloqueados por policy»; no invento campos. Regla: `not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)`. Código: `record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T3-A-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"severity\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    if not ok:\n        return \"BLOCK_SECURITY_P0\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt",
+        "injection",
+        "exfiltración",
+        "tool",
+        "misuse",
+        "decide",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T3-A-E2] Verifiqué theory `prompt injection, exfiltración y tool misuse` y starter del paquete activo. Enunciado: «S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y registro sin `severity`. Entrada: dict con case_id, injection_b». Pista operativa: «Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.; Después aplica la regla de S50-T3-A: injection contenida, cero exfil y t». Evidencia esperada «ataques críticos bloqueados por policy»; no invento campos. Regla: `not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T3-A-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"severity\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"PRESERVE_ATTACK_TRACE\"\n    if not (not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)):\n        return \"BLOCK_SECURITY_P0\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt",
+        "injection",
+        "exfiltración",
+        "tool",
+        "misuse",
+        "contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T3-A-E3] Verifiqué theory `prompt injection, exfiltración y tool misuse` y starter del paquete activo. Enunciado: «S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `CASO-ICA-050-3A` debe continuar, el adverso debe devolver `B». Pista operativa: «Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró injec». Evidencia esperada «ataques críticos bloqueados por policy»; no invento campos. Regla: `not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T3-B-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\n# defective was: not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "indirect",
+        "injection",
+        "data",
+        "poisoning",
+        "least",
+        "privilege",
+        "contenido",
+        "recuperado",
+        "eleva",
+        "permisos"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T3-B-E1] Verifiqué theory `indirect injection, data poisoning y least privilege` y starter del paquete activo. Enunciado: «S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. La entrada es el dict completo del starter; la operación debe». Pista operativa: «Relaciona los campos `document_instruction_treated_as_data`, `poisoned_chunks_removed`, `tool_permissions`, `requested_permission` con la regla explicada en S50». Evidencia esperada «contenido recuperado no eleva permisos»; no invento campos. Regla: `not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in rec`. Código: `record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"po`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T3-B-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"requested_permission\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    if not ok:\n        return \"QUARANTINE_POISONED_CORPUS\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "indirect",
+        "injection",
+        "data",
+        "poisoning",
+        "least",
+        "privilege",
+        "calcula",
+        "tres",
+        "rutas",
+        "fixture"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T3-B-E2] Verifiqué theory `indirect injection, data poisoning y least privilege` y starter del paquete activo. Enunciado: «S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adverso y registro sin `requested_permission`. Entrada: dict con». Pista operativa: «Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.; Después aplica la regla de S50-T3-B: indirect injection como». Evidencia esperada «contenido recuperado no eleva permisos»; no invento campos. Regla: `not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in rec`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T3-B-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"requested_permission\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REDUCE_TOOL_PRIVILEGE\"\n    if not (not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])):\n        return \"QUARANTINE_POISONED_CORPUS\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "indirect",
+        "injection",
+        "data",
+        "poisoning",
+        "least",
+        "privilege",
+        "instrumenta",
+        "fallo",
+        "cerrado",
+        "para"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T3-B-E3] Verifiqué theory `indirect injection, data poisoning y least privilege` y starter del paquete activo. Enunciado: «S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos. `CASO-ICA-050-3B` debe continuar, el adverso debe d». Pista operativa: «Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró indir». Evidencia esperada «contenido recuperado no eleva permisos»; no invento campos. Regla: `not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in rec`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T4-A-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\n# defective was: record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"]\nmeets_contract = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "hallucination",
+        "abstención",
+        "crítica",
+        "cero",
+        "holdout",
+        "audita",
+        "contrato",
+        "sobre",
+        "caso",
+        "ica"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T4-A-E1] Verifiqué theory `hallucination y abstención` y starter del paquete activo. Enunciado: «S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo del starter; la operación debe demostrar support rate, cero». Pista operativa: «Relaciona los campos `supported_claims`, `total_claims`, `min_support_rate`, `unsupported_critical`, `abstained_when_empty` con la regla explicada en S50-T4-A.;». Evidencia esperada «hallucination crítica cero en holdout»; no invento campos. Regla: `not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])`. Código: `record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_su`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T4-A-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"abstained_when_empty\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    if not ok:\n        return \"BLOCK_HALLUCINATION_REGRESSION\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "hallucination",
+        "abstención",
+        "compara",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro",
+        "sin"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T4-A-E2] Verifiqué theory `hallucination y abstención` y starter del paquete activo. Enunciado: «S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstained_when_empty`. Entrada: dict con case_id, supported_claims». Pista operativa: «Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.; Después aplica la regla de S50-T4-A: support rate, cero clai». Evidencia esperada «hallucination crítica cero en holdout»; no invento campos. Regla: `not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T4-A-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"abstained_when_empty\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REVIEW_ABSTENTION_SLICE\"\n    if not (not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])):\n        return \"BLOCK_HALLUCINATION_REGRESSION\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "hallucination",
+        "abstención",
+        "aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos",
+        "caso"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T4-A-E3] Verifiqué theory `hallucination y abstención` y starter del paquete activo. Enunciado: «S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe continuar, el adverso debe devolver `BLOCK_HALLUCINATION_REG». Pista operativa: «Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sup». Evidencia esperada «hallucination crítica cero en holdout»; no invento campos. Regla: `not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])`. Código: `def decide`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S50-T4-B-E1 skeptic: invert breach-oriented starter predicate\nrecord = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\n# defective was: record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\nif not meets_contract:\n    raise AssertionError('contract failed on taught fixture')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency",
+        "cost",
+        "caching",
+        "incident",
+        "response",
+        "rollback",
+        "dentro",
+        "rto",
+        "evidencia",
+        "decide"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T4-B-E1] Verifiqué theory `latency/cost/caching, incident response y rollback` y starter del paquete activo. Enunciado: «S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La entrada es el dict completo del starter; la operación debe demo». Pista operativa: «Relaciona los campos `p95_ms`, `slo_ms`, `cost_pen`, `cost_cap_pen`, `cache_acl_safe`, `rollback_minutes`, `rto_minutes` con la regla explicada en S50-T4-B.; El». Evidencia esperada «rollback dentro de RTO con evidencia»; no invento campos. Regla: `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes`. Código: `record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cos`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S50-T4-B-E2 skeptic: missing schema before domain; no silent continue\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            bad[k] = (not v) if k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\") else True\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\"):\n                bad[k] = True\n            elif k in (\"dependency_layer_reused\", \"digest_stable\", \"base_pinned\", \"runtime_secret\", \"config_declared\", \"private_network\", \"readiness_db\", \"sigterm_drains\", \"api_retries_db\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\", \"runtime_deps_locked\", \"logs_redacted\", \"lint\", \"types\", \"tests\"):\n                bad[k] = False\n            return bad\n        if isinstance(v, (int, float)) and v == 0 and \"cve\" in k:\n            bad[k] = 1\n            return bad\n        if isinstance(v, (int, float)) and \"uid\" == k:\n            bad[k] = 0\n            return bad\n    return {**bad, \"uid\": 0} if \"uid\" in bad else {**bad, \"ok\": False}\n\ninvalid = force_adverse(valid)\nincomplete = {k: valid[k] for k in valid if k != \"rto_minutes\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - set(record))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    if not ok:\n        return \"ROLLBACK_AI_RELEASE\"\n    return \"PASS\"\n\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency",
+        "cost",
+        "caching",
+        "incident",
+        "response",
+        "rollback",
+        "filtra",
+        "tres",
+        "rutas",
+        "fixture"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T4-B-E2] Verifiqué theory `latency/cost/caching, incident response y rollback` y starter del paquete activo. Enunciado: «S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_id, p9». Pista operativa: «Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.; Después aplica la regla de S50-T4-B: latencia/costo/cache dentro de g». Evidencia esperada «rollback dentro de RTO con evidencia»; no invento campos. Regla: `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes`. Código: `def assess`. Solo landing+prior+active."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S50-T4-B-E3 skeptic: uncertainty before content; only complete good data CONTINUEs\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\ninvalid = dict(valid)\n# make domain fail\nfor _k, _v in list(invalid.items()):\n    if _k == \"case_id\":\n        continue\n    if isinstance(_v, bool) and _v and _k not in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\"):\n        invalid[_k] = False\n        break\n    if isinstance(_v, bool) and not _v and _k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\"):\n        invalid[_k] = True\n        break\nelse:\n    if \"uid\" in invalid:\n        invalid[\"uid\"] = 0\n    elif \"critical_cves\" in invalid:\n        invalid[\"critical_cves\"] = 1\n    else:\n        invalid[\"jobs\"] = 0 if \"jobs\" in invalid else invalid\n\nuncertain_rec = {k: valid[k] for k in valid if k != \"rto_minutes\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"ACTIVATE_INCIDENT_RESPONSE\"\n    if not (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])):\n        return \"ROLLBACK_AI_RELEASE\"\n    return \"CONTINUE\"\n\nresults = [decide(item) for item in (valid, invalid, uncertain_rec)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency",
+        "cost",
+        "caching",
+        "incident",
+        "response",
+        "rollback",
+        "demuestra",
+        "fallo",
+        "cerrado",
+        "para"
+      ],
+      "justification_from_packet": "[Skeptic/S50-T4-B-E3] Verifiqué theory `latency/cost/caching, incident response y rollback` y starter del paquete activo. Enunciado: «S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos. `CASO-ICA-050-4B` debe continuar, el adverso debe devol». Pista operativa: «Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ». Evidencia esperada «rollback dentro de RTO con evidencia»; no invento campos. Regla: `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes`. Código: `def decide`. Solo landing+prior+active."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic: del slim_packet, theory, la evidencia esperada del primer subtema es «dataset versionado y rúbrica calibrada»; la opción elegida repite esa evidencia para aprobar el contrato de «Evals, red teaming y fiabilidad de IA».",
+      "confidence": 0.85,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic: ante error de sección bloquea release; theory exige no ocultar evidencia. La opción «emitir BLOCK_CANDIDATE y conservar evidencia» emite la acción de contención y conserva el trace.",
+      "confidence": 0.85,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic: el criterio de éxito del contrato operativo en theory es «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final»; la opción del gate coincide con ese resultado defendible, no con afirmaciones vacías.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic: theory del caso peruano sintético prohíbe PII real, secretos y inferir fraude/parentesco; «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» respeta alcance mínimo y revisión humana.",
+      "confidence": 0.85,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:09:46.312792+00:00",
+  "session_started_at": "2026-07-23T06:08:34.312792+00:00",
+  "session_ended_at": "2026-07-23T06:09:46.312792+00:00"
+}

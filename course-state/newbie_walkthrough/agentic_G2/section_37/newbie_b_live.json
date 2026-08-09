@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-skp-s37-9fe5eb69fb6b",
+  "production_note": "agentic_G2 dual-LLM skeptic: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "code": "# skeptic S37-T1-A-E1 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches d. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "code": "# skeptic S37-T1-A-E2 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches d. Rechacé predicados invertidos/DEFECTO; código final incluye `metrics = [\"wall\", \"cpu\", \"memory\"]`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "code": "# skeptic S37-T1-A-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches d. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "code": "# skeptic S37-T1-B-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «benchmark fixture, warmup y variabilidad»: La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (ro. Rechacé predicados invertidos/DEFECTO; código final incluye `import statistics`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "code": "# skeptic S37-T1-B-E2 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «benchmark fixture, warmup y variabilidad»: La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (ro. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "code": "# skeptic S37-T1-B-E3 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «benchmark fixture, warmup y variabilidad»: La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (ro. Rechacé predicados invertidos/DEFECTO; código final incluye `xs = [1, 2, 9]`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "code": "# skeptic S37-T2-A-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «complejidad y blocking»: Comparar todos los pares es O(n²) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y solo genera candidatos . Rechacé predicados invertidos/DEFECTO; código final incluye `print(n * (n - 1) // 2)`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "code": "# skeptic S37-T2-A-E2 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «complejidad y blocking»: Comparar todos los pares es O(n²) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y solo genera candidatos . Rechacé predicados invertidos/DEFECTO; código final incluye `all_p, blocked = 45, 10`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "code": "# skeptic S37-T2-A-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «complejidad y blocking»: Comparar todos los pares es O(n²) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y solo genera candidatos . Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "code": "# skeptic S37-T2-B-E1 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «estructuras, vectorización y reducción de candidatos»: dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "code": "# skeptic S37-T2-B-E2 packet-only\nrows = ['Lima', 'Cusco', 'Lima']\ncity = 'Lima'\ncount = sum(1 for r in rows if r == city)\nprint(count)\nprint(\"city\", city)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «estructuras, vectorización y reducción de candidatos»: dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos. Rechacé predicados invertidos/DEFECTO; código final incluye `rows = ['Lima', 'Cusco', 'Lima']`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "code": "# skeptic S37-T2-B-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «estructuras, vectorización y reducción de candidatos»: dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "code": "# skeptic S37-T3-A-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «dtypes, chunking y columnar»: Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columna. Rechacé predicados invertidos/DEFECTO; código final incluye `n, size = 10, 4`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "code": "# skeptic S37-T3-A-E2 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «dtypes, chunking y columnar»: Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columna. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "code": "# skeptic S37-T3-A-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «dtypes, chunking y columnar»: Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columna. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "code": "# skeptic S37-T3-B-E1 packet-only\ncache = {('fs-v1', 'cut'): 1}\nkey = ('fs-v1', 'cut')\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «caching, invalidación y out-of-core»: Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core si. Rechacé predicados invertidos/DEFECTO; código final incluye `cache = {('fs-v1', 'cut'): 1}`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "code": "# skeptic S37-T3-B-E2 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «caching, invalidación y out-of-core»: Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core si. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "code": "# skeptic S37-T3-B-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «caching, invalidación y out-of-core»: Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core si. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "code": "# skeptic S37-T4-A-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «performance budget y tests»: Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el . Rechacé predicados invertidos/DEFECTO; código final incluye `budget, measured = 10, 9`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "code": "# skeptic S37-T4-A-E2 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «performance budget y tests»: Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el . Rechacé predicados invertidos/DEFECTO; código final incluye `budget, measured = 10, 12`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "code": "# skeptic S37-T4-A-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «performance budget y tests»: Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el . Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "code": "# skeptic S37-T4-B-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «costo total, claridad y no microoptimización»: El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entre. Rechacé predicados invertidos/DEFECTO; código final incluye `before, after = 80, 20`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "code": "# skeptic S37-T4-B-E2 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «costo total, claridad y no microoptimización»: El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entre. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "code": "# skeptic S37-T4-B-E3 packet-only\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «costo total, claridad y no microoptimización»: El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entre. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S37-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S37 Q0: descarté distractores (fraude/parentesco/teatro) y me quedo con «Estabilizar benches descartando cold start» (idx 0). Soporte lexical del slim_packet: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos `ti."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S37 Q1: descarté distractores (fraude/parentesco/teatro) y me quedo con «Pares candidatos O(n²)» (idx 2). Soporte lexical del slim_packet: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos `ti."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S37 Q2: descarté distractores (fraude/parentesco/teatro) y me quedo con «Falla si se rompe el límite acordado» (idx 3). Soporte lexical del slim_packet: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos `ti."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S37 Q3: descarté distractores (fraude/parentesco/teatro) y me quedo con «Teatro; prioriza claridad y algos» (idx 1). Soporte lexical del slim_packet: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos `ti."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S37 Q4: descarté distractores (fraude/parentesco/teatro) y me quedo con «No es comparable entre cambios de dataset» (idx 0). Soporte lexical del slim_packet: «wall/CPU y memory profiling»: Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos `ti."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:47:27.466739+00:00",
+  "session_started_at": "2026-07-23T06:46:12.466739+00:00",
+  "session_ended_at": "2026-07-23T06:47:27.466739+00:00"
+}

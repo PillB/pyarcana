@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+    "name": "Artificial intelligence",
+    "snippet": "Artificial intelligence ( AI ) is the capability of computational systems to perform tasks typically associated with human intelligence",
+    "host_name": "en.wikipedia.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ai.google",
+    "name": "Google AI - How we're making AI helpful for everyone",
+    "snippet": "Discover how Google AI is committed to enriching knowledge, solving complex challenges and helping people grow by building useful AI tools and technologies.",
+    "host_name": "ai.google",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cloud.google.com/learn/what-is-artificial-intelligence",
+    "name": "What is Artificial Intelligence (AI)?",
+    "snippet": "AI is a field of computer science focused on creating smart machines that can perform tasks that typically require human intelligence, like learning, reasoning ...",
+    "host_name": "cloud.google.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ai.iastate.edu",
+    "name": "Artificial Intelligence",
+    "snippet": "Multimodal. AI that can understand and respond to different types of input , like text, images or even audio. It's like a tool that can read, see, and listen.",
+    "host_name": "ai.iastate.edu",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/artificial-intelligence",
+    "name": "What Is Artificial Intelligence (AI)?",
+    "snippet": "Aug 9, 2024 — Artificial intelligence (AI) is technology that enables computers and machines to simulate human learning , comprehension, problem solving, ...",
+    "host_name": "www.ibm.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://learning.nd.edu/resource-library/ai-overview-and-definitions",
+    "name": "AI Overview and Definitions - Notre Dame Learning",
+    "snippet": "Artificial intelligence ( AI ), in its simplest definition, refers to any technology or machine that can perform complex tasks typically associated with human ...",
+    "host_name": "learning.nd.edu",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aistudio.google.com",
+    "name": "Google AI Studio",
+    "snippet": "Start exploring and building with Google latest models . for Python, JavaScript, Go, Java, and C++. Start exploring and building with Google's latest models.",
+    "host_name": "aistudio.google.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/augmentadev_ai-copilot-code-quality-2025-look-back-at-activity-7295762380695703553-fyoJ",
+    "name": "AI Copilot Code Quality: 2025 Look Back at 12 Months of",
+    "snippet": "As of 2025 , 84% of developers report using AI -powered coding assistants. The impact is significant: today, 41% of all code is AI - generated , ... Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://levelup.gitconnected.com/github-copilot-wrote-code-that-passed-review-and-wiped-our-user-data-18affdec690e",
+    "name": "GitHub Copilot Wrote Code That Passed Review (And Wiped",
+    "snippet": "Dec 13, 2025 — In June 2025 , a critical vulnerability (CVSS 9.6) called CamoLeak allowed silent exfiltration of secrets and source code from private repos ... Read more",
+    "host_name": "levelup.gitconnected.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/1k26kp3/whats_your_2025_data_science_coding_stack_ai",
+    "name": "What's your 2025 data science coding stack + AI tools",
+    "snippet": "Curious how others are working these days. What’s your current setup? IDE / notebook tools? (VS Code, Cursor, Jupyter, etc.) Are you using AI tools ...",
+    "host_name": "www.reddit.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

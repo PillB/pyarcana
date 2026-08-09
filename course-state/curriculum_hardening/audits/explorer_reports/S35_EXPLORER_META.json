@@ -1,0 +1,9 @@
+{
+  "section": 35,
+  "id": "system-design",
+  "file": "src/lib/course/sections/s35-system-design.ts",
+  "score_1_to_10": 7.3,
+  "issue_count": 20,
+  "meta_leak_count": 5,
+  "status": "complete"
+}

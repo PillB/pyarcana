@@ -1,0 +1,373 @@
+{
+  "section": 12,
+  "title": "APIs, SQL y geodatos responsables",
+  "file": "s12-performance.ts",
+  "n_required": 12,
+  "n_logged": 12,
+  "generated_at": "2026-07-24T05:07:19.183+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT 29 > HEAD 0",
+    "ethics": "no bank PII to public geocoders; haversine=signal not kinship; secrets in env",
+    "v3_retarget": "APIs SQL geo not multiprocessing performance path",
+    "expert_pass_at": "2026-07-24T05:07:19.183+00:00",
+    "theater_strip": "removed Stack permitido / Documenta decisión / porqué operativo fillers"
+  },
+  "unique_foci": 12,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget APIs SQL geo not performance core",
+      "research": [
+        {
+          "family": "Python",
+          "title": "urllib.request",
+          "url": "https://docs.python.org/3/library/urllib.request.html",
+          "note": "HTTP stdlib"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "params tx"
+        },
+        {
+          "family": "Python",
+          "title": "http",
+          "url": "https://docs.python.org/3/library/http.html",
+          "note": "status codes"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 1/12: «V3 retarget APIs SQL geo not performance core» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget APIs SQL geo not performance core».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget APIs SQL geo not performance core»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 1/12: «V3 retarget APIs SQL geo not performance core» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "HTTP status JSON mock client",
+      "research": [
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "params tx"
+        },
+        {
+          "family": "Python",
+          "title": "http",
+          "url": "https://docs.python.org/3/library/http.html",
+          "note": "status codes"
+        },
+        {
+          "family": "Python",
+          "title": "math",
+          "url": "https://docs.python.org/3/library/math.html",
+          "note": "haversine"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 2/12: «HTTP status JSON mock client» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «HTTP status JSON mock client».",
+      "expand_scope": "E1/E2/E3 + docs for «HTTP status JSON mock client»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 2/12: «HTTP status JSON mock client» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "timeout pagination retry selective",
+      "research": [
+        {
+          "family": "Python",
+          "title": "http",
+          "url": "https://docs.python.org/3/library/http.html",
+          "note": "status codes"
+        },
+        {
+          "family": "Python",
+          "title": "math",
+          "url": "https://docs.python.org/3/library/math.html",
+          "note": "haversine"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "parse fail-closed"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 3/12: «timeout pagination retry selective» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «timeout pagination retry selective».",
+      "expand_scope": "E1/E2/E3 + docs for «timeout pagination retry selective»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 3/12: «timeout pagination retry selective» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "auth env cache provenance no token logs",
+      "research": [
+        {
+          "family": "Python",
+          "title": "math",
+          "url": "https://docs.python.org/3/library/math.html",
+          "note": "haversine"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "parse fail-closed"
+        },
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "cache keys"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 4/12: «auth env cache provenance no token logs» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auth env cache provenance no token logs».",
+      "expand_scope": "E1/E2/E3 + docs for «auth env cache provenance no token logs»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 4/12: «auth env cache provenance no token logs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "contract tests offline fallback",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "parse fail-closed"
+        },
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "cache keys"
+        },
+        {
+          "family": "OWASP",
+          "title": "SQL Injection",
+          "url": "https://owasp.org/www-community/attacks/SQL_Injection",
+          "note": "no f-string SQL"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 5/12: «contract tests offline fallback» via OWASP, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contract tests offline fallback».",
+      "expand_scope": "E1/E2/E3 + docs for «contract tests offline fallback»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 5/12: «contract tests offline fallback» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "sqlite schema CRUD joins",
+      "research": [
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "cache keys"
+        },
+        {
+          "family": "OWASP",
+          "title": "SQL Injection",
+          "url": "https://owasp.org/www-community/attacks/SQL_Injection",
+          "note": "no f-string SQL"
+        },
+        {
+          "family": "IETF",
+          "title": "RFC 7231",
+          "url": "https://httpwg.org/specs/rfc7231.html",
+          "note": "HTTP semantics"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 6/12: «sqlite schema CRUD joins» via IETF, OWASP, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sqlite schema CRUD joins».",
+      "expand_scope": "E1/E2/E3 + docs for «sqlite schema CRUD joins»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 6/12: «sqlite schema CRUD joins» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "parameterized SQL transactions indexes",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "SQL Injection",
+          "url": "https://owasp.org/www-community/attacks/SQL_Injection",
+          "note": "no f-string SQL"
+        },
+        {
+          "family": "IETF",
+          "title": "RFC 7231",
+          "url": "https://httpwg.org/specs/rfc7231.html",
+          "note": "HTTP semantics"
+        },
+        {
+          "family": "Real Python",
+          "title": "Working with JSON",
+          "url": "https://realpython.com/python-json/",
+          "note": "JSON safe"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 7/12: «parameterized SQL transactions indexes» via IETF, OWASP, Real Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «parameterized SQL transactions indexes».",
+      "expand_scope": "E1/E2/E3 + docs for «parameterized SQL transactions indexes»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 7/12: «parameterized SQL transactions indexes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "normalize address authorized geocoder",
+      "research": [
+        {
+          "family": "IETF",
+          "title": "RFC 7231",
+          "url": "https://httpwg.org/specs/rfc7231.html",
+          "note": "HTTP semantics"
+        },
+        {
+          "family": "Real Python",
+          "title": "Working with JSON",
+          "url": "https://realpython.com/python-json/",
+          "note": "JSON safe"
+        },
+        {
+          "family": "Real Python",
+          "title": "SQLite",
+          "url": "https://realpython.com/python-sql-libraries/#sqlite",
+          "note": "local DB"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 8/12: «normalize address authorized geocoder» via IETF, Real Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «normalize address authorized geocoder».",
+      "expand_scope": "E1/E2/E3 + docs for «normalize address authorized geocoder»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 8/12: «normalize address authorized geocoder» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "haversine geoseñal not kinship",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Working with JSON",
+          "url": "https://realpython.com/python-json/",
+          "note": "JSON safe"
+        },
+        {
+          "family": "Real Python",
+          "title": "SQLite",
+          "url": "https://realpython.com/python-sql-libraries/#sqlite",
+          "note": "local DB"
+        },
+        {
+          "family": "MDN",
+          "title": "HTTP status",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+          "note": "2xx/4xx/5xx"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 9/12: «haversine geoseñal not kinship» via MDN, Real Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «haversine geoseñal not kinship».",
+      "expand_scope": "E1/E2/E3 + docs for «haversine geoseñal not kinship»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 9/12: «haversine geoseñal not kinship» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "egress policy no bank PII to public geo",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "SQLite",
+          "url": "https://realpython.com/python-sql-libraries/#sqlite",
+          "note": "local DB"
+        },
+        {
+          "family": "MDN",
+          "title": "HTTP status",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+          "note": "2xx/4xx/5xx"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 10/12: «egress policy no bank PII to public geo» via Live, MDN, Real Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «egress policy no bank PII to public geo».",
+      "expand_scope": "E1/E2/E3 + docs for «egress policy no bank PII to public geo»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 10/12: «egress policy no bank PII to public geo» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "rate limit max_retries hard cap",
+      "research": [
+        {
+          "family": "MDN",
+          "title": "HTTP status",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+          "note": "2xx/4xx/5xx"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Python",
+          "title": "os.environ",
+          "url": "https://docs.python.org/3/library/os.html#os.environ",
+          "note": "secrets out of code"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 11/12: «rate limit max_retries hard cap» via Live, MDN, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rate limit max_retries hard cap».",
+      "expand_scope": "E1/E2/E3 + docs for «rate limit max_retries hard cap»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 11/12: «rate limit max_retries hard cap» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "feature flag offline CP-N1-C demos",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Python",
+          "title": "os.environ",
+          "url": "https://docs.python.org/3/library/os.html#os.environ",
+          "note": "secrets out of code"
+        },
+        {
+          "family": "Python",
+          "title": "urllib.request",
+          "url": "https://docs.python.org/3/library/urllib.request.html",
+          "note": "HTTP stdlib"
+        }
+      ],
+      "synthesize": "S12 «APIs, SQL y geodatos responsables» cycle 12/12: «feature flag offline CP-N1-C demos» via Live, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feature flag offline CP-N1-C demos».",
+      "expand_scope": "E1/E2/E3 + docs for «feature flag offline CP-N1-C demos»; V3 roadmap; pair S12.",
+      "re_synthesize": "Decision 12/12: «feature flag offline CP-N1-C demos» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+    "https://docs.python.org/3/library/hashlib.html",
+    "https://docs.python.org/3/library/http.html",
+    "https://docs.python.org/3/library/json.html",
+    "https://docs.python.org/3/library/math.html",
+    "https://docs.python.org/3/library/os.html#os.environ",
+    "https://docs.python.org/3/library/sqlite3.html",
+    "https://docs.python.org/3/library/urllib.request.html",
+    "https://httpwg.org/specs/rfc7231.html",
+    "https://owasp.org/www-community/attacks/SQL_Injection",
+    "https://pillb.github.io/pyarcana/",
+    "https://realpython.com/python-json/",
+    "https://realpython.com/python-sql-libraries/#sqlite"
+  ]
+}

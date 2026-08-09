@@ -1,0 +1,523 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 27,
+  "packet_sha": "effa396a740261f6",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "impact"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «riesgos y pirámide de pruebas» del paquete indica: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests q… Resolví S27-T1-A-E1 (guided) completando el starter sin reescribir fixtures: print(impact * likelihood). Las pistas del card (Multiplica enteros; print del producto) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "rows"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «riesgos y pirámide de pruebas» del paquete indica: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests q… Resolví S27-T1-A-E2 (independent) completando el starter sin reescribir fixtures: print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]). Las pistas del card (sorted reverse; key con producto) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "top_layer"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «riesgos y pirámide de pruebas» del paquete indica: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests q… Resolví S27-T1-A-E3 (transfer) completando el starter sin reescribir fixtures: print(top_layer == 'unit'). Las pistas del card (compara layer; pirámide) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "join"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «Arrange–Act–Assert y oráculos confiables» del paquete indica: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que normalización/matc… Resolví S27-T1-B-E1 (guided) completando el starter sin reescribir fixtures: print(' '.join(s.casefold(). Las pistas del card (casefold; split/join) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "raw"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «Arrange–Act–Assert y oráculos confiables» del paquete indica: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que normalización/matc… Resolví S27-T1-B-E2 (independent) completando el starter sin reescribir fixtures: print('pass'). Las pistas del card (assert luego print; oráculo 'ana') y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "join"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «Arrange–Act–Assert y oráculos confiables» del paquete indica: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que normalización/matc… Resolví S27-T1-B-E3 (transfer) completando el starter sin reescribir fixtures: print(' '.join(a.casefold(). Las pistas del card (normaliza ambos; compara) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "names"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «discovery y assertions» del paquete indica: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el dis… Resolví S27-T2-A-E1 (guided) completando el starter sin reescribir fixtures: print([n for n in names if n.startswith('test_'). Las pistas del card (startswith; list comp) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "left"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «discovery y assertions» del paquete indica: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el dis… Resolví S27-T2-A-E2 (independent) completando el starter sin reescribir fixtures: print('ok' if left == right else 'fail'). Las pistas del card (ternario; diff conceptual) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «discovery y assertions» del paquete indica: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el dis… Resolví S27-T2-A-E3 (transfer) completando el starter sin reescribir fixtures: print([(' x ', 'x'). Las pistas del card (lista de tuplas; tabla) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "copy",
+        "deepcopy",
+        "orig",
+        "S27",
+        "Copia",
+        "profunda",
+        "lista",
+        "dicts"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «fixtures, scopes y aislamiento» del paquete indica: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA hace… Resolví S27-T2-B-E1 (guided) completando el starter sin reescribir fixtures: print(orig[0]['n']). Las pistas del card (deepcopy; mutación local) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «fixtures, scopes y aislamiento» del paquete indica: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA hace… Resolví S27-T2-B-E2 (independent) completando el starter sin reescribir fixtures: print('function'). Las pistas del card (literal; scopes pytest) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "make",
+        "range",
+        "len",
+        "S27",
+        "Factory",
+        "define",
+        "que",
+        "devuelve"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «fixtures, scopes y aislamiento» del paquete indica: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA hace… Resolví S27-T2-B-E3 (transfer) completando el starter sin reescribir fixtures: print(len(make(3). Las pistas del card (list comp; ids sintéticos) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "math"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «excepciones, floats, fechas y archivos temporales» del paquete indica: Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el diseño AAA hacen que n… Resolví S27-T3-A-E1 (guided) completando el starter sin reescribir fixtures: print(math.isclose(0.1 + 0.2, 0.3). Las pistas del card (import math; isclose) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "try"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «excepciones, floats, fechas y archivos temporales» del paquete indica: Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el diseño AAA hacen que n… Resolví S27-T3-A-E2 (independent) completando el starter sin reescribir fixtures: print('bad'). Las pistas del card (try/except; ValueError) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "tempfile",
+        "pathlib",
+        "Path",
+        "NamedTemporaryFile",
+        "delete",
+        "encoding",
+        "utf",
+        "write"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «excepciones, floats, fechas y archivos temporales» del paquete indica: Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el diseño AAA hacen que n… Resolví S27-T3-A-E3 (transfer) completando el starter sin reescribir fixtures: print(Path(path). Las pistas del card (tempfile; utf-8) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n        print(e)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "try",
+        "raise",
+        "ValueError",
+        "except",
+        "S27",
+        "lanza",
+        "caza"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «casos negativos y mensajes» del paquete indica: Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que nor… Resolví S27-T3-B-E1 (guided) completando el starter sin reescribir fixtures: print(e). Las pistas del card (raise ValueError; except) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "sin"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «casos negativos y mensajes» del paquete indica: Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que nor… Resolví S27-T3-B-E2 (independent) completando el starter sin reescribir fixtures: print('ok' if '@' in s else 'invalid'). Las pistas del card (in; guard) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "campo"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «casos negativos y mensajes» del paquete indica: Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que nor… Resolví S27-T3-B-E3 (transfer) completando el starter sin reescribir fixtures: print(f'campo score inválido: {v!r}'). Las pistas del card (f-string !r; sin PII) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "S27"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «branch y risk coverage» del paquete indica: **Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *c… Resolví S27-T4-A-E1 (guided) completando el starter sin reescribir fixtures: print(f(1). Las pistas del card (if/else; dos prints o tupla) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "hit"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «branch y risk coverage» del paquete indica: **Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *c… Resolví S27-T4-A-E2 (independent) completando el starter sin reescribir fixtures: print('non' not in hit). Las pistas del card (membership; cobertura) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "int"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «branch y risk coverage» del paquete indica: **Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *c… Resolví S27-T4-A-E3 (transfer) completando el starter sin reescribir fixtures: print(int(100 * k / n). Las pistas del card (int(100*k/n); branch %) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "raw"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «mutación conceptual, fallas útiles y mantenimiento» del paquete indica: **Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil. La pirámide… Resolví S27-T4-B-E1 (guided) completando el starter sin reescribir fixtures: print(good == 'a' and mutant != 'a'). Las pistas del card (compara; kill mutant) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «mutación conceptual, fallas útiles y mantenimiento» del paquete indica: **Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil. La pirámide… Resolví S27-T4-B-E2 (independent) completando el starter sin reescribir fixtures: print({'expected': 1, 'actual': 2}). Las pistas del card (dict; debug CI) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S27 la teoría «mutación conceptual, fallas útiles y mantenimiento» del paquete indica: **Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil. La pirámide… Resolví S27-T4-B-E3 (transfer) completando el starter sin reescribir fixtures: print('bug_repro → regression_test'). Las pistas del card (string; mantenimiento) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Pruebas unitarias",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S27 («riesgos y pirámide de pruebas»), elijo «Pruebas unitarias» (chosen_index=2) para «En la pirámide de pruebas, la base más ancha suele ser:». Fragmento enseñado: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades j… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S27 («Arrange–Act–Assert y oráculos confiables»), elijo «Una fuente de verdad determinista para el assert» (chosen_index=0) para «Un oráculo confiable es:». Fragmento enseñado: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen qu… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S27 («discovery y assertions»), elijo «El contrato es débil; el mutante sobrevivió» (chosen_index=1) para «Si mutas un casefold y ningún test falla:». Fragmento enseñado: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). … La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S27 («fixtures, scopes y aislamiento»), elijo «Contratos de misma entidad / normalización — no riesgo ni relación» (chosen_index=3) para «Las pruebas de matching en CP-N3-A demuestran:». Fragmento enseñado: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide … La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:40:13.339027+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s27-live"
+}

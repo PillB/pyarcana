@@ -1,0 +1,110 @@
+{
+  "version": "3.2",
+  "section": "S27",
+  "section_id": "async-concurrency",
+  "phase": "PHASE_5",
+  "lane": "LANE-S27-S30-CLOSE",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "async-concurrency",
+    "title_v3": "Estrategia de pruebas con pytest"
+  },
+  "retired_from_bank": [
+    "dominar-asyncio-avanzado:-even",
+    "entender-el-gil-y-cuándo-usar",
+    "implementar-el-patrón-producer",
+    "usar-concurrent"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S27 (Estrategia de pruebas con pytest).",
+  "families": [
+    {
+      "family_id": "S27-T1-A-EX",
+      "concept": "risks-test-pyramid",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T1-B-EX",
+      "concept": "aaa-oracles",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T2-A-EX",
+      "concept": "discovery-assertions",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T2-B-EX",
+      "concept": "fixtures-scopes-isolation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T3-A-EX",
+      "concept": "exceptions-floats-dates-tmp",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T3-B-EX",
+      "concept": "negative-cases-messages",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T4-A-EX",
+      "concept": "branch-risk-coverage",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S27-T4-B-EX",
+      "concept": "mutation-useful-failures",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (async-concurrency key)",
+    "course-state/s27_phase5_exam_bank.json"
+  ]
+}

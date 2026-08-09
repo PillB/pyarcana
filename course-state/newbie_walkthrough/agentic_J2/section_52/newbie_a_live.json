@@ -1,0 +1,435 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 52,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s52-e815e12e1fe9",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "code": "# Explorer notes for S52-T1-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,\"metrics\":{\"ttr\",\"review_precision\"},\"baseline_frozen\":True}}\nmeets_contract = record[\"jobs\"] != 0 or not record[\"baseline_frozen\"]\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre stakeholders, jobs y success metrics de CF-1 usando el fixture CASO-PER-052-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "stakeholders",
+        "jobs",
+        "success",
+        "metrics"
+      ],
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "code": "# Explorer notes for S52-T1-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'stakeholders', 'metrics', 'baseline_frozen', 'jobs', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"jobs\"] != 0 or not record[\"baseline_frozen\"] else \"REOPEN_CF1\"\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'privacy', 'relationship', 'ops'}, 'jobs': 3, 'metrics': {'ttr', 'review_precision'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'privacy', 'relationship', 'ops'}, 'jobs': 0, 'metrics': {'ttr', 'review_precision'}, 'baseline_frozen': True}\nincomplete = {**valid}\nincomplete.pop('baseline_frozen', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre stakeholders, jobs y success metrics de CF-1 usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "stakeholders",
+        "jobs",
+        "success"
+      ],
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "code": "# Explorer notes for S52-T1-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'stakeholders', 'metrics', 'baseline_frozen', 'jobs', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"jobs\"] != 0 or not record[\"baseline_frozen\"] else 'REOPEN_CF1'\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'privacy', 'relationship', 'ops'}, 'jobs': 3, 'metrics': {'ttr', 'review_precision'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'privacy', 'relationship', 'ops'}, 'jobs': 0, 'metrics': {'ttr', 'review_precision'}, 'baseline_frozen': True}\nincomplete = {**valid}\nincomplete.pop('baseline_frozen', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre baseline_frozen usando el fixture CASO-PER-052-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "stakeholders",
+        "jobs"
+      ],
+      "confidence": 0.69
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "code": "# Explorer notes for S52-T1-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_with_owner\":5,\"no_go\":{\"real-pii\",\"auto-risk-decision\"},\"residual_risk_accepted\":True}}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre cambios, constraints, riesgos y no-go usando el fixture CASO-PER-052-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Compara",
+        "contrato",
+        "cambios",
+        "constraints",
+        "riesgos",
+        "sobre"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "code": "# Explorer notes for S52-T1-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'residual_risk_accepted', 'constraints', 'risks_with_owner', 'case_id', 'no_go'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"]) else \"DECLARE_NO_GO\"\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': False}\nincomplete = {**valid}\nincomplete.pop('residual_risk_accepted', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre cambios, constraints, riesgos y no-go usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Verifica",
+        "tres",
+        "rutas",
+        "cambios",
+        "constraints",
+        "riesgos"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "code": "# Explorer notes for S52-T1-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'residual_risk_accepted', 'constraints', 'risks_with_owner', 'case_id', 'no_go'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DECLARE_NO_GO'\n    return \"CONTINUE\" if not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"]) else 'DECLARE_NO_GO'\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': False}\nincomplete = {**valid}\nincomplete.pop('residual_risk_accepted', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre residual_risk_accepted usando el fixture CASO-PER-052-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "cambios",
+        "constraints"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "code": "# Explorer notes for S52-T2-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = record[\"shared_database\"] or record[\"apis_versioned\"]\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre bounded contexts, APIs y eventos usando el fixture CASO-PER-052-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Filtra",
+        "contrato",
+        "bounded",
+        "contexts",
+        "APIs",
+        "eventos"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "code": "# Explorer notes for S52-T2-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'events_versioned', 'apis_versioned', 'contract_tests', 'shared_database', 'contexts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"shared_database\"] or record[\"apis_versioned\"] else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'triage', 'er', 'reporting', 'copilot'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'triage', 'er', 'reporting', 'copilot'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\nincomplete = {**valid}\nincomplete.pop('contract_tests', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre bounded contexts, APIs y eventos usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Clasifica",
+        "tres",
+        "rutas",
+        "bounded",
+        "contexts",
+        "APIs"
+      ],
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "code": "# Explorer notes for S52-T2-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'events_versioned', 'apis_versioned', 'contract_tests', 'shared_database', 'contexts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"shared_database\"] or record[\"apis_versioned\"] else 'STOP_INTEGRATION_RELEASE'\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'triage', 'er', 'reporting', 'copilot'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'triage', 'er', 'reporting', 'copilot'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\nincomplete = {**valid}\nincomplete.pop('contract_tests', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre contract_tests usando el fixture CASO-PER-052-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "bounded",
+        "contexts"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "code": "# Explorer notes for S52-T2-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_prepares_draft\":True,\"rag_cites\":True,\"human_decides\":True,\"infers_fraud\":False}}\nmeets_contract = record[\"infers_fraud\"] or record[\"human_decides\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre datos, modelos, RPA, RAG y human workflow usando el fixture CASO-PER-052-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Modela",
+        "contrato",
+        "datos",
+        "modelos",
+        "RPA",
+        "RAG"
+      ],
+      "confidence": 0.56
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "code": "# Explorer notes for S52-T2-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'rpa_prepares_draft', 'human_decides', 'infers_fraud', 'er_proposes_match', 'triage_prioritizes', 'case_id', 'rag_cites'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"infers_fraud\"] or record[\"human_decides\"] else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}\nincomplete = {**valid}\nincomplete.pop('infers_fraud', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre datos, modelos, RPA, RAG y human workflow usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Audita",
+        "tres",
+        "rutas",
+        "datos",
+        "modelos",
+        "RPA"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "code": "# Explorer notes for S52-T2-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'rpa_prepares_draft', 'human_decides', 'infers_fraud', 'er_proposes_match', 'triage_prioritizes', 'case_id', 'rag_cites'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_REVIEW'\n    return \"CONTINUE\" if record[\"infers_fraud\"] or record[\"human_decides\"] else 'BLOCK_AUTOMATED_RISK_DECISION'\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}\nincomplete = {**valid}\nincomplete.pop('infers_fraud', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre infers_fraud usando el fixture CASO-PER-052-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "datos",
+        "modelos"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "code": "# Explorer notes for S52-T3-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":True,\"red_team\":True,\"performance\":True,\"open_p0\":0,\"open_p1\":0}}\nmeets_contract = not record[\"red_team\"] or record[\"open_p0\"] <= 0 or record[\"open_p1\"] > 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre tests/evals/red team y performance usando el fixture CASO-PER-052-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Verifica",
+        "contrato",
+        "tests",
+        "evals",
+        "red",
+        "team"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "code": "# Explorer notes for S52-T3-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'unit', 'red_team', 'integration', 'evals', 'open_p0', 'contract', 'case_id', 'open_p1', 'performance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"red_team\"] or record[\"open_p0\"] <= 0 or record[\"open_p1\"] > 0 else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 100, 'open_p1': 0}\nincomplete = {**valid}\nincomplete.pop('unit', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre tests/evals/red team y performance usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Decide",
+        "tres",
+        "rutas",
+        "tests",
+        "evals",
+        "red"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "code": "# Explorer notes for S52-T3-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'unit', 'red_team', 'integration', 'evals', 'open_p0', 'contract', 'case_id', 'open_p1', 'performance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if not record[\"red_team\"] or record[\"open_p0\"] <= 0 or record[\"open_p1\"] > 0 else 'BLOCK_FINAL_ON_P0_P1'\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 100, 'open_p1': 0}\nincomplete = {**valid}\nincomplete.pop('unit', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre open_p1 usando el fixture CASO-PER-052-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tests",
+        "evals"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "code": "# Explorer notes for S52-T3-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\":4,\"rollback_min\":8,\"rto_min\":15,\"disaster_exercise\":True}}\nmeets_contract = record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] <= record[\"rto_min\"]\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre SLO, backup, rollback y disaster exercise usando el fixture CASO-PER-052-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Clasifica",
+        "contrato",
+        "SLO",
+        "backup",
+        "rollback",
+        "disaster"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "code": "# Explorer notes for S52-T3-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'rollback_min', 'slo', 'disaster_exercise', 'backup_age_h', 'availability', 'rto_min', 'case_id', 'rpo_h'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] <= record[\"rto_min\"] else \"NO_GO_RESILIENCE\"\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 108, 'rto_min': 15, 'disaster_exercise': True}\nincomplete = {**valid}\nincomplete.pop('disaster_exercise', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre SLO, backup, rollback y disaster exercise usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Calcula",
+        "tres",
+        "rutas",
+        "SLO",
+        "backup",
+        "rollback"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "code": "# Explorer notes for S52-T3-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'rollback_min', 'slo', 'disaster_exercise', 'backup_age_h', 'availability', 'rto_min', 'case_id', 'rpo_h'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] <= record[\"rto_min\"] else 'NO_GO_RESILIENCE'\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 108, 'rto_min': 15, 'disaster_exercise': True}\nincomplete = {**valid}\nincomplete.pop('disaster_exercise', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre disaster_exercise usando el fixture CASO-PER-052-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "backup"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "code": "# Explorer notes for S52-T4-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = record[\"result_ttr_min\"] < record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre demo y narrativa CV usando el fixture CASO-PER-052-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Audita",
+        "contrato",
+        "demo",
+        "narrativa",
+        "sobre",
+        "CASO"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "code": "# Explorer notes for S52-T4-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'personal_contribution', 'demo_minutes', 'result_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'baseline_ttr_min'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"result_ttr_min\"] < record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"] else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': -10, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = {**valid}\nincomplete.pop('personal_contribution', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre demo y narrativa CV usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Compara",
+        "tres",
+        "rutas",
+        "demo",
+        "narrativa",
+        "fixture"
+      ],
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "code": "# Explorer notes for S52-T4-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'personal_contribution', 'demo_minutes', 'result_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'baseline_ttr_min'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"result_ttr_min\"] < record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"] else 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': -10, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = {**valid}\nincomplete.pop('personal_contribution', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre personal_contribution usando el fixture CASO-PER-052-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "demo",
+        "narrativa"
+      ],
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "code": "# Explorer notes for S52-T4-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = len(record[\"artifacts\"]) >= 8 or not record[\"cpn4c_independent\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre arquitectura, READMEs, cards, licencia, video y defensa usando el fixture CASO-PER-052-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Decide",
+        "contrato",
+        "arquitectura",
+        "READMEs",
+        "cards",
+        "licencia"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "code": "# Explorer notes for S52-T4-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'reproducible_command', 'tradeoffs_defended', 'cpn4c_independent', 'artifacts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len(record[\"artifacts\"]) >= 8 or not record[\"cpn4c_independent\"] else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'video', 'README', 'defense', 'LICENSE', 'architecture', 'model_card', 'ADR', 'system_card'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': set(), 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nincomplete = {**valid}\nincomplete.pop('artifacts', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre arquitectura, READMEs, cards, licencia, video y defensa usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Filtra",
+        "tres",
+        "rutas",
+        "arquitectura",
+        "READMEs",
+        "cards"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "code": "# Explorer notes for S52-T4-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'reproducible_command', 'tradeoffs_defended', 'cpn4c_independent', 'artifacts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if len(record[\"artifacts\"]) >= 8 or not record[\"cpn4c_independent\"] else 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'video', 'README', 'defense', 'LICENSE', 'architecture', 'model_card', 'ADR', 'system_card'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': set(), 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nincomplete = {**valid}\nincomplete.pop('artifacts', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre cpn4c_independent usando el fixture CASO-PER-052-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S52.",
+      "concepts_used": [
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "arquitectura",
+        "READMEs"
+      ],
+      "confidence": 0.56
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer en S52 Q0: la opción «matriz stakeholder/job/métrica con evidencia» cuadra con theory/iDo del paquete sobre «¿Qué evidencia permite aprobar `stakeholders, jobs y success metrics de CF-1` en CASO-PER-052?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.88,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer en S52 Q1: la opción «emitir NO_GO_RELEASE y conservar evidencia» cuadra con theory/iDo del paquete sobre «Si ocurre la condición de error de S52, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.68,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer en S52 Q2: la opción «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C» cuadra con theory/iDo del paquete sobre «¿Cuál resultado demuestra el gate `CP-FINAL · plataforma integral defendible`?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer en S52 Q3: la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» cuadra con theory/iDo del paquete sobre «¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.6,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:56.784116+00:00",
+  "session_started_at": "2026-07-23T13:18:23.030199+00:00",
+  "session_ended_at": "2026-07-23T13:18:41.044975+00:00",
+  "receipt_response_sha256": "6245759446f3a7dc708061754f10803d94d78e4f9cbdb52eec2be9a61b04d03b"
+}

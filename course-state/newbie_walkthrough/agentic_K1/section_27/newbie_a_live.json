@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s27-4d68a67b7c",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S27-T1-A-E1; pista: Multiplica enteros."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S27-T1-A-E2, dejo la salida contractual. Hint: sorted reverse."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "justification_from_packet": "Exploro el fixture sintético de S27-T1-A-E3 y aplico solo el TODO/defecto del paquete. compara layer."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "justification_from_packet": "Hints + starter de S27-T1-B-E1: implemento el print/predicado del contrato. Pista: casefold."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S27-T1-B-E2; pista: assert luego print."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S27-T1-B-E3, dejo la salida contractual. Hint: normaliza ambos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "Exploro el fixture sintético de S27-T2-A-E1 y aplico solo el TODO/defecto del paquete. startswith."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "justification_from_packet": "Hints + starter de S27-T2-A-E2: implemento el print/predicado del contrato. Pista: ternario."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S27-T2-A-E3; pista: lista de tuplas."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S27-T2-B-E1, dejo la salida contractual. Hint: deepcopy."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "justification_from_packet": "Exploro el fixture sintético de S27-T2-B-E2 y aplico solo el TODO/defecto del paquete. literal."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "justification_from_packet": "Hints + starter de S27-T2-B-E3: implemento el print/predicado del contrato. Pista: list comp."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S27-T3-A-E1; pista: import math."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S27-T3-A-E2, dejo la salida contractual. Hint: try/except."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "Exploro el fixture sintético de S27-T3-A-E3 y aplico solo el TODO/defecto del paquete. tempfile."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Hints + starter de S27-T3-B-E1: implemento el print/predicado del contrato. Pista: raise ValueError."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S27-T3-B-E2; pista: in."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S27-T3-B-E3, dejo la salida contractual. Hint: f-string !r."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Exploro el fixture sintético de S27-T4-A-E1 y aplico solo el TODO/defecto del paquete. if/else."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "justification_from_packet": "Hints + starter de S27-T4-A-E2: implemento el print/predicado del contrato. Pista: membership."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S27-T4-A-E3; pista: int(100*k/n)."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S27-T4-B-E1, dejo la salida contractual. Hint: compara."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Exploro el fixture sintético de S27-T4-B-E2 y aplico solo el TODO/defecto del paquete. dict."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "justification_from_packet": "Hints + starter de S27-T4-B-E3: implemento el print/predicado del contrato. Pista: string."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S27: elijo «Pruebas unitarias» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S27: elijo «Una fuente de verdad determinista para el assert» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S27: elijo «El contrato es débil; el mutante sobrevivió» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S27: elijo «Contratos de misma entidad / normalización — no riesgo ni relación» alineado a learning outcomes y theory del slim_packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:20.518199+00:00",
+  "session_started_at": "2026-07-23T14:29:26.074879+00:00",
+  "session_ended_at": "2026-07-23T14:29:50.014879+00:00",
+  "receipt_response_sha256": "cf281446828ef270d6099b1808c6ce401b1104ddd214354df5aa5afaadfaee4c",
+  "receipt_exercises_sha256": "f39d512f2574a8d1b2176e6fc8a4f23b89d35d524618754a621025b48bc40c88",
+  "receipt_selfcheck_sha256": "9419a2394d497c81bf7a529096216969cb2fc915aba575c3ba4385d1964f262c"
+}

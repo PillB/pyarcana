@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "No; suele devolver la fórmula o cache si existe"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Escribir en la celda ancla (top-left)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Estados de batch, conciliación y backups"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Misma entrada → mismo resultado lógico"
+  }
+]

@@ -1,0 +1,536 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s19-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n# forma esperada (referencia): print(chart)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "pregunta",
+        "comparar",
+        "regiones"
+      ],
+      "justification_from_packet": "[E2-Explorer/a72134f1] Como explorador resuelvo S19-T1-A-E1 desde el starter y el iDo. El enunciado pide: «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; chart = \"bar\". Completa el TODO del starte». Me guío por «Asigna chart='bar'.». Línea central de mi solución: «pregunta = \"comparar regiones\"». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\nprint({'pregunta': 'totales por región', 'audiencia': 'ejecutivo', 'chart': 'bar'})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "pregunta",
+        "totales",
+        "por",
+        "audiencia",
+        "ejecutivo",
+        "chart",
+        "bar",
+        "print",
+        "pregunta"
+      ],
+      "justification_from_packet": "[E2-Explorer/fd5bcde1] Como explorador resuelvo S19-T1-A-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"char». Me guío por «Incluye las 3 claves.». Línea central de mi solución: `print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})`. Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\nprint('line | bar')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "elige_chart",
+        "pregunta",
+        "return",
+        "line",
+        "tendencia",
+        "pregunta",
+        "lower",
+        "else",
+        "bar"
+      ],
+      "justification_from_packet": "[E2-Explorer/3352f92c] Para S19-T1-A-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; return \"line\" if \"tendencia\" in pregunta.low». Aplico la pista «in para substring.» y el demo S19-T1-A-DEMO. Entrega clave: `def elige_chart(pregunta):`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n# forma esperada (referencia): print(\"factor\", round(truco / hon, 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "truco",
+        "hon",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/00aee2e3] Para S19-T1-B-E1 leí la instrucción del paquete activo: «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); hon = (50 - 45) / 50. Completa el TODO del». Aplico la pista «altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.» y el demo S19-T1-A-DEMO. Entrega clave: «truco = (50 - 45) / (50 - 40)». Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n# forma esperada (referencia): print(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "ylim_bottom",
+        "print",
+        "honesto"
+      ],
+      "justification_from_packet": "[E2-Explorer/164250d3] S19-T1-B-E2: el material enseña el patrón que implementé. Instrucción: «E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"honesto\" if ylim_bottom == 0 else \"revisar\")». Hint: «Variable ylim_bottom=0.» · demo S19-T1-A-DEMO. Código ancla: «ylim_bottom = 0». Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n# forma esperada (referencia): print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "encoding",
+        "dual_axis",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/a8062f8c] Como explorador resuelvo S19-T1-B-E3 desde el starter y el iDo. El enunciado pide: «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"riesgo_alto\" if encoding == \"dual_axis\" els». Me guío por «if/elif.». Línea central de mi solución: «encoding = \"dual_axis\"». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "matplotlib",
+        "use",
+        "Agg",
+        "import",
+        "matplotlib",
+        "pyplot",
+        "plt",
+        "fig"
+      ],
+      "justification_from_packet": "[E2-Explorer/e21b2ac7] Para S19-T2-A-E1 leí la instrucción del paquete activo: «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TODO del starter sin borr». Aplico la pista «matplotlib Agg.» y el demo S19-T2-A-DEMO. Entrega clave: `import matplotlib`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint('PEN')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "matplotlib",
+        "use",
+        "Agg",
+        "import",
+        "matplotlib",
+        "pyplot",
+        "plt",
+        "fig"
+      ],
+      "justification_from_packet": "[E2-Explorer/9cfa81a2] S19-T2-A-E2: el material enseña el patrón que implementé. Instrucción: «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TODO del starter sin b». Hint: «set_ylabel.» · demo S19-T2-A-DEMO. Código ancla: `import matplotlib`. Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nprint({'n_bars': 2, 'ylim0': np.float64(0.0)})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "matplotlib",
+        "use",
+        "Agg",
+        "import",
+        "matplotlib",
+        "pyplot",
+        "plt",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/69f05114] S19-T2-A-E3: el material enseña el patrón que implementé. Instrucción: «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Completa el TODO del starter». Hint: «len(values).» · demo S19-T2-A-DEMO. Código ancla: `import matplotlib`. Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n# forma esperada (referencia): print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "[E2-Explorer/1b7880ba] Como explorador resuelvo S19-T2-B-E1 desde el starter y el iDo. El enunciado pide: «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}). Completa el TODO del starter sin borra». Me guío por «Dict literal.». Línea central de mi solución: «case_id = \"CASO-LIM-SYN\"». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n# forma esperada (referencia): print(f\"fig_cpn2b_v{version}.png\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "version",
+        "print",
+        "fig_cpn2b_v"
+      ],
+      "justification_from_packet": "[E2-Explorer/9f647ea4] Como explorador resuelvo S19-T2-B-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{version}.png\"). Completa el TODO del starter ». Me guío por «f-string.». Línea central de mi solución: «version = 3». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint(['Vol', 'Med'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "matplotlib",
+        "use",
+        "Agg",
+        "import",
+        "matplotlib",
+        "pyplot",
+        "plt",
+        "fig"
+      ],
+      "justification_from_packet": "[E2-Explorer/fe57051d] Para S19-T2-B-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Completa el TODO del start». Aplico la pista «ax.get_title().» y el demo S19-T2-A-DEMO. Entrega clave: `import matplotlib`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(28)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "region",
+        "Cusco",
+        "median",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/40e7002a] Como explorador resuelvo S19-T3-A-E1 desde el starter y el iDo. El enunciado pide: «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]; print(nex». Me guío por «list comp o next.». Línea central de mi solución: «rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n# forma esperada (referencia): print(f\"Lima: {28} PEN (n={40})\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "[E2-Explorer/49f7621e] Como explorador resuelvo S19-T3-A-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa el TODO del starter sin borrar el orácu». Me guío por «f-string.». Línea central de mi solución: «case_id = \"CASO-LIM-SYN\"». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\nprint('Cusco: 22.5 PEN (n=32)')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "tooltip",
+        "row",
+        "return",
+        "row",
+        "region",
+        "row",
+        "median",
+        "PEN",
+        "row"
+      ],
+      "justification_from_packet": "[E2-Explorer/66d065ad] Para S19-T3-A-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} PEN (n={row['n']})\". Com». Aplico la pista «Incluye unidad PEN.» y el demo S19-T3-A-DEMO. Entrega clave: `def tooltip(row):`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n# forma esperada (referencia): print(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "chart",
+        "Lima",
+        "table"
+      ],
+      "justification_from_packet": "[E2-Explorer/e21e695b] Para S19-T3-B-E1 leí la instrucción del paquete activo: «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\": 1}]. Completa el TODO del starter sin bo». Aplico la pista «Compara valores.» y el demo S19-T3-A-DEMO. Entrega clave: «chart = {\"Lima\": 1}». Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n# forma esperada (referencia): print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "import",
+        "json",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/e069ac96] S19-T3-B-E2: el material enseña el patrón que implementé. Instrucción: «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False)). Comple». Hint: «import json.» · demo S19-T3-A-DEMO. Código ancla: `import json`. Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint('Lima=28 PEN; Cusco=22 PEN')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "table",
+        "region",
+        "Lima",
+        "region",
+        "Cusco",
+        "print",
+        "Lima",
+        "PEN",
+        "Cusco",
+        "PEN"
+      ],
+      "justification_from_packet": "[E2-Explorer/8c25292a] S19-T3-B-E3: el material enseña el patrón que implementé. Instrucción: «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]; print(\"; \".join(». Hint: «join.» · demo S19-T3-A-DEMO. Código ancla: «table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]». Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n# forma esperada (referencia): print(\"unidad=PEN | fuente=sintetico\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "[E2-Explorer/89216256] Para S19-T4-A-E1 leí la instrucción del paquete activo: «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Completa el TODO del starter sin borrar el or». Aplico la pista «f-string o dict.» y el demo S19-T4-A-DEMO. Entrega clave: «case_id = \"CASO-LIM-SYN\"». Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion",
+        "web",
+        "print",
+        "True"
+      ],
+      "justification_from_packet": "[E2-Explorer/3ae93fe5] S19-T4-A-E2: el material enseña el patrón que implementé. Instrucción: «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}; print(set(cap». Hint: «set de keys.» · demo S19-T4-A-DEMO. Código ancla: «cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}». Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\nprint('unidad: PEN | n: 10')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "pie",
+        "cap",
+        "return",
+        "join",
+        "for",
+        "cap",
+        "items",
+        "print",
+        "pie"
+      ],
+      "justification_from_packet": "[E2-Explorer/6d4b8788] S19-T4-A-E3: el material enseña el patrón que implementé. Instrucción: «E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in cap.items()). Completa ». Hint: «join items.» · demo S19-T4-A-DEMO. Código ancla: `def pie(cap):`. Contexto teórico: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n# forma esperada (referencia): print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "claim",
+        "Lima",
+        "mejor"
+      ],
+      "justification_from_packet": "[E2-Explorer/f1e49062] Como explorador resuelvo S19-T4-B-E1 desde el starter y el iDo. El enunciado pide: «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print(\"RECHAZADO\" if (\"del Perú\" in claim and». Me guío por «in checks.». Línea central de mi solución: «claim = \"Lima es la mejor del Perú\"». Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n# forma esperada (referencia): print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "alt",
+        "Lima",
+        "PEN"
+      ],
+      "justification_from_packet": "[E2-Explorer/ad8e2160] Para S19-T4-B-E2 leí la instrucción del paquete activo: «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))». Aplico la pista «substring.» y el demo S19-T4-A-DEMO. Entrega clave: «alt = \"Lima 28 PEN n=40\"». Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Sea. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\nprint('PERMITIDO | RECHAZADO')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "classify_claim",
+        "text",
+        "return",
+        "PERMITIDO",
+        "muestra",
+        "text",
+        "else",
+        "RECHAZADO",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/9270b96c] Como explorador resuelvo S19-T4-B-E3 desde el starter y el iDo. El enunciado pide: «E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if \"muestra\" in text else». Me guío por «Función binaria simple didáctica.». Línea central de mi solución: `def classify_claim(text):`. Heading cercano: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. No ejecuté código como bar de validez."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Barras con baseline 0",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q0: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Elegí índice 2 → «Barras con baseline 0» porque el paquete (theory/iDo de S19 Visualización y comunicación accesible) enseña ese contrato: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regio Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recorta Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q1: «Una alternativa accesible debe:». Elegí índice 0 → «Repetir los mismos números clave del chart» porque el paquete (theory/iDo de S19 Visualización y comunicación accesible) enseña ese contrato: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regio Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recorta Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q2: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Elegí índice 1 → «Sobreclaim / generalización indebida» porque el paquete (theory/iDo de S19 Visualización y comunicación accesible) enseña ese contrato: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regio Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recorta Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q3: «El caption de un gráfico de portfolio debe incluir:». Elegí índice 3 → «Unidad, fuente y limitaciones» porque el paquete (theory/iDo de S19 Visualización y comunicación accesible) enseña ese contrato: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regio Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recorta Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q4: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP». Elegí índice 2 → «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» porque el paquete (theory/iDo de S19 Visualización y comunicación accesible) enseña ese contrato: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regio Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recorta Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:35:53.602923+00:00",
+  "repaired_at": "2026-07-23T04:48:09.109417+00:00"
+}

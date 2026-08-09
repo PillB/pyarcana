@@ -1,0 +1,1075 @@
+{
+  "version": "3.2",
+  "section": "S19",
+  "section_id": "databases-orm",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S19 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S19 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s19-databases-orm.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "databases-orm",
+    "index": 19,
+    "title_platform": "Bases de Datos Avanzadas y ORMs",
+    "title_v3": "Visualización y comunicación accesible",
+    "title_decision": "KEEP platform id 'databases-orm' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equival",
+    "estimatedHours": 12,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S18"
+    ],
+    "environment": "local/browser",
+    "project_capstone": "CP-N2-B (dashboard)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "databases-orm",
+    "platform_title": "Bases de Datos Avanzadas y ORMs",
+    "v3_title": "Visualización y comunicación accesible",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige charts por pregunta y audiencia.",
+    "El estudiante diseña ejes/escalas/encodings honestos.",
+    "El estudiante produce figuras Matplotlib/Seaborn.",
+    "El estudiante anota y exporta de forma reproducible.",
+    "El estudiante construye vistas Plotly con filtros/tooltips.",
+    "El estudiante provee alternativas accesibles y cuida performance.",
+    "El estudiante documenta unidades, fuente y limitaciones.",
+    "El estudiante aplica contraste, alt text y no sobreclaim."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S19-T1-A",
+      "slug": "question-audience-chart",
+      "title": "pregunta, audiencia y chart choice"
+    },
+    {
+      "subtopic_id": "S19-T1-B",
+      "slug": "axes-scales-encodings",
+      "title": "ejes, escalas y encodings honestos"
+    },
+    {
+      "subtopic_id": "S19-T2-A",
+      "slug": "matplotlib-seaborn",
+      "title": "Matplotlib/Seaborn"
+    },
+    {
+      "subtopic_id": "S19-T2-B",
+      "slug": "composition-annotations-export",
+      "title": "composición, annotations y exportación"
+    },
+    {
+      "subtopic_id": "S19-T3-A",
+      "slug": "plotly-filters-tooltips",
+      "title": "Plotly/filtros/tooltips"
+    },
+    {
+      "subtopic_id": "S19-T3-B",
+      "slug": "state-perf-a11y-alts",
+      "title": "estado, performance y alternativas accesibles"
+    },
+    {
+      "subtopic_id": "S19-T4-A",
+      "slug": "units-source-limits",
+      "title": "unidades, fuente y limitaciones"
+    },
+    {
+      "subtopic_id": "S19-T4-B",
+      "slug": "color-contrast-alt-no-overclaim",
+      "title": "color, contraste, texto alternativo y no sobreclaim"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S19-T1",
+      "title": "Diseño",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S19-T1-A",
+          "slug": "question-audience-chart",
+          "title": "pregunta, audiencia y chart choice",
+          "outcome": "El estudiante elige charts por pregunta y audiencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pregunta, audiencia y chart choice",
+              "must_cover": [
+                "chart taxonomy",
+                "audience",
+                "message"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T1-A-DEMO",
+              "title": "Elegir chart alineado a pregunta y audiencia",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T1-A-E1",
+                "kind": "guided",
+                "title": "pregunta, audiencia y chart choice — guided",
+                "skill": "question",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T1-A-E2",
+                "kind": "independent",
+                "title": "pregunta, audiencia y chart choice — independent",
+                "skill": "question",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T1-A-E3",
+                "kind": "transfer",
+                "title": "pregunta, audiencia y chart choice — transfer",
+                "skill": "question",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S19-T1-B",
+          "slug": "axes-scales-encodings",
+          "title": "ejes, escalas y encodings honestos",
+          "outcome": "El estudiante diseña ejes/escalas/encodings honestos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ejes, escalas y encodings honestos",
+              "must_cover": [
+                "axis zero",
+                "log scale ethics",
+                "color encoding"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T1-B-DEMO",
+              "title": "Evitar encodings engañosos",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T1-B-E1",
+                "kind": "guided",
+                "title": "ejes, escalas y encodings honestos — guided",
+                "skill": "axes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T1-B-E2",
+                "kind": "independent",
+                "title": "ejes, escalas y encodings honestos — independent",
+                "skill": "axes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T1-B-E3",
+                "kind": "transfer",
+                "title": "ejes, escalas y encodings honestos — transfer",
+                "skill": "axes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S19-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S19-T1-EVAL-1",
+            "title": "pregunta, audiencia y chart choice — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S19-T1-EVAL-2",
+            "title": "ejes, escalas y encodings honestos — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S19-T2",
+      "title": "Estático",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S19-T2-A",
+          "slug": "matplotlib-seaborn",
+          "title": "Matplotlib/Seaborn",
+          "outcome": "El estudiante produce figuras Matplotlib/Seaborn.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Matplotlib/Seaborn",
+              "must_cover": [
+                "subplots",
+                "seaborn themes",
+                "savefig"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T2-A-DEMO",
+              "title": "Componer figura multi-panel exportable",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T2-A-E1",
+                "kind": "guided",
+                "title": "Matplotlib/Seaborn — guided",
+                "skill": "matplotlib",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T2-A-E2",
+                "kind": "independent",
+                "title": "Matplotlib/Seaborn — independent",
+                "skill": "matplotlib",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T2-A-E3",
+                "kind": "transfer",
+                "title": "Matplotlib/Seaborn — transfer",
+                "skill": "matplotlib",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S19-T2-B",
+          "slug": "composition-annotations-export",
+          "title": "composición, annotations y exportación",
+          "outcome": "El estudiante anota y exporta de forma reproducible.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "composición, annotations y exportación",
+              "must_cover": [
+                "annotate",
+                "titles",
+                "dpi/svg"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T2-B-DEMO",
+              "title": "Anotar y exportar reproducible",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T2-B-E1",
+                "kind": "guided",
+                "title": "composición, annotations y exportación — guided",
+                "skill": "composition",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T2-B-E2",
+                "kind": "independent",
+                "title": "composición, annotations y exportación — independent",
+                "skill": "composition",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T2-B-E3",
+                "kind": "transfer",
+                "title": "composición, annotations y exportación — transfer",
+                "skill": "composition",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S19-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S19-T2-EVAL-1",
+            "title": "Matplotlib/Seaborn — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S19-T2-EVAL-2",
+            "title": "composición, annotations y exportación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S19-T3",
+      "title": "Interactivo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S19-T3-A",
+          "slug": "plotly-filters-tooltips",
+          "title": "Plotly/filtros/tooltips",
+          "outcome": "El estudiante construye vistas Plotly con filtros/tooltips.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Plotly/filtros/tooltips",
+              "must_cover": [
+                "plotly express",
+                "hover",
+                "filters"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T3-A-DEMO",
+              "title": "Vista interactiva con tooltips honestos",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T3-A-E1",
+                "kind": "guided",
+                "title": "Plotly/filtros/tooltips — guided",
+                "skill": "plotly",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T3-A-E2",
+                "kind": "independent",
+                "title": "Plotly/filtros/tooltips — independent",
+                "skill": "plotly",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T3-A-E3",
+                "kind": "transfer",
+                "title": "Plotly/filtros/tooltips — transfer",
+                "skill": "plotly",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S19-T3-B",
+          "slug": "state-perf-a11y-alts",
+          "title": "estado, performance y alternativas accesibles",
+          "outcome": "El estudiante provee alternativas accesibles y cuida performance.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "estado, performance y alternativas accesibles",
+              "must_cover": [
+                "lazy load",
+                "text table alt",
+                "perf budget"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T3-B-DEMO",
+              "title": "Ofrecer alternativa no visual accesible",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T3-B-E1",
+                "kind": "guided",
+                "title": "estado, performance y alternativas accesibles — guided",
+                "skill": "state",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T3-B-E2",
+                "kind": "independent",
+                "title": "estado, performance y alternativas accesibles — independent",
+                "skill": "state",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T3-B-E3",
+                "kind": "transfer",
+                "title": "estado, performance y alternativas accesibles — transfer",
+                "skill": "state",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S19-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S19-T3-EVAL-1",
+            "title": "Plotly/filtros/tooltips — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S19-T3-EVAL-2",
+            "title": "estado, performance y alternativas accesibles — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S19-T4",
+      "title": "Narrativa",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S19-T4-A",
+          "slug": "units-source-limits",
+          "title": "unidades, fuente y limitaciones",
+          "outcome": "El estudiante documenta unidades, fuente y limitaciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "unidades, fuente y limitaciones",
+              "must_cover": [
+                "units",
+                "source line",
+                "limits box"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T4-A-DEMO",
+              "title": "Etiquetar unidades/fuente/límites",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T4-A-E1",
+                "kind": "guided",
+                "title": "unidades, fuente y limitaciones — guided",
+                "skill": "units",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T4-A-E2",
+                "kind": "independent",
+                "title": "unidades, fuente y limitaciones — independent",
+                "skill": "units",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T4-A-E3",
+                "kind": "transfer",
+                "title": "unidades, fuente y limitaciones — transfer",
+                "skill": "units",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S19-T4-B",
+          "slug": "color-contrast-alt-no-overclaim",
+          "title": "color, contraste, texto alternativo y no sobreclaim",
+          "outcome": "El estudiante aplica contraste, alt text y no sobreclaim.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "color, contraste, texto alternativo y no sobreclaim",
+              "must_cover": [
+                "contrast",
+                "alt text",
+                "claim discipline"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S19-T4-B-DEMO",
+              "title": "Cumplir contraste y no sobreclaim",
+              "environment": "local/browser",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S19-T4-B-E1",
+                "kind": "guided",
+                "title": "color, contraste, texto alternativo y no sobreclaim — guided",
+                "skill": "color",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T4-B-E2",
+                "kind": "independent",
+                "title": "color, contraste, texto alternativo y no sobreclaim — independent",
+                "skill": "color",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S19-T4-B-E3",
+                "kind": "transfer",
+                "title": "color, contraste, texto alternativo y no sobreclaim — transfer",
+                "skill": "color",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S19-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S19-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S19-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S19-T4-EVAL-1",
+            "title": "unidades, fuente y limitaciones — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S19-T4-EVAL-2",
+            "title": "color, contraste, texto alternativo y no sobreclaim — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S19-PROJ",
+    "title": "Dashboard ejecutivo accesible (4 estáticos + 1 interactivo)",
+    "replaces_legacy": "Legacy You Do de 'Bases de Datos Avanzadas y ORMs' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "4 gráficos estáticos + 1 interactivo",
+      "Conclusiones limitadas a evidencia",
+      "Versión no visual equivalente (tabla/texto)",
+      "Unidades, fuente y limitaciones visibles"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-B (dashboard)",
+    "increment_gate": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'databases-orm' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s19-databases-orm.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Bases de Datos Avanzadas y ORMs' vs 'Visualización y comunicación accesible'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-B (dashboard)",
+    "increment_gate": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+    "project_id": "S19-PROJ",
+    "section_passed": false,
+    "notes": "S19 contributes to CP-N2-B (dashboard). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Bases de Datos Avanzadas y ORMs' until product rename; large topic mismatch vs V3 'Visualización y comunicación accesible'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S19-T1-A first"
+  }
+}

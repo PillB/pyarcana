@@ -1,0 +1,1073 @@
+{
+  "version": "3.2",
+  "section": "S28",
+  "section_id": "llm-agents",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S28 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S28 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s28-llm-agents.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "llm-agents",
+    "index": 28,
+    "title_platform": "LLM Agents con LangGraph — Producción",
+    "title_v3": "Pruebas de datos, propiedades e integración",
+    "title_decision": "KEEP platform id 'llm-agents' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+    "estimatedHours": 12,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S27"
+    ],
+    "environment": "local/CI",
+    "project_capstone": "CP-N3-A (QA ER)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "llm-agents",
+    "platform_title": "LLM Agents con LangGraph — Producción",
+    "v3_title": "Pruebas de datos, propiedades e integración",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante genera casos desde invariantes.",
+    "El estudiante aplica tests metamórficos y de simetría.",
+    "El estudiante valida contratos de schema/calidad.",
+    "El estudiante detecta drift y reconcilia goldens.",
+    "El estudiante dobla HTTP/DB/reloj con control.",
+    "El estudiante escribe contract tests sin sobre-mocking.",
+    "El estudiante monta integración/E2E con containers.",
+    "El estudiante elimina flakes y fija determinismo en CI."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S28-T1-A",
+      "slug": "invariants-case-generation",
+      "title": "invariantes y generación de casos"
+    },
+    {
+      "subtopic_id": "S28-T1-B",
+      "slug": "idempotency-symmetry-metamorphic",
+      "title": "idempotencia, simetría y metamorphic tests"
+    },
+    {
+      "subtopic_id": "S28-T2-A",
+      "slug": "schema-quality-contracts",
+      "title": "schema y quality contracts"
+    },
+    {
+      "subtopic_id": "S28-T2-B",
+      "slug": "golden-drift-reconcile",
+      "title": "golden datasets, drift y reconciliación"
+    },
+    {
+      "subtopic_id": "S28-T3-A",
+      "slug": "mocks-fakes-http-db-clock",
+      "title": "mocks/fakes de HTTP, DB y reloj"
+    },
+    {
+      "subtopic_id": "S28-T3-B",
+      "slug": "contract-tests-no-overmock",
+      "title": "contract tests sin sobre-mocking"
+    },
+    {
+      "subtopic_id": "S28-T4-A",
+      "slug": "integration-e2e-testcontainers",
+      "title": "integración/E2E y test containers"
+    },
+    {
+      "subtopic_id": "S28-T4-B",
+      "slug": "flakes-determinism-ci",
+      "title": "flakes, determinismo y CI"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S28-T1",
+      "title": "Propiedades",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S28-T1-A",
+          "slug": "invariants-case-generation",
+          "title": "invariantes y generación de casos",
+          "outcome": "El estudiante genera casos desde invariantes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "invariantes y generación de casos",
+              "must_cover": [
+                "property tests",
+                "hypothesis",
+                "invariants"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T1-A-DEMO",
+              "title": "Demo: invariantes y generación de casos",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T1-A-E1",
+                "kind": "guided",
+                "title": "invariantes y generación de casos — guided",
+                "skill": "invariants",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T1-A-E2",
+                "kind": "independent",
+                "title": "invariantes y generación de casos — independent",
+                "skill": "invariants",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T1-A-E3",
+                "kind": "transfer",
+                "title": "invariantes y generación de casos — transfer",
+                "skill": "invariants",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S28-T1-B",
+          "slug": "idempotency-symmetry-metamorphic",
+          "title": "idempotencia, simetría y metamorphic tests",
+          "outcome": "El estudiante aplica tests metamórficos y de simetría.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "idempotencia, simetría y metamorphic tests",
+              "must_cover": [
+                "idempotency",
+                "symmetry",
+                "metamorphic"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T1-B-DEMO",
+              "title": "Demo: idempotencia, simetría y metamorphic tests",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T1-B-E1",
+                "kind": "guided",
+                "title": "idempotencia, simetría y metamorphic tests — guided",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T1-B-E2",
+                "kind": "independent",
+                "title": "idempotencia, simetría y metamorphic tests — independent",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T1-B-E3",
+                "kind": "transfer",
+                "title": "idempotencia, simetría y metamorphic tests — transfer",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S28-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S28-T1-EVAL-1",
+            "title": "invariantes y generación de casos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S28-T1-EVAL-2",
+            "title": "idempotencia, simetría y metamorphic tests — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S28-T2",
+      "title": "Datos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S28-T2-A",
+          "slug": "schema-quality-contracts",
+          "title": "schema y quality contracts",
+          "outcome": "El estudiante valida contratos de schema/calidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "schema y quality contracts",
+              "must_cover": [
+                "schema contract",
+                "quality rules"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T2-A-DEMO",
+              "title": "Demo: schema y quality contracts",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T2-A-E1",
+                "kind": "guided",
+                "title": "schema y quality contracts — guided",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T2-A-E2",
+                "kind": "independent",
+                "title": "schema y quality contracts — independent",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T2-A-E3",
+                "kind": "transfer",
+                "title": "schema y quality contracts — transfer",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S28-T2-B",
+          "slug": "golden-drift-reconcile",
+          "title": "golden datasets, drift y reconciliación",
+          "outcome": "El estudiante detecta drift y reconcilia goldens.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "golden datasets, drift y reconciliación",
+              "must_cover": [
+                "golden",
+                "drift",
+                "reconcile"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T2-B-DEMO",
+              "title": "Demo: golden datasets, drift y reconciliación",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T2-B-E1",
+                "kind": "guided",
+                "title": "golden datasets, drift y reconciliación — guided",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T2-B-E2",
+                "kind": "independent",
+                "title": "golden datasets, drift y reconciliación — independent",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T2-B-E3",
+                "kind": "transfer",
+                "title": "golden datasets, drift y reconciliación — transfer",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S28-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S28-T2-EVAL-1",
+            "title": "schema y quality contracts — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S28-T2-EVAL-2",
+            "title": "golden datasets, drift y reconciliación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S28-T3",
+      "title": "Dobles",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S28-T3-A",
+          "slug": "mocks-fakes-http-db-clock",
+          "title": "mocks/fakes de HTTP, DB y reloj",
+          "outcome": "El estudiante dobla HTTP/DB/reloj con control.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "mocks/fakes de HTTP, DB y reloj",
+              "must_cover": [
+                "mock",
+                "fake",
+                "freezegun"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T3-A-DEMO",
+              "title": "Demo: mocks/fakes de HTTP, DB y reloj",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T3-A-E1",
+                "kind": "guided",
+                "title": "mocks/fakes de HTTP, DB y reloj — guided",
+                "skill": "mocks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T3-A-E2",
+                "kind": "independent",
+                "title": "mocks/fakes de HTTP, DB y reloj — independent",
+                "skill": "mocks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T3-A-E3",
+                "kind": "transfer",
+                "title": "mocks/fakes de HTTP, DB y reloj — transfer",
+                "skill": "mocks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S28-T3-B",
+          "slug": "contract-tests-no-overmock",
+          "title": "contract tests sin sobre-mocking",
+          "outcome": "El estudiante escribe contract tests sin sobre-mocking.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "contract tests sin sobre-mocking",
+              "must_cover": [
+                "contract test",
+                "over-mocking"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T3-B-DEMO",
+              "title": "Demo: contract tests sin sobre-mocking",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T3-B-E1",
+                "kind": "guided",
+                "title": "contract tests sin sobre-mocking — guided",
+                "skill": "contract",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T3-B-E2",
+                "kind": "independent",
+                "title": "contract tests sin sobre-mocking — independent",
+                "skill": "contract",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T3-B-E3",
+                "kind": "transfer",
+                "title": "contract tests sin sobre-mocking — transfer",
+                "skill": "contract",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S28-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S28-T3-EVAL-1",
+            "title": "mocks/fakes de HTTP, DB y reloj — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S28-T3-EVAL-2",
+            "title": "contract tests sin sobre-mocking — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S28-T4",
+      "title": "Sistema",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S28-T4-A",
+          "slug": "integration-e2e-testcontainers",
+          "title": "integración/E2E y test containers",
+          "outcome": "El estudiante monta integración/E2E con containers.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "integración/E2E y test containers",
+              "must_cover": [
+                "testcontainers",
+                "e2e"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T4-A-DEMO",
+              "title": "Demo: integración/E2E y test containers",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T4-A-E1",
+                "kind": "guided",
+                "title": "integración/E2E y test containers — guided",
+                "skill": "integration",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T4-A-E2",
+                "kind": "independent",
+                "title": "integración/E2E y test containers — independent",
+                "skill": "integration",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T4-A-E3",
+                "kind": "transfer",
+                "title": "integración/E2E y test containers — transfer",
+                "skill": "integration",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S28-T4-B",
+          "slug": "flakes-determinism-ci",
+          "title": "flakes, determinismo y CI",
+          "outcome": "El estudiante elimina flakes y fija determinismo en CI.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "flakes, determinismo y CI",
+              "must_cover": [
+                "flake",
+                "determinism",
+                "CI"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S28-T4-B-DEMO",
+              "title": "Demo: flakes, determinismo y CI",
+              "environment": "local/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S28-T4-B-E1",
+                "kind": "guided",
+                "title": "flakes, determinismo y CI — guided",
+                "skill": "flakes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T4-B-E2",
+                "kind": "independent",
+                "title": "flakes, determinismo y CI — independent",
+                "skill": "flakes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S28-T4-B-E3",
+                "kind": "transfer",
+                "title": "flakes, determinismo y CI — transfer",
+                "skill": "flakes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S28-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S28-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S28-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S28-T4-EVAL-1",
+            "title": "integración/E2E y test containers — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S28-T4-EVAL-2",
+            "title": "flakes, determinismo y CI — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S28-PROJ",
+    "title": "Pruebas de datos, propiedades e integración",
+    "replaces_legacy": "Legacy You Do de 'LLM Agents con LangGraph — Producción' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-A (QA ER)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-A (QA ER)",
+    "increment_gate": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'llm-agents' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s28-llm-agents.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'LLM Agents con LangGraph — Producción' vs 'Pruebas de datos, propiedades e integración'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-A (QA ER)",
+    "increment_gate": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas.",
+    "project_id": "S28-PROJ",
+    "section_passed": false,
+    "notes": "S28 contributes to CP-N3-A (QA ER). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S28",
+    "risk": "Display title still 'LLM Agents con LangGraph — Producción' until product rename; topic mismatch vs V3 'Pruebas de datos, propiedades e integración'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S28-T1-A first"
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s13-3ccbd9dc54c2",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "id": "S13-T1-A-E1",
+      "code": "# exploración s13/S13-T1-A-E1\nimport re\ndef norm_name(n):\n    return re.sub(r\"\\\\s+\", \" \", n.casefold().strip())\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\nprint(norm_name(\" Ana  QUISPE \"))\nprint(norm_doc(\"D-12.34\"))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T1-A-E1 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E1 (guiado) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA. Anclé la respuesta a «re.sub para espacios y no alfanuméricos» y conservé el fixture del starter. [34a09e] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "id": "S13-T1-A-E2",
+      "code": "# exploración s13/S13-T1-A-E2\ndef blocking_key(rec):\n    parts = rec[\"name\"].casefold().split()\n    ap = parts[1] if len(parts) >= 2 else parts[0]\n    return f\"{ap}|{rec['region'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))\n_j2_mark = 13\n",
+      "justification_from_packet": "En «Familiarity Evidence Dashboard y cierre de nivel» resolví S13-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start». La pista «Último token no; usa el segundo token como apellido paterno o el último: do» me dio el patrón concreto del weDo. [2960d0] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "id": "S13-T1-A-E3",
+      "code": "# exploración s13/S13-T1-A-E3\nimport re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef bkey(r):\n    ap = r[\"name\"].casefold().split()[-1]\n    return f\"{ap}|{r['region'].casefold()}\"\ndef er_score(a, b):\n    same_doc = norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"])\n    same_block = bkey(a) == bkey(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc:\n        return 0.5\n    return 0.0\nA = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nB = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nC = {\"name\": \"Ana Other\", \"document_id\": \"X1\", \"region\": \"Cusco\"}\nD = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"region\": \"Lima\"}\nprint(er_score(A, B), er_score(A, C), er_score(A, D))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T1-A-E3 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si solo stdlib + reglas. Anclé la respuesta a «Combina igualdad de doc y block» y conservé el fixture del starter. [f08abd] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "id": "S13-T1-B-E1",
+      "code": "# exploración s13/S13-T1-B-E1\ntp, fp, fn = 8, 2, 2\nprint(\"precision\", round(tp / (tp + fp), 3))\nprint(\"recall\", round(tp / (tp + fn), 3))\n_j2_mark = 13\n",
+      "justification_from_packet": "Como explorer en «Familiarity Evidence Dashboard y cierre de nivel», S13-T1-B-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA. Hint operativa: «precision = tp/(tp+fp)». [e46d4b] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "id": "S13-T1-B-E2",
+      "code": "# exploración s13/S13-T1-B-E2\npairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\nprint(clerical_queue(pairs))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T1-B-E2 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E2 (independiente) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Anclé la respuesta a «list comprehension con filtro de banda» y conservé el fixture del starter. [797ed1] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "id": "S13-T1-B-E3",
+      "code": "# exploración s13/S13-T1-B-E3\nprint(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")\nprint(\"ops_action:\", \"needs_review\")\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T1-B-E3 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E3 (transferencia) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Anclé la respuesta a «Mensajes fijos cortos» y conservé el fixture del starter. [2c103f] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "id": "S13-T2-A-E1",
+      "code": "# exploración s13/S13-T2-A-E1\ndef shared_email(a, b):\n    if not a or not b:\n        return False\n    return a.casefold() == b.casefold()\nprint(shared_email(\"Ana@Example.com\", \"ana@example.com\"))\nprint(shared_email(\"\", \"\"))\nprint(shared_email(\"a@x.com\", \"b@x.com\"))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T2-A-E1 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E1 (guiado) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA. Anclé la respuesta a «a and b and a.casefold()==b.casefold()» y conservé el fixture del starter. [005235] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "id": "S13-T2-A-E2",
+      "code": "# exploración s13/S13-T2-A-E2\ndef rel_score(km, surname_jaccard):\n    geo = 1.0 if km < 2 else 0.0\n    return round(0.6 * geo + 0.4 * surname_jaccard, 3)\nprint(rel_score(1.2, 0.5))\nprint(rel_score(5.0, 0.5))\n_j2_mark = 13\n",
+      "justification_from_packet": "Como explorer en «Familiarity Evidence Dashboard y cierre de nivel», S13-T2-A-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Hint operativa: «Combina distancia y apellido». [440566] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "id": "S13-T2-A-E3",
+      "code": "# exploración s13/S13-T2-A-E3\nprint(\"relationship_signal_score no implica parentesco ni colusión\")\n_j2_mark = 13\n",
+      "justification_from_packet": "En «Familiarity Evidence Dashboard y cierre de nivel» resolví S13-T2-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start». La pista «Un solo print» me dio el patrón concreto del weDo. [6ad2b1] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "id": "S13-T2-B-E1",
+      "code": "# exploración s13/S13-T2-B-E1\ntxs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    return [m for x, y, m in txs if {x, y} == {a, b}]\nprint(direct_txs(txs, \"A\", \"B\"))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T2-B-E1 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E1 (guiado) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA. Anclé la respuesta a «set equality de endpoints» y conservé el fixture del starter. [cf99f2] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "id": "S13-T2-B-E2",
+      "code": "# exploración s13/S13-T2-B-E2\ntxs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c))\nprint(common_counterparties(txs, \"A\", \"C\"))\n_j2_mark = 13\n",
+      "justification_from_packet": "Armé S13-T2-B-E2 desde el quiz_card de «Familiarity Evidence Dashboard y cierre de nivel». Instruction recortada: «E2 (independiente) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start». Verifiqué con la pista «Intersección de vecinos». [96a080] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "id": "S13-T2-B-E3",
+      "code": "# exploración s13/S13-T2-B-E3\nprint(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")\n_j2_mark = 13\n",
+      "justification_from_packet": "En «Familiarity Evidence Dashboard y cierre de nivel» resolví S13-T2-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start». La pista «Mensajes explícitos» me dio el patrón concreto del weDo. [b032a4] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "id": "S13-T3-A-E1",
+      "code": "# exploración s13/S13-T3-A-E1\ndef explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing={missing}\",\n    ]\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T3-A-E1 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E1 (guiado) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA. Anclé la respuesta a «f-strings con los tres inputs» y conservé el fixture del starter. [8935b1] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "id": "S13-T3-A-E2",
+      "code": "# exploración s13/S13-T3-A-E2\ndef uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T3-A-E2 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E2 (independiente) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Anclé la respuesta a «Orden de ifs: conflict primero» y conservé el fixture del starter. [c98ae0] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "id": "S13-T3-A-E3",
+      "code": "# exploración s13/S13-T3-A-E3\ner, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 3)\nconflict = abs(er - rel) > 0.5\nprint(\"evidence_score\", score)\nprint(\"uncertainty\", \"high\" if conflict else \"low\")\nprint(\"note\", \"señales conflictivas\")\n_j2_mark = 13\n",
+      "justification_from_packet": "Armé S13-T3-A-E3 desde el quiz_card de «Familiarity Evidence Dashboard y cierre de nivel». Instruction recortada: «E3 (transferencia) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start». Verifiqué con la pista «abs(er-rel)>0.5 → conflict». [1930cd] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "id": "S13-T3-B-E1",
+      "code": "# exploración s13/S13-T3-B-E1\nthresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\nassert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\nprint(sorted(thresholds.items()))\n_j2_mark = 13\n",
+      "justification_from_packet": "Exercise S13-T3-B-E1: el contrato observable es «E1 (guiado) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA». Del theory/iDo cercano tomé «Usarás el dict en E2» y de hints «Dos límites forman tres intervalos contiguos». [adc0cc] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "id": "S13-T3-B-E2",
+      "code": "# exploración s13/S13-T3-B-E2\nfrom math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\ndef decide_ops_status(score, unc, th):\n    if isinstance(score, bool) or not isinstance(score, (int, float)):\n        return \"invalid_input\"\n    if not isfinite(score) or not 0.0 <= score <= 1.0 or unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\nfor s, u in [(-0.1, \"low\"), (0.399, \"low\"), (0.4, \"low\"), (0.799, \"med\"), (0.8, \"low\"), (0.9, \"high\"), (float(\"nan\"), \"low\")]:\n    print(s, u, decide_ops_status(s, u, th))\n_j2_mark = 13\n",
+      "justification_from_packet": "Armé S13-T3-B-E2 desde el quiz_card de «Familiarity Evidence Dashboard y cierre de nivel». Instruction recortada: «E2 (independiente) — Implementa la matriz total: input inválido→invalid_input; high→needs_review; score<review». Verifiqué con la pista «Implementa la matriz de decisión». [7ccb7f] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "id": "S13-T3-B-E3",
+      "code": "# exploración s13/S13-T3-B-E3\nout = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}\nforbidden = {\"is_family\", \"auto_fraud\"}\nclean = {k: v for k, v in out.items() if k not in forbidden}\nprint(sorted(clean.keys()))\n_j2_mark = 13\n",
+      "justification_from_packet": "Como explorer en «Familiarity Evidence Dashboard y cierre de nivel», S13-T3-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Hint operativa: «pop o dict comprehension». [d52f92] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "id": "S13-T4-A-E1",
+      "code": "# exploración s13/S13-T4-A-E1\ndef pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\nprint(pseudonymize(\"Ana Quispe Rojas\"))\n_j2_mark = 13\n",
+      "justification_from_packet": "Armé S13-T4-A-E1 desde el quiz_card de «Familiarity Evidence Dashboard y cierre de nivel». Instruction recortada: «E1 (guiado) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA». Verifiqué con la pista «primer char + *** por token». [07a338] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "id": "S13-T4-A-E2",
+      "code": "# exploración s13/S13-T4-A-E2\ndef case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\nprint(case_sheet(0.9, 0.4))\n_j2_mark = 13\n",
+      "justification_from_packet": "Para S13-T4-A-E2 el paquete de «Familiarity Evidence Dashboard y cierre de nivel» pide: E2 (independiente) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Anclé la respuesta a «Claves entity_resolution_score y relationship_signal_score» y conservé el fixture del starter. [a57f2a] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "id": "S13-T4-A-E3",
+      "code": "# exploración s13/S13-T4-A-E3\ndef map_tooltip(lat, lon, km, source):\n    return f\"lat={lat},lon={lon},geo_distance_km={km},source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))\n_j2_mark = 13\n",
+      "justification_from_packet": "Exercise S13-T4-A-E3: el contrato observable es «E3 (transferencia) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del start». Del theory/iDo cercano tomé «Formato legible una línea» y de hints «Incluye source=». [822d88] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "id": "S13-T4-B-E1",
+      "code": "# exploración s13/S13-T4-B-E1\nprivacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\nprint(privacy[\"pii_real\"])\n_j2_mark = 13\n",
+      "justification_from_packet": "Armé S13-T4-B-E1 desde el quiz_card de «Familiarity Evidence Dashboard y cierre de nivel». Instruction recortada: «E1 (guiado) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CA». Verifiqué con la pista «Tres campos mínimos CF-1». [924bac] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "id": "S13-T4-B-E2",
+      "code": "# exploración s13/S13-T4-B-E2\ndef demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\nprint(demo_command())\n_j2_mark = 13\n",
+      "justification_from_packet": "Como explorer en «Familiarity Evidence Dashboard y cierre de nivel», S13-T4-B-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Hint operativa: «String fijo documentado en runbook». [953661] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "id": "S13-T4-B-E3",
+      "code": "# exploración s13/S13-T4-B-E3\nactions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-check S01-S13 critical paths after incident\")\n_j2_mark = 13\n",
+      "justification_from_packet": "Como explorer en «Familiarity Evidence Dashboard y cierre de nivel», S13-T4-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del start. Hint operativa: «Orden fijo de respuesta». [2b065d] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Familiarity Evidence Dashboard y cierre"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Familiarity Evidence Dashboard y cierre de nivel» #0: «entity_resolution_score y relationship_signal_score deben…». Elegí «Mantenerse separados en la ficha de caso» porque el theory del paquete describe ese comportamiento de forma directa. [7cc05b] conf~0.89.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Familiarity Evidence Dashboard y cierre de nivel» #1: «Un false positive de ER implica…». Elegí «Error de matching; no es veredicto legal de fraude» porque el theory del paquete describe ese comportamiento de forma directa. [8d6cd7] conf~0.90.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Familiarity Evidence Dashboard y cierre de nivel» #2: «En zona gris de score el sistema debe…». Elegí «Encolar needs_review / abstenerse según política» porque el theory del paquete describe ese comportamiento de forma directa. [230424] conf~0.75.",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Familiarity Evidence Dashboard y cierre de nivel» #3: «CF-1 en S13 incluye…». Elegí «Privacy sheet, acceso, tests, demo y runbook» porque el theory del paquete describe ese comportamiento de forma directa. [b634de] conf~0.72.",
+      "confidence": 0.72
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Familiarity Evidence Dashboard y cierre de nivel» #4: «Level-1 regression notes en el You Do exigen…». Elegí «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)» porque el theory del paquete describe ese comportamiento de forma directa. [b7fd6a] conf~0.87.",
+      "confidence": 0.87
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:27.820696+00:00",
+  "session_started_at": "2026-07-23T12:52:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:52:50.398199+00:00",
+  "receipt_response_sha256": "97a825ac1ce2de32aa1326094514b05e3e7fe71c8a1c276445bc37e91cbc7995"
+}

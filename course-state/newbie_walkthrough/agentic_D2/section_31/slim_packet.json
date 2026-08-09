@@ -1,0 +1,1058 @@
+{
+  "attempt_id": "agentic_D2",
+  "section_index": 31,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    },
+    {
+      "index": 27,
+      "id": "async-concurrency",
+      "title": "Estrategia de pruebas con pytest",
+      "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+      "learningOutcomes": [
+        "Priorizar pruebas según riesgo y pirámide",
+        "Escribir tests AAA con oráculos confiables",
+        "Usar discovery y assertions de pytest",
+        "Aislar estado con fixtures y scopes",
+        "Cubrir excepciones, floats, fechas y tmp files",
+        "Diseñar casos negativos con mensajes útiles",
+        "Medir cobertura por rama y riesgo",
+        "Interpretar mutación conceptual y fallas útiles"
+      ]
+    },
+    {
+      "index": 28,
+      "id": "llm-agents",
+      "title": "Pruebas de datos, propiedades e integración",
+      "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+      "learningOutcomes": [
+        "Generar casos desde invariantes",
+        "Aplicar tests metamórficos y de simetría",
+        "Validar contratos de schema/calidad",
+        "Detectar drift y reconciliar goldens",
+        "Doblar HTTP/DB/reloj con control",
+        "Escribir contract tests sin sobre-mocking",
+        "Montar integración/E2E con containers (concepto)",
+        "Eliminar flakes y fijar determinismo en CI"
+      ]
+    },
+    {
+      "index": 29,
+      "id": "mlops",
+      "title": "SQL avanzado y modelado relacional",
+      "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+      "learningOutcomes": [
+        "Modelar claves y constraints correctos",
+        "Preservar temporalidad y provenance",
+        "Escribir CTEs, windows y anti-joins",
+        "Razonar cardinalidad, NULL y planes",
+        "Elegir isolation y garantizar ACID",
+        "Implementar upserts y recuperación",
+        "Diseñar índices y migrations seguras",
+        "Aplicar repository, pooling y tests"
+      ]
+    },
+    {
+      "index": 30,
+      "id": "security-infra",
+      "title": "Entity resolution probabilístico",
+      "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+      "learningOutcomes": [
+        "Comparar exact/edit/token/fecha",
+        "Tratar missingness y frecuencia",
+        "Diseñar blocking con recall medido",
+        "Controlar costo y pares imposibles",
+        "Estimar pesos y umbrales",
+        "Operar review y consistencia de cluster",
+        "Partir datos por entidad sin leakage",
+        "Reportar métricas pairwise/cluster y slices"
+      ]
+    }
+  ],
+  "active": {
+    "id": "streaming-data",
+    "index": 31,
+    "title": "Grafos y evidencia relacional",
+    "tagline": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+    "jobRelevance": "En investigación de relaciones entre entidades (banca, BPO, compliance en Perú), necesitas un **grafo temporal con evidencia por arista** — no un dashboard de sospechosos. Id de plataforma `streaming-data` conservado; retemática V3 **Grafos y evidencia relacional** e **inicio de CP-N3-B**. Centralidad no es culpabilidad; ER/matching no implica fraude ni parentesco.",
+    "learningOutcomes": [
+      "Modelar nodos/aristas con peso y dirección",
+      "Representar multigrafo temporal con provenance",
+      "Construir grafo desde entidades y transacciones",
+      "Agregar sin borrar detalle fuente",
+      "Calcular grado, componentes y caminos",
+      "Interpretar centralidad con límites",
+      "Extraer subgrafos y probarlos",
+      "Visualizar con privacidad y evidencia por arista"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S31-T1-A",
+        "heading": "nodos, aristas, dirección y peso",
+        "paragraphs": [
+          "Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuencia, confianza). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+          "Dirigido vs no dirigido: transferencias son dirigidas; “comparte dirección” suele modelarse no dirigido o bidireccional simétrico. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "El peso es evidencia cuantitativa, no veredicto. Documenta unidades (PEN, count, score) en el schema del grafo. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco."
+        ],
+        "code": "# modelo mínimo de grafo dirigido con pesos (CP-N3-B)\nnodes = {\n    \"E1\": {\"kind\": \"entity\", \"label\": \"Ana López\"},\n    \"E2\": {\"kind\": \"entity\", \"label\": \"Luis Ríos\"},\n    \"C1\": {\"kind\": \"account\", \"label\": \"cta-1001\"},\n}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"C1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"shared_phone\", \"weight\": 0.8, \"directed\": False},\n    {\"src\": \"C1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"weight\": 250.0, \"directed\": True},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"types\", sorted({e[\"etype\"] for e in edges}))",
+        "code_output": "n_nodes 3\nn_edges 3\ntypes ['owns', 'shared_phone', 'transfer']"
+      },
+      {
+        "subtopicId": "S31-T1-B",
+        "heading": "multigrafo, tiempo y provenance",
+        "paragraphs": [
+          "Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+          "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados deben filtrar por ventana cuando el caso lo exija. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "**Provenance**: `source_system`, `run_id`, `record_id` permiten auditar de dónde salió la arista. Sin provenance, el grafo es decoración. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco."
+        ],
+        "code": "from datetime import datetime, timezone\n# multiaristas E1→E2 con provenance\nraw_edges = [\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"amount\": 100.0,\n     \"ts\": \"2026-01-10T10:00:00Z\", \"source\": \"tx_ledger\", \"record_id\": \"tx-1\"},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"amount\": 50.0,\n     \"ts\": \"2026-01-12T15:00:00Z\", \"source\": \"tx_ledger\", \"record_id\": \"tx-2\"},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"shared_email\", \"amount\": 1.0,\n     \"ts\": \"2026-01-01T00:00:00Z\", \"source\": \"crm\", \"record_id\": \"crm-9\"},\n]\nprint(\"multi_count\", len(raw_edges))\nprint(\"sources\", sorted({e[\"source\"] for e in raw_edges}))\nprint(\"has_provenance\", all(\"record_id\" in e and \"source\" in e for e in raw_edges))",
+        "code_output": "multi_count 3\nsources ['crm', 'tx_ledger']\nhas_provenance True"
+      },
+      {
+        "subtopicId": "S31-T2-A",
+        "heading": "clientes/entidades/transacciones/contactos",
+        "paragraphs": [
+          "Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+          "Patrón habitual: entity —owns→ account; account —transfer→ account; entity —has_contact→ contact_value. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "Datos sintéticos con ids estables (`ent-001`). Nunca cargues PII real en ejercicios del curso. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco."
+        ],
+        "code": "entities = [\n    {\"id\": \"ent-001\", \"name\": \"Ana López\"},\n    {\"id\": \"ent-002\", \"name\": \"Luis Ríos\"},\n]\naccounts = [\n    {\"id\": \"acc-1\", \"owner\": \"ent-001\"},\n    {\"id\": \"acc-2\", \"owner\": \"ent-002\"},\n]\ntxs = [\n    {\"id\": \"tx-1\", \"src\": \"acc-1\", \"dst\": \"acc-2\", \"amount\": 120.0},\n]\ncontacts = [\n    {\"entity\": \"ent-001\", \"kind\": \"email\", \"value\": \"ana@example.pe\"},\n    {\"entity\": \"ent-002\", \"kind\": \"email\", \"value\": \"luis@example.pe\"},\n    {\"entity\": \"ent-001\", \"kind\": \"phone\", \"value\": \"+51-900-000-001\"},\n    {\"entity\": \"ent-002\", \"kind\": \"phone\", \"value\": \"+51-900-000-001\"},  # shared phone sintético\n]\nnodes = {e[\"id\"] for e in entities} | {a[\"id\"] for a in accounts}\nedges = (\n    [{\"src\": a[\"owner\"], \"dst\": a[\"id\"], \"etype\": \"owns\"} for a in accounts]\n    + [{\"src\": t[\"src\"], \"dst\": t[\"dst\"], \"etype\": \"transfer\", \"weight\": t[\"amount\"]} for t in txs]\n    + [{\"src\": c[\"entity\"], \"dst\": c[\"value\"], \"etype\": \"has_\" + c[\"kind\"]} for c in contacts]\n)\nprint(\"nodes\", len(nodes) + len({c[\"value\"] for c in contacts}))\nprint(\"edges\", len(edges))\nprint(\"shared_phone\", True)",
+        "code_output": "nodes 7\nedges 7\nshared_phone True"
+      },
+      {
+        "subtopicId": "S31-T2-B",
+        "heading": "deduplicación y agregación sin borrar detalle",
+        "paragraphs": [
+          "**Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
+          "**Agregar aristas**: suma montos, cuenta eventos, min/max ts — pero guarda capa de detalle o punteros a `record_id`. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "Si solo dejas el agregado, el revisor no puede explicar el camino. El workbench necesita ambas capas. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco."
+        ],
+        "code": "from collections import defaultdict\ndetail = [\n    {\"src\": \"E1\", \"dst\": \"E2\", \"amount\": 100.0, \"record_id\": \"tx-1\"},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"amount\": 50.0, \"record_id\": \"tx-2\"},\n    {\"src\": \"E2\", \"dst\": \"E3\", \"amount\": 20.0, \"record_id\": \"tx-3\"},\n]\nagg = defaultdict(lambda: {\"sum\": 0.0, \"n\": 0, \"records\": []})\nfor d in detail:\n    k = (d[\"src\"], d[\"dst\"])\n    agg[k][\"sum\"] += d[\"amount\"]\n    agg[k][\"n\"] += 1\n    agg[k][\"records\"].append(d[\"record_id\"])\n# capa agregada + detalle intacto\nprint(\"pairs\", len(agg))\nprint(\"E1_E2\", agg[(\"E1\", \"E2\")][\"sum\"], agg[(\"E1\", \"E2\")][\"n\"])\nprint(\"detail_kept\", len(detail) == sum(v[\"n\"] for v in agg.values()))",
+        "code_output": "pairs 2\nE1_E2 150.0 2\ndetail_kept True"
+      },
+      {
+        "subtopicId": "S31-T3-A",
+        "heading": "grado, componentes y caminos",
+        "paragraphs": [
+          "**Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
+          "**Componentes conexas**: partición del grafo no dirigido subyacente. Un caso suele vivir en un subgrafo acotado. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "**Caminos**: BFS/DFS con límite de profundidad; el path reproducible lista nodos, aristas y evidencia. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco."
+        ],
+        "code": "from collections import defaultdict, deque\n# grafo no dirigido sintético\nadj = defaultdict(set)\nfor u, v in [(\"A\", \"B\"), (\"B\", \"C\"), (\"C\", \"D\"), (\"E\", \"F\"), (\"B\", \"D\")]:\n    adj[u].add(v); adj[v].add(u)\n\ndef degree(n):\n    return len(adj[n])\n\ndef components():\n    seen, comps = set(), []\n    for start in list(adj):\n        if start in seen:\n            continue\n        q, comp = [start], []\n        seen.add(start)\n        while q:\n            n = q.pop()\n            comp.append(n)\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); q.append(m)\n        comps.append(sorted(comp))\n    return comps\n\ndef bfs_path(src, dst, max_depth=5):\n    q = deque([(src, [src])])\n    seen = {src}\n    while q:\n        n, path = q.popleft()\n        if n == dst:\n            return path\n        if len(path) > max_depth:\n            continue\n        for m in sorted(adj[n]):\n            if m not in seen:\n                seen.add(m)\n                q.append((m, path + [m]))\n    return None\n\nprint(\"deg_B\", degree(\"B\"))\nprint(\"comps\", components())\nprint(\"path_A_D\", bfs_path(\"A\", \"D\"))",
+        "code_output": "deg_B 3\ncomps [['A', 'B', 'C', 'D'], ['E', 'F']]\npath_A_D ['A', 'B', 'D']"
+      },
+      {
+        "subtopicId": "S31-T3-B",
+        "heading": "centralidad con interpretación limitada",
+        "paragraphs": [
+          "**Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+          "Interpreta con contexto: tipo de arista, ventana temporal, y si el nodo es infraestructura vs persona. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "Nunca automatices “alta centralidad → fraude”. Eso viola el gate de CP-N3-B. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto."
+        ],
+        "code": "from collections import defaultdict\nadj = defaultdict(set)\nedges = [(\"P1\", \"HUB\"), (\"P2\", \"HUB\"), (\"P3\", \"HUB\"), (\"P1\", \"P2\"), (\"X\", \"Y\")]\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\ndegree_cent = {n: len(adj[n]) for n in adj}\n# betweenness simple en grafo chico: fracción de pares más cortos que pasan por v\nnodes = sorted(adj)\nfrom collections import deque\n\ndef shortest_paths(s):\n    dist = {s: 0}\n    q = deque([s])\n    while q:\n        u = q.popleft()\n        for v in adj[u]:\n            if v not in dist:\n                dist[v] = dist[u] + 1\n                q.append(v)\n    return dist\n\n# proxy: grado normalizado\nmax_d = max(degree_cent.values())\nnorm = {n: degree_cent[n] / max_d for n in degree_cent}\nprint(\"top\", sorted(norm, key=norm.get, reverse=True)[:1][0])\nprint(\"hub_degree\", degree_cent[\"HUB\"])\nprint(\"not_guilt\", True)  # centralidad ≠ culpabilidad",
+        "code_output": "top HUB\nhub_degree 3\nnot_guilt True"
+      },
+      {
+        "subtopicId": "S31-T4-A",
+        "heading": "subgrafos y pruebas",
+        "paragraphs": [
+          "Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+          "Tests de grafo: cardinalidades, path existe/no existe, componente esperada, idempotencia de construcción. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "Cada bug de construcción (arista invertida, nodo huérfano) debe tener regresión. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto."
+        ],
+        "code": "from collections import defaultdict\ndef build(edges):\n    adj = defaultdict(set)\n    for u, v in edges:\n        adj[u].add(v); adj[v].add(u)\n    return adj\n\ndef ego(adj, seed, k=1):\n    layer = {seed}\n    seen = {seed}\n    for _ in range(k):\n        nxt = set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    nxt.add(m); seen.add(m)\n        layer = nxt\n    return seen\n\nedges = [(\"A\", \"B\"), (\"B\", \"C\"), (\"C\", \"D\"), (\"Z\", \"Y\")]\nadj = build(edges)\nsub = ego(adj, \"A\", k=2)\n# pruebas\nassert \"A\" in sub and \"C\" in sub and \"Z\" not in sub\nassert all(w >= 0 for w in [1, 2, 0])\nprint(\"sub_nodes\", sorted(sub))\nprint(\"tests_ok\", True)\nprint(\"k\", 2)",
+        "code_output": "sub_nodes ['A', 'B', 'C']\ntests_ok True\nk 2"
+      },
+      {
+        "subtopicId": "S31-T4-B",
+        "heading": "visualización, escalabilidad, privacidad y evidencia por arista",
+        "paragraphs": [
+          "Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
+          "**Privacidad**: enmascara PII (email parcial, teléfono parcial). Roles ven solo lo necesario. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+          "**Evidencia por arista**: al click, muestra records, ts, source — el path debe ser explicable en texto y en UI. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco."
+        ],
+        "code": "def redact_email(e: str) -> str:\n    local, _, domain = e.partition(\"@\")\n    if len(local) <= 2:\n        return \"***@\" + domain\n    return local[:2] + \"***@\" + domain\n\ndef edge_evidence(edge_id, store):\n    return store.get(edge_id, {})\n\nstore = {\n    \"e-1\": {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"records\": [\"tx-1\", \"tx-2\"],\n            \"amount_sum\": 150.0, \"source\": \"tx_ledger\"},\n}\nview = {\n    \"nodes\": [{\"id\": \"E1\", \"label\": redact_email(\"ana@example.pe\")},\n              {\"id\": \"E2\", \"label\": redact_email(\"luis@example.pe\")}],\n    \"edge\": edge_evidence(\"e-1\", store),\n}\nprint(\"redact\", view[\"nodes\"][0][\"label\"])\nprint(\"records\", view[\"edge\"][\"records\"])\nprint(\"scalable_view\", \"subgraph_only\")",
+        "code_output": "redact an***@example.pe\nrecords ['tx-1', 'tx-2']\nscalable_view subgraph_only"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S31-T1-A-DEMO",
+          "subtopicId": "S31-T1-A",
+          "environment": "local-python",
+          "description": "Modela nodos entidad/cuenta y aristas owns/transfer con dirección y peso.",
+          "why": "Dirección y peso son parte del contrato del grafo, no adornos.",
+          "code": "nodes = [\"E1\", \"E2\", \"A1\", \"A2\"]\nedges = [\n    (\"E1\", \"A1\", \"owns\", 1.0, True),\n    (\"E2\", \"A2\", \"owns\", 1.0, True),\n    (\"A1\", \"A2\", \"transfer\", 99.5, True),\n]\nprint(\"n\", len(nodes), \"e\", len(edges))\nprint(\"directed_tx\", edges[2][4])\nprint(\"weight\", edges[2][3])",
+          "language": "python",
+          "output": "n 4 e 3\ndirected_tx True\nweight 99.5"
+        },
+        {
+          "demoId": "S31-T1-B-DEMO",
+          "subtopicId": "S31-T1-B",
+          "environment": "local-python",
+          "description": "Multiaristas con timestamps y provenance por record_id.",
+          "why": "Multigrafo + provenance habilita auditoría del camino.",
+          "code": "edges = [\n    {\"pair\": (\"E1\", \"E2\"), \"ts\": \"2026-03-01\", \"rid\": \"r1\", \"src\": \"crm\"},\n    {\"pair\": (\"E1\", \"E2\"), \"ts\": \"2026-03-02\", \"rid\": \"r2\", \"src\": \"crm\"},\n]\nprint(\"multi\", len(edges))\nprint(\"rids\", [e[\"rid\"] for e in edges])\nprint(\"prov_ok\", all(e.get(\"src\") and e.get(\"rid\") for e in edges))",
+          "language": "python",
+          "output": "multi 2\nrids ['r1', 'r2']\nprov_ok True"
+        },
+        {
+          "demoId": "S31-T2-A-DEMO",
+          "subtopicId": "S31-T2-A",
+          "environment": "local-python",
+          "description": "Construye aristas owns y shared_phone desde tablas sintéticas.",
+          "why": "Tablas → grafo con tipos estables.",
+          "code": "ents = [{\"id\": \"e1\"}, {\"id\": \"e2\"}]\naccs = [{\"id\": \"a1\", \"owner\": \"e1\"}]\nphones = [{\"e\": \"e1\", \"v\": \"9001\"}, {\"e\": \"e2\", \"v\": \"9001\"}]\nedges = [(a[\"owner\"], a[\"id\"], \"owns\") for a in accs]\n# shared contact via contact node\nfor p in phones:\n    edges.append((p[\"e\"], \"ph:\" + p[\"v\"], \"has_phone\"))\nprint(\"edges\", len(edges))\nprint(\"contact_node\", \"ph:9001\")\nprint(\"builders\", \"tables_ok\")",
+          "language": "python",
+          "output": "edges 3\ncontact_node ph:9001\nbuilders tables_ok"
+        },
+        {
+          "demoId": "S31-T2-B-DEMO",
+          "subtopicId": "S31-T2-B",
+          "environment": "local-python",
+          "description": "Agrega montos por par conservando lista de record_id.",
+          "why": "Agregado y detalle conviven.",
+          "code": "from collections import defaultdict\nrows = [\n    (\"E1\", \"E2\", 10.0, \"t1\"),\n    (\"E1\", \"E2\", 5.0, \"t2\"),\n]\nagg = defaultdict(lambda: {\"sum\": 0.0, \"ids\": []})\nfor s, d, a, i in rows:\n    agg[(s, d)][\"sum\"] += a\n    agg[(s, d)][\"ids\"].append(i)\nprint(\"sum\", agg[(\"E1\", \"E2\")][\"sum\"])\nprint(\"ids\", agg[(\"E1\", \"E2\")][\"ids\"])\nprint(\"detail_n\", len(rows))",
+          "language": "python",
+          "output": "sum 15.0\nids ['t1', 't2']\ndetail_n 2"
+        },
+        {
+          "demoId": "S31-T3-A-DEMO",
+          "subtopicId": "S31-T3-A",
+          "environment": "local-python",
+          "description": "BFS path reproducible entre dos entidades con hop limit.",
+          "why": "Camino acotado y ordenado = reproducible.",
+          "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [(\"A\", \"B\"), (\"B\", \"C\"), (\"C\", \"D\")]:\n    adj[u].add(v); adj[v].add(u)\n\ndef path(s, t, max_h=4):\n    q = deque([(s, [s])])\n    seen = {s}\n    while q:\n        n, p = q.popleft()\n        if n == t:\n            return p\n        if len(p) > max_h:\n            continue\n        for m in sorted(adj[n]):\n            if m not in seen:\n                seen.add(m)\n                q.append((m, p + [m]))\n    return None\nprint(\"path\", path(\"A\", \"D\"))\nprint(\"hops\", len(path(\"A\", \"D\")) - 1)\nprint(\"repro\", True)",
+          "language": "python",
+          "output": "path ['A', 'B', 'C', 'D']\nhops 3\nrepro True"
+        },
+        {
+          "demoId": "S31-T3-B-DEMO",
+          "subtopicId": "S31-T3-B",
+          "environment": "local-python",
+          "description": "Calcula degree centrality y emite disclaimer de no-culpabilidad.",
+          "why": "Métrica estructural con interpretación limitada.",
+          "code": "from collections import Counter\nedges = [(\"H\", \"A\"), (\"H\", \"B\"), (\"H\", \"C\"), (\"A\", \"B\")]\ndeg = Counter()\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\ntop = deg.most_common(1)[0]\nprint(\"top_node\", top[0], \"degree\", top[1])\nprint(\"interpretation\", \"structure_only\")\nprint(\"guilt_label\", False)",
+          "language": "python",
+          "output": "top_node H degree 3\ninterpretation structure_only\nguilt_label False"
+        },
+        {
+          "demoId": "S31-T4-A-DEMO",
+          "subtopicId": "S31-T4-A",
+          "environment": "local-python",
+          "description": "Extrae ego-subgraph k=1 y valida nodos esperados.",
+          "why": "Subgrafo de caso testeable.",
+          "code": "from collections import defaultdict\nadj = defaultdict(set)\nfor u, v in [(\"S\", \"A\"), (\"S\", \"B\"), (\"A\", \"X\"), (\"Z\", \"Y\")]:\n    adj[u].add(v); adj[v].add(u)\nseed, k = \"S\", 1\nnodes = {seed} | set(adj[seed])\nassert \"A\" in nodes and \"Z\" not in nodes\nprint(\"ego\", sorted(nodes))\nprint(\"k\", k)\nprint(\"test_ok\", True)",
+          "language": "python",
+          "output": "ego ['A', 'B', 'S']\nk 1\ntest_ok True"
+        },
+        {
+          "demoId": "S31-T4-B-DEMO",
+          "subtopicId": "S31-T4-B",
+          "environment": "local-python",
+          "description": "Redacta labels y adjunta evidencia de arista al path view.",
+          "why": "Vista de path con privacidad y evidencia.",
+          "code": "def redact_phone(p):\n    return p[:3] + \"****\" + p[-2:]\npath = [\"E1\", \"ph\", \"E2\"]\nevidence = {\"etype\": \"shared_phone\", \"records\": [\"c-1\", \"c-2\"]}\nprint(\"labels\", [redact_phone(\"+51900000001\"), \"shared\", redact_phone(\"+51900000001\")])\nprint(\"evidence_records\", evidence[\"records\"])\nprint(\"pii_full\", False)",
+          "language": "python",
+          "output": "labels ['+51****01', 'shared', '+51****01']\nevidence_records ['c-1', 'c-2']\npii_full False"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S31-T1-A-E1",
+          "instruction": "S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "Usa literales de dict/list.",
+            "Cuenta con sum(1 for e in edges if e['directed'])."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n"
+        },
+        {
+          "id": "S31-T1-A-E2",
+          "instruction": "S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "Acumula en un dict.",
+            "Usa max(out, key=out.get)."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n"
+        },
+        {
+          "id": "S31-T1-A-E3",
+          "instruction": "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "sets para etypes.",
+            "sorted(set(...))."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n"
+        },
+        {
+          "id": "S31-T1-B-E1",
+          "instruction": "S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "tuple (src,dst) como clave.",
+            "Counter o dict."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n"
+        },
+        {
+          "id": "S31-T1-B-E2",
+          "instruction": "S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "Compara strings ISO fecha ordenables.",
+            "all('record_id' in e for e in filtered)."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n"
+        },
+        {
+          "id": "S31-T1-B-E3",
+          "instruction": "S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "strip de strings.",
+            "n_bad = sum(...)."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n"
+        },
+        {
+          "id": "S31-T2-A-E1",
+          "instruction": "S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "list comprehension.",
+            "sorted por owner luego id."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n"
+        },
+        {
+          "id": "S31-T2-A-E2",
+          "instruction": "S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "groupby por value.",
+            "filtra len(entities)>=2."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n"
+        },
+        {
+          "id": "S31-T2-A-E3",
+          "instruction": "S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "sets.",
+            "union de tres conjuntos."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n"
+        },
+        {
+          "id": "S31-T2-B-E1",
+          "instruction": "S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "map.get(x,x).",
+            "set de tuples."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n"
+        },
+        {
+          "id": "S31-T2-B-E2",
+          "instruction": "S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "defaultdict.",
+            "append record_id."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n"
+        },
+        {
+          "id": "S31-T2-B-E3",
+          "instruction": "S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "sum v['n'].",
+            "assert conceptual con print."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "detail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n"
+        },
+        {
+          "id": "S31-T3-A-E1",
+          "instruction": "S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "undirected: cuenta ambos extremos.",
+            "dict sorted items via sorted keys."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n"
+        },
+        {
+          "id": "S31-T3-A-E2",
+          "instruction": "S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "DFS o BFS.",
+            "sort componentes."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n"
+        },
+        {
+          "id": "S31-T3-A-E3",
+          "instruction": "S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "deque BFS.",
+            "hops = len(path)-1."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n"
+        },
+        {
+          "id": "S31-T3-B-E1",
+          "instruction": "S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "score = deg/max_deg.",
+            "round(score, 2)."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "deg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n"
+        },
+        {
+          "id": "S31-T3-B-E2",
+          "instruction": "S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "startswith.",
+            "disclaimer fijo."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "hub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n"
+        },
+        {
+          "id": "S31-T3-B-E3",
+          "instruction": "S31-T3-B-E3 · Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_transfer False si hay otros tipos en el grafo del hub.",
+          "hints": [
+            "revisa edge types incidentes.",
+            "set de etypes."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "incident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n"
+        },
+        {
+          "id": "S31-T4-A-E1",
+          "instruction": "S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "expansión por capas.",
+            "sets."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n"
+        },
+        {
+          "id": "S31-T4-A-E2",
+          "instruction": "S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "any self loop.",
+            "all weights."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n"
+        },
+        {
+          "id": "S31-T4-A-E3",
+          "instruction": "S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "función build → frozenset.",
+            "compara."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "raw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n"
+        },
+        {
+          "id": "S31-T4-B-E1",
+          "instruction": "S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "partition @.",
+            "local[:2]."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n"
+        },
+        {
+          "id": "S31-T4-B-E2",
+          "instruction": "S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "zip path path[1:].",
+            "get evidence."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n"
+        },
+        {
+          "id": "S31-T4-B-E3",
+          "instruction": "S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "comparar.",
+            "dos prints."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "max_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\n# TODO: imprime la salida contractual (ver instruction / solution output)\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Grafo temporal con caminos de evidencia (CP-N3-B inicio)",
+      "context": "Construye un grafo sintético entity/account/contact/tx con multiaristas, provenance y consulta de camino reproducible. Centralidad se reporta con disclaimer: no es culpabilidad. ER/matching no implica fraude ni parentesco. Id plataforma streaming-data conservado.",
+      "objectives": [
+        "Modelo nodos/aristas con dirección, peso y tipos",
+        "Multigrafo temporal con provenance por arista",
+        "Construcción desde tablas y agregación sin borrar detalle",
+        "Grado, componentes, paths con hop limit",
+        "Subgrafo de caso, tests y vista redactada con evidencia"
+      ],
+      "requirements": [
+        "Datos sintéticos only; sin PII real",
+        "Path reproducible documentado",
+        "Disclaimer de centralidad",
+        "Cero labels automáticos de fraude",
+        "Documentación es-PE"
+      ],
+      "portfolioNote": "Inicio CP-N3-B: grafo temporal con evidencia. No marca gate PASS; otra lane califica.",
+      "starterCode": "# CP-N3-B inicio — grafo de evidencia (esqueleto)\nfrom collections import defaultdict, deque\n\ndef add_undirected(adj, u, v):\n    adj[u].add(v); adj[v].add(u)\n\ndef bfs_path(adj, src, dst, max_depth=4):\n    q = deque([(src, [src])])\n    seen = {src}\n    while q:\n        n, path = q.popleft()\n        if n == dst:\n            return path\n        if len(path) > max_depth:\n            continue\n        for m in sorted(adj.get(n, [])):\n            if m not in seen:\n                seen.add(m)\n                q.append((m, path + [m]))\n    return None\n\n# TODO: cargar tablas sintéticas, provenance, ego subgraph, redact\nif __name__ == \"__main__\":\n    adj = defaultdict(set)\n    add_undirected(adj, \"E1\", \"E2\")\n    print(bfs_path(adj, \"E1\", \"E2\"))\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "En CP-N3-B, un score alto de centralidad significa:",
+        "options": [
+          "Fraude confirmado",
+          "Parentesco automático",
+          "Posición estructural que requiere contexto, no culpa",
+          "Borrar al nodo"
+        ]
+      },
+      {
+        "question": "Provenance en una arista sirve para:",
+        "options": [
+          "Auditar source/record_id del hecho relacional",
+          "Solo color en UI",
+          "Entrenar redes neuronales obligatoriamente",
+          "Ocultar el path"
+        ]
+      },
+      {
+        "question": "Al agregar transferencias entre el mismo par debes:",
+        "options": [
+          "Borrar record_ids",
+          "Conservar detalle o punteros además del agregado",
+          "Etiquetar fraude",
+          "Eliminar el multigrafo"
+        ]
+      },
+      {
+        "question": "Shared phone entre dos entidades implica:",
+        "options": [
+          "Parentesco legal",
+          "Colusión",
+          "Fraude automático",
+          "Un hecho de contacto compartido a investigar con evidencia, no veredicto"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "a9458715256e6ce4"
+}

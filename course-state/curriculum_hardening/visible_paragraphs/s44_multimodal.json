@@ -1,0 +1,612 @@
+{
+  "index": 44,
+  "id": "multimodal",
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "file": "s44-multimodal.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa: CI/CD y seguridad de la cadena de suministro",
+      "len": 50
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S44. CI: lint/types/tests en PR. Matrix: versiones Python. Pinning: actions@sha / deps lock. SBOM: lista de componentes. Provenance/attestation: quién construyó qué digest. CD: promote staging→prod con approval. Canary: tráfico parcial. RTO: tiempo de rollback. Protected branch: reviews+checks obligatorios.",
+      "len": 320
+    },
+    {
+      "i": 2,
+      "text": "Inicio CP-N4-B: el pipeline bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+      "len": 145
+    },
+    {
+      "i": 3,
+      "text": "Contrato de sección. Entrada: commits sintéticos, locks y digests. Salida: gates verdes o bloqueo con evidencia. Error: token write-all, latest actions o promote sin approval.",
+      "len": 175
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 CI → T2 Seguridad supply chain → T3 CD → T4 Gobierno. CASO-LIM-044 Piura sintético.",
+      "len": 93
+    },
+    {
+      "i": 5,
+      "text": "T1-A Lint, types, tests y matrices de versiones en CI",
+      "len": 53
+    },
+    {
+      "i": 6,
+      "text": "CI corre lint, types y tests en una matriz de versiones soportadas. Fallar types no es cosmético: bloquea merge. La matriz debe coincidir con supported.",
+      "len": 152
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: all(lint, types, tests) y matrix==supported. Un job opcional no sustituye el gate crítico.",
+      "len": 101
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: flags y sets de versión. Salida: CI matrix verde completa. Error: tests solo en 3.11 cuando claims 3.11+3.12. Por qué importa: si no fijas «flags y sets de versión» → «CI matrix verde completa», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «tests solo en 3» para confirmar fail-closed.",
+      "len": 358
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-044-1A: 3.11/3.12 todos True. Release train Piura.",
+      "len": 72
+    },
+    {
+      "i": 10,
+      "text": "T1-B Caches por lock, artifacts con digest y condiciones",
+      "len": 56
+    },
+    {
+      "i": 11,
+      "text": "Cache por lock (cache_key empieza con lock-). Cache miss debe seguir pasando tests. Artifact con digest y retención. Condiciones cubren tags/branches de release.",
+      "len": 161
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: cache_key prefix, cache_miss_passes, artifact_digest sha256, retention_days, conditions_cover_tags.",
+      "len": 110
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: cache/artifact/conditions. Salida: cache honesto y artifact retenido. Error: cache que enmascara fallos. Por qué importa: si no fijas «cache/artifact/conditions» → «cache honesto y artifact retenido», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «cache que enmascara fallos» para confirmar fail-closed.",
+      "len": 375
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-044-1B: lock-abc, sha256 artifact, 14 días. CI Piura.",
+      "len": 75
+    },
+    {
+      "i": 15,
+      "text": "T2-A Permisos mínimos, actions pineadas y secret scanning",
+      "len": 57
+    },
+    {
+      "i": 16,
+      "text": "Token permissions solo read/none por defecto. Actions pineadas a commit SHA. Secret scanning en 0 hits. Dependency review en PRs. Write-all es anti-patrón.",
+      "len": 155
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: values de permissions ⊆ {read,none}; actions_pinned; secret_hits==0; dependency_review.",
+      "len": 98
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: permissions y flags. Salida: least privilege CI. Error: contents:write global sin need. Por qué importa: si no fijas «permissions y flags» → «least privilege CI», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «contents:write global sin need» para confirmar fail-closed.",
+      "len": 341
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-044-2A: contents read, pinned, 0 secrets. Supply chain Piura.",
+      "len": 83
+    },
+    {
+      "i": 20,
+      "text": "T2-B SBOM, provenance y attestations verificables del release",
+      "len": 61
+    },
+    {
+      "i": 21,
+      "text": "SBOM, provenance y attestation deben referir el mismo digest del artefacto. Attestation inválida o digests divergentes bloquean promote.",
+      "len": 136
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: set de digests tiene un solo valor; attestation_valid True.",
+      "len": 70
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: digests y attestation. Salida: supply chain verificable. Error: SBOM de otro build. Por qué importa: si no fijas «digests y attestation» → «supply chain verificable», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «SBOM de otro build» para confirmar fail-closed.",
+      "len": 333
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-044-2B: tres digests sha256:aaa alineados. Release Piura verificable.",
+      "len": 91
+    },
+    {
+      "i": 25,
+      "text": "T3-A Environments protegidos y approvals antes de promote",
+      "len": 57
+    },
+    {
+      "i": 26,
+      "text": "Promote solo staging→production con approved_by y mismo digest testeado. Environments protegen secretos y reviewers. Sin approval, deny.",
+      "len": 136
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: source/target envs, approved_by no vacío, tested_digest==promoted_digest.",
+      "len": 84
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: envs, approver, digests. Salida: promote autorizado y alineado. Error: prod desde feature branch. Por qué importa: si no fijas «envs, approver, digests» → «promote autorizado y alineado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «prod desde feature branch» para confirmar fail-closed.",
+      "len": 361
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-044-3A: staging→prod, release-owner, digests iguales. CD Piura.",
+      "len": 85
+    },
+    {
+      "i": 30,
+      "text": "T3-B Migrations compatibles, canary y rollback medible",
+      "len": 54
+    },
+    {
+      "i": 31,
+      "text": "Migraciones compatibles con canary. Error rate del canary ≤ umbral. Rollback probado dentro de RTO (rollback_seconds ≤ rto_seconds). Blue-green es alternativa con switch atómico.",
+      "len": 178
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: migration_compatible, canary_error_rate≤max, rollback_tested, tiempos.",
+      "len": 81
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: canary/rollback metrics. Salida: canary bajo RTO. Error: migrate breaking + canary ciego. Por qué importa: si no fijas «canary/rollback metrics» → «canary bajo RTO», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «migrate breaking + canary ciego» para confirmar fail-closed.",
+      "len": 345
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-044-3B: 0.4%≤1%, rollback 75s≤120s. Prod lab Piura.",
+      "len": 73
+    },
+    {
+      "i": 35,
+      "text": "T4-A Branch policy, reviews y release notes completas",
+      "len": 53
+    },
+    {
+      "i": 36,
+      "text": "Protected branch, required_reviews≥1, required_checks y release notes con change/risk/migration/rollback. Sin notes, el release no es auditable.",
+      "len": 144
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: flags + set de secciones de notes completo.",
+      "len": 54
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: branch policy y notes. Salida: release revisado y documentado. Error: merge directo a main. Por qué importa: si no fijas «branch policy y notes» → «release revisado y documentado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «merge directo a main» para confirmar fail-closed.",
+      "len": 349
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-044-4A: 2 reviews, notes completas. Gobierno Piura.",
+      "len": 73
+    },
+    {
+      "i": 40,
+      "text": "T4-B Failure handling y evidencia auditable del pipeline",
+      "len": 56
+    },
+    {
+      "i": 41,
+      "text": "Falla crítica debe bloquear el pipeline; logs redactados; owner asignado; evidencia retenida. Fallar en silencio es el anti-patrón de supply chain.",
+      "len": 147
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: critical_failure ∧ pipeline_blocked ∧ logs_redacted ∧ owner ∧ evidence_retained.",
+      "len": 91
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: failure handling flags. Salida: bloqueo con evidencia. Error: continue-on-error en job crítico. Por qué importa: si no fijas «failure handling flags» → «bloqueo con evidencia», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «continue-on-error en job crítico» para confirmar fail-closed.",
+      "len": 357
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-044-4B: blocked, owner release, evidence kept. Cierre lab Piura.",
+      "len": 86
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa: CI/CD y seguridad de la cadena de suministro",
+      "text": "Mapa: CI/CD y seguridad de la cadena de suministro"
+    },
+    {
+      "i": 1,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S44. CI: lint/types/tests en PR. Matrix: versiones Python. Pinning: actions@sha / deps lock. SBOM: lista de componentes. Provenance/attestation: quién construyó qué dig",
+      "text": "Diccionario S44. CI: lint/types/tests en PR. Matrix: versiones Python. Pinning: actions@sha / deps lock. SBOM: lista de componentes. Provenance/attestation: quién construyó qué digest. CD: promote staging→prod con approval. Canary: tráfico parcial. RTO: tiempo de rollback. Protected branch: reviews+checks obligatorios."
+    },
+    {
+      "i": 2,
+      "len": 145,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Inicio CP-N4-B: el pipeline bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+      "text": "Inicio CP-N4-B: el pipeline bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba."
+    },
+    {
+      "i": 3,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de sección. Entrada: commits sintéticos, locks y digests. Salida: gates verdes o bloqueo con evidencia. Error: token write-all, latest actions o promote sin approval.",
+      "text": "Contrato de sección. Entrada: commits sintéticos, locks y digests. Salida: gates verdes o bloqueo con evidencia. Error: token write-all, latest actions o promote sin approval."
+    },
+    {
+      "i": 4,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 CI → T2 Seguridad supply chain → T3 CD → T4 Gobierno. CASO-LIM-044 Piura sintético.",
+      "text": "Orden: T1 CI → T2 Seguridad supply chain → T3 CD → T4 Gobierno. CASO-LIM-044 Piura sintético."
+    },
+    {
+      "i": 5,
+      "len": 53,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-A Lint, types, tests y matrices de versiones en CI",
+      "text": "T1-A Lint, types, tests y matrices de versiones en CI"
+    },
+    {
+      "i": 6,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "CI corre lint, types y tests en una matriz de versiones soportadas. Fallar types no es cosmético: bloquea merge. La matriz debe coincidir con supported.",
+      "text": "CI corre lint, types y tests en una matriz de versiones soportadas. Fallar types no es cosmético: bloquea merge. La matriz debe coincidir con supported."
+    },
+    {
+      "i": 7,
+      "len": 101,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: all(lint, types, tests) y matrix==supported. Un job opcional no sustituye el gate crítico.",
+      "text": "Mecanismo: all(lint, types, tests) y matrix==supported. Un job opcional no sustituye el gate crítico."
+    },
+    {
+      "i": 8,
+      "len": 358,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: flags y sets de versión. Salida: CI matrix verde completa. Error: tests solo en 3.11 cuando claims 3.11+3.12. Por qué importa: si no fijas «flags y set",
+      "text": "Contrato operativo. Entrada: flags y sets de versión. Salida: CI matrix verde completa. Error: tests solo en 3.11 cuando claims 3.11+3.12. Por qué importa: si no fijas «flags y sets de versión» → «CI matrix verde completa», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «tests solo en 3» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-1A: 3.11/3.12 todos True. Release train Piura.",
+      "text": "Aplicación a CASO-LIM-044-1A: 3.11/3.12 todos True. Release train Piura."
+    },
+    {
+      "i": 10,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-B Caches por lock, artifacts con digest y condiciones",
+      "text": "T1-B Caches por lock, artifacts con digest y condiciones"
+    },
+    {
+      "i": 11,
+      "len": 161,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cache por lock (cache_key empieza con lock-). Cache miss debe seguir pasando tests. Artifact con digest y retención. Condiciones cubren tags/branches de release.",
+      "text": "Cache por lock (cache_key empieza con lock-). Cache miss debe seguir pasando tests. Artifact con digest y retención. Condiciones cubren tags/branches de release."
+    },
+    {
+      "i": 12,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: cache_key prefix, cache_miss_passes, artifact_digest sha256, retention_days, conditions_cover_tags.",
+      "text": "Mecanismo: cache_key prefix, cache_miss_passes, artifact_digest sha256, retention_days, conditions_cover_tags."
+    },
+    {
+      "i": 13,
+      "len": 375,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: cache/artifact/conditions. Salida: cache honesto y artifact retenido. Error: cache que enmascara fallos. Por qué importa: si no fijas «cache/artifact/c",
+      "text": "Contrato operativo. Entrada: cache/artifact/conditions. Salida: cache honesto y artifact retenido. Error: cache que enmascara fallos. Por qué importa: si no fijas «cache/artifact/conditions» → «cache honesto y artifact retenido», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «cache que enmascara fallos» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 75,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-1B: lock-abc, sha256 artifact, 14 días. CI Piura.",
+      "text": "Aplicación a CASO-LIM-044-1B: lock-abc, sha256 artifact, 14 días. CI Piura."
+    },
+    {
+      "i": 15,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-A Permisos mínimos, actions pineadas y secret scanning",
+      "text": "T2-A Permisos mínimos, actions pineadas y secret scanning"
+    },
+    {
+      "i": 16,
+      "len": 155,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Token permissions solo read/none por defecto. Actions pineadas a commit SHA. Secret scanning en 0 hits. Dependency review en PRs. Write-all es anti-patrón.",
+      "text": "Token permissions solo read/none por defecto. Actions pineadas a commit SHA. Secret scanning en 0 hits. Dependency review en PRs. Write-all es anti-patrón."
+    },
+    {
+      "i": 17,
+      "len": 98,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: values de permissions ⊆ {read,none}; actions_pinned; secret_hits==0; dependency_review.",
+      "text": "Mecanismo: values de permissions ⊆ {read,none}; actions_pinned; secret_hits==0; dependency_review."
+    },
+    {
+      "i": 18,
+      "len": 341,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: permissions y flags. Salida: least privilege CI. Error: contents:write global sin need. Por qué importa: si no fijas «permissions y flags» → «least pri",
+      "text": "Contrato operativo. Entrada: permissions y flags. Salida: least privilege CI. Error: contents:write global sin need. Por qué importa: si no fijas «permissions y flags» → «least privilege CI», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «contents:write global sin need» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 83,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-2A: contents read, pinned, 0 secrets. Supply chain Piura.",
+      "text": "Aplicación a CASO-LIM-044-2A: contents read, pinned, 0 secrets. Supply chain Piura."
+    },
+    {
+      "i": 20,
+      "len": 61,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-B SBOM, provenance y attestations verificables del release",
+      "text": "T2-B SBOM, provenance y attestations verificables del release"
+    },
+    {
+      "i": 21,
+      "len": 136,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SBOM, provenance y attestation deben referir el mismo digest del artefacto. Attestation inválida o digests divergentes bloquean promote.",
+      "text": "SBOM, provenance y attestation deben referir el mismo digest del artefacto. Attestation inválida o digests divergentes bloquean promote."
+    },
+    {
+      "i": 22,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: set de digests tiene un solo valor; attestation_valid True.",
+      "text": "Mecanismo: set de digests tiene un solo valor; attestation_valid True."
+    },
+    {
+      "i": 23,
+      "len": 333,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: digests y attestation. Salida: supply chain verificable. Error: SBOM de otro build. Por qué importa: si no fijas «digests y attestation» → «supply chai",
+      "text": "Contrato operativo. Entrada: digests y attestation. Salida: supply chain verificable. Error: SBOM de otro build. Por qué importa: si no fijas «digests y attestation» → «supply chain verificable», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «SBOM de otro build» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-2B: tres digests sha256:aaa alineados. Release Piura verificable.",
+      "text": "Aplicación a CASO-LIM-044-2B: tres digests sha256:aaa alineados. Release Piura verificable."
+    },
+    {
+      "i": 25,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-A Environments protegidos y approvals antes de promote",
+      "text": "T3-A Environments protegidos y approvals antes de promote"
+    },
+    {
+      "i": 26,
+      "len": 136,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Promote solo staging→production con approved_by y mismo digest testeado. Environments protegen secretos y reviewers. Sin approval, deny.",
+      "text": "Promote solo staging→production con approved_by y mismo digest testeado. Environments protegen secretos y reviewers. Sin approval, deny."
+    },
+    {
+      "i": 27,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: source/target envs, approved_by no vacío, tested_digest==promoted_digest.",
+      "text": "Mecanismo: source/target envs, approved_by no vacío, tested_digest==promoted_digest."
+    },
+    {
+      "i": 28,
+      "len": 361,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: envs, approver, digests. Salida: promote autorizado y alineado. Error: prod desde feature branch. Por qué importa: si no fijas «envs, approver, digests",
+      "text": "Contrato operativo. Entrada: envs, approver, digests. Salida: promote autorizado y alineado. Error: prod desde feature branch. Por qué importa: si no fijas «envs, approver, digests» → «promote autorizado y alineado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «prod desde feature branch» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-3A: staging→prod, release-owner, digests iguales. CD Piura.",
+      "text": "Aplicación a CASO-LIM-044-3A: staging→prod, release-owner, digests iguales. CD Piura."
+    },
+    {
+      "i": 30,
+      "len": 54,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-B Migrations compatibles, canary y rollback medible",
+      "text": "T3-B Migrations compatibles, canary y rollback medible"
+    },
+    {
+      "i": 31,
+      "len": 178,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Migraciones compatibles con canary. Error rate del canary ≤ umbral. Rollback probado dentro de RTO (rollback_seconds ≤ rto_seconds). Blue-green es alternativa con switch atómico.",
+      "text": "Migraciones compatibles con canary. Error rate del canary ≤ umbral. Rollback probado dentro de RTO (rollback_seconds ≤ rto_seconds). Blue-green es alternativa con switch atómico."
+    },
+    {
+      "i": 32,
+      "len": 81,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: migration_compatible, canary_error_rate≤max, rollback_tested, tiempos.",
+      "text": "Mecanismo: migration_compatible, canary_error_rate≤max, rollback_tested, tiempos."
+    },
+    {
+      "i": 33,
+      "len": 345,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: canary/rollback metrics. Salida: canary bajo RTO. Error: migrate breaking + canary ciego. Por qué importa: si no fijas «canary/rollback metrics» → «can",
+      "text": "Contrato operativo. Entrada: canary/rollback metrics. Salida: canary bajo RTO. Error: migrate breaking + canary ciego. Por qué importa: si no fijas «canary/rollback metrics» → «canary bajo RTO», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «migrate breaking + canary ciego» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-3B: 0.4%≤1%, rollback 75s≤120s. Prod lab Piura.",
+      "text": "Aplicación a CASO-LIM-044-3B: 0.4%≤1%, rollback 75s≤120s. Prod lab Piura."
+    },
+    {
+      "i": 35,
+      "len": 53,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-A Branch policy, reviews y release notes completas",
+      "text": "T4-A Branch policy, reviews y release notes completas"
+    },
+    {
+      "i": 36,
+      "len": 144,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Protected branch, required_reviews≥1, required_checks y release notes con change/risk/migration/rollback. Sin notes, el release no es auditable.",
+      "text": "Protected branch, required_reviews≥1, required_checks y release notes con change/risk/migration/rollback. Sin notes, el release no es auditable."
+    },
+    {
+      "i": 37,
+      "len": 54,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: flags + set de secciones de notes completo.",
+      "text": "Mecanismo: flags + set de secciones de notes completo."
+    },
+    {
+      "i": 38,
+      "len": 349,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: branch policy y notes. Salida: release revisado y documentado. Error: merge directo a main. Por qué importa: si no fijas «branch policy y notes» → «rel",
+      "text": "Contrato operativo. Entrada: branch policy y notes. Salida: release revisado y documentado. Error: merge directo a main. Por qué importa: si no fijas «branch policy y notes» → «release revisado y documentado», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «merge directo a main» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-4A: 2 reviews, notes completas. Gobierno Piura.",
+      "text": "Aplicación a CASO-LIM-044-4A: 2 reviews, notes completas. Gobierno Piura."
+    },
+    {
+      "i": 40,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-B Failure handling y evidencia auditable del pipeline",
+      "text": "T4-B Failure handling y evidencia auditable del pipeline"
+    },
+    {
+      "i": 41,
+      "len": 147,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Falla crítica debe bloquear el pipeline; logs redactados; owner asignado; evidencia retenida. Fallar en silencio es el anti-patrón de supply chain.",
+      "text": "Falla crítica debe bloquear el pipeline; logs redactados; owner asignado; evidencia retenida. Fallar en silencio es el anti-patrón de supply chain."
+    },
+    {
+      "i": 42,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: critical_failure ∧ pipeline_blocked ∧ logs_redacted ∧ owner ∧ evidence_retained.",
+      "text": "Mecanismo: critical_failure ∧ pipeline_blocked ∧ logs_redacted ∧ owner ∧ evidence_retained."
+    },
+    {
+      "i": 43,
+      "len": 357,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: failure handling flags. Salida: bloqueo con evidencia. Error: continue-on-error en job crítico. Por qué importa: si no fijas «failure handling flags» →",
+      "text": "Contrato operativo. Entrada: failure handling flags. Salida: bloqueo con evidencia. Error: continue-on-error en job crítico. Por qué importa: si no fijas «failure handling flags» → «bloqueo con evidencia», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «continue-on-error en job crítico» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-044-4B: blocked, owner release, evidence kept. Cierre lab Piura.",
+      "text": "Aplicación a CASO-LIM-044-4B: blocked, owner release, evidence kept. Cierre lab Piura."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 11476
+}

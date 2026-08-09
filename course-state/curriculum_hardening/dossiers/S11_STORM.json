@@ -1,0 +1,344 @@
+{
+  "section": 11,
+  "title": "OOP y modelo de dominio",
+  "file": "s11-testing.ts",
+  "n_required": 11,
+  "n_logged": 11,
+  "generated_at": "2026-07-24T05:07:19.183+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT 24 > HEAD 0",
+    "ethics": "no is_fraud/is_family; scores are data; synthetic PE only",
+    "v3_retarget": "OOP domain not pytest fixtures/CI path",
+    "expert_pass_at": "2026-07-24T05:07:19.183+00:00",
+    "theater_strip": "removed Stack permitido / Documenta decisión / porqué operativo fillers"
+  },
+  "unique_foci": 11,
+  "source_url_count": 12,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget OOP domain not pytest-CI core",
+      "research": [
+        {
+          "family": "Python",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "frozen field post_init"
+        },
+        {
+          "family": "Python",
+          "title": "typing.Protocol",
+          "url": "https://docs.python.org/3/library/typing.html#typing.Protocol",
+          "note": "ports"
+        },
+        {
+          "family": "Python",
+          "title": "unittest",
+          "url": "https://docs.python.org/3/library/unittest.html",
+          "note": "pure domain tests"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 1/11: «V3 retarget OOP domain not pytest-CI core» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget OOP domain not pytest-CI core».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget OOP domain not pytest-CI core»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 1/11: «V3 retarget OOP domain not pytest-CI core» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "dataclass ClientRecord instances",
+      "research": [
+        {
+          "family": "Python",
+          "title": "typing.Protocol",
+          "url": "https://docs.python.org/3/library/typing.html#typing.Protocol",
+          "note": "ports"
+        },
+        {
+          "family": "Python",
+          "title": "unittest",
+          "url": "https://docs.python.org/3/library/unittest.html",
+          "note": "pure domain tests"
+        },
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money amounts"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 2/11: «dataclass ClientRecord instances» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dataclass ClientRecord instances».",
+      "expand_scope": "E1/E2/E3 + docs for «dataclass ClientRecord instances»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 2/11: «dataclass ClientRecord instances» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "invariants __post_init__ fail closed",
+      "research": [
+        {
+          "family": "Python",
+          "title": "unittest",
+          "url": "https://docs.python.org/3/library/unittest.html",
+          "note": "pure domain tests"
+        },
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money amounts"
+        },
+        {
+          "family": "Python",
+          "title": "data model eq",
+          "url": "https://docs.python.org/3/reference/datamodel.html#object.__eq__",
+          "note": "eq hash"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 3/11: «invariants __post_init__ fail closed» via Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «invariants __post_init__ fail closed».",
+      "expand_scope": "E1/E2/E3 + docs for «invariants __post_init__ fail closed»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 3/11: «invariants __post_init__ fail closed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "properties display_name masked_email",
+      "research": [
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money amounts"
+        },
+        {
+          "family": "Python",
+          "title": "data model eq",
+          "url": "https://docs.python.org/3/reference/datamodel.html#object.__eq__",
+          "note": "eq hash"
+        },
+        {
+          "family": "PEP",
+          "title": "PEP 544 Protocols",
+          "url": "https://peps.python.org/pep-0544/",
+          "note": "structural typing"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 4/11: «properties display_name masked_email» via PEP, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «properties display_name masked_email».",
+      "expand_scope": "E1/E2/E3 + docs for «properties display_name masked_email»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 4/11: «properties display_name masked_email» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "frozen ResolvedEntity eq hash entity_id",
+      "research": [
+        {
+          "family": "Python",
+          "title": "data model eq",
+          "url": "https://docs.python.org/3/reference/datamodel.html#object.__eq__",
+          "note": "eq hash"
+        },
+        {
+          "family": "PEP",
+          "title": "PEP 544 Protocols",
+          "url": "https://peps.python.org/pep-0544/",
+          "note": "structural typing"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest docs",
+          "url": "https://docs.pytest.org/",
+          "note": "quality support not V3 core"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 5/11: «frozen ResolvedEntity eq hash entity_id» via PEP, Python, pytest (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «frozen ResolvedEntity eq hash entity_id».",
+      "expand_scope": "E1/E2/E3 + docs for «frozen ResolvedEntity eq hash entity_id»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 5/11: «frozen ResolvedEntity eq hash entity_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "composition CaseFile RelationshipEvidence",
+      "research": [
+        {
+          "family": "PEP",
+          "title": "PEP 544 Protocols",
+          "url": "https://peps.python.org/pep-0544/",
+          "note": "structural typing"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest docs",
+          "url": "https://docs.pytest.org/",
+          "note": "quality support not V3 core"
+        },
+        {
+          "family": "Real Python",
+          "title": "Python Classes",
+          "url": "https://realpython.com/python-classes/",
+          "note": "OOP basics"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 6/11: «composition CaseFile RelationshipEvidence» via PEP, Real Python, pytest (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «composition CaseFile RelationshipEvidence».",
+      "expand_scope": "E1/E2/E3 + docs for «composition CaseFile RelationshipEvidence»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 6/11: «composition CaseFile RelationshipEvidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "Protocol EntityStore ports",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "pytest docs",
+          "url": "https://docs.pytest.org/",
+          "note": "quality support not V3 core"
+        },
+        {
+          "family": "Real Python",
+          "title": "Python Classes",
+          "url": "https://realpython.com/python-classes/",
+          "note": "OOP basics"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "objects"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 7/11: «Protocol EntityStore ports» via MIT, Real Python, pytest (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Protocol EntityStore ports».",
+      "expand_scope": "E1/E2/E3 + docs for «Protocol EntityStore ports»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 7/11: «Protocol EntityStore ports» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "repo service to_dict boundary",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Python Classes",
+          "url": "https://realpython.com/python-classes/",
+          "note": "OOP basics"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "objects"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 8/11: «repo service to_dict boundary» via Live, MIT, Real Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «repo service to_dict boundary».",
+      "expand_scope": "E1/E2/E3 + docs for «repo service to_dict boundary»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 8/11: «repo service to_dict boundary» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "pure domain tests no fraud API",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "objects"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Python",
+          "title": "typing module",
+          "url": "https://docs.python.org/3/library/typing.html",
+          "note": "annotations"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 9/11: «pure domain tests no fraud API» via Live, MIT, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pure domain tests no fraud API».",
+      "expand_scope": "E1/E2/E3 + docs for «pure domain tests no fraud API»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 9/11: «pure domain tests no fraud API» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "Decimal Transaction currency allowlist",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Python",
+          "title": "typing module",
+          "url": "https://docs.python.org/3/library/typing.html",
+          "note": "annotations"
+        },
+        {
+          "family": "Cosmic Python",
+          "title": "Architecture patterns book site",
+          "url": "https://www.cosmicpython.com/",
+          "note": "repo service"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 10/11: «Decimal Transaction currency allowlist» via Cosmic Python, Live, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Decimal Transaction currency allowlist».",
+      "expand_scope": "E1/E2/E3 + docs for «Decimal Transaction currency allowlist»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 10/11: «Decimal Transaction currency allowlist» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "ethics scores are data not legal verdicts",
+      "research": [
+        {
+          "family": "Python",
+          "title": "typing module",
+          "url": "https://docs.python.org/3/library/typing.html",
+          "note": "annotations"
+        },
+        {
+          "family": "Cosmic Python",
+          "title": "Architecture patterns book site",
+          "url": "https://www.cosmicpython.com/",
+          "note": "repo service"
+        },
+        {
+          "family": "Python",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "frozen field post_init"
+        }
+      ],
+      "synthesize": "S11 «OOP y modelo de dominio» cycle 11/11: «ethics scores are data not legal verdicts» via Cosmic Python, Python (familiarity_core CP-N1-C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ethics scores are data not legal verdicts».",
+      "expand_scope": "E1/E2/E3 + docs for «ethics scores are data not legal verdicts»; V3 roadmap; pair S11.",
+      "re_synthesize": "Decision 11/11: «ethics scores are data not legal verdicts» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://docs.pytest.org/",
+    "https://docs.python.org/3/library/dataclasses.html",
+    "https://docs.python.org/3/library/decimal.html",
+    "https://docs.python.org/3/library/typing.html",
+    "https://docs.python.org/3/library/typing.html#typing.Protocol",
+    "https://docs.python.org/3/library/unittest.html",
+    "https://docs.python.org/3/reference/datamodel.html#object.__eq__",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://peps.python.org/pep-0544/",
+    "https://pillb.github.io/pyarcana/",
+    "https://realpython.com/python-classes/",
+    "https://www.cosmicpython.com/"
+  ]
+}

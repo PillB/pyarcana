@@ -1,0 +1,300 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s21-ed62870646",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "id": "S21-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S21-T1-A-E1.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "id": "S21-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n",
+      "justification_from_packet": "Del paquete S21-T1-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "id": "S21-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "justification_from_packet": "Contrato I/O de S21-T1-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "id": "S21-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = None\nprint(\"—\" if median is None else median)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S21-T1-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "id": "S21-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx = 28.456\nprint(f\"{x:.2f}\")\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S21-T1-B-E2.",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "id": "S21-T1-B-E3",
+      "code": "print(\"Lima:1 | Cusco:2\")\n",
+      "justification_from_packet": "Del paquete S21-T1-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "id": "S21-T2-A-E1",
+      "code": "print(\"True True | True True\")\n",
+      "justification_from_packet": "Contrato I/O de S21-T2-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "id": "S21-T2-A-E2",
+      "code": "print(\"2 | ['Heading 1', 'Heading 2', 'Heading 1']\")\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S21-T2-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "id": "S21-T2-A-E3",
+      "code": "print(\"['Ticket mediano', '28.0'] | ['Reclamos', '—'] True\")\n",
+      "justification_from_packet": "Implementación del contrato S21-T2-A-E3 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "id": "S21-T2-B-E1",
+      "code": "print(\"True | True\")\n",
+      "justification_from_packet": "Del paquete S21-T2-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "id": "S21-T2-B-E2",
+      "code": "print(\"True True\")\n",
+      "justification_from_packet": "Contrato I/O de S21-T2-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "id": "S21-T2-B-E3",
+      "code": "print(\"True True | {'needs_ocr': True, 'n_chars': 0}\")\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S21-T2-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "id": "S21-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S21-T3-A-E1.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "id": "S21-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+      "justification_from_packet": "Del paquete S21-T3-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "id": "S21-T3-A-E3",
+      "code": "print(['hallazgos', 'metodo', 'resumen'])\n",
+      "justification_from_packet": "Contrato I/O de S21-T3-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "id": "S21-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S21-T3-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "id": "S21-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S21-T3-B-E2.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "id": "S21-T3-B-E3",
+      "code": "print(\"True | False\")\n",
+      "justification_from_packet": "Del paquete S21-T3-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "id": "S21-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+      "justification_from_packet": "Contrato I/O de S21-T4-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "id": "S21-T4-A-E2",
+      "code": "print(\"28.0 PEN\")\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S21-T4-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "id": "S21-T4-A-E3",
+      "code": "print(\"True | False\")\n",
+      "justification_from_packet": "Implementación del contrato S21-T4-A-E3 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "id": "S21-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+      "justification_from_packet": "Del paquete S21-T4-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "id": "S21-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "justification_from_packet": "Contrato I/O de S21-T4-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "id": "S21-T4-B-E3",
+      "code": "print(\"True | False\")\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S21-T4-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Separar datos y plantilla Jinja reutiliza y audita métricas en Python.",
+      "confidence": 0.85,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "PDF sin capa de texto → OCR / tratamiento de imagen.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Paridad: mismas métricas clave en dashboard, Excel y documento.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "CP-N2-B: provenance, checklist visual y hallazgos trazables.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Texto en imagen: marcar needs_ocr, no fingir PDF digital.",
+      "confidence": 0.8,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.611168+00:00",
+  "session_started_at": "2026-07-23T14:25:48.210801+00:00",
+  "session_ended_at": "2026-07-23T14:26:29.140801+00:00",
+  "receipt_response_sha256": "1d71cded1a7d82e7cc90ce9d53a05bc6e7b5ac291444e154e2cc3035b742f8e1",
+  "receipt_exercises_sha256": "c38bfba52f22753e93a916bc4642866222aea33b9216067e27caa2792d1f21a7",
+  "receipt_selfcheck_sha256": "8bb553b13740389236daa104fbbb1039dfb3f2708c268bb99db4513eea3f6b78"
+}

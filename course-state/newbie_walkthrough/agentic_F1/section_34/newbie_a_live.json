@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F1",
+  "section_index": 34,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-agentic_F1-s34",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S34-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\nmeets_contract = record[\"accuracy_only\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_ACCURACY_ONLY\"\nprint(\"S34-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/a756ef57] Resuelvo S34-T1-A-E1 solo con el paquete activo. Instrucción: «S34-T1-A-E1 · Calcula el contrato de `confusion matrix, precision/recall/F y PR-AUC` sobre `CASO-LIM-034-1A`. La entrada es el dict completo del starter; la ope». Pista: «Relaciona los campos `tp, fp, fn, accuracy_only` con la regla explicada en S34-T1-A.». Demo S34-T1-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T1-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_only\"] is True else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nincomplete = {**valid}\nincomplete.pop(\"tp\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/51ddbf49] Como explorador, S34-T1-A-E2: sigo el starter y el iDo. El enunciado pide «S34-T1-A-E2 · Modela tres rutas de `confusion matrix, precision/recall/F y PR-AUC`: fixture válido, fixture adverso y registro sin `tp`. Entrada: dict con case_». Aplico «Primero se calcula `missing`; ningún acceso a tp debe ocurrir antes de esa rama.». Línea clave: `def assess(record: dict) -> str:`. Heading: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T1-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"accuracy_only\"] is True else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nuncertain = {**valid}\nuncertain.pop(\"tp\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/a5615a27] Resuelvo S34-T1-A-E3 solo con el paquete activo. Instrucción: «S34-T1-A-E3 · Contrasta fallo cerrado para `confusion matrix, precision/recall/F y PR-AUC` con tres fixtures distintos. `CASO-LIM-034-1A` debe continuar, el adv». Pista: «Una ausencia no equivale a breach: enrútala a `REQUEST_CONFUSION` antes de evaluar el cont». Demo S34-T1-A-DEMO. Código ancla: `def decide(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\nmeets_contract = record[\"load\"] > record[\"capacity\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QUEUE_OVERLOAD\"\nprint(\"S34-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4ebc4c2c] S34-T1-B-E1 — material del slim_packet basta. «S34-T1-B-E1 · Calcula el contrato de `top-k y carga de revisión` sobre `CASO-LIM-034-1B`. La entrada es el dict completo del starter; la operación debe demostra» · hint «Relaciona los campos `precision_at_k, load, capacity` con la regla explicada en S34-T1-B.» · S34-T1-B-DEMO. Entrega: `record = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T1-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"load\"] > record[\"capacity\"] else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nincomplete = {**valid}\nincomplete.pop(\"capacity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/3d8634b4] S34-T1-B-E2 — material del slim_packet basta. «S34-T1-B-E2 · Modela tres rutas de `top-k y carga de revisión`: fixture válido, fixture adverso y registro sin `capacity`. Entrada: dict con case_id, precision_» · hint «Primero se calcula `missing`; ningún acceso a capacity debe ocurrir antes de esa rama.» · S34-T1-B-DEMO. Entrega: `def assess(record: dict) -> str:`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T1-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"load\"] > record[\"capacity\"] else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nuncertain = {**valid}\nuncertain.pop(\"capacity\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c07b3b06] Resuelvo S34-T1-B-E3 solo con el paquete activo. Instrucción: «S34-T1-B-E3 · Contrasta fallo cerrado para `top-k y carga de revisión` con tres fixtures distintos. `CASO-LIM-034-1B` debe continuar, el adverso debe devolver `». Pista: «Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el conte». Demo S34-T1-B-DEMO. Código ancla: `def decide(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\nmeets_contract = record[\"resample_global\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKY_RESAMPLE\"\nprint(\"S34-T2-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/11889489] S34-T2-A-E1 — material del slim_packet basta. «S34-T2-A-E1 · Calcula el contrato de `class weights y resampling dentro de CV` sobre `CASO-LIM-034-2A`. La entrada es el dict completo del starter; la operación» · hint «Relaciona los campos `n0, n1, resample_global` con la regla explicada en S34-T2-A.» · S34-T2-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T2-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"resample_global\"] is True else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nincomplete = {**valid}\nincomplete.pop(\"n1\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/df754617] S34-T2-A-E2 — material del slim_packet basta. «S34-T2-A-E2 · Modela tres rutas de `class weights y resampling dentro de CV`: fixture válido, fixture adverso y registro sin `n1`. Entrada: dict con case_id, n0» · hint «Primero se calcula `missing`; ningún acceso a n1 debe ocurrir antes de esa rama.» · S34-T2-A-DEMO. Entrega: `def assess(record: dict) -> str:`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T2-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"resample_global\"] is True else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nuncertain = {**valid}\nuncertain.pop(\"n1\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/f41909f4] S34-T2-A-E3 — material del slim_packet basta. «S34-T2-A-E3 · Contrasta fallo cerrado para `class weights y resampling dentro de CV` con tres fixtures distintos. `CASO-LIM-034-2A` debe continuar, el adverso d» · hint «Una ausencia no equivale a breach: enrútala a `REQUEST_WEIGHTS` antes de evaluar el conten» · S34-T2-A-DEMO. Entrega: `def decide(record: dict) -> str:`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\nmeets_contract = record[\"accuracy_enough\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_PREVALENCE_BLIND\"\nprint(\"S34-T2-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/867c2b80] Resuelvo S34-T2-B-E1 solo con el paquete activo. Instrucción: «S34-T2-B-E1 · Calcula el contrato de `prevalencia y métricas engañosas` sobre `CASO-LIM-034-2B`. La entrada es el dict completo del starter; la operación debe d». Pista: «Relaciona los campos `prevalence, all_neg_acc, accuracy_enough` con la regla explicada en ». Demo S34-T2-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T2-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_enough\"] is True else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nincomplete = {**valid}\nincomplete.pop(\"prevalence\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/56d072a0] Resuelvo S34-T2-B-E2 solo con el paquete activo. Instrucción: «S34-T2-B-E2 · Modela tres rutas de `prevalencia y métricas engañosas`: fixture válido, fixture adverso y registro sin `prevalence`. Entrada: dict con case_id, p». Pista: «Primero se calcula `missing`; ningún acceso a prevalence debe ocurrir antes de esa rama.». Demo S34-T2-B-DEMO. Código ancla: `def assess(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T2-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"accuracy_enough\"] is True else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nuncertain = {**valid}\nuncertain.pop(\"prevalence\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/0dfd2e2f] S34-T2-B-E3 — material del slim_packet basta. «S34-T2-B-E3 · Contrasta fallo cerrado para `prevalencia y métricas engañosas` con tres fixtures distintos. `CASO-LIM-034-2B` debe continuar, el adverso debe dev» · hint «Una ausencia no equivale a breach: enrútala a `REQUEST_BASE_RATE` antes de evaluar el cont» · S34-T2-B-DEMO. Entrega: `def decide(record: dict) -> str:`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\nmeets_contract = abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3\nstatus = \"PASS\" if meets_contract else \"REJECT_UNCALIBRATED\"\nprint(\"S34-T3-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8a392dc4] Como explorador, S34-T3-A-E1: sigo el starter y el iDo. El enunciado pide «S34-T3-A-E1 · Calcula el contrato de `reliability curves y Brier` sobre `CASO-LIM-034-3A`. La entrada es el dict completo del starter; la operación debe demostr». Aplico «Relaciona los campos `brier, mean_p, freq` con la regla explicada en S34-T3-A.». Línea clave: `record = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}`. Heading: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T3-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3 else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nincomplete = {**valid}\nincomplete.pop(\"brier\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/47a195d3] Resuelvo S34-T3-A-E2 solo con el paquete activo. Instrucción: «S34-T3-A-E2 · Modela tres rutas de `reliability curves y Brier`: fixture válido, fixture adverso y registro sin `brier`. Entrada: dict con case_id, brier, mean_». Pista: «Primero se calcula `missing`; ningún acceso a brier debe ocurrir antes de esa rama.». Demo S34-T3-A-DEMO. Código ancla: `def assess(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T3-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3 else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nuncertain = {**valid}\nuncertain.pop(\"brier\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c27b9341] Resuelvo S34-T3-A-E3 solo con el paquete activo. Instrucción: «S34-T3-A-E3 · Contrasta fallo cerrado para `reliability curves y Brier` con tres fixtures distintos. `CASO-LIM-034-3A` debe continuar, el adverso debe devolver ». Pista: «Una ausencia no equivale a breach: enrútala a `REQUEST_BRIER` antes de evaluar el contenid». Demo S34-T3-A-DEMO. Código ancla: `def decide(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\nmeets_contract = record[\"calibrator_set\"] == \"train_in_sample\"\nstatus = \"PASS\" if meets_contract else \"REJECT_IN_SAMPLE_CAL\"\nprint(\"S34-T3-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/67592964] Como explorador, S34-T3-B-E1: sigo el starter y el iDo. El enunciado pide «S34-T3-B-E1 · Calcula el contrato de `calibradores y evaluación fuera de muestra` sobre `CASO-LIM-034-3B`. La entrada es el dict completo del starter; la operac». Aplico «Relaciona los campos `raw, cal, calibrator_set` con la regla explicada en S34-T3-B.». Línea clave: `record = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_`. Heading: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T3-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"calibrator_set\"] == \"train_in_sample\" else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nincomplete = {**valid}\nincomplete.pop(\"calibrator_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/68fdfcc3] Resuelvo S34-T3-B-E2 solo con el paquete activo. Instrucción: «S34-T3-B-E2 · Modela tres rutas de `calibradores y evaluación fuera de muestra`: fixture válido, fixture adverso y registro sin `calibrator_set`. Entrada: dict ». Pista: «Primero se calcula `missing`; ningún acceso a calibrator_set debe ocurrir antes de esa ram». Demo S34-T3-B-DEMO. Código ancla: `def assess(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T3-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"calibrator_set\"] == \"train_in_sample\" else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nuncertain = {**valid}\nuncertain.pop(\"calibrator_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4cad3cbc] Resuelvo S34-T3-B-E3 solo con el paquete activo. Instrucción: «S34-T3-B-E3 · Contrasta fallo cerrado para `calibradores y evaluación fuera de muestra` con tres fixtures distintos. `CASO-LIM-034-3B` debe continuar, el advers». Pista: «Una ausencia no equivale a breach: enrútala a `REQUEST_CAL_SET` antes de evaluar el conten». Demo S34-T3-B-DEMO. Código ancla: `def decide(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\nmeets_contract = record[\"thr_id\"] == \"default\"\nstatus = \"PASS\" if meets_contract else \"REJECT_FIXED_THR\"\nprint(\"S34-T4-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8d3dadf7] Como explorador, S34-T4-A-E1: sigo el starter y el iDo. El enunciado pide «S34-T4-A-E1 · Calcula el contrato de `threshold por costo/capacidad` sobre `CASO-LIM-034-4A`. La entrada es el dict completo del starter; la operación debe demo». Aplico «Relaciona los campos `thr, n_review, thr_id, cost` con la regla explicada en S34-T4-A.». Línea clave: `record = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}`. Heading: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T4-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"thr_id\"] == \"default\" else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/6f8431a9] Como explorador, S34-T4-A-E2: sigo el starter y el iDo. El enunciado pide «S34-T4-A-E2 · Modela tres rutas de `threshold por costo/capacidad`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_id, thr, n_rev». Aplico «Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.». Línea clave: `def assess(record: dict) -> str:`. Heading: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T4-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"thr_id\"] == \"default\" else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/6c747ed1] S34-T4-A-E3 — material del slim_packet basta. «S34-T4-A-E3 · Contrasta fallo cerrado para `threshold por costo/capacidad` con tres fixtures distintos. `CASO-LIM-034-4A` debe continuar, el adverso debe devolv» · hint «Una ausencia no equivale a breach: enrútala a `REQUEST_COST_MATRIX` antes de evaluar el co» · S34-T4-A-DEMO. Entrega: `def decide(record: dict) -> str:`. confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    },
+    {
+      "exercise_id": "S34-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\nmeets_contract = record[\"decision\"] == \"force_1\"\nstatus = \"PASS\" if meets_contract else \"REJECT_FORCE_LABEL\"\nprint(\"S34-T4-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7f066b8b] Resuelvo S34-T4-B-E1 solo con el paquete activo. Instrucción: «S34-T4-B-E1 · Calcula el contrato de `abstención, slices y sensibilidad` sobre `CASO-LIM-034-4B`. La entrada es el dict completo del starter; la operación debe ». Pista: «Relaciona los campos `score, low, high, decision` con la regla explicada en S34-T4-B.». Demo S34-T4-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T4-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"decision\"] == \"force_1\" else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nincomplete = {**valid}\nincomplete.pop(\"low\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c51c1d27] Resuelvo S34-T4-B-E2 solo con el paquete activo. Instrucción: «S34-T4-B-E2 · Modela tres rutas de `abstención, slices y sensibilidad`: fixture válido, fixture adverso y registro sin `low`. Entrada: dict con case_id, score, ». Pista: «Primero se calcula `missing`; ningún acceso a low debe ocurrir antes de esa rama.». Demo S34-T4-B-DEMO. Código ancla: `def assess(record: dict) -> str:`. Teoría: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S34-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S34-T4-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"decision\"] == \"force_1\" else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nuncertain = {**valid}\nuncertain.pop(\"low\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S34",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4d627ba8] Como explorador, S34-T4-B-E3: sigo el starter y el iDo. El enunciado pide «S34-T4-B-E3 · Contrasta fallo cerrado para `abstención, slices y sensibilidad` con tres fixtures distintos. `CASO-LIM-034-4B` debe continuar, el adverso debe de». Aplico «Una ausencia no equivale a breach: enrútala a `REQUEST_ABSTAIN_BAND` antes de evaluar el c». Línea clave: `def decide(record: dict) -> str:`. Heading: confusion matrix, precision/recall/F y PR-AUC | top-k y carga de revisión | clas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Precision/recall o PR-AUC de la cola",
+      "justification_from_packet": "[agentic_F1/explorer/a34q0e1] Con desbalance, S34-T1-A-DEMO marca accuracy_only=False y la teoría prioriza precision/recall o PR-AUC de la cola de revisión.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Introduce leakage y métricas infladas",
+      "justification_from_packet": "[agentic_F1/explorer/a34q1e2] S34-T2-A-DEMO fija resample_global=False: resamplear todo antes de CV introduce leakage y métricas infladas.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "En un set de calibración fuera de muestra",
+      "justification_from_packet": "[agentic_F1/explorer/a34q2e3] Heading «calibradores y evaluación fuera de muestra» y S34-T3-B-DEMO usan calibrator_set=holdout_v1: el calibrador se ajusta fuera de muestra, no en el train del base.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Abstener según política",
+      "justification_from_packet": "[agentic_F1/explorer/a34q3e4] Outcome «abstención y sensibilidad por slice»: en la banda low–high se abstiene según política, no se fuerza 0/1 ni se borra el caso.",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.308642+00:00"
+}

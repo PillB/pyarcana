@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s01-473797-97365",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "code": "# Transfer / protocolo — S01-T1-A-E1\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébalo en tu terminal real.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión corta.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un a» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T1-A-E1 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "transcript",
+        "sesi",
+        "REPL",
+        "suma"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"NoraLab\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n_probe_label = 'explorer-hello'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con » y completando el starter con patrones del iDo/theory. Código clave: «import sys  def main() -> None:     nombre = \"NoraLab\"     version = sys.version». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Crea",
+        "hello_sys",
+        "imprima",
+        "nombre",
+        "sint"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "code": "# Transfer / protocolo — S01-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla pero `python3 --version` muestra 3.12.1. Escribe un procedim\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux suele bastar usar python3 de forma consistente.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obti» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Diagn",
+        "stico",
+        "laptop",
+        "Windows",
+        "usuario"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "code": "# Completa los stdlib y ejecuta en tu shell\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=zsh\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y an» y completando el starter con patrones del iDo/theory. Código clave: «# Completa los stdlib y ejecuta en tu shell  # 1· Éxito python3 -c \"import sys; ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "transcript",
+        "terminal",
+        "ejecuta",
+        "Python"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n_probe_label = 'explorer-argv'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos» y completando el starter con patrones del iDo/theory. Código clave: «import sys  def main() -> None:     args = sys.argv[1:]     if len(args) != 1:  ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Escribe",
+        "check_arg",
+        "recibe",
+        "exactamente",
+        "argumento"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "code": "# Transfer / protocolo — S01-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre pero `python -c \"import pandas\"` falla con ModuleNotFoundErr\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip para atar pip al mismo intérprete.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensa» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Caso",
+        "colega",
+        "corre",
+        "install",
+        "pandas"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nmkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\n.venv\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y v» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo mkdir -p lab_venv_t2a && cd lab». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "carpeta",
+        "ctica",
+        "crea",
+        "entorno",
+        "venv"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (» y completando el starter con patrones del iDo/theory. Código clave: «# Supón que ya tienes hello.py en el proyecto y un .venv roto. # Completa:  # 0·». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Simula",
+        "entorno",
+        "roto",
+        "venv",
+        "creado"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "code": "# Transfer / protocolo — S01-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 oraciones) o un markdown corto que: (1) explique el riesgo con\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "colega",
+        "propone",
+        "instalar",
+        "pandas",
+        "install"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nsource .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`)» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo source .venv/bin/activate   # o». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "venv",
+        "activado",
+        "instala",
+        "paquete",
+        "terceros"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "code": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo» y completando el starter con patrones del iDo/theory. Código clave: «# Parte de un requirements.txt existente en la raíz python3 -m venv .venv_replic». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Dado",
+        "requirements",
+        "plantilla",
+        "puede",
+        "crea"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "code": "# Transfer / protocolo — S01-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo instaló con un `pip` de otro Python. Escribe un protocolo de 5 p\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con python -m pip en ese intérprete/venv.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y f» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Forense",
+        "ModuleNotFoundError",
+        "usuario",
+        "corre",
+        "python"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nmkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Con» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo mkdir -p lab_git_t3a && cd lab_». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "carpeta",
+        "ctica",
+        "init",
+        "crea",
+        "archivo"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "code": "# Lectura de diff\n\n## Comandos usados\npython3 --version\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nrevisar PATH / py launcher\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nusar python3 de forma consistente\n\n## 3) Resumen en una frase\nreabrir terminal tras instalar",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en » y completando el starter con patrones del iDo/theory. Código clave: «# Lectura de diff  ## Comandos usados python3 --version  ## 1· ¿Qué líneas apare». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Modifica",
+        "README",
+        "commiteado",
+        "agrega",
+        "commit"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "code": "# Transfer / protocolo — S01-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) `feat: agregar smoke hello_env`, (C) `Actualicé cosas del se\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observable.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hell» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "transferencia",
+        "entregan",
+        "tres",
+        "mensajes",
+        "candidatos",
+        "para"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "code": "# explorer: completed from starter + packet demo\ngit switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añad» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo git switch main git switch -c f». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Desde",
+        "repo",
+        "menos",
+        "commit",
+        "main"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "code": "# Título del PR\n.venv\n\n## Resumen\n- .venv\n- feat\n- feat\n\n## Plan de prueba\n1. feat\n2. feat\n3. feat\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] feat",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `» y completando el starter con patrones del iDo/theory. Código clave: «# Título del PR .venv  ## Resumen - .venv - feat - feat  ## Plan de prueba 1. fe». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Redacta",
+        "descripci",
+        "Pull",
+        "Request",
+        "markdown"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "code": "# Transfer / protocolo — S01-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Escribe el procedimiento correcto con `git restore` (y cuándo u)\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te d» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Escenario",
+        "editaste",
+        "README",
+        "commit",
+        "cambio"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version)» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) [tool.ruff] line-l». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "pyproject",
+        "toml",
+        "nimo",
+        "tool"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -» y completando el starter con patrones del iDo/theory. Código clave: «from datetime import datetime  def main() -> None:     print(\"hola\")     print(d». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Dado",
+        "script",
+        "imports",
+        "usar",
+        "instala"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "code": "# Transfer / protocolo — S01-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro set pequeño) para S01: qué ganas, qué ruido evitas, y cuándo \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores reales (F) y estilo básico (E/I).\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con noteboo» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "lead",
+        "propone",
+        "select",
+        "repo",
+        "analytics"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycac» y completando el starter con patrones del iDo/theory. Código clave: «# Entornos .venv/ venv/  # Bytecode __pycache__/ *.pyc  # Secretos .env  # Jupyt». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "gitignore",
+        "nimo",
+        "Python",
+        "data"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=INFO\nAPP_ENV=local\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_UR» y completando el starter con patrones del iDo/theory. Código clave: «# Copia a .env y completa valores locales (nunca commitees .env) API_URL= DB_HOS». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Crea",
+        "example",
+        "menos",
+        "claves",
+        "proyecto"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "code": "# Transfer / protocolo — S01-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) que un revisor pueda tildar. Incluye mención a data dictionar\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: intérprete, python, repl, terminal, comandos, verificación, cuando, instalas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S01-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verifi» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S01-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: intérprete Python REPL intérprete terminal comandos verificación Cuando instalas Python. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Checklist",
+        "quina",
+        "limpia",
+        "para",
+        "esqueleto"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "S01 Q0: elijo índice 0 («Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Para qué sirve un entorno virtual (venv) en Python?» con ese matiz. Apoyo lexical del packet: intérprete python repl terminal comandos verificación cuando instalas realmente programa código ejecuta."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "S01 Q1: elijo índice 2 («.venv/ (o venv/)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?» con ese matiz. Apoyo lexical del packet: intérprete python repl terminal comandos verificación cuando instalas realmente programa código ejecuta."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "S01 Q2: elijo índice 3 («\"feat: agregar cálculo de churn por segmento\"») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?» con ese matiz. Apoyo lexical del packet: intérprete python repl terminal comandos verificación cuando instalas realmente programa código ejecuta."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "S01 Q3: elijo índice 1 («pip install -r requirements.txt») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué comando te permite replicar el entorno de otro desarrollador?» con ese matiz. Apoyo lexical del packet: intérprete python repl terminal comandos verificación cuando instalas realmente programa código ejecuta."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "S01 Q4: elijo índice 0 («Porque suele contener credenciales (API keys, passwords, tokens) que son secretos») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Por qué NO debes subir el archivo .env a GitHub?» con ese matiz. Apoyo lexical del packet: intérprete python repl terminal comandos verificación cuando instalas realmente programa código ejecuta."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:03:23.467153+00:00",
+  "session_started_at": "2026-07-23T09:02:45.300921+00:00",
+  "session_ended_at": "2026-07-23T09:03:23.467153+00:00"
+}

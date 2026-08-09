@@ -1,0 +1,9 @@
+{
+  "section": 46,
+  "id": "gpu-computing",
+  "file": "src/lib/course/sections/s46-gpu-computing.ts",
+  "score_1_to_10": 4.8,
+  "issue_count": 24,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

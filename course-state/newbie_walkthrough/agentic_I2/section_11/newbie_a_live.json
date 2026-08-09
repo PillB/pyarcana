@@ -1,0 +1,508 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:13:07.200000+00:00",
+  "session_ended_at": "2026-07-23T12:13:49.750000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T1-A-E1\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord(\"C001\", \"Ana Perez\", [\"999111222\"]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass, field`. Pista del paquete: «Usa field(default_factory=list).». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass, field`."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T1-A-E2\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n    currency: str\n\nprint(Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «Importa Decimal; sin defaults en campos obligatorios.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T1-A-E3\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        return cls(d[\"client_id\"], d[\"full_name\"])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «classmethod from_dict.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T1-B-E1\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self):\n        if not isinstance(self.amount, Decimal):\n            raise TypeError(\"amount debe ser Decimal\")\n        if self.amount <= Decimal(\"0\"):\n            raise ValueError(\"amount debe ser > 0\")\n        if self.amount != self.amount.quantize(Decimal(\"0.01\")):\n            raise ValueError(\"amount debe tener máximo 2 decimales\")\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(\"currency no soportada\")\n\nprint(Transaction(\"T1\", Decimal(\"10.00\"), \"PEN\"))\ntry:\n    Transaction(\"T2\", Decimal(\"0.00\"), \"PEN\")\nexcept ValueError as e:\n    print(\"reject\", e)\ntry:\n    Transaction(\"T3\", Decimal(\"1.00\"), \"EUR\")\nexcept ValueError as e:\n    print(\"reject\", e)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T1-B-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        cid = str(d.get(\"client_id\", \"\")).strip()\n        doc = str(d.get(\"document_id\", \"\")).strip()\n        if not cid:\n            raise ValueError(\"client_id vacío\")\n        if not doc:\n            raise ValueError(\"document_id vacío\")\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({\"client_id\": \"C1\", \"document_id\": \"D1\"}))\ntry:\n    ClientRecord.from_dict({\"client_id\": \"C2\", \"document_id\": \" \"})\nexcept ValueError as e:\n    print(e)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «Raise ValueError con mensaje claro.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T1-B-E3\nfor inv in [\n    \"INV: ClientRecord.document_id no vacío\",\n    \"INV: Transaction.amount es Decimal > 0 (0.01) y currency es PEN o USD\",\n    \"INV: RelationshipEvidence.signal_score entre 0 y 1\",\n    \"INV: ResolvedEntity.entity_id único y no vacío\",\n]:\n    print(inv)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `for inv in [`. Pista del paquete: «ClientRecord, Transaction, Evidence, Entity.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `for inv in [`."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T2-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\nprint(Person(\"Ana\", \"Perez\").full_name)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «@property sin setter.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T2-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction(\"T1\", 10).age_days_since(25))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «Retorna day - day_created.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T2-A-E3\nfrom math import isfinite\n\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self) -> float:\n        return self._score\n\n    @score.setter\n    def score(self, value: float) -> None:\n        v = float(value)\n        if not isfinite(v) or not 0.0 <= v <= 1.0:\n            raise ValueError(\"score fuera de rango\")\n        self._score = v\n\ns = Signal()\ns.score = 0.4\nprint(\"ok\", s.score)\ntry:\n    s.score = 1.5\nexcept ValueError as e:\n    print(\"reject\", e)\ntry:\n    s.score = float(\"nan\")\nexcept ValueError as e:\n    print(\"reject_nan\", e)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from math import isfinite`. Pista del paquete: «Property score + math.isfinite antes del rango.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from math import isfinite`."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T2-B-E1\nfrom dataclasses import dataclass, field\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str = field(compare=False)\n\n    def __post_init__(self):\n        if not self.entity_id.strip():\n            raise ValueError(\"entity_id vacío\")\n\na = ResolvedEntity(\"E1\", \"Ana\")\nb = ResolvedEntity(\"E1\", \"Ana actualizada\")\nc = ResolvedEntity(\"E2\", \"Ana\")\nprint(a == b, a == c)\nprint(len({a, b, c}))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass, field`. Pista del paquete: «dataclass(frozen=True) + field(compare=False) en display_name.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass, field`."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T2-B-E2\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ns = {\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E3\", 0.1),\n}\nprint(len(s))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «frozen=True dataclass.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T2-B-E3\nclass MutableEntity:\n    def __init__(self, eid, name):\n        self.eid = eid\n        self.name = name\n    def __hash__(self):\n        return hash((self.eid, self.name))\n    def __eq__(self, o):\n        return isinstance(o, MutableEntity) and (self.eid, self.name) == (o.eid, o.name)\n\nm = MutableEntity(\"E1\", \"Ana\")\nd = {m: \"row\"}\nm.name = \"Ana P\"  # mutó la key\nprint(\"BUG lookup_after_mutate\", d.get(m))\n\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass FrozenEntity:\n    eid: str\n    name: str\n\nf = FrozenEntity(\"E1\", \"Ana\")\nd2 = {f: \"row\"}\nprint(\"SAFE\", d2.get(FrozenEntity(\"E1\", \"Ana\")))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `class MutableEntity:`. Pista del paquete: «Imprime BUG y SAFE.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `class MutableEntity:`."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T3-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nc = Client(\"C001\", PersonInfo(\"Ana\", \"Perez\"))\nprint(c.client_id, c.person.first_name)\nprint(\"design=composition\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «Imprime el diseño final simple.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T3-A-E2\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev: dict) -> None:\n        self.evidences.append(ev)\n\ncf = CaseFile(\"CF1\")\ncf.add_evidence({\"score\": 0.1})\ncf.add_evidence({\"score\": 0.2})\nprint(\"valor=\", len(cf.evidences))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `from dataclasses import dataclass, field`. Pista del paquete: «Lista interna.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T3-A-E3\nprint(\"JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person\")\nprint(\"JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser Client\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `print(\"JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son `. Pista del paquete: «Piensa en roles y evolución del modelo.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"JUST: un cliente tiene datos de persona, pero también`."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T3-B-E1\nfrom typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.5 if pair[0] != pair[1] else 1.0\n\ns: Scorer = FakeScorer()\nprint(s.score((\"E1\", \"E2\")))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from typing import Protocol`. Pista del paquete: «Imprime el score de un par sintético.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from typing import Protocol`."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T3-B-E2\ndef apply(norm, text):\n    return norm(text)\n\ndef strip_norm(s: str) -> str:\n    return s.strip()\n\ndef casefold_norm(s: str) -> str:\n    return s.strip().casefold()\n\nprint(apply(strip_norm, \" Ana \"))\nprint(apply(casefold_norm, \" Ana \"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `def apply(norm, text):`. Pista del paquete: «apply(norm, text) llama norm(text).». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def apply(norm, text):`."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T3-B-E3\nprint(\"WHEN_NOT: solo hay una implementación y no hay tests con fake\")\nprint(\"WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematura\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `print(\"WHEN_NOT: solo hay una implementación y no hay tests con fake\")`. Pista del paquete: «YAGNI / una sola implementación.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"WHEN_NOT: solo hay una implementación y no hay tests `."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T4-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = \"\"\n\n    def to_dict(self) -> dict:\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nprint(ClientRecord(\"C1\", \"a@ejemplo.pe\", \"secret\").to_dict())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «Aunque existan en el objeto, no serializarlos.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T4-A-E2\nclass Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row: dict) -> None:\n        self._d[row[\"client_id\"]] = row\n    def get(self, client_id: str):\n        return self._d.get(client_id)\n\ndept = Repo()\ndept.save({\"client_id\": \"C001\", \"email\": \"a@ejemplo.pe\"})\nprint(dept.get(\"C001\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `class Repo:`. Pista del paquete: «Clase con save y get.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T4-A-E3\nfor line in [\n    \"LAYER: cli — argparse, stdin/stdout, exit codes\",\n    \"LAYER: service — casos de uso, sin print\",\n    \"LAYER: domain/repo — entidades, invariantes, persistencia abstracta\",\n]:\n    print(line)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `for line in [`. Pista del paquete: «cli → service → domain/repo.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `for line in [`."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T4-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\ndef test_empty_document_rejected():\n    try:\n        ClientRecord(\"C1\", \" \")\n        assert False, \"debía fallar\"\n    except ValueError:\n        return \"pass\"\n\nprint(test_empty_document_rejected())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tare…». Completé el contrato Pass con código ancla `from dataclasses import dataclass`. Pista del paquete: «Usa assert en un try o pytest-style manual.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from dataclasses import dataclass`."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T4-B-E2\nclass FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row[\"id\"]] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({\"id\": id, \"name\": name})\n        return self.repo.get(id)\n\ndef test_register():\n    s = Service(FakeRepo())\n    assert s.register(\"C1\", \"Ana\")[\"name\"] == \"Ana\"\n    print(\"pass\")\n\ndef test_get():\n    repo = FakeRepo()\n    Service(repo).register(\"C1\", \"Ana\")\n    assert repo.get(\"C1\")[\"id\"] == \"C1\"\n    print(\"pass\")\n\ndef test_missing():\n    assert Service(FakeRepo()).repo.get(\"X\") is None\n    print(\"pass\")\n\ntest_register(); test_get(); test_missing()",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `class FakeRepo:`. Pista del paquete: «Imprime pass x3.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `class FakeRepo:`."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S11-T4-B-E3\nprint(\"ANTES: Client.decide_fraud(score)->bool veredicto en el dominio\")\nprint(\"DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del modelo\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s11",
+        "oop",
+        "modelo",
+        "dominio",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S11-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de domini…». Completé el contrato Pass con código ancla `print(\"ANTES: Client.decide_fraud(score)->bool veredicto en el dominio\")`. Pista del paquete: «Mueve el score a Evidence; elimina el veredicto.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"ANTES: Client.decide_fraud(score)->bool veredicto en `."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "justification_from_packet": "Explorer S11 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S11-T1-A\", \"heading\": \"Clases, instancias y dataclass\", \"paragraphs\": [\"Una **clase** define el molde; u…») y la pregunta «¿Por qué `field(default_factory=list)` y no `= []`?». La opción [2] «Evita el default mutable compartido entre instancias» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "justification_from_packet": "Explorer S11 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S11-T1-A\", \"heading\": \"Clases, instancias y dataclass\", \"paragraphs\": [\"Una **clase** define el molde; u…») y la pregunta «RelationshipEvidence.signal_score representa…». La opción [0] «Una señal/dato numérico, no un veredicto de fraude o familia» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "justification_from_packet": "Explorer S11 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S11-T1-A\", \"heading\": \"Clases, instancias y dataclass\", \"paragraphs\": [\"Una **clase** define el molde; u…») y la pregunta «Un Protocol EntityStore sirve para…». La opción [1] «Definir un puerto get/save implementable por fakes y adapters» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "justification_from_packet": "Explorer S11 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S11-T1-A\", \"heading\": \"Clases, instancias y dataclass\", \"paragraphs\": [\"Una **clase** define el molde; u…») y la pregunta «Objeto inválido: ¿cuándo fallar?». La opción [3] «En la construcción (__post_init__/validate)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "justification_from_packet": "Explorer S11 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S11-T1-A\", \"heading\": \"Clases, instancias y dataclass\", \"paragraphs\": [\"Una **clase** define el molde; u…») y la pregunta «Client hereda de Person…». La opción [2] «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": "is_fraud() automático",
+      "justification_from_packet": "Explorer S11 Q5: leí la teoría del quiz_card («{\"subtopicId\": \"S11-T1-A\", \"heading\": \"Clases, instancias y dataclass\", \"paragraphs\": [\"Una **clase** define el molde; u…») y la pregunta «¿Qué no debe tener el dominio de familiaridad?». La opción [0] «is_fraud() automático» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:13:49.750000+00:00"
+}

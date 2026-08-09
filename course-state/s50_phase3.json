@@ -1,0 +1,1067 @@
+{
+  "version": "3.2",
+  "section": "S50",
+  "section_id": "tech-leadership",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S50 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S50 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s50-tech-leadership.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "tech-leadership",
+    "index": 50,
+    "title_platform": "Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing",
+    "title_v3": "Evals, red teaming y fiabilidad de IA",
+    "title_decision": "KEEP platform id 'tech-leadership' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S49"
+    ],
+    "environment": "sandbox/CI",
+    "project_capstone": "CP-N4-C (quality gate)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "tech-leadership",
+    "platform_title": "Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing",
+    "v3_title": "Evals, red teaming y fiabilidad de IA",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante arma dataset y rúbrica de tareas.",
+    "El estudiante evalúa resultado, proceso y recovery.",
+    "El estudiante combina graders det/humanos/LLM.",
+    "El estudiante calibra jueces y evita order bias.",
+    "El estudiante prueba injection, exfil y tool misuse.",
+    "El estudiante mitiga injection indirecta y poisoning.",
+    "El estudiante detecta hallucination y abstiene.",
+    "El estudiante opera latency/cost e incidentes."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S50-T1-A",
+      "slug": "task-dataset-rubric",
+      "title": "task dataset y rubric"
+    },
+    {
+      "subtopic_id": "S50-T1-B",
+      "slug": "outcome-process-trajectory-recovery",
+      "title": "resultado, proceso, trajectory y recovery"
+    },
+    {
+      "subtopic_id": "S50-T2-A",
+      "slug": "graders-det-human-llm",
+      "title": "graders deterministas/humanos/LLM"
+    },
+    {
+      "subtopic_id": "S50-T2-B",
+      "slug": "calibration-order-bias-holdout",
+      "title": "calibración, order bias y conjunto retenido"
+    },
+    {
+      "subtopic_id": "S50-T3-A",
+      "slug": "injection-exfil-tool-misuse",
+      "title": "prompt injection, exfiltración y tool misuse"
+    },
+    {
+      "subtopic_id": "S50-T3-B",
+      "slug": "indirect-poison-least-priv",
+      "title": "indirect injection, data poisoning y least privilege"
+    },
+    {
+      "subtopic_id": "S50-T4-A",
+      "slug": "hallucination-abstention",
+      "title": "hallucination y abstención"
+    },
+    {
+      "subtopic_id": "S50-T4-B",
+      "slug": "latency-cost-cache-incident-rollback",
+      "title": "latency/cost/caching, incident response y rollback"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S50-T1",
+      "title": "Evals",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S50-T1-A",
+          "slug": "task-dataset-rubric",
+          "title": "task dataset y rubric",
+          "outcome": "El estudiante arma dataset y rúbrica de tareas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "task dataset y rubric",
+              "must_cover": [
+                "eval dataset",
+                "rubric"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T1-A-DEMO",
+              "title": "Demo: task dataset y rubric",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T1-A-E1",
+                "kind": "guided",
+                "title": "task dataset y rubric — guided",
+                "skill": "task",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T1-A-E2",
+                "kind": "independent",
+                "title": "task dataset y rubric — independent",
+                "skill": "task",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T1-A-E3",
+                "kind": "transfer",
+                "title": "task dataset y rubric — transfer",
+                "skill": "task",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S50-T1-B",
+          "slug": "outcome-process-trajectory-recovery",
+          "title": "resultado, proceso, trajectory y recovery",
+          "outcome": "El estudiante evalúa resultado, proceso y recovery.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "resultado, proceso, trajectory y recovery",
+              "must_cover": [
+                "trajectory eval"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T1-B-DEMO",
+              "title": "Demo: resultado, proceso, trajectory y recovery",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T1-B-E1",
+                "kind": "guided",
+                "title": "resultado, proceso, trajectory y recovery — guided",
+                "skill": "outcome",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T1-B-E2",
+                "kind": "independent",
+                "title": "resultado, proceso, trajectory y recovery — independent",
+                "skill": "outcome",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T1-B-E3",
+                "kind": "transfer",
+                "title": "resultado, proceso, trajectory y recovery — transfer",
+                "skill": "outcome",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S50-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S50-T1-EVAL-1",
+            "title": "task dataset y rubric — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S50-T1-EVAL-2",
+            "title": "resultado, proceso, trajectory y recovery — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S50-T2",
+      "title": "Jueces",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S50-T2-A",
+          "slug": "graders-det-human-llm",
+          "title": "graders deterministas/humanos/LLM",
+          "outcome": "El estudiante combina graders det/humanos/LLM.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "graders deterministas/humanos/LLM",
+              "must_cover": [
+                "grader",
+                "LLM-as-judge"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T2-A-DEMO",
+              "title": "Demo: graders deterministas/humanos/LLM",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T2-A-E1",
+                "kind": "guided",
+                "title": "graders deterministas/humanos/LLM — guided",
+                "skill": "graders",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T2-A-E2",
+                "kind": "independent",
+                "title": "graders deterministas/humanos/LLM — independent",
+                "skill": "graders",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T2-A-E3",
+                "kind": "transfer",
+                "title": "graders deterministas/humanos/LLM — transfer",
+                "skill": "graders",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S50-T2-B",
+          "slug": "calibration-order-bias-holdout",
+          "title": "calibración, order bias y conjunto retenido",
+          "outcome": "El estudiante calibra jueces y evita order bias.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "calibración, order bias y conjunto retenido",
+              "must_cover": [
+                "order bias",
+                "holdout"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T2-B-DEMO",
+              "title": "Demo: calibración, order bias y conjunto retenido",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T2-B-E1",
+                "kind": "guided",
+                "title": "calibración, order bias y conjunto retenido — guided",
+                "skill": "calibration",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T2-B-E2",
+                "kind": "independent",
+                "title": "calibración, order bias y conjunto retenido — independent",
+                "skill": "calibration",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T2-B-E3",
+                "kind": "transfer",
+                "title": "calibración, order bias y conjunto retenido — transfer",
+                "skill": "calibration",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S50-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S50-T2-EVAL-1",
+            "title": "graders deterministas/humanos/LLM — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S50-T2-EVAL-2",
+            "title": "calibración, order bias y conjunto retenido — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S50-T3",
+      "title": "Adversarial",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S50-T3-A",
+          "slug": "injection-exfil-tool-misuse",
+          "title": "prompt injection, exfiltración y tool misuse",
+          "outcome": "El estudiante prueba injection, exfil y tool misuse.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "prompt injection, exfiltración y tool misuse",
+              "must_cover": [
+                "prompt injection",
+                "exfil"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T3-A-DEMO",
+              "title": "Demo: prompt injection, exfiltración y tool misuse",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T3-A-E1",
+                "kind": "guided",
+                "title": "prompt injection, exfiltración y tool misuse — guided",
+                "skill": "injection",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T3-A-E2",
+                "kind": "independent",
+                "title": "prompt injection, exfiltración y tool misuse — independent",
+                "skill": "injection",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T3-A-E3",
+                "kind": "transfer",
+                "title": "prompt injection, exfiltración y tool misuse — transfer",
+                "skill": "injection",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S50-T3-B",
+          "slug": "indirect-poison-least-priv",
+          "title": "indirect injection, data poisoning y least privilege",
+          "outcome": "El estudiante mitiga injection indirecta y poisoning.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "indirect injection, data poisoning y least privilege",
+              "must_cover": [
+                "indirect injection",
+                "poisoning"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T3-B-DEMO",
+              "title": "Demo: indirect injection, data poisoning y least privilege",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T3-B-E1",
+                "kind": "guided",
+                "title": "indirect injection, data poisoning y least privilege — guided",
+                "skill": "indirect",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T3-B-E2",
+                "kind": "independent",
+                "title": "indirect injection, data poisoning y least privilege — independent",
+                "skill": "indirect",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T3-B-E3",
+                "kind": "transfer",
+                "title": "indirect injection, data poisoning y least privilege — transfer",
+                "skill": "indirect",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S50-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S50-T3-EVAL-1",
+            "title": "prompt injection, exfiltración y tool misuse — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S50-T3-EVAL-2",
+            "title": "indirect injection, data poisoning y least privilege — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S50-T4",
+      "title": "Fiabilidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S50-T4-A",
+          "slug": "hallucination-abstention",
+          "title": "hallucination y abstención",
+          "outcome": "El estudiante detecta hallucination y abstiene.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "hallucination y abstención",
+              "must_cover": [
+                "hallucination",
+                "abstain"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T4-A-DEMO",
+              "title": "Demo: hallucination y abstención",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T4-A-E1",
+                "kind": "guided",
+                "title": "hallucination y abstención — guided",
+                "skill": "hallucination",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T4-A-E2",
+                "kind": "independent",
+                "title": "hallucination y abstención — independent",
+                "skill": "hallucination",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T4-A-E3",
+                "kind": "transfer",
+                "title": "hallucination y abstención — transfer",
+                "skill": "hallucination",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S50-T4-B",
+          "slug": "latency-cost-cache-incident-rollback",
+          "title": "latency/cost/caching, incident response y rollback",
+          "outcome": "El estudiante opera latency/cost e incidentes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "latency/cost/caching, incident response y rollback",
+              "must_cover": [
+                "cost",
+                "incident"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S50-T4-B-DEMO",
+              "title": "Demo: latency/cost/caching, incident response y rollback",
+              "environment": "sandbox/CI",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S50-T4-B-E1",
+                "kind": "guided",
+                "title": "latency/cost/caching, incident response y rollback — guided",
+                "skill": "latency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T4-B-E2",
+                "kind": "independent",
+                "title": "latency/cost/caching, incident response y rollback — independent",
+                "skill": "latency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S50-T4-B-E3",
+                "kind": "transfer",
+                "title": "latency/cost/caching, incident response y rollback — transfer",
+                "skill": "latency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S50-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S50-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S50-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S50-T4-EVAL-1",
+            "title": "hallucination y abstención — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S50-T4-EVAL-2",
+            "title": "latency/cost/caching, incident response y rollback — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S50-PROJ",
+    "title": "Evals, red teaming y fiabilidad de IA",
+    "replaces_legacy": "Legacy You Do de 'Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye argumentos de tool call y reanudación, no solo texto final.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-C (quality gate)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-C (quality gate)",
+    "increment_gate": "suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye argumentos de tool call y reanudación, no solo texto final."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'tech-leadership' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s50-tech-leadership.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing' vs 'Evals, red teaming y fiabilidad de IA'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-C (quality gate)",
+    "increment_gate": "suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye argumentos de tool call y reanudación, no solo texto final.",
+    "project_id": "S50-PROJ",
+    "section_passed": false,
+    "notes": "S50 contributes to CP-N4-C (quality gate). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S50",
+    "risk": "Display title still 'Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing' until product rename; topic mismatch vs V3 'Evals, red teaming y fiabilidad de IA'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S50-T1-A first"
+  }
+}

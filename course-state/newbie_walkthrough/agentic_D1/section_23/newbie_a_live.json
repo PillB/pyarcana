@@ -1,0 +1,384 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 23,
+  "packet_sha": "ec53a90850587d18",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "n1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T1-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T1-A-E1 (guided) apoyándome en la teoría «DOM y locators orientados a usuario» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: n1."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "['role', 'testid', 'css']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T1-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T1-A-E2 (independent) apoyándome en la teoría «DOM y locators orientados a usuario» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['role', 'testid', 'css']."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "need_testid",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T1-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T1-A-E3 (transfer) apoyándome en la teoría «DOM y locators orientados a usuario» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: need_testid."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T1-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T1-B-E1 (guided) apoyándome en la teoría «auto-waiting y assertions» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "ok",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n    print('ok')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T1-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T1-B-E2 (independent) apoyándome en la teoría «auto-waiting y assertions» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ok."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "pass",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T1-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T1-B-E3 (transfer) apoyándome en la teoría «auto-waiting y assertions» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: pass."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "{'usuario': 'ana'}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T2-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T2-A-E1 (guided) apoyándome en la teoría «formularios, uploads/downloads y sesiones» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: {'usuario': 'ana'}."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "3a6eb079",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T2-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T2-A-E2 (independent) apoyándome en la teoría «formularios, uploads/downloads y sesiones» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 3a6eb079."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "reuse",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T2-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T2-A-E3 (transfer) apoyándome en la teoría «formularios, uploads/downloads y sesiones» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: reuse."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "True",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\n\np = LoginPage()\np.submit('demo', 'sandbox')\nprint(p.auth)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T2-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T2-B-E1 (guided) apoyándome en la teoría «auth, estados y Page Objects» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: True."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "denied",
+      "code": "ctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('denied')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T2-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T2-B-E2 (independent) apoyándome en la teoría «auth, estados y Page Objects» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: denied."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "authenticated",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T2-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T2-B-E3 (transfer) apoyándome en la teoría «auth, estados y Page Objects» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: authenticated."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "['error', 'screenshot', 'trace']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T3-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T3-A-E1 (guided) apoyándome en la teoría «trace, screenshot y logs» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['error', 'screenshot', 'trace']."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "['ERR timeout']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T3-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T3-A-E2 (independent) apoyándome en la teoría «trace, screenshot y logs» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['ERR timeout']."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "{'step': 's1', 'trace': 'traces/s1.zip'}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T3-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T3-A-E3 (transfer) apoyándome en la teoría «trace, screenshot y logs» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: {'step': 's1', 'trace': 'traces/s1.zip'}."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "timeout True captcha False 429 True",
+      "code": "def should_retry(k):\n    return k in ('timeout', '429')\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T3-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T3-B-E1 (guided) apoyándome en la teoría «selectores robustos, retries y recovery» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: timeout True captcha False 429 True."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "goto_home",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T3-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T3-B-E2 (independent) apoyándome en la teoría «selectores robustos, retries y recovery» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: goto_home."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "fail 3",
+      "code": "errors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\n        print('fail', i)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T3-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T3-B-E3 (transfer) apoyándome en la teoría «selectores robustos, retries y recovery» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: fail 3."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "api",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T4-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T4-A-E1 (guided) apoyándome en la teoría «API/export primero» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: api."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "export",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T4-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T4-A-E2 (independent) apoyándome en la teoría «API/export primero» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: export."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "{'method': 'rpa', 'reason': 'no_api'}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T4-A",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T4-A-E3 (transfer) apoyándome en la teoría «API/export primero» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: {'method': 'rpa', 'reason': 'no_api'}."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "human_handoff",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T4-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T4-B-E1 (guided) apoyándome en la teoría «términos, CAPTCHA, desktop fallback y handoff humano» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: human_handoff."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "abort",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T4-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T4-B-E2 (independent) apoyándome en la teoría «términos, CAPTCHA, desktop fallback y handoff humano» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: abort."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "['screenshot', 'step', 'url'] export",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S23-T4-B",
+        "packet_theory",
+        "iDo",
+        "Browser RPA con Playwright"
+      ],
+      "justification_from_packet": "Como explorer del paquete S23, resolví S23-T4-B-E3 (transfer) apoyándome en la teoría «términos, CAPTCHA, desktop fallback y handoff humano» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['screenshot', 'step', 'url'] export."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S23 Q0 «¿Por qué preferir get_by_role a CSS nth-child?»: elijo [2] «Refleja la UI accesible y suele ser más estable». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S23 Q1 «Ante un CAPTCHA el robot debe:»: elijo [0] «Detenerse y hacer handoff humano». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S23 Q2 «API/export primero significa:»: elijo [1] «Buscar integración no-UI antes de automatizar el browser». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S23 Q3 «Un retry seguro reintenta:»: elijo [3] «Solo fallas transitorias (timeout/red), no captcha/403 de negocio». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:20.960320+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s23-live"
+}

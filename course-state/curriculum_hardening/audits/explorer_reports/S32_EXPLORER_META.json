@@ -1,0 +1,9 @@
+{
+  "section": 32,
+  "id": "microservices",
+  "file": "s32-microservices.ts",
+  "score_1_to_10": 5.0,
+  "issue_count": 18,
+  "meta_leak_count": 5,
+  "status": "complete"
+}

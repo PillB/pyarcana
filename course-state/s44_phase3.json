@@ -1,0 +1,1067 @@
+{
+  "version": "3.2",
+  "section": "S44",
+  "section_id": "multimodal",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S44 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S44 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s44-multimodal.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "multimodal",
+    "index": 44,
+    "title_platform": "Sistemas Multi-Modal — Visión + Lenguaje",
+    "title_v3": "CI/CD y seguridad de la cadena de suministro",
+    "title_decision": "KEEP platform id 'multimodal' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
+    "estimatedHours": 12,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S43"
+    ],
+    "environment": "CI/cloud controlado",
+    "project_capstone": "CP-N4-B (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "multimodal",
+    "platform_title": "Sistemas Multi-Modal — Visión + Lenguaje",
+    "v3_title": "CI/CD y seguridad de la cadena de suministro",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante corre lint/types/tests en matrices.",
+    "El estudiante usa caches, artifacts y condiciones.",
+    "El estudiante minimiza permisos y escanea secretos.",
+    "El estudiante genera SBOM, provenance y attestations.",
+    "El estudiante configura environments y approvals.",
+    "El estudiante despliega con canary y rollback.",
+    "El estudiante aplica políticas de branch/review.",
+    "El estudiante maneja fallos con evidencia auditable."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S44-T1-A",
+      "slug": "lint-types-tests-matrix",
+      "title": "lint/types/tests y matrices"
+    },
+    {
+      "subtopic_id": "S44-T1-B",
+      "slug": "caches-artifacts-conditions",
+      "title": "caches, artifacts y condiciones"
+    },
+    {
+      "subtopic_id": "S44-T2-A",
+      "slug": "min-perms-pin-secret-scan",
+      "title": "permisos mínimos, pinning y secret scanning"
+    },
+    {
+      "subtopic_id": "S44-T2-B",
+      "slug": "sbom-provenance-attest",
+      "title": "SBOM, provenance y attestations"
+    },
+    {
+      "subtopic_id": "S44-T3-A",
+      "slug": "envs-approvals",
+      "title": "environments y approvals"
+    },
+    {
+      "subtopic_id": "S44-T3-B",
+      "slug": "migrations-canary-rollback",
+      "title": "migrations, canary/blue-green y rollback"
+    },
+    {
+      "subtopic_id": "S44-T4-A",
+      "slug": "branch-review-release-notes",
+      "title": "branch/review policy y release notes"
+    },
+    {
+      "subtopic_id": "S44-T4-B",
+      "slug": "failure-handling-audit-evidence",
+      "title": "failure handling y evidencia auditable"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S44-T1",
+      "title": "CI",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S44-T1-A",
+          "slug": "lint-types-tests-matrix",
+          "title": "lint/types/tests y matrices",
+          "outcome": "El estudiante corre lint/types/tests en matrices.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "lint/types/tests y matrices",
+              "must_cover": [
+                "CI matrix",
+                "pytest"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T1-A-DEMO",
+              "title": "Demo: lint/types/tests y matrices",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T1-A-E1",
+                "kind": "guided",
+                "title": "lint/types/tests y matrices — guided",
+                "skill": "lint",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T1-A-E2",
+                "kind": "independent",
+                "title": "lint/types/tests y matrices — independent",
+                "skill": "lint",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T1-A-E3",
+                "kind": "transfer",
+                "title": "lint/types/tests y matrices — transfer",
+                "skill": "lint",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S44-T1-B",
+          "slug": "caches-artifacts-conditions",
+          "title": "caches, artifacts y condiciones",
+          "outcome": "El estudiante usa caches, artifacts y condiciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "caches, artifacts y condiciones",
+              "must_cover": [
+                "cache",
+                "artifacts"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T1-B-DEMO",
+              "title": "Demo: caches, artifacts y condiciones",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T1-B-E1",
+                "kind": "guided",
+                "title": "caches, artifacts y condiciones — guided",
+                "skill": "caches",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T1-B-E2",
+                "kind": "independent",
+                "title": "caches, artifacts y condiciones — independent",
+                "skill": "caches",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T1-B-E3",
+                "kind": "transfer",
+                "title": "caches, artifacts y condiciones — transfer",
+                "skill": "caches",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S44-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S44-T1-EVAL-1",
+            "title": "lint/types/tests y matrices — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S44-T1-EVAL-2",
+            "title": "caches, artifacts y condiciones — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S44-T2",
+      "title": "Seguridad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S44-T2-A",
+          "slug": "min-perms-pin-secret-scan",
+          "title": "permisos mínimos, pinning y secret scanning",
+          "outcome": "El estudiante minimiza permisos y escanea secretos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "permisos mínimos, pinning y secret scanning",
+              "must_cover": [
+                "permissions",
+                "pinning"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T2-A-DEMO",
+              "title": "Demo: permisos mínimos, pinning y secret scanning",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T2-A-E1",
+                "kind": "guided",
+                "title": "permisos mínimos, pinning y secret scanning — guided",
+                "skill": "min",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T2-A-E2",
+                "kind": "independent",
+                "title": "permisos mínimos, pinning y secret scanning — independent",
+                "skill": "min",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T2-A-E3",
+                "kind": "transfer",
+                "title": "permisos mínimos, pinning y secret scanning — transfer",
+                "skill": "min",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S44-T2-B",
+          "slug": "sbom-provenance-attest",
+          "title": "SBOM, provenance y attestations",
+          "outcome": "El estudiante genera SBOM, provenance y attestations.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "SBOM, provenance y attestations",
+              "must_cover": [
+                "SBOM",
+                "SLSA"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T2-B-DEMO",
+              "title": "Demo: SBOM, provenance y attestations",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T2-B-E1",
+                "kind": "guided",
+                "title": "SBOM, provenance y attestations — guided",
+                "skill": "sbom",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T2-B-E2",
+                "kind": "independent",
+                "title": "SBOM, provenance y attestations — independent",
+                "skill": "sbom",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T2-B-E3",
+                "kind": "transfer",
+                "title": "SBOM, provenance y attestations — transfer",
+                "skill": "sbom",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S44-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S44-T2-EVAL-1",
+            "title": "permisos mínimos, pinning y secret scanning — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S44-T2-EVAL-2",
+            "title": "SBOM, provenance y attestations — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S44-T3",
+      "title": "CD",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S44-T3-A",
+          "slug": "envs-approvals",
+          "title": "environments y approvals",
+          "outcome": "El estudiante configura environments y approvals.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "environments y approvals",
+              "must_cover": [
+                "environments",
+                "approval gates"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T3-A-DEMO",
+              "title": "Demo: environments y approvals",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T3-A-E1",
+                "kind": "guided",
+                "title": "environments y approvals — guided",
+                "skill": "envs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T3-A-E2",
+                "kind": "independent",
+                "title": "environments y approvals — independent",
+                "skill": "envs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T3-A-E3",
+                "kind": "transfer",
+                "title": "environments y approvals — transfer",
+                "skill": "envs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S44-T3-B",
+          "slug": "migrations-canary-rollback",
+          "title": "migrations, canary/blue-green y rollback",
+          "outcome": "El estudiante despliega con canary y rollback.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "migrations, canary/blue-green y rollback",
+              "must_cover": [
+                "canary",
+                "rollback"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T3-B-DEMO",
+              "title": "Demo: migrations, canary/blue-green y rollback",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T3-B-E1",
+                "kind": "guided",
+                "title": "migrations, canary/blue-green y rollback — guided",
+                "skill": "migrations",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T3-B-E2",
+                "kind": "independent",
+                "title": "migrations, canary/blue-green y rollback — independent",
+                "skill": "migrations",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T3-B-E3",
+                "kind": "transfer",
+                "title": "migrations, canary/blue-green y rollback — transfer",
+                "skill": "migrations",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S44-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S44-T3-EVAL-1",
+            "title": "environments y approvals — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S44-T3-EVAL-2",
+            "title": "migrations, canary/blue-green y rollback — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S44-T4",
+      "title": "Gobierno",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S44-T4-A",
+          "slug": "branch-review-release-notes",
+          "title": "branch/review policy y release notes",
+          "outcome": "El estudiante aplica políticas de branch/review.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "branch/review policy y release notes",
+              "must_cover": [
+                "branch protection",
+                "release notes"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T4-A-DEMO",
+              "title": "Demo: branch/review policy y release notes",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T4-A-E1",
+                "kind": "guided",
+                "title": "branch/review policy y release notes — guided",
+                "skill": "branch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T4-A-E2",
+                "kind": "independent",
+                "title": "branch/review policy y release notes — independent",
+                "skill": "branch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T4-A-E3",
+                "kind": "transfer",
+                "title": "branch/review policy y release notes — transfer",
+                "skill": "branch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S44-T4-B",
+          "slug": "failure-handling-audit-evidence",
+          "title": "failure handling y evidencia auditable",
+          "outcome": "El estudiante maneja fallos con evidencia auditable.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "failure handling y evidencia auditable",
+              "must_cover": [
+                "audit evidence"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S44-T4-B-DEMO",
+              "title": "Demo: failure handling y evidencia auditable",
+              "environment": "CI/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S44-T4-B-E1",
+                "kind": "guided",
+                "title": "failure handling y evidencia auditable — guided",
+                "skill": "failure",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T4-B-E2",
+                "kind": "independent",
+                "title": "failure handling y evidencia auditable — independent",
+                "skill": "failure",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S44-T4-B-E3",
+                "kind": "transfer",
+                "title": "failure handling y evidencia auditable — transfer",
+                "skill": "failure",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S44-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S44-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S44-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S44-T4-EVAL-1",
+            "title": "branch/review policy y release notes — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S44-T4-EVAL-2",
+            "title": "failure handling y evidencia auditable — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S44-PROJ",
+    "title": "CI/CD y seguridad de la cadena de suministro",
+    "replaces_legacy": "Legacy You Do de 'Sistemas Multi-Modal — Visión + Lenguaje' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-B (inicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-B (inicio)",
+    "increment_gate": "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'multimodal' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s44-multimodal.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Sistemas Multi-Modal — Visión + Lenguaje' vs 'CI/CD y seguridad de la cadena de suministro'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-B (inicio)",
+    "increment_gate": "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+    "project_id": "S44-PROJ",
+    "section_passed": false,
+    "notes": "S44 contributes to CP-N4-B (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S44",
+    "risk": "Display title still 'Sistemas Multi-Modal — Visión + Lenguaje' until product rename; topic mismatch vs V3 'CI/CD y seguridad de la cadena de suministro'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S44-T1-A first"
+  }
+}

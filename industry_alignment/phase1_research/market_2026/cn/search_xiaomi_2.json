@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://hr.xiaomi.com/job/view/695",
+    "name": "北京-研发工程师-机器学习研究员-职位详情 - 小米招聘- Xiaomi",
+    "snippet": "3、熟悉Spark、Hadoop等分布式计算技术，具有SAS、R、 Python 等统计分析技能优先； 4、有金融 模型 、广告 算法 、推荐 算法 等相关领域研究或实践经验者优先； 5、具备良好的学习 ...",
+    "host_name": "hr.xiaomi.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/learnprogramming/comments/1awmapd/if_low_level_languages_are_faster_why_are_llms/?tl=zh-hans",
+    "name": "为什么大语言模型（LLM）反而用Python 写的呢？",
+    "snippet": "这可能是一个傻问题，我才刚开始自学 C 语言，听说 Python 比较慢，尽管像那个，比如说，聊天机器人 gpt 就是用 ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://datawhalechina.github.io/llm-universe",
+    "name": "动手学大模型应用开发",
+    "snippet": "本项目对学习者的人工智能基础、 算法 基础没有任何要求，仅需要掌握基本 Python 语法、掌握初级 Python 开发技能即可。 考虑到环境搭建问题，本项目提供了阿里云服务器学生 ...",
+    "host_name": "datawhalechina.github.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/liguodongiot/llm-action",
+    "name": "liguodongiot/llm-action: 本项目旨在分享大模型相关技术",
+    "snippet": "下面汇总了我在 大模型 实践中训练相关的所有教程。从6B到65B，从全量微调到高效微调（LoRA，QLoRA，P-Tuning v2），再到RLHF（基于人工反馈的强化学习）。",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aicoding.csdn.net/6a28fe46662f9a54cb7c1422.html",
+    "name": "大模型开发小白必看：从Python到Langchain - AI编程社区",
+    "snippet": "2026年2月27日 — 本文作者分享了自己在学习 大模型 应用开发过程中的自学路线图，重点讲解了 Python 工程能力、调用模型能力和组织复杂流程能力的重要性，以及LLM、Prompt ...",
+    "host_name": "aicoding.csdn.net",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://zhuanlan.zhihu.com/p/987052830",
+    "name": "工业界主流大语言模型后训练(Post-Training)技术总结",
+    "snippet": "今年工业界陆续开源了多款优秀的大语言 模型 ，并放出了技术报告，本文整理工业界主流开源LLM的后训练方案，着重介绍训练 算法 和数据处理部分。以下是 模型 列表：. Llama3（ ...",
+    "host_name": "zhuanlan.zhihu.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=qd1fG1Wcf4c",
+    "name": "當Python 遇上LLM API，算法都丟給AI 就好了！ | Python 程式",
+    "snippet": "This content isn't available. 當 Python 遇上LLM API， 算法 都丟給AI 就好了！ ... MIT一個實驗，扯下AI 大模型 的底褲#張良的發現. 張良的發現. New. 30K ...",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.aliyun.com/article/1704975",
+    "name": "AI 项目开发：零基础快速使用Python 调用大模型LLM API",
+    "snippet": "2. AI 大模型 (LLM) 与API 的工作机制 · 3. 构建标准化AI 大模型 开发环境 · 4. Python 代码接入LLM API 接口 · 5.",
+    "host_name": "developer.aliyun.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

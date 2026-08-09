@@ -1,0 +1,437 @@
+{
+  "agent": "b",
+  "section_index": 10,
+  "recorded_at": "2026-08-01T15:12:19.343172+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          8.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "flags > env > file > defaults",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          4.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          3.0,
+          4.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          2.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          4.0,
+          2.0,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S10-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: _ws no colapsa; no exporta clean; quita print('ok', True)\ndef _ws(s: str) -> str:\n    return s.strip()\n\ndef clean(s: str) -> str:\n    return _ws(s)\n\n__all__ = [\"_ws\"]\nprint(__all__)\nprint(clean(\"  X \"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "extra",
+          "split",
+          "aplica",
+          "espacios",
+          "marca",
+          "colapse",
+          "incorrecto"
+        ]
+      },
+      {
+        "exercise_id": "S10-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: util_norm no casefold; suffixes invertidos; quita print('ok', True)\ndef util_norm(s: str) -> str:\n    return s.strip()\n\ndef module_a_process(s: str) -> str:\n    return util_norm(s) + \":b\"\n\ndef module_b_process(s: str) -> str:\n    return util_norm(s) + \":a\"\n\nprint(module_a_process(\" Hola \"))\nprint(module_b_process(\" Hola \"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "función",
+          "asigna",
+          "contrato",
+          "correcto",
+          "texto",
+          "procesos",
+          "ambos",
+          "final"
+        ]
+      },
+      {
+        "exercise_id": "S10-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el starter: las ramas de `recommend_import_style` están invertidas/incompletas.n2. Mapea `same_package`, `externa",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: exporta _tokenize como público; quita print('ok', True)\ndef _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\nnames = [\"_tokenize\", \"normalize\", \"compare\"]\npublic = names\nprint(public)\nprint(compare(\"A\", \"a\"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "construye",
+          "luego",
+          "también",
+          "revisa",
+          "etiquetas"
+        ]
+      },
+      {
+        "exercise_id": "S10-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: __all__ vacío; compare sin normalize; quita print('ok', True)\ndef normalize(s: str) -> str:\n    return s.strip()\n\ndef compare(a: str, b: str) -> bool:\n    return a == b\n\n__all__ = []\nprint(__all__)\nprint(compare(\"Z\", \" z \"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "líneas",
+          "asigna",
+          "elimina",
+          "públicos",
+          "debug",
+          "dos",
+          "resultado",
+          "nombres"
+        ]
+      },
+      {
+        "exercise_id": "S10-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Corrige `major_bump` (MAJOR+1, MINOR/PATCH en 0).n2. Completa el texto de migración del `document_breaking`.n3. Verif",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# project metadata\n# DEFECT: complete_project no corrige name ni requires-python; quita print('ok', True)\ndef complete_project(partial: dict) -> dict:\n    return dict(partial)\n\nprint(complete_project({\"name\": \"familiarity\", \"version\": \"0.1.0\"}))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "nuevo",
+          "fuerza",
+          "resultado",
+          "copia",
+          "default",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S10-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# src layout paths\n# DEFECT: no construye rutas; omite módulos y pyproject; quita print('ok', True)\ndef src_layout(package: str, modules: list[str]) -> list[str]:\n    return [f\"src/{package}/__init__.py\", f\"src/{package}/normalize.py\"]\n\nfor p in src_layout(\"familiarity_core\", [\"__init__.py\", \"normalize.py\", \"cli.py\"]):\n    print(p)\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "todos",
+          "path",
+          "añade",
+          "incluye",
+          "final",
+          "argumentos",
+          "línea",
+          "implementa"
+        ]
+      },
+      {
+        "exercise_id": "S10-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee las claves de `facts` en orden: installed → igualdad de nombres → shadowing.n2. Devuelve el string de cause exact",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Corrige `classify_change` (breaking no es patch).n2. Corrige `bump` en major a `X.0.0`.n3. Deja `bump_from_descriptio",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# deps structure\n# DEFECT: mete pytest en runtime; no arma optional-dependencies; quita print('ok', True)\ndef build_deps(runtime: list[str], dev: list[str], requires_python: str) -> dict:\n    return {\n        \"requires-python\": requires_python,\n        \"dependencies\": list(runtime) + list(dev),\n        \"optional-dependencies\": {},\n    }\n\nprint(build_deps([], [\"pytest\"], \">=3.11\"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pon",
+          "prints",
+          "concatenar",
+          "caso",
+          "debug",
+          "resultado",
+          "corrige",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S10-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Reordena las ramas de `policy_for`.n2. Completa `keep_cli_stable` con el texto de no romper CLI sin bump/CHANGELOG.n3",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# argparse subparsers\n# DEFECT: sin required subparser; sin --format; quita print('ok', True)\nimport argparse\np = argparse.ArgumentParser()\nns = p.parse_args([])\nprint(ns)\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "text",
+          "extra",
+          "añade",
+          "prints",
+          "choices",
+          "imprime",
+          "namespace",
+          "parsea"
+        ]
+      },
+      {
+        "exercise_id": "S10-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# exit codes vía argparse real\n# DEFECT: usage y runtime devuelven 0; no propaga el code de SystemExit; ignora runtime_ok; quita print('ok', True)\nimport argparse\n\ndef run_cli(argv: list[str], runtime_ok: bool = True) -> int:\n    p = argparse.ArgumentParser(prog=\"familiarity\")\n    sub = p.add_subparsers(dest=\"cmd\", required=True)\n    sub.add_parser(\"normalize\")\n    try:\n        p.parse_args(argv)\n    except SystemExit:\n        return 0  # DEFECT: usage debe ser 2\n    return 0  # DEFECT: debe devolver 1 si runtime_ok es False\n\ncases = [\n    (\"normalize ok\", [\"normalize\"], True),\n    (\"archivo de input no existe\", [\"normalize\"], False),\n    (\"flag desconocido\", [\"normalize\", \"--no-existe\"], True),\n    (\"subcomando ausente\", [], True),\n    (\"validación de config falla al arrancar\", [\"normalize\"], False),\n]\nfor label, argv, runtime_ok in cases:\n    print(f\"{label}: {run_cli(argv, runtime_ok=runtime_ok)}\")\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "extra",
+          "líneas",
+          "cinco",
+          "éxito",
+          "envuelve",
+          "imprime",
+          "pasa"
+        ]
+      },
+      {
+        "exercise_id": "S10-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Completa `format_help` para alinear el comentario `#` en una columna fija (`width=52`).n2. Imprime los dos ejemplos d",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# stderr vs return\n# DEFECT: imprime en stdout; no usa err; quita print('ok', True)\nfrom io import StringIO\n\ndef process(n: int, err: StringIO) -> int:\n    print(\"event=done\")\n    return n * 2\n\nerr = StringIO()\nout = process(3, err)\nprint(out)\nprint(\"stderr:\", err.getvalue().strip())\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "retorne",
+          "abre",
+          "escriba",
+          "cambia",
+          "hace",
+          "salto",
+          "retornado",
+          "final"
+        ]
+      },
+      {
+        "exercise_id": "S10-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# stdin dash\n# DEFECT: ignora path_or_dash; quita print('ok', True)\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    return file_text or \"\"\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "extra",
+          "prints",
+          "falta",
+          "imprime",
+          "devuelve"
+        ]
+      },
+      {
+        "exercise_id": "S10-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# JSON on stdout only\n# DEFECT: good_cli mezcla logs en stdout; quita print('ok', True)\nfrom io import StringIO\n\ndef bad_cli():\n    return \"empezandon{\"ok\": true}nfin\"\n\ndef good_cli(err: StringIO) -> str:\n    return \"empezandon{\"ok\": true}nfin\"\n\nprint(\"BAD\")\nprint(bad_cli())\nerr = StringIO()\nprint(\"GOOD\")\nprint(good_cli(err))\nprint(\"stderr_only\", err.getvalue().replace(\"\\n\", \" | \").strip())\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "escribe",
+          "contaminación",
+          "incluye",
+          "deja",
+          "según",
+          "retorna",
+          "ejemplo",
+          "solution"
+        ]
+      },
+      {
+        "exercise_id": "S10-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Corrige el dict `PREC` (defaults=1 … flags=4).n2. Al recorrer, `continue` si `val is None`.n3. Actualiza winner/sourc",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S10-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# merge precedence\n# DEFECT: flags no pisan; defaults ganan; quita print('ok', True)\ndef merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(flags)\n    for layer in (env_cfg, file_cfg, defaults):\n        out.update({k: v for k, v in layer.items() if v is not None})\n    return out\n\nprint(merge({\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"}))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "extra",
+          "prints",
+          "caso",
+          "superpone",
+          "imprime",
+          "starter",
+          "parte"
+        ]
+      },
+      {
+        "exercise_id": "S10-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CLI vs env con razón derivada\n# DEFECT: env siempre gana; no distingue flag=None; quita print('ok', True)\ndef resolve_with_reason(env, flag):\n    return env, \"env siempre gana\"\n\nfor env, flag in [(\"DEBUG\", \"INFO\"), (\"DEBUG\", None)]:\n    val, why = resolve_with_reason(env, flag)\n    print(f\"result={val} razón={why}\")\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "devolviendo",
+          "formato",
+          "conflictos",
+          "ausente",
+          "ambos",
+          "inventes",
+          "bucle"
+        ]
+      },
+      {
+        "exercise_id": "S10-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# gitignore secrets\n# DEFECT: ignora todo o casi nada; no distingue .env.example; quita print('ok', True)\nCANDIDATES = [\".env\", \".env.example\", \".env.*\", \"*.pem\", \"credentials.json\", \"README.md\"]\n\ndef should_ignore_secret(path: str) -> bool:\n    return path == \".env\"\n\nfor x in CANDIDATES:\n    if should_ignore_secret(x):\n        print(\"ignore:\", x)\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "patrones",
+          "define",
+          "ignorar",
+          "secretos",
+          "conjunto",
+          "explícitamente",
+          "excluye",
+          "deben"
+        ]
+      },
+      {
+        "exercise_id": "S10-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# validate_config\n# DEFECT: no valida data_dir; quita print('ok', True)\ndef validate_config(cfg: dict) -> None:\n    if not cfg.get(\"log_level\"):\n        raise RuntimeError(\"config: falta clave requerida 'log_level'\")\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\n    print(\"passed_bad\")\nexcept RuntimeError as e:\n    print(e)\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mensaje",
+          "extra",
+          "mantén",
+          "exige",
+          "prints",
+          "caso",
+          "feliz",
+          "bucle"
+        ]
+      },
+      {
+        "exercise_id": "S10-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# secure defaults\n# DEFECT: harden_defaults no cambia nada; quita print('ok', True)\ndef harden_defaults(cfg: dict) -> dict:\n    return dict(cfg)\n\ninseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = harden_defaults(inseguro)\nfor k in inseguro:\n    print(f\"{k}: {inseguro[k]!r} -> {seguro[k]!r}\")\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "recorriendo",
+          "claves",
+          "old",
+          "clave",
+          "aplica",
+          "copia",
+          "false",
+          "reglas"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "6c4c1a7113100667"
+  }
+}

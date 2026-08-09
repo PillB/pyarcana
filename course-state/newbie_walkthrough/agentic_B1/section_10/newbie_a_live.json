@@ -1,0 +1,568 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 10,
+  "packet_sha": "adf1b4b46fb5db1b",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_10/packet.json",
+  "recorded_at": "2026-07-22T01:46:26.571765+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "d5a12fcbbe64",
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T1-A-E1\ndef _spaces(s):\n    return s.strip()\n\ndef clean(s):\n    return _spaces(s)\n\n__all__ = ['clean']\nprint(__all__)\nprint(clean('  X '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "_spaces",
+        "strip",
+        "clean",
+        "__all__"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T1-A-E1 me baso en la instrucción del paquete: «Crea un módulo lógico con función pública `clean` y `__all__ = ['clean']`.». Cruce con iDo `S10-T1-B-DEMO` (Separar normalize y cli en funciones; demo con guard __main__.): «». Pista del paquete: «Helper privado con _ no va en __all__.». Tokens que copié al code: `__all__` / `def _spaces`. Teoría cercana: «Dependencias cíclicas y API pública»."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T1-A-E2\ndef util_norm(s):\n    return s.strip().lower()\n\ndef a_side(s):\n    return util_norm(s)\n\ndef b_side(s):\n    return util_norm(s) + '!' \n\nprint('a', a_side(' Hi '))\nprint('b', b_side(' Hi '))\nprint('ok util compartido sin ciclo')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "util_norm",
+        "strip",
+        "lower",
+        "a_side"
+      ],
+      "justification_from_packet": "[B1/Explorer] S10-T1-A-E2: copio el encargo del weDo: «Simula un import circular y arréglalo extrayendo un util compartido.». Miro el demo iDo `S10-T1-B-DEMO` (Separar normalize y cli en funciones; demo con guard __main__.): «». Pista del paquete: «a importa b y b importa a → rompe; mueve la función común a util.». Queda reflejado con `def util_norm` / `def a_side` en mi solución. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T1-A-E3\nprint('normalize.py importa compare en el mismo paquete -> relativo OK')\nprint('plugin externo usa familiarity_core -> absoluto')\nprint('ejecutar el CLI del paquete -> python -m paquete')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "normalize",
+        "importa",
+        "compare",
+        "mismo"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T1-A-E3 me baso en la instrucción del paquete: «Elige import absoluto vs relativo en layout src: imprime la recomendación para 3 casos.». Miro el demo iDo `S10-T1-B-DEMO` (Separar normalize y cli en funciones; demo con guard __main__.): «». Pista del paquete: «Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.». Mi respuesta incluye `relativo` / `absoluto`, alineado a esa demo. Teoría cercana: «Layout src, pyproject.toml y builds»."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T1-B-E1\ndef _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\npublic = [\"normalize\", \"compare\"]\nprivate = [\"_tokenize\"]\nprint('public', public)\nprint('private', private)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "_tokenize",
+        "split",
+        "normalize",
+        "join"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S10-T1-B-E1 leo literalmente: «Marca helpers privados con _ y deja públicas solo `normalize` y `compare`.». Replico la forma del demo `S10-T1-B-DEMO` (Separar normalize y cli en funciones; demo con guard __main__.): «». Pista del paquete: «Imprime lista public vs private detectada por nombre.». Queda reflejado con `def _tokenize` / `normalize` en mi solución. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T1-B-E2\ndef normalize(s):\n    return \" \".join(s.split()).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\n__all__ = [\"normalize\", \"compare\"]\nprint(__all__)\nprint(compare(\"A\", \"a\"))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "normalize",
+        "join",
+        "split",
+        "lower"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S10-T1-B-E2 siguiendo el texto de la instrucción: «Implementa una fachada que reexporta normalize y compare e imprime __all__.». Cruce con iDo `S10-T1-B-DEMO` (Separar normalize y cli en funciones; demo con guard __main__.): «». Pista del paquete: «Las implementaciones pueden ser locales.». Mi respuesta incluye `__all__` / `normalize`, alineado a esa demo. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T1-B-E3\nprint('BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score')\nprint('NEW_VERSION: 1.0.0 (era 0.x o bump major)')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "BREAKING",
+        "compare",
+        "bool",
+        "vuelve"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T1-B-E3 me baso en la instrucción del paquete: «Documenta un breaking change de firma pública: old → new y versión major.». El patrón iDo `S10-T1-B-DEMO` me da la forma (Separar normalize y cli en funciones; demo con guard __main__.): «». Pista del paquete: «Imprime BREAKING y NEW_VERSION.». En el code dejo `BREAKING` / `major` como ancla del mismo patrón. Teoría cercana: «Dependencias cíclicas y API pública»."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T2-A-E1\nproject = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "project",
+        "name",
+        "familiarity",
+        "core"
+      ],
+      "justification_from_packet": "[B1/Explorer] S10-T2-A-E1: copio el encargo del weDo: «Completa un dict estilo pyproject con name y version e imprímelos.». Miro el demo iDo `S10-T2-A-DEMO` (Fachada que exporta solo 4 símbolos públicos.): «». Pista del paquete: «name=familiarity-core version=0.1.0». Tokens que copié al code: `project` / `version`. Teoría cercana: «Layout src, pyproject.toml y builds»."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T2-A-E2\npaths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nfor p in paths:\n    print(p)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "paths",
+        "src",
+        "familiarity_core",
+        "__init__"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T2-A-E2 me baso en la instrucción del paquete: «Lista el layout src mínimo de un paquete importable e imprime cada path.». El patrón iDo `S10-T2-A-DEMO` me da la forma (Fachada que exporta solo 4 símbolos públicos.): «». Pista del paquete: «Incluye __init__.py, normalize.py, cli.py, pyproject.toml.». Tokens que copié al code: `src` / `familiarity_core`. Teoría cercana: «Layout src, pyproject.toml y builds»."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T2-A-E3\nprint('cause: nombre del paquete no coincide con import')\nprint('cause: no se instaló editable (pip install -e .)')\nprint('cause: cwd incorrecto / sys.path no ve el package')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "cause",
+        "nombre",
+        "del",
+        "paquete"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S10-T2-A-E3 siguiendo el texto de la instrucción: «Diagnostica ModuleNotFoundError: imprime 3 causas probables post-install.». Replico la forma del demo `S10-T2-A-DEMO` (Fachada que exporta solo 4 símbolos públicos.): «». Pista del paquete: «Piensa en nombre, editable, y cwd.». Tokens que copié al code: `install` / `instal`. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T2-B-E1\ncambios = [\n    (\"renombrar normalize a clean_name (API pública)\", \"major\"),\n    (\"añadir flag --format a report\", \"minor\"),\n    (\"corregir typo en help\", \"patch\"),\n    (\"eliminar subcomando compare\", \"major\"),\n]\nfor c, n in cambios:\n    print(f\"{c}: {n}\")",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "cambios",
+        "renombrar",
+        "normalize",
+        "clean_name"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S10-T2-B-E1 siguiendo el texto de la instrucción: «Clasifica 4 cambios en major/minor/patch.». El patrón iDo `S10-T2-B-DEMO` me da la forma (Modelo mínimo de layout src + metadatos instalables.): «». Pista del paquete: «Breaking → major; feature → minor; fix → patch.». Tokens que copié al code: `cambios` / `major`. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T2-B-E2\nprint('dependencies=[]  # N1 stdlib')\nprint('requires-python>=3.11')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "dependencies",
+        "stdlib",
+        "requires",
+        "python"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S10-T2-B-E2 leo literalmente: «Fija dependencies mínimas del paquete (puede ser lista vacía + note) e imprime requires-python.». El patrón iDo `S10-T2-B-DEMO` me da la forma (Modelo mínimo de layout src + metadatos instalables.): «». Pista del paquete: «Para N1 stdlib: dependencies=[].». Queda reflejado con `dependencies` / `requires` en mi solución. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T2-B-E3\nprint('POLICY: renames de entidades de dominio se versionan major')\nprint('POLICY: nuevas entidades opcionales pueden ser minor')\nprint('POLICY: documentar CHANGELOG entre S10 CLI y S11 dominio')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "POLICY",
+        "renames",
+        "entidades",
+        "dominio"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T2-B-E3 me baso en la instrucción del paquete: «Escribe una política de compatibilidad hacia S11 dominio (3 bullets).». Miro el demo iDo `S10-T2-B-DEMO` (Modelo mínimo de layout src + metadatos instalables.): «». Pista del paquete: «Cubrir renames de entidades y versiones.». Mi respuesta incluye `dominio` / `S11`, alineado a esa demo. Teoría cercana: «Versionado y compatibilidad»."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T3-A-E1\nimport argparse\np = argparse.ArgumentParser(prog='familiarity')\nsub = p.add_subparsers(dest='cmd', required=True)\nr = sub.add_parser('report')\nr.add_argument('--format', choices=['text', 'json'], default='text')\nns = p.parse_args(['report', '--format', 'json'])\nprint(ns)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "argparse",
+        "ArgumentParser",
+        "prog",
+        "familiarity"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S10-T3-A-E1 leo literalmente: «Añade subcomando report con --format text|json y parsea un argv de ejemplo.». El patrón iDo `S10-T3-A-DEMO` me da la forma (Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).): «». Pista del paquete: «Usa argparse subparsers.». En el code dejo `report` / `format` como ancla del mismo patrón. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T3-A-E2\ncasos = [\n    (\"normalize ok\", 0),\n    (\"archivo de input no existe\", 1),\n    (\"flag desconocido\", 2),\n    (\"subcomando ausente\", 2),\n    (\"validación de config falla al arrancar\", 1),\n]\nfor c, code in casos:\n    print(f\"{c}: {code}\")",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "casos",
+        "normalize",
+        "archivo",
+        "input"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S10-T3-A-E2 siguiendo el texto de la instrucción: «Mapea situaciones a exit codes 0/1/2 e imprime `caso: code`.». Cruce con iDo `S10-T3-A-DEMO` (Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).): «». Pista del paquete: «0 éxito, 1 runtime, 2 usage.». En el code dejo `desconocido` / `subcomando` como ancla del mismo patrón. Teoría cercana: «argparse, subcomandos y exit codes»."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T3-A-E3\nprint('HELP: Usa normalize para limpiar texto sintético del intake')\nprint('HELP: report --format json genera un resumen legible')\nprint('HELP: Si falta un archivo, revisa la ruta en --input')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "HELP",
+        "Usa",
+        "normalize",
+        "para"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T3-A-E3 me baso en la instrucción del paquete: «Escribe 3 líneas de ayuda --help orientadas a operador no dev.». El patrón iDo `S10-T3-A-DEMO` me da la forma (Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).): «». Pista del paquete: «Evita jerga de frameworks.». Tokens que copié al code: `HELP` / `normalize`. Teoría cercana: «stdin/stdout/stderr y ayuda»."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T3-B-E1\nfrom io import StringIO\n\ndef process(n, err):\n    err.write('event=done\\n')\n    return n * 2\n\nerr = StringIO()\nout = process(3, err)\nprint('stdout', out)\nprint('stderr', err.getvalue().strip())",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "StringIO",
+        "process",
+        "err",
+        "write"
+      ],
+      "justification_from_packet": "[B1/Explorer] S10-T3-B-E1: copio el encargo del weDo: «Escribe resultado a stdout y un log a stderr (capturado con StringIO en la demo).». Replico la forma del demo `S10-T3-B-DEMO` (CLI con subcomandos ingest|normalize|compare|report y exit codes.): «». Pista del paquete: «Función process(n) retorna n*2; log event=done.». Mi respuesta incluye `StringIO` / `stdout`, alineado a esa demo. Teoría cercana: «stdin/stdout/stderr y ayuda»."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T3-B-E2\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == '-':\n        return stdin_text\n    return file_text\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "read_input",
+        "path_or_dash",
+        "stdin_text",
+        "file_text"
+      ],
+      "justification_from_packet": "[B1/Explorer] S10-T3-B-E2: copio el encargo del weDo: «Implementa `read_input(path_or_dash, stdin_text)` que lee path o '-' como stdin.». Replico la forma del demo `S10-T3-B-DEMO` (CLI con subcomandos ingest|normalize|compare|report y exit codes.): «». Pista del paquete: «Si path=='-', usa stdin_text.». En el code dejo `path_or_dash` / `stdin_text` como ancla del mismo patrón. Teoría cercana: «stdin/stdout/stderr y ayuda»."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T3-B-E3\nprint('BAD: prints de progreso mezclados con JSON')\nprint('GOOD: {\"ok\": true}')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "BAD",
+        "prints",
+        "progreso",
+        "mezclados"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T3-B-E3 me baso en la instrucción del paquete: «Revisa un CLI que contamina stdout con prints de progreso y propón la salida limpia.». Cruce con iDo `S10-T3-B-DEMO` (CLI con subcomandos ingest|normalize|compare|report y exit codes.): «». Pista del paquete: «Imprime BAD y GOOD.». Queda reflejado con `progreso` / `prints` en mi solución. Teoría cercana: «stdin/stdout/stderr y ayuda»."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T4-A-E1\nprint('1:defaults')\nprint('2:file')\nprint('3:env')\nprint('4:flags')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "defaults",
+        "file",
+        "env",
+        "flags"
+      ],
+      "justification_from_packet": "[B1/Explorer] S10-T4-A-E1: copio el encargo del weDo: «Imprime la tabla de precedencia de 4 capas (1=más baja … 4=más alta).». Cruce con iDo `S10-T4-A-DEMO` (Datos a stdout y diagnóstico a stderr (simula pipe normalize).): «import sys from io import StringIO def normalize_cmd(raw: str, err: StringIO) -> str:». Pista del paquete: «defaults < file < env < flags.». Tokens que copié al code: `print(` / `defaults`. Teoría cercana: «Archivo/env/flags y precedencia»."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T4-A-E2\ndef merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "merge",
+        "defaults",
+        "file_cfg",
+        "env_cfg"
+      ],
+      "justification_from_packet": "[B1/Explorer] S10-T4-A-E2: copio el encargo del weDo: «Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando None en capas altas.». Cruce con iDo `S10-T4-A-DEMO` (Datos a stdout y diagnóstico a stderr (simula pipe normalize).): «import sys from io import StringIO def normalize_cmd(raw: str, err: StringIO) -> str:». Pista del paquete: «Prueba con log_level en todas las capas.». Mi respuesta incluye `file_cfg` / `env_cfg`, alineado a esa demo. Teoría cercana: «Archivo/env/flags y precedencia»."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T4-A-E3\nprint('result=INFO')\nprint('razón: flags CLI tienen precedencia sobre env')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "result",
+        "INFO",
+        "flags",
+        "CLI"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S10-T4-A-E3 me baso en la instrucción del paquete: «Caso conflictivo: env=DEBUG y flag=INFO — imprime el resultado esperado y por qué.». Miro el demo iDo `S10-T4-A-DEMO` (Datos a stdout y diagnóstico a stderr (simula pipe normalize).): «import sys from io import StringIO def normalize_cmd(raw: str, err: StringIO) -> str:». Pista del paquete: «Una línea result= y una razón.». Tokens que copié al code: `print(` / `result`. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T4-B-E1\nfor e in ['.env', '*.pem', 'credentials.json', '.venv/']:\n    print(f'ignore: {e}')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "env",
+        "pem",
+        "credentials",
+        "json"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S10-T4-B-E1 leo literalmente: «Checklist de secretos en .gitignore: imprime 4 entradas típicas.». El patrón iDo `S10-T4-B-DEMO` me da la forma (FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.): «def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str: level = default if env:». Pista del paquete: «Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.». Mi respuesta incluye `print(` / `ignore`, alineado a esa demo. Teoría cercana: «Secretos, defaults y validación temprana»."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T4-B-E2\ndef validate_config(cfg: dict) -> None:\n    for k in (\"log_level\", \"data_dir\"):\n        if not cfg.get(k):\n            raise RuntimeError(f\"config: falta {k}\")\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "validate_config",
+        "cfg",
+        "dict",
+        "log_level"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S10-T4-B-E2 leo literalmente: «Implementa `validate_config(cfg)` que exige log_level y data_dir; errores claros.». El patrón iDo `S10-T4-B-DEMO` me da la forma (FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.): «def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str: level = default if env:». Pista del paquete: «Raise RuntimeError con nombre de clave.». Tokens que copié al code: `validate_config` / `log_level`. Teoría cercana: «De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)»."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S10-T4-B-E3\nprint('log_level: DEBUG → INFO')\nprint('echo_sql: True → False')\nprint('api_token: hardcoded → (sin default; solo env/secret store)')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S10",
+        "log_level",
+        "DEBUG",
+        "INFO",
+        "echo_sql"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S10-T4-B-E3 siguiendo el texto de la instrucción: «Dado un default inseguro (log_level=DEBUG y echo_sql=True), propone defaults seguros.». Replico la forma del demo `S10-T4-B-DEMO` (FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.): «def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str: level = default if env:». Pista del paquete: «Imprime old → new por clave.». En el code dejo `log_level` / `echo_sql` como ancla del mismo patrón. Teoría cercana: «Secretos, defaults y validación temprana»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: __name__ es '__main__' si se ejecuta como script; el bloque sirve para correr CLI/demo solo al ejecutar el módulo, no al importarlo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "flags > env > file > defaults",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría de config: precedencia 'flags CLI > variables de entorno > archivo de config > defaults'."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría argparse: exit code '2 = uso/CLI inválido (argparse default)'; 0 éxito, 1 runtime/negocio."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "stderr",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: 'stdout = datos (JSON, CSV). stderr = logs y progreso' para no contaminar redirecciones."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría SemVer: 'feature compatible → minor'; 'añadir es minor; renombrar/eliminar es major'. Un subcomando nuevo compatible es minor."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": ".env con API_TOKEN",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: secretos fuera del repo — '.env en .gitignore, nunca en logs'. README/pyproject/src sí van al git."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  }
+}

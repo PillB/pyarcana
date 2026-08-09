@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-a-7c91e2f4b8-s18",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "id": "S18-T1-A-E1",
+      "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(f\"n {montos.size} | mean {round(float(montos.mean()), 1)} | median {float(np.median(montos))}\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T1-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos: montos = np.array([10, 12, 14, 16, 100], dtype=float); pri. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"n {montos.size} | mean {round(float(montos.mean()), 1)} | median {float(). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "id": "S18-T1-A-E2",
+      "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(f\"Q1 {float(q1)} | Q3 {float(q3)} | IQR {float(q3 - q1)}\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T1-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float); q1, q3 = np. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"Q1 {float(q1)} | Q3 {float(q3)} | IQR {float(q3 - q1)}\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "id": "S18-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T1-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: def resumen(x):; x = np.asarray(x, dtype=float). Com. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(resumen([1, 2, 3, 4, 5]))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "id": "S18-T1-B-E1",
+      "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean()); med = float(np.median(x))\nprint(f\"mean {round(m,1)} | median {med} | ratio {round(m/med, 2)}\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T1-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.array([10, 11, 12, 13, 100], dtype=float); m = float(x.mean()).. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"mean {round(m,1)} | median {med} | ratio {round(m/med, 2)}\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "id": "S18-T1-B-E2",
+      "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x)); mad = float(np.median(np.abs(x - med)))\nprint(f\"MAD {mad}\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T1-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: x = np.array([2, 3, 4, 5, 100], dtype=float); med = float(np. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"MAD {mad}\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "id": "S18-T1-B-E3",
+      "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T1-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = np.array([0, 1, 9, 99], dtype=float); print([round(. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print([round(float(v), 3) for v in np.log1p(x)])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "id": "S18-T2-A-E1",
+      "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(\"share_Lima\", share_lima)\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T2-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]; share_lima = muestra. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"share_Lima\", share_lima)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "id": "S18-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T2-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos: share = 8 / 10; pob = 0.5. Completa el TODO del starter si. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"bias_Lima_pp\", round(share - pob, 2))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "id": "S18-T2-A-E3",
+      "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T2-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def max_bias(pob, counts):; n = sum(counts.values()). Co. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "id": "S18-T2-B-E1",
+      "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(\"margen\", round(margen, 2))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T2-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: media, s, n = 10, 2, 16; margen = 1.96 * s / math.sqrt(n). Compl. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"margen\", round(margen, 2))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "id": "S18-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T2-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos: d = (13 - 10) / 2; print(\"d\", round(d, 2)). Completa el TOD. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"d\", round(d, 2))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "id": "S18-T2-B-E3",
+      "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(\"ic95\", ic)\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T2-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se = 4, 1.5; ic = (round(diff - 1.96 * se, 2), round. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"ic95\", ic)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "id": "S18-T3-A-E1",
+      "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(\"r\", round(float(np.corrcoef(x, y)[0, 1]), 1))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T3-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.array([1, 2, 3, 4], dtype=float); y = np.array([2, 4, 6, 8], dt. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"r\", round(float(np.corrcoef(x, y)[0, 1]), 1))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "id": "S18-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T3-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / datos sintéticos: r = 0.82; print(\"asociacion_observada\" if abs. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "id": "S18-T3-A-E3",
+      "code": "import numpy as np\nz = np.arange(5, dtype=float); x = z.copy(); y = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1); by = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1]); ry = y - (by[0] * z + by[1])\nprint(f\"r_raw {round(r_raw,1)} | max_abs_resid {round(float(max(abs(rx).max(), abs(ry).max())), 1)}\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T3-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z = np.arange(5, dtype=float); x = z.copy(). Comple. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"r_raw {round(r_raw,1)} | max_abs_resid {round(float(max(abs(rx).max(), a). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "id": "S18-T3-B-E1",
+      "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75]); iqr = q3 - q1; hi = q3 + 1.5 * iqr\nprint(\"n_hi\", int((m > hi).sum()))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T3-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sintéticos: m = np.array([10, 12, 11, 13, 50], dtype=float); q1,. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"n_hi\", int((m > hi).sum()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "id": "S18-T3-B-E2",
+      "code": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"]); flag = np.array([True, True, False])\nprint(\"tasa_Lima\", float(flag[region == \"Lima\"].mean()))\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T3-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintéticos: region = np.array([\"Lima\", \"Lima\", \"Cusco\"]); flag = np.a. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"tasa_Lima\", float(flag[region == \"Lima\"].mean()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "id": "S18-T3-B-E3",
+      "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75]); iqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T3-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([1, 2, 3, 4, 100], dtype=float); q1, q3 = np.quanti. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(((m < lo) | (m > hi)).tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "id": "S18-T4-A-E1",
+      "code": "evidencia = {\"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"mediana >= 5\", \"resultado\": {\"n\": 10, \"median\": 5.0}}\nprint(evidencia[\"pregunta\"])\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T4-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos: evidencia = {; \"pregunta\": \"¿Cuál es el ticket mediano?\",. . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(evidencia[\"pregunta\"])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "id": "S18-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T4-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéticos: median = 12; print(\"solo_hallazgo\" if median < 15 else . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "id": "S18-T4-A-E3",
+      "code": "def traza(pregunta, metrica, valor, limite):\n    print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T4-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos: def traza(pregunta, metrica, valor, limite):; prin. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: traza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "id": "S18-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T4-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}; pr. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(note)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "id": "S18-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T4-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8]). Comp. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "id": "S18-T4-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df); df2 = df[df[\"monto\"] > 0]\nprint({\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42})\n",
+      "justification_from_packet": "Como explorer en EDA, estadística descriptiva e incertidumbre, resolví S18-T4-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]}); n_raw. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print({\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42})). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En EDA, estadística descriptiva e incertidumbre (S18) elijo la opción «Mediana (y opcionalmente IQR)» para la pregunta «¿Qué comunica mejor un ticket “típico” con outliers fuertes?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En EDA, estadística descriptiva e incertidumbre (S18) elijo la opción «Asociación observada (no causal por sí sola)» para la pregunta «Una correlación alta entre X e Y implica:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En EDA, estadística descriptiva e incertidumbre (S18) elijo la opción «Origen, filtros, n y límites de cobertura» para la pregunta «¿Qué debe incluir un data note mínimo?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En EDA, estadística descriptiva e incertidumbre (S18) elijo la opción «La muestra no representa la población de interés» para la pregunta «El sesgo de muestra ocurre cuando:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "En EDA, estadística descriptiva e incertidumbre (S18) elijo la opción «Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño» para la pregunta «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando ambos crecen con el tamaño de la ciudad (confusor)?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:14.999150+00:00",
+  "session_started_at": "2026-07-23T17:27:18.527094Z",
+  "session_ended_at": "2026-07-23T17:27:47.093651Z",
+  "receipt_response_sha256": "8ef86a83db941dfd3535ee8b5a5e8120712952b1f27924d23e327952f320da5a",
+  "receipt_exercises_sha256": "e76226348073cfc02d68e75bf3b0a0230bea21333915298e7158e951e902d8a5",
+  "receipt_selfcheck_sha256": "216ac3ede9cd2d714ea7f4d175da5b9b131be51a369a854bdf3ee82d1d4b2da3"
+}

@@ -1,0 +1,495 @@
+{
+  "index": 21,
+  "id": "fastapi",
+  "title": "Documentos, plantillas y reportes trazables",
+  "file": "s21-fastapi.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Reporting Factory y cierre CP-N2-B",
+      "len": 34
+    },
+    {
+      "i": 1,
+      "text": "En V3, S21 no es el path FastAPI de APIs HTTP (reubicado). El id fastapi se conserva; aquí cierras CP-N2-B: plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva, consistencia numérica con dashboard (S19) y Excel (S20), provenance y cola de aprobación de paquete.",
+      "len": 276
+    },
+    {
+      "i": 2,
+      "text": "Una sola corrida produce artefactos alineados: mismos n y métricas clave que el EDA S18 y el factory S20. Datos sintéticos Lima/Cusco; sin PII; sin publicar el informe sin checklist visual. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 442
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Plantillas (Jinja, separación datos/presentación, tablas seguras) → T2 Documentos (DOCX real, PDF digital vs imagen/OCR) → T3 Narrativa (resumen, método, hallazgos, figuras/tablas, limitaciones) → T4 Gobernanza (redacción a11y, provenance, aprobación). Progressive disclosure: sin routers FastAPI.",
+      "len": 307
+    },
+    {
+      "i": 4,
+      "text": "Jinja y separación datos/presentación",
+      "len": 37
+    },
+    {
+      "i": 5,
+      "text": "Jinja separa datos (dict de contexto en Python) de presentación ({{ var }}, {% for %}). Calcula métricas antes del render; la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 452
+    },
+    {
+      "i": 6,
+      "text": "Contrato: Template(...).render(**ctx); autoescape en HTML; en texto plano define política de caracteres. Nunca mark_safe de input de usuario sin sanitizar. KPIs llegan ya redondeados (1–2 decimales PEN). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 456
+    },
+    {
+      "i": 7,
+      "text": "Caso: Hola {{ nombre }} → Hola Ana; KPI {{ m }} PEN (n={{ n }}) → 28 PEN (n=40). Función render_kpi(ctx) centraliza el template fijo region/median/n. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 402
+    },
+    {
+      "i": 8,
+      "text": "condiciones, tablas y formato seguro",
+      "len": 36
+    },
+    {
+      "i": 9,
+      "text": "{% if %} / {% for %} construyen tablas. Formatea números en Python o con filtros explícitos; celdas vacías muestran “—” y documentan missing — no inventes ceros que alteren sumas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 432
+    },
+    {
+      "i": 10,
+      "text": "Contrato anti-inyección: no marques strings de usuario como safe en HTML. Listas de filas sintéticas se renderizan a líneas region:value o filas Markdown/HTML con escape. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 423
+    },
+    {
+      "i": 11,
+      "text": "Caso: median is None → —; 28.456 → 28.46 a 2 decimales. La tabla del informe debe reconciliar con el Excel de S20 (mismos region/value). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 389
+    },
+    {
+      "i": 12,
+      "text": "DOCX real: estilos, guardado y extracción",
+      "len": 41
+    },
+    {
+      "i": 13,
+      "text": "Un DOCX trazable tiene secciones fijas (portada, resumen, método, hallazgos, anexos) y estilos reales (Heading 1/2), no solo negrita visual. El .docx es un ZIP de XML: el gate verifica firma ZIP, headings extraídos y tamaño. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 477
+    },
+    {
+      "i": 14,
+      "text": "Contrato: crear informe.docx con título, heading Resumen, párrafo n=40; guardar, reabrir, demostrar extracción de texto/estilos. No confíes en “se veía bien en Word del autor”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 429
+    },
+    {
+      "i": 15,
+      "text": "Caso sintético: dos H1 y un H2 contados al reabrir. El mismo n=40 debe aparecer en resumen y en el data note — paridad con S18/S20. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 384
+    },
+    {
+      "i": 16,
+      "text": "PDF digital real: generación, extracción y render",
+      "len": 49
+    },
+    {
+      "i": 17,
+      "text": "Un PDF digital tiene texto seleccionable (pypdf extrae); un PDF escaneado es imagen y puede requerir OCR con error rate. Si la extracción queda vacía, el contrato devuelve needs_ocr — no inventa texto. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 454
+    },
+    {
+      "i": 18,
+      "text": "Contrato: generar PDF local con n=40, extraer texto, firmar PDF; render primera página a PNG (PyMuPDF) y verificar existencia de ambos artefactos. Hash del PDF entra al provenance. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 433
+    },
+    {
+      "i": 19,
+      "text": "Caso: PDF imagen-only con texto dibujado en PNG sintético → pypdf no recupera la capa de texto → needs_ocr. El paquete documenta el modo, no finge digital nativo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 415
+    },
+    {
+      "i": 20,
+      "text": "resumen ejecutivo, método y hallazgos",
+      "len": 37
+    },
+    {
+      "i": 21,
+      "text": "La narrativa separa resumen ejecutivo, método y hallazgos. Cada hallazgo tiene id (H1…) y mapa a evidencia (Tabla 2, Fig 1). No mezcles método con opinión; hallazgo ≠ decisión (eco S18). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 439
+    },
+    {
+      "i": 22,
+      "text": "Contrato: pack_report(resumen, metodo, hallazgos) devuelve dict con 3 claves; el resumen debe incluir n= o falla validación. H1 referencia Tabla1 explícitamente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 414
+    },
+    {
+      "i": 23,
+      "text": "Caso: hallazgo H1 con evidencia Tabla1; resumen con n=40. El comité puede auditar de la frase al número en el Excel/dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 379
+    },
+    {
+      "i": 24,
+      "text": "gráficos, tablas, fuentes y limitaciones",
+      "len": 40
+    },
+    {
+      "i": 25,
+      "text": "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con caption idéntico en fuente/corte/n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcilia checksum de métricas clave entre artefactos. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 480
+    },
+    {
+      "i": 26,
+      "text": "Contrato: caption dict + pie; si el PNG dice mediana 28 y el DOCX dice 30, el gate de consistencia falla. Unidades PEN alineadas a 1 decimal en todo el paquete. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 413
+    },
+    {
+      "i": 27,
+      "text": "Caso sintético: tres artefactos (png, xlsx, docx) comparten run_id y n=40. El memo de limitaciones repite cobertura web-only. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 378
+    },
+    {
+      "i": 28,
+      "text": "redacción, accesibilidad y consistencia",
+      "len": 39
+    },
+    {
+      "i": 29,
+      "text": "Redacción en español profesional (es-PE): evita anglicismos innecesarios en el cuerpo ejecutivo; deja términos técnicos (KPI, SLA) donde el comité los espera. A11y: headings reales, alt de figuras, tablas con encabezados, contraste en HTML.",
+      "len": 240
+    },
+    {
+      "i": 30,
+      "text": "Contrato de consistencia: misma precisión decimal (p. ej. 1 decimal PEN) en dashboard, Excel e informe. Glosario breve si introduces siglas nuevas en el paquete. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 414
+    },
+    {
+      "i": 31,
+      "text": "Caso: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad; headings del DOCX son estilos, no solo tamaño de fuente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 421
+    },
+    {
+      "i": 32,
+      "text": "render visual, provenance y aprobación",
+      "len": 38
+    },
+    {
+      "i": 33,
+      "text": "Registra provenance: run_id, sha de datos, versiones de script, hashes de artefactos. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin checklist visual completo, no hay cierre CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 477
+    },
+    {
+      "i": 34,
+      "text": "Contrato: ready(checklist) es True solo si dashboard, xlsx y doc están True. Hash sha1 de payload sintético (8 hex) en el manifiesto. Actor y timestamp en el log de aprobación (preludio de S22). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 447
+    },
+    {
+      "i": 35,
+      "text": "Caso: checklist incompleto → False; completo → True. El paquete aprobado es la entrada limpia al flujo de email/identidad de S22 (inicio CP-N2-C). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 399
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Reporting Factory y cierre CP-N2-B",
+      "text": "Reporting Factory y cierre CP-N2-B"
+    },
+    {
+      "i": 1,
+      "len": 276,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S21 no es el path FastAPI de APIs HTTP (reubicado). El id fastapi se conserva; aquí cierras CP-N2-B: plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva, cons",
+      "text": "En V3, S21 no es el path FastAPI de APIs HTTP (reubicado). El id fastapi se conserva; aquí cierras CP-N2-B: plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva, consistencia numérica con dashboard (S19) y Excel (S20), provenance y cola de aprobación de paquete."
+    },
+    {
+      "i": 2,
+      "len": 442,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una sola corrida produce artefactos alineados: mismos n y métricas clave que el EDA S18 y el factory S20. Datos sintéticos Lima/Cusco; sin PII; sin publicar el informe sin checklis",
+      "text": "Una sola corrida produce artefactos alineados: mismos n y métricas clave que el EDA S18 y el factory S20. Datos sintéticos Lima/Cusco; sin PII; sin publicar el informe sin checklist visual. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 3,
+      "len": 307,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Plantillas (Jinja, separación datos/presentación, tablas seguras) → T2 Documentos (DOCX real, PDF digital vs imagen/OCR) → T3 Narrativa (resumen, método, hallazgos, figur",
+      "text": "Orden: T1 Plantillas (Jinja, separación datos/presentación, tablas seguras) → T2 Documentos (DOCX real, PDF digital vs imagen/OCR) → T3 Narrativa (resumen, método, hallazgos, figuras/tablas, limitaciones) → T4 Gobernanza (redacción a11y, provenance, aprobación). Progressive disclosure: sin routers FastAPI."
+    },
+    {
+      "i": 4,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Jinja y separación datos/presentación",
+      "text": "Jinja y separación datos/presentación"
+    },
+    {
+      "i": 5,
+      "len": 452,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Jinja separa datos (dict de contexto en Python) de presentación ({{ var }}, {% for %}). Calcula métricas antes del render; la plantilla no es el lugar de joins pesados ni de reglas",
+      "text": "Jinja separa datos (dict de contexto en Python) de presentación ({{ var }}, {% for %}). Calcula métricas antes del render; la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 6,
+      "len": 456,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: Template(...).render(**ctx); autoescape en HTML; en texto plano define política de caracteres. Nunca mark_safe de input de usuario sin sanitizar. KPIs llegan ya redondead",
+      "text": "Contrato: Template(...).render(**ctx); autoescape en HTML; en texto plano define política de caracteres. Nunca mark_safe de input de usuario sin sanitizar. KPIs llegan ya redondeados (1–2 decimales PEN). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 7,
+      "len": 402,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: Hola {{ nombre }} → Hola Ana; KPI {{ m }} PEN (n={{ n }}) → 28 PEN (n=40). Función render_kpi(ctx) centraliza el template fijo region/median/n. En el workbench sintético (Lim",
+      "text": "Caso: Hola {{ nombre }} → Hola Ana; KPI {{ m }} PEN (n={{ n }}) → 28 PEN (n=40). Función render_kpi(ctx) centraliza el template fijo region/median/n. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 8,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "condiciones, tablas y formato seguro",
+      "text": "condiciones, tablas y formato seguro"
+    },
+    {
+      "i": 9,
+      "len": 432,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "{% if %} / {% for %} construyen tablas. Formatea números en Python o con filtros explícitos; celdas vacías muestran “—” y documentan missing — no inventes ceros que alteren sumas. ",
+      "text": "{% if %} / {% for %} construyen tablas. Formatea números en Python o con filtros explícitos; celdas vacías muestran “—” y documentan missing — no inventes ceros que alteren sumas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 10,
+      "len": 423,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato anti-inyección: no marques strings de usuario como safe en HTML. Listas de filas sintéticas se renderizan a líneas region:value o filas Markdown/HTML con escape. En el wor",
+      "text": "Contrato anti-inyección: no marques strings de usuario como safe en HTML. Listas de filas sintéticas se renderizan a líneas region:value o filas Markdown/HTML con escape. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 11,
+      "len": 389,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: median is None → —; 28.456 → 28.46 a 2 decimales. La tabla del informe debe reconciliar con el Excel de S20 (mismos region/value). En el workbench sintético (Lima/Cusco/Arequ",
+      "text": "Caso: median is None → —; 28.456 → 28.46 a 2 decimales. La tabla del informe debe reconciliar con el Excel de S20 (mismos region/value). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 12,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "DOCX real: estilos, guardado y extracción",
+      "text": "DOCX real: estilos, guardado y extracción"
+    },
+    {
+      "i": 13,
+      "len": 477,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un DOCX trazable tiene secciones fijas (portada, resumen, método, hallazgos, anexos) y estilos reales (Heading 1/2), no solo negrita visual. El .docx es un ZIP de XML: el gate veri",
+      "text": "Un DOCX trazable tiene secciones fijas (portada, resumen, método, hallazgos, anexos) y estilos reales (Heading 1/2), no solo negrita visual. El .docx es un ZIP de XML: el gate verifica firma ZIP, headings extraídos y tamaño. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 14,
+      "len": 429,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: crear informe.docx con título, heading Resumen, párrafo n=40; guardar, reabrir, demostrar extracción de texto/estilos. No confíes en “se veía bien en Word del autor”. En ",
+      "text": "Contrato: crear informe.docx con título, heading Resumen, párrafo n=40; guardar, reabrir, demostrar extracción de texto/estilos. No confíes en “se veía bien en Word del autor”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 15,
+      "len": 384,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: dos H1 y un H2 contados al reabrir. El mismo n=40 debe aparecer en resumen y en el data note — paridad con S18/S20. En el workbench sintético (Lima/Cusco/Arequipa, ",
+      "text": "Caso sintético: dos H1 y un H2 contados al reabrir. El mismo n=40 debe aparecer en resumen y en el data note — paridad con S18/S20. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 16,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "PDF digital real: generación, extracción y render",
+      "text": "PDF digital real: generación, extracción y render"
+    },
+    {
+      "i": 17,
+      "len": 454,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un PDF digital tiene texto seleccionable (pypdf extrae); un PDF escaneado es imagen y puede requerir OCR con error rate. Si la extracción queda vacía, el contrato devuelve needs_oc",
+      "text": "Un PDF digital tiene texto seleccionable (pypdf extrae); un PDF escaneado es imagen y puede requerir OCR con error rate. Si la extracción queda vacía, el contrato devuelve needs_ocr — no inventa texto. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 18,
+      "len": 433,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: generar PDF local con n=40, extraer texto, firmar PDF; render primera página a PNG (PyMuPDF) y verificar existencia de ambos artefactos. Hash del PDF entra al provenance.",
+      "text": "Contrato: generar PDF local con n=40, extraer texto, firmar PDF; render primera página a PNG (PyMuPDF) y verificar existencia de ambos artefactos. Hash del PDF entra al provenance. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 19,
+      "len": 415,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: PDF imagen-only con texto dibujado en PNG sintético → pypdf no recupera la capa de texto → needs_ocr. El paquete documenta el modo, no finge digital nativo. En el workbench s",
+      "text": "Caso: PDF imagen-only con texto dibujado en PNG sintético → pypdf no recupera la capa de texto → needs_ocr. El paquete documenta el modo, no finge digital nativo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 20,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "resumen ejecutivo, método y hallazgos",
+      "text": "resumen ejecutivo, método y hallazgos"
+    },
+    {
+      "i": 21,
+      "len": 439,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La narrativa separa resumen ejecutivo, método y hallazgos. Cada hallazgo tiene id (H1…) y mapa a evidencia (Tabla 2, Fig 1). No mezcles método con opinión; hallazgo ≠ decisión (eco",
+      "text": "La narrativa separa resumen ejecutivo, método y hallazgos. Cada hallazgo tiene id (H1…) y mapa a evidencia (Tabla 2, Fig 1). No mezcles método con opinión; hallazgo ≠ decisión (eco S18). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 22,
+      "len": 414,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: pack_report(resumen, metodo, hallazgos) devuelve dict con 3 claves; el resumen debe incluir n= o falla validación. H1 referencia Tabla1 explícitamente. En el workbench si",
+      "text": "Contrato: pack_report(resumen, metodo, hallazgos) devuelve dict con 3 claves; el resumen debe incluir n= o falla validación. H1 referencia Tabla1 explícitamente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 23,
+      "len": 379,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: hallazgo H1 con evidencia Tabla1; resumen con n=40. El comité puede auditar de la frase al número en el Excel/dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ",
+      "text": "Caso: hallazgo H1 con evidencia Tabla1; resumen con n=40. El comité puede auditar de la frase al número en el Excel/dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 24,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "gráficos, tablas, fuentes y limitaciones",
+      "text": "gráficos, tablas, fuentes y limitaciones"
+    },
+    {
+      "i": 25,
+      "len": 480,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con caption idéntico en fuente/corte/n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcil",
+      "text": "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con caption idéntico en fuente/corte/n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcilia checksum de métricas clave entre artefactos. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 26,
+      "len": 413,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: caption dict + pie; si el PNG dice mediana 28 y el DOCX dice 30, el gate de consistencia falla. Unidades PEN alineadas a 1 decimal en todo el paquete. En el workbench sin",
+      "text": "Contrato: caption dict + pie; si el PNG dice mediana 28 y el DOCX dice 30, el gate de consistencia falla. Unidades PEN alineadas a 1 decimal en todo el paquete. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 27,
+      "len": 378,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: tres artefactos (png, xlsx, docx) comparten run_id y n=40. El memo de limitaciones repite cobertura web-only. En el workbench sintético (Lima/Cusco/Arequipa, PEN, i",
+      "text": "Caso sintético: tres artefactos (png, xlsx, docx) comparten run_id y n=40. El memo de limitaciones repite cobertura web-only. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 28,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "redacción, accesibilidad y consistencia",
+      "text": "redacción, accesibilidad y consistencia"
+    },
+    {
+      "i": 29,
+      "len": 240,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Redacción en español profesional (es-PE): evita anglicismos innecesarios en el cuerpo ejecutivo; deja términos técnicos (KPI, SLA) donde el comité los espera. A11y: headings reales",
+      "text": "Redacción en español profesional (es-PE): evita anglicismos innecesarios en el cuerpo ejecutivo; deja términos técnicos (KPI, SLA) donde el comité los espera. A11y: headings reales, alt de figuras, tablas con encabezados, contraste en HTML."
+    },
+    {
+      "i": 30,
+      "len": 414,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de consistencia: misma precisión decimal (p. ej. 1 decimal PEN) en dashboard, Excel e informe. Glosario breve si introduces siglas nuevas en el paquete. En el workbench si",
+      "text": "Contrato de consistencia: misma precisión decimal (p. ej. 1 decimal PEN) en dashboard, Excel e informe. Glosario breve si introduces siglas nuevas en el paquete. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 31,
+      "len": 421,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad; headings del DOCX son estilos, no solo tamaño de fuente. En el workb",
+      "text": "Caso: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad; headings del DOCX son estilos, no solo tamaño de fuente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 32,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "render visual, provenance y aprobación",
+      "text": "render visual, provenance y aprobación"
+    },
+    {
+      "i": 33,
+      "len": 477,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Registra provenance: run_id, sha de datos, versiones de script, hashes de artefactos. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin check",
+      "text": "Registra provenance: run_id, sha de datos, versiones de script, hashes de artefactos. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin checklist visual completo, no hay cierre CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 34,
+      "len": 447,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: ready(checklist) es True solo si dashboard, xlsx y doc están True. Hash sha1 de payload sintético (8 hex) en el manifiesto. Actor y timestamp en el log de aprobación (pre",
+      "text": "Contrato: ready(checklist) es True solo si dashboard, xlsx y doc están True. Hash sha1 de payload sintético (8 hex) en el manifiesto. Actor y timestamp en el log de aprobación (preludio de S22). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 35,
+      "len": 399,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: checklist incompleto → False; completo → True. El paquete aprobado es la entrada limpia al flujo de email/identidad de S22 (inicio CP-N2-C). En el workbench sintético (Lima/C",
+      "text": "Caso: checklist incompleto → False; completo → True. El paquete aprobado es la entrada limpia al flujo de email/identidad de S22 (inicio CP-N2-C). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 16219
+}

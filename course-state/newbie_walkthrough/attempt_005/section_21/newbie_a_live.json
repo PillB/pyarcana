@@ -1,0 +1,43 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "section_index": 21,
+  "packet_sha": "c6d8c339a8e5e5c1",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S21-T1-A-E1", "answer": "completed_from_packet", "code": "from jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["Jinja render"]},
+    {"exercise_id": "S21-T1-A-E2", "answer": "completed_from_packet", "code": "from jinja2 import Template\nprint(Template(\"Lima median={{ median }} PEN (n={{ n }})\").render(median=28, n=40))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["median n template"]},
+    {"exercise_id": "S21-T1-A-E3", "answer": "completed_from_packet", "code": "from jinja2 import Template\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN n={{ n }}\").render(**ctx)\nprint(render_kpi({\"region\": \"Lima\", \"median\": 28, \"n\": 40}))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["render_kpi"]},
+    {"exercise_id": "S21-T1-B-E1", "answer": "completed_from_packet", "code": "median = None\nprint(\"—\" if median is None else median)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["missing display"]},
+    {"exercise_id": "S21-T1-B-E2", "answer": "completed_from_packet", "code": "x = 28.456\nprint(f\"{x:.2f}\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["format 2 decimals"]},
+    {"exercise_id": "S21-T1-B-E3", "answer": "completed_from_packet", "code": "from jinja2 import Template\nrows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": 22}]\nprint(Template(\"{% for r in rows %}{{ r.region }}:{{ r.value }}\\n{% endfor %}\").render(rows=rows).strip())\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["jinja for"]},
+    {"exercise_id": "S21-T2-A-E1", "answer": "completed_from_packet", "code": "sections = [{\"name\": \"Resumen\", \"h\": 1}, {\"name\": \"Método\", \"h\": 1}]\nprint([s[\"name\"] for s in sections])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["outline sections"]},
+    {"exercise_id": "S21-T2-A-E2", "answer": "completed_from_packet", "code": "sections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}]\nprint(sum(1 for s in sections if s[\"h\"] == 1))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["count H1"]},
+    {"exercise_id": "S21-T2-A-E3", "answer": "completed_from_packet", "code": "def render_outline(sections):\n    return [\"  \" * (s[\"h\"] - 1) + s[\"name\"] for s in sections]\nprint(render_outline([{\"name\": \"Resumen\", \"h\": 1}, {\"name\": \"Detalle\", \"h\": 2}]))\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["indent outline"]},
+    {"exercise_id": "S21-T2-B-E1", "answer": "completed_from_packet", "code": "chars, pages = 10, 2\nprint(\"needs_ocr\" if chars / pages < 20 else \"digital\")\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["OCR density"]},
+    {"exercise_id": "S21-T2-B-E2", "answer": "completed_from_packet", "code": "def classify(chars, pages):\n    return \"needs_ocr\" if chars / pages < 20 else \"digital\"\nprint(classify(100, 1))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["classify digital"]},
+    {"exercise_id": "S21-T2-B-E3", "answer": "completed_from_packet", "code": "text = \"\"\nprint({\"needs_ocr\": not bool(text)})\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["empty text OCR"]},
+    {"exercise_id": "S21-T3-A-E1", "answer": "completed_from_packet", "code": "hallazgo = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(hallazgo[\"id\"])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["finding id"]},
+    {"exercise_id": "S21-T3-A-E2", "answer": "completed_from_packet", "code": "findings = [{\"id\": \"H1\"}, {\"id\": \"H2\"}]\nprint([f[\"id\"] for f in findings])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["finding list"]},
+    {"exercise_id": "S21-T3-A-E3", "answer": "completed_from_packet", "code": "def link_evidence(hid, table):\n    return {\"hallazgo\": hid, \"table\": table}\nprint(link_evidence(\"H1\", \"Tabla1\"))\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["link evidence"]},
+    {"exercise_id": "S21-T3-B-E1", "answer": "completed_from_packet", "code": "dash, xlsx, doc = 28.0, 28.0, 28.0\nprint(dash == xlsx == doc)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["parity numbers"]},
+    {"exercise_id": "S21-T3-B-E2", "answer": "completed_from_packet", "code": "cap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap and \"n=\" in cap)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["caption checks"]},
+    {"exercise_id": "S21-T3-B-E3", "answer": "completed_from_packet", "code": "def check_parity(a, b, c):\n    return a == b == c\nprint(check_parity(1, 1, 2))\nprint(check_parity(1, 1, 1))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["check_parity"]},
+    {"exercise_id": "S21-T4-A-E1", "answer": "completed_from_packet", "code": "vals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["round 1 decimal"]},
+    {"exercise_id": "S21-T4-A-E2", "answer": "completed_from_packet", "code": "def fmt_pen(x):\n    return f\"{round(x, 1)} PEN\"\nprint(fmt_pen(28.04))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["fmt_pen"]},
+    {"exercise_id": "S21-T4-A-E3", "answer": "completed_from_packet", "code": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"Lima 28 PEN n=40\", \"short\"]))\nprint(a11y_min(True, [\"Lima 28 PEN n=40 detalle\"]))\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["a11y_min"]},
+    {"exercise_id": "S21-T4-B-E1", "answer": "completed_from_packet", "code": "print({\"status\": \"pending_review\"}[\"status\"])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["pending_review"]},
+    {"exercise_id": "S21-T4-B-E2", "answer": "completed_from_packet", "code": "import hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["data_sha1_8"]},
+    {"exercise_id": "S21-T4-B-E3", "answer": "completed_from_packet", "code": "def ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["ready checklist"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: separate data and Jinja template to reuse presentation and audit metrics in Python."},
+    {"question_index": 1, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: PDF nearly without text layer needs OCR/image treatment."},
+    {"question_index": 2, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: parity = same key metrics in dashboard, Excel and document."},
+    {"question_index": 3, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: CP-N2-B close includes provenance, visual checklist, traceable findings."}
+  ],
+  "confusion_points": [],
+  "retrospection": "Jinja/OCR/parity/CP-N2-B from packet; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_selfcheck_answered": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [1, 1, 1, 1]}
+}

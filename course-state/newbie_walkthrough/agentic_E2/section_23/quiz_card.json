@@ -1,0 +1,444 @@
+{
+  "section_index": 23,
+  "title": "Browser RPA con Playwright",
+  "outcomes": [
+    "Usar locators orientados a usuario",
+    "Aplicar auto-waiting y assertions fiables",
+    "Automatizar formularios, uploads y downloads",
+    "Modelar auth y Page Objects",
+    "Diagnosticar con trace, screenshot y logs",
+    "Diseñar retries y recovery robustos",
+    "Priorizar API/export sobre RPA",
+    "Respetar ToS/CAPTCHA y handoff humano"
+  ],
+  "theory": [
+    {
+      "heading": "DOM y locators orientados a usuario",
+      "paragraphs": [
+        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no `#app > div:nth-child(3)`. En portales sintéticos PE de demo, pide data-testid si falta rol.",
+        "Orden de estrategia didáctico: role → testid → texto → CSS. CSS queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas sobre lista de nodos {role, name, id}.",
+        "Caso sintético: botón “Descargar reporte” id b1 se resuelve por role+name; un logo img sin role de control interactivo no sustituye al botón de negocio. LookupError si no hay match enseña fallar ruidoso en setup, no click ciego."
+      ],
+      "code": "DOM = {\n    \"nodes\": [\n        {\"role\": \"button\", \"name\": \"Descargar reporte\", \"id\": \"b1\"},\n        {\"role\": \"textbox\", \"name\": \"Usuario\", \"id\": \"t1\"},\n        {\"role\": \"link\", \"name\": \"Ayuda\", \"id\": \"l1\"},\n    ]\n}\n\ndef get_by_role(role, name=None):\n    hits = [n for n in DOM[\"nodes\"] if n[\"role\"] == role and (name is None or n[\"name\"] == name)]\n    if not hits:\n        raise LookupError(f\"no {role}/{name}\")\n    return hits[0]\n\nbtn = get_by_role(\"button\", \"Descargar reporte\")\nprint(btn[\"id\"], btn[\"name\"])\nprint(\"prefer_role_over_css\", True)"
+    },
+    {
+      "heading": "auto-waiting y assertions",
+      "paragraphs": [
+        "Playwright **auto-espera** a que el elemento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa expect con timeout explícito y condiciones de readiness.",
+        "Las **assertions** (`expect(locator).to_be_visible()`, título esperado) documentan la postcondición del paso y fallan con mensaje útil. En el lab simulamos reloj y wait_until(pred) con step ms hasta timeout.",
+        "Caso: ready_at=250ms, timeout 500 → ready True. Si tras N intentos no ready → 'timeout' y adjunta trace. El robot del portal demo “Portal demo” asserta título antes de descargar el CSV sintético."
+      ],
+      "code": "import time\n\nclass FakeClock:\n    def __init__(self):\n        self.t = 0\n    def advance(self, ms):\n        self.t += ms\n\ndef wait_until(pred, clock, timeout_ms=1000, step=100):\n    waited = 0\n    while waited <= timeout_ms:\n        if pred():\n            return True\n        clock.advance(step)\n        waited += step\n    return False\n\nclock = FakeClock()\nready_at = 250\nstate = {\"ready\": False}\n\ndef poll():\n    if clock.t >= ready_at:\n        state[\"ready\"] = True\n    return state[\"ready\"]\n\nok = wait_until(poll, clock, timeout_ms=500)\nprint(\"ready\", ok, \"t\", clock.t)"
+    },
+    {
+      "heading": "formularios, uploads/downloads y sesiones",
+      "paragraphs": [
+        "Flujos típicos del adapter: **fill** campos (usuario, periodo), **set_input_files**/upload de plantilla, click, esperar **download** y verificar path, tamaño o hash. No basta con que el click no lance: valida el binario.",
+        "**storage_state** (cookies/localStorage) reutiliza sesión autenticada entre tests para no re-loguear en cada caso — en el lab un dict {token:'t'} modela reuse. Nunca hardcodees contraseñas reales; sandbox usa demo/sandbox.",
+        "Caso PE sintético: form periodo 2026-01, upload plantilla.xlsx sintética PK header, download con sha256 hex corto. Checksum mismatch → fallo de step y evidencia, no “éxito silencioso”."
+      ],
+      "code": "import hashlib\n\nsession = {\"storage_state\": {\"user\": \"demo\"}, \"files\": {}}\n\ndef fill(form, **fields):\n    form.update(fields)\n    return form\n\ndef upload(session, name, content: bytes):\n    session[\"files\"][name] = content\n    return len(content)\n\ndef download(session, name):\n    data = session[\"files\"][name]\n    return {\"path\": f\"/tmp/{name}\", \"sha256\": hashlib.sha256(data).hexdigest()[:12], \"n\": len(data)}\n\nform = {}\nfill(form, usuario=\"analista\", periodo=\"2026-01\")\nupload(session, \"plantilla.xlsx\", b\"PK\\x03\\x04synthetic\")\nmeta = download(session, \"plantilla.xlsx\")\nprint(\"form\", form)\nprint(\"download\", meta)"
+    },
+    {
+      "heading": "auth, estados y Page Objects",
+      "paragraphs": [
+        "Un **Page Object** encapsula selectores y acciones de una pantalla (`LoginPage.submit`, `ReportPage.open`). Separa **auth setup** (fixture storage_state) del test de negocio del reporte para no duplicar login en 20 tests.",
+        "Estados de página: anonymous → authenticated (o mfa_pending en sistemas reales; aquí sandbox simple). ReportPage.open lanza PermissionError si no auth — el robot captura y reporta 'denied' en vez de seguir al download.",
+        "Contrato lab: LoginPage con password 'sandbox' setea auth; mal password deja anonymous. El PO no contiene sleeps mágicos; expone acciones que el test compone. Facilita cambiar el selector del botón sin tocar 15 tests."
+      ],
+      "code": "class LoginPage:\n    def __init__(self, ctx):\n        self.ctx = ctx\n    def submit(self, user, password):\n        if user == \"demo\" and password == \"sandbox\":\n            self.ctx[\"auth\"] = \"authenticated\"\n            return True\n        self.ctx[\"auth\"] = \"anonymous\"\n        return False\n\nclass ReportPage:\n    def __init__(self, ctx):\n        self.ctx = ctx\n    def open(self):\n        if self.ctx.get(\"auth\") != \"authenticated\":\n            raise PermissionError(\"login required\")\n        return \"report_view\"\n\nctx = {}\nassert LoginPage(ctx).submit(\"demo\", \"sandbox\")\nprint(ReportPage(ctx).open())\nprint(\"auth\", ctx[\"auth\"])"
+    },
+    {
+      "heading": "trace, screenshot y logs",
+      "paragraphs": [
+        "Ante falla, empaqueta **trace** (zip Playwright), **screenshot** y **error** string. Keys del paquete se ordenan para diffs estables en CI. Sin evidencia, el on-call en Lima no reproduce el flake del portal demo.",
+        "Filtra console logs por 'ERR' u otros marcadores; el ruido de info no debe ocultar el timeout. Si ok=False, adjunta trace path traces/{step}.zip al pkg del step. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+        "Caso: step s1 falla → pkg con trace+screenshot+error. Política: traces solo en fallo o sample rate bajo en éxito para no llenar disco del runner sintético. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes."
+      ],
+      "code": "def on_failure(step, error, console):\n    return {\n        \"step\": step,\n        \"error\": str(error),\n        \"screenshot\": f\"shots/{step}.png\",\n        \"trace\": f\"traces/{step}.zip\",\n        \"console\": console[-3:],\n        \"ok\": False,\n    }\n\nconsole = [\"nav ok\", \"fill ok\", \"ERR timeout button\"]\nev = on_failure(\"download_report\", TimeoutError(\"30000ms\"), console)\nprint(ev[\"trace\"], ev[\"console\"][-1])\nprint(\"has_screenshot\", ev[\"screenshot\"].endswith(\".png\"))"
+    },
+    {
+      "heading": "selectores robustos, retries y recovery",
+      "paragraphs": [
+        "Retries solo para errores **transitorios** (timeout, 429), no para captcha ni ToS. should_retry(kind) codifica la política. Tras max intentos de timeout → fail con conteo, no loop infinito.",
+        "Recovery: err=='stale' (DOM reemplazado) → action goto_home o re-nav al listado. Re-obtener locator tras navegación; no reuses handles viejos. Estrategia de selectores se reevalúa en recovery.",
+        "Caso sintético: tres timeouts seguidos → 'fail 3'. Un captcha en medio no se “reintenta con otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backoff opcional."
+      ],
+      "code": "def should_retry(err_kind):\n    return err_kind in {\"timeout\", \"network\", \"429\"}\n\ndef run_with_retry(fn, errors, max_attempts=3):\n    attempts = 0\n    for err in errors:\n        attempts += 1\n        if err is None:\n            return {\"ok\": True, \"attempts\": attempts}\n        if not should_retry(err) or attempts >= max_attempts:\n            return {\"ok\": False, \"attempts\": attempts, \"err\": err}\n    return {\"ok\": False, \"attempts\": attempts}\n\nprint(run_with_retry(None, [\"timeout\", None]))\nprint(run_with_retry(None, [\"captcha\"]))\nprint(run_with_retry(None, [\"timeout\", \"timeout\", \"timeout\"]))"
+    },
+    {
+      "heading": "API/export primero",
+      "paragraphs": [
+        "Jerarquía de preferencia: **api > export > rpa > human**. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. RPA queda para huecos sin API.",
+        "Toda caída a RPA registra reason ('no_api', 'export_stale', etc.) en el decision dict del run. Documenta por qué se eligió RPA en el runbook del adapter web CP-N2-C. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+        "Caso: flags api=False, export=True, rpa=True → choice export. Si solo rpa → method rpa con reason no_api. El valor de negocio es el dato verificado, no “haber automatizado el click”."
+      ],
+      "code": "def choose_integration(options):\n    # options: dict capability -> available\n    if options.get(\"api\"):\n        return \"api\"\n    if options.get(\"export_url\"):\n        return \"export\"\n    if options.get(\"rpa_allowed\"):\n        return \"rpa\"\n    return \"human\"\n\nprint(choose_integration({\"api\": True, \"rpa_allowed\": True}))\nprint(choose_integration({\"api\": False, \"export_url\": True}))\nprint(choose_integration({\"api\": False, \"export_url\": False, \"rpa_allowed\": False}))"
+    },
+    {
+      "heading": "términos, CAPTCHA, desktop fallback y handoff humano",
+      "paragraphs": [
+        "Si **ToS forbidden** para automatización, action=abort (ToS gana sobre CAPTCHA). Si captcha=True y ToS permite humano, **human_handoff** con payload url/step/screenshot — nunca scripts de bypass ni granjas de captcha en el curso.",
+        "Desktop fallback (app nativa) solo si el contrato del sistema lo contempla y está en scope; no es excusa para evadir políticas web. El handoff incluye evidencia para que un analista continúe en minutos.",
+        "Caso PE: portal demo muestra captcha de prueba → handoff; tos_forbidden True → abort aunque haya captcha. Matching de datos posteriores al download sigue siendo evidencia, no prueba de fraude. El adaptador respeta límites legales y de producto."
+      ],
+      "code": "def handle_blockers(signals):\n    if signals.get(\"tos_forbidden\"):\n        return {\"action\": \"abort\", \"reason\": \"tos\"}\n    if signals.get(\"captcha\"):\n        return {\"action\": \"human_handoff\", \"reason\": \"captcha\", \"queue\": \"ops_review\"}\n    if signals.get(\"ui_changed\"):\n        return {\"action\": \"human_handoff\", \"reason\": \"selector_break\"}\n    return {\"action\": \"continue\"}\n\nprint(handle_blockers({\"captcha\": True}))\nprint(handle_blockers({\"tos_forbidden\": True}))\nprint(handle_blockers({}))"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S23-T1-A-DEMO",
+      "description": "Preferir locators de rol/texto de usuario sobre CSS.",
+      "why": "Los roles estables reducen mantenimiento.",
+      "code": "nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]\n\ndef by_role(role, name):\n    return next(n for n in nodes if n[\"role\"] == role and n[\"name\"] == name)\n\nprint(by_role(\"button\", \"Enviar\"))"
+    },
+    {
+      "demoId": "S23-T1-B-DEMO",
+      "description": "Assertions con auto-waiting correctos (condición, no sleep).",
+      "why": "Esperar condición evita flakiness.",
+      "code": "ready = False\nfor i in range(5):\n    if i == 3:\n        ready = True\n    if ready:\n        print(\"visible\", i)\n        break\nelse:\n    print(\"timeout\")"
+    },
+    {
+      "demoId": "S23-T2-A-DEMO",
+      "description": "Completar form con upload/download verificado.",
+      "why": "Verifica el archivo descargado, no solo el click.",
+      "code": "import hashlib\nform = {\"q\": \"enero\"}\nblob = b\"synthetic-xlsx\"\nprint(\"filled\", form)\nprint(\"sha\", hashlib.sha256(blob).hexdigest()[:10], \"n\", len(blob))"
+    },
+    {
+      "demoId": "S23-T2-B-DEMO",
+      "description": "Encapsular auth y Page Objects.",
+      "why": "Page Objects centralizan selectores.",
+      "code": "class Login:\n    def go(self, ctx):\n        ctx[\"auth\"] = True\nctx = {}\nLogin().go(ctx)\nprint(\"auth\", ctx[\"auth\"])"
+    },
+    {
+      "demoId": "S23-T3-A-DEMO",
+      "description": "Capturar trace/screenshot en falla.",
+      "why": "Sin evidencia, el fallo no es accionable.",
+      "code": "err = \"TimeoutError\"\nprint({\"trace\": \"t.zip\", \"shot\": \"s.png\", \"error\": err})"
+    },
+    {
+      "demoId": "S23-T3-B-DEMO",
+      "description": "Recuperar de fallas transitorias de UI.",
+      "why": "Retry selectivo + recovery.",
+      "code": "def retry(kinds):\n    for i, k in enumerate(kinds, 1):\n        if k == \"ok\":\n            return i\n        if k == \"captcha\":\n            return \"handoff\"\n    return \"fail\"\nprint(retry([\"timeout\", \"ok\"]), retry([\"captcha\"]))"
+    },
+    {
+      "demoId": "S23-T4-A-DEMO",
+      "description": "Preferir API/export antes de RPA.",
+      "why": "API first reduce costo operativo.",
+      "code": "opts = {\"api\": False, \"export_url\": True, \"rpa\": True}\nchoice = \"api\" if opts[\"api\"] else (\"export\" if opts[\"export_url\"] else \"rpa\")\nprint(choice)"
+    },
+    {
+      "demoId": "S23-T4-B-DEMO",
+      "description": "Detener en CAPTCHA/ToS y escalar a humano.",
+      "why": "Handoff es parte del diseño, no un fallo vergonzoso.",
+      "code": "sig = {\"captcha\": True}\nprint(\"human_handoff\" if sig.get(\"captcha\") or sig.get(\"tos\") else \"continue\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Por qué preferir get_by_role a CSS nth-child?",
+      "options": [
+        "Es más corto de escribir siempre",
+        "Playwright no soporta CSS",
+        "Refleja la UI accesible y suele ser más estable",
+        "Evita assertions"
+      ]
+    },
+    {
+      "question": "Ante un CAPTCHA el robot debe:",
+      "options": [
+        "Detenerse y hacer handoff humano",
+        "Resolverlo con un servicio externo",
+        "Reintentar 100 veces",
+        "Ignorar ToS"
+      ]
+    },
+    {
+      "question": "API/export primero significa:",
+      "options": [
+        "RPA siempre",
+        "Buscar integración no-UI antes de automatizar el browser",
+        "Prohibir Excel",
+        "Solo cloud"
+      ]
+    },
+    {
+      "question": "Un retry seguro reintenta:",
+      "options": [
+        "Cualquier error",
+        "Solo éxitos",
+        "Captchas",
+        "Solo fallas transitorias (timeout/red), no captcha/403 de negocio"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S23-T1-A-E1",
+      "instruction": "Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador o loop; Lookup si no hay. Pass: n1.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n"
+    },
+    {
+      "id": "S23-T1-A-E2",
+      "instruction": "Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Contrato: sorted key. Pass: ['role', 'testid', 'css'].",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sorted(strats, key=lambda s: order[s]))\n"
+    },
+    {
+      "id": "S23-T1-A-E3",
+      "instruction": "Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fail-closed a testid. Pass: need_testid.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(hits[0]['name'] if hits else 'need_testid')\n"
+    },
+    {
+      "id": "S23-T1-B-E1",
+      "instruction": "Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep real. Pass: 2.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(i)\n"
+    },
+    {
+      "id": "S23-T1-B-E2",
+      "instruction": "Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('ok')\n"
+    },
+    {
+      "id": "S23-T1-B-E3",
+      "instruction": "Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('pass' if expected == actual else 'fail')\n"
+    },
+    {
+      "id": "S23-T2-A-E1",
+      "instruction": "Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(form)\n"
+    },
+    {
+      "id": "S23-T2-A-E2",
+      "instruction": "Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(hashlib.sha256(b'data').hexdigest()[:8])\n"
+    },
+    {
+      "id": "S23-T2-A-E3",
+      "instruction": "Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('reuse' if state.get('token') else 'login')\n"
+    },
+    {
+      "id": "S23-T2-B-E1",
+      "instruction": "Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        # TODO: sandbox → auth True\n        pass\n\np = LoginPage()\np.submit('demo', 'sandbox')\nprint(p.auth)\n"
+    },
+    {
+      "id": "S23-T2-B-E2",
+      "instruction": "ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass: denied. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('ok')\n"
+    },
+    {
+      "id": "S23-T2-B-E3",
+      "instruction": "Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(state)\n"
+    },
+    {
+      "id": "S23-T3-A-E1",
+      "instruction": "Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', 'trace']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sorted(ev.keys()))\n"
+    },
+    {
+      "id": "S23-T3-A-E2",
+      "instruction": "Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([l for l in logs if 'ERR' in l])\n"
+    },
+    {
+      "id": "S23-T3-A-E3",
+      "instruction": "Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass: dict de solution.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(pkg)\n"
+    },
+    {
+      "id": "S23-T3-B-E1",
+      "instruction": "Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi-línea de solution.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "def should_retry(k):\n    # TODO: True solo timeout y 429\n    pass\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n"
+    },
+    {
+      "id": "S23-T3-B-E2",
+      "instruction": "Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('goto_home' if err=='stale' else 'continue')\n"
+    },
+    {
+      "id": "S23-T3-B-E3",
+      "instruction": "Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('ok', i)\n"
+    },
+    {
+      "id": "S23-T4-A-E1",
+      "instruction": "API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('api' if api else 'rpa')\n"
+    },
+    {
+      "id": "S23-T4-A-E2",
+      "instruction": "Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(c)\n"
+    },
+    {
+      "id": "S23-T4-A-E3",
+      "instruction": "Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa', 'reason': 'no_api'}.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(decision)\n"
+    },
+    {
+      "id": "S23-T4-B-E1",
+      "instruction": "CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: human_handoff.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('human_handoff' if captcha else 'continue')\n"
+    },
+    {
+      "id": "S23-T4-B-E2",
+      "instruction": "ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('abort' if sig.get('tos_forbidden') else 'human_handoff')\n"
+    },
+    {
+      "id": "S23-T4-B-E3",
+      "instruction": "Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia para analista humano. Pass debe coincidir solution.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sorted(payload.keys()), payload['step'])\n"
+    }
+  ],
+  "packet_sha": "ec53a90850587d18",
+  "attempt_id": "agentic_E2"
+}

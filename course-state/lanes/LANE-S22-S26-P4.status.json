@@ -1,0 +1,143 @@
+{
+  "lane_id": "LANE-S22-S26-P4",
+  "parent_lane": null,
+  "sections": [
+    "S22",
+    "S23",
+    "S24",
+    "S25",
+    "S26"
+  ],
+  "mode": "PARALLEL_PRODUCTION",
+  "role": "Author Agent PHASE 4",
+  "status": "PHASE_4_COMPLETE",
+  "section_passed": false,
+  "updated_at": "2026-07-20T08:00:41Z",
+  "S22": {
+    "section_id": "rapidfuzz-entity",
+    "title_v3": "Email, identidad y aprobación humana",
+    "subtopics_done": [
+      "S22-T1-A",
+      "S22-T1-B",
+      "S22-T2-A",
+      "S22-T2-B",
+      "S22-T3-A",
+      "S22-T3-B",
+      "S22-T4-A",
+      "S22-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-C (inicio)"
+  },
+  "S23": {
+    "section_id": "computer-vision",
+    "title_v3": "Browser RPA con Playwright",
+    "subtopics_done": [
+      "S23-T1-A",
+      "S23-T1-B",
+      "S23-T2-A",
+      "S23-T2-B",
+      "S23-T3-A",
+      "S23-T3-B",
+      "S23-T4-A",
+      "S23-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-C (web adapter)"
+  },
+  "S24": {
+    "section_id": "rpa-advanced",
+    "title_v3": "OCR y Document AI",
+    "subtopics_done": [
+      "S24-T1-A",
+      "S24-T1-B",
+      "S24-T2-A",
+      "S24-T2-B",
+      "S24-T3-A",
+      "S24-T3-B",
+      "S24-T4-A",
+      "S24-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-C (document intake)"
+  },
+  "S25": {
+    "section_id": "streamlit-dashboards",
+    "title_v3": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "subtopics_done": [
+      "S25-T1-A",
+      "S25-T1-B",
+      "S25-T2-A",
+      "S25-T2-B",
+      "S25-T3-A",
+      "S25-T3-B",
+      "S25-T4-A",
+      "S25-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-C (AI assist)"
+  },
+  "S26": {
+    "section_id": "integrator-phase1",
+    "title_v3": "Orquestación y VP RPA + AI Analyst",
+    "subtopics_done": [
+      "S26-T1-A",
+      "S26-T1-B",
+      "S26-T2-A",
+      "S26-T2-B",
+      "S26-T3-A",
+      "S26-T3-B",
+      "S26-T4-A",
+      "S26-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-C (cierre) + N2 regression"
+  },
+  "exercises_done": 120,
+  "exercises_target": 120,
+  "demos_done": 40,
+  "demos_target": 40,
+  "files_changed": [
+    "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+    "src/lib/course/sections/s23-computer-vision.ts",
+    "src/lib/course/sections/s24-rpa-advanced.ts",
+    "src/lib/course/sections/s25-streamlit-dashboards.ts",
+    "src/lib/course/sections/s26-integrator-phase1.ts",
+    "course-state/s22_phase4_progress.json",
+    "course-state/s23_phase4_progress.json",
+    "course-state/s24_phase4_progress.json",
+    "course-state/s25_phase4_progress.json",
+    "course-state/s26_phase4_progress.json",
+    "course-state/lanes/LANE-S22-S26-P4.status.json",
+    "scripts/_gen_s22_s26_p4.py"
+  ],
+  "execution_summary": "Retargeted S22→Email/identidad/aprobación (CP-N2-C inicio), S23→Playwright RPA (web adapter), S24→OCR Document AI (document intake), S25→HF/prompting evaluado (AI assist), S26→Orquestación VP RPA+AI (cierre CP-N2-C + notas regresión N2/CF-2). Full packages 8 subtopics each (theory+demo+E1/E2/E3, 2 hints) = 8 demos + 24 exercises each. Platform ids rapidfuzz-entity / computer-vision / rpa-advanced / streamlit-dashboards / integrator-phase1 preserved. All demos/solutions executed with python3; UNVERIFIED=[]. Español peruano; synthetic data only. Privacy: matching/resolución no implica fraude. No seed/checkpoint/ledger edits.",
+  "blockers": [],
+  "do_not_edit": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "prisma/seed.ts"
+  ],
+  "privacy_note": "No fraud/parentesco inference from matching or scores.",
+  "next_action": "PHASE 5 exam banks for rapidfuzz-entity, computer-vision, rpa-advanced, streamlit-dashboards, integrator-phase1 V3 slugs. Do not mark S22–S26 passed from this lane.",
+  "verified_counts": {
+    "S22": 32,
+    "S23": 32,
+    "S24": 32,
+    "S25": 32,
+    "S26": 32,
+    "UNVERIFIED": []
+  }
+}

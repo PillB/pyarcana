@@ -1,0 +1,507 @@
+{
+  "agent": "b",
+  "section_index": 20,
+  "recorded_at": "2026-08-01T15:08:34.535647+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "No; suele devolver la fórmula o cache si existe",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          3.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Escribir en la celda ancla (top-left)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          5.15,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Estados de batch, conciliación y backups",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          0.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          5.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          4.15,
+          8.45,
+          10.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 1,
+        "chosen_text": "Copiar el master a un path de salida, load_workbook de la copia y save solo ahí",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          9.15,
+          4.15,
+          5.15
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 2,
+        "chosen_text": "BadZipFile (u error de zip al abrir)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          5.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 1,
+        "chosen_text": "sheetnames es exactamente igual a need (sin hojas extra)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.3,
+          7.3,
+          4.15,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S20-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# sheet title + A1\n# Pista: falta renombrar la hoja y escribir el encabezado en A1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "asigna",
+          "escribe",
+          "bug",
+          "vacío",
+          "revisa",
+          "luego",
+          "default",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T1-A-E2 · append rows\n# Pista: falta append del header y de la fila de datos\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nprint(ws.max_row)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "solo",
+          "imprime",
+          "útiles",
+          "sin",
+          "haz",
+          "filas",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# create_sheet\n# Pista: renombra a Entrada y crea la hoja Salida\nfrom openpyxl import Workbook\nwb = Workbook()\nprint(wb.sheetnames)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "active",
+          "title",
+          "solo",
+          "lee",
+          "existe",
+          "imprime",
+          "default",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# formula string\n# Pista: A3 debe ser fórmula (string que empieza con =), no un número\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = 0\nprint(str(ws[\"A3\"].value).startswith(\"=\"))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "imprime",
+          "celda",
+          "false",
+          "calcules",
+          "reemplaza",
+          "starter",
+          "resultado"
+        ]
+      },
+      {
+        "exercise_id": "S20-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# cell values sum\n# Pista: asigna A1=3 y A2=4 antes de sumar\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nprint((ws[\"A1\"].value or 0) + (ws[\"A2\"].value or 0))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "archivo",
+          "imprime",
+          "vacías",
+          "celdas",
+          "sale",
+          "suma",
+          "abras",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# es_formula\n# Pista: no devuelvas siempre True; revisa tipo y prefijo =\ndef es_formula(v):\n    return True\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "isinstance",
+          "defect",
+          "ejercicio",
+          "lee",
+          "DEFECT",
+          "imprime",
+          "normalices",
+          "startswith"
+        ]
+      },
+      {
+        "exercise_id": "S20-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# bold font\n# Pista: aplica Font(bold=True) a A1\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nprint(bool(ws[\"A1\"].font and ws[\"A1\"].font.bold))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "tras",
+          "none",
+          "reasignes",
+          "starter",
+          "falso"
+        ]
+      },
+      {
+        "exercise_id": "S20-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T2-A-E2 · fill corporativo\n# Pista: aplica PatternFill solid 1F4E79 y valida el RGB (el fill por defecto NO basta)\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nrgb = getattr(ws[\"A1\"].fill.fgColor, \"rgb\", None)\nprint(rgb is not None and str(rgb).endswith(\"1F4E79\"))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "asigna",
+          "imprime",
+          "lee",
+          "falla",
+          "comparación",
+          "default",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T2-A-E3 · template copy→load→save\n# Pista: copia el master a out, abre la COPIA, escribe A2=\"Lima\", save(out)\nfrom openpyxl import Workbook, load_workbook\nfrom pathlib import Path\nimport shutil\nimport tempfile\n\nwith tempfile.TemporaryDirectory() as tmp:\n    master = Path(tmp) / \"templates\" / \"cpn2b_factory.xlsx\"\n    master.parent.mkdir(parents=True)\n    seed = Workbook()\n    seed.active.title = \"Entrada\"\n    seed.active[\"A1\"] = \"region\"\n    seed.save(master)\n\n    out = Path(tmp) / \"out\" / \"results.xlsx\"\n    out.parent.mkdir(parents=True)\n    # Sin copiar/escribir, la salida no existe: no debe pasar el contrato\n    try:\n        wb = load_workbook(out)\n        print(out.name)\n        print(master.exists() and wb[\"Entrada\"][\"A2\"].value == \"Lima\")\n    except Exception:\n        print(\"no_output\")\n        print(False)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tras",
+          "intenta",
+          "haz",
+          "crear",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# date isoformat\n# Pista: asigna date(2024, 1, 15), no un string\nfrom openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"2024-01-15\"\nprint(getattr(ws[\"A1\"].value, \"isoformat\", lambda: ws[\"A1\"].value)())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "formatees",
+          "garantiza",
+          "imprime",
+          "mano",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# merge value\n# Pista: merge B1:C1 y escribe el valor en la ancla B1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nprint(ws[\"C1\"].value)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "debe",
+          "verdad",
+          "fuente",
+          "none",
+          "uses",
+          "hay",
+          "ser"
+        ]
+      },
+      {
+        "exercise_id": "S20-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# merged ranges count\n# Pista: crea dos merges (A1:B1 y C1:D1)\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nprint(len(ws.merged_cells.ranges))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bloque",
+          "imprime",
+          "existe",
+          "segundo",
+          "añade",
+          "sale",
+          "merge",
+          "falta"
+        ]
+      },
+      {
+        "exercise_id": "S20-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# reconcile tol desde celdas\n# Pista: B1 (portada) no cuadra con B2+B3; ajústala a 15\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"B1\"] = 16.0\nws[\"B2\"] = 10.0\nws[\"B3\"] = 5.0\ndet = ws[\"B2\"].value + ws[\"B3\"].value\nportada = ws[\"B1\"].value\nprint(abs(det - portada) < 0.01)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "escribe",
+          "imprime",
+          "deja",
+          "false",
+          "calcula",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T3-A-E2 · groupby sum\n# Pista: el starter usa mean; cambia a sum para el pivot lógico\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Bogota\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].mean().to_dict())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "verifica",
+          "promedios",
+          "mentalmente",
+          "imprime",
+          "bug",
+          "madrid",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S20-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# reconcile fn\n# Pista: tol por defecto debe ser 0.01, no 0.0\ndef reconcile(det_sum, portada, tol=0.0):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "mantén",
+          "imprime",
+          "caso",
+          "falla",
+          "tiene",
+          "primer",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# schema equality desde hoja\n# Pista: falta el header monto en B1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"region\"\nexpected = [\"region\", \"monto\"]\ngot = [ws[\"A1\"].value, ws[\"B1\"].value]\nprint(expected == got)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "arma",
+          "asigna",
+          "solo",
+          "imprime",
+          "está",
+          "escrito"
+        ]
+      },
+      {
+        "exercise_id": "S20-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T3-B-E2 · allowlist regions desde hoja\n# Pista: lee A2/A3 y filtra las que NO están en allowed\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A2\"] = \"Lima\"\nws[\"A3\"] = \"Barcelona\"\nallowed = {\"Lima\", \"Bogota\"}\nregs = [ws[\"A2\"].value, ws[\"A3\"].value]\nprint(regs)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hace",
+          "imprime",
+          "starter",
+          "sin",
+          "normalices",
+          "violators",
+          "lower",
+          "case"
+        ]
+      },
+      {
+        "exercise_id": "S20-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T3-B-E3 · validate_rows\n# Pista: devuelve violators (fuera de allowed), no las válidas\ndef validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Bogota\", \"Madrid\"}))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "imprime",
+          "filtra",
+          "invierte",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# ok_count del batch\n# Pista: el summary del factory reporta cuántos quedaron \"ok\", no \"corrupt\"\nfrom zipfile import BadZipFile\n\ndef classify(name, opener):\n    try:\n        opener(name)\n        return \"ok\"\n    except BadZipFile:\n        return \"corrupt\"\n    except PermissionError:\n        return \"locked\"\n\ndef fake_open(name):\n    if name.startswith(\"b\"):\n        raise BadZipFile(\"broken\")\n    return True\n\nfiles = [\"a.xlsx\", \"b.xlsx\", \"c.xlsx\"]\nstatus = {f: classify(f, fake_open) for f in files}\n# BUG: cuenta corrupt en vez de ok\nprint(sum(v == \"corrupt\" for v in status.values()))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "cambia",
+          "imprime",
+          "hardcodees",
+          "starter",
+          "suma"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# classify exceptions\n# Pista: captura BadZipFile y PermissionError; no devuelvas siempre ok\nfrom zipfile import BadZipFile\n\ndef classify(name, opener):\n    opener(name)\n    return \"ok\"\n\ndef fake_open(name):\n    if name == \"broken.xlsx\":\n        raise BadZipFile(\"not a zip\")\n    if name == \"in_use.xlsx\":\n        raise PermissionError(\"locked by user\")\n    return True\n\nprint(classify(\"in_use.xlsx\", fake_open))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "crashea",
+          "success",
+          "imprime",
+          "envuelve",
+          "try",
+          "llama",
+          "retorna",
+          "sin"
+        ]
+      },
+      {
+        "exercise_id": "S20-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Counter statuses del summary\n# Pista: cuenta ocurrencias de cada estado; no listes solo values\nfrom collections import Counter\nfiles = {\"a.xlsx\": \"ok\", \"b.xlsx\": \"corrupt\", \"c.xlsx\": \"locked\", \"d.xlsx\": \"ok\"}\nprint(list(files.values()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "verifica",
+          "imprime",
+          "esos",
+          "dict",
+          "convierte",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S20-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# manifest mínimo con hash\n# Pista: calcula input_sha1_8; sheets canónicos; idempotent True\nimport hashlib\npayload = b\"region,monto\\nLima,10\\n\"\nmanifest = {\n    \"backup\": \"out/prev.bak\",\n    \"idempotent\": False,\n    \"input_sha1_8\": \"00000000\",\n}\nprint(manifest)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hexdigest",
+          "reconcile_ok",
+          "imprime",
+          "añade",
+          "sha1",
+          "tiene",
+          "pon",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S20-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Ejercicio S20-T4-B-E2 · dig order-invariant\n# Pista: ordena rows antes de hashear (mismas filas, distinto orden)\nimport hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in rows)\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Bogota\", 2)]) == dig([(\"Bogota\", 2), (\"Lima\", 1)]))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "imprime",
+          "hashea",
+          "sorted",
+          "false",
+          "comparación",
+          "igualdad",
+          "listas"
+        ]
+      },
+      {
+        "exercise_id": "S20-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# structural_ok\n# Pista: need debe ser subconjunto; no exijas igualdad exacta\ndef structural_ok(sheetnames, need):\n    return set(sheetnames) == set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "usa",
+          "llamada",
+          "imprime",
+          "dada",
+          "borres",
+          "falla",
+          "fixture"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "280ad61818c9cda8"
+  }
+}

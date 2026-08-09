@@ -1,0 +1,198 @@
+{
+  "section_index": 3,
+  "title": "Decisiones y reglas de validación",
+  "outcomes": [
+    "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+    "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+    "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+    "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+    "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+    "Leer una decision table y expresar reglas claras con if o match según el caso",
+    "Enunciar invariantes de campo con ejemplos accept/reject/review",
+    "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+  ],
+  "theory": [
+    {
+      "heading": "De “Data Structures” a decisiones de validación (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S03 no es el path principal de list/dict/CSV/JSON**. Esos temas viven conceptualmente en **S06** (y módulos posteriores). Aquí el estudiante domina lo que el **motor de reglas de intake** necesita: booleanos, control de flujo y políticas **accept / reject / review** sobre un registro sintético de cliente.",
+        "El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`) que devuelve `{status, code, message}`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+        "Orden pedagógico: **T1 Booleanos** (comparaciones → truthiness) → **T2 Control** (if/elif/else → guards) → **T3 Reglas** (rangos/allowlists → decision tables/match) → **T4 Verificación** (invariantes → mensajes y tests de ramas)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Comparaciones y el operador in",
+      "paragraphs": [
+        "Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también permite **encadenar**: `18 <= edad <= 65` equivale a `(18 <= edad) and (edad <= 65)` y se evalúa de forma segura (la expresión del medio se calcula una sola vez en la cadena).",
+        "**Pertenencia**: `x in coleccion` / `x not in coleccion` funciona con str, list, set, dict (busca **claves**). Para allowlists de códigos fijos, un **`set` de literales** es ideal: lectura clara y chequeo O(1). Atención a **mayúsculas**: `\"dni\" in {\"DNI\"}` es `False` — normaliza antes o documenta el contrato.",
+        "**`is` vs `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”."
+      ],
+      "code": "region = \"Lima\"\nmonto = 1500\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\n\nprint(region == \"Lima\")          # True\nprint(monto >= 1000)             # True\nprint(region in ALLOWED)         # True\nprint(\"Piura\" not in ALLOWED)    # True\nprint(1000 <= monto <= 2000)     # True (encadenado)\n\n# is None para ausencia — no uses == por hábito en validadores\nvalor = None\nprint(valor is None)             # True"
+    },
+    {
+      "heading": "Qué es verdadero en un if (y qué no es “ausente”)",
+      "paragraphs": [
+        "Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `\"\"`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `\"False\"`.",
+        "El error canónico del gate V3: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== \"\"` o `not s.strip()` según el contrato.",
+        "`and` / `or` hacen **short-circuit** y **devuelven un operando** (no siempre `True`/`False`). `\"\" or \"default\"` → `\"default\"`; `0 and 99` → `0`. `not` sí devuelve booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Ramas de decisión con if/elif/else",
+      "paragraphs": [
+        "La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **la primera condición verdadera gana** y el resto no se ejecuta. El `else` es el catch-all (útil para `reject` o `review` por defecto).",
+        "**Indentación** define el bloque: 4 espacios es el estilo del curso. Un `if` seguido de otro `if` (sin `elif`) **no es excluyente**: ambos pueden dispararse y **sobrescribir** el status. Eso es un bug clásico al clasificar scores.",
+        "Para el motor de reglas, un patrón limpio es devolver un **solo status** por campo: `accept`, `review` o `reject`. Fronteras (`score >= 80`) deben estar documentadas en la tabla de ejemplos."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Salidas tempranas y ramas que nunca se tocan",
+      "paragraphs": [
+        "Una **guard clause** (salida temprana) valida precondiciones y **retorna de inmediato** con `reject`/`review`, dejando el camino feliz al final sin pirámide de `if` anidados. Mejora legibilidad y reduce bugs de indentación.",
+        "Orden típico en validadores: **1) ausencia (`is None`)** → **2) tipo** → **3) rango/allowlist** → **4) accept**. Si comparas `edad < 18` antes de chequear `None`, obtienes `TypeError`.",
+        "Una **rama muerta** es código que nunca se ejecuta porque una condición anterior ya la cubre (p. ej. `if x >= 0: ... elif x > 5:` — el `elif` solo vería negativos, nunca `x > 5`). Aprende a leer el orden como un revisor de PRs."
+      ],
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": "
+    },
+    {
+      "heading": "Reglas de dominio: rangos y listas permitidas",
+      "paragraphs": [
+        "Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}`). Si el valor no está, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.",
+        "Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs `OUT_OF_RANGE`).",
+        "Tri-estado en dominio: **accept** (cumple), **reject** (viola hard), **review** (ausente, desconocido u outlier suave). El cero en montos suele ser accept si el invariante lo permite."
+      ],
+      "code": "ALLOWED_REG = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef rule_region_edad(region, edad):\n    if region is None or edad is None:\n        return \"review\"\n    if region not in ALLOWED_REG:\n        return \"review\"\n    if not (18 <= edad <= 65):\n        return \"reject\"\n    return \"accept\"\n\nfor r, e in [(\"Lima\", 30), (\"Tacna\", 30), (\"Lima\", 15), (None, 40)]:\n    print(r, e, \"→\", rule_region_edad(r, e))"
+    },
+    {
+      "heading": "Tablas de decisión y match/case",
+      "paragraphs": [
+        "Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas en el código que no estén en la tabla.",
+        "**`match` / `case`** (Python 3.10+) brilla cuando el sujeto es un **literal o estado finito** (`\"OK\"`, `\"MISSING\"`, códigos de error). Soporta **OR patterns** (`case \"A\" | \"B\":`) y el comodín **`case _:`** (debe ser explícito para defaults). El primer case que matchea gana.",
+        "**Cuándo preferir `if`**: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. `match` no depreca `if`; elige por **claridad**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Invariantes: promesas que el dato debe cumplir",
+      "paragraphs": [
+        "Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9 dígitos, o `None` si aún no se capturó”. No es código todavía: es **especificación**. Los **ejemplos canónicos** (accept/reject/review/missing) son la forma más barata de validar que el invariante es usable.",
+        "Mínimo profesional: **al menos un ejemplo por estado de decisión** que tu regla produce. Si solo pruebas el camino feliz, el validador miente en producción.",
+        "`assert` sirve en desarrollo y tests, pero **no** como única validación de intake en producción (`python -O` desactiva asserts). Usa returns con `status`/`code`/`message` para reglas de negocio."
+      ],
+      "code": "def validate_contacto(c):\n    if c is None:\n        return \"review\"\n    if not isinstance(c, str) or not c.strip():\n        return \"reject\"\n    digits = c.strip()\n    if not digits.isdigit() or len(digits) != 9:\n        return \"reject\"\n    return \"accept\"\n\nregla = {\n    \"field\": \"contacto\",\n    \"invariant_text\": \"contacto es str de 9 dígitos o None (review)\",\n    \"examples\": [\n        {\"value\": \"9"
+    },
+    {
+      "heading": "Mensajes que se pueden ejecutar y pruebas por rama",
+      "paragraphs": [
+        "Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo 'edad'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Error o inválido. Códigos estables (`MISSING`, `OUT_OF_RANGE`, `NOT_IN_ALLOWLIST`, `NEEDS_REVIEW`, `OK`) permiten métricas y i18n después.",
+        "**Un test por rama** del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta.",
+        "No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo **test rojo → arreglar regla → verde** es la forma de depurar off-by-one en fronteras (`>= 18` vs `> 18`)."
+      ],
+      "code": "def validate_edad_msg(edad):\n    if edad is None:\n        return {\n            \"status\": \"review\",\n            \"code\": \"MISSING\",\n            \"message\": \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n        }\n    if not isinstance(edad, int):\n        return {\n            \"status\": \"reject\",\n            \"code\": \"BAD_TYPE\",\n            \"message\": f\"Campo 'edad' recibió {ed"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S03-T1-B-DEMO",
+      "description": "Comparar región y monto de un registro sintético",
+      "why": "Antes de escribir ifs de negocio, el analista predice booleanos sueltos. Cuatro comparaciones + dos membership checks fijan el vocabulario del motor de reglas.",
+      "code": ""
+    },
+    {
+      "demoId": "S03-T2-A-DEMO",
+      "description": "Tres campos: None, 0 y vacío bajo reglas distintas",
+      "why": "None, 0 y \"\" son todos falsy, pero la política de monto solo trata None como ausente y acepta cero. Este es el gate crítico del tri-estado.",
+      "code": ""
+    },
+    {
+      "demoId": "S03-T2-B-DEMO",
+      "description": "Clasificar score de calidad en accept/review/reject",
+      "why": "Tres scores, tres ramas. if/elif/else garantiza una sola etiqueta por registro — base del clasificador de calidad de intake.",
+      "code": ""
+    },
+    {
+      "demoId": "S03-T3-A-DEMO",
+      "description": "De pirámide a guards en validate_edad",
+      "why": "Misma matriz de casos, código lineal. Guards de None y tipo evitan TypeError y dejan el accept al final.",
+      "code": ""
+    },
+    {
+      "demoId": "S03-T3-B-DEMO",
+      "description": "Regla combinada región + edad",
+      "why": "Allowlist + rango en una sola función. Región desconocida → review; edad fuera de banda → reject; ausencia → review.",
+      "code": ""
+    },
+    {
+      "demoId": "S03-T4-A-DEMO",
+      "description": "Misma tabla en if/elif y en match",
+      "why": "Ambas implementaciones coinciden; case _ cubre desconocidos. Elige match cuando el sujeto es un código finito.",
+      "code": "def status_if(code: str) -> str:\n    if code == \"OK\":\n        return \"accept\"\n    elif code in (\"MISSING\", \"NEEDS_REVIEW\"):\n        return \"review\"\n    elif code in (\"OUT_OF_RANGE\", \"NOT_IN_ALLOWLIST\", \"BAD_TYPE\"):\n        return \"reject\"\n    else:\n        return \"review\"\n\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TY"
+    },
+    {
+      "demoId": "S03-T4-B-DEMO",
+      "description": "Invariante de campo contacto + 4 ejemplos",
+      "why": "invariant_text + examples[] ejecutables: la especificación y la prueba viven juntas.",
+      "code": ""
+    },
+    {
+      "demoId": null,
+      "description": "Suite mínima de pruebas del motor de reglas",
+      "why": "Loop de casos; todos pass; el mensaje de BAD_TYPE muestra campo + valor recibido + tipo esperado.",
+      "code": "def validate_edad_msg(edad):\n    if edad is None:\n        return {\n            \"status\": \"review\",\n            \"code\": \"MISSING\",\n            \"message\": \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n        }\n    if not isinstance(edad, int):\n        return {\n            \"status\": \"reject\",\n            \"code\": \"BAD_TYPE\",\n            \"message\": f\"Campo 'edad' recibió {edad!r}; se espera int, no {type(edad).__name__}.\",\n        }\n    if edad < 0 or edad > 120:\n        r"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?",
+      "options": [
+        "if not campo:",
+        "if campo is None:",
+        "if campo == False:",
+        "if campo is 0:"
+      ]
+    },
+    {
+      "question": "En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?",
+      "options": [
+        "Se evalúan todas las ramas y se combinan resultados",
+        "Se ejecuta esa rama y se omiten las siguientes",
+        "Se ejecuta también el else siempre",
+        "Python elige la rama más específica automáticamente"
+      ]
+    },
+    {
+      "question": "¿Qué devuelve la expresión `\"\" or \"default\"` en Python?",
+      "options": [
+        "True",
+        "False",
+        "\"\"",
+        "\"default\""
+      ]
+    },
+    {
+      "question": "Una allowlist de tipos de documento se implementa mejor como…",
+      "options": [
+        "Una lista de if anidados por cada letra del código",
+        "Un set de literales y el operador in",
+        "Un float entre 0 y 1",
+        "assert tipo == \"DNI\" como única validación de producción"
+      ]
+    },
+    {
+      "question": "¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?",
+      "options": [
+        "Siempre; match deprecó if en Python 3.12",
+        "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+        "Solo para rangos numéricos de montos",
+        "Nunca; match está deprecado"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O"
+  ]
+}

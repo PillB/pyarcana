@@ -1,0 +1,520 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A1",
+  "section_index": 26,
+  "packet_sha": "02c6b5f808f68032",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_26/packet.json",
+  "recorded_at": "2026-07-21T22:06:01.457719+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T1-A-E1\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T1-A-E1. Instruction del paquete: Lista el orden canónico de 4 pasos: ingest,validate,analyze,report.. Hints: lista; print. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T1-A-E2\nnodes=['a','b','c']\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T1-A-E2. Instruction del paquete: Cuenta edges en pares (a,b) de un path lineal de 3 nodos.. Hints: len edges; n-1. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T1-A-E3\ntasks={'a':'success','b':'failed'}\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "tasks",
+        "success",
+        "failed",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T1-A-E3. Instruction del paquete: Estado global failed si algún task failed.. Hints: any; agregación. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T1-B-E1\nm={'run_id':'cpn2c-1'}\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "run_id",
+        "cpn2c",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T1-B-E1. Instruction del paquete: Imprime run_id de un dict metadata.. Hints: index dict; key. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T1-B-E2\napi_rpm=90\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "api_rpm",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T1-B-E2. Instruction del paquete: Si api_rpm>60 imprime 'too_high'.. Hints: umbral; límites. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T1-B-E3\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T1-B-E3. Instruction del paquete: Schedule cron string '0 6 * * 1-5' e imprime tz America/Lima.. Hints: constantes; doc. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T2-A-E1\nattempt, base = 3, 100\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "attempt",
+        "base",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T2-A-E1. Instruction del paquete: backoff ms: base*2**(attempt-1) para attempt=3 base=100.. Hints: exponencial; print. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T2-A-E2\ndlq=[]\nfail=True\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "dlq",
+        "fail",
+        "True",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T2-A-E2. Instruction del paquete: Añade 'x' a dlq si falla; imprime dlq.. Hints: lista; append. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T2-A-E3\nckpt={'a'}; items=['a','b']\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "ckpt",
+        "items",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T2-A-E3. Instruction del paquete: Checkpoint set: no reproceses ids ya en ckpt.. Hints: set membership; skip. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T2-B-E1\nstore={}\n\ndef put(k,v):\n    print({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n    pass\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "def",
+        "put",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T2-B-E1. Instruction del paquete: Idempotent write: segunda vez no cambia valor.. Hints: if key not in; store. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T2-B-E2\nstate={'report':'ok','draft':'ok'}\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\nprint(state)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "report",
+        "draft",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T2-B-E2. Instruction del paquete: Rollback: borra draft key del state.. Hints: pop; dict. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T2-B-E3\nlocked=True\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "locked",
+        "True",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T2-B-E3. Instruction del paquete: Lock: si locked True no entres; imprime 'busy'/'enter'.. Hints: flag; concurrencia. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T3-A-E1\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "analysis",
+        "status",
+        "pending",
+        "done",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T3-A-E1. Instruction del paquete: Cuenta pending en cola analysis.. Hints: sum; status. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T3-A-E2\nq={'analysis':1,'report':0,'recipient':0}\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "analysis",
+        "report",
+        "recipient",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T3-A-E2. Instruction del paquete: blocked si alguna cola >0.. Hints: any; values. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T3-A-E3\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T3-A-E3. Instruction del paquete: Imprime checklist mínima ['metrics','narrative','recipient'].. Hints: lista; gate. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T3-B-E1\naudit=[]\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\nprint(audit)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T3-B-E1. Instruction del paquete: Registra action approve con actor.. Hints: append dict; audit. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T3-B-E2\naction, reason = 'reject', None\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "action",
+        "reason",
+        "reject",
+        "None",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T3-B-E2. Instruction del paquete: Reject sin reason → 'invalid'.. Hints: guard reason; None. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T3-B-E3\nver=1\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "ver",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T3-B-E3. Instruction del paquete: Edit incrementa version de 1 a 2.. Hints: version++; artefacto. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T4-A-E1\nrate=0.9\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "rate",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T4-A-E1. Instruction del paquete: Alert si success_rate < 0.95.. Hints: comparación; slo. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T4-A-E2\nn=1\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T4-A-E2. Instruction del paquete: P0 si sends_without_approve>0.. Hints: severidad; security. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T4-A-E3\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T4-A-E3. Instruction del paquete: Runbook one-liner: disable_schedule → drain → page.. Hints: string; ops. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T4-B-E1\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "steps",
+        "ingest",
+        "validate",
+        "draft",
+        "status",
+        "success",
+        "for",
+        "print"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T4-B-E1. Instruction del paquete: E2E: todos los steps en success; imprime True.. Hints: all; lista. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T4-B-E2\nfraud_labels=0\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "fraud_labels",
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T4-B-E2. Instruction del paquete: fraud_labels debe ser 0 en el VP; imprime ok/fail.. Hints: política; assert blando. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S26-T4-B-E3\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "e2e",
+        "pass",
+        "cost_tokens",
+        "value_min",
+        "fraud_labels",
+        "n2_regression",
+        "planned"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S26-T4-B-E3. Instruction del paquete: Imprime notas de regresión N2: 'CP-N2-A/B/C critical+privacy' y valor estimado 45 min.. Hints: dos prints o un dict; cierre. Teoría activa: Cierre CP-N2-C: orquestación del VP y regresión N2 | tasks/flows/DAG y estados | límites, metadata y schedules | checkpoints, retry/backoff y dead-letter | idempotencia, concurrencia y rollback | revi. iDo demos: S26-T1-B-DEMO | S26-T2-A-DEMO | S26-T2-B-DEMO | S26-T3-A-DEMO | S26-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Approve antes de draft_email",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: DAG order in theory/iDo — validate→analyze→…→approve before draft_email. «aprobar antes de draft_email». Approve precedes draft."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: S26 closes CP-N2-C and prepares Level-2 regression (S14–S26) + CF-2; E2E, security, privacy controls. Not a single print or marking passed without tests."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Incidente P0",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: SLO «0 envíos sin approve»; zero_send_without_approve. A send without approve is a critical incident (P0), not a minor warning."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "0 — solo evidencia para humanos",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: E2E evidence sets fraud_labels = 0 — «debe ser 0: no auto-fraude». Automatic fraud labels must be zero; evidence only for humans."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "f0655491bc7d"
+}

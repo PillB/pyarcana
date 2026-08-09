@@ -1,0 +1,365 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s50-6e9ae23ad4",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "id": "S50-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T1-A-E1 el paquete pide demostrar slices suman tasks, rúbrica 0–3 y holdout. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `tasks`, `slices`, `rubric_levels`, `holdout` con la regla explicada en S50-T1-A. El predicado corr» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "slices suman tasks, rúbrica 0–3 y holdout"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "id": "S50-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'holdout', 'rubric_levels', 'slices', 'tasks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0\n    return \"PASS\" if meets else 'REBUILD_EVAL_DATASET'\n\nvalid = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks':40, 'slices':{'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels':{0, 1, 2, 3}, 'holdout':10}}\ninvalid = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks':40, 'slices':{'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels':{0, 1, 2, 3}, 'holdout':10, '_broken':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'holdout'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T1-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama. Después aplica la regla de S50-T1-» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "id": "S50-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'holdout', 'rubric_levels', 'slices', 'tasks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CALIBRATE_RUBRIC'\n    meets = sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0\n    return \"CONTINUE\" if meets else 'REBUILD_EVAL_DATASET'\n\nvalid = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks':40, 'slices':{'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels':{0, 1, 2, 3}, 'holdout':10}}\ninvalid = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks':40, 'slices':{'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels':{0, 1, 2, 3}, 'holdout':10, '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'holdout'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T1-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido. Para datos completos reu» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evalua"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "id": "S50-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T1-B-E1 el paquete pide demostrar cuatro dimensiones sobre mínimo y ninguna tool prohibida. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `outcome`, `process`, `trajectory`, `recovery`, `forbidden_tool_used`, `min_dimension` con la regla» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "cuatro dimensiones sobre mínimo y ninguna tool prohibida"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "id": "S50-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'forbidden_tool_used', 'min_dimension', 'outcome', 'process', 'recovery', 'trajectory'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"PASS\" if meets else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome':3, 'process':3, 'trajectory':2, 'recovery':3, 'forbidden_tool_used':False, 'min_dimension':2}}\ninvalid = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome':3, 'process':3, 'trajectory':2, 'recovery':3, 'forbidden_tool_used':True, 'min_dimension':2}}\nincomplete = {k: v for k, v in valid.items() if k != 'min_dimension'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T1-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama. Después aplica la regla de S» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes d"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "id": "S50-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'forbidden_tool_used', 'min_dimension', 'outcome', 'process', 'recovery', 'trajectory'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'HUMAN_REVIEW_PROCESS'\n    meets = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"CONTINUE\" if meets else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome':3, 'process':3, 'trajectory':2, 'recovery':3, 'forbidden_tool_used':False, 'min_dimension':2}}\ninvalid = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome':3, 'process':3, 'trajectory':2, 'recovery':3, 'forbidden_tool_used':True, 'min_dimension':2}}\nuncertain = {k: v for k, v in valid.items() if k != 'min_dimension'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T1-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido. Para datos completos» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de ev"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "id": "S50-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T2-A-E1 el paquete pide demostrar scores acotados y acuerdo humano-LLM sobre umbral. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `deterministic`, `human`, `llm`, `human_llm_agreement`, `min_agreement` con la regla explicada en S» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "scores acotados y acuerdo humano-LLM sobre umbral"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "id": "S50-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'deterministic', 'human', 'human_llm_agreement', 'llm', 'min_agreement'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\n    return \"PASS\" if meets else 'RECALIBRATE_GRADERS'\n\nvalid = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic':0.86, 'human':0.82, 'llm':0.8, 'human_llm_agreement':0.78, 'min_agreement':0.75}}\ninvalid = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic':0.86, 'human':0.82, 'llm':0.8, 'human_llm_agreement':0.78, 'min_agreement':1000.75}}\nincomplete = {k: v for k, v in valid.items() if k != 'min_agreement'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T2-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama. Después aplica la regla de S» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes d"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "id": "S50-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'deterministic', 'human', 'human_llm_agreement', 'llm', 'min_agreement'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ADJUDICATE_DISAGREEMENT'\n    meets = record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\n    return \"CONTINUE\" if meets else 'RECALIBRATE_GRADERS'\n\nvalid = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic':0.86, 'human':0.82, 'llm':0.8, 'human_llm_agreement':0.78, 'min_agreement':0.75}}\ninvalid = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic':0.86, 'human':0.82, 'llm':0.8, 'human_llm_agreement':0.78, 'min_agreement':1000.75}}\nuncertain = {k: v for k, v in valid.items() if k != 'min_agreement'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T2-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido. Para datos comple» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "id": "S50-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T2-B-E1 el paquete pide demostrar anclas calibradas, order bias bajo y holdout intacto. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `anchor_accuracy`, `min_anchor_accuracy`, `order_gap`, `max_order_gap`, `holdout_touched` con la re» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "anclas calibradas, order bias bajo y holdout intacto"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "id": "S50-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'anchor_accuracy', 'case_id', 'holdout_touched', 'max_order_gap', 'min_anchor_accuracy', 'order_gap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]\n    return \"PASS\" if meets else 'INVALIDATE_JUDGE'\n\nvalid = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy':0.92, 'min_anchor_accuracy':0.9, 'order_gap':0.02, 'max_order_gap':0.05, 'holdout_touched':False}}\ninvalid = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy':0.92, 'min_anchor_accuracy':0.9, 'order_gap':1000.02, 'max_order_gap':0.05, 'holdout_touched':False}}\nincomplete = {k: v for k, v in valid.items() if k != 'holdout_touched'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T2-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama. Después aplica la regla de» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "id": "S50-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'anchor_accuracy', 'case_id', 'holdout_touched', 'max_order_gap', 'min_anchor_accuracy', 'order_gap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SEAL_NEW_HOLDOUT'\n    meets = record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]\n    return \"CONTINUE\" if meets else 'INVALIDATE_JUDGE'\n\nvalid = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy':0.92, 'min_anchor_accuracy':0.9, 'order_gap':0.02, 'max_order_gap':0.05, 'holdout_touched':False}}\ninvalid = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy':0.92, 'min_anchor_accuracy':0.9, 'order_gap':1000.02, 'max_order_gap':0.05, 'holdout_touched':False}}\nuncertain = {k: v for k, v in valid.items() if k != 'holdout_touched'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T2-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido. Para datos completos reu» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evalua"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "id": "S50-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = record['injection_blocked'] is True and record['tool_args_valid'] is True\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T3-A-E1 el paquete pide demostrar injection contenida, cero exfil y tool read-only. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `injection_blocked`, `exfiltration_bytes`, `tool_scope`, `tool_args_valid`, `severity` con la regla» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "injection contenida, cero exfil y tool read-only"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "id": "S50-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'exfiltration_bytes', 'injection_blocked', 'severity', 'tool_args_valid', 'tool_scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['injection_blocked'] is True and record['tool_args_valid'] is True\n    return \"PASS\" if meets else 'BLOCK_SECURITY_P0'\n\nvalid = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked':True, 'exfiltration_bytes':0, 'tool_scope':'read-only', 'tool_args_valid':True, 'severity':'P0'}}\ninvalid = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked':False, 'exfiltration_bytes':0, 'tool_scope':'read-only', 'tool_args_valid':True, 'severity':'P0'}}\nincomplete = {k: v for k, v in valid.items() if k != 'severity'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T3-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama. Después aplica la regla de S50-T3» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "id": "S50-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'exfiltration_bytes', 'injection_blocked', 'severity', 'tool_args_valid', 'tool_scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRESERVE_ATTACK_TRACE'\n    meets = record['injection_blocked'] is True and record['tool_args_valid'] is True\n    return \"CONTINUE\" if meets else 'BLOCK_SECURITY_P0'\n\nvalid = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked':True, 'exfiltration_bytes':0, 'tool_scope':'read-only', 'tool_args_valid':True, 'severity':'P0'}}\ninvalid = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked':False, 'exfiltration_bytes':0, 'tool_scope':'read-only', 'tool_args_valid':True, 'severity':'P0'}}\nuncertain = {k: v for k, v in valid.items() if k != 'severity'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T3-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "id": "S50-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T3-B-E1 el paquete pide demostrar indirect injection como datos, poisoning removido y permiso mínimo. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `document_instruction_treated_as_data`, `poisoned_chunks_removed`, `tool_permissions`, `requested_p» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "indirect injection como datos, poisoning removido y permiso mínimo"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "id": "S50-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'requested_permission', 'tool_permissions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"PASS\" if meets else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data':True, 'poisoned_chunks_removed':3, 'tool_permissions':{'read'}, 'requested_permission':'read'}}\ninvalid = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data':False, 'poisoned_chunks_removed':3, 'tool_permissions':{'read'}, 'requested_permission':'read'}}\nincomplete = {k: v for k, v in valid.items() if k != 'requested_permission'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T3-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama. Después aplica la reg» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "id": "S50-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'requested_permission', 'tool_permissions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REDUCE_TOOL_PRIVILEGE'\n    meets = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"CONTINUE\" if meets else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data':True, 'poisoned_chunks_removed':3, 'tool_permissions':{'read'}, 'requested_permission':'read'}}\ninvalid = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data':False, 'poisoned_chunks_removed':3, 'tool_permissions':{'read'}, 'requested_permission':'read'}}\nuncertain = {k: v for k, v in valid.items() if k != 'requested_permission'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T3-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "id": "S50-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T4-A-E1 el paquete pide demostrar support rate, cero claim crítica y abstención correcta. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `supported_claims`, `total_claims`, `min_support_rate`, `unsupported_critical`, `abstained_when_emp» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "support rate, cero claim crítica y abstención correcta"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "id": "S50-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'abstained_when_empty', 'case_id', 'min_support_rate', 'supported_claims', 'total_claims', 'unsupported_critical'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]\n    return \"PASS\" if meets else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims':18, 'total_claims':20, 'min_support_rate':0.9, 'unsupported_critical':0, 'abstained_when_empty':True}}\ninvalid = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims':18, 'total_claims':20, 'min_support_rate':0.9, 'unsupported_critical':1000, 'abstained_when_empty':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'abstained_when_empty'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T4-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama. Después aplica la reg» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "id": "S50-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'abstained_when_empty', 'case_id', 'min_support_rate', 'supported_claims', 'total_claims', 'unsupported_critical'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_ABSTENTION_SLICE'\n    meets = record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]\n    return \"CONTINUE\" if meets else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims':18, 'total_claims':20, 'min_support_rate':0.9, 'unsupported_critical':0, 'abstained_when_empty':True}}\ninvalid = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims':18, 'total_claims':20, 'min_support_rate':0.9, 'unsupported_critical':1000, 'abstained_when_empty':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'abstained_when_empty'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T4-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido. Para datos comple» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "id": "S50-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S50: en S50-T4-B-E1 el paquete pide demostrar latencia/costo/cache dentro de gate y rollback en RTO. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `p95_ms`, `slo_ms`, `cost_pen`, `cost_cap_pen`, `cache_acl_safe`, `rollback_minutes`, `rto_minutes`» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "latencia/costo/cache dentro de gate y rollback en RTO"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "id": "S50-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'cache_acl_safe', 'case_id', 'cost_cap_pen', 'cost_pen', 'p95_ms', 'rollback_minutes', 'rto_minutes', 'slo_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\n    return \"PASS\" if meets else 'ROLLBACK_AI_RELEASE'\n\nvalid = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms':850, 'slo_ms':1000, 'cost_pen':0.07, 'cost_cap_pen':0.1, 'cache_acl_safe':True, 'rollback_minutes':8, 'rto_minutes':10}}\ninvalid = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms':850, 'slo_ms':0, 'cost_pen':0.07, 'cost_cap_pen':0.1, 'cache_acl_safe':True, 'rollback_minutes':8, 'rto_minutes':10}}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T4-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama. Después aplica la regla de S50» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "id": "S50-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'cache_acl_safe', 'case_id', 'cost_cap_pen', 'cost_pen', 'p95_ms', 'rollback_minutes', 'rto_minutes', 'slo_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_INCIDENT_RESPONSE'\n    meets = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\n    return \"CONTINUE\" if meets else 'ROLLBACK_AI_RELEASE'\n\nvalid = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms':850, 'slo_ms':1000, 'cost_pen':0.07, 'cost_cap_pen':0.1, 'cache_acl_safe':True, 'rollback_minutes':8, 'rto_minutes':10}}\ninvalid = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms':850, 'slo_ms':0, 'cost_pen':0.07, 'cost_cap_pen':0.1, 'cache_acl_safe':True, 'rollback_minutes':8, 'rto_minutes':10}}\nuncertain = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S50: en S50-T4-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido. Para datos com» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Evals, red teaming y fiabilidad de IA",
+        "Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic selfcheck S50 Q0: la opción «dataset versionado y rúbrica calibrada» es la única que respeta evidencia/seguridad del stem «¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.74,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic selfcheck S50 Q1: la opción «emitir BLOCK_CANDIDATE y conservar evidencia» es la única que respeta evidencia/seguridad del stem «Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic selfcheck S50 Q2: la opción «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» es la única que respeta evidencia/seguridad del stem «¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic selfcheck S50 Q3: la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que respeta evidencia/seguridad del stem «¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.83,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:24.529812+00:00",
+  "session_started_at": "2026-07-23T14:44:56.948665+00:00",
+  "session_ended_at": "2026-07-23T14:45:27.878665+00:00",
+  "receipt_response_sha256": "8e06ca6e592836d1689e03a8b9e59f9d4c55d814b0b371430e723c7a1a6f75ab",
+  "receipt_exercises_sha256": "95059043aab1cd310c6af9bb31563835b9ae2d5ace516fbe2454f8c0cb1fb4a8",
+  "receipt_selfcheck_sha256": "a85c2ae15d5472b06af6b3a9a03aee097b6734d1fa4b11af2729ac3221dd01f0"
+}

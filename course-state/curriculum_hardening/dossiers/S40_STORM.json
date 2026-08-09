@@ -1,0 +1,1143 @@
+{
+  "section": 40,
+  "title": "Arquitectura, DDD y decisiones técnicas",
+  "file": "s40-agentic-architecture.ts",
+  "n_required": 40,
+  "n_logged": 40,
+  "generated_at": "2026-07-24T03:58:57.914308+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "measure+owner+consequence; no inverted deps; no PII",
+    "v3_retarget": "architecture/DDD not agent orchestration",
+    "expert_pass_at": "2026-07-24T03:58:57.914308+00:00"
+  },
+  "unique_foci": 40,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "QA scenario measure owner consequence",
+      "research": [
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture views"
+        },
+        {
+          "family": "DDD",
+          "title": "DDD Reference",
+          "url": "https://www.domainlanguage.com/ddd/reference/",
+          "note": "Evans patterns"
+        },
+        {
+          "family": "GitHub",
+          "title": "System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "note": "trade-offs"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 1/40: «QA scenario measure owner consequence» via C4, DDD, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «QA scenario measure owner consequence».",
+      "expand_scope": "E1/E2/E3 + docs for «QA scenario measure owner consequence»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 1/40: «QA scenario measure owner consequence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "functional requirements vs quality attributes",
+      "research": [
+        {
+          "family": "Fowler",
+          "title": "Bounded Context",
+          "url": "https://martinfowler.com/bliki/BoundedContext.html",
+          "note": "DDD boundaries"
+        },
+        {
+          "family": "ADR",
+          "title": "ADR process AWS",
+          "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+          "note": "decision records"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Azure Architecture",
+          "url": "https://learn.microsoft.com/azure/architecture/",
+          "note": "quality attributes"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 2/40: «functional requirements vs quality attributes» via ADR, Fowler, Microsoft (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «functional requirements vs quality attributes».",
+      "expand_scope": "E1/E2/E3 + docs for «functional requirements vs quality attributes»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 2/40: «functional requirements vs quality attributes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "trade-off matrix residual risk",
+      "research": [
+        {
+          "family": "Cockburn",
+          "title": "Hexagonal Architecture",
+          "url": "https://alistair.cockburn.us/hexagonal-architecture/",
+          "note": "ports adapters"
+        },
+        {
+          "family": "GitHub",
+          "title": "ADR templates",
+          "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+          "note": "ADR examples"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS146S",
+          "url": "https://web.stanford.edu/class/cs146s/",
+          "note": "software design"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 3/40: «trade-off matrix residual risk» via Cockburn, GitHub, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «trade-off matrix residual risk».",
+      "expand_scope": "E1/E2/E3 + docs for «trade-off matrix residual risk»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 3/40: «trade-off matrix residual risk» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "cohesion high coupling low layers",
+      "research": [
+        {
+          "family": "DDD",
+          "title": "DDD Reference",
+          "url": "https://www.domainlanguage.com/ddd/reference/",
+          "note": "Evans patterns"
+        },
+        {
+          "family": "GitHub",
+          "title": "System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "note": "trade-offs"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 4/40: «cohesion high coupling low layers» via DDD, GitHub, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cohesion high coupling low layers».",
+      "expand_scope": "E1/E2/E3 + docs for «cohesion high coupling low layers»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 4/40: «cohesion high coupling low layers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "ports adapters dependency rule",
+      "research": [
+        {
+          "family": "ADR",
+          "title": "ADR process AWS",
+          "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+          "note": "decision records"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Azure Architecture",
+          "url": "https://learn.microsoft.com/azure/architecture/",
+          "note": "quality attributes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 5/40: «ports adapters dependency rule» via ADR, Harvard, Microsoft (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ports adapters dependency rule».",
+      "expand_scope": "E1/E2/E3 + docs for «ports adapters dependency rule»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 5/40: «ports adapters dependency rule» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "domain does not import infrastructure",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "ADR templates",
+          "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+          "note": "ADR examples"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS146S",
+          "url": "https://web.stanford.edu/class/cs146s/",
+          "note": "software design"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software architecture",
+          "url": "https://www.coursera.org/courses?query=software%20architecture",
+          "note": "architecture MOOCs"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 6/40: «domain does not import infrastructure» via Coursera, GitHub, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «domain does not import infrastructure».",
+      "expand_scope": "E1/E2/E3 + docs for «domain does not import infrastructure»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 6/40: «domain does not import infrastructure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "bounded contexts ubiquitous language",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "note": "trade-offs"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops boundaries"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 7/40: «bounded contexts ubiquitous language» via 12factor, GitHub, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «bounded contexts ubiquitous language».",
+      "expand_scope": "E1/E2/E3 + docs for «bounded contexts ubiquitous language»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 7/40: «bounded contexts ubiquitous language» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "context map anti-corruption layer",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Azure Architecture",
+          "url": "https://learn.microsoft.com/azure/architecture/",
+          "note": "quality attributes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 8/40: «context map anti-corruption layer» via Harvard, Microsoft, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «context map anti-corruption layer».",
+      "expand_scope": "E1/E2/E3 + docs for «context map anti-corruption layer»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 8/40: «context map anti-corruption layer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "entities identity vs value objects",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS146S",
+          "url": "https://web.stanford.edu/class/cs146s/",
+          "note": "software design"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software architecture",
+          "url": "https://www.coursera.org/courses?query=software%20architecture",
+          "note": "architecture MOOCs"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 9/40: «entities identity vs value objects» via Coursera, Live, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «entities identity vs value objects».",
+      "expand_scope": "E1/E2/E3 + docs for «entities identity vs value objects»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 9/40: «entities identity vs value objects» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "domain services application services",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops boundaries"
+        },
+        {
+          "family": "Fowler",
+          "title": "CQRS",
+          "url": "https://martinfowler.com/bliki/CQRS.html",
+          "note": "evolution patterns"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 10/40: «domain services application services» via 12factor, Fowler, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «domain services application services».",
+      "expand_scope": "E1/E2/E3 + docs for «domain services application services»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 10/40: «domain services application services» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "C4 context container diagrams",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "Python modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "layering packages"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 11/40: «C4 context container diagrams» via Docs, Harvard, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «C4 context container diagrams».",
+      "expand_scope": "E1/E2/E3 + docs for «C4 context container diagrams»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 11/40: «C4 context container diagrams» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "ADR context decision consequences",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Software architecture",
+          "url": "https://www.coursera.org/courses?query=software%20architecture",
+          "note": "architecture MOOCs"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Software Architecture",
+          "url": "https://github.com/mehdihadeli/awesome-software-architecture",
+          "note": "curated refs"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 12/40: «ADR context decision consequences» via Coursera, GitHub, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ADR context decision consequences».",
+      "expand_scope": "E1/E2/E3 + docs for «ADR context decision consequences»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 12/40: «ADR context decision consequences» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "API evolution compatible additive",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops boundaries"
+        },
+        {
+          "family": "Fowler",
+          "title": "CQRS",
+          "url": "https://martinfowler.com/bliki/CQRS.html",
+          "note": "evolution patterns"
+        },
+        {
+          "family": "ISO",
+          "title": "ISO 25010 quality",
+          "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+          "note": "quality models"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 13/40: «API evolution compatible additive» via 12factor, Fowler, ISO (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «API evolution compatible additive».",
+      "expand_scope": "E1/E2/E3 + docs for «API evolution compatible additive»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 13/40: «API evolution compatible additive» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "events vs sync coupling trade-off",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "Python modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "layering packages"
+        },
+        {
+          "family": "Yale",
+          "title": "Open Yale",
+          "url": "https://oyc.yale.edu/",
+          "note": "lecture rigor"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 14/40: «events vs sync coupling trade-off» via Docs, Py4E, Yale (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «events vs sync coupling trade-off».",
+      "expand_scope": "E1/E2/E3 + docs for «events vs sync coupling trade-off»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 14/40: «events vs sync coupling trade-off» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "technical debt explicit budget",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Software Architecture",
+          "url": "https://github.com/mehdihadeli/awesome-software-architecture",
+          "note": "curated refs"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture views"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 15/40: «technical debt explicit budget» via C4, GitHub, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «technical debt explicit budget».",
+      "expand_scope": "E1/E2/E3 + docs for «technical debt explicit budget»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 15/40: «technical debt explicit budget» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "CASO-LIM-040 Red Andina architecture map",
+      "research": [
+        {
+          "family": "Fowler",
+          "title": "CQRS",
+          "url": "https://martinfowler.com/bliki/CQRS.html",
+          "note": "evolution patterns"
+        },
+        {
+          "family": "ISO",
+          "title": "ISO 25010 quality",
+          "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+          "note": "quality models"
+        },
+        {
+          "family": "Fowler",
+          "title": "Bounded Context",
+          "url": "https://martinfowler.com/bliki/BoundedContext.html",
+          "note": "DDD boundaries"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 16/40: «CASO-LIM-040 Red Andina architecture map» via Fowler, ISO (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-LIM-040 Red Andina architecture map».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-040 Red Andina architecture map»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 16/40: «CASO-LIM-040 Red Andina architecture map» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "no PII no cloud credentials",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "Python modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "layering packages"
+        },
+        {
+          "family": "Yale",
+          "title": "Open Yale",
+          "url": "https://oyc.yale.edu/",
+          "note": "lecture rigor"
+        },
+        {
+          "family": "Cockburn",
+          "title": "Hexagonal Architecture",
+          "url": "https://alistair.cockburn.us/hexagonal-architecture/",
+          "note": "ports adapters"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 17/40: «no PII no cloud credentials» via Cockburn, Docs, Yale (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no PII no cloud credentials».",
+      "expand_scope": "E1/E2/E3 + docs for «no PII no cloud credentials»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 17/40: «no PII no cloud credentials» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "V3 retarget not LLM agent orchestration",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Software Architecture",
+          "url": "https://github.com/mehdihadeli/awesome-software-architecture",
+          "note": "curated refs"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture views"
+        },
+        {
+          "family": "DDD",
+          "title": "DDD Reference",
+          "url": "https://www.domainlanguage.com/ddd/reference/",
+          "note": "Evans patterns"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 18/40: «V3 retarget not LLM agent orchestration» via C4, DDD, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not LLM agent orchestration».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not LLM agent orchestration»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 18/40: «V3 retarget not LLM agent orchestration» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CP-N4-A promotion gate",
+      "research": [
+        {
+          "family": "ISO",
+          "title": "ISO 25010 quality",
+          "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+          "note": "quality models"
+        },
+        {
+          "family": "Fowler",
+          "title": "Bounded Context",
+          "url": "https://martinfowler.com/bliki/BoundedContext.html",
+          "note": "DDD boundaries"
+        },
+        {
+          "family": "ADR",
+          "title": "ADR process AWS",
+          "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+          "note": "decision records"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 19/40: «CP-N4-A promotion gate» via ADR, Fowler, ISO (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-A promotion gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-A promotion gate»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 19/40: «CP-N4-A promotion gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "intake ER graph triage reporting IA boundaries",
+      "research": [
+        {
+          "family": "Yale",
+          "title": "Open Yale",
+          "url": "https://oyc.yale.edu/",
+          "note": "lecture rigor"
+        },
+        {
+          "family": "Cockburn",
+          "title": "Hexagonal Architecture",
+          "url": "https://alistair.cockburn.us/hexagonal-architecture/",
+          "note": "ports adapters"
+        },
+        {
+          "family": "GitHub",
+          "title": "ADR templates",
+          "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+          "note": "ADR examples"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 20/40: «intake ER graph triage reporting IA boundaries» via Cockburn, GitHub, Yale (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «intake ER graph triage reporting IA boundaries».",
+      "expand_scope": "E1/E2/E3 + docs for «intake ER graph triage reporting IA boundaries»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 20/40: «intake ER graph triage reporting IA boundaries» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "E1 guided QA scenario DEFECT",
+      "research": [
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture views"
+        },
+        {
+          "family": "DDD",
+          "title": "DDD Reference",
+          "url": "https://www.domainlanguage.com/ddd/reference/",
+          "note": "Evans patterns"
+        },
+        {
+          "family": "GitHub",
+          "title": "System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "note": "trade-offs"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 21/40: «E1 guided QA scenario DEFECT» via C4, DDD, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided QA scenario DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided QA scenario DEFECT»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 21/40: «E1 guided QA scenario DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "E2 independent layer dependency fix",
+      "research": [
+        {
+          "family": "Fowler",
+          "title": "Bounded Context",
+          "url": "https://martinfowler.com/bliki/BoundedContext.html",
+          "note": "DDD boundaries"
+        },
+        {
+          "family": "ADR",
+          "title": "ADR process AWS",
+          "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+          "note": "decision records"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Azure Architecture",
+          "url": "https://learn.microsoft.com/azure/architecture/",
+          "note": "quality attributes"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 22/40: «E2 independent layer dependency fix» via ADR, Fowler, Microsoft (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent layer dependency fix».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent layer dependency fix»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 22/40: «E2 independent layer dependency fix» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "E3 transfer ADR write-up",
+      "research": [
+        {
+          "family": "Cockburn",
+          "title": "Hexagonal Architecture",
+          "url": "https://alistair.cockburn.us/hexagonal-architecture/",
+          "note": "ports adapters"
+        },
+        {
+          "family": "GitHub",
+          "title": "ADR templates",
+          "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+          "note": "ADR examples"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS146S",
+          "url": "https://web.stanford.edu/class/cs146s/",
+          "note": "software design"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 23/40: «E3 transfer ADR write-up» via Cockburn, GitHub, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer ADR write-up».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer ADR write-up»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 23/40: «E3 transfer ADR write-up» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "C4 model competitive research",
+      "research": [
+        {
+          "family": "DDD",
+          "title": "DDD Reference",
+          "url": "https://www.domainlanguage.com/ddd/reference/",
+          "note": "Evans patterns"
+        },
+        {
+          "family": "GitHub",
+          "title": "System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "note": "trade-offs"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 24/40: «C4 model competitive research» via DDD, GitHub, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «C4 model competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «C4 model competitive research»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 24/40: «C4 model competitive research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "Evans DDD reference",
+      "research": [
+        {
+          "family": "ADR",
+          "title": "ADR process AWS",
+          "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+          "note": "decision records"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Azure Architecture",
+          "url": "https://learn.microsoft.com/azure/architecture/",
+          "note": "quality attributes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 25/40: «Evans DDD reference» via ADR, Harvard, Microsoft (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Evans DDD reference».",
+      "expand_scope": "E1/E2/E3 + docs for «Evans DDD reference»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 25/40: «Evans DDD reference» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "Fowler bounded context",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "ADR templates",
+          "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+          "note": "ADR examples"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS146S",
+          "url": "https://web.stanford.edu/class/cs146s/",
+          "note": "software design"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software architecture",
+          "url": "https://www.coursera.org/courses?query=software%20architecture",
+          "note": "architecture MOOCs"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 26/40: «Fowler bounded context» via Coursera, GitHub, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Fowler bounded context».",
+      "expand_scope": "E1/E2/E3 + docs for «Fowler bounded context»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 26/40: «Fowler bounded context» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "System design primer trade-offs",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "System Design Primer",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "note": "trade-offs"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops boundaries"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 27/40: «System design primer trade-offs» via 12factor, GitHub, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «System design primer trade-offs».",
+      "expand_scope": "E1/E2/E3 + docs for «System design primer trade-offs»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 27/40: «System design primer trade-offs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "ISO 25010 quality model analogy",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Azure Architecture",
+          "url": "https://learn.microsoft.com/azure/architecture/",
+          "note": "quality attributes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 28/40: «ISO 25010 quality model analogy» via Harvard, Microsoft, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ISO 25010 quality model analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «ISO 25010 quality model analogy»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 28/40: «ISO 25010 quality model analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "pair feed to S41 HTTP contracts",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS146S",
+          "url": "https://web.stanford.edu/class/cs146s/",
+          "note": "software design"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software architecture",
+          "url": "https://www.coursera.org/courses?query=software%20architecture",
+          "note": "architecture MOOCs"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 29/40: «pair feed to S41 HTTP contracts» via Coursera, Live, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair feed to S41 HTTP contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «pair feed to S41 HTTP contracts»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 29/40: «pair feed to S41 HTTP contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "selfCheck architecture MCQ ≥5",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops boundaries"
+        },
+        {
+          "family": "Fowler",
+          "title": "CQRS",
+          "url": "https://martinfowler.com/bliki/CQRS.html",
+          "note": "evolution patterns"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 30/40: «selfCheck architecture MCQ ≥5» via 12factor, Fowler, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck architecture MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck architecture MCQ ≥5»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 30/40: «selfCheck architecture MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "measure latency_p95 owner platform",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "Python modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "layering packages"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 31/40: «measure latency_p95 owner platform» via Docs, Harvard, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «measure latency_p95 owner platform».",
+      "expand_scope": "E1/E2/E3 + docs for «measure latency_p95 owner platform»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 31/40: «measure latency_p95 owner platform» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "invert dependency is gate failure",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Software architecture",
+          "url": "https://www.coursera.org/courses?query=software%20architecture",
+          "note": "architecture MOOCs"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Software Architecture",
+          "url": "https://github.com/mehdihadeli/awesome-software-architecture",
+          "note": "curated refs"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 32/40: «invert dependency is gate failure» via Coursera, GitHub, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «invert dependency is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «invert dependency is gate failure»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 32/40: «invert dependency is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "semver for public contracts",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops boundaries"
+        },
+        {
+          "family": "Fowler",
+          "title": "CQRS",
+          "url": "https://martinfowler.com/bliki/CQRS.html",
+          "note": "evolution patterns"
+        },
+        {
+          "family": "ISO",
+          "title": "ISO 25010 quality",
+          "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+          "note": "quality models"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 33/40: «semver for public contracts» via 12factor, Fowler, ISO (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «semver for public contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «semver for public contracts»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 33/40: «semver for public contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "risk probability impact mitigation",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "Python modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "layering packages"
+        },
+        {
+          "family": "Yale",
+          "title": "Open Yale",
+          "url": "https://oyc.yale.edu/",
+          "note": "lecture rigor"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 34/40: «risk probability impact mitigation» via Docs, Py4E, Yale (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «risk probability impact mitigation».",
+      "expand_scope": "E1/E2/E3 + docs for «risk probability impact mitigation»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 34/40: «risk probability impact mitigation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "ubiquitous language glossary shared",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Software Architecture",
+          "url": "https://github.com/mehdihadeli/awesome-software-architecture",
+          "note": "curated refs"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture views"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 35/40: «ubiquitous language glossary shared» via C4, GitHub, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ubiquitous language glossary shared».",
+      "expand_scope": "E1/E2/E3 + docs for «ubiquitous language glossary shared»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 35/40: «ubiquitous language glossary shared» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "container boundaries for triage services",
+      "research": [
+        {
+          "family": "Fowler",
+          "title": "CQRS",
+          "url": "https://martinfowler.com/bliki/CQRS.html",
+          "note": "evolution patterns"
+        },
+        {
+          "family": "ISO",
+          "title": "ISO 25010 quality",
+          "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+          "note": "quality models"
+        },
+        {
+          "family": "Fowler",
+          "title": "Bounded Context",
+          "url": "https://martinfowler.com/bliki/BoundedContext.html",
+          "note": "DDD boundaries"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 36/40: «container boundaries for triage services» via Fowler, ISO (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «container boundaries for triage services».",
+      "expand_scope": "E1/E2/E3 + docs for «container boundaries for triage services»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 36/40: «container boundaries for triage services» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "ADR reopen when residual exceeds threshold",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "Python modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "layering packages"
+        },
+        {
+          "family": "Yale",
+          "title": "Open Yale",
+          "url": "https://oyc.yale.edu/",
+          "note": "lecture rigor"
+        },
+        {
+          "family": "Cockburn",
+          "title": "Hexagonal Architecture",
+          "url": "https://alistair.cockburn.us/hexagonal-architecture/",
+          "note": "ports adapters"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 37/40: «ADR reopen when residual exceeds threshold» via Cockburn, Docs, Yale (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ADR reopen when residual exceeds threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «ADR reopen when residual exceeds threshold»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 37/40: «ADR reopen when residual exceeds threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "synthetic only no real customer data",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Software Architecture",
+          "url": "https://github.com/mehdihadeli/awesome-software-architecture",
+          "note": "curated refs"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture views"
+        },
+        {
+          "family": "DDD",
+          "title": "DDD Reference",
+          "url": "https://www.domainlanguage.com/ddd/reference/",
+          "note": "Evans patterns"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 38/40: «synthetic only no real customer data» via C4, DDD, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic only no real customer data».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic only no real customer data»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 38/40: «synthetic only no real customer data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "progressive disclosure stdlib dicts",
+      "research": [
+        {
+          "family": "ISO",
+          "title": "ISO 25010 quality",
+          "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+          "note": "quality models"
+        },
+        {
+          "family": "Fowler",
+          "title": "Bounded Context",
+          "url": "https://martinfowler.com/bliki/BoundedContext.html",
+          "note": "DDD boundaries"
+        },
+        {
+          "family": "ADR",
+          "title": "ADR process AWS",
+          "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+          "note": "decision records"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 39/40: «progressive disclosure stdlib dicts» via ADR, Fowler, ISO (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib dicts».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib dicts»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 39/40: «progressive disclosure stdlib dicts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "Stanford CS146S design rigor",
+      "research": [
+        {
+          "family": "Yale",
+          "title": "Open Yale",
+          "url": "https://oyc.yale.edu/",
+          "note": "lecture rigor"
+        },
+        {
+          "family": "Cockburn",
+          "title": "Hexagonal Architecture",
+          "url": "https://alistair.cockburn.us/hexagonal-architecture/",
+          "note": "ports adapters"
+        },
+        {
+          "family": "GitHub",
+          "title": "ADR templates",
+          "url": "https://github.com/joelparkerhenderson/architecture-decision-record",
+          "note": "ADR examples"
+        }
+      ],
+      "synthesize": "S40 «Arquitectura, DDD y decisiones técnicas» cycle 40/40: «Stanford CS146S design rigor» via Cockburn, GitHub, Yale (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Stanford CS146S design rigor».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS146S design rigor»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 40/40: «Stanford CS146S design rigor» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T03:58:57.914308+00:00"
+}

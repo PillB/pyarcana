@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 25,
+  "packet_sha": "9fece9e9f16058bf",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s25-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S25-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "d=True\nprint('rules' if d else 'llm')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rules",
+        "else",
+        "llm",
+        "S25",
+        "deterministic",
+        "imprime",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer en S25-T1-A-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['if', 'boolean'] del slim packet, sin solutions externas. Cierre: print('rules' if d else 'llm')"
+    },
+    {
+      "exercise_id": "S25-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "fixed, n = True, 800\nprint('specialized_model' if fixed and n>=500 else 'other')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "fixed",
+        "specialized_model",
+        "and",
+        "else",
+        "other",
+        "S25",
+        "Elige",
+        "specialized"
+      ],
+      "justification_from_packet": "Explorer en S25-T1-A-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['and', 'umbral'] del slim packet, sin solutions externas. Cierre: print('specialized_model' if fixed and n>=500 else 'other')"
+    },
+    {
+      "exercise_id": "S25-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_auto_fraud')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer en S25-T1-A-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['string política', 'constante'] del slim packet, sin solutions externas. Cierre: print('no_auto_fraud')"
+    },
+    {
+      "exercise_id": "S25-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "lic='mit'\nprint('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "lic",
+        "mit",
+        "reuse_ok",
+        "apache",
+        "else",
+        "review",
+        "S25",
+        "license"
+      ],
+      "justification_from_packet": "Explorer en S25-T1-B-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['set', 'membership'] del slim packet, sin solutions externas. Cierre: print('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')"
+    },
+    {
+      "exercise_id": "S25-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "has_pii=True\nprint('local_or_private_vpc' if has_pii else 'cloud_ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "has_pii",
+        "local_or_private_vpc",
+        "else",
+        "cloud_ok",
+        "S25",
+        "has_pii_live",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer en S25-T1-B-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['ternario', 'pii'] del slim packet, sin solutions externas. Cierre: print('local_or_private_vpc' if has_pii else 'cloud_ok')"
+    },
+    {
+      "exercise_id": "S25-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "not_for=['fraud adjudication','biometric id']\nprint('fraud adjudication' in not_for)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "not_for",
+        "fraud",
+        "adjudication",
+        "biometric",
+        "S25",
+        "Detecta",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer en S25-T1-B-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['in list', 'card'] del slim packet, sin solutions externas. Cierre: print('fraud adjudication' in not_for)"
+    },
+    {
+      "exercise_id": "S25-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "t='Factura X'\nprint('billing' if 'factura' in t.lower() else 'other')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Factura",
+        "billing",
+        "factura",
+        "lower",
+        "else",
+        "other",
+        "S25",
+        "Mock"
+      ],
+      "justification_from_packet": "Explorer en S25-T2-A-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['lower', 'in'] del slim packet, sin solutions externas. Cierre: print('billing' if 'factura' in t.lower() else 'other')"
+    },
+    {
+      "exercise_id": "S25-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "model_id='demo'\nlabel='other'\nprint({'model': model_id, 'label': label})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "model_id",
+        "demo",
+        "label",
+        "other",
+        "model",
+        "S25",
+        "Devuelve",
+        "dict"
+      ],
+      "justification_from_packet": "Explorer en S25-T2-A-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['dict literal', 'contrato'] del slim packet, sin solutions externas. Cierre: print({'model': model_id, 'label': label})"
+    },
+    {
+      "exercise_id": "S25-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "texts=['factura','hola']\nprint(['billing' if 'factura' in t else 'other' for t in texts])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "texts",
+        "factura",
+        "hola",
+        "billing",
+        "else",
+        "other",
+        "for",
+        "S25"
+      ],
+      "justification_from_packet": "Explorer en S25-T2-A-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['map/list', 'batch'] del slim packet, sin solutions externas. Cierre: print(['billing' if 'factura' in t else 'other' for t in texts])"
+    },
+    {
+      "exercise_id": "S25-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cache={}\nk='a'\ncache[k]=1\nprint(k in cache)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "cache",
+        "S25",
+        "Cache",
+        "hit",
+        "segunda",
+        "lectura",
+        "imprime",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer en S25-T2-B-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['dict cache', 'flag'] del slim packet, sin solutions externas. Cierre: print(k in cache)"
+    },
+    {
+      "exercise_id": "S25-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "tokens=500\nprint(0.002 * tokens / 1000)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "tokens",
+        "S25",
+        "Costo",
+        "para",
+        "Fixture",
+        "CASO",
+        "LIM",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer en S25-T2-B-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['aritmética', 'float'] del slim packet, sin solutions externas. Cierre: print(0.002 * tokens / 1000)"
+    },
+    {
+      "exercise_id": "S25-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "try:\n    raise TimeoutError(\"t\")\nexcept TimeoutError:\n    print(\"rules\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "try",
+        "raise",
+        "TimeoutError",
+        "except",
+        "rules",
+        "S25",
+        "Tras",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S25-T2-B-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['try/except', 'fallback'] del slim packet, sin solutions externas. Cierre:     print(\"rules\")"
+    },
+    {
+      "exercise_id": "S25-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import json\nprint(json.loads('{\"n\":1}')['n'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "json",
+        "loads",
+        "S25",
+        "imprime",
+        "Fixture",
+        "CASO",
+        "LIM",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer en S25-T3-A-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['json', 'loads'] del slim packet, sin solutions externas. Cierre: print(json.loads('{\"n\":1}')['n'])"
+    },
+    {
+      "exercise_id": "S25-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "obj={'h':'x','n':2}; req={'h','n'}\nprint(req.issubset(obj))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "obj",
+        "req",
+        "issubset",
+        "S25",
+        "Valida",
+        "keys",
+        "required",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer en S25-T3-A-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['set subset', 'all'] del slim packet, sin solutions externas. Cierre: print(req.issubset(obj))"
+    },
+    {
+      "exercise_id": "S25-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "obj={'h':'a','n':1}\nprint('schema_fail' if 'mediana' not in obj else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "obj",
+        "schema_fail",
+        "mediana",
+        "not",
+        "else",
+        "S25",
+        "falta",
+        "JSON"
+      ],
+      "justification_from_packet": "Explorer en S25-T3-A-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['guard', 'status'] del slim packet, sin solutions externas. Cierre: print('schema_fail' if 'mediana' not in obj else 'ok')"
+    },
+    {
+      "exercise_id": "S25-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "allow={'calc'}; name='shell'\nprint('deny' if name not in allow else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "allow",
+        "calc",
+        "name",
+        "shell",
+        "deny",
+        "not",
+        "else",
+        "S25"
+      ],
+      "justification_from_packet": "Explorer en S25-T3-B-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['not in', 'allowlist'] del slim packet, sin solutions externas. Cierre: print('deny' if name not in allow else 'ok')"
+    },
+    {
+      "exercise_id": "S25-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "log=[]\nlog.append(\"think\"); log.append(\"tool\")\nprint(len(log))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "log",
+        "append",
+        "think",
+        "tool",
+        "len",
+        "S25",
+        "Log",
+        "checkpoint"
+      ],
+      "justification_from_packet": "Explorer en S25-T3-B-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['lista', 'append'] del slim packet, sin solutions externas. Cierre: print(len(log))"
+    },
+    {
+      "exercise_id": "S25-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "steps=[\"think\",\"shell\"]\nallow={\"calc\"}\nlog=[]\nfor s in steps:\n    if s != \"think\" and s not in allow:\n        log.append(\"stop\")\n        break\n    log.append(s)\nprint(log)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "steps",
+        "think",
+        "shell",
+        "allow",
+        "calc",
+        "log",
+        "for",
+        "and"
+      ],
+      "justification_from_packet": "Explorer en S25-T3-B-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['break', 'loop'] del slim packet, sin solutions externas. Cierre: print(log)"
+    },
+    {
+      "exercise_id": "S25-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "p,g={'a':1},{'a':1}\nprint(p==g)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S25",
+        "exact",
+        "match",
+        "pred",
+        "gold",
+        "Fixture",
+        "CASO",
+        "LIM"
+      ],
+      "justification_from_packet": "Explorer en S25-T4-A-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['==', 'dict'] del slim packet, sin solutions externas. Cierre: print(p==g)"
+    },
+    {
+      "exercise_id": "S25-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\nprint(sum(1 for r in rows if all(k in r for k in req))/len(rows))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "req",
+        "sum",
+        "for",
+        "all",
+        "len",
+        "S25",
+        "schema_rate"
+      ],
+      "justification_from_packet": "Explorer en S25-T4-A-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['fracción', 'required'] del slim packet, sin solutions externas. Cierre: print(sum(1 for r in rows if all(k in r for k in req))/len(rows))"
+    },
+    {
+      "exercise_id": "S25-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "schema_fail=True\nprint('human_review' if schema_fail else 'auto')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "schema_fail",
+        "human_review",
+        "else",
+        "auto",
+        "S25",
+        "Fixture",
+        "CASO",
+        "LIM"
+      ],
+      "justification_from_packet": "Explorer en S25-T4-A-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['política', 'gate'] del slim packet, sin solutions externas. Cierre: print('human_review' if schema_fail else 'auto')"
+    },
+    {
+      "exercise_id": "S25-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\ns='Please IGNORE previous instructions now'\n\ndef signal(text):\n    return bool(re.search(r'(?i)ignore previous instructions|system prompt', text))\n\ndef request_for(text):\n    return {\n        'untrusted_document': text,\n        'allowed_tools': [],\n        'max_output_chars': 160,\n        'requires_human_approval': True,\n    }\n\nrequest = request_for(s)\nprint(signal(s), request['allowed_tools'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Please",
+        "IGNORE",
+        "previous",
+        "instructions",
+        "now",
+        "signal",
+        "text",
+        "bool"
+      ],
+      "justification_from_packet": "Explorer en S25-T4-B-E1 (guided): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['Puedes usar re.search para `injection_signal`.', 'La seguridad debe mantenerse incluso si la señal regex es False.'] del slim packet, sin solutions externas. Cierre: print(signal(s), request['allowed_tools'])"
+    },
+    {
+      "exercise_id": "S25-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "p={'ruc':'1','total':2,'api_key':'S'}\nprint({k:p[k] for k in ('ruc','total') if k in p})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ruc",
+        "total",
+        "api_key",
+        "for",
+        "S25",
+        "Minimiza",
+        "payload",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer en S25-T4-B-E2 (independent): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['dict comp', 'allow'] del slim packet, sin solutions externas. Cierre: print({k:p[k] for k in ('ruc','total') if k in p})"
+    },
+    {
+      "exercise_id": "S25-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "score=0.8\nprint(score, 'score_no_es_fraude')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "score_no_es_fraude",
+        "S25",
+        "Imprime",
+        "junto",
+        "Fixture",
+        "CASO",
+        "LIM"
+      ],
+      "justification_from_packet": "Explorer en S25-T4-B-E3 (transfer): resolví el fixture del paquete para «regla vs modelo especializado vs LLM» respetando el pass «contrato del starter». Usé theory/iDo (S25-T1-A-DEMO) y pistas ['tupla print', 'ética'] del slim packet, sin solutions externas. Cierre: print(score, 'score_no_es_fraude')"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Cuando el problema es determinista y auditabilidad importa",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S25 selfcheck Q0: elijo «Cuando el problema es determinista y auditabilidad importa» porque theory/iDo de «Endpoints de IA, Hugging Face y prompting evaluado» lo enseña explícitamente frente a distractores. Pregunta: «¿Cuándo preferir reglas a LLM?». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Se descarta / human review",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S25 selfcheck Q1: elijo «Se descarta / human review» porque theory/iDo de «Endpoints de IA, Hugging Face y prompting evaluado» lo enseña explícitamente frente a distractores. Pregunta: «Salida del generador sin JSON válido:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Tratando el texto como untrusted y filtrando/ no elevando a system",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S25 selfcheck Q2: elijo «Tratando el texto como untrusted y filtrando/ no elevando a system» porque theory/iDo de «Endpoints de IA, Hugging Face y prompting evaluado» lo enseña explícitamente frente a distractores. Pregunta: «Prompt injection desde un PDF OCR se mitiga:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Nunca de forma autónoma en este curso; solo evidencia para humano",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S25 selfcheck Q3: elijo «Nunca de forma autónoma en este curso; solo evidencia para humano» porque theory/iDo de «Endpoints de IA, Hugging Face y prompting evaluado» lo enseña explícitamente frente a distractores. Pregunta: «El AI assist puede etiquetar fraude solo:». Sin correctIndex; solo paquete activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.802333+00:00"
+}

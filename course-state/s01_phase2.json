@@ -1,0 +1,690 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_2_COMPLETE",
+  "generated_at": "2026-07-20T06:00:00Z",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research + four-round dossier per subtopic",
+    "report_agent": "Artifacts, ledger, checkpoint"
+  },
+
+  "preamble": {
+    "objective": "Completar PHASE 2 (investigación pre-sección) de S01: research dossier de 8 subtemas (4×2) listo para PHASE 3 blueprint.",
+    "scope_in": [
+      "S01 únicamente",
+      "Research dossier con fuentes 2025-2026 no obsoletas",
+      "Mapeo de 8 subtemas a slugs de examen y gaps de contenido",
+      "Decisiones técnicas para blueprint (venv vs .venv, Ruff, Conventional Commits)"
+    ],
+    "scope_out": [
+      "Autoría de contenido (PHASE 4)",
+      "Banco A/B/C (PHASE 5)",
+      "Cambios de plataforma o seed",
+      "Cualquier sección S02+"
+    ],
+    "stop_criterion": "Cada uno de los 8 subtemas tiene: fuentes primarias, benchmark curricular, repos prácticos, referencias pedagógicas, riesgos de deprecación y notas de autoría. Gate PHASE 2 sin P0/P1 nuevos de investigación.",
+    "inputs_used": [
+      "course-state/checkpoint.json (PHASE_1_COMPLETE)",
+      "course-state/s01_phase0.json",
+      "course-state/s01_phase1.json",
+      "learning_roadmap_52_V3.md (S1 T1–T4)",
+      "learning_roadmap.md (S01 exam + títulos)",
+      "src/lib/course/sections/s01-setup.ts (473 líneas)",
+      "course-state/issue_registry.json"
+    ]
+  },
+
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "rounds": [
+      {
+        "name": "Documentación oficial actualizada",
+        "findings": [
+          "docs.python.org/3 tutorial venv (actualizado Jul 2026, Python 3.14.6 docs): `python -m venv`, activación Windows/Unix, recomendación de nombre `.venv` para ocultar en shell y evitar choque con `.env`.",
+          "docs.python.org/3 tutorial interpreter + sys.exit: exit status 0 = éxito; no cero = terminación anormal; shells esperan 0–127.",
+          "docs.astral.sh/ruff/configuration: config vía pyproject.toml / ruff.toml; defaults E4/E7/E9/F; target-version py310 por defecto en docs; soporta py312–py315.",
+          "conventionalcommits.org v1.0.0: feat/fix/docs/refactor/test/chore; base de changelog y semver.",
+          "github.com/github/gitignore Python.gitignore: plantilla oficial activa (commits 2026)."
+        ]
+      },
+      {
+        "name": "Repositorios GitHub activos 2025-2026",
+        "findings": [
+          "astral-sh/ruff — linter/formatter estándar de facto; ruff-action@v3 en CI.",
+          "github/gitignore — plantillas oficiales Python (venv/, .venv/, __pycache__, .env).",
+          "Patrón de proyectos reales: requirements.txt o pyproject.toml + .env.example sin secretos + README con install/run."
+        ]
+      },
+      {
+        "name": "Tutoriales y master classes recientes",
+        "findings": [
+          "CS50P (cs50.harvard.edu/python) — OCW activo 2025/2026: setup, testing, debugging; no copiar ejercicios.",
+          "Software Carpentries @ MIT (oct 2025): program design, version control, data management — alineado con S01 T3/T4.",
+          "Corey Schafer Ruff tutorial (YouTube) — config pyproject.toml para principiantes (referencia pedagógica, no contenido a copiar)."
+        ]
+      },
+      {
+        "name": "Patrones pedagógicos cursos Python/DS",
+        "findings": [
+          "Andamiaje: verificar runtime → aislar entorno → fijar deps → versionar → calidad/secretos.",
+          "Errores novato canónicos: PATH en Windows, venv no activado, ModuleNotFoundError, subir venv/ o .env a Git.",
+          "I Do en bash local-python; demos browser solo como suplemento (pyodide no reemplaza venv/git)."
+        ]
+      }
+    ],
+    "deprecation_check": {
+      "venv": "NO deprecado — stdlib canónico",
+      "pip_freeze": "Vigente; lockfiles (uv.lock/poetry.lock) son avanzados — S01 usa freeze + requirements.txt",
+      "ruff": "Vigente; reemplaza flake8+isort+black en muchos stacks 2025-2026",
+      "conda_as_default": "No deprecar; S01 recomienda venv por defecto y menciona conda solo como alternativa legacy/GPU",
+      "uv": "Mencionar como tendencia, no como requisito S01 (aún no estándar universal en empresas peruanas del contenido existente)"
+    }
+  },
+
+  "canonical_subtopic_map": {
+    "source": "learning_roadmap_52_V3.md §S1 + checkpoint decisions",
+    "topics": [
+      {
+        "topic_id": "S01-T1",
+        "title": "Runtime",
+        "subtopics": [
+          {
+            "subtopic_id": "S01-T1-A",
+            "slug": "interpreter-selection",
+            "title": "Intérprete y REPL",
+            "v3_text": "intérprete y REPL",
+            "exam_skill": "selección de intérprete",
+            "exists_in_content": "partial",
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S01-T1-B",
+            "slug": "terminal-paths",
+            "title": "Terminal, rutas, procesos y códigos de salida",
+            "v3_text": "terminal, rutas, procesos y códigos de salida",
+            "exam_skill": "códigos de salida y PATH",
+            "exists_in_content": "partial",
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S01-T2",
+        "title": "Entornos",
+        "subtopics": [
+          {
+            "subtopic_id": "S01-T2-A",
+            "slug": "venv-purpose",
+            "title": "venv y activación",
+            "v3_text": "venv y activación",
+            "exam_skill": "aislamiento de entorno",
+            "exists_in_content": true,
+            "exists_in_exam": true
+          },
+          {
+            "subtopic_id": "S01-T2-B",
+            "slug": "pip-install",
+            "title": "pip, versiones, lock/freeze y compatibilidad",
+            "v3_text": "pip, versiones, lock/freeze y compatibilidad",
+            "exam_skill": "freeze e install -r",
+            "exists_in_content": true,
+            "exists_in_exam": true
+          }
+        ]
+      },
+      {
+        "topic_id": "S01-T3",
+        "title": "Git",
+        "subtopics": [
+          {
+            "subtopic_id": "S01-T3-A",
+            "slug": "commit-message",
+            "title": "Repositorio, commits y diffs",
+            "v3_text": "repositorio, commits y diffs",
+            "exam_skill": "lectura de diff y mensajes de commit",
+            "exists_in_content": "partial",
+            "exists_in_exam": true,
+            "note": "Exam slug commit-message exists; explicit diff-reading weak"
+          },
+          {
+            "subtopic_id": "S01-T3-B",
+            "slug": "git-branch-pr",
+            "title": "Ramas, PR, conflictos y recuperación no destructiva",
+            "v3_text": "ramas, PR, conflictos y recuperación no destructiva",
+            "exam_skill": "flujo de ramas y PR",
+            "exists_in_content": "partial",
+            "exists_in_exam": false,
+            "note": "learningOutcomes mention PR; no theory/demo depth for branch/conflict/recovery"
+          }
+        ]
+      },
+      {
+        "topic_id": "S01-T4",
+        "title": "Calidad inicial",
+        "subtopics": [
+          {
+            "subtopic_id": "S01-T4-A",
+            "slug": "ruff-config",
+            "title": "Editor y Ruff",
+            "v3_text": "editor y Ruff",
+            "exam_skill": "configuración básica de Ruff",
+            "exists_in_content": "partial",
+            "exists_in_exam": false,
+            "note": "Ruff mentioned as extension name only"
+          },
+          {
+            "subtopic_id": "S01-T4-B",
+            "slug": "gitignore",
+            "title": ".gitignore, .env.example, secretos y README reproducible",
+            "v3_text": ".gitignore, .env.example, secretos y README reproducible",
+            "exam_skill": "manejo de secretos y gitignore",
+            "exists_in_content": "partial",
+            "exists_in_exam": true,
+            "note": "gitignore + README present; .env.example template missing as first-class artifact"
+          }
+        ]
+      }
+    ]
+  },
+
+  "research_dossier": {
+    "S01-T1-A": {
+      "title": "Intérprete y REPL",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Using the Interpreter",
+          "url": "https://docs.python.org/3/tutorial/interpreter.html",
+          "date_accessed": "2026-07-20",
+          "version_note": "Python 3.x docs (site shows 3.14.6 as of Jul 2026)",
+          "key_facts": [
+            "REPL: prompt >>> y ... para bloques",
+            "Salida con EOF (Ctrl-D Unix / Ctrl-Z Windows) o quit()",
+            "EOF sale con exit status 0"
+          ]
+        },
+        {
+          "source": "Python — Command line and environment",
+          "url": "https://docs.python.org/3/using/cmdline.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "python -c, python script.py, python (REPL)",
+            "python --version para verificar intérprete"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        {
+          "source": "CS50P OpenCourseWare",
+          "url": "https://cs50.harvard.edu/python",
+          "date_accessed": "2026-07-20",
+          "use": "Benchmark de secuencia: intérprete antes de archivos; no copiar problem sets"
+        }
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Verificar `python --version` y `which python` / `where python` antes de cualquier install",
+          "anti_pattern": "Asumir que `python` apunta a 3.x en Windows (a veces es launcher o falta PATH)"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: abrir REPL, print, type(), salir con quit()",
+        "E1 guiado: calcular en REPL; E2: script .py vs REPL; E3 transferencia: diagnosticar 'python no se reconoce'"
+      ],
+      "authoring_notes": [
+        "Español peruano: 'intérprete', 'consola', 'prompt' con glosa",
+        "No afirmar salarios; sí relevancia laboral de setup (ya en jobRelevance existente)",
+        "Marcar entorno: local-python (REPL real); browser-pyodide no enseña PATH"
+      ],
+      "risks": ["No deprecado. Evitar enseñar solo IDLE como único intérprete."]
+    },
+
+    "S01-T1-B": {
+      "title": "Terminal, rutas, procesos y códigos de salida",
+      "round_1_primary": [
+        {
+          "source": "sys.exit documentation",
+          "url": "https://docs.python.org/3/library/sys.html#sys.exit",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "arg entero: 0 éxito; no cero terminación anormal",
+            "rango típico 0–127 en shells"
+          ]
+        },
+        {
+          "source": "subprocess returncode",
+          "url": "https://docs.python.org/3/library/subprocess.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "returncode 0 = éxito del proceso hijo",
+            "Útil para enseñar que comandos de terminal también 'fallan' con código"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        {
+          "source": "The Carpentries — version control / shell intro pattern",
+          "url": "https://carpentries-mit.github.io/2025-10-27-mit/",
+          "date_accessed": "2026-07-20",
+          "use": "Secuencia: shell → rutas → control de versiones"
+        }
+      ],
+      "round_3_practical": [
+        "Windows: Add Python to PATH en instalador",
+        "Rutas: pathlib como forward-looking pero S01 puede usar rutas nativas + nota cross-platform",
+        "Comando de demo: `python -c \"import sys; sys.exit(1)\"` y echo $? / $LASTEXITCODE"
+      ],
+      "round_4_pedagogy": [
+        "Concepto clave: el código de salida es un contrato entre programas y shells/CI",
+        "Errores típicos: confundir mensaje de error con exit code; PATH vs directorio actual"
+      ],
+      "authoring_notes": [
+        "Cubrir PowerShell, bash y zsh (contenido existente ya lo menciona)",
+        "Evitar profundizar en señales POSIX (fuera de nivel novato)"
+      ],
+      "risks": ["No deprecado. No enseñar `os.system` como API moderna."]
+    },
+
+    "S01-T2-A": {
+      "title": "venv y activación",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial §12 Virtual Environments and Packages",
+          "url": "https://docs.python.org/3/tutorial/venv.html",
+          "date_accessed": "2026-07-20",
+          "version_note": "Docs actualizados Jul 2026",
+          "key_facts": [
+            "python -m venv <dir>",
+            "Activación: Scripts\\activate (Windows) / source bin/activate (Unix)",
+            "Nombre común recomendado: .venv (oculto; evita choque con .env)",
+            "deactivate para salir",
+            "venv no altera PYTHONPATH — unset si hay conflictos"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Casi todos los cursos pro de Python empiezan con aislamiento de deps"
+      ],
+      "round_3_practical": [
+        {
+          "decision_needed": "Nombre del directorio: venv (contenido actual) vs .venv (docs oficiales recomendados)",
+          "recommendation": "Blueprint: adoptar `.venv` como canónico citando docs oficiales; aceptar `venv` como alias documentado. Actualizar I Do y .gitignore en PHASE 4."
+        }
+      ],
+      "round_4_pedagogy": [
+        "Metáfora ya usada: caja hermética por proyecto — conservar",
+        "Demo: crear, activar, ver prompt (venv), desactivar, borrar y recrear"
+      ],
+      "authoring_notes": [
+        "Mantener nota conda vs venv del contenido actual (venv default)",
+        "uv: mención opcional en callout 'más adelante', no requisito"
+      ],
+      "risks": ["venv no deprecado. No presentar virtualenv package como obligatorio (venv es stdlib)."]
+    },
+
+    "S01-T2-B": {
+      "title": "pip, versiones, lock/freeze y compatibilidad",
+      "round_1_primary": [
+        {
+          "source": "Same venv tutorial — Managing Packages with pip",
+          "url": "https://docs.python.org/3/tutorial/venv.html#managing-packages-with-pip",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "python -m pip install pkg==version",
+            "python -m pip freeze > requirements.txt",
+            "python -m pip install -r requirements.txt",
+            "Preferir python -m pip sobre pip suelto (asegura intérprete correcto)"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Enseñar freeze como snapshot reproducible; distinguir top-level vs transitive en nivel intro (sin overclaim de 'lock perfecto')"
+      ],
+      "round_3_practical": [
+        "Regla de oro existente: un proyecto = un venv = un requirements.txt",
+        "stdlib vs terceros: ya bien cubierto en s01-setup.ts"
+      ],
+      "round_4_pedagogy": [
+        "E1: install un paquete + freeze; E2: clonar mentalmente en máquina limpia con -r; E3: ModuleNotFoundError diagnóstico"
+      ],
+      "authoring_notes": [
+        "Usar python -m pip en todos los ejemplos nuevos",
+        "No inventar versiones de paquetes en teoría sin verificar al ejecutar en PHASE 4"
+      ],
+      "risks": [
+        "pip freeze no es un lockfile con hashes (poetry/uv/pip-tools). Enseñar límites honestamente: suficiente para S01 y CP-N1-A esqueleto."
+      ]
+    },
+
+    "S01-T3-A": {
+      "title": "Repositorio, commits y diffs",
+      "round_1_primary": [
+        {
+          "source": "Conventional Commits 1.0.0",
+          "url": "https://www.conventionalcommits.org/en/v1.0.0/",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "type(scope): description",
+            "feat, fix, docs, refactor, test, chore",
+            "Habilita changelog/semver; squash OK en PR workflows"
+          ]
+        },
+        {
+          "source": "Git commit message practices (industry 2025)",
+          "url": "https://blog.pullnotifier.com/blog/8-git-commit-message-best-practices-for-2025",
+          "date_accessed": "2026-07-20",
+          "key_facts": ["Conventional Commits sigue siendo práctica recomendada en 2025-2026"]
+        }
+      ],
+      "round_2_curricular": [
+        "Software Carpentry Git: commit early, meaningful messages, inspect history"
+      ],
+      "round_3_practical": [
+        "git init → .gitignore primero → add → commit → status/diff/log",
+        "Enseñar git diff y git show como lectura de cambios (gap actual vs V3 exam skill)"
+      ],
+      "round_4_pedagogy": [
+        "MCQ: elegir mejor mensaje Conventional Commit; leer un diff simple y decir qué cambió"
+      ],
+      "authoring_notes": [
+        "Contenido actual ya enseña Conventional Commits — reforzar diff reading",
+        "No copiar ejercicios de CS50/Carpentries"
+      ],
+      "risks": ["Git no deprecado. Evitar force-push a main en contenido novato."]
+    },
+
+    "S01-T3-B": {
+      "title": "Ramas, PR, conflictos y recuperación no destructiva",
+      "round_1_primary": [
+        {
+          "source": "GitHub Docs — collaborating with pull requests (conceptual)",
+          "url": "https://docs.github.com/en/pull-requests",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Branch → push → PR → review → merge",
+            "PR titles también pueden seguir Conventional Commits (acciones de marketplace activas 2026)"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Flujo feature branch es estándar en empresas mencionadas en jobRelevance"
+      ],
+      "round_3_practical": [
+        "Comandos mínimos S01: git branch, git checkout -b / switch -c, push -u, gh pr create o UI GitHub",
+        "Conflicto: demo controlado de un archivo README con dos cambios",
+        "Recuperación no destructiva: git status, git restore, git stash (intro); evitar rewrite history profundo"
+      ],
+      "round_4_pedagogy": [
+        "I Do: crear rama feat/hello-readme, commit, abrir PR",
+        "Advertencia ya en callout: no trabajar solo en main"
+      ],
+      "authoring_notes": [
+        "learningOutcomes ya listan PR; falta profundidad en theory/iDo/weDo",
+        "Recuperación: enfatizar 'no destructiva' — restore unstaged, no reset --hard como default"
+      ],
+      "risks": ["No enseñar git push --force como solución de conflictos."]
+    },
+
+    "S01-T4-A": {
+      "title": "Editor y Ruff",
+      "round_1_primary": [
+        {
+          "source": "Ruff Configuration — Astral Docs",
+          "url": "https://docs.astral.sh/ruff/configuration/",
+          "date_accessed": "2026-07-20",
+          "version_note": "Docs activas Jul 2026; target-version incluye py312–py315",
+          "key_facts": [
+            "Config: pyproject.toml [tool.ruff] o ruff.toml",
+            "Defaults: line-length 88, select E4/E7/E9/F",
+            "ruff check / ruff format",
+            "Respecta .gitignore por defecto"
+          ]
+        },
+        {
+          "source": "astral-sh/ruff GitHub",
+          "url": "https://github.com/astral-sh/ruff",
+          "date_accessed": "2026-07-20",
+          "key_facts": ["ruff-action@v3 para CI — mención opcional, no obligatorio S01"]
+        }
+      ],
+      "round_2_curricular": [
+        "Reemplazo pedagógico de 'instala flake8 y black' por Ruff unificado en 2025-2026"
+      ],
+      "round_3_practical": [
+        "Minimal pyproject.toml for beginners:",
+        "[tool.ruff]",
+        "line-length = 88",
+        "target-version = \"py312\"",
+        "[tool.ruff.lint]",
+        "select = [\"E\", \"F\", \"I\"]"
+      ],
+      "round_4_pedagogy": [
+        "VS Code extension Ruff + Pylance (ya en outcomes)",
+        "Demo: ruff check . sobre un hello.py con import sin usar"
+      ],
+      "authoring_notes": [
+        "Gap S01-CONTENT-005: enseñar config real, no solo nombre de extensión",
+        "Ejecutar ruff en entorno declarado en PHASE 4 o marcar UNVERIFIED"
+      ],
+      "risks": [
+        "No enseñar pylint+flake8+black como stack requerido",
+        "Defaults de Ruff cambian con versiones — anclar a docs oficiales y config del repo del estudiante"
+      ]
+    },
+
+    "S01-T4-B": {
+      "title": ".gitignore, .env.example, secretos y README reproducible",
+      "round_1_primary": [
+        {
+          "source": "GitHub official Python.gitignore",
+          "url": "https://github.com/github/gitignore/blob/main/Python.gitignore",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Plantilla oficial mantenida",
+            "Incluye __pycache__, entornos, distribución"
+          ]
+        },
+        {
+          "source": "GitHub Community — .gitignore best practices 2025",
+          "url": "https://github.com/orgs/community/discussions/165862",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            ".env nunca al repo",
+            "gitignore no destrackea lo ya commiteado — git rm --cached"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Patrón profesional: .env (local, ignored) + .env.example (plantilla sin secretos, tracked)"
+      ],
+      "round_3_practical": [
+        ".env.example con claves vacías o placeholders sintéticos: DATABASE_URL=, API_KEY=",
+        "README: título, descripción, install, run, estructura",
+        "LICENSE MIT opcional para portafolio (contenido actual ya lo sugiere)"
+      ],
+      "round_4_pedagogy": [
+        "E1: completar .gitignore desde plantilla; E2: crear .env.example; E3: checklist 'repo clonable en máquina limpia'"
+      ],
+      "authoring_notes": [
+        "Alinear You Do con CP-N1-A esqueleto: repo + data dictionary + dataset sintético (V3 gate S01)",
+        "Sin PII real; nombres sintéticos (María Quispe ya en requirement matrix)"
+      ],
+      "risks": [
+        "Nunca pedir secretos reales a estudiantes",
+        "No enviar .env a APIs públicas en demos"
+      ]
+    }
+  },
+
+  "source_registry": [
+    {
+      "id": "SRC-S01-001",
+      "title": "Python Tutorial — Virtual Environments and Packages",
+      "url": "https://docs.python.org/3/tutorial/venv.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T2-A", "S01-T2-B"]
+    },
+    {
+      "id": "SRC-S01-002",
+      "title": "Python Tutorial — Using the Interpreter",
+      "url": "https://docs.python.org/3/tutorial/interpreter.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T1-A"]
+    },
+    {
+      "id": "SRC-S01-003",
+      "title": "sys.exit — System-specific parameters",
+      "url": "https://docs.python.org/3/library/sys.html#sys.exit",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T1-B"]
+    },
+    {
+      "id": "SRC-S01-004",
+      "title": "Ruff Configuration (Astral)",
+      "url": "https://docs.astral.sh/ruff/configuration/",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T4-A"]
+    },
+    {
+      "id": "SRC-S01-005",
+      "title": "astral-sh/ruff",
+      "url": "https://github.com/astral-sh/ruff",
+      "type": "github_repo",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T4-A"]
+    },
+    {
+      "id": "SRC-S01-006",
+      "title": "Conventional Commits 1.0.0",
+      "url": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "type": "spec",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T3-A"]
+    },
+    {
+      "id": "SRC-S01-007",
+      "title": "GitHub gitignore Python template",
+      "url": "https://github.com/github/gitignore/blob/main/Python.gitignore",
+      "type": "github_repo",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T4-B"]
+    },
+    {
+      "id": "SRC-S01-008",
+      "title": "CS50's Introduction to Programming with Python",
+      "url": "https://cs50.harvard.edu/python",
+      "type": "opencourseware",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T1-A", "pedagogy"]
+    },
+    {
+      "id": "SRC-S01-009",
+      "title": "Carpentries @ MIT Intro to Python 2025",
+      "url": "https://carpentries-mit.github.io/2025-10-27-mit/",
+      "type": "workshop",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T1-B", "S01-T3-A", "pedagogy"]
+    },
+    {
+      "id": "SRC-S01-010",
+      "title": "GitHub Docs — Pull requests",
+      "url": "https://docs.github.com/en/pull-requests",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S01-T3-B"]
+    }
+  ],
+
+  "decisions_for_blueprint": [
+    {
+      "id": "DEC-S01-R01",
+      "decision": "Estructura canónica 4×2 confirmada con slugs: interpreter-selection, terminal-paths, venv-purpose, pip-install, commit-message, git-branch-pr, ruff-config, gitignore",
+      "authority": "V3 roadmap S1 + phase1 gap list"
+    },
+    {
+      "id": "DEC-S01-R02",
+      "decision": "Preferir `.venv` como nombre de entorno en contenido nuevo; documentar `venv` como equivalente aceptado",
+      "authority": "docs.python.org/3/tutorial/venv.html (2026-07-20)"
+    },
+    {
+      "id": "DEC-S01-R03",
+      "decision": "Usar siempre `python -m pip` y `python -m venv` en demos y ejercicios",
+      "authority": "Python packaging best practice / same interpreter guarantee"
+    },
+    {
+      "id": "DEC-S01-R04",
+      "decision": "Ruff como linter/formatter de S01 con config mínima en pyproject.toml; no flake8+black como stack primario",
+      "authority": "docs.astral.sh/ruff (2026-07-20)"
+    },
+    {
+      "id": "DEC-S01-R05",
+      "decision": "You Do = esqueleto CP-N1-A: repo reproducible + data dictionary + dataset sintético sin PII",
+      "authority": "V3 S1 Incremento/gate"
+    },
+    {
+      "id": "DEC-S01-R06",
+      "decision": "Entorno declarado: local-python para I Do/Git/venv/Ruff; browser-pyodide solo suplemento de sintaxis",
+      "authority": "V3 environments + S01 phase0 REQ-S01-007"
+    },
+    {
+      "id": "DEC-S01-R07",
+      "decision": "No copiar ejercicios de CS50P/Carpentries; solo patrones de secuencia pedagógica",
+      "authority": "Prompt invariante §3"
+    }
+  ],
+
+  "misconceptions_to_address": [
+    "Instalar paquetes globales en el Python del sistema",
+    "Creer que .gitignore elimina del historial archivos ya commiteados",
+    "Subir venv/ o .env a GitHub",
+    "Usar pip en vez de python -m pip y romperse con otro intérprete",
+    "Confundir coincidencia de nombres con parentesco (N/A en S01 pero principio global — no aplica contenido)",
+    "Creer que pip freeze es un lockfile con hashes",
+    "Trabajar solo en main sin ramas",
+    "Usar force-push o reset --hard como primera respuesta a errores"
+  ],
+
+  "capstone_increment_research": {
+    "active_capstone": "CP-N1-A — Client Intake & Data Quality Script",
+    "gate_section": "S04",
+    "s01_increment": "Esqueleto de repo: estructura, README, .gitignore, .env.example, requirements.txt, .venv workflow, data/ con dataset sintético y data_dictionary.md",
+    "acceptance_seeds": [
+      "Clonar en equipo limpio + python -m venv .venv + pip install -r requirements.txt",
+      "No hay secretos en el repo",
+      "Dataset sintético sin PII real",
+      "Referencia explícita a CP-N1-A en el README o You Do"
+    ]
+  },
+
+  "phase_2_gate": {
+    "four_rounds_per_subtopic": true,
+    "subtopics_covered": 8,
+    "sources_registered": 10,
+    "deprecation_checked": true,
+    "decisions_ready_for_blueprint": true,
+    "new_p0_p1_from_research": 0,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3_BLUEPRINT",
+    "notes": "Research complete. No content authored. Existing open issues S01-CONTENT-001..006 remain open until PHASE 4–5 implementation."
+  },
+
+  "retrospection": {
+    "what_worked": [
+      "Checkpoint PHASE 1 definió claramente los 4 slugs faltantes — research se ancló a ellos",
+      "Docs oficiales de Python y Ruff están actualizadas a 2026 y no requieren fallback a material obsoleto",
+      "Decisión .venv vs venv quedó con autoridad citables"
+    ],
+    "what_to_improve": [
+      "Añadir source_registry.json global en PHASE -1 si se re-ejecuta harness (hoy fuentes viven en phase2)",
+      "Verificar en runtime local python -m ruff en PHASE 4 (no ejecutado aquí a propósito)"
+    ],
+    "evidence_quality": "Fuentes primarias oficiales + OCW; sin PDFs pirateados; sin copiar ejercicios",
+    "next_single_action": "PHASE 3 — Blueprint S01: 4 topics × 2 subtopics con outcomes, demos, 24 ejercicios, 4 topic evals, 24 A/B/C slots, mapeo CP-N1-A; validar conteos contra vector canónico antes de autoría."
+  }
+}

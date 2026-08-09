@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s40-adf23f86ad",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\nmeets_contract = not (record[\"observed_ms\"] >= record[\"target_ms\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T1-A-E1: no confío en demos sin assert; la regla «latencia observada contra umbral y dueño» del instruction exige fixtures y etiqueta de breach REJECT_QA_SCENARIO. Theory/outcome de anclaje: Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de int. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-0",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'environment', 'observed_ms', 'owner', 'response', 'source', 'stimulus', 'target_ms'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"observed_ms\"] >= record[\"target_ms\"])\n    return \"PASS\" if ok else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 1000280, 'target_ms': 300, 'owner': 'platform'}\nincomplete = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T1-A-E2: no confío en demos sin assert; la regla «S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y regi» del instruction exige fixtures y etiqueta de breach REJECT_QA_SCENARIO. Theory/outcome de anclaje: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuen. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fi",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'owner' not in record or record.get('owner') in (None, \"\", [], set(), {}):\n        return \"REQUEST_QA_OWNER\"\n    ok = not (record[\"observed_ms\"] >= record[\"target_ms\"])\n    return \"CONTINUE\" if ok else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 1000280, 'target_ms': 300, 'owner': 'platform'}\nincomplete = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T1-A-E3: no confío en demos sin assert; la regla «S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO» del instruction exige fixtures y etiqueta de breach REJECT_QA_SCENARIO. Theory/outcome de anclaje: Modela entities, VO y servicios. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtu",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T1-B-E1: no confío en demos sin assert; la regla «alternativa con menor score y riesgo residual aceptable» del instruction exige fixtures y etiqueta de breach REOPEN_TRADEOFF. Theory/outcome de anclaje: ports/adapters y dependencia hacia dominio. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'residual_risk', 'risk_owner', 'scores', 'selected'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2, '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T1-B-E2: no confío en demos sin assert; la regla «S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y regis» del instruction exige fixtures y etiqueta de breach REOPEN_TRADEOFF. Theory/outcome de anclaje: entities, value objects y servicios. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fix",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'residual_risk' not in record or record.get('residual_risk') in (None, \"\", [], set(), {}):\n        return \"ESCALATE_RESIDUAL_RISK\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2, '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T1-B-E3: no confío en demos sin assert; la regla «S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-» del instruction exige fixtures y etiqueta de breach REOPEN_TRADEOFF. Theory/outcome de anclaje: Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de int. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtur",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T2-A-E1: no confío en demos sin assert; la regla «grafo de dependencias sin dominio hacia infraestructura» del instruction exige fixtures y etiqueta de breach REDRAW_BOUNDARY. Theory/outcome de anclaje: ports/adapters y dependencia hacia dominio. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada ",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'dependencies', 'layers'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']], '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T2-A-E2: no confío en demos sin assert; la regla «S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `depen» del instruction exige fixtures y etiqueta de breach REDRAW_BOUNDARY. Theory/outcome de anclaje: Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apunta. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'dependencies' not in record or record.get('dependencies') in (None, \"\", [], set(), {}):\n        return \"REVIEW_LAYER_OWNER\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']], '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T2-A-E3: no confío en demos sin assert; la regla «S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` deb» del instruction exige fixtures y etiqueta de breach REDRAW_BOUNDARY. Theory/outcome de anclaje: Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, f. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\nmeets_contract = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) > 0\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T2-B-E1: no confío en demos sin assert; la regla «adapter sustituible y dominio sin imports externos» del instruction exige fixtures y etiqueta de breach INVERT_DEPENDENCY. Theory/outcome de anclaje: entities, value objects y servicios. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'adapter', 'case_id', 'contract_tests', 'domain_imports', 'port'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) > 0\n    return \"PASS\" if ok else \"INVERT_DEPENDENCY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': ['x'], 'contract_tests': 3}\nincomplete = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': []}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T2-B-E2: no confío en demos sin assert; la regla «S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y regis» del instruction exige fixtures y etiqueta de breach INVERT_DEPENDENCY. Theory/outcome de anclaje: Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitig. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fix",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'contract_tests' not in record or record.get('contract_tests') in (None, \"\", [], set(), {}):\n        return \"DEFINE_PORT_CONTRACT\"\n    ok = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) > 0\n    return \"CONTINUE\" if ok else \"INVERT_DEPENDENCY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': ['x'], 'contract_tests': 3}\nincomplete = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': []}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T2-B-E3: no confío en demos sin assert; la regla «S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CAS» del instruction exige fixtures y etiqueta de breach INVERT_DEPENDENCY. Theory/outcome de anclaje: requisitos funcionales y quality attributes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixt",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T3-A-E1: no confío en demos sin assert; la regla «términos locales disjuntos y traducción declarada» del instruction exige fixtures y etiqueta de breach SPLIT_CONTEXTS. Theory/outcome de anclaje: Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. ",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'contexts', 'translations'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}, '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T3-A-E2: no confío en demos sin assert; la regla «S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin » del instruction exige fixtures y etiqueta de breach SPLIT_CONTEXTS. Theory/outcome de anclaje: Diseña capas con baja coupling. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adv",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'translations' not in record or record.get('translations') in (None, \"\", [], set(), {}):\n        return \"WORKSHOP_UBIQUITOUS_LANGUAGE\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}, '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T3-A-E3: no confío en demos sin assert; la regla «S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-0» del instruction exige fixtures y etiqueta de breach SPLIT_CONTEXTS. Theory/outcome de anclaje: Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regl. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures di",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\nmeets_contract = not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T3-B-E1: no confío en demos sin assert; la regla «identidad estable, VO en PEN e invariantes inmutables» del instruction exige fixtures y etiqueta de breach REJECT_DOMAIN_MODEL. Theory/outcome de anclaje: Documenta trade-offs y riesgos medibles. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'entity_id', 'service_stateless', 'vo', 'vo_frozen'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T3-B-E2: no confío en demos sin assert; la regla «S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro si» del instruction exige fixtures y etiqueta de breach REJECT_DOMAIN_MODEL. Theory/outcome de anclaje: requisitos funcionales y quality attributes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture a",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'service_stateless' not in record or record.get('service_stateless') in (None, \"\", [], set(), {}):\n        return \"CLARIFY_INVARIANT\"\n    ok = (not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T3-B-E3: no confío en demos sin assert; la regla «S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LI» del instruction exige fixtures y etiqueta de breach REJECT_DOMAIN_MODEL. Theory/outcome de anclaje: Modela entities, VO y servicios. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\nmeets_contract = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T4-A-E1: no confío en demos sin assert; la regla «C4 mínimo y ADR con alternativas, consecuencias y rollback» del instruction exige fixtures y etiqueta de breach RETURN_ADR_TO_DRAFT. Theory/outcome de anclaje: ports/adapters y dependencia hacia dominio. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada ",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'adr_fields', 'adr_status', 'c4_levels', 'case_id'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted', '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T4-A-E2: no confío en demos sin assert; la regla «S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_sta» del instruction exige fixtures y etiqueta de breach RETURN_ADR_TO_DRAFT. Theory/outcome de anclaje: diagramas C4/flujo y ADRs. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y r",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'adr_status' not in record or record.get('adr_status') in (None, \"\", [], set(), {}):\n        return \"REQUEST_ARCH_REVIEW\"\n    ok = (not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted', '__adverse__': True}\nincomplete = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T4-A-E3: no confío en demos sin assert; la regla «S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe c» del instruction exige fixtures y etiqueta de breach RETURN_ADR_TO_DRAFT. Theory/outcome de anclaje: Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regl. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CAS",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nmeets_contract = not (record[\"v11_fields\"] < record[\"v1_fields\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T4-B-E1: no confío en demos sin assert; la regla «campos v1 preservados y deuda con owner/fecha» del instruction exige fixtures y etiqueta de breach BLOCK_BREAKING_CHANGE. Theory/outcome de anclaje: C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y conse. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-04",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'debt_owner', 'retire_on', 'v11_fields', 'v1_fields'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"v11_fields\"] < record[\"v1_fields\"])\n    return \"PASS\" if ok else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S40/S40-T4-B-E2: no confío en demos sin assert; la regla «S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y regi» del instruction exige fixtures y etiqueta de breach BLOCK_BREAKING_CHANGE. Theory/outcome de anclaje: Documenta C4 y ADRs. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fi",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'retire_on' not in record or record.get('retire_on') in (None, \"\", [], set(), {}):\n        return \"NEGOTIATE_VERSION\"\n    ok = not (record[\"v11_fields\"] < record[\"v1_fields\"])\n    return \"CONTINUE\" if ok else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S40/S40-T4-B-E3: no confío en demos sin assert; la regla «S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `C» del instruction exige fixtures y etiqueta de breach BLOCK_BREAKING_CHANGE. Theory/outcome de anclaje: Documenta C4 y ADRs. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fi",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S40 self-check Q0: escojo «escenario QA completo con umbral y dueño» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?. Ancla: requisitos funcionales y quality attributes. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S40 self-check Q1: escojo «emitir BLOCK_ARCHITECTURE y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuen. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S40 self-check Q2: escojo «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?. Ancla: trade-offs, riesgos y criterios medibles. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S40 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?. Ancla: Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitig. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.595358+00:00",
+  "session_started_at": "2026-07-23T15:45:56.563831+00:00",
+  "session_ended_at": "2026-07-23T15:46:43.863831+00:00",
+  "receipt_response_sha256": "25fe8a7fd621a8b386278c0a190b828a28a87267dfb61fabdfe54493cc8a09cc",
+  "receipt_exercises_sha256": "2c6b45fd86e8bf4373ea595dd0c7ca14d1c0037c2d4cba0a7aa8b00e0695cfaf",
+  "receipt_selfcheck_sha256": "985588e5eccddf5a91aa043830dc6a538d2dc79638dbe8e800172283438ca438"
+}

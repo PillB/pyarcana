@@ -1,0 +1,106 @@
+{
+  "id": "CP-FINAL",
+  "gate_section": "S52",
+  "name": "Enterprise Relationship & Operations Intelligence Platform",
+  "level": "FINAL",
+  "acceptance_criteria": [
+    "platform.integrate(scenario) -> IntegrationBundle definido e implementado.",
+    "12 dependencias presentes en el bundle (contract_id + contract_version).",
+    "Cada subsistema devuelve su contrato declarado (contract tests).",
+    "Pruebas end-to-end presentes y pasan.",
+    "AST guard: ningún subsistema importa a otro (comunican vía contratos).",
+    "Backup + restore del integration state funcionan.",
+    "Rollback demostrado (restaura snapshot previo).",
+    "No-go dispara si un subsistema crítico falla.",
+    "Traza end-to-end presente y ordenada topológicamente.",
+    "Evidence bundle con contratos + traza + grafo + tarjetas.",
+    "Reproducible (misma semilla -> mismo bundle).",
+    "Tarjetas data/model/system presentes.",
+    "Runbook operacional presente (ARCHITECTURE.md).",
+    "Demo exit 0 solo si la integración es GO (no_go=False)."
+  ],
+  "rubric_0_3": {
+    "correctness": {
+      "weight_hint": 0.35,
+      "scale": "0-3",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      },
+      "focus": "12/12 subsistemas devuelven su contrato declarado; IntegrationBundle bien formado."
+    },
+    "robustness": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      },
+      "focus": "No-go claro si un subsistema crítico falla; entradas imperfectas no rompen el orquestador."
+    },
+    "maintainability": {
+      "weight_hint": 0.25,
+      "scale": "0-3",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      },
+      "focus": "Un módulo por subsistema; contratos tipados; AST guard impide acoplamiento."
+    },
+    "responsible_use": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      },
+      "focus": "Sin PII real; sin inferencia automática de fraude/parentesco; tarjetas + runbook + rollback demostrado."
+    },
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+  },
+  "dependencies": [
+    "CP-N1-A",
+    "CP-N1-B",
+    "CP-N1-C",
+    "CP-N2-A",
+    "CP-N2-B",
+    "CP-N2-C",
+    "CP-N3-A",
+    "CP-N3-B",
+    "CP-N3-C",
+    "CP-N4-A",
+    "CP-N4-B",
+    "CP-N4-C",
+    "S52"
+  ],
+  "wow_factor_definition": "Integración reproducible de los 12 capstones mediante interfaces versionadas y contratos, con AST guard anti-acoplamiento, no-go condition, rollback demostrado, backup/restore, tarjetas data/model/system y runbook operacional para portfolio máster.",
+  "scoring_weights_reference": {
+    "correctness": 0.35,
+    "edge_cases_data": 0.2,
+    "tests": 0.15,
+    "design": 0.1,
+    "reproducibility": 0.1,
+    "communication_limits": 0.1,
+    "pass_threshold": 0.8
+  },
+  "prohibitions": [
+    "No real PII",
+    "No fraud inference as automatic decision",
+    "No hardcoded production secrets",
+    "Synthetic or legally reusable data only",
+    "No CP-N4-D reference",
+    "No real network",
+    "No coupling between subsystems (must communicate via contracts)"
+  ],
+  "package_version": "2.0.0",
+  "final_integration_interface": "platform.integrate(scenario) -> IntegrationBundle",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

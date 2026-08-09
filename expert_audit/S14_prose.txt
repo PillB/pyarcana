@@ -1,0 +1,463 @@
+[title] NumPy y cómputo vectorizado
+
+[tagline] cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline
+
+[jobRelevance] En data quality y analytics de banca, fintech y retail en Perú, el **cómputo vectorizado con NumPy** es la base de métricas de completitud, unicidad y señales por pares. Aquí abres **CP-N2-A** con arrays sintéticos, benchmarks honestos y tests con tolerancia numérica.
+
+[text] Construir y validar ndarrays con dtype y shape correctos
+
+[text] Indexar y filtrar con máscaras booleanas de forma segura
+
+[text] Aplicar ufuncs y reducciones por eje (completitud, unicidad con np.unique)
+
+[text] Resolver broadcasting y documentar compatibilidad de shapes
+
+[text] Distinguir views de copies y controlar mutabilidad
+
+[text] Manejar NaN/inf y evaluar estabilidad numérica
+
+[text] Vectorizar frente a loops con benchmark honesto
+
+[text] Medir memoria y probar equivalencia con tolerancia
+
+[heading] Mapa de la sección: NumPy para un tablero de calidad
+
+[paragraphs] **Diccionario rápido:** **ndarray** (bloque homogéneo), **dtype** (tipo de cada elemento), **shape** (dimensiones), **máscara** (filtro booleano), **ufunc** (operación elemento a elemento), **broadcast** (alinear shapes), **view vs copy** (compartir o no la memoria), **NaN/inf** (ausencia o no-finito — no son ceros de negocio). No memorices la API entera el primer día: cada término vuelve en su subtema con demo y práctica.
+
+[paragraphs] **Puente desde S13:** el dashboard de evidencia de S13 trabaja reglas y scores **por caso**, con listas y dicts de Python y **sin NumPy**. Aquí abres el nivel 2 (**CP-N2-A**): pasas de juicios por reglas a **vectores numéricos** sobre lotes sintéticos. En S15 (pandas) cargarás tablas; en S14 el contrato es el array homogéneo que alimentará esas métricas.
+
+[paragraphs] El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) en NumPy. Solo datos sintéticos latam (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla de forma segura** (fail-closed) — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.
+
+[paragraphs] Orden: **T1 Arrays** (dtype/shape → máscaras) → **T2 Operaciones** (ufuncs/reducciones → broadcast) → **T3 Semántica** (views/copies → NaN/inf) → **T4 Rendimiento** (vectorizar → memoria y `allclose`). Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do + self-check. Criterio de entrega del incremento: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.
+
+[title] Límite de esta sección
+
+[content] Solo NumPy sobre datos sintéticos. No uses pandas (S15), sklearn ni PII real. Si el contrato dtype/shape falla, reporta el error; no lo ocultes. No es un curso de deep learning ni de seguridad de modelos: el foco es el tablero de calidad vectorizado.
+
+[heading] ndarray, dtype y shape
+
+[paragraphs] Tras S01–S13 trabajaste con listas y dicts de Python. Un **ndarray** es distinto: un bloque contiguo (o strided) de datos **homogéneos** — un solo tipo — que permite ufuncs en código compilado. **dtype** fija ese tipo (`float64`, `int32`, `uint8`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemento. Documentar este cuádruple es el contrato de entrada de toda métrica de CP-N2-A.
+
+[paragraphs] Crear con dtype **explícito** evita sorpresas (`int` vs `float` en divisiones, o `object` lento y no vectorizable). Valida `arr.dtype`, `arr.shape` y `arr.ndim` al recibir un array de un pipeline; si no cuadra, `assert` o `ValueError` temprano (falla de forma segura). No “castées” en silencio a lo que el llamador no pidió.
+
+[paragraphs] En calidad de datos, flags de completitud suelen ser `bool`/`uint8` (1 = presente); scores en [0, 1] son `float64`. Documenta también `nbytes` cuando el batch crece. Caso sintético: `flags` (4,) `uint8` y `scores` (4,) `float64` con meta impreso en el demo — es el contrato que reutilizarás en CP-N2-A.
+
+[title] Documenta el contrato del array
+
+[content] Cada función que recibe un ndarray debe documentar dtype y shape esperados (o asertarlos).
+
+[heading] Creación, indexación y máscaras
+
+[paragraphs] `np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (indexación avanzada con lista de enteros, p. ej. `a[[0,2]]`) seleccionan elementos sin un loop Python por cliente. Esa diferencia importa: en un tablero de calidad con miles de filas sintéticas, el índice vectorizado evita el coste del intérprete en cada fila.
+
+[paragraphs] Una **máscara booleana** `a > umbral` produce un array `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “clientes sintéticos con score bajo 0.5” o “región Lima y score bajo 0.6”. Combina condiciones con `&` / `|` (y paréntesis); no uses `and`/`or` de Python entre arrays. La máscara debe alinear el eje indexado — si no, `ValueError` (falla de forma segura).
+
+[paragraphs] Filtrar con máscara suele devolver **copia** (o un 1D nuevo); no asumas que es un view ni mutes el padre por accidente. Caso sintético Lima/Arequipa/Cusco: `ids[score < 0.5]` → `C002`, `C004`; fancy index `score[[0, 2]]` recupera scores de dos clientes sin recorrer la lista a mano.
+
+[title] Máscaras y longitudes
+
+[content] La máscara debe tener la misma shape que el eje indexado; de lo contrario ValueError.
+
+[heading] Ufuncs y reducciones
+
+[paragraphs] Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado, sin un `for` Python por celda. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan uno o más ejes y son el corazón de las métricas de calidad del tablero: convierten una matriz de flags en un vector de completitud por campo.
+
+[paragraphs] `axis=0` agrega por columna (campo); `axis=1` por fila (cliente). `keepdims=True` preserva dimensiones para rebroadcast (restar la media por fila sin pelear shapes). Elige el eje por el significado de negocio — “¿agrego clientes o campos?” — no por costumbre de copiar un notebook.
+
+[paragraphs] Métricas del tablero: `mean(flags, axis=0)` = completitud por campo; `mean` por fila = completitud del cliente; `std(scores)` = dispersión. **Unicidad** de ids sintéticos: `n_unique / n = np.unique(ids).size / ids.size` (un duplicado en `C00x` baja la tasa; no uses `len(ids)/len(ids)`). Caso sintético: matriz 3×3 de presencia → completitud por campo ~[1.0, 0.67, 0.67] y global ~0.78; unicidad de `['C001','C002','C001']` → 2/3.
+
+[title] keepdims para rebroadcast
+
+[content] Usa keepdims cuando vayas a restar/dividir el agregado contra la matriz original.
+
+[heading] Broadcasting y compatibilidad de shapes
+
+[paragraphs] El **broadcasting** alinea shapes de **derecha a izquierda**: en cada dimensión, los tamaños son iguales, o uno es 1, o la dimensión está ausente en el array de menor rango. Si no hay compatibilidad, NumPy lanza `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado (por ejemplo, restar un umbral a la dimensión equivocada del tablero).
+
+[paragraphs] `newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas o columnas (pesos por variable, umbral por cliente, o matriz de diferencias `score_i - score_j`). Es el mecanismo de las **señales por pares**: `agg[:, None] - agg[None, :]` produce una matriz (n, n) sin un doble loop Python.
+
+[paragraphs] Documenta el shape esperado en el docstring y, si el batch puede cambiar de tamaño, aserta la compatibilidad antes de operar. Caso sintético: scores (3, 2) × pesos (2,) pondera bien; un intento (3, 2) + (3, 3) debe fallar con mensaje de broadcast y no “arreglarse” en silencio.
+
+[content] Shapes “casi” compatibles pueden broadcastar mal. Valida shape antes de operar en pipelines.
+
+[heading] Views/copies y mutabilidad
+
+[paragraphs] Un **view** comparte memoria con el array base (`arr.base is not None` a menudo); un **copy** es un bloque independiente. Los slices simples (`raw[:2]`, `raw[:]`) suelen ser views; fancy index y máscaras booleanas suelen copiar. Confundirlos es el bug más caro en un pipeline de calidad: normalizas un slice “temporal” y corrompes el raw que alimenta la auditoría.
+
+[paragraphs] `arr.flags.writeable` controla si se puede mutar. Mutar un view muta el original — clásico cuando una función “solo normaliza un slice” y el llamador pierde los scores crudos. Para entradas de solo lectura, marca `writeable=False` o trabaja siempre sobre `.copy()` cuando la transformación escribe.
+
+[paragraphs] Regla operativa del tablero CP-N2-A: **copia antes de mutar** si el array crudo se reutiliza (reprocess, logs, tests). Caso sintético: `vista = raw[:2]; vista[0] = 99` altera `raw`; la misma asignación sobre `raw[:2].copy()` deja el original intacto.
+
+[title] Side effects por view
+
+[content] Si pasas un slice a una función que escribe, puede corromper el array padre. Copia o marca writeable=False.
+
+[heading] NaN, inf y estabilidad numérica
+
+[paragraphs] `np.nan` y `±inf` rompen `mean`/`sum` clásicos: NaN **contagia** (el resultado de la media es nan) e inf **domina** (una suma con inf es inf). Antes de publicar una métrica de negocio usa `np.isnan` / `isinf` / `isfinite`, o reducciones `nansum` / `nanmean` con la política documentada del tablero.
+
+[paragraphs] `np.finfo(float).eps` acota el ruido de redondeo cuando comparas con tolerancia (`allclose`). Un overflow en float produce `inf`; no lo trates como un score válido de calidad. **Falla de forma segura** (fail-closed): si el batch trae inf donde no es semántico, rechaza el lote o filtra con traza — no sustituyas por 0 en silencio.
+
+[paragraphs] En calidad de datos, un NaN **no es cero**: es **ausencia de medición**. Reporta la tasa de no-finitos aparte de la media de los finitos; mezclarlos distorsiona completitud y rangos. Caso sintético: `[1, nan, 3, inf]` → media solo sobre `isfinite` (= 2.0); convierte inf a nan antes de `nansum` si inf no es un valor de negocio.
+
+[content] Filtra con np.isfinite antes de reducciones de negocio si inf no es un valor válido.
+
+[heading] Vectorización frente a loops
+
+[paragraphs] Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs, `@`). Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud — el número exacto **depende de tu máquina**, por eso el demo reporta `ratio_gt_1` y no un SLA fijo.
+
+[paragraphs] Benchmark **honesto**: mismo input, mismo dtype, `time.perf_counter` (no `time.time`), reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). No midas N=10, no imprimas dentro del loop y no omitas el check de igualdad: un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta.
+
+[paragraphs] A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en el memo del portfolio. Caso sintético: `n=50_000` producto punto loop vs `np.dot` con `equal True` y `ratio_gt_1 True` en una laptop típica — en el portfolio CP-N2-A repites el patrón con `X @ w`.
+
+[content] Reporta N, dtype y máquina. Un ratio en laptop no es SLA de producción; el valor exacto varía entre equipos.
+
+[heading] Memoria, medición y tests con tolerancia
+
+[paragraphs] `nbytes` y `itemsize * size` estiman la memoria del array en bytes (p. ej. 1000 float64 → 8000). En el tablero de calidad, una matriz de señales por pares es O(n²): con n=500 y float64 ya son ~2 MB; con n=50_000 sin cuidado agotas RAM. Evita `.copy()` innecesarios y documenta un **presupuesto** (`pair.nbytes <= budget`) en el memo del portfolio.
+
+[paragraphs] `np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia relativa y absoluta. `np.testing.assert_allclose` lanza `AssertionError` con un mensaje útil — es el oráculo de tests del incremento CP-N2-A. `rtol` escala con la magnitud del valor; `atol` cubre diferencias cercanas a cero (scores en [0, 1] suelen priorizar un `atol` razonable).
+
+[paragraphs] El baseline en loop y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**; sin ese check, un ratio de tiempo no demuestra corrección. Caso sintético: `base` vs `base + 1e-9` pasa `allclose` con `atol=1e-8`; `base + 0.1` debe disparar `AssertionError` en el assert estricto y reportarse como fallo controlado.
+
+[content] rtol escala con la magnitud; atol cubre cercanos a cero. Elige según la métrica de negocio.
+
+[intro] Yo demuestro (I Do): 8 demos trabajados de punta a punta — contrato dtype/shape, máscaras, reducciones y unicidad, broadcast con señales por pares, views/copies, NaN/inf, benchmark honesto y allclose/memoria. Observa el patrón: asertar contrato → calcular → imprimir evidencia. Datos sintéticos Lima/Arequipa/Cusco; solo NumPy.
+
+[description] Crear arrays de flags y scores con dtype/shape documentados y validar ndim
+
+[why] Fija el contrato dtype/shape antes de calcular métricas de calidad.
+
+[description] Indexar y filtrar clientes sintéticos con máscara booleana
+
+[why] Máscaras combinadas expresan reglas de calidad sin loops.
+
+[description] Reducir métricas de completitud y unicidad por campo/cliente con ufuncs
+
+[why] Reducciones por eje y unicidad con np.unique son el núcleo del tablero de calidad vectorizado.
+
+[description] Alinear scores de clientes con pesos de campos vía broadcast explícito
+
+[why] Broadcast documentado evita ValueError y fan-out silencioso de shapes.
+
+[description] Demostrar mutación vía view y aislar normalización con copy
+
+[why] Copia antes de mutar cuando el raw alimenta auditoría o reprocess.
+
+[description] Calcular media robusta de scores ignorando NaN/inf documentados
+
+[output] n_valid 4 de 6
+mean_robusta 0.7125
+nanmean_solo_nan 0.7125
+
+[why] Métricas de calidad deben declarar política ante NaN/inf.
+
+[description] Comparar loop vs vectorizado para score ponderado con timing honesto
+
+[why] Equivalencia + ratio de tiempo (el número exacto depende de la máquina) justifican la vectorización en el portfolio.
+
+[description] Test con np.allclose y presupuesto de memoria para matriz de señales
+
+[why] Presupuesto de memoria + allclose cierran el incremento S14 de CP-N2-A.
+
+[intro] Lo hacemos juntos (We Do): 24 micro-ejercicios (E1 guiado → E2 independiente → E3 transferencia) en los 8 subtemas. Cada starter trae un bug deliberado; corrígelo hasta igualar la salida esperada. Dos pistas por ejercicio. Solo NumPy (sin pandas ni sklearn).
+
+[instruction] E1 (guiado) — Crea un ndarray `flags` de shape `(3, 2)`, dtype `uint8`, con valores `[[1,0],[1,1],[0,1]]` e imprime `dtype`, `shape` y `ndim`. Salida esperada: `uint8 (3, 2) 2`. Solo NumPy; corrige el bug del starter (shape invertida).
+
+[edgeCases] dtype incorrecto (int64 por defecto)
+
+[tests] salida coincide con solution output
+
+[feedback] Compara tu salida con la solución.
+
+[instruction] E2 (independiente) — Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` e imprime `itemsize`, `nbytes` y la lista de valores. Salida esperada: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Solo NumPy; corrige el bug del starter (`arange` en lugar de `linspace`).
+
+[hint] linspace con dtype=float64.
+
+[edgeCases] float32 por accidente
+
+[edgeCases] endpoint de linspace
+
+[instruction] E3 (transferencia) — Valida un contrato: si un array no es 1D float64, lanza `ValueError`; si es válido imprime `ok` y el size. Caso inválido: `np.array([1, 2])` (1D pero no float64). Salida esperada: `ok 2` y `err expected 1d float64`. Solo NumPy; corrige el bug del starter.
+
+[hint] Comprueba ndim y dtype.
+
+[hints] raise ValueError con mensaje corto.
+
+[edgeCases] no validar ndim
+
+[instruction] E1 (guiado) — Dado `score = [0.2, 0.8, 0.4, 0.9]`, imprime los índices (0-based) donde `score >= 0.5` con máscara y `np.where`. Salida esperada: `[1, 3]`. Solo NumPy; corrige el bug del starter (umbral invertido).
+
+[edgeCases] comparación estricta >
+
+[edgeCases] olvidar [0] en where
+
+[instruction] E2 (independiente) — Con ids `C001..C004` y sus scores, imprime los ids con score bajo la mediana (`score < mediana`). Salida esperada: `['C001', 'C003']`. Solo NumPy; corrige el bug del starter (máscara invertida).
+
+[edgeCases] usar mean en vez de median
+
+[edgeCases] máscara invertida
+
+[instruction] E3 (transferencia) — Fancy index: reordena el vector `[10, 20, 30, 40]` con el orden de índices `[2, 0, 3, 1]` e imprime el resultado. Salida esperada: `[30, 10, 40, 20]`. Solo NumPy; sin loops; corrige el bug del starter.
+
+[hint] a[order] con lista de índices.
+
+[hints] No uses un loop.
+
+[edgeCases] copia accidental del orden
+
+[instruction] E1 (guiado) — Matriz 2×3 de unos y ceros: calcula `mean` por `axis=0` y por `axis=1`; imprime ambas listas redondeadas a 2 decimales (primero columnas, luego filas). Salida esperada: `[1.0, 0.5, 0.5]` y `[0.67, 0.67]`. Solo NumPy; corrige el bug del starter.
+
+[hint] M.mean(axis=0) y axis=1.
+
+[edgeCases] no redondear
+
+[instruction] E2 (independiente) — Con ids sintéticos `['C001','C002','C001','C003','C002']`, calcula la **tasa de unicidad** `np.unique(ids).size / ids.size` e imprímela con 4 decimales. Salida esperada: `0.6`. Solo NumPy; corrige el bug del starter (usa `len` sobre el array crudo y no `unique`).
+
+[hints] Redondea con round(..., 4) o imprime el float exacto 0.6.
+
+[edgeCases] contar con set de Python en vez de np.unique
+
+[edgeCases] dividir por n_unique
+
+[instruction] E3 (transferencia) — Centra cada fila restando su media con `keepdims=True` e imprime la media de cada fila tras centrar (debe ser ~0). Salida esperada: `[0.0, 0.0, 0.0]`. Solo NumPy; corrige el bug del starter (centra por columnas).
+
+[hints] Verifica con mean axis=1 redondeado.
+
+[instruction] E1 (guiado) — Suma el vector de pesos `[1, 2, 3]` a cada fila de una matriz 2×3 de ceros con broadcast e imprime la matriz. Salida esperada: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Solo NumPy; corrige el bug del starter (multiplica en vez de sumar).
+
+[hints] Broadcast alinea por la derecha.
+
+[instruction] E2 (independiente) — Con `a` de shape `(4,)` crea columna `(4, 1)` con `newaxis` y multiplica por `b` de shape `(3,)`; imprime shape y valores del producto. Salida esperada: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Solo NumPy; no pandas (S15) ni sklearn; corrige el bug del starter (multiplicar sin reshape).
+
+[hint] a[:, None] * b[None, :] o a[:, None] * b.
+
+[instruction] E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del starter (hoy suma shapes compatibles `(2, 3)+(2, 3)` y no captura el error).
+
+[hint] try/except ValueError con shapes (2,3) y (2,4).
+
+[hints] Cambia el segundo array a shape (2, 4).
+
+[edgeCases] no capturar excepción
+
+[edgeCases] shapes que sí broadcastan
+
+[instruction] E1 (guiado) — Con `raw=[1,2,3]`, crea una **view** de los dos primeros elementos, asigna `vista[0]=9` e imprime `raw` (debe mutar). Salida esperada: `[9, 2, 3]`. Solo NumPy; corrige el bug del starter (usa `.copy()` y oculta el efecto).
+
+[hint] raw[:2] es view.
+
+[edgeCases] usar copy por error
+
+[instruction] E2 (independiente) — Repite el escenario con `.copy()`: muta la copia y demuestra que `raw` queda `[1, 2, 3]`. Salida esperada: `[1, 2, 3] [9, 2]`. Solo NumPy; corrige el bug del starter (view sin copy).
+
+[hints] Imprime raw y copia.
+
+[edgeCases] slice que no es view en todos backends
+
+[instruction] E3 (transferencia) — Marca un array como no escribible (`flags.writeable=False`), intenta asignar y captura `ValueError` imprimiendo `blocked`. Salida esperada: `blocked`. Solo NumPy; corrige el bug del starter.
+
+[edgeCases] no desactivar writeable
+
+[edgeCases] capturar Exception genérica sin print
+
+[instruction] E1 (guiado) — Cuenta cuántos `NaN` hay en `[1, nan, 2, nan]` con `np.isnan` e imprime el entero. Salida esperada: `2`. Solo NumPy; no uses `x == np.nan` (siempre False).
+
+[instruction] E2 (independiente) — Calcula `np.nanmean` de `[1, nan, 3]` e imprime con 2 decimales. Salida esperada: `2.0`. Solo NumPy; corrige el bug del starter (`mean` propaga nan).
+
+[instruction] E3 (transferencia) — En `[1, inf, 2]`, reemplaza `inf` por `nan` y luego usa `nansum`; imprime el resultado. Salida esperada: `3.0`. Solo NumPy; corrige el bug del starter (suma con inf).
+
+[edgeCases] sum con inf da inf
+
+[edgeCases] no convertir inf
+
+[code] import numpy as np
+x = np.array([1.0, np.inf, 2.0])
+y = np.where(np.isinf(x), np.nan, x)
+print(float(np.nansum(y)))
+
+[instruction] E1 (guiado) — Suma `a*b` con un loop y con `(a*b).sum()` para `a=b=arange(1000)`; imprime si `abs(diff) < 1e-6`. Salida esperada: `True`. Solo NumPy; el starter imprime `False` sin comparar — corrígelo.
+
+[hints] Compara resultados no tiempos.
+
+[edgeCases] int overflow en loop
+
+[instruction] E2 (independiente) — Implementa la suma de cuadrados vectorizada de `arange(5)` e imprime el total. Salida esperada: `30.0`. Solo NumPy; corrige el bug del starter (suma lineal en vez de cuadrados).
+
+[hint] (a**2).sum() o np.dot(a,a).
+
+[edgeCases] sumar a no a**2
+
+[instruction] E3 (transferencia) — Mide con `time.perf_counter` un `(a+b)` vectorizado de `n=10000` (a=ceros, b=unos) e imprime `timed` junto a si la media del resultado es `1.0`. Salida esperada: `timed True`. Solo NumPy; corrige el bug del starter (loop sin check de mean).
+
+[hint] time.perf_counter antes/después.
+
+[hints] No necesitas ratio; solo demostrar timing + correctness.
+
+[edgeCases] no crear arrays
+
+[instruction] E1 (guiado) — Imprime `nbytes` de `np.zeros(1000, dtype=np.float64)` y verifica que sea `8000`. Salida esperada: `8000 True`. Solo NumPy; corrige el bug del starter (compara con 4000 como si fuera float32).
+
+[hints] print nbytes y comparación.
+
+[instruction] E2 (independiente) — Usa `np.allclose` entre `[1.0, 2.0]` y `[1.0+1e-9, 2.0]` con `atol=1e-8` e imprime el booleano. Salida esperada: `True`. Solo NumPy; corrige el bug del starter (la comparación exacta con `==` no sirve para floats).
+
+[instruction] E3 (transferencia) — `assert_allclose` debe fallar entre `[0, 0]` y `[0, 0.1]` con `atol=1e-3`; captura `AssertionError` e imprime `fail`. Salida esperada: `fail`. Solo NumPy; corrige el bug del starter (hoy el assert pasa porque compara valores iguales).
+
+[edgeCases] atol que pasa el test
+
+[edgeCases] no capturar
+
+[title] Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)
+
+[context] Tú lo haces (You Do). Eres analista de data quality en una fintech peruana: con arrays sintéticos de flags de completitud e ids/scores por cliente (Lima/Arequipa/Cusco, `C00x`), implementas el núcleo vectorizado del tablero de calidad — métricas, señales por pares, benchmark loop vs `@` y tests `allclose`. Sin PII real. Este incremento abre **CP-N2-A**.
+
+[objectives] Implementar métricas de calidad vectorizadas (completitud por campo, unicidad de ids, tasa en rango)
+
+[objectives] Calcular señales por pares con broadcasting documentado (matriz n×n)
+
+[objectives] Benchmark loop vs vectorizado con equivalencia numérica (`allclose`)
+
+[objectives] Presupuesto de memoria y tests reproducibles sobre fixtures sintéticos
+
+[requirements] Fixtures sintéticos (ids C00x; flags 0/1; scores en [0,1] con posibles NaN/inf en tests de borde)
+
+[requirements] Suite de asserts en _run_tests() que demuestre correctitud (no solo prints)
+
+[requirements] Documentación en español profesional: shapes, dtypes, rtol/atol y nota de que el ratio de tiempo depende de la máquina
+
+[requirements] Sin PII real; sin pandas ni sklearn
+
+[portfolioNote] Este incremento abre CP-N2-A (Executive Data Quality & EDA). En el README del repo: documenta shapes y dtypes de cada métrica, el rtol/atol de allclose, el presupuesto de memoria si calculas matrices n×n, y aclara que el ratio de tiempo depende de la máquina (no es un SLA). Sube solo datos sintéticos — nunca PII real.
+
+[criterion] Métricas vectorizadas correctas (completitud, unicidad, rangos) con shapes documentados
+
+[criterion] Señales por pares y benchmark con equivalencia allclose demostrada
+
+[criterion] Privacidad: sin PII real, sin secretos, fixtures sintéticos
+
+[criterion] Pruebas (_run_tests) y casos de borde (NaN, shapes) documentados
+
+[criterion] Código legible, contratos dtype/shape y límites claros
+
+[criterion] Documentación en español profesional (memo de portfolio)
+
+[question] ¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?
+
+[explanation] dtype fija el tipo de cada elemento (float64, int32, etc.).
+
+[question] Una máscara booleana a > 0.5 se usa principalmente para:
+
+[options] Cambiar el dtype
+
+[options] Forzar una copy siempre
+
+[options] Filtrar o seleccionar elementos que cumplen la condición
+
+[explanation] Las máscaras booleanas filtran/seleccionan de forma vectorizada.
+
+[question] axis=0 en una reducción sobre una matriz 2D suele agregar:
+
+[options] Por columna (colapsa filas)
+
+[options] Por fila (colapsa columnas)
+
+[options] Solo el elemento [0,0]
+
+[options] Nada; axis solo existe en pandas
+
+[explanation] axis=0 reduce a lo largo de las filas → un valor por columna.
+
+[question] Mutar un slice simple de un ndarray normalmente:
+
+[options] Nunca afecta al original
+
+[options] Convierte todo a object
+
+[options] Puede mutar el array base porque suele ser un view
+
+[options] Borra el dtype
+
+[explanation] Los slices simples suelen ser views que comparten memoria.
+
+[question] ¿Por qué np.mean([1, np.nan]) no es lo mismo que np.nanmean([1, np.nan])?
+
+[options] Son idénticos siempre
+
+[options] nanmean solo funciona con int
+
+[explanation] np.mean propaga NaN (el resultado es nan). np.nanmean omite NaNs y promedia el resto. En calidad de datos usa isfinite/nanmean según la política.
+
+[question] ¿Cuándo son compatibles dos shapes para broadcasting?
+
+[options] Solo si son idénticos
+
+[options] Si el producto de las dimensiones coincide
+
+[options] Solo con keepdims=True
+
+[options] Si, de derecha a izquierda, cada dimensión es igual o una es 1 (o ausente)
+
+[explanation] El broadcasting alinea de derecha a izquierda; si no hay compatibilidad, ValueError.
+
+[question] np.allclose(a, b, rtol=…, atol=…) sirve principalmente para:
+
+[options] Comparar floats con tolerancia (p. ej. loop vs vectorizado)
+
+[options] Cambiar el dtype a float32
+
+[options] Forzar una view
+
+[options] Eliminar NaN automáticamente
+
+[explanation] allclose/assert_allclose validan equivalencia numérica con rtol y atol.
+
+[question] Un benchmark honesto loop vs vectorizado debe incluir:
+
+[options] Solo N=10 y el tiempo del loop
+
+[options] Solo el ratio sin chequear igualdad
+
+[options] Mismo input/dtype, timing y verificación de equivalencia numérica
+
+[options] Usar print en cada iteración del loop
+
+[explanation] Sin equivalencia, un ratio de tiempo no demuestra que la versión vectorizada sea correcta. El ratio exacto además varía por máquina.
+
+[question] ¿Cuántos bytes ocupa np.zeros(1000, dtype=np.float64)?
+
+[options] Depende solo de la forma, no del dtype
+
+[explanation] float64 usa 8 bytes por elemento; 1000 × 8 = 8000. nbytes = itemsize × size. Úsalo para presupuestos de memoria del tablero (p. ej. matrices n×n).
+
+[question] Si marcas a.flags.writeable = False e intentas a[0] = 3.0, NumPy:
+
+[options] Ignora la asignación en silencio
+
+[options] Convierte el array a copy automáticamente
+
+[options] Cambia el dtype a object
+
+[explanation] writeable=False protege entradas de solo lectura; la asignación lanza ValueError. Es una defensa útil cuando pasas arrays crudos a funciones de normalización.
+
+[question] La tasa de unicidad de ids sintéticos se calcula de forma idiomática como:
+
+[explanation] np.unique devuelve los valores distintos; la tasa es n_únicos / n. len(ids)/len(ids) es un truco que siempre da 1.0 y no detecta duplicados (p. ej. dos C001).
+
+[note] ndarray, dtype, creación
+
+[note] Reglas de alineación de shapes
+
+[note] máscaras, fancy index, views
+
+[note] Capítulos de ndarray y vectorización
+
+[note] Tutoriales oficiales del proyecto
+
+[note] Bases de estructuras y eficiencia
+
+[note] Fundamentos previos al cómputo vectorizado
+
+[note] Edición pública del curso (progreso en el navegador)
+
+[note] Práctica de Python previo a NumPy
+

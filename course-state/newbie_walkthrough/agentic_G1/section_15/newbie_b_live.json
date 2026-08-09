@@ -1,0 +1,541 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-skeptic-s15-5c3b9eaa",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "set_index",
+        "print",
+        "index",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T1-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T1-A: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas. Prints: ['print(df.index.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(s[\"C002\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "name",
+        "score",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T1-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T1-A: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas. Prints: ['print(s[\"C002\"])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.to_dict())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "out",
+        "add",
+        "fill_value",
+        "sort_index",
+        "print",
+        "to_dict"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T1-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T1-A: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas. Prints: ['print(out.to_dict())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"a,b\\n1,NA\\n2,3\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nprint(int(df.isna().sum().sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "read_csv",
+        "na_values",
+        "print",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T1-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T1-B: «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values. Prints: ['print(int(df.isna().sum().sum()))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"fecha,x\\n2024-01-01,1\\n2024-02-01,2\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "fecha",
+        "n2024",
+        "read_csv",
+        "parse_dates",
+        "print",
+        "str",
+        "dtype"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T1-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T1-B: «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values. Prints: ['print(str(df[\"fecha\"].dtype))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"cliente_id,monto,z\\nC001,1.0,99\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "cliente_id",
+        "monto",
+        "nC001",
+        "read_csv",
+        "usecols",
+        "print",
+        "columns"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T1-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T1-B: «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values. Prints: ['print(df.columns.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df.score >= 0.5, \"cliente_id\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "print",
+        "loc",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T2-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T2-A: «loc/iloc, filtros y assign»: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, . Prints: ['print(df.loc[df.score >= 0.5, \"cliente_id\"].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nout = df.assign(doble=df[\"score\"] * 2)\nprint(out[\"doble\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "out",
+        "assign",
+        "doble",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T2-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T2-A: «loc/iloc, filtros y assign»: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, . Prints: ['print(out[\"doble\"].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(df.iloc[1, 0])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "iloc"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T2-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T2-A: «loc/iloc, filtros y assign»: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, . Prints: ['print(df.iloc[1, 0])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "loc",
+        "flag",
+        "print",
+        "fillna",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T2-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T2-B: «chained assignment y copy semantics»: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede . Prints: ['print(df[\"flag\"].fillna(\"\").tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsubset = df.loc[df[\"score\"] > 0.5].copy()\nsubset[\"ok\"] = True\nprint(subset[\"ok\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "subset",
+        "loc",
+        "copy",
+        "True",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T2-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T2-B: «chained assignment y copy semantics»: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede . Prints: ['print(subset[\"ok\"].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99\nprint(df[\"score\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "copy",
+        "iloc",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T2-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T2-B: «chained assignment y copy semantics»: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede . Prints: ['print(df[\"score\"].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima",
+        "str",
+        "title",
+        "astype",
+        "category",
+        "print",
+        "dtype",
+        "name"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T3-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T3-A: «strings, nullable, fechas y categorías»: dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y . Prints: ['print(df[\"region\"].dtype.name)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "to_numeric",
+        "Series",
+        "errors",
+        "coerce",
+        "print",
+        "float",
+        "notna",
+        "else",
+        "nan",
+        "for"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T3-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T3-A: «strings, nullable, fechas y categorías»: dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y . Prints: ['print([float(x) if pd.notna(x) else float(\"nan\") for x in s])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "to_datetime",
+        "Series",
+        "fecha",
+        "errors",
+        "coerce",
+        "print",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T3-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T3-A: «strings, nullable, fechas y categorías»: dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y . Prints: ['print(int(s.isna().sum()))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\nafter = int(pd.to_numeric(df[\"monto\"], errors=\"coerce\").isna().sum())\nprint(after - before)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "before",
+        "int",
+        "isna",
+        "sum",
+        "after",
+        "to_numeric",
+        "errors",
+        "coerce"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T3-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T3-B: «coerción explícita y schema»: Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` . Prints: ['print(after - before)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "schema",
+        "monto",
+        "float64",
+        "try",
+        "for",
+        "col",
+        "not"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T3-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T3-B: «coerción explícita y schema»: Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` . Prints: ['print(\"missing\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "C001",
+        "astype",
+        "string",
+        "print",
+        "str",
+        "dtype"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T3-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T3-B: «coerción explícita y schema»: Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` . Prints: ['print(str(s.dtype))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nback = pd.read_csv(buf)\nprint(back.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "DataFrame",
+        "buf",
+        "to_csv",
+        "index",
+        "False",
+        "seek",
+        "back",
+        "read_csv"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T4-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T4-A: «CSV / Excel y contrato Parquet»: `to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva. Prints: ['print(back.columns.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbuf = BytesIO()\ndf.to_excel(buf, index=False, engine=\"openpyxl\")\nprint(len(buf.getvalue()) > 0)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "BytesIO",
+        "DataFrame",
+        "buf",
+        "to_excel",
+        "index",
+        "False",
+        "engine",
+        "openpyxl",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T4-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T4-A: «CSV / Excel y contrato Parquet»: `to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva. Prints: ['print(len(buf.getvalue()) > 0)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(contract)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "contract",
+        "str",
+        "dtype",
+        "for",
+        "columns",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T4-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T4-A: «CSV / Excel y contrato Parquet»: `to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva. Prints: ['print(contract)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmem = int(df.memory_usage(deep=True).sum())\nprint(mem > 0)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "Lima",
+        "Cusco",
+        "mem",
+        "int",
+        "memory_usage",
+        "deep",
+        "True",
+        "sum",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T4-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del…»). Teoría S15-T4-B: «índices, formatos, provenance y memoria»: Un **manifest** registra filas, columnas, dtypes, `memory_usage` y . Prints: ['print(mem > 0)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "manifest",
+        "rows",
+        "len",
+        "columns",
+        "tolist",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T4-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T4-B: «índices, formatos, provenance y memoria»: Un **manifest** registra filas, columnas, dtypes, `memory_usage` y . Prints: ['print(manifest[\"rows\"], manifest[\"columns\"])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "hashlib",
+        "DataFrame",
+        "blob",
+        "to_csv",
+        "index",
+        "False",
+        "encode",
+        "print",
+        "sha1",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S15-T4-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintét…»). Teoría S15-T4-B: «índices, formatos, provenance y memoria»: Un **manifest** registra filas, columnas, dtypes, `memory_usage` y . Prints: ['print(hashlib.sha1(blob).hexdigest()[:8])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S15-Q0] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «¿Qué método de selección usa etiquetas de index/columnas?». Teoría: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index).. Opción retenida: «loc» (idx 2), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S15-Q1] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «SettingWithCopyWarning se relaciona con:». Teoría: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index).. Opción retenida: «Asignación sobre slices que pueden ser view/copy (chained assignment)» (idx 0), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S15-Q2] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «errors='coerce' en to_numeric:». Teoría: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index).. Opción retenida: «Convierte inválidos a NaN» (idx 1), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S15-Q3] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Un manifest de export debería incluir al menos:». Teoría: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index).. Opción retenida: «Filas, columnas y provenance/hash del artefacto» (idx 3), alineada a evidencia explícita de paragraphs/code del active packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:28:18.916949+00:00",
+  "session_started_at": "2026-07-23T06:28:18.914940+00:00",
+  "session_ended_at": "2026-07-23T06:28:18.916963+00:00"
+}

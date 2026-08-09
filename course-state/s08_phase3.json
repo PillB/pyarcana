@@ -1,0 +1,1092 @@
+{
+  "version": "3.2",
+  "section": "S08",
+  "section_id": "pandas",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S08 blueprint: 4×2 subtopics, 24 exercises, 8 demos, 24 A/B/C, project increment.",
+    "scope_in": [
+      "S08",
+      "blueprint IDs",
+      "count validation",
+      "capstone increment",
+      "platform gap notes"
+    ],
+    "scope_out": [
+      "full theory/exercise bodies",
+      "full A/B/C stems",
+      "editing section .ts",
+      "marking passed",
+      "editing checkpoint/ledger/seed/s01-s03"
+    ],
+    "stop_criterion": "counts match canonical vector slice; gate authorizes PHASE 4 only"
+  },
+  "section_meta": {
+    "id": "pandas",
+    "index": 8,
+    "title_platform": "Pandas: Data Cleaning & EDA",
+    "title_v3": "Archivos, CSV, JSON y contratos de ingesta",
+    "title_decision": "KEEP platform id 'pandas'. Production content rethemes to V3 'Archivos, CSV, JSON y contratos de ingesta'.",
+    "tagline_target": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+    "estimatedHours": 12,
+    "level": "Intermedio",
+    "prerequisites": [
+      "S7"
+    ],
+    "environment": "local-python",
+    "project_capstone": "CP-N1-B",
+    "gate": "CP-N1-B"
+  },
+  "learning_outcomes_section": [
+    "El estudiante abre archivos con pathlib/Path y with, eligiendo modo y encoding explícitos (utf-8).",
+    "El estudiante maneja newlines y escribe de forma atómica (temp + replace) para no corromper salidas.",
+    "El estudiante lee/escribe CSV con csv module, headers y conversión de tipos controlada.",
+    "El estudiante detecta filas con columnas de más/menos y las envía a cuarentena con motivo.",
+    "El estudiante serializa/deserializa JSON con json load/dump y entiende objetos vs arrays.",
+    "El estudiante valida schema mínimo, trata null/None y evoluciona campos con defaults compatibles.",
+    "El estudiante calcula hashes de archivos, conserva backup de inputs y registra provenance básica.",
+    "El estudiante emite manifest de corrida con conteos in/out/quarantine y reconcilia totales."
+  ],
+  "topics": [
+    {
+      "topic_id": "S08-T1",
+      "title": "Archivos",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S08-T1-A",
+          "slug": "pathlib-with-modes",
+          "title": "pathlib, with, modos y encodings",
+          "outcome": "El estudiante abre archivos con pathlib/Path y with, eligiendo modo y encoding explícitos (utf-8).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pathlib, with, modos y encodings",
+              "must_cover": [
+                "Path",
+                "with open",
+                "modes r/w/a/x",
+                "encoding='utf-8'",
+                "errors= strict/replace documentado",
+                "Path.read_text/write_text"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T1-A-DEMO",
+              "title": "Leer y escribir intake UTF-8 con Path",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T1-A-E1",
+                "kind": "guided",
+                "title": "Path exists/check",
+                "skill": "pathlib, with, modos y encodings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T1-A-E2",
+                "kind": "independent",
+                "title": "with read lines",
+                "skill": "pathlib, with, modos y encodings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T1-A-E3",
+                "kind": "transfer",
+                "title": "Diagnosticar UnicodeDecodeError",
+                "skill": "pathlib, with, modos y encodings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S08-T1-B",
+          "slug": "newlines-atomic-write",
+          "title": "Newlines y escritura atómica",
+          "outcome": "El estudiante maneja newlines y escribe de forma atómica (temp + replace) para no corromper salidas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Newlines y escritura atómica",
+              "must_cover": [
+                "newline='' para csv",
+                "\\n universal",
+                "tempfile + os.replace",
+                "no truncate a medias",
+                "permisos básicos"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T1-B-DEMO",
+              "title": "write_atomic(path, text)",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T1-B-E1",
+                "kind": "guided",
+                "title": "Detectar \\r\\n",
+                "skill": "Newlines y escritura atómica",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T1-B-E2",
+                "kind": "independent",
+                "title": "Implementar atomic write",
+                "skill": "Newlines y escritura atómica",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T1-B-E3",
+                "kind": "transfer",
+                "title": "Simular fallo mid-write vs atomic",
+                "skill": "Newlines y escritura atómica",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S08-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S08-T1-EVAL-1",
+            "title": "Lectura/escritura UTF-8 de 2 fixtures",
+            "authentic": true
+          },
+          {
+            "id": "S08-T1-EVAL-2",
+            "title": "Helper write_atomic con test de no-corrupción",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S08-T2",
+      "title": "CSV",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S08-T2-A",
+          "slug": "csv-dialects-headers",
+          "title": "Dialectos, headers y tipos",
+          "outcome": "El estudiante lee/escribe CSV con csv module, headers y conversión de tipos controlada.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Dialectos, headers y tipos",
+              "must_cover": [
+                "csv.DictReader/Writer",
+                "delimiter/dialect",
+                "fieldnames",
+                "type casting seguro",
+                "skipinitialspace"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T2-A-DEMO",
+              "title": "Ingesta CSV de clientes con tipos monto/fecha string",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T2-A-E1",
+                "kind": "guided",
+                "title": "DictReader básico",
+                "skill": "Dialectos, headers y tipos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T2-A-E2",
+                "kind": "independent",
+                "title": "Writer con header",
+                "skill": "Dialectos, headers y tipos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T2-A-E3",
+                "kind": "transfer",
+                "title": "Cast fallido → reject",
+                "skill": "Dialectos, headers y tipos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S08-T2-B",
+          "slug": "irregular-rows-quarantine",
+          "title": "Filas irregulares y cuarentena",
+          "outcome": "El estudiante detecta filas con columnas de más/menos y las envía a cuarentena con motivo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Filas irregulares y cuarentena",
+              "must_cover": [
+                "restkey/restval",
+                "validar len(row)",
+                "quarantine file",
+                "reason code",
+                "continuar procesamiento"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T2-B-DEMO",
+              "title": "Separar good.csv vs quarantine.csv",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T2-B-E1",
+                "kind": "guided",
+                "title": "Detectar row irregular",
+                "skill": "Filas irregulares y cuarentena",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T2-B-E2",
+                "kind": "independent",
+                "title": "Escribir cuarentena",
+                "skill": "Filas irregulares y cuarentena",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T2-B-E3",
+                "kind": "transfer",
+                "title": "Resumen de motivos",
+                "skill": "Filas irregulares y cuarentena",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S08-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S08-T2-EVAL-1",
+            "title": "Pipeline CSV con dialect configurable",
+            "authentic": true
+          },
+          {
+            "id": "S08-T2-EVAL-2",
+            "title": "Cuarentena + conteos",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S08-T3",
+      "title": "JSON",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S08-T3-A",
+          "slug": "json-serialize",
+          "title": "Objetos/arrays y serialización",
+          "outcome": "El estudiante serializa/deserializa JSON con json load/dump y entiende objetos vs arrays.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Objetos/arrays y serialización",
+              "must_cover": [
+                "json.load/loads",
+                "dump/dumps",
+                "ensure_ascii=False",
+                "indent",
+                "JSONL intro",
+                "tipos no serializables"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T3-A-DEMO",
+              "title": "Exportar results a JSON array + JSONL",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T3-A-E1",
+                "kind": "guided",
+                "title": "loads de fixture",
+                "skill": "Objetos/arrays y serialización",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T3-A-E2",
+                "kind": "independent",
+                "title": "dumps con ensure_ascii False",
+                "skill": "Objetos/arrays y serialización",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T3-A-E3",
+                "kind": "transfer",
+                "title": "TypeError de datetime → str",
+                "skill": "Objetos/arrays y serialización",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S08-T3-B",
+          "slug": "schema-nulls-evolution",
+          "title": "Schema, nulls y evolución compatible",
+          "outcome": "El estudiante valida schema mínimo, trata null/None y evoluciona campos con defaults compatibles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Schema, nulls y evolución compatible",
+              "must_cover": [
+                "required keys",
+                "null vs missing",
+                "default de campos nuevos",
+                "version en schema",
+                "no romper lectores viejos"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T3-B-DEMO",
+              "title": "validate_schema(obj, required) + campo opcional nuevo",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T3-B-E1",
+                "kind": "guided",
+                "title": "Rechazar missing required",
+                "skill": "Schema, nulls y evolución compatible",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T3-B-E2",
+                "kind": "independent",
+                "title": "null explícito",
+                "skill": "Schema, nulls y evolución compatible",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T3-B-E3",
+                "kind": "transfer",
+                "title": "Añadir campo con default",
+                "skill": "Schema, nulls y evolución compatible",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S08-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S08-T3-EVAL-1",
+            "title": "Round-trip JSON de modelo S06",
+            "authentic": true
+          },
+          {
+            "id": "S08-T3-EVAL-2",
+            "title": "Schema v1→v1.1 compatible",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S08-T4",
+      "title": "Operación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S08-T4-A",
+          "slug": "backups-hashes-provenance",
+          "title": "Backups, hashes y provenance",
+          "outcome": "El estudiante calcula hashes de archivos, conserva backup de inputs y registra provenance básica.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Backups, hashes y provenance",
+              "must_cover": [
+                "hashlib.sha256",
+                "copy backup",
+                "timestamp",
+                "source path",
+                "no secretos en logs"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T4-A-DEMO",
+              "title": "sha256 de input CSV + backup .bak",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T4-A-E1",
+                "kind": "guided",
+                "title": "hash file",
+                "skill": "Backups, hashes y provenance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T4-A-E2",
+                "kind": "independent",
+                "title": "backup copy",
+                "skill": "Backups, hashes y provenance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T4-A-E3",
+                "kind": "transfer",
+                "title": "record provenance dict",
+                "skill": "Backups, hashes y provenance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S08-T4-B",
+          "slug": "reconciliation-manifest",
+          "title": "Reconciliación input/output y manifest",
+          "outcome": "El estudiante emite manifest de corrida con conteos in/out/quarantine y reconcilia totales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Reconciliación input/output y manifest",
+              "must_cover": [
+                "manifest JSON",
+                "counts",
+                "hashes",
+                "version script",
+                "assert in == good+reject+quarantine",
+                "exit codes conceptuales"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S08-T4-B-DEMO",
+              "title": "manifest.json de una corrida ETL",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S08-T4-B-E1",
+                "kind": "guided",
+                "title": "Campos mínimos manifest",
+                "skill": "Reconciliación input/output y manifest",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S08-T4-B-E2",
+                "kind": "independent",
+                "title": "Reconciliar conteos",
+                "skill": "Reconciliación input/output y manifest",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S08-T4-B-E3",
+                "kind": "transfer",
+                "title": "Fallar si no cuadra",
+                "skill": "Reconciliación input/output y manifest",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S08-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S08-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S08-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S08-T4-EVAL-1",
+            "title": "Hashes + backup de 2 inputs",
+            "authentic": true
+          },
+          {
+            "id": "S08-T4-EVAL-2",
+            "title": "Manifest reconciliado de corrida completa",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S08-PROJ",
+    "title": "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
+    "capstone_link": "CP-N1-B",
+    "replaces_legacy": "Real-World EDA Report",
+    "objectives": [
+      "Ingesta de CSV y JSON de clientes/transacciones sintéticas",
+      "Validar y normalizar (S05–S07) con cuarentena de rejects",
+      "Emitir manifest con hashes, conteos y provenance",
+      "Pruebas normal / borde / error",
+      "Scripts stdlib (sin pandas obligatorio en V3 target)"
+    ],
+    "requirements": [
+      "Entradas: data/clients.csv + data/transactions.json (sintéticos)",
+      "Salidas: out/clean/, out/quarantine/, out/manifest.json",
+      "Integrar normalizadores y modelo en memoria",
+      "README + demo local-python",
+      "Empaquetado CLI diferido a S10"
+    ],
+    "rubric": [
+      {
+        "criterion": "Ingesta CSV+JSON correcta",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Validación + cuarentena",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Manifest y reconciliación",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Hashes/backups/provenance",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Pruebas normal/borde/error",
+        "weight": "15%"
+      },
+      {
+        "criterion": "README y reproducibilidad local",
+        "weight": "10%"
+      }
+    ],
+    "gate_acceptance": {
+      "id": "CP-N1-B",
+      "name": "Client/Transaction ETL Pipeline",
+      "must_pass": [
+        "Scripts de ingesta CSV y JSON ejecutan en local-python",
+        "Contratos de columnas/keys documentados",
+        "Cuarentena de filas inválidas con motivo",
+        "Manifest con hashes, conteos y reconciliación in=out+quarantine",
+        "Pruebas: caso normal, borde (vacío/irregular), error (encoding/schema)",
+        "Lineage/provenance básica de fuentes",
+        "Datos sintéticos; sin PII real; sin claims de parentesco/fraude"
+      ],
+      "deferred": [
+        "paquete instalable e CLI subcomandos (S10)",
+        "pandas EDA report (nivel 2)"
+      ],
+      "evidence": [
+        "scripts",
+        "fixtures",
+        "manifest de demo",
+        "tests",
+        "README"
+      ]
+    }
+  },
+  "planned_ids": {
+    "subtopic_slugs_4x2": [
+      "pathlib-with-modes",
+      "newlines-atomic-write",
+      "csv-dialects-headers",
+      "irregular-rows-quarantine",
+      "json-serialize",
+      "schema-nulls-evolution",
+      "backups-hashes-provenance",
+      "reconciliation-manifest"
+    ],
+    "demo_ids": [
+      "S08-T1-A-DEMO",
+      "S08-T1-B-DEMO",
+      "S08-T2-A-DEMO",
+      "S08-T2-B-DEMO",
+      "S08-T3-A-DEMO",
+      "S08-T3-B-DEMO",
+      "S08-T4-A-DEMO",
+      "S08-T4-B-DEMO"
+    ],
+    "exercise_ids": [
+      "S08-T1-A-E1",
+      "S08-T1-A-E2",
+      "S08-T1-A-E3",
+      "S08-T1-B-E1",
+      "S08-T1-B-E2",
+      "S08-T1-B-E3",
+      "S08-T2-A-E1",
+      "S08-T2-A-E2",
+      "S08-T2-A-E3",
+      "S08-T2-B-E1",
+      "S08-T2-B-E2",
+      "S08-T2-B-E3",
+      "S08-T3-A-E1",
+      "S08-T3-A-E2",
+      "S08-T3-A-E3",
+      "S08-T3-B-E1",
+      "S08-T3-B-E2",
+      "S08-T3-B-E3",
+      "S08-T4-A-E1",
+      "S08-T4-A-E2",
+      "S08-T4-A-E3",
+      "S08-T4-B-E1",
+      "S08-T4-B-E2",
+      "S08-T4-B-E3"
+    ],
+    "exercise_count": 24,
+    "demo_count": 8,
+    "slug_count": 8
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "Legacy file src/lib/course/sections/s08-pandas.ts retained until PHASE 4 replacement",
+    "seed.ts concepts ['groupby-output', 'loc-vs-iloc', 'null-handling', 'merge-types'] provisional; replace in PHASE 5",
+    "Legacy content destination: Pandas EDA → post N1 / V3 nivel 2 (después de CF-1). File I/O stdlib is V3 S8 target. Orphan s08-visualization.ts is index S09 in platform.",
+    "CourseSection shape may need extension for 24 exercises / 8 demos / topic evals"
+  ],
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "gate_acceptance_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint for S08. Do not mark passed. S04/S08 include CP gate acceptance when applicable."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 map cleanly to 8 slugs with Spanish titles",
+    "risk": "Display title still 'Pandas: Data Cleaning & EDA' until UI pass",
+    "next_single_action": "PHASE 4 — author S08-T1-A first"
+  }
+}

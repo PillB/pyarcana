@@ -1,0 +1,50 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "if campo is None:"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "None → review (ausente); 0 → accept si el invariante lo permite"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.6,
+    "correct_preview": "Se ejecuta esa rama y se omiten las siguientes"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "\"default\""
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Un set de literales y el operador in"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Porque comparar None con < lanza TypeError; la ausencia se resuelve primero"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Campo 'edad'=-5 fuera de rango; usa un entero 0–120."
+  }
+]

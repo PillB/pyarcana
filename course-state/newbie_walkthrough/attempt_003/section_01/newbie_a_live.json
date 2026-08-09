@@ -1,0 +1,188 @@
+{
+  "agent": "newbie_a_explorer",
+  "attempt_id": "attempt_003",
+  "section_index": 1,
+  "packet_source": "course-state/newbie_walkthrough/attempt_003/section_01/packet.json",
+  "packet_sha": "79e4efe4d6053f89",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + active theory/iDo/weDo/youDo/selfCheck from packet; zero prior Python.",
+
+  "theory_confirmation": {
+    "def": {
+      "taught": true,
+      "evidence": "theory heading 'El intérprete Python y el REPL': \"def nombre(): define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama main\""
+    },
+    "print": {
+      "taught": true,
+      "evidence": "same block: \"print(...) escribe texto a la salida estándar (lo ves en la terminal)\""
+    },
+    "if_name_main": {
+      "taught": true,
+      "evidence": "same block: \"if __name__ == \\\"__main__\\\": solo corre main() cuando ejecutas el archivo con python archivo.py\""
+    },
+    "f_string": {
+      "taught": true,
+      "evidence": "same block: \"Un f-string formatea texto con variables: print(f\\\"Hola {nombre}\\\") — la f delante de las comillas permite {expresiones} dentro\""
+    },
+    "sys_argv": {
+      "taught": true,
+      "evidence": "theory heading 'Terminal, rutas y códigos de salida': \"sys.argv es una lista de strings. sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1]\""
+    },
+    "len": {
+      "taught": true,
+      "evidence": "same block: \"len(sys.argv) cuenta cuántos elementos hay (incluye el nombre del script)\". Example: python check_arg.py ok → len(sys.argv) == 2"
+    },
+    "sys_executable": {
+      "taught": true,
+      "evidence": "same block: \"sys.executable es la ruta absoluta del binario Python que está corriendo tu script\"; rule python -m pip with same executable"
+    },
+    "all_seven_present": true
+  },
+
+  "exercises": {
+    "S01-T1-A-E1": {
+      "status": "answered",
+      "blocked": false,
+      "kind": "guided",
+      "solution_from_packet": {
+        "filled_starter": "# Completa las líneas marcadas con ____\n# Esto NO se ejecuta como script: cópialo al REPL línea por línea.\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"x\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL",
+        "sources": [
+          "iDo S01-T1-B-DEMO: 2+2, import sys, sys.version.split()[0], type(\"Hola Perú\"), quit()",
+          "theory REPL: type(\"hola\") → <class 'str'>; quit()/exit() leaves shell open"
+        ]
+      }
+    },
+    "S01-T1-A-E2": {
+      "status": "answered",
+      "blocked": false,
+      "answerable_now": true,
+      "kind": "independent",
+      "note": "attempt_003 theory explicitly teaches def, print, f-string, if __name__, sys.version — blanks fill from packet",
+      "solution_from_packet": {
+        "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Pérez\"  # sintético\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+        "blanks": {
+          "nombre": "any synthetic name (hint: no real third-party PII)",
+          "sys.____": "version  (from theory + demos: sys.version.split()[0])",
+          "if ____ == \"____\"": "__name__ == \"__main__\"",
+          "____()": "main()"
+        },
+        "exit_0": "implied by normal end of main without sys.exit(1); theory/youDo smoke also end successfully without non-zero exit"
+      }
+    },
+    "S01-T1-A-E3": {
+      "status": "answered",
+      "blocked": false,
+      "kind": "transfer",
+      "solution_from_packet": {
+        "procedure": [
+          "1. Identificar SO: Windows (python no se reconoce) vs macOS/Linux (usar python3 de forma consistente).",
+          "2. Windows: reinstalar desde https://www.python.org/downloads/ marcando \"Add Python to PATH\" (iDo why + E3 hint). Evitar confiar solo en alias Microsoft Store si falla.",
+          "3. macOS/Linux: usar python3 --version; anotar 3.12+ como meta del curso.",
+          "4. Cerrar y reabrir la terminal tras cambiar PATH (hint).",
+          "5. Verificar con python --version o python3 --version antes de cualquier pip install.",
+          "6. Preferir python -m pip / python3 -m pip atado al mismo intérprete verificado."
+        ],
+        "verificacion_final": "python3 --version (o python --version en Windows tras PATH) → Python 3.12+"
+      }
+    },
+    "S01-T1-B-E1": {
+      "status": "answered",
+      "blocked": false,
+      "kind": "guided",
+      "solution_from_packet": {
+        "filled": "# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# SHELL_USADA=zsh  # example; packet allows bash | zsh | powershell",
+        "sources": ["iDo S01-T2-A-DEMO exit 0/1; theory 0=éxito no-cero=fallo"]
+      }
+    },
+    "S01-T1-B-E2": {
+      "status": "answered",
+      "blocked": false,
+      "answerable_now": true,
+      "kind": "independent",
+      "note": "attempt_003 theory teaches sys.argv, len(sys.argv), print(..., file=sys.stderr), sys.exit(0|1) with check_arg.py example",
+      "solution_from_packet": {
+        "code": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+        "blanks": {
+          "____(args)": "len",
+          "!= ____": "1  (exactly one user arg; tests: hola → 0; no args / a b → 1)",
+          "file=sys.____": "stderr",
+          "sys.exit(____) error": "1",
+          "sys.exit(____) ok": "0"
+        },
+        "rationale": "Theory: sys.argv[0]=script, user args from [1]; len counts; print uso to stderr then exit 1; success exit 0. Example literally named check_arg.py ok → argv length 2 including script."
+      }
+    },
+    "S01-T2-B-E3": {
+      "status": "answered",
+      "blocked": false,
+      "kind": "transfer",
+      "solution_from_packet": {
+        "markdown": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl paquete de terceros (ej. requests) nunca se instaló en el entorno actual; solo stdlib (sys, datetime) viene sin pip.\n\n## Hipótesis B — instalado en otro intérprete\npip instaló en un Python distinto al que usa `import` (PATH/venv distinto). Theory: si import requests falla, comparar sys.executable con el pip usado.\n\n## Protocolo (5 pasos)\n1. Identificar el intérprete del proceso: `python -c \"import sys; print(sys.executable)\"` (y opcionalmente sys.prefix / which python).\n2. Clasificar el módulo: ¿stdlib (sys, datetime, json…) o terceros (requests, pandas…)? Stdlib no necesita pip; terceros sí.\n3. Listar en ESE intérprete: `python -m pip list` (o `python -m pip show requests`). Preferir siempre `python -m pip` atado al mismo ejecutable.\n4. Si no está: activar el `.venv` correcto e instalar con `python -m pip install requests` (o `-r requirements.txt`).\n5. Si `pip list` muestra el paquete pero `import` falla: hay dos Pythons — alinear PATH/venv, reinstalar con el mismo `sys.executable` vía `python -m pip`, reintentar import.\n\n## ¿stdlib o terceros?\n- requests: terceros (necesita pip install)\n- datetime: stdlib (import sin pip)\n"
+      }
+    }
+  },
+
+  "first_five_weDo": {
+    "ids": [
+      "S01-T1-A-E1",
+      "S01-T1-A-E2",
+      "S01-T1-A-E3",
+      "S01-T1-B-E1",
+      "S01-T1-B-E2"
+    ],
+    "all_answerable": true,
+    "blocked_among_first_five": 0
+  },
+
+  "selfCheck": {
+    "answers": [
+      {
+        "index": 0,
+        "question": "¿Para qué sirve un entorno virtual (venv) en Python?",
+        "chosen_option_index": 1,
+        "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+        "rationale_from_packet": "Theory: un proyecto = un entorno virtual = un requirements.txt; aísla dependencias; nunca instalar en global."
+      },
+      {
+        "index": 1,
+        "question": "¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?",
+        "chosen_option_index": 2,
+        "chosen_text": ".venv/ (o venv/)",
+        "rationale_from_packet": "Theory/iDo: .venv y venv van en .gitignore; no subir el entorno. requirements.txt y README se versionan."
+      },
+      {
+        "index": 2,
+        "question": "¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?",
+        "chosen_option_index": 2,
+        "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+        "rationale_from_packet": "Theory: Conventional Commits prefijo feat:/fix:/docs: + imperativo; evita wip, cambios, arreglé algo."
+      },
+      {
+        "index": 3,
+        "question": "¿Qué comando te permite replicar el entorno de otro desarrollador?",
+        "chosen_option_index": 2,
+        "chosen_text": "pip install -r requirements.txt",
+        "rationale_from_packet": "Theory/iDo: python -m pip install -r requirements.txt restaura el snapshot pinneado; clone alone no instala deps; bare pip install pandas no es reproducible."
+      },
+      {
+        "index": 4,
+        "question": "¿Por qué NO debes subir el archivo .env a GitHub?",
+        "chosen_option_index": 1,
+        "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+        "rationale_from_packet": "Theory: .env guarda secretos; nunca al repo; .env.example sí con claves vacías."
+      }
+    ],
+    "choice_indices": [1, 2, 2, 2, 1]
+  },
+
+  "summary": {
+    "blocked_count": 0,
+    "S01-T1-A-E2_answerable": true,
+    "S01-T1-B-E2_answerable": true,
+    "S01-T2-B-E3_answerable": true,
+    "theory_all_seven": true,
+    "selfcheck_choice_indices": [1, 2, 2, 2, 1],
+    "gaps_vs_packet": [],
+    "notes": "With attempt_003 packet, len/sys.argv/sys.executable/f-string/def/print/if __name__ are in theory. E2 exercises that previously blocked on missing len/argv/entrypoints are now fillable from taught text + starters/hints."
+  }
+}

@@ -1,0 +1,1242 @@
+{
+  "section": "S45",
+  "n_records": 187,
+  "n_spanish_records": 165,
+  "n_sentences": 260,
+  "WPS": {
+    "n": 260,
+    "min": 3,
+    "p25": 8,
+    "median": 14,
+    "p75": 18,
+    "max": 35,
+    "mean": 13.9
+  },
+  "SPW": {
+    "n": 260,
+    "min": 0.7,
+    "p25": 1.5,
+    "median": 1.7,
+    "p75": 1.9,
+    "max": 3.2,
+    "mean": 1.8
+  },
+  "FH": {
+    "n": 260,
+    "min": 7.8,
+    "p25": 76.8,
+    "median": 88.0,
+    "p75": 100.6,
+    "max": 156.8,
+    "mean": 87.6
+  },
+  "INFLESZ": {
+    "n": 260,
+    "min": 0.4,
+    "p25": 73.1,
+    "median": 84.1,
+    "p75": 97.2,
+    "max": 155.3,
+    "mean": 83.8
+  },
+  "findings_count": {
+    "missing_terminal": 45,
+    "long_gt32": 1,
+    "high_comma_density": 1
+  },
+  "worst_sentences_by_WPS": [
+    {
+      "field": "intro",
+      "lineno": 576,
+      "sentence": "Cada subtema sigue E1 → E2 → E3 con andamiaje que se retira: E1 repara un predicado de dominio con un defecto claro; E2 clasifica válido / adverso / campo faltante; E3 decide continue / breach / uncertainty en fail-closed.",
+      "words": 35,
+      "syllables": 61,
+      "WPS": 35,
+      "SPW": 1.743,
+      "FH": 66.6,
+      "INFLESZ": 63.3,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "why",
+      "lineno": 438,
+      "sentence": "At-least-once + visibility timeout: el ack va después del efecto durable; si el worker tarda más que el VT, el mensaje pudo reaparecer y la key impide un segundo side-effect.",
+      "words": 32,
+      "syllables": 49,
+      "WPS": 32,
+      "SPW": 1.531,
+      "FH": 82.3,
+      "INFLESZ": 79.4,
+      "findings": []
+    },
+    {
+      "field": "why",
+      "lineno": 571,
+      "sentence": "El forecast en PEN sintéticos se compara con el budget; recovery solo es listo si el drill de restore y el export portable están ambos ensayados — no basta un print decorativo.",
+      "words": 31,
+      "syllables": 53,
+      "WPS": 31,
+      "SPW": 1.71,
+      "FH": 72.6,
+      "INFLESZ": 69.3,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 975,
+      "sentence": "S45-T2-A-E3 · Decide la acción del consumer ante reentrega: política at-least-once correcta → `CONTINUE`; ack antes de efecto / key vacía → `NACK_AND_RETRY`; sin `backoff` → `VERIFY_DELIVERY_SEMANTICS`.",
+      "words": 31,
+      "syllables": 53,
+      "WPS": 31,
+      "SPW": 1.71,
+      "FH": 72.6,
+      "INFLESZ": 69.3,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1069,
+      "sentence": "S45-T2-B-E2 · Audita new/dup/DLQ: processed completo + orden + terminal DLQ (PASS); processed incompleto o sin DLQ (`DEDUP_OR_DLQ`); sin campo `terminal_in_dlq` (`MISSING:terminal_in_dlq`).",
+      "words": 31,
+      "syllables": 45,
+      "WPS": 31,
+      "SPW": 1.452,
+      "FH": 88.1,
+      "INFLESZ": 85.4,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1669,
+      "sentence": "S45-T4-B-E2 · Audita costo en PEN y recovery: forecast ≤ budget + cuota OK + restore/export (PASS); sobre-presupuesto o cuota rota (`FREEZE_SCALE_OUT`); sin `portable_export` (`MISSING:portable_export`).",
+      "words": 31,
+      "syllables": 55,
+      "WPS": 31,
+      "SPW": 1.774,
+      "FH": 68.8,
+      "INFLESZ": 65.3,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 919,
+      "sentence": "S45-T2-A-E2 · Evalúa delivery del worker: mensaje con ack post-efecto + key + backoff (PASS), ack prematuro o key vacía (`NACK_AND_RETRY`), y registro sin `backoff` (`MISSING:backoff`).",
+      "words": 30,
+      "syllables": 47,
+      "WPS": 30,
+      "SPW": 1.567,
+      "FH": 82.2,
+      "INFLESZ": 79.2,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1519,
+      "sentence": "S45-T4-A-E2 · Clasifica planes IaC: paridad declared/planned en staging sin secretos ni destroys (PASS); secretos/env inválido/destroy (`REJECT_IAC_PLAN`); sin `destructive_changes` (`MISSING:destructive_changes`).",
+      "words": 30,
+      "syllables": 48,
+      "WPS": 30,
+      "SPW": 1.6,
+      "FH": 80.2,
+      "INFLESZ": 77.2,
+      "findings": []
+    },
+    {
+      "field": "portfolioNote",
+      "lineno": 1856,
+      "sentence": "Evidencia de CP-N4-B · job asíncrono resiliente: muestra baseline, decisión de stores, colas con DLQ, IAM/egress, presupuesto/restore, pruebas normal/breach/uncertain, resultado medido, rollback y riesgo residual.",
+      "words": 30,
+      "syllables": 57,
+      "WPS": 30,
+      "SPW": 1.9,
+      "FH": 62.2,
+      "INFLESZ": 58.5,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "intro",
+      "lineno": 576,
+      "sentence": "S45 · Laboratorio de arquitectura distribuida mínima: 24 retos locales sobre **ocho familias** de fixture de `CASO-IQU-045` (Iquitos sintético; mismos campos por familia, no ocho novelas distintas).",
+      "words": 28,
+      "syllables": 50,
+      "WPS": 28,
+      "SPW": 1.786,
+      "FH": 71.1,
+      "INFLESZ": 67.6,
+      "findings": []
+    }
+  ],
+  "worst_sentences_by_FH_low": [
+    {
+      "field": "note",
+      "lineno": 1927,
+      "sentence": "Envelope interoperable de eventos",
+      "words": 4,
+      "syllables": 13,
+      "WPS": 4,
+      "SPW": 3.25,
+      "FH": 7.8,
+      "INFLESZ": 0.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 286,
+      "sentence": "Configuración declarativa y environments",
+      "words": 4,
+      "syllables": 11,
+      "WPS": 4,
+      "SPW": 2.75,
+      "FH": 37.8,
+      "INFLESZ": 31.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "feedback",
+      "lineno": 1640,
+      "sentence": "Sobrepresupuesto congela scale-out.",
+      "words": 4,
+      "syllables": 11,
+      "WPS": 4,
+      "SPW": 2.75,
+      "FH": 37.8,
+      "INFLESZ": 31.5,
+      "findings": []
+    },
+    {
+      "field": "context",
+      "lineno": 1782,
+      "sentence": "Arquitectura distribuida mínima declarativa.",
+      "words": 4,
+      "syllables": 11,
+      "WPS": 4,
+      "SPW": 2.75,
+      "FH": 37.8,
+      "INFLESZ": 31.5,
+      "findings": []
+    },
+    {
+      "field": "text",
+      "lineno": 20,
+      "sentence": "Garantizar deduplicación por clave, ordenamiento acotado y terminalización en DLQ",
+      "words": 10,
+      "syllables": 25,
+      "WPS": 10,
+      "SPW": 2.5,
+      "FH": 46.6,
+      "INFLESZ": 41.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "context",
+      "lineno": 1782,
+      "sentence": "Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos.",
+      "words": 11,
+      "syllables": 27,
+      "WPS": 11,
+      "SPW": 2.455,
+      "FH": 48.3,
+      "INFLESZ": 42.9,
+      "findings": []
+    },
+    {
+      "field": "explanation",
+      "lineno": 1896,
+      "sentence": "Delivery resiliente: poison → DLQ controlada; reintentos con idempotency no duplican resultados de negocio.",
+      "words": 13,
+      "syllables": 31,
+      "WPS": 13,
+      "SPW": 2.385,
+      "FH": 50.5,
+      "INFLESZ": 45.3,
+      "findings": []
+    },
+    {
+      "field": "criterion",
+      "lineno": 1861,
+      "sentence": "Reproducibilidad, lineage y evidencia",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1917,
+      "sentence": "Infraestructura declarativa y state",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1962,
+      "sentence": "Observabilidad del job asíncrono",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    }
+  ],
+  "sentences_with_findings": [
+    {
+      "field": "shortTitle",
+      "lineno": 7,
+      "sentence": "Cloud y colas",
+      "words": 3,
+      "syllables": 4,
+      "WPS": 3,
+      "SPW": 1.333,
+      "FH": 123.8,
+      "INFLESZ": 120.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "tagline",
+      "lineno": 8,
+      "sentence": "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
+      "words": 14,
+      "syllables": 26,
+      "WPS": 14,
+      "SPW": 1.857,
+      "FH": 81.1,
+      "INFLESZ": 77.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 17,
+      "sentence": "Elegir object store, relacional o cache según el patrón de acceso y declarar la fuente de verdad",
+      "words": 17,
+      "syllables": 32,
+      "WPS": 17,
+      "SPW": 1.882,
+      "FH": 76.6,
+      "INFLESZ": 72.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 18,
+      "sentence": "Definir consistencia por operación, lifecycle y un restore sintético con RPO/RTO medidos",
+      "words": 13,
+      "syllables": 25,
+      "WPS": 13,
+      "SPW": 1.923,
+      "FH": 78.2,
+      "INFLESZ": 74.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 19,
+      "sentence": "Diseñar colas/eventos con semántica de entrega (p. ej. at-least-once) y ack posterior al efecto durable",
+      "words": 18,
+      "syllables": 32,
+      "WPS": 18,
+      "SPW": 1.778,
+      "FH": 81.8,
+      "INFLESZ": 78.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 20,
+      "sentence": "Garantizar deduplicación por clave, ordenamiento acotado y terminalización en DLQ",
+      "words": 10,
+      "syllables": 25,
+      "WPS": 10,
+      "SPW": 2.5,
+      "FH": 46.6,
+      "INFLESZ": 41.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 21,
+      "sentence": "Dimensionar compute/autoscaling y red privada con señal de backlog y backpressure",
+      "words": 12,
+      "syllables": 22,
+      "WPS": 12,
+      "SPW": 1.833,
+      "FH": 84.6,
+      "INFLESZ": 80.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 22,
+      "sentence": "Restringir IAM al mínimo, paths privados y egress allowlisted con prueba negativa",
+      "words": 12,
+      "syllables": 21,
+      "WPS": 12,
+      "SPW": 1.75,
+      "FH": 89.6,
+      "INFLESZ": 85.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 23,
+      "sentence": "Declarar infraestructura por environment y rechazar planes con secretos o destrucción inesperada",
+      "words": 12,
+      "syllables": 27,
+      "WPS": 12,
+      "SPW": 2.25,
+      "FH": 59.6,
+      "INFLESZ": 54.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 24,
+      "sentence": "Presupuestar costo/cuotas (montos en PEN sintéticos) y documentar recovery y portabilidad ensayadas",
+      "words": 13,
+      "syllables": 28,
+      "WPS": 13,
+      "SPW": 2.154,
+      "FH": 64.3,
+      "INFLESZ": 59.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 28,
+      "sentence": "Ruta de S45: cloud, almacenamiento, colas e infraestructura",
+      "words": 8,
+      "syllables": 16,
+      "WPS": 8,
+      "SPW": 2.0,
+      "FH": 78.7,
+      "INFLESZ": 74.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 58,
+      "sentence": "Gate de promoción y carga de trabajo",
+      "words": 7,
+      "syllables": 13,
+      "WPS": 7,
+      "SPW": 1.857,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 63,
+      "sentence": "Almacén de objetos, relacional y caché",
+      "words": 6,
+      "syllables": 14,
+      "WPS": 6,
+      "SPW": 2.333,
+      "FH": 60.7,
+      "INFLESZ": 55.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 104,
+      "sentence": "Consistencia, lifecycle y backups",
+      "words": 4,
+      "syllables": 8,
+      "WPS": 4,
+      "SPW": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 139,
+      "sentence": "Colas, eventos y semántica de entrega",
+      "words": 6,
+      "syllables": 13,
+      "WPS": 6,
+      "SPW": 2.167,
+      "FH": 70.7,
+      "INFLESZ": 65.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 185,
+      "sentence": "Deduplicación, ordenamiento y dead-letter",
+      "words": 5,
+      "syllables": 12,
+      "WPS": 5,
+      "SPW": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 221,
+      "sentence": "Compute, autoscaling y redes",
+      "words": 4,
+      "syllables": 8,
+      "WPS": 4,
+      "SPW": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 255,
+      "sentence": "IAM, paths privados y egress",
+      "words": 5,
+      "syllables": 7,
+      "WPS": 5,
+      "SPW": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 286,
+      "sentence": "Configuración declarativa y environments",
+      "words": 4,
+      "syllables": 11,
+      "WPS": 4,
+      "SPW": 2.75,
+      "FH": 37.8,
+      "INFLESZ": 31.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 322,
+      "sentence": "Costos, cuotas, recovery y portabilidad",
+      "words": 5,
+      "syllables": 12,
+      "WPS": 5,
+      "SPW": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 362,
+      "sentence": "ADR de persistencia: object para artefactos, relacional para status, cache no autoritativo",
+      "words": 12,
+      "syllables": 27,
+      "WPS": 12,
+      "SPW": 2.25,
+      "FH": 59.6,
+      "INFLESZ": 54.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 387,
+      "sentence": "Restore sintético: RPO/RTO y consistencia read-after-write del status",
+      "words": 11,
+      "syllables": 17,
+      "WPS": 11,
+      "SPW": 1.545,
+      "FH": 102.9,
+      "INFLESZ": 99.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 444,
+      "sentence": "Dedup por clave y poison → DLQ tras max attempts",
+      "words": 9,
+      "syllables": 12,
+      "WPS": 9,
+      "SPW": 1.333,
+      "FH": 117.7,
+      "INFLESZ": 114.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 476,
+      "sentence": "Señal de escala por lag de cola y capacidad dentro de cuota",
+      "words": 12,
+      "syllables": 20,
+      "WPS": 12,
+      "SPW": 1.667,
+      "FH": 94.6,
+      "INFLESZ": 91.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 502,
+      "sentence": "Least privilege + egress allowlist con prueba negativa",
+      "words": 7,
+      "syllables": 14,
+      "WPS": 7,
+      "SPW": 2.0,
+      "FH": 79.7,
+      "INFLESZ": 75.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 549,
+      "sentence": "Presupuesto PEN, cuota y drill de recovery/portability",
+      "words": 8,
+      "syllables": 17,
+      "WPS": 8,
+      "SPW": 2.125,
+      "FH": 71.2,
+      "INFLESZ": 66.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "intro",
+      "lineno": 576,
+      "sentence": "Cada subtema sigue E1 → E2 → E3 con andamiaje que se retira: E1 repara un predicado de dominio con un defecto claro; E2 clasifica válido / adverso / campo faltante; E3 decide continue / breach / uncertainty en fail-closed.",
+      "words": 35,
+      "syllables": 61,
+      "WPS": 35,
+      "SPW": 1.743,
+      "FH": 66.6,
+      "INFLESZ": 63.3,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "portfolioNote",
+      "lineno": 1856,
+      "sentence": "Evidencia de CP-N4-B · job asíncrono resiliente: muestra baseline, decisión de stores, colas con DLQ, IAM/egress, presupuesto/restore, pruebas normal/breach/uncertain, resultado medido, rollback y riesgo residual.",
+      "words": 30,
+      "syllables": 57,
+      "WPS": 30,
+      "SPW": 1.9,
+      "FH": 62.2,
+      "INFLESZ": 58.5,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1858,
+      "sentence": "Correctitud del contrato y gate (efecto durable + idempotencia)",
+      "words": 8,
+      "syllables": 19,
+      "WPS": 8,
+      "SPW": 2.375,
+      "FH": 56.2,
+      "INFLESZ": 50.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1859,
+      "sentence": "Pruebas normal/breach/uncertain y recuperación (DLQ / inspección)",
+      "words": 8,
+      "syllables": 15,
+      "WPS": 8,
+      "SPW": 1.875,
+      "FH": 86.2,
+      "INFLESZ": 82.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1860,
+      "sentence": "Seguridad, privacidad y least privilege (IAM/egress modelo)",
+      "words": 8,
+      "syllables": 15,
+      "WPS": 8,
+      "SPW": 1.875,
+      "FH": 86.2,
+      "INFLESZ": 82.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1861,
+      "sentence": "Reproducibilidad, lineage y evidencia",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1862,
+      "sentence": "Operación: SLO, costo/cuota, observabilidad y rollback",
+      "words": 7,
+      "syllables": 16,
+      "WPS": 7,
+      "SPW": 2.286,
+      "FH": 62.6,
+      "INFLESZ": 57.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1863,
+      "sentence": "Comunicación de trade-offs y límites",
+      "words": 6,
+      "syllables": 10,
+      "WPS": 6,
+      "SPW": 1.667,
+      "FH": 100.7,
+      "INFLESZ": 97.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "question",
+      "lineno": 1893,
+      "sentence": "Tras N reintentos fallidos, un mensaje poison debe…",
+      "words": 8,
+      "syllables": 15,
+      "WPS": 8,
+      "SPW": 1.875,
+      "FH": 86.2,
+      "INFLESZ": 82.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1917,
+      "sentence": "Infraestructura declarativa y state",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1922,
+      "sentence": "Reliability, security y cost",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1927,
+      "sentence": "Envelope interoperable de eventos",
+      "words": 4,
+      "syllables": 13,
+      "WPS": 4,
+      "SPW": 3.25,
+      "FH": 7.8,
+      "INFLESZ": 0.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1937,
+      "sentence": "DLQ y poison messages",
+      "words": 4,
+      "syllables": 7,
+      "WPS": 4,
+      "SPW": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1947,
+      "sentence": "Config, backing services y disposability",
+      "words": 5,
+      "syllables": 9,
+      "WPS": 5,
+      "SPW": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1952,
+      "sentence": "Controles de seguridad y acceso",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1957,
+      "sentence": "Semántica de colas didáctica",
+      "words": 4,
+      "syllables": 8,
+      "WPS": 4,
+      "SPW": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1962,
+      "sentence": "Observabilidad del job asíncrono",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1966,
+      "sentence": "Colas, storage y consistencia",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1967,
+      "sentence": "Capacity, cost y recovery",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1973,
+      "sentence": "Tests y proyectos reproducibles",
+      "words": 4,
+      "syllables": 7,
+      "WPS": 4,
+      "SPW": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1975,
+      "sentence": "Costo y presupuestos",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    }
+  ]
+}

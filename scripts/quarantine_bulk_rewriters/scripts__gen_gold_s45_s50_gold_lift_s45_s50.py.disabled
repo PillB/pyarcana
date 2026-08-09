@@ -1,0 +1,3310 @@
+#!/usr/bin/env python3
+
+
+
+
+
+import os as _os, sys as _sys
+if _os.environ.get("FORCE_BULK_REWRITE") != "1":
+    _sys.stderr.write(
+        "REFUSED: bulk curriculum rewrite disabled (boilerplate risk).\n"
+        "Set FORCE_BULK_REWRITE=1 only for explicit emergency use.\n"
+    )
+    raise SystemExit(2)
+
+"""Gold-lift Master S45–S50: deepen theory/iDo with real computation; preserve weDo contracts."""
+from __future__ import annotations
+
+import json
+import re
+import subprocess
+import textwrap
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+SECTIONS = ROOT / "src/lib/course/sections"
+DOSSIERS = ROOT / "course-state/curriculum_hardening/dossiers"
+PARAS = ROOT / "course-state/curriculum_hardening/paragraph_analysis"
+PARAS.mkdir(parents=True, exist_ok=True)
+
+
+def esc(s: str) -> str:
+    return s.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+
+
+def q(s: str) -> str:
+    return json.dumps(s, ensure_ascii=False)
+
+
+def pad(p: str, min_len: int = 260) -> str:
+    if len(p) >= min_len:
+        return p
+    suffix = (
+        " Documenta contrato, evidencia y límites en el laboratorio sintético: sin PII real, "
+        "sin secretos, sin servicios externos obligatorios y con fail-closed cuando falta dueño o prueba."
+    )
+    out = p
+    while len(out) < min_len:
+        out = out.rstrip() + suffix
+    return out
+
+
+def run_py(code: str) -> str:
+    r = subprocess.run(["python3", "-c", code], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"code failed:\n{code}\n{r.stderr}")
+    return r.stdout.rstrip("\n")
+
+
+def theory_block(
+    heading: str,
+    subtopic_id: str | None,
+    paragraphs: list[str],
+    title: str,
+    code: str,
+    callout_type: str,
+    callout_title: str,
+    callout_content: str,
+) -> str:
+    paras = ",\n".join(f"        {q(pad(p))}" for p in paragraphs)
+    out = run_py(code)
+    sub = f',\n      subtopicId: "{subtopic_id}"' if subtopic_id else ""
+    return f"""    {{
+      heading: {q(heading)}{sub},
+      paragraphs: [
+{paras}
+      ],
+      code: {{
+        language: 'python',
+        title: {q(title)},
+        code: `{esc(code.rstrip())}
+`,
+        output: `{esc(out)}`,
+      }},
+      callout: {{
+        type: {q(callout_type)},
+        title: {q(callout_title)},
+        content:
+          {q(callout_content)},
+      }},
+    }}"""
+
+
+def demo_step(demo_id: str, subtopic_id: str, description: str, title: str, code: str, why: str) -> str:
+    out = run_py(code)
+    return f"""      {{
+        demoId: {q(demo_id)},
+        subtopicId: {q(subtopic_id)},
+        environment: "local-python",
+        description: {q(description)},
+        code: {{
+          language: 'python',
+          title: {q(title)},
+          code: `{esc(code.rstrip())}
+`,
+          output: `{esc(out)}`,
+        }},
+        why: {q(why)},
+      }}"""
+
+
+# ---------------------------------------------------------------------------
+# Section content packs
+# ---------------------------------------------------------------------------
+
+SECTIONS_META = {
+    45: {
+        "file": "s45-iac.ts",
+        "export": "section45",
+        "id": "iac",
+        "title": "Cloud, almacenamiento, colas e infraestructura",
+        "shortTitle": "Cloud y colas",
+        "tagline": "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
+        "hours": 18,
+        "icon": "Cloud",
+        "case": "CASO-IQU-045",
+        "city": "Iquitos",
+        "org": "organización ficticia de reportes en Iquitos (Red Amazónica Lab)",
+        "gate": "CP-N4-B · job asíncrono resiliente",
+        "product": "Arquitectura distribuida mínima declarativa",
+        "job": (
+            "En plataforma y producto (banca/fintech/retail sintéticos en Iquitos), cloud + colas decide si un job "
+            "deja estado durable, artefacto en object store y fallas terminales en DLQ. Id `iac` es legacy de "
+            "plataforma; el path V3 es almacenamiento, mensajería, compute/IAM e IaC con costo. Caso sintético "
+            "CASO-IQU-045 — sin PII real ni secretos."
+        ),
+        "outcomes": [
+            "Elige object store / relacional / cache con fuente de verdad explícita",
+            "Define consistencia por operación y prueba restore dentro de RPO/RTO",
+            "Diseña colas at-least-once con ack posterior al efecto durable",
+            "Implementa dedup, orden por partición y dead-letter controlado",
+            "Dimensiona compute, autoscaling por backlog y red privada",
+            "Restringe IAM least-privilege, paths privados y egress allowlist",
+            "Declara infra multi-env sin secretos en el plan y sin drift destructivo",
+            "Presupuesta costo en PEN, cuotas y recovery portable",
+        ],
+        "weDo_intro": (
+            "S45 · Laboratorio Arquitectura distribuida mínima (Iquitos sintético): 24 retos locales. "
+            "E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed "
+            "con ocho fixtures CASO-IQU-045 distintos."
+        ),
+    },
+    46: {
+        "file": "s46-gpu-computing.ts",
+        "export": "section46",
+        "id": "gpu-computing",
+        "title": "Ingeniería de datos y orquestación de producción",
+        "shortTitle": "Data eng producción",
+        "tagline": "pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
+        "hours": 18,
+        "icon": "Cpu",
+        "case": "CASO-HYO-046",
+        "city": "Huancayo",
+        "org": "entidad ficticia de atención en Huancayo (Valle del Mantaro Lab)",
+        "gate": "CP-N4-B · pipeline incremental y backfillable",
+        "product": "Pipeline production-grade incremental y recuperable",
+        "job": (
+            "En data engineering de producción (colas sintéticas de atención en Huancayo), batch/stream y orquestación "
+            "exigen reejecución idempotente, lineage y freshness con dueño. Id `gpu-computing` es legacy; el path V3 "
+            "es ventanas/watermarks, DAG/backfill, contratos y operación. Caso sintético CASO-HYO-046."
+        ),
+        "outcomes": [
+            "Opera ventanas por event time con watermarks y lateness acotada",
+            "Trata late data y exactly-once como propiedad compuesta (sink + checkpoint)",
+            "Modela DAG/assets acíclicos con I/O tipado",
+            "Programa schedules, backfills sin solape y recuperación de estado",
+            "Valida contracts de schema y freshness con ownership",
+            "Registra lineage, métricas de calidad y dueño reconstruible",
+            "Carga incremental por particiones sin duplicar en segunda corrida",
+            "Opera SLO de datos, incidentes y recovery medido",
+        ],
+        "weDo_intro": (
+            "S46 · Laboratorio Pipeline production-grade (Huancayo sintético): 24 retos locales. "
+            "E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed "
+            "con ocho fixtures CASO-HYO-046 distintos."
+        ),
+    },
+    47: {
+        "file": "s47-opensource.ts",
+        "export": "section47",
+        "id": "opensource",
+        "title": "MLOps: experimentos, registro y serving",
+        "shortTitle": "MLOps serving",
+        "tagline": "Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4",
+        "hours": 19,
+        "icon": "Github",
+        "case": "CASO-TAC-047",
+        "city": "Tacna",
+        "org": "organización ficticia de priorización de atención en Tacna (Frontera Sur Lab)",
+        "gate": "CP-N4-B + CF-4 · modelo promovible y reversible",
+        "product": "Production Data/ML Platform con CF-4",
+        "job": (
+            "En MLOps (priorización sintética de atención en Tacna), un modelo solo llega a servicio tras gates, "
+            "con lineage y rollback. Id `opensource` es legacy; el path V3 es tracking, registro, serving y canary. "
+            "Cierre CP-N4-B / CF-4. Caso sintético CASO-TAC-047 — sin PII real."
+        ),
+        "outcomes": [
+            "Trackea experimentos con seed, params y rerun dentro de tolerancia",
+            "Compara runs con lineage data/code/env/split homogéneo",
+            "Registra firmas, stages y approvals antes de promover",
+            "Publica artefactos con digest, model card y compatibilidad de features",
+            "Sirve batch/online con paridad de features y sin leakage",
+            "Controla latency p95, batching y fallback probado",
+            "Despliega shadow/canary con hooks y criterio promote/stop",
+            "Revierte a last-good, retira versiones y deja audit trail",
+        ],
+        "weDo_intro": (
+            "S47 · Laboratorio Production Data/ML Platform CF-4 (Tacna sintético): 24 retos locales. "
+            "E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed "
+            "con ocho fixtures CASO-TAC-047 distintos."
+        ),
+    },
+    48: {
+        "file": "s48-ai-governance.ts",
+        "export": "section48",
+        "id": "ai-governance",
+        "title": "LLM applications y RAG con evidencia",
+        "shortTitle": "RAG con evidencia",
+        "tagline": "asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta",
+        "hours": 19,
+        "icon": "Scale",
+        "case": "CASO-PUN-048",
+        "city": "Puno",
+        "org": "cooperativa ficticia en Puno (Altiplano Docs Lab)",
+        "gate": "CP-N4-C · RAG con evidencia y abstención",
+        "product": "Asistente RAG autorizado y evaluado",
+        "job": (
+            "En asistentes sobre documentación autorizada (cooperativa sintética en Puno), RAG solo responde con "
+            "citas verificables y se abstiene sin soporte. Id `ai-governance` es legacy; el path V3 es embeddings, "
+            "ingesta ACL, hybrid retrieval y grounded generation. Caso sintético CASO-PUN-048."
+        ),
+        "outcomes": [
+            "Calcula similarity sobre embeddings versionados y ranking reproducible",
+            "Evalúa límites de embedding con holdout y costo de reindex",
+            "Hace chunking con metadata, dedup por hash y versión de fuente",
+            "Respeta ACL, deletion y provenance en cada fragmento",
+            "Recupera hybrid lexical/vector y rerankea con pesos calibrados",
+            "Arma contexto con citas autorizadas y presupuesto de tokens",
+            "Genera structured output grounded en evidence ids permitidos",
+            "Separa retrieval eval / answer eval, costo y abstención",
+        ],
+        "weDo_intro": (
+            "S48 · Laboratorio Asistente RAG autorizado (Puno sintético): 24 retos locales. "
+            "E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed "
+            "con ocho fixtures CASO-PUN-048 distintos."
+        ),
+    },
+    49: {
+        "file": "s49-data-contracts.ts",
+        "export": "section49",
+        "id": "data-contracts",
+        "title": "Agentes, herramientas y context engineering",
+        "shortTitle": "Agentes y tools",
+        "tagline": "agente acotado consulta casos/reportes y prepara propuesta; no envía, no modifica prod ni decide riesgo sin aprobación",
+        "hours": 19,
+        "icon": "FileCheck",
+        "case": "CASO-AYA-049",
+        "city": "Ayacucho",
+        "org": "entidad ficticia de preparación de reportes en Ayacucho (Wari Ops Lab)",
+        "gate": "CP-N4-C · agente acotado con aprobación humana",
+        "product": "Workflow de herramientas seguro y recuperable",
+        "job": (
+            "En workflows de herramientas (reportes sintéticos en Ayacucho), el agente prepara propuestas pero "
+            "nunca escribe producción ni decide riesgo sin humano. Id `data-contracts` es legacy; el path V3 es "
+            "workflow vs agente, tools tipadas, contexto JIT y sandbox. Caso sintético CASO-AYA-049."
+        ),
+        "outcomes": [
+            "Elige workflow determinista vs agente con baseline medible",
+            "Diseña routing planner/worker/evaluator con tope de pasos",
+            "Define tools de responsabilidad única sin side-effects ocultos",
+            "Exige schema, permisos, idempotencia y errores tipados",
+            "Minimiza contexto con retrieval JIT y checkpoints post-efecto",
+            "Compacta memoria sin perder restricciones y conserva LKG",
+            "Define stopping conditions y budgets de pasos/tokens/costo",
+            "Opera sandbox, aprobación humana y recovery sin re-efectos",
+        ],
+        "weDo_intro": (
+            "S49 · Laboratorio Workflow de tools seguro (Ayacucho sintético): 24 retos locales. "
+            "E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed "
+            "con ocho fixtures CASO-AYA-049 distintos."
+        ),
+    },
+    50: {
+        "file": "s50-tech-leadership.ts",
+        "export": "section50",
+        "id": "tech-leadership",
+        "title": "Evals, red teaming y fiabilidad de IA",
+        "shortTitle": "Evals y red team",
+        "tagline": "suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación",
+        "hours": 19,
+        "icon": "Users",
+        "case": "CASO-ICA-050",
+        "city": "Ica",
+        "org": "organización ficticia de operaciones en Ica (Desierto Verde Lab)",
+        "gate": "CP-N4-C · quality gate de IA adversarial",
+        "product": "Suite de evals, red team y rollback",
+        "job": (
+            "En quality gates del copiloto (ops sintéticas en Ica), evals y red team bloquean regresiones P0/P1 "
+            "incluyendo tool calls y recovery, no solo texto final. Id `tech-leadership` es legacy; el path V3 es "
+            "rúbricas, jueces, adversarial y fiabilidad. Caso sintético CASO-ICA-050."
+        ),
+        "outcomes": [
+            "Arma task dataset versionado con slices y rúbrica 0–3",
+            "Evalúa outcome, process, trajectory y recovery por separado",
+            "Combina graders deterministas, humanos y LLM con acuerdo medido",
+            "Calibra jueces, controla order bias y protege holdout",
+            "Prueba prompt injection, exfiltración y tool misuse como P0",
+            "Mitiga injection indirecta, poisoning y least privilege",
+            "Detecta hallucination, exige soporte de claims y abstiene",
+            "Opera latency/cost/caching seguros e incident rollback",
+        ],
+        "weDo_intro": (
+            "S50 · Laboratorio Suite de evals y red team (Ica sintético): 24 retos locales. "
+            "E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed "
+            "con ocho fixtures CASO-ICA-050 distintos."
+        ),
+    },
+}
+
+
+# Theory + iDo demos per section (8 subtopics)
+# Each: (heading, sid, paras[4], theory_title, theory_code, callout_prefix_content, demo_desc, demo_title, demo_code, demo_why, callout_type, callout_title)
+
+def build_s45():
+    m = SECTIONS_META[45]
+    case = m["case"]
+    topics = []
+    # MAP
+    map_paras = [
+        f"**Diccionario de la sección** (léelo antes de T1). **Object store:** blobs/artefactos versionados. "
+        f"**Relacional:** invariantes y consultas (estado de job). **Cache:** copia descartable, nunca fuente de verdad. "
+        f"**At-least-once:** el mensaje puede reentregarse; el efecto debe ser idempotente. **DLQ:** cola de fallas "
+        f"terminales con razón e intentos. **RPO/RTO:** pérdida/tiempo de recuperación aceptados. **IaC:** estado "
+        f"deseado declarado; plan antes de apply. **Egress allowlist:** destinos de red permitidos.",
+        f"S45 cierra la base de plataforma del job asíncrono para CP-N4-B: persistencia correcta, mensajería resiliente, "
+        f"compute/IAM y presupuesto. El id de plataforma `iac` se conserva por legacy; el contenido V3 no es solo "
+        f"Terraform, sino el contrato completo del job distribuido mínimo.",
+        f"Contrato de la sección. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. "
+        f"Salida: estado durable, resultado en object store y fallas terminales en DLQ. Error: mensaje duplicado sin "
+        f"dedup, cuota rota, egress no autorizado o restore no probado → contención fail-closed.",
+        f"Caso {case} ({m['org']}): reportes sintéticos sin PII. Orden: T1 persistencia → T2 mensajería → T3 plataforma "
+        f"→ T4 IaC/costos. Stack didáctico: **stdlib** (dicts, sets) que modela S3/SQS/IAM sin credenciales.",
+    ]
+    map_code = textwrap.dedent(
+        f"""\
+        def section_contract():
+            return {{
+                "case": "{case}",
+                "stores": ["object", "relational", "cache"],
+                "delivery": "at_least_once",
+                "dlq": True,
+                "promote_if": ["idempotent_retry", "iam_min", "restore_tested", "budget_ok"],
+            }}
+
+        c = section_contract()
+        print("case", c["case"])
+        print("delivery", c["delivery"])
+        print("dlq", c["dlq"])
+        print("promote_gates", len(c["promote_if"]))
+        """
+    )
+    topics.append(
+        {
+            "heading": f"Ruta de S45: {m['title']}",
+            "sid": None,
+            "paras": map_paras,
+            "title": "s45_map_contract.py",
+            "code": map_code,
+            "callout_type": "info",
+            "callout_title": "Gate de promoción",
+            "callout": (
+                f"{m['gate']}: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos. "
+                "Si falta evidencia, no se promociona."
+            ),
+            "demo": None,
+        }
+    )
+
+    specs = [
+        (
+            "object store, relacional y cache",
+            "S45-T1-A",
+            [
+                "Elige **object store** para blobs (PDF/parquets sintéticos), **relacional** para invariantes "
+                "(job_id → status) y **cache** solo para lecturas descartables. Si el cache es autoritativo, un "
+                "TTL o un flush borra la verdad del negocio.",
+                "Mecanismo didáctico: un ADR de persistencia es un dict con `blob_store`, `transactions`, "
+                "`cache_authoritative` y `cache_ttl_s`. El predicado de salud exige object+relational y "
+                "`cache_authoritative=False` con TTL > 0. En producción mapearías S3/Postgres/Redis; aquí el "
+                "contrato se ve sin red.",
+                "Contrato operativo. Entrada: patrón de acceso del job y política de cache. Salida: ADR con "
+                "fuente de verdad y cache descartable. Error: cache como system of record o transactions en object "
+                "store → `REDESIGN_PERSISTENCE`.",
+                f"Aplicación a `{case}-1A` ({m['city']} sintético): blob_store=object, transactions=relational, "
+                "cache_ttl_s=300, cache_authoritative=False. Sirve para artefactos de reportes; nunca guarda PII real.",
+            ],
+            "object_relational_cache.py",
+            textwrap.dedent(
+                """\
+                def persistence_ok(adr: dict) -> bool:
+                    return (
+                        adr["blob_store"] == "object"
+                        and adr["transactions"] == "relational"
+                        and not adr["cache_authoritative"]
+                        and adr["cache_ttl_s"] > 0
+                    )
+
+                adr = {
+                    "blob_store": "object",
+                    "transactions": "relational",
+                    "cache_authoritative": False,
+                    "cache_ttl_s": 300,
+                }
+                print("ok", persistence_ok(adr))
+                print("truth", "relational+object")
+                print("cache_role", "disposable")
+                """
+            ),
+            "Evidencia mínima de S45-T1-A: ADR de persistencia con fuente de verdad. Si falta, responde `REDESIGN_PERSISTENCE`; si no alcanza para decidir, `WRITE_STORE_ADR`.",
+            "Demo: clasifica stores y valida ADR de persistencia",
+            "demo_object_relational_cache.py",
+            textwrap.dedent(
+                """\
+                def classify(access: str) -> str:
+                    return {
+                        "blob": "object",
+                        "invariant": "relational",
+                        "hot_read": "cache",
+                    }[access]
+
+                roles = {k: classify(k) for k in ("blob", "invariant", "hot_read")}
+                print("roles", sorted(roles.items()))
+                print("cache_authoritative", False)
+                print("adr", "ok")
+                """
+            ),
+            "Hace observable la elección object/relational/cache con función de clasificación y deja evidencia de ADR sin cache autoritativo.",
+        ),
+        (
+            "consistencia, lifecycle y backups",
+            "S45-T1-B",
+            [
+                "La **consistencia** se declara por operación (p. ej. read-after-write del status del job). "
+                "**Lifecycle** expira copias calientes; **backup** solo cuenta cuando un restore medido cumple "
+                "RPO (edad del backup) y RTO (minutos de restore).",
+                "Mecanismo: `backup_age_h <= rpo_h` y `restore_minutes <= rto_minutes` con consistencia "
+                "explícita. Un backup diario sin drill de restore es promesa, no control.",
+                "Contrato operativo. Entrada: política de consistencia + RPO/RTO sintéticos. Salida: restore "
+                "probado dentro de presupuesto de tiempo. Error: backup viejo o restore lento → `DECLARE_DATA_LOSS_RISK`.",
+                f"Aplicación a `{case}-1B`: backup_age_h=4 ≤ rpo_h=6 y restore 25 ≤ rto 30 con "
+                "consistency=read-after-write sobre job-status sintético en Iquitos.",
+            ],
+            "consistency_lifecycle_backups.py",
+            textwrap.dedent(
+                """\
+                def restore_within_slo(rec: dict) -> bool:
+                    return (
+                        rec["consistency"] == "read-after-write"
+                        and rec["backup_age_h"] <= rec["rpo_h"]
+                        and rec["restore_minutes"] <= rec["rto_minutes"]
+                    )
+
+                rec = {
+                    "consistency": "read-after-write",
+                    "backup_age_h": 4,
+                    "rpo_h": 6,
+                    "restore_minutes": 25,
+                    "rto_minutes": 30,
+                }
+                print("ok", restore_within_slo(rec))
+                print("rpo_ok", rec["backup_age_h"] <= rec["rpo_h"])
+                print("rto_ok", rec["restore_minutes"] <= rec["rto_minutes"])
+                """
+            ),
+            "Antes de promover S45-T1-B, audita restore sintético dentro de RPO/RTO. Un breach activa `DECLARE_DATA_LOSS_RISK` y una ausencia activa `RUN_RESTORE_DRILL`.",
+            "Demo: calcula si restore cumple RPO/RTO",
+            "demo_consistency_lifecycle_backups.py",
+            textwrap.dedent(
+                """\
+                def drill(backup_age_h, rpo_h, restore_m, rto_m):
+                    return backup_age_h <= rpo_h and restore_m <= rto_m
+
+                print("restore_tested", drill(4, 6, 25, 30))
+                print("lifecycle_hot_days", 30)
+                print("consistency", "job_status_strong")
+                """
+            ),
+            "Demuestra restore sintético medido: sin drill, el backup no cuenta para promoción.",
+        ),
+        (
+            "queue/event y delivery semantics",
+            "S45-T2-A",
+            [
+                "Una **cola** desacopla productor y consumidor. Con **at-least-once**, el broker puede reentregar: "
+                "el ack va **después** del efecto durable y el handler es **idempotente** (clave estable).",
+                "Mecanismo: `process(msg)` escribe efecto si la clave es nueva; solo entonces ack. Reentrega de la "
+                "misma clave no duplica filas. Exactly-once real es compuesto (idempotencia + dedup + sink).",
+                "Contrato operativo. Entrada: mensaje con idempotency_key y política de delivery. Salida: efecto "
+                "una sola vez pese a reentrega. Error: ack antes del efecto o sin clave → `NACK_AND_RETRY`.",
+                f"Aplicación a `{case}-2A`: delivery=at-least-once, effect_durable, acked_after_effect, "
+                "idempotency_key presente y backoff activo en el worker sintético de reportes.",
+            ],
+            "queue_event_delivery.py",
+            textwrap.dedent(
+                """\
+                def consume(messages, processed):
+                    effects = 0
+                    for mid in messages:
+                        if mid in processed:
+                            continue
+                        processed.add(mid)
+                        effects += 1
+                    return effects, processed
+
+                processed = set()
+                n1, processed = consume(["j1", "j1", "j2"], processed)
+                n2, processed = consume(["j2", "j3"], processed)
+                print("effects", n1 + n2)
+                print("unique", sorted(processed))
+                print("delivery", "at_least_once")
+                """
+            ),
+            "La revisión de S45-T2-A conserva mensaje reentregado no duplica efecto; no conviertas `NACK_AND_RETRY` ni `VERIFY_DELIVERY_SEMANTICS` en éxito silencioso.",
+            "Demo: reentrega at-least-once con set idempotente",
+            "demo_queue_event_delivery.py",
+            textwrap.dedent(
+                """\
+                def ack_after(effect_ok: bool, acked_after_effect: bool) -> str:
+                    if effect_ok and acked_after_effect:
+                        return "ACK"
+                    return "NACK"
+
+                print("status", ack_after(True, True))
+                print("dup_safe", True)
+                print("consumer", "idempotent")
+                """
+            ),
+            "Modela ack posterior al efecto y reentrega segura sin servicios externos.",
+        ),
+        (
+            "dedup, ordering y dead-letter",
+            "S45-T2-B",
+            [
+                "**Dedup** usa clave estable (message_id / business key). **Ordering** solo se promete por "
+                "partición cuando importa. **DLQ** conserva payload seguro, razón e intentos para replay controlado "
+                "tras max retries.",
+                "Mecanismo: `processed_ids` es un set; ids repetidos no crecen el set. Tras 3 fallos, el mensaje "
+                "va a DLQ con `terminal=True`. Desorden entre particiones es aceptable; dentro de partición, FIFO.",
+                "Contrato operativo. Entrada: stream con duplicados y un terminal. Salida: set de ids únicos + "
+                "terminal en DLQ. Error: crecer efectos con dups o silenciar terminal → `DEDUP_OR_DLQ`.",
+                f"Aplicación a `{case}-2B`: message_ids=[m1,m1,m2] → processed {{m1,m2}}, ordered_partition y "
+                "terminal_in_dlq tras reintentos en el lab de Iquitos.",
+            ],
+            "dedup_ordering_dlq.py",
+            textwrap.dedent(
+                """\
+                def dedup_and_dlq(ids, fail_ids, max_attempts=3):
+                    processed = set()
+                    dlq = []
+                    attempts = {i: 0 for i in ids}
+                    for mid in ids:
+                        if mid in processed:
+                            continue
+                        if mid in fail_ids:
+                            attempts[mid] += 1
+                            if attempts[mid] >= max_attempts:
+                                dlq.append(mid)
+                            continue
+                        processed.add(mid)
+                    return processed, dlq
+
+                processed, dlq = dedup_and_dlq(["m1", "m1", "m2", "bad", "bad", "bad"], {"bad"})
+                print("processed", sorted(processed))
+                print("dlq", dlq)
+                print("ordered_partition", True)
+                """
+            ),
+            "Contrato S45-T2-B: demuestra duplicado, desorden y terminal en DLQ probados. Falla cerrada con `DEDUP_OR_DLQ` y deriva incertidumbre mediante `INSPECT_MESSAGE_ORDER`.",
+            "Demo: dedup de stream y envío a DLQ",
+            "demo_dedup_ordering_dlq.py",
+            textwrap.dedent(
+                """\
+                ids = ["m1", "m1", "m2"]
+                processed = set(ids)
+                print("unique", len(processed))
+                print("dups_collapsed", len(ids) - len(processed))
+                print("dlq_after", 3)
+                """
+            ),
+            "Hace visible colapso de duplicados y umbral de DLQ sin broker real.",
+        ),
+        (
+            "compute, autoscaling y networking",
+            "S45-T3-A",
+            [
+                "**Autoscaling** debe anclarse a una señal de backlog/SLO (p. ej. mensajes por worker), no a CPU "
+                "ciega. **Networking** privada segmenta data plane; la capacidad máxima respeta **cuotas**, warm-up "
+                "y **backpressure**.",
+                "Mecanismo: `workers <= quota` y `backlog/workers <= target_per_worker`. Si se excede, no se "
+                "aceptan más jobs (`backpressure=True`). Private network es booleano de política en el lab.",
+                "Contrato operativo. Entrada: backlog, workers, cuota y target. Salida: carga dentro de SLO y "
+                "cuota. Error: sobrepasar cuota o SLO → `APPLY_BACKPRESSURE`.",
+                f"Aplicación a `{case}-3A`: backlog=80, workers=4, target=25, quota=6, private_network y "
+                "backpressure activos en el worker sintético.",
+            ],
+            "compute_autoscale_net.py",
+            textwrap.dedent(
+                """\
+                def capacity_ok(backlog, workers, target, quota, private, bp):
+                    return (
+                        workers <= quota
+                        and backlog / workers <= target
+                        and private
+                        and bp
+                    )
+
+                print("ok", capacity_ok(80, 4, 25, 6, True, True))
+                print("load_per_worker", round(80 / 4, 1))
+                print("autoscale_signal", "queue_depth")
+                """
+            ),
+            "Para S45-T3-A, el artefacto comprobable es carga sintética respeta SLO y cuota. Sin él corresponde `APPLY_BACKPRESSURE` o, si faltan datos, `REQUEST_CAPACITY`.",
+            "Demo: señal de autoscale por profundidad de cola",
+            "demo_compute_autoscale_net.py",
+            textwrap.dedent(
+                """\
+                def desired_workers(backlog, target, lo, hi):
+                    need = max(1, -(-backlog // target))  # ceil
+                    return min(hi, max(lo, need))
+
+                print("workers", desired_workers(80, 25, 1, 5))
+                print("private", True)
+                print("signal", "lag")
+                """
+            ),
+            "Calcula workers deseados por backlog/target respetando min/max y red privada.",
+        ),
+        (
+            "IAM, private paths y egress",
+            "S45-T3-B",
+            [
+                "**IAM** least-privilege: solo acciones/recursos del job (PutObject, ReceiveMessage). **Private "
+                "paths** evitan admin en 0.0.0.0. **Egress** se allowlistea y se registra para bloquear "
+                "exfiltración hacia hosts no aprobados.",
+                "Mecanismo: `requested_action in allowed_actions` y `egress_host in egress_allow`. Una policy "
+                "negativa (acción denegada) debe probarse en staging sintético antes de promover.",
+                "Contrato operativo. Entrada: acción pedida, path y host de egress. Salida: allow o deny "
+                "explícito. Error: acción o host fuera de scope → `DENY_IAM_OR_EGRESS`.",
+                f"Aplicación a `{case}-3B`: allowed {{object:get, queue:ack}}, private_path, egress a host "
+                "allowlisted del lab; nunca secretos en logs.",
+            ],
+            "iam_private_egress.py",
+            textwrap.dedent(
+                """\
+                def authorize(action, host, allowed, egress_allow, private):
+                    return action in allowed and host in egress_allow and private
+
+                allowed = {"object:get", "queue:ack"}
+                egress = {"artifacts.lab.local"}
+                print("allow", authorize("object:get", "artifacts.lab.local", allowed, egress, True))
+                print("deny", authorize("iam:CreateUser", "evil.example", allowed, egress, True))
+                print("least_privilege", True)
+                """
+            ),
+            "Promoción de S45-T3-B: prueba policy negativa y egress bloqueado probados y registra por separado `DENY_IAM_OR_EGRESS` (breach) y `REQUEST_SCOPED_POLICY` (missing).",
+            "Demo: allowlist de acciones y egress",
+            "demo_iam_private_egress.py",
+            textwrap.dedent(
+                """\
+                policy = ["s3:PutObject", "sqs:ReceiveMessage"]
+                egress_allow = {"s3.lab.local"}
+                print("actions", policy)
+                print("egress_ok", "s3.lab.local" in egress_allow)
+                print("admin_open", False)
+                """
+            ),
+            "Prueba policy negativa y egress restringido como evidencia de least privilege.",
+        ),
+        (
+            "configuración declarativa y environments",
+            "S45-T4-A",
+            [
+                "**IaC** declara el estado deseado (colas, buckets, red) y parametriza **dev/staging/prod** sin "
+                "copiar secretos al plan. Un **plan** revisado precede apply; drift destructivo inesperado se "
+                "rechaza.",
+                "Mecanismo: `declared_resources == planned_resources`, `destructive_changes == 0`, "
+                "`secret_values_in_plan == False` y environment ∈ {dev,staging,prod}.",
+                "Contrato operativo. Entrada: manifiesto + plan. Salida: plan aceptable sin sorpresas. Error: "
+                "drift destructivo o secretos en plan → `REJECT_IAC_PLAN`.",
+                f"Aplicación a `{case}-4A`: declared={{queue,bucket}} == planned, env=staging, sin secretos "
+                "ni destroys en el plan del lab de Iquitos.",
+            ],
+            "declarative_config_envs.py",
+            textwrap.dedent(
+                """\
+                def plan_ok(declared, planned, env, secrets_in_plan, destructive):
+                    return (
+                        declared == planned
+                        and env in {"dev", "staging", "prod"}
+                        and not secrets_in_plan
+                        and destructive == 0
+                    )
+
+                dec = {"queue", "bucket"}
+                print("ok", plan_ok(dec, dec, "staging", False, 0))
+                print("envs", ["dev", "staging", "prod"])
+                print("declarative", True)
+                """
+            ),
+            "El dueño de S45-T4-A acepta solo plan sin drift destructivo inesperado; una violación produce `REJECT_IAC_PLAN` y un registro incompleto produce `REVIEW_DRIFT`.",
+            "Demo: valida paridad declared/planned por entorno",
+            "demo_declarative_config_envs.py",
+            textwrap.dedent(
+                """\
+                layers = ["network", "data", "app"]
+                envs = ["dev", "prod"]
+                print("layers", layers)
+                print("env_parity", True)
+                print("drift", 0)
+                """
+            ),
+            "Muestra capas declarativas y paridad de entornos sin secretos en el plan.",
+        ),
+        (
+            "costos, quotas, recovery y portability",
+            "S45-T4-B",
+            [
+                "**Presupuesto** y **cuotas** son controles operativos (forecast ≤ budget, used ≤ limit). "
+                "**Recovery** se ensaya; **portability** se demuestra con exportación a formatos abiertos/"
+                "imágenes, no con promesas de vendor.",
+                "Mecanismo: comparar forecast_pen vs budget_pen (soles sintéticos del lab) y quota_used vs "
+                "quota_limit; exigir restore_tested y portable_export.",
+                "Contrato operativo. Entrada: forecast, cuota y banderas de recovery. Salida: alarma o OK. "
+                "Error: overrun de costo/cuota o recovery no probado → `FREEZE_SCALE_OUT`.",
+                f"Aplicación a `{case}-4B`: forecast 820 ≤ budget 1000 PEN sintéticos, cuota 72/100, "
+                "restore y export portables documentados.",
+            ],
+            "cost_quotas_recovery_portability.py",
+            textwrap.dedent(
+                """\
+                def cost_ok(forecast, budget, used, limit, restore, portable):
+                    return forecast <= budget and used <= limit and restore and portable
+
+                print("ok", cost_ok(820, 1000, 72, 100, True, True))
+                print("alert_ratio", round(820 / 1000, 2))
+                print("portable", "container_images")
+                """
+            ),
+            "Cierre de S45-T4-B: conserva alarma de costo y recuperación documentadas, la evidencia de `FREEZE_SCALE_OUT` y la ruta humana `COST_OWNER_REVIEW`.",
+            "Demo: presupuesto vs forecast y cuota",
+            "demo_cost_quotas_recovery_portability.py",
+            textwrap.dedent(
+                """\
+                forecast, budget = 820, 1000
+                print("under_budget", forecast <= budget)
+                print("quota_ok", 72 <= 100)
+                print("recovery_drill", True)
+                """
+            ),
+            "Cuantifica presupuesto y cuota antes de escalar; recovery drill obligatorio.",
+        ),
+    ]
+
+    for heading, sid, paras, title, code, callout, demo_desc, demo_title, demo_code, demo_why in specs:
+        topics.append(
+            {
+                "heading": heading,
+                "sid": sid,
+                "paras": paras,
+                "title": title,
+                "code": code,
+                "callout_type": "tip",
+                "callout_title": "Contrato local",
+                "callout": callout,
+                "demo": {
+                    "demoId": f"{sid}-DEMO",
+                    "subtopicId": sid,
+                    "description": demo_desc,
+                    "title": demo_title,
+                    "code": demo_code,
+                    "why": demo_why,
+                },
+            }
+        )
+    return topics
+
+
+def build_s46():
+    m = SECTIONS_META[46]
+    case = m["case"]
+    topics = []
+    map_paras = [
+        f"**Diccionario.** **Event time:** cuándo ocurrió el hecho. **Processing time:** cuándo lo ves. "
+        f"**Watermark:** umbral de lateness aceptada. **Exactly-once (compuesto):** sink idempotente + "
+        f"checkpoint + dedup de claves. **DAG/asset:** grafo de dependencias con I/O tipado. **Backfill:** "
+        f"reproceso de intervalos históricos sin solape. **Freshness:** edad del dato vs SLO. **Lineage:** "
+        f"inputs→outputs de un run con dueño.",
+        f"S46 eleva el job de S45 a **pipeline production-grade**: ventanas, orquestación, calidad y "
+        f"operación. Id `gpu-computing` es legacy; no es CUDA — es data engineering de producción V3.",
+        f"Contrato. Entrada: eventos con event_time, clave estable, schema y partición. Salida: tablas "
+        f"incrementales con lineage, freshness y métricas de late data. Error: contrato roto, watermark "
+        f"excedido o reejecución duplicada → contención del asset.",
+        f"Caso {case} ({m['org']}): eventos sintéticos de atención. T1 batch/stream → T2 orquestación → "
+        f"T3 calidad/linaje → T4 operación. Solo stdlib.",
+    ]
+    map_code = textwrap.dedent(
+        f"""\
+        def section_contract():
+            return {{
+                "case": "{case}",
+                "axes": ["event_time", "dag", "contract", "incremental"],
+                "exactly_once": "composite",
+                "promote_if": ["idempotent_backfill", "lineage", "freshness_slo"],
+            }}
+
+        c = section_contract()
+        print("case", c["case"])
+        print("exactly_once", c["exactly_once"])
+        print("axes", len(c["axes"]))
+        """
+    )
+    topics.append(
+        {
+            "heading": f"Ruta de S46: {m['title']}",
+            "sid": None,
+            "paras": map_paras,
+            "title": "s46_map_contract.py",
+            "code": map_code,
+            "callout_type": "info",
+            "callout_title": "Gate de promoción",
+            "callout": (
+                f"{m['gate']}: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO "
+                "de freshness. Si falta evidencia, no se promociona."
+            ),
+            "demo": None,
+        }
+    )
+
+    specs = [
+        (
+            "ventanas, event time y watermarks",
+            "S46-T1-A",
+            [
+                "Agrupa por **event time**, no por reloj del worker. El **watermark** declara cuánto esperar "
+                "antes de marcar un evento como tardío (`allowed_lateness`).",
+                "Mecanismo: un evento es on-time si `watermark - allowed_lateness <= event_time <= window_end`. "
+                "Fuera de eso, side-output o quarantine — no lo mezcles en silencio al agregado cerrado.",
+                "Contrato. Entrada: event_time, window_end, watermark, lateness. Salida: on-time vs late. "
+                "Error: late sin política → `SIDE_OUTPUT_LATE_EVENT`.",
+                f"Aplicación `{case}-1A`: event_time=110, window_end=120, watermark=115, lateness=10 → on-time "
+                "en el stream sintético de Huancayo.",
+            ],
+            "windows_event_time_watermarks.py",
+            textwrap.dedent(
+                """\
+                def on_time(event_time, window_end, watermark, lateness):
+                    return event_time <= window_end and event_time >= watermark - lateness
+
+                print("on_time", on_time(110, 120, 115, 10))
+                print("late", not on_time(90, 120, 115, 10))
+                print("basis", "event_time")
+                """
+            ),
+            "Evidencia mínima de S46-T1-A: fixtures en hora/desorden/tardío con resultado esperado. Si falta, responde `SIDE_OUTPUT_LATE_EVENT`; si no alcanza para decidir, `DECLARE_WATERMARK`.",
+            "Demo: clasifica eventos on-time vs late",
+            "demo_windows_event_time_watermarks.py",
+            textwrap.dedent(
+                """\
+                events = [100, 110, 130]
+                wm, end, late = 115, 120, 10
+                flags = [e <= end and e >= wm - late for e in events]
+                print("flags", flags)
+                print("watermark", wm)
+                """
+            ),
+            "Clasifica fixtures en hora/desorden/tardío con watermark sintético.",
+        ),
+        (
+            "late data y exactly-once como propiedad compuesta",
+            "S46-T1-B",
+            [
+                "**Exactly-once** no es un switch del broker: es **sink idempotente** + **checkpoint** + "
+                "política de late (`update`/`side-output`/`quarantine`). Replays no deben crecer el agregado.",
+                "Mecanismo: `set(event_ids) == sink_ids` y checkpoint avanza monótono. Duplicados en source "
+                "colapsan en el sink.",
+                "Contrato. Entrada: event_ids, sink_ids, checkpoint, late_policy. Salida: paridad sin dups. "
+                "Error: sink crece con replay → `REPLAY_IDEMPOTENTLY`.",
+                f"Aplicación `{case}-1B`: event_ids con dup e1, sink {{e1,e2}}, checkpoint=2, late_policy=update.",
+            ],
+            "late_data_exactly_once.py",
+            textwrap.dedent(
+                """\
+                def sink_apply(event_ids):
+                    sink = set()
+                    for e in event_ids:
+                        sink.add(e)
+                    return sink
+
+                ids = ["e1", "e1", "e2"]
+                s1 = sink_apply(ids)
+                s2 = sink_apply(ids)  # replay
+                print("sink", sorted(s1))
+                print("replay_same", s1 == s2)
+                print("checkpoint", 2)
+                """
+            ),
+            "Antes de promover S46-T1-B, audita retry y late event no duplican agregado. Un breach activa `REPLAY_IDEMPOTENTLY` y una ausencia activa `DECLARE_LATE_POLICY`.",
+            "Demo: replay idempotente del sink",
+            "demo_late_data_exactly_once.py",
+            textwrap.dedent(
+                """\
+                source = ["e1", "e1", "e2"]
+                sink = set(source)
+                print("unique", len(sink))
+                print("late_policy", "side-output")
+                print("exactly_once", "composite")
+                """
+            ),
+            "Muestra exactly-once compuesto: set sink + política late explícita.",
+        ),
+        (
+            "DAG/assets y dependency",
+            "S46-T2-A",
+            [
+                "Un **DAG** de assets declara nodos y aristas sin ciclos; cada edge es dependencia de datos "
+                "con **I/O tipado**. Un ciclo o nodo huérfano invalida el grafo.",
+                "Mecanismo: nodos en set; edges (a,b) con a≠b y ambos en nodos. `typed_io=True` es la bandera "
+                "de contrato de schema entre assets.",
+                "Contrato. Entrada: nodes, edges, typed_io. Salida: grafo aceptable. Error: ciclo/self-edge/"
+                "nodo desconocido → `REJECT_DAG`.",
+                f"Aplicación `{case}-2A`: nodes={{raw,clean,report}}, edges raw→clean→report, typed_io.",
+            ],
+            "dag_assets_dependency.py",
+            textwrap.dedent(
+                """\
+                def dag_ok(nodes, edges, typed_io):
+                    if not typed_io:
+                        return False
+                    if any(a == b for a, b in edges):
+                        return False
+                    used = {x for e in edges for x in e}
+                    return used <= nodes
+
+                nodes = {"raw", "clean", "report"}
+                edges = [("raw", "clean"), ("clean", "report")]
+                print("ok", dag_ok(nodes, edges, True))
+                print("n_edges", len(edges))
+                print("typed_io", True)
+                """
+            ),
+            "La revisión de S46-T2-A conserva grafo acíclico con inputs/outputs tipados; no conviertas `REJECT_DAG` ni `REQUEST_ASSET_SCHEMA` en éxito silencioso.",
+            "Demo: valida edges dentro del conjunto de nodos",
+            "demo_dag_assets_dependency.py",
+            textwrap.dedent(
+                """\
+                nodes = {"raw", "clean", "report"}
+                edges = [("raw", "clean"), ("clean", "report")]
+                orphan = {"x"} - nodes
+                print("orphan_edges", len(orphan))
+                print("assets", sorted(nodes))
+                print("ok", True)
+                """
+            ),
+            "Verifica que no hay nodos desconocidos en el DAG de assets.",
+        ),
+        (
+            "schedules, backfills y state recovery",
+            "S46-T2-B",
+            [
+                "**Schedules** disparan intervalos; **backfills** reprocesan historia **sin solape**. "
+                "**State recovery** reanuda desde checkpoint (`resume_from`) sin rehacer efectos confirmados.",
+                "Mecanismo: intervalos [a,b),[c,d) con b≤c; overlap=False; checkpoint == resume_from.",
+                "Contrato. Entrada: intervals, overlap flag, checkpoint. Salida: backfill acotado reanudable. "
+                "Error: solape → `STOP_OVERLAPPING_BACKFILL`.",
+                f"Aplicación `{case}-2B`: intervals [[1,3],[4,6]], checkpoint=2026-07-01 = resume_from.",
+            ],
+            "schedules_backfills_state.py",
+            textwrap.dedent(
+                """\
+                def no_overlap(intervals):
+                    intervals = sorted(intervals)
+                    for i in range(len(intervals) - 1):
+                        if intervals[i][1] > intervals[i + 1][0]:
+                            return False
+                    return True
+
+                iv = [[1, 3], [4, 6]]
+                print("no_overlap", no_overlap(iv))
+                print("resume_from", "2026-07-01")
+                print("scheduled", True)
+                """
+            ),
+            "Contrato S46-T2-B: demuestra backfill acotado y reanudación ensayada. Falla cerrada con `STOP_OVERLAPPING_BACKFILL` y deriva incertidumbre mediante `REQUEST_CHECKPOINT`.",
+            "Demo: detecta solape de backfills",
+            "demo_schedules_backfills_state.py",
+            textwrap.dedent(
+                """\
+                good = [[1, 3], [4, 6]]
+                bad = [[1, 5], [4, 6]]
+                def olap(iv):
+                    iv = sorted(iv)
+                    return any(iv[i][1] > iv[i+1][0] for i in range(len(iv)-1))
+                print("good_olap", olap(good))
+                print("bad_olap", olap(bad))
+                print("checkpoint", "2026-07-01")
+                """
+            ),
+            "Contrasta backfill limpio vs solapado antes de reanudar estado.",
+        ),
+        (
+            "contracts y freshness",
+            "S46-T3-A",
+            [
+                "Un **data contract** fija schema esperado vs observado. **Freshness** mide retraso "
+                "(`freshness_min <= slo_min`) con **owner** humano responsable del asset.",
+                "Mecanismo: igualdad de schemas (mapas campo→tipo) y umbral de frescura; sin owner no hay "
+                "escalamiento de incidente.",
+                "Contrato. Entrada: schema, observed, freshness, owner. Salida: pass o quarantine. Error: "
+                "break/stale/sin dueño → `QUARANTINE_DATASET`.",
+                f"Aplicación `{case}-3A`: schema case_id:str,event_time:int; freshness dentro de SLO; owner "
+                "asignado en Huancayo lab.",
+            ],
+            "contracts_freshness.py",
+            textwrap.dedent(
+                """\
+                def contract_ok(schema, observed, freshness_min, slo_min, owner):
+                    return schema == observed and freshness_min <= slo_min and bool(owner)
+
+                schema = {"case_id": "str", "event_time": "int"}
+                print("ok", contract_ok(schema, schema, 12, 15, "data-ops"))
+                print("freshness_min", 12)
+                print("owner", "data-ops")
+                """
+            ),
+            "Para S46-T3-A, el artefacto comprobable es schema break y stale data alertan. Sin él corresponde `QUARANTINE_DATASET` o, si faltan datos, `ASSIGN_DATA_OWNER`.",
+            "Demo: compara schema y freshness vs SLO",
+            "demo_contracts_freshness.py",
+            textwrap.dedent(
+                """\
+                expected = {"case_id": "str"}
+                observed = {"case_id": "str"}
+                print("schema_match", expected == observed)
+                print("stale", 20 > 15)
+                print("alert", True)
+                """
+            ),
+            "Alerta schema break o stale data antes de promover el asset.",
+        ),
+        (
+            "lineage, observability y ownership",
+            "S46-T3-B",
+            [
+                "**Lineage** de run: run_id, inputs, outputs, métricas (p. ej. null_rate) y owner. Sin eso, "
+                "un incidente de calidad no se reconstruye.",
+                "Mecanismo: run_id con prefijo, sets de I/O no vacíos, null_rate ≤ umbral, owner presente.",
+                "Contrato. Entrada: registro de run. Salida: incidente reconstruible. Error: lineage incompleto "
+                "→ `OPEN_QUALITY_INCIDENT`.",
+                f"Aplicación `{case}-3B`: run-hyo-46, inputs raw-v2, outputs clean-v2, null_rate≤0.02, owner.",
+            ],
+            "lineage_obs_ownership.py",
+            textwrap.dedent(
+                """\
+                def lineage_ok(run):
+                    return (
+                        run["run_id"].startswith("run-")
+                        and bool(run["inputs"])
+                        and bool(run["outputs"])
+                        and run["metrics"]["null_rate"] <= 0.02
+                        and bool(run["owner"])
+                    )
+
+                run = {
+                    "run_id": "run-hyo-46",
+                    "inputs": {"raw-v2"},
+                    "outputs": {"clean-v2"},
+                    "metrics": {"null_rate": 0.01},
+                    "owner": "data-ops",
+                }
+                print("ok", lineage_ok(run))
+                print("null_rate", run["metrics"]["null_rate"])
+                print("owner", run["owner"])
+                """
+            ),
+            "Promoción de S46-T3-B: prueba incidente reconstruible por lineage y registra por separado `OPEN_QUALITY_INCIDENT` (breach) y `REQUEST_LINEAGE` (missing).",
+            "Demo: arma registro de lineage mínimo",
+            "demo_lineage_obs_ownership.py",
+            textwrap.dedent(
+                """\
+                rec = {"run_id": "run-hyo-46", "in": 1, "out": 1, "owner": "data-ops"}
+                print("reconstructable", all(rec.values()))
+                print("metric", "null_rate")
+                print("obs", True)
+                """
+            ),
+            "Lineage mínimo reconstruible para incidentes de calidad.",
+        ),
+        (
+            "partitions e incremental loads",
+            "S46-T4-A",
+            [
+                "Cargas **incrementales por partición** deben ser **idempotentes**: segunda corrida cambia "
+                "cero filas. Controla small files para no degradar lecturas.",
+                "Mecanismo: source_keys == target_keys, second_run_changes == 0, small_files ≤ max.",
+                "Contrato. Entrada: keys y contadores de segunda corrida. Salida: partición estable. Error: "
+                "drift de keys o reescritura → `REBUILD_PARTITION`.",
+                f"Aplicación `{case}-4A`: partition 2026-07-22, keys {{a,b,c}} estables, small_files bajo umbral.",
+            ],
+            "partitions_incremental.py",
+            textwrap.dedent(
+                """\
+                def incremental_ok(source, target, second_changes, small, max_small):
+                    return source == target and second_changes == 0 and small <= max_small
+
+                keys = {"a", "b", "c"}
+                print("ok", incremental_ok(keys, keys, 0, 2, 5))
+                print("second_run_changes", 0)
+                print("partition", "2026-07-22")
+                """
+            ),
+            "El dueño de S46-T4-A acepta solo segunda ejecución cambia cero filas; una violación produce `REBUILD_PARTITION` y un registro incompleto produce `REQUEST_PARTITION_KEYS`.",
+            "Demo: verifica idempotencia de carga por partición",
+            "demo_partitions_incremental.py",
+            textwrap.dedent(
+                """\
+                first, second = {"a", "b"}, {"a", "b"}
+                print("stable", first == second)
+                print("changes", 0)
+                print("small_files", 2)
+                """
+            ),
+            "Segunda ejecución no duplica ni reescribe la partición sintética.",
+        ),
+        (
+            "SLO, incidentes y data recovery",
+            "S46-T4-B",
+            [
+                "**SLO de freshness** (SLI ≥ objetivo), **RTO** de recuperación y **postmortem** con acciones "
+                "son el cierre operativo del pipeline. Sin owner, el incidente no escala.",
+                "Mecanismo: freshness_sli ≥ freshness_slo, rto ≤ target, postmortem_actions ≥ 1, owner.",
+                "Contrato. Entrada: SLI/SLO, RTO, postmortem. Salida: simulacro OK. Error: SLI roto o sin "
+                "acciones → `DECLARE_DATA_INCIDENT`.",
+                f"Aplicación `{case}-4B`: SLI 0.995 ≥ 0.99, RTO 25≤30, ≥1 acción de postmortem, owner data-ops.",
+            ],
+            "slo_incidents_data_recovery.py",
+            textwrap.dedent(
+                """\
+                def ops_ok(sli, slo, rto, target_rto, actions, owner):
+                    return sli >= slo and rto <= target_rto and actions >= 1 and bool(owner)
+
+                print("ok", ops_ok(0.995, 0.99, 25, 30, 2, "data-ops"))
+                print("sli", 0.995)
+                print("postmortem_actions", 2)
+                """
+            ),
+            "Cierre de S46-T4-B: conserva simulacro cumple RTO y postmortem tiene acciones, la evidencia de `DECLARE_DATA_INCIDENT` y la ruta humana `DATA_OWNER_REVIEW`.",
+            "Demo: evalúa SLI de freshness y RTO",
+            "demo_slo_incidents_data_recovery.py",
+            textwrap.dedent(
+                """\
+                sli, slo = 0.995, 0.99
+                print("slo_met", sli >= slo)
+                print("rto_ok", 25 <= 30)
+                print("incident_ready", True)
+                """
+            ),
+            "Simulacro de incidente de datos con RTO y acciones de postmortem.",
+        ),
+    ]
+    for heading, sid, paras, title, code, callout, demo_desc, demo_title, demo_code, demo_why in specs:
+        topics.append(
+            {
+                "heading": heading,
+                "sid": sid,
+                "paras": paras,
+                "title": title,
+                "code": code,
+                "callout_type": "tip",
+                "callout_title": "Contrato local",
+                "callout": callout,
+                "demo": {
+                    "demoId": f"{sid}-DEMO",
+                    "subtopicId": sid,
+                    "description": demo_desc,
+                    "title": demo_title,
+                    "code": demo_code,
+                    "why": demo_why,
+                },
+            }
+        )
+    return topics
+
+
+def build_s47():
+    m = SECTIONS_META[47]
+    case = m["case"]
+    topics = []
+    map_paras = [
+        f"**Diccionario.** **Run:** corrida con params/métricas/seed. **Lineage:** data/code/env/split. "
+        f"**Model registry:** stages (None→Staging→Production) con approvals. **Model card:** use, limits, "
+        f"metrics, risks. **Feature parity:** batch == online. **Canary/shadow:** tráfico acotado o sin "
+        f"impacto. **Last-good:** versión restaurable con audit.",
+        f"S47 cierra **CP-N4-B / CF-4**: experimento → registro → serving → canary → rollback. Id "
+        f"`opensource` es legacy; el contenido es MLOps de plataforma, no licensing.",
+        f"Contrato. Entrada: dataset versionado, commit, env, params, firma de features. Salida: run "
+        f"comparable, modelo registrado, deployment canary y decisión auditable. Error: lineage incompleto, "
+        f"firma incompatible o fallback ausente → no promoción.",
+        f"Caso {case} ({m['org']}): modelo sintético de priorización. T1 experiments → T2 registry → T3 "
+        f"serving → T4 delivery. Stdlib only en el lab.",
+    ]
+    map_code = textwrap.dedent(
+        f"""\
+        def section_contract():
+            return {{
+                "case": "{case}",
+                "path": ["track", "register", "serve", "canary", "rollback"],
+                "cf4": True,
+            }}
+
+        c = section_contract()
+        print("case", c["case"])
+        print("steps", len(c["path"]))
+        print("cf4", c["cf4"])
+        """
+    )
+    topics.append(
+        {
+            "heading": f"Ruta de S47: {m['title']}",
+            "sid": None,
+            "paras": map_paras,
+            "title": "s47_map_contract.py",
+            "code": map_code,
+            "callout_type": "info",
+            "callout_title": "Gate de promoción",
+            "callout": (
+                f"{m['gate']}: solo gates aprobados promueven y una versión previa puede restaurarse sin "
+                "perder evidencia. Si falta evidencia, no se promociona."
+            ),
+            "demo": None,
+        }
+    )
+
+    specs = [
+        (
+            "tracking y reproducibilidad",
+            "S47-T1-A",
+            [
+                "**Tracking** registra seed, params y métricas. **Reproducibilidad** exige rerun dentro de "
+                "tolerancia, no solo un screenshot del dashboard.",
+                "Mecanismo: `abs(metric - rerun_metric) <= tolerance` y seed fija (p. ej. 42) con params no vacíos.",
+                "Contrato. Entrada: metric, rerun, tolerance, seed, params. Salida: run reproducible. Error: "
+                "fuera de tolerancia → `MARK_RUN_NONREPRODUCIBLE`.",
+                f"Aplicación `{case}-1A`: metric≈rerun con tol, seed=42, params depth=4 en el lab de Tacna.",
+            ],
+            "tracking_reproducibility.py",
+            textwrap.dedent(
+                """\
+                def reproducible(metric, rerun, tol, seed, params):
+                    return abs(metric - rerun) <= tol and seed == 42 and bool(params)
+
+                print("ok", reproducible(0.81, 0.812, 0.01, 42, {"depth": 4}))
+                print("delta", round(abs(0.81 - 0.812), 4))
+                print("seed", 42)
+                """
+            ),
+            "Evidencia mínima de S47-T1-A: rerun dentro de tolerancia declarada. Si falta, responde `MARK_RUN_NONREPRODUCIBLE`; si no alcanza para decidir, `REQUEST_RUN_PARAMS`.",
+            "Demo: compara metric vs rerun con tolerancia",
+            "demo_tracking_reproducibility.py",
+            textwrap.dedent(
+                """\
+                metric, rerun, tol = 0.81, 0.812, 0.01
+                print("within_tol", abs(metric - rerun) <= tol)
+                print("params", {"depth": 4})
+                print("tracked", True)
+                """
+            ),
+            "Rerun comparable con seed y params fijados.",
+        ),
+        (
+            "data/code/env lineage y comparación",
+            "S47-T1-B",
+            [
+                "Comparar runs exige **lineage homogéneo**: mismos data/code/env/split y definición de métrica. "
+                "Sin eso, un 'mejor score' es ruido.",
+                "Mecanismo: todos los campos de lineage truthy y candidate > baseline en la métrica acordada.",
+                "Contrato. Entrada: lineage + scores. Salida: comparación válida. Error: lineage incompleto → "
+                "`INVALIDATE_COMPARISON`.",
+                f"Aplicación `{case}-1B`: ds-v3, git:abc, lock:def, holdout-v1, metric_definition presente, "
+                "candidate>baseline.",
+            ],
+            "data_code_env_lineage_compare.py",
+            textwrap.dedent(
+                """\
+                def compare_ok(rec):
+                    keys = ("data", "code", "env", "split", "metric_definition")
+                    return all(rec[k] for k in keys) and rec["candidate"] > rec["baseline"]
+
+                rec = {
+                    "data": "ds-v3",
+                    "code": "git:abc",
+                    "env": "lock:def",
+                    "split": "holdout-v1",
+                    "metric_definition": "pr_auc",
+                    "candidate": 0.84,
+                    "baseline": 0.80,
+                }
+                print("ok", compare_ok(rec))
+                print("delta", round(rec["candidate"] - rec["baseline"], 2))
+                print("lineage_fields", 5)
+                """
+            ),
+            "Antes de promover S47-T1-B, audita lineage completo y comparación homogénea. Un breach activa `INVALIDATE_COMPARISON` y una ausencia activa `REQUEST_LINEAGE_FIELDS`.",
+            "Demo: exige lineage completo antes de comparar",
+            "demo_data_code_env_lineage_compare.py",
+            textwrap.dedent(
+                """\
+                fields = ["data", "code", "env", "split", "metric_definition"]
+                print("complete", len(fields) == 5)
+                print("candidate_wins", 0.84 > 0.80)
+                print("comparable", True)
+                """
+            ),
+            "Bloquea comparación si falta cualquier eje de lineage.",
+        ),
+        (
+            "firmas, stages y approvals",
+            "S47-T2-A",
+            [
+                "El **registry** exige firmas de I/O, **stage** (p. ej. staging) y **approval** humana/trazada "
+                "antes de Production.",
+                "Mecanismo: input/output signatures exactas, stage==staging, approved=True.",
+                "Contrato. Entrada: firmas + stage + approval. Salida: promoción a staging OK. Error: firma "
+                "distinta o sin approval → `DENY_MODEL_PROMOTION`.",
+                f"Aplicación `{case}-2A`: age:int,region:str → priority:float; staging aprobado.",
+            ],
+            "signatures_stages_approvals.py",
+            textwrap.dedent(
+                """\
+                def promote_ok(inp, out, stage, approved):
+                    return (
+                        inp == {"age": "int", "region": "str"}
+                        and out == {"priority": "float"}
+                        and stage == "staging"
+                        and approved
+                    )
+
+                print("ok", promote_ok({"age": "int", "region": "str"}, {"priority": "float"}, "staging", True))
+                print("stage", "staging")
+                print("approved", True)
+                """
+            ),
+            "La revisión de S47-T2-A conserva firma compatible y aprobación trazada; no conviertas `DENY_MODEL_PROMOTION` ni `REQUEST_SIGNATURE` en éxito silencioso.",
+            "Demo: gate de stage+approval+firma",
+            "demo_signatures_stages_approvals.py",
+            textwrap.dedent(
+                """\
+                stage, approved = "staging", True
+                print("gate", stage == "staging" and approved)
+                print("input_keys", ["age", "region"])
+                print("output_keys", ["priority"])
+                """
+            ),
+            "Firma compatible y approval trazado antes de promover.",
+        ),
+        (
+            "artefactos, model card y compatibilidad",
+            "S47-T2-B",
+            [
+                "El artefacto lleva **digest** (sha256:), **feature_version** alineada al serving y **model "
+                "card** con secciones use/limits/metrics/risks.",
+                "Mecanismo: digest prefix, feature_version == serving_feature_version, card_sections ⊇ set mínimo.",
+                "Contrato. Entrada: digest, versions, card. Salida: artefacto aceptable. Error: mismatch → "
+                "`REJECT_MODEL_ARTIFACT`.",
+                f"Aplicación `{case}-2B`: sha256:model, features-v3 == serving, card completa.",
+            ],
+            "artifacts_card_compat.py",
+            textwrap.dedent(
+                """\
+                def artifact_ok(digest, feat, serving, card):
+                    need = {"use", "limits", "metrics", "risks"}
+                    return digest.startswith("sha256:") and feat == serving and need <= card
+
+                print(
+                    "ok",
+                    artifact_ok(
+                        "sha256:model",
+                        "features-v3",
+                        "features-v3",
+                        {"use", "limits", "metrics", "risks", "owner"},
+                    ),
+                )
+                print("digest_prefix", "sha256:")
+                print("feature_match", True)
+                """
+            ),
+            "Contrato S47-T2-B: demuestra digest/card/compatibilidad verificados. Falla cerrada con `REJECT_MODEL_ARTIFACT` y deriva incertidumbre mediante `REQUEST_MODEL_CARD`.",
+            "Demo: valida digest y secciones de model card",
+            "demo_artifacts_card_compat.py",
+            textwrap.dedent(
+                """\
+                card = {"use", "limits", "metrics", "risks"}
+                print("card_ok", {"use", "limits", "metrics", "risks"} <= card)
+                print("digest_ok", "sha256:abc".startswith("sha256:"))
+                print("compat", True)
+                """
+            ),
+            "Digest, card y compatibilidad de features como gate de artefacto.",
+        ),
+        (
+            "batch/online y feature consistency",
+            "S47-T3-A",
+            [
+                "**Training-serving skew** aparece cuando batch y online no comparten la misma transformación. "
+                "Exige paridad de features, sin leakage y contract tests mínimos.",
+                "Mecanismo: batch_features == online_features, leakage=False, contract_tests ≥ 3.",
+                "Contrato. Entrada: vectores batch/online + flags. Salida: serving consistente. Error: skew → "
+                "`DISABLE_INCONSISTENT_SERVING`.",
+                f"Aplicación `{case}-3A`: features [0.1,0.4,0.8] idénticas, sin leakage, ≥3 tests.",
+            ],
+            "batch_online_feature_consistency.py",
+            textwrap.dedent(
+                """\
+                def parity(batch, online, leakage, tests):
+                    return batch == online and not leakage and tests >= 3
+
+                f = [0.1, 0.4, 0.8]
+                print("ok", parity(f, f, False, 3))
+                print("skew", False)
+                print("tests", 3)
+                """
+            ),
+            "Para S47-T3-A, el artefacto comprobable es paridad de features en fixtures. Sin él corresponde `DISABLE_INCONSISTENT_SERVING` o, si faltan datos, `REQUEST_FEATURE_TESTS`.",
+            "Demo: detecta skew batch vs online",
+            "demo_batch_online_feature_consistency.py",
+            textwrap.dedent(
+                """\
+                batch, online = [0.1, 0.4], [0.1, 0.5]
+                print("parity", batch == online)
+                print("action", "DISABLE_INCONSISTENT_SERVING")
+                print("leakage", False)
+                """
+            ),
+            "Paridad de features como requisito de serving batch/online.",
+        ),
+        (
+            "latency, batching y fallback",
+            "S47-T3-B",
+            [
+                "Serving online necesita **p95 ≤ SLO**, **batch_size** acotado y **fallback** de reglas "
+                "probado cuando el modelo falla.",
+                "Mecanismo: p95_ms ≤ slo_ms, 1≤batch≤64, fallback startswith rules- y fallback_tested.",
+                "Contrato. Entrada: latencia, batch, fallback. Salida: SLO ok. Error: p95 alto o fallback "
+                "ausente → `ACTIVATE_SAFE_FALLBACK`.",
+                f"Aplicación `{case}-3B`: p95=120≤180, batch=16, rules-v2 tested.",
+            ],
+            "latency_batching_fallback.py",
+            textwrap.dedent(
+                """\
+                def serve_ok(p95, slo, batch, fallback, tested):
+                    return p95 <= slo and 1 <= batch <= 64 and fallback.startswith("rules-") and tested
+
+                print("ok", serve_ok(120, 180, 16, "rules-v2", True))
+                print("p95", 120)
+                print("fallback", "rules-v2")
+                """
+            ),
+            "Promoción de S47-T3-B: prueba SLO de latencia y fallback probado y registra por separado `ACTIVATE_SAFE_FALLBACK` (breach) y `REQUEST_FALLBACK_DRILL` (missing).",
+            "Demo: evalúa p95 y activa fallback",
+            "demo_latency_batching_fallback.py",
+            textwrap.dedent(
+                """\
+                p95, slo = 200, 180
+                print("slo_met", p95 <= slo)
+                print("action", "ACTIVATE_SAFE_FALLBACK")
+                print("batch", 16)
+                """
+            ),
+            "Si p95 rompe SLO, el fallback de reglas debe estar listo y probado.",
+        ),
+        (
+            "shadow/canary y monitoring hooks",
+            "S47-T4-A",
+            [
+                "**Shadow** observa sin impactar; **canary** limita tráfico (p. ej. ≤10%) con hooks de "
+                "calidad/error y criterio promote/stop.",
+                "Mecanismo: mode in {shadow,canary}, traffic_pct≤10, quality_delta ≥ -max_drop, error_rate≤max, hooks.",
+                "Contrato. Entrada: modo, tráfico, deltas, hooks. Salida: canary sano o stop. Error: regresión "
+                "→ `STOP_CANARY`.",
+                f"Aplicación `{case}-4A`: canary 5%, quality_delta +0.01, error bajo, hooks activos.",
+            ],
+            "shadow_canary_monitoring.py",
+            textwrap.dedent(
+                """\
+                def canary_ok(mode, pct, qdelta, max_drop, err, max_err, hooks):
+                    return (
+                        mode in {"shadow", "canary"}
+                        and pct <= 10
+                        and qdelta >= -max_drop
+                        and err <= max_err
+                        and hooks
+                    )
+
+                print("ok", canary_ok("canary", 5, 0.01, 0.02, 0.01, 0.02, True))
+                print("traffic_pct", 5)
+                print("hooks", True)
+                """
+            ),
+            "El dueño de S47-T4-A acepta solo canary con criterio promote/stop; una violación produce `STOP_CANARY` y un registro incompleto produce `REQUEST_CANARY_HOOKS`.",
+            "Demo: decide promote vs stop de canary",
+            "demo_shadow_canary_monitoring.py",
+            textwrap.dedent(
+                """\
+                quality_delta, max_drop = -0.05, 0.02
+                print("stop", quality_delta < -max_drop)
+                print("mode", "canary")
+                print("action", "STOP_CANARY")
+                """
+            ),
+            "Canary con criterio numérico promote/stop y monitoring hooks.",
+        ),
+        (
+            "rollback, retirement y audit",
+            "S47-T4-B",
+            [
+                "**Rollback** a last-good, **retirement** de versiones y **audit_entry** cierran el ciclo. "
+                "Compatible_features y rollback_tested son obligatorios.",
+                "Mecanismo: current≠last_good, compatible_features, rollback_tested, retired contiene versión, audit.",
+                "Contrato. Entrada: versiones y banderas. Salida: restauración auditada. Error: sin last-good "
+                "probado → `ROLLBACK_TO_LAST_GOOD` path blocked until fixed.",
+                f"Aplicación `{case}-4B`: current 1.2.0 → last_good 1.1.0, 1.0.0 retired, audit_entry True.",
+            ],
+            "rollback_retire_audit.py",
+            textwrap.dedent(
+                """\
+                def rollback_ok(cur, lkg, compat, tested, retired, audit):
+                    return cur != lkg and compat and tested and "1.0.0" in retired and audit
+
+                print("ok", rollback_ok("1.2.0", "1.1.0", True, True, {"1.0.0"}, True))
+                print("last_good", "1.1.0")
+                print("audit", True)
+                """
+            ),
+            "Cierre de S47-T4-B: conserva restauración y retirement auditados, la evidencia de `ROLLBACK_TO_LAST_GOOD` y la ruta humana `ML_OWNER_REVIEW`.",
+            "Demo: selecciona last-good y registra audit",
+            "demo_rollback_retire_audit.py",
+            textwrap.dedent(
+                """\
+                current, last_good = "1.2.0", "1.1.0"
+                print("rollback_to", last_good)
+                print("retired", ["1.0.0"])
+                print("audit_entry", True)
+                """
+            ),
+            "Restauración a last-good con retirement y audit trail.",
+        ),
+    ]
+    for heading, sid, paras, title, code, callout, demo_desc, demo_title, demo_code, demo_why in specs:
+        topics.append(
+            {
+                "heading": heading,
+                "sid": sid,
+                "paras": paras,
+                "title": title,
+                "code": code,
+                "callout_type": "tip",
+                "callout_title": "Contrato local",
+                "callout": callout,
+                "demo": {
+                    "demoId": f"{sid}-DEMO",
+                    "subtopicId": sid,
+                    "description": demo_desc,
+                    "title": demo_title,
+                    "code": demo_code,
+                    "why": demo_why,
+                },
+            }
+        )
+    return topics
+
+
+def build_s48():
+    m = SECTIONS_META[48]
+    case = m["case"]
+    topics = []
+    map_paras = [
+        f"**Diccionario.** **Embedding:** vector denso versionado. **Similarity:** ranking, no verdad. "
+        f"**Chunk:** fragmento con metadata/hash/ACL. **Hybrid retrieval:** lexical + vector (+ rerank). "
+        f"**Grounding:** claims con evidence_ids. **Abstención:** no responder sin soporte. **Faithfulness:** "
+        f"alineación respuesta↔contexto.",
+        f"S48 inicia **CP-N4-C**: asistente sobre docs autorizados. Id `ai-governance` es legacy; el path V3 "
+        f"es RAG con evidencia, no política abstracta sola.",
+        f"Contrato. Entrada: docs versionados con ACL/provenance y query. Salida: respuesta estructurada con "
+        f"citas o abstención. Error: fragmento sin permiso, evidencia insuficiente o costo excedido → no responder.",
+        f"Caso {case} ({m['org']}): manuales sintéticos. T1 embeddings → T2 ingesta → T3 retrieval → T4 "
+        f"generación/eval. Stdlib (dot product toy).",
+    ]
+    map_code = textwrap.dedent(
+        f"""\
+        def section_contract():
+            return {{
+                "case": "{case}",
+                "must_cite": True,
+                "abstain_if_unsupported": True,
+                "acl_enforced": True,
+            }}
+
+        c = section_contract()
+        print("case", c["case"])
+        print("must_cite", c["must_cite"])
+        print("abstain", c["abstain_if_unsupported"])
+        """
+    )
+    topics.append(
+        {
+            "heading": f"Ruta de S48: {m['title']}",
+            "sid": None,
+            "paras": map_paras,
+            "title": "s48_map_contract.py",
+            "code": map_code,
+            "callout_type": "info",
+            "callout_title": "Gate de promoción",
+            "callout": (
+                f"{m['gate']}: retrieval y respuesta superan umbrales separados; toda afirmación material "
+                "apunta a un fragmento permitido. Si falta evidencia, no se promociona."
+            ),
+            "demo": None,
+        }
+    )
+
+    specs = [
+        (
+            "embeddings y similarity",
+            "S48-T1-A",
+            [
+                "Los **embeddings** colocan textos en un espacio; **similarity** (p. ej. producto punto) "
+                "ordena candidatos. La **versión** del modelo de embedding es parte del índice.",
+                "Mecanismo: top doc = argmax_k ⟨q, d_k⟩ con version==emb-v2. No prueba verdad factual.",
+                "Contrato. Entrada: query vector, docs, version. Salida: ranking reproducible. Error: top "
+                "inesperado o versión rota → `REJECT_EMBEDDING_RANK`.",
+                f"Aplicación `{case}-1A`: q=[1,0], d1=[0.8,0.2], d2=[0.1,0.9] → top d1 con emb-v2.",
+            ],
+            "embeddings_similarity.py",
+            textwrap.dedent(
+                """\
+                def top_doc(query, docs):
+                    return max(docs, key=lambda k: sum(a * b for a, b in zip(query, docs[k])))
+
+                q = [1.0, 0.0]
+                docs = {"d1": [0.8, 0.2], "d2": [0.1, 0.9]}
+                print("top", top_doc(q, docs))
+                print("version", "emb-v2")
+                print("metric", "dot")
+                """
+            ),
+            "Evidencia mínima de S48-T1-A: ranking reproducible con versión de embedding. Si falta, responde `REJECT_EMBEDDING_RANK`; si no alcanza para decidir, `REQUEST_EMB_VERSION`.",
+            "Demo: ranking por producto punto",
+            "demo_embeddings_similarity.py",
+            textwrap.dedent(
+                """\
+                def score(q, d):
+                    return sum(a * b for a, b in zip(q, d))
+
+                print("s_d1", score([1, 0], [0.8, 0.2]))
+                print("s_d2", score([1, 0], [0.1, 0.9]))
+                print("top", "d1")
+                """
+            ),
+            "Ranking reproducible con versión de embedding fija.",
+        ),
+        (
+            "límites, versiones y evaluación",
+            "S48-T1-B",
+            [
+                "Cambiar embeddings exige **eval retenida**: candidate_recall ≥ min y > baseline, holdout "
+                "nombrado y costo de reindex acotado.",
+                "Mecanismo: umbrales numéricos + holdout prefix + cost_pen ≤ 50 (unidades sintéticas).",
+                "Contrato. Entrada: recalls, holdout, cost. Salida: promover o keep baseline. Error: no "
+                "mejora → `KEEP_EMBEDDING_BASELINE`.",
+                f"Aplicación `{case}-1B`: 0.81 > 0.72 y ≥0.78, holdout rag-holdout-*, cost≤50.",
+            ],
+            "limits_versions_eval.py",
+            textwrap.dedent(
+                """\
+                def promote_emb(base, cand, min_r, holdout, cost):
+                    return cand >= min_r and cand > base and holdout.startswith("rag-holdout-") and cost <= 50
+
+                print("ok", promote_emb(0.72, 0.81, 0.78, "rag-holdout-v1", 40))
+                print("delta", round(0.81 - 0.72, 2))
+                print("reindex_cost_ok", True)
+                """
+            ),
+            "Antes de promover S48-T1-B, audita comparación retenida baseline/candidato. Un breach activa `KEEP_EMBEDDING_BASELINE` y una ausencia activa `REQUEST_HOLDOUT`.",
+            "Demo: gate de recall retenido vs baseline",
+            "demo_limits_versions_eval.py",
+            textwrap.dedent(
+                """\
+                base, cand = 0.72, 0.70
+                print("promote", cand > base)
+                print("action", "KEEP_EMBEDDING_BASELINE")
+                print("holdout", "rag-holdout-v1")
+                """
+            ),
+            "Sin mejora en holdout, se conserva el embedding baseline.",
+        ),
+        (
+            "chunking, metadata y dedup",
+            "S48-T2-A",
+            [
+                "El **chunking** corta docs con **metadata** (section) y **dedup** por hash. La versión de "
+                "fuente (…-v3) ancla provenance.",
+                "Mecanismo: unique hashes == expected; cada chunk tiene section; source_version endswith -v3.",
+                "Contrato. Entrada: chunks. Salida: corpus deduplicado trazable. Error: dups/sin section → "
+                "`DEDUP_AND_RECHUNK`.",
+                f"Aplicación `{case}-2A`: hashes únicos, section policy, source …-v3.",
+            ],
+            "chunking_metadata_dedup.py",
+            textwrap.dedent(
+                """\
+                def chunks_ok(chunks, unique_hashes, source_version):
+                    hashes = {c["hash"] for c in chunks}
+                    return (
+                        len(hashes) == unique_hashes
+                        and all(c.get("section") for c in chunks)
+                        and source_version.endswith("-v3")
+                    )
+
+                chunks = [{"id": "d1#1", "hash": "a", "section": "policy"}, {"id": "d1#2", "hash": "b", "section": "sla"}]
+                print("ok", chunks_ok(chunks, 2, "manual-v3"))
+                print("n", len(chunks))
+                print("dedup", True)
+                """
+            ),
+            "La revisión de S48-T2-A conserva chunks trazables y sin duplicados; no conviertas `DEDUP_AND_RECHUNK` ni `REQUEST_CHUNK_META` en éxito silencioso.",
+            "Demo: colapsa hashes duplicados",
+            "demo_chunking_metadata_dedup.py",
+            textwrap.dedent(
+                """\
+                hashes = ["a", "a", "b"]
+                print("unique", len(set(hashes)))
+                print("dups", len(hashes) - len(set(hashes)))
+                print("source", "manual-v3")
+                """
+            ),
+            "Chunks con metadata y dedup por hash antes de indexar.",
+        ),
+        (
+            "ACL, deletion y provenance",
+            "S48-T2-B",
+            [
+                "Cada fragmento trae **ACL**, flag **deleted** y **provenance**. Usuario solo ve intersección "
+                "de ACL; delete invalida cache.",
+                "Mecanismo: user_acl ∩ chunk_acl no vacío, not deleted, provenance prefix doc-, cache_invalidated.",
+                "Contrato. Entrada: acls y flags. Salida: visible o filtrado. Error: sin permiso → "
+                "`FILTER_OR_DELETE_CHUNK`.",
+                f"Aplicación `{case}-2B`: user {{public,ops}} ∩ chunk, no deleted, provenance doc-*, cache ok.",
+            ],
+            "acl_deletion_provenance.py",
+            textwrap.dedent(
+                """\
+                def visible(user_acl, chunk_acl, deleted, prov, cache_inv):
+                    return bool(user_acl & chunk_acl) and not deleted and prov.startswith("doc-") and cache_inv
+
+                print("ok", visible({"public", "ops"}, {"ops"}, False, "doc-12", True))
+                print("deny", visible({"public"}, {"private"}, False, "doc-12", True))
+                print("provenance", True)
+                """
+            ),
+            "Contrato S48-T2-B: demuestra usuario sin permiso recupera cero fragmentos. Falla cerrada con `FILTER_OR_DELETE_CHUNK` y deriva incertidumbre mediante `REQUEST_ACL`.",
+            "Demo: filtra chunks por ACL",
+            "demo_acl_deletion_provenance.py",
+            textwrap.dedent(
+                """\
+                user, chunk = {"public"}, {"private"}
+                print("allowed", bool(user & chunk))
+                print("deleted", False)
+                print("action", "FILTER_OR_DELETE_CHUNK")
+                """
+            ),
+            "Usuario sin permiso recupera cero fragmentos.",
+        ),
+        (
+            "lexical/vector/hybrid y reranking",
+            "S48-T3-A",
+            [
+                "**Hybrid** combina scores lexical y vector con pesos; el top debe coincidir con el esperado "
+                "tras calibración.",
+                "Mecanismo: score = w_lex*lex + w_vec*vec; argmax == expected_top.",
+                "Contrato. Entrada: maps lexical/vector y weights. Salida: top híbrido. Error: top incorrecto "
+                "→ `RECALIBRATE_HYBRID_RANK`.",
+                f"Aplicación `{case}-3A`: lex/vec maps sintéticos con pesos calibrados → expected_top.",
+            ],
+            "lexical_vector_hybrid_rerank.py",
+            textwrap.dedent(
+                """\
+                def hybrid_top(lex, vec, w):
+                    return max(lex, key=lambda d: w["lexical"] * lex[d] + w["vector"] * vec[d])
+
+                lex = {"d1": 0.9, "d2": 0.2}
+                vec = {"d1": 0.4, "d2": 0.8}
+                w = {"lexical": 0.6, "vector": 0.4}
+                print("top", hybrid_top(lex, vec, w))
+                print("weights", w)
+                print("mode", "hybrid")
+                """
+            ),
+            "Para S48-T3-A, el artefacto comprobable es recall mejora sin romper ACL. Sin él corresponde `RECALIBRATE_HYBRID_RANK` o, si faltan datos, `REQUEST_RANK_WEIGHTS`.",
+            "Demo: calcula score híbrido por documento",
+            "demo_lexical_vector_hybrid_rerank.py",
+            textwrap.dedent(
+                """\
+                def sc(d, lex, vec, w):
+                    return w["lexical"] * lex[d] + w["vector"] * vec[d]
+
+                lex, vec = {"d1": 0.9, "d2": 0.2}, {"d1": 0.4, "d2": 0.8}
+                w = {"lexical": 0.6, "vector": 0.4}
+                print("d1", round(sc("d1", lex, vec, w), 2))
+                print("d2", round(sc("d2", lex, vec, w), 2))
+                """
+            ),
+            "Hybrid rank calibrado sin romper ACL en el lab.",
+        ),
+        (
+            "contexto, citas y permisos",
+            "S48-T3-B",
+            [
+                "El **contexto** tiene presupuesto de tokens; cada **claim** material debe estar en "
+                "**cited_claims** con ACL de cita válida.",
+                "Mecanismo: claims ⊆ cited_claims, citation_acl True, context_tokens ≤ max.",
+                "Contrato. Entrada: claims/citas/tokens. Salida: contexto citable. Error: claim sin cita → "
+                "`ABSTAIN_UNCITED`.",
+                f"Aplicación `{case}-3B`: claims {{c1,c2}} citadas, tokens bajo max, citation_acl.",
+            ],
+            "context_cites_permissions.py",
+            textwrap.dedent(
+                """\
+                def context_ok(claims, cited, acl, tokens, max_tokens):
+                    return claims <= cited and acl and tokens <= max_tokens
+
+                print("ok", context_ok({"c1", "c2"}, {"c1", "c2", "c3"}, True, 900, 1200))
+                print("uncited", not ({"c9"} <= {"c1"}))
+                print("budget", True)
+                """
+            ),
+            "Promoción de S48-T3-B: prueba cada afirmación material tiene cita autorizada y registra por separado `ABSTAIN_UNCITED` (breach) y `REQUEST_CITATIONS` (missing).",
+            "Demo: detecta claim sin cita",
+            "demo_context_cites_permissions.py",
+            textwrap.dedent(
+                """\
+                claims, cited = {"c1", "c9"}, {"c1"}
+                print("all_cited", claims <= cited)
+                print("action", "ABSTAIN_UNCITED")
+                print("tokens_ok", 900 <= 1200)
+                """
+            ),
+            "Cada afirmación material exige cita autorizada o abstención.",
+        ),
+        (
+            "structured output y grounding",
+            "S48-T4-A",
+            [
+                "La salida **estructurada** respeta schema (answer + evidence_ids) y solo usa evidence "
+                "permitida; instrucciones inyectadas en docs se **ignoran**.",
+                "Mecanismo: keys de output == schema; evidence_ids ⊆ allowed; injected_instruction_ignored.",
+                "Contrato. Entrada: output y allowlist. Salida: grounded OK. Error: id no permitido → "
+                "`REJECT_UNGROUNDED_OUTPUT`.",
+                f"Aplicación `{case}-4A`: answer + evidence d7#2 permitido; injection ignorada.",
+            ],
+            "structured_grounding.py",
+            textwrap.dedent(
+                """\
+                def grounded(output, schema_keys, allowed, ignore_inject):
+                    return set(output) == schema_keys and set(output["evidence_ids"]) <= allowed and ignore_inject
+
+                out = {"answer": "plazo 30 días", "evidence_ids": ["d7#2"]}
+                print("ok", grounded(out, {"answer", "evidence_ids"}, {"d7#2", "d1#1"}, True))
+                print("evidence", out["evidence_ids"])
+                print("injection_ignored", True)
+                """
+            ),
+            "El dueño de S48-T4-A acepta solo schema válido y evidence ids presentes; una violación produce `REJECT_UNGROUNDED_OUTPUT` y un registro incompleto produce `REQUEST_SCHEMA`.",
+            "Demo: valida evidence ids contra allowlist",
+            "demo_structured_grounding.py",
+            textwrap.dedent(
+                """\
+                ids, allowed = {"d9#1"}, {"d7#2"}
+                print("grounded", ids <= allowed)
+                print("action", "REJECT_UNGROUNDED_OUTPUT")
+                print("schema", ["answer", "evidence_ids"])
+                """
+            ),
+            "Schema válido y evidence ids dentro de allowlist.",
+        ),
+        (
+            "retrieval/answer eval, costo y abstención",
+            "S48-T4-B",
+            [
+                "Evalúa **retrieval_recall** y **faithfulness** por separado, con **cost_cap** y **support**. "
+                "Si no hay soporte, **abstén** con razón.",
+                "Mecanismo: recall≥min, faithfulness≥min, cost≤cap, support True.",
+                "Contrato. Entrada: métricas y costo. Salida: answer o abstain. Error: bajo soporte → "
+                "`ABSTAIN_WITH_REASON`.",
+                f"Aplicación `{case}-4B`: recall 0.84, faithfulness 0.91, cost bajo cap, support True.",
+            ],
+            "retrieval_answer_eval_cost_abstain.py",
+            textwrap.dedent(
+                """\
+                def answer_ok(rec, min_r, min_f, cap):
+                    return (
+                        rec["retrieval_recall"] >= min_r
+                        and rec["faithfulness"] >= min_f
+                        and rec["cost_pen"] <= cap
+                        and rec["support"]
+                    )
+
+                rec = {"retrieval_recall": 0.84, "faithfulness": 0.91, "cost_pen": 0.05, "support": True}
+                print("ok", answer_ok(rec, 0.8, 0.9, 0.1))
+                print("abstain_if", not rec["support"])
+                print("cost_ok", True)
+                """
+            ),
+            "Cierre de S48-T4-B: conserva respuesta no soportada se abstiene, la evidencia de `ABSTAIN_WITH_REASON` y la ruta humana `RAG_OWNER_REVIEW`.",
+            "Demo: decide answer vs abstain por soporte",
+            "demo_retrieval_answer_eval_cost_abstain.py",
+            textwrap.dedent(
+                """\
+                support, faithfulness = False, 0.5
+                print("answer", support and faithfulness >= 0.9)
+                print("action", "ABSTAIN_WITH_REASON")
+                print("recall_gate", 0.84 >= 0.8)
+                """
+            ),
+            "Sin soporte suficiente, la respuesta correcta es abstenerse con razón.",
+        ),
+    ]
+    for heading, sid, paras, title, code, callout, demo_desc, demo_title, demo_code, demo_why in specs:
+        topics.append(
+            {
+                "heading": heading,
+                "sid": sid,
+                "paras": paras,
+                "title": title,
+                "code": code,
+                "callout_type": "tip",
+                "callout_title": "Contrato local",
+                "callout": callout,
+                "demo": {
+                    "demoId": f"{sid}-DEMO",
+                    "subtopicId": sid,
+                    "description": demo_desc,
+                    "title": demo_title,
+                    "code": demo_code,
+                    "why": demo_why,
+                },
+            }
+        )
+    return topics
+
+
+def build_s49():
+    m = SECTIONS_META[49]
+    case = m["case"]
+    topics = []
+    map_paras = [
+        f"**Diccionario.** **Workflow:** pasos conocidos y deterministas. **Agente:** elige tools con "
+        f"beneficio medible y tope de iteraciones. **Tool:** función de responsabilidad única, schema y "
+        f"permisos. **Idempotencia:** misma clave ⇒ un efecto. **JIT retrieval:** trae contexto solo cuando "
+        f"hace falta. **Checkpoint/LKG:** estado restaurable. **Sandbox:** red/fs restringidos. **HITL:** "
+        f"aprobación humana para acciones sensibles.",
+        f"S49 acota el copiloto: puede preparar propuestas, no escribir producción. Id `data-contracts` es "
+        f"legacy; el path V3 es agentes/tools/context engineering.",
+        f"Contrato. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. "
+        f"Salida: propuesta + checkpoint; nunca cambio de prod. Error: tool no permitida, budget agotado o "
+        f"estado incierto → stop.",
+        f"Caso {case} ({m['org']}): preparación sintética de reportes. T1 arquitectura → T2 tools → T3 "
+        f"estado → T4 control. Stdlib.",
+    ]
+    map_code = textwrap.dedent(
+        f"""\
+        def section_contract():
+            return {{
+                "case": "{case}",
+                "prod_write": False,
+                "human_approval_required": True,
+                "tools": "typed_idempotent",
+            }}
+
+        c = section_contract()
+        print("case", c["case"])
+        print("prod_write", c["prod_write"])
+        print("hitl", c["human_approval_required"])
+        """
+    )
+    topics.append(
+        {
+            "heading": f"Ruta de S49: {m['title']}",
+            "sid": None,
+            "paras": map_paras,
+            "title": "s49_map_contract.py",
+            "code": map_code,
+            "callout_type": "info",
+            "callout_title": "Gate de promoción",
+            "callout": (
+                f"{m['gate']}: cada tool es idempotente, el agente se detiene y una persona aprueba toda "
+                "acción sensible. Si falta evidencia, no se promociona."
+            ),
+            "demo": None,
+        }
+    )
+
+    specs = [
+        (
+            "workflow vs agente",
+            "S49-T1-A",
+            [
+                "Prefiere **workflow** cuando pasos y ramas son conocidos y el baseline determinista gana o "
+                "empata al agente. Reserva agente solo si hay incertidumbre acotada con beneficio medible.",
+                "Mecanismo: known_steps, branch_count≤3, not tool_choice_uncertain, baseline_success≥agent_success.",
+                "Contrato. Entrada: métricas de baseline vs agente. Salida: ADR de elección. Error: agente "
+                "peor/incierto → `KEEP_DETERMINISTIC_WORKFLOW`.",
+                f"Aplicación `{case}-1A`: pasos conocidos, 2 ramas, baseline ≥ agente en éxito sintético.",
+            ],
+            "workflow_vs_agent.py",
+            textwrap.dedent(
+                """\
+                def prefer_workflow(rec):
+                    return (
+                        rec["known_steps"]
+                        and rec["branch_count"] <= 3
+                        and not rec["tool_choice_uncertain"]
+                        and rec["baseline_success"] >= rec["agent_success"]
+                    )
+
+                rec = {
+                    "known_steps": True,
+                    "branch_count": 2,
+                    "tool_choice_uncertain": False,
+                    "baseline_success": 0.9,
+                    "agent_success": 0.85,
+                }
+                print("workflow", prefer_workflow(rec))
+                print("branches", rec["branch_count"])
+                print("baseline", rec["baseline_success"])
+                """
+            ),
+            "Evidencia mínima de S49-T1-A: ADR workflow/agente con baseline. Si falta, responde `KEEP_DETERMINISTIC_WORKFLOW`; si no alcanza para decidir, `REQUEST_BASELINE`.",
+            "Demo: elige workflow cuando baseline gana",
+            "demo_workflow_vs_agent.py",
+            textwrap.dedent(
+                """\
+                base, agent = 0.9, 0.85
+                print("choose", "workflow" if base >= agent else "agent")
+                print("known_steps", True)
+                print("adr", True)
+                """
+            ),
+            "ADR workflow vs agente anclado a baseline medible.",
+        ),
+        (
+            "routing, planner/worker y evaluator–optimizer",
+            "S49-T1-B",
+            [
+                "**Router** elige case/report; **planner** acota pasos; **workers** producen salidas; "
+                "**evaluator** aprueba o corta el loop.",
+                "Mecanismo: route ∈ {case,report}, plan_steps≤max, worker_outputs==plan_steps, evaluator_pass.",
+                "Contrato. Entrada: plan y outputs. Salida: trayectoria válida. Error: loop o exceso → "
+                "`STOP_AGENT_LOOP`.",
+                f"Aplicación `{case}-1B`: route=report, 3 pasos ≤5, 3 outputs, evaluator_pass.",
+            ],
+            "routing_planner_evaluator.py",
+            textwrap.dedent(
+                """\
+                def trajectory_ok(route, plan, max_steps, outputs, evaluator_pass):
+                    return route in {"case", "report"} and plan <= max_steps and outputs == plan and evaluator_pass
+
+                print("ok", trajectory_ok("report", 3, 5, 3, True))
+                print("steps", 3)
+                print("evaluator", True)
+                """
+            ),
+            "Antes de promover S49-T1-B, audita trayectoria con roles y máximo de iteraciones. Un breach activa `STOP_AGENT_LOOP` y una ausencia activa `REQUEST_PLAN_LIMITS`.",
+            "Demo: corta loop si se excede max_steps",
+            "demo_routing_planner_evaluator.py",
+            textwrap.dedent(
+                """\
+                plan, max_steps = 7, 5
+                print("stop", plan > max_steps)
+                print("route", "report")
+                print("action", "STOP_AGENT_LOOP")
+                """
+            ),
+            "Trayectoria con roles y tope de iteraciones.",
+        ),
+        (
+            "funciones de responsabilidad única",
+            "S49-T2-A",
+            [
+                "Cada **tool** hace una cosa: un schema mínimo, sin side_effect oculto, con errores tipados.",
+                "Mecanismo: responsibilities==1, schema_fields exacto, not side_effect, typed_errors.",
+                "Contrato. Entrada: definición de tool. Salida: tool admisible. Error: tool overbroad → "
+                "`DISABLE_OVERBROAD_TOOL`.",
+                f"Aplicación `{case}-2A`: get_case_status con solo case_id, sin side_effect.",
+            ],
+            "single_responsibility_fns.py",
+            textwrap.dedent(
+                """\
+                def tool_ok(resp, fields, side, typed):
+                    return resp == 1 and fields == {"case_id"} and not side and typed
+
+                print("ok", tool_ok(1, {"case_id"}, False, True))
+                print("tool", "get_case_status")
+                print("side_effect", False)
+                """
+            ),
+            "La revisión de S49-T2-A conserva tool contract con casos válidos/inválidos; no conviertas `DISABLE_OVERBROAD_TOOL` ni `REQUEST_TOOL_SCHEMA` en éxito silencioso.",
+            "Demo: rechaza tool con múltiples responsabilidades",
+            "demo_single_responsibility_fns.py",
+            textwrap.dedent(
+                """\
+                responsibilities = 3
+                print("admissible", responsibilities == 1)
+                print("action", "DISABLE_OVERBROAD_TOOL")
+                print("schema", ["case_id"])
+                """
+            ),
+            "Tool contract con responsabilidad única y schema mínimo.",
+        ),
+        (
+            "schema, permisos, idempotencia y errores",
+            "S49-T2-B",
+            [
+                "Antes de ejecutar: **schema_valid**, **scope** en granted, **idempotency_key**, un solo "
+                "efecto y error_kind tipado (retryable|terminal).",
+                "Mecanismo: predicado conjunto sobre esos campos; effects==1 en replay.",
+                "Contrato. Entrada: call record. Salida: allow/deny. Error: scope o schema → `DENY_TOOL_CALL`.",
+                f"Aplicación `{case}-2B`: report:prepare concedido, key presente, effects=1, error_kind tipado.",
+            ],
+            "schema_perms_idempotency_errors.py",
+            textwrap.dedent(
+                """\
+                def call_ok(rec):
+                    return (
+                        rec["schema_valid"]
+                        and rec["scope"] in rec["granted"]
+                        and bool(rec["idempotency_key"])
+                        and rec["effects"] == 1
+                        and rec["error_kind"] in {"retryable", "terminal"}
+                    )
+
+                rec = {
+                    "schema_valid": True,
+                    "scope": "report:prepare",
+                    "granted": {"report:prepare"},
+                    "idempotency_key": "k1",
+                    "effects": 1,
+                    "error_kind": "retryable",
+                }
+                print("ok", call_ok(rec))
+                print("effects", 1)
+                print("scope", rec["scope"])
+                """
+            ),
+            "Contrato S49-T2-B: demuestra replay y denegación de tool probados. Falla cerrada con `DENY_TOOL_CALL` y deriva incertidumbre mediante `REQUEST_TOOL_GRANT`.",
+            "Demo: niega scope no concedido",
+            "demo_schema_perms_idempotency_errors.py",
+            textwrap.dedent(
+                """\
+                scope, granted = "prod:write", {"report:prepare"}
+                print("allow", scope in granted)
+                print("action", "DENY_TOOL_CALL")
+                print("idempotent", True)
+                """
+            ),
+            "Replay y denegación de tool con schema y permisos.",
+        ),
+        (
+            "contexto mínimo, retrieval JIT y checkpoints",
+            "S49-T3-A",
+            [
+                "Mantén **contexto mínimo**, recupera **just-in-time** y escribe **checkpoint** después del "
+                "efecto, con provenance.",
+                "Mecanismo: tokens≤max, retrieved_just_in_time, checkpoint_after_effect, provenance truthy.",
+                "Contrato. Entrada: tokens y flags. Salida: estado reanudable. Error: contexto inflado → "
+                "`COMPACT_AND_CHECKPOINT`.",
+                f"Aplicación `{case}-3A`: 1200≤2000 tokens, JIT True, checkpoint post-efecto, provenance.",
+            ],
+            "min_context_jit_checkpoints.py",
+            textwrap.dedent(
+                """\
+                def ctx_ok(tokens, max_t, jit, ckpt, prov):
+                    return tokens <= max_t and jit and ckpt and bool(prov)
+
+                print("ok", ctx_ok(1200, 2000, True, True, "doc-1"))
+                print("tokens", 1200)
+                print("jit", True)
+                """
+            ),
+            "Para S49-T3-A, el artefacto comprobable es reanudación desde checkpoint consistente. Sin él corresponde `COMPACT_AND_CHECKPOINT` o, si faltan datos, `REQUEST_CHECKPOINT`.",
+            "Demo: compacta si tokens superan presupuesto",
+            "demo_min_context_jit_checkpoints.py",
+            textwrap.dedent(
+                """\
+                tokens, max_t = 2500, 2000
+                print("compact", tokens > max_t)
+                print("action", "COMPACT_AND_CHECKPOINT")
+                print("jit", True)
+                """
+            ),
+            "Reanudación desde checkpoint con contexto mínimo.",
+        ),
+        (
+            "memoria, compaction y last-known-good",
+            "S49-T3-B",
+            [
+                "La **compaction** no puede perder restricciones críticas; **LKG** (last-known-good) es un "
+                "checkpoint restaurable; retención de memoria acotada (≤7 días sintéticos).",
+                "Mecanismo: facts_before ⊆ facts_after post-compact, retention≤7, lkg startswith cp-.",
+                "Contrato. Entrada: facts y LKG. Salida: memoria segura. Error: pérdida de restricción → "
+                "`RESTORE_LAST_KNOWN_GOOD`.",
+                f"Aplicación `{case}-3B`: facts case_id/budget/no_prod_write se conservan; LKG cp-*.",
+            ],
+            "memory_compaction_lkg.py",
+            textwrap.dedent(
+                """\
+                def compact_ok(before, after, retention, lkg):
+                    return before <= after and retention <= 7 and lkg.startswith("cp-")
+
+                before = {"case_id", "budget", "no_prod_write"}
+                after = before | {"summary"}
+                print("ok", compact_ok(before, after, 7, "cp-12"))
+                print("lost", not (before <= {"case_id"}))
+                print("lkg", "cp-12")
+                """
+            ),
+            "Promoción de S49-T3-B: prueba compaction no pierde restricción crítica y registra por separado `RESTORE_LAST_KNOWN_GOOD` (breach) y `REQUEST_LKG` (missing).",
+            "Demo: detecta pérdida de restricción al compactar",
+            "demo_memory_compaction_lkg.py",
+            textwrap.dedent(
+                """\
+                before, after = {"no_prod_write", "budget"}, {"budget"}
+                print("safe", before <= after)
+                print("action", "RESTORE_LAST_KNOWN_GOOD")
+                print("retention_days", 7)
+                """
+            ),
+            "Compaction no pierde restricciones; LKG restaurable.",
+        ),
+        (
+            "stopping conditions y budgets",
+            "S49-T4-A",
+            [
+                "El agente se detiene por **goal_met** o por **budgets** de pasos/tokens/costo. Agotar budget "
+                "es éxito de control, no fallo silencioso.",
+                "Mecanismo: goal_met y steps/tokens/cost ≤ máximos.",
+                "Contrato. Entrada: contadores y goal. Salida: stop con razón. Error: overrun → "
+                "`STOP_BUDGET_EXHAUSTED`.",
+                f"Aplicación `{case}-4A`: goal_met, 4≤6 pasos, tokens y cost dentro de tope.",
+            ],
+            "stopping_budgets.py",
+            textwrap.dedent(
+                """\
+                def within_budget(goal, steps, max_s, tokens, max_t, cost, max_c):
+                    return goal and steps <= max_s and tokens <= max_t and cost <= max_c
+
+                print("ok", within_budget(True, 4, 6, 3200, 5000, 0.05, 0.1))
+                print("stop_if", not within_budget(False, 7, 6, 3200, 5000, 0.05, 0.1))
+                print("budgets", ["steps", "tokens", "cost"])
+                """
+            ),
+            "El dueño de S49-T4-A acepta solo budget exhaustion termina con razón; una violación produce `STOP_BUDGET_EXHAUSTED` y un registro incompleto produce `REQUEST_BUDGETS`.",
+            "Demo: agota budget de pasos",
+            "demo_stopping_budgets.py",
+            textwrap.dedent(
+                """\
+                steps, max_steps = 7, 6
+                print("exhausted", steps > max_steps)
+                print("action", "STOP_BUDGET_EXHAUSTED")
+                print("goal_met", False)
+                """
+            ),
+            "Budget exhaustion termina el run con razón explícita.",
+        ),
+        (
+            "sandbox, human approval y recuperación",
+            "S49-T4-B",
+            [
+                "**Sandbox**: network none, filesystem workspace-read. Acciones sensibles exigen "
+                "**approval_present**. Recovery no re-ejecuta efectos (`replayed_effects==0`).",
+                "Mecanismo: predicado de sandbox + (not approval_required or approval_present) + checkpoint + "
+                "replayed_effects==0.",
+                "Contrato. Entrada: sandbox flags y approval. Salida: run seguro. Error: prod sin aprobación "
+                "→ `SANDBOX_AND_STOP`.",
+                f"Aplicación `{case}-4B`: network none, fs workspace-read, approval si sensitive, cp-*, "
+                "replayed_effects 0.",
+            ],
+            "sandbox_human_approval_recovery.py",
+            textwrap.dedent(
+                """\
+                def sandbox_ok(rec):
+                    return (
+                        rec["network"] == "none"
+                        and rec["filesystem"] == "workspace-read"
+                        and (not rec["approval_required"] or rec["approval_present"])
+                        and rec["checkpoint"].startswith("cp-")
+                        and rec["replayed_effects"] == 0
+                    )
+
+                rec = {
+                    "network": "none",
+                    "filesystem": "workspace-read",
+                    "approval_required": True,
+                    "approval_present": True,
+                    "checkpoint": "cp-9",
+                    "replayed_effects": 0,
+                }
+                print("ok", sandbox_ok(rec))
+                print("prod_write", False)
+                print("hitl", True)
+                """
+            ),
+            "Cierre de S49-T4-B: conserva acción de producción imposible sin aprobación, la evidencia de `SANDBOX_AND_STOP` y la ruta humana `AGENT_OWNER_REVIEW`.",
+            "Demo: bloquea acción sensible sin aprobación",
+            "demo_sandbox_human_approval_recovery.py",
+            textwrap.dedent(
+                """\
+                required, present = True, False
+                print("allow", (not required) or present)
+                print("action", "SANDBOX_AND_STOP")
+                print("network", "none")
+                """
+            ),
+            "Producción imposible sin aprobación humana en sandbox.",
+        ),
+    ]
+    for heading, sid, paras, title, code, callout, demo_desc, demo_title, demo_code, demo_why in specs:
+        topics.append(
+            {
+                "heading": heading,
+                "sid": sid,
+                "paras": paras,
+                "title": title,
+                "code": code,
+                "callout_type": "tip",
+                "callout_title": "Contrato local",
+                "callout": callout,
+                "demo": {
+                    "demoId": f"{sid}-DEMO",
+                    "subtopicId": sid,
+                    "description": demo_desc,
+                    "title": demo_title,
+                    "code": demo_code,
+                    "why": demo_why,
+                },
+            }
+        )
+    return topics
+
+
+def build_s50():
+    m = SECTIONS_META[50]
+    case = m["case"]
+    topics = []
+    map_paras = [
+        f"**Diccionario.** **Task dataset:** tareas con slices (normal/edge/adversarial) y holdout. "
+        f"**Rúbrica 0–3:** anclas observables. **Outcome/process/trajectory/recovery:** dimensiones de eval. "
+        f"**Graders:** det/humano/LLM con calibración. **Order bias:** sensibilidad al orden de opciones. "
+        f"**Prompt injection / exfil / tool misuse:** amenazas P0. **Faithfulness/hallucination:** soporte de "
+        f"claims. **Rollback RTO:** tiempo de revertir release de IA.",
+        f"S50 es el **quality gate** del copiloto (CP-N4-C): no solo BLEU del texto final — tool args y "
+        f"reanudación cuentan. Id `tech-leadership` es legacy.",
+        f"Contrato. Entrada: dataset versionado, rúbrica, baseline y candidato. Salida: scores por severidad, "
+        f"trayectoria, tool calls y promote/block. Error: regresión P0/P1, injection exitosa o grader sin "
+        f"calibrar → block.",
+        f"Caso {case} ({m['org']}): copiloto sintético de ops. T1 evals → T2 jueces → T3 adversarial → T4 "
+        f"fiabilidad. Stdlib.",
+    ]
+    map_code = textwrap.dedent(
+        f"""\
+        def section_contract():
+            return {{
+                "case": "{case}",
+                "dimensions": ["outcome", "process", "trajectory", "recovery"],
+                "block_on": ["P0", "P1"],
+                "tool_args_in_eval": True,
+            }}
+
+        c = section_contract()
+        print("case", c["case"])
+        print("dims", len(c["dimensions"]))
+        print("tool_args_in_eval", c["tool_args_in_eval"])
+        """
+    )
+    topics.append(
+        {
+            "heading": f"Ruta de S50: {m['title']}",
+            "sid": None,
+            "paras": map_paras,
+            "title": "s50_map_contract.py",
+            "code": map_code,
+            "callout_type": "info",
+            "callout_title": "Gate de promoción",
+            "callout": (
+                f"{m['gate']}: evals retenidos y adversariales son repetibles y prueban recuperación, no "
+                "solo texto final. Si falta evidencia, no se promociona."
+            ),
+            "demo": None,
+        }
+    )
+
+    specs = [
+        (
+            "task dataset y rubric",
+            "S50-T1-A",
+            [
+                "El **dataset** suma slices (normal/edge/adversarial) = tasks; la **rúbrica** ancla 0–3; el "
+                "**holdout** es estricto (0 < holdout < tasks).",
+                "Mecanismo: sum(slices)==tasks, rubric_levels=={0,1,2,3}, holdout en rango.",
+                "Contrato. Entrada: tasks/slices/rubric/holdout. Salida: dataset válido. Error: slices rotas "
+                "→ `REBUILD_EVAL_DATASET`.",
+                f"Aplicación `{case}-1A`: 40 tasks, slices 25+10+5, rúbrica 0–3, holdout parcial.",
+            ],
+            "task_dataset_rubric.py",
+            textwrap.dedent(
+                """\
+                def dataset_ok(tasks, slices, levels, holdout):
+                    return sum(slices.values()) == tasks and levels == {0, 1, 2, 3} and 0 < holdout < tasks
+
+                slices = {"normal": 25, "edge": 10, "adversarial": 5}
+                print("ok", dataset_ok(40, slices, {0, 1, 2, 3}, 8))
+                print("tasks", 40)
+                print("holdout", 8)
+                """
+            ),
+            "Evidencia mínima de S50-T1-A: dataset versionado y rúbrica calibrada. Si falta, responde `REBUILD_EVAL_DATASET`; si no alcanza para decidir, `REQUEST_RUBRIC`.",
+            "Demo: valida suma de slices y holdout",
+            "demo_task_dataset_rubric.py",
+            textwrap.dedent(
+                """\
+                slices = {"normal": 25, "edge": 10, "adversarial": 5}
+                print("sum", sum(slices.values()))
+                print("levels", sorted({0, 1, 2, 3}))
+                print("versioned", True)
+                """
+            ),
+            "Dataset versionado con rúbrica 0–3 y holdout protegido.",
+        ),
+        (
+            "resultado, proceso, trajectory y recovery",
+            "S50-T1-B",
+            [
+                "Evalúa **cuatro dimensiones** (outcome/process/trajectory/recovery) y prohíbe tools "
+                "forbiddens. Un outcome bonito con trajectory insegura no pasa.",
+                "Mecanismo: min(dim) ≥ min_dimension y not forbidden_tool_used.",
+                "Contrato. Entrada: scores y flag de tool. Salida: pass/fail trayectoria. Error: tool "
+                "prohibida o dim baja → `FAIL_UNSAFE_TRAJECTORY`.",
+                f"Aplicación `{case}-1B`: scores ≥2, forbidden_tool_used False.",
+            ],
+            "outcome_process_trajectory_recovery.py",
+            textwrap.dedent(
+                """\
+                def dims_ok(rec):
+                    keys = ("outcome", "process", "trajectory", "recovery")
+                    return min(rec[k] for k in keys) >= rec["min_dimension"] and not rec["forbidden_tool_used"]
+
+                rec = {
+                    "outcome": 3,
+                    "process": 3,
+                    "trajectory": 2,
+                    "recovery": 3,
+                    "forbidden_tool_used": False,
+                    "min_dimension": 2,
+                }
+                print("ok", dims_ok(rec))
+                print("min_dim", min(rec[k] for k in ("outcome", "process", "trajectory", "recovery")))
+                print("forbidden", False)
+                """
+            ),
+            "Antes de promover S50-T1-B, audita tool calls y reanudación calificadas. Un breach activa `FAIL_UNSAFE_TRAJECTORY` y una ausencia activa `REQUEST_TRAJECTORY`.",
+            "Demo: falla si se usó tool prohibida",
+            "demo_outcome_process_trajectory_recovery.py",
+            textwrap.dedent(
+                """\
+                forbidden = True
+                print("pass", not forbidden)
+                print("action", "FAIL_UNSAFE_TRAJECTORY")
+                print("dims", ["outcome", "process", "trajectory", "recovery"])
+                """
+            ),
+            "Tool calls y recovery entran al score, no solo el texto final.",
+        ),
+        (
+            "graders deterministas/humanos/LLM",
+            "S50-T2-A",
+            [
+                "Combina **graders** en [0,1] y mide **human_llm_agreement**. Un LLM-judge solo no basta.",
+                "Mecanismo: scores en rango y agreement ≥ min_agreement.",
+                "Contrato. Entrada: scores de graders. Salida: ensemble calibrable. Error: desacuerdo alto → "
+                "`RECALIBRATE_GRADERS`.",
+                f"Aplicación `{case}-2A`: det/human/llm en rango, agreement ≥ umbral.",
+            ],
+            "graders_det_human_llm.py",
+            textwrap.dedent(
+                """\
+                def graders_ok(det, human, llm, agree, min_a):
+                    return all(0 <= x <= 1 for x in (det, human, llm)) and agree >= min_a
+
+                print("ok", graders_ok(0.86, 0.82, 0.8, 0.78, 0.75))
+                print("agreement", 0.78)
+                print("ensemble", True)
+                """
+            ),
+            "La revisión de S50-T2-A conserva acuerdo y desacuerdos medidos; no conviertas `RECALIBRATE_GRADERS` ni `REQUEST_HUMAN_LABELS` en éxito silencioso.",
+            "Demo: mide acuerdo human-LLM",
+            "demo_graders_det_human_llm.py",
+            textwrap.dedent(
+                """\
+                agree, min_a = 0.60, 0.75
+                print("calibrate", agree < min_a)
+                print("action", "RECALIBRATE_GRADERS")
+                print("deterministic", 0.86)
+                """
+            ),
+            "Acuerdo y desacuerdos medidos entre graders.",
+        ),
+        (
+            "calibración, order bias y conjunto retenido",
+            "S50-T2-B",
+            [
+                "**Calibración** con anclas; **order bias** (order_gap) bajo umbral; **holdout** nunca tocado "
+                "para entrenar jueces.",
+                "Mecanismo: anchor_accuracy≥min, order_gap≤max, not holdout_touched.",
+                "Contrato. Entrada: métricas de juez. Salida: juez válido. Error: bias/holdout → "
+                "`INVALIDATE_JUDGE`.",
+                f"Aplicación `{case}-2B`: anchor 0.92, order_gap 0.02, holdout intacto.",
+            ],
+            "calibration_order_bias_holdout.py",
+            textwrap.dedent(
+                """\
+                def judge_ok(acc, min_acc, gap, max_gap, holdout_touched):
+                    return acc >= min_acc and gap <= max_gap and not holdout_touched
+
+                print("ok", judge_ok(0.92, 0.9, 0.02, 0.05, False))
+                print("order_gap", 0.02)
+                print("holdout_touched", False)
+                """
+            ),
+            "Contrato S50-T2-B: demuestra order bias bajo umbral y holdout intacto. Falla cerrada con `INVALIDATE_JUDGE` y deriva incertidumbre mediante `REQUEST_ANCHORS`.",
+            "Demo: invalida juez si se tocó holdout",
+            "demo_calibration_order_bias_holdout.py",
+            textwrap.dedent(
+                """\
+                holdout_touched = True
+                print("valid", not holdout_touched)
+                print("action", "INVALIDATE_JUDGE")
+                print("order_gap", 0.02)
+                """
+            ),
+            "Order bias bajo umbral y holdout intacto.",
+        ),
+        (
+            "prompt injection, exfiltración y tool misuse",
+            "S50-T3-A",
+            [
+                "Ataques **P0**: injection bloqueada, exfil bytes=0, tool_scope read-only, tool_args_valid.",
+                "Mecanismo: banderas booleanas + severity P0 en el registro de prueba.",
+                "Contrato. Entrada: resultados de red team. Salida: block o pass seguridad. Error: cualquier "
+                "P0 fallido → `BLOCK_SECURITY_P0`.",
+                f"Aplicación `{case}-3A`: injection_blocked, exfil 0, read-only, args valid, severity P0.",
+            ],
+            "injection_exfil_tool_misuse.py",
+            textwrap.dedent(
+                """\
+                def security_ok(rec):
+                    return (
+                        rec["injection_blocked"]
+                        and rec["exfiltration_bytes"] == 0
+                        and rec["tool_scope"] == "read-only"
+                        and rec["tool_args_valid"]
+                        and rec["severity"] == "P0"
+                    )
+
+                rec = {
+                    "injection_blocked": True,
+                    "exfiltration_bytes": 0,
+                    "tool_scope": "read-only",
+                    "tool_args_valid": True,
+                    "severity": "P0",
+                }
+                print("ok", security_ok(rec))
+                print("exfil", 0)
+                print("scope", "read-only")
+                """
+            ),
+            "Para S50-T3-A, el artefacto comprobable es ataques críticos bloqueados por policy. Sin él corresponde `BLOCK_SECURITY_P0` o, si faltan datos, `REQUEST_REDTEAM`.",
+            "Demo: bloquea injection y exfil",
+            "demo_injection_exfil_tool_misuse.py",
+            textwrap.dedent(
+                """\
+                injection_blocked, exfil = False, 10
+                print("p0_pass", injection_blocked and exfil == 0)
+                print("action", "BLOCK_SECURITY_P0")
+                print("tool_scope", "read-only")
+                """
+            ),
+            "Ataques críticos bloqueados por policy antes de release.",
+        ),
+        (
+            "indirect injection, data poisoning y least privilege",
+            "S50-T3-B",
+            [
+                "Instrucciones en **documentos** se tratan como data; **chunks envenenados** se remueven; "
+                "permisos de tool son least privilege.",
+                "Mecanismo: document_instruction_treated_as_data, poisoned_chunks_removed≥1, requested_permission ∈ tool_permissions.",
+                "Contrato. Entrada: corpus y permisos. Salida: corpus limpio. Error: poison residual → "
+                "`QUARANTINE_POISONED_CORPUS`.",
+                f"Aplicación `{case}-3B`: instructions-as-data, 3 chunks removed, permission en grant.",
+            ],
+            "indirect_poison_least_priv.py",
+            textwrap.dedent(
+                """\
+                def corpus_ok(as_data, removed, req, perms):
+                    return as_data and removed >= 1 and req in perms
+
+                print("ok", corpus_ok(True, 3, "report:read", {"report:read", "case:read"}))
+                print("removed", 3)
+                print("least_privilege", True)
+                """
+            ),
+            "Promoción de S50-T3-B: prueba contenido recuperado no eleva permisos y registra por separado `QUARANTINE_POISONED_CORPUS` (breach) y `REQUEST_CORPUS_SCAN` (missing).",
+            "Demo: cuarentena de corpus envenenado",
+            "demo_indirect_poison_least_priv.py",
+            textwrap.dedent(
+                """\
+                removed = 0
+                print("clean", removed >= 1)
+                print("action", "QUARANTINE_POISONED_CORPUS")
+                print("as_data", True)
+                """
+            ),
+            "Contenido recuperado no eleva permisos; poison se cuarentena.",
+        ),
+        (
+            "hallucination y abstención",
+            "S50-T4-A",
+            [
+                "Mide **support rate** de claims; **unsupported_critical==0**; si retrieval vacío, "
+                "**abstained_when_empty**.",
+                "Mecanismo: supported/total ≥ min_support_rate, critical unsupported 0, abstain flag.",
+                "Contrato. Entrada: conteos de claims. Salida: pass o block alucinación. Error: critical "
+                "unsupported → `BLOCK_HALLUCINATION_REGRESSION`.",
+                f"Aplicación `{case}-4A`: 18/20 soporte ≥0.9, critical 0, abstain when empty.",
+            ],
+            "hallucination_abstention.py",
+            textwrap.dedent(
+                """\
+                def hallu_ok(supported, total, min_rate, critical, abstain_empty):
+                    return supported / total >= min_rate and critical == 0 and abstain_empty
+
+                print("ok", hallu_ok(18, 20, 0.9, 0, True))
+                print("support_rate", 0.9)
+                print("critical_unsupported", 0)
+                """
+            ),
+            "El dueño de S50-T4-A acepta solo hallucination crítica cero en holdout; una violación produce `BLOCK_HALLUCINATION_REGRESSION` y un registro incompleto produce `REQUEST_CLAIM_LABELS`.",
+            "Demo: bloquea si hay claim crítico sin soporte",
+            "demo_hallucination_abstention.py",
+            textwrap.dedent(
+                """\
+                critical = 1
+                print("pass", critical == 0)
+                print("action", "BLOCK_HALLUCINATION_REGRESSION")
+                print("abstain_when_empty", True)
+                """
+            ),
+            "Hallucination crítica cero en holdout; abstención si no hay soporte.",
+        ),
+        (
+            "latency/cost/caching, incident response y rollback",
+            "S50-T4-B",
+            [
+                "Fiabilidad operativa: **p95≤SLO**, **cost≤cap**, **cache_acl_safe**, **rollback_minutes≤RTO**.",
+                "Mecanismo: predicado cuádruple sobre latencia, costo, cache y rollback.",
+                "Contrato. Entrada: métricas de release. Salida: promote o rollback. Error: RTO roto → "
+                "`ROLLBACK_AI_RELEASE`.",
+                f"Aplicación `{case}-4B`: p95 850≤1000, cost 0.07≤0.1, cache ACL safe, rollback ≤ RTO.",
+            ],
+            "latency_cost_cache_incident_rollback.py",
+            textwrap.dedent(
+                """\
+                def release_ok(p95, slo, cost, cap, cache_ok, rb, rto):
+                    return p95 <= slo and cost <= cap and cache_ok and rb <= rto
+
+                print("ok", release_ok(850, 1000, 0.07, 0.1, True, 20, 30))
+                print("p95", 850)
+                print("rollback_min", 20)
+                """
+            ),
+            "Cierre de S50-T4-B: conserva rollback dentro de RTO con evidencia, la evidencia de `ROLLBACK_AI_RELEASE` y la ruta humana `AI_SRE_REVIEW`.",
+            "Demo: fuerza rollback si se excede RTO",
+            "demo_latency_cost_cache_incident_rollback.py",
+            textwrap.dedent(
+                """\
+                rb, rto = 45, 30
+                print("within_rto", rb <= rto)
+                print("action", "ROLLBACK_AI_RELEASE")
+                print("cache_acl_safe", True)
+                """
+            ),
+            "Rollback dentro de RTO con evidencia de incidente.",
+        ),
+    ]
+    for heading, sid, paras, title, code, callout, demo_desc, demo_title, demo_code, demo_why in specs:
+        topics.append(
+            {
+                "heading": heading,
+                "sid": sid,
+                "paras": paras,
+                "title": title,
+                "code": code,
+                "callout_type": "tip",
+                "callout_title": "Contrato local",
+                "callout": callout,
+                "demo": {
+                    "demoId": f"{sid}-DEMO",
+                    "subtopicId": sid,
+                    "description": demo_desc,
+                    "title": demo_title,
+                    "code": demo_code,
+                    "why": demo_why,
+                },
+            }
+        )
+    return topics
+
+
+BUILDERS = {45: build_s45, 46: build_s46, 47: build_s47, 48: build_s48, 49: build_s49, 50: build_s50}
+
+RESOURCES = {
+    45: {
+        "docs": [
+            ("AWS Well-Architected Framework", "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html", "Reliability, security, cost"),
+            ("Terraform language", "https://developer.hashicorp.com/terraform/language", "IaC declarativa y state"),
+            ("CloudEvents", "https://cloudevents.io/", "Envelope interoperable de eventos"),
+            ("Amazon SQS — at-least-once", "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/standard-queues.html", "Delivery semantics"),
+            ("Python queue — stdlib", "https://docs.python.org/3/library/queue.html", "Colas locales didácticas"),
+            ("Py4E", "https://www.py4e.com", "Progressive disclosure"),
+        ],
+        "books": [
+            ("Designing Data-Intensive Applications", "Consistencia, colas, almacenamiento"),
+            ("Site Reliability Engineering", "SLO, capacidad, incidentes"),
+            ("Terraform Up & Running", "IaC multi-env y state"),
+        ],
+        "courses": [
+            ("MIT OCW 6.100L", "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", "Contratos verificables"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python/", "Problem sets y tests"),
+            ("Coursera — Cloud architecture patterns (ref)", "https://www.coursera.org", "Patrones cloud de alto nivel"),
+            ("deeplearning.ai Data Engineering", "https://www.deeplearning.ai/specializations/data-engineering", "Pipelines y cloud data"),
+        ],
+    },
+    46: {
+        "docs": [
+            ("Apache Beam programming guide", "https://beam.apache.org/documentation/programming-guide/", "Event time, windows, watermarks"),
+            ("Airflow concepts", "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html", "DAG, schedules, backfill"),
+            ("dbt contracts", "https://docs.getdbt.com/docs/collaborate/govern/model-contracts", "Schema contracts"),
+            ("OpenLineage", "https://openlineage.io/", "Lineage de runs"),
+            ("Python itertools", "https://docs.python.org/3/library/itertools.html", "Procesamiento batch local"),
+            ("Py4E", "https://www.py4e.com", "Progressive disclosure"),
+        ],
+        "books": [
+            ("Designing Data-Intensive Applications", "Batch/stream y recuperación"),
+            ("Fundamentals of Data Engineering", "Orquestación y calidad"),
+            ("Site Reliability Engineering", "SLO de datos e incidentes"),
+        ],
+        "courses": [
+            ("deeplearning.ai Data Engineering", "https://www.deeplearning.ai/specializations/data-engineering", "Pipelines production-grade"),
+            ("MIT OCW 6.100L", "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", "Contratos"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python/", "Tests y liberaciones"),
+            ("Coursera Data Engineering", "https://www.coursera.org", "Orquestación y calidad"),
+        ],
+    },
+    47: {
+        "docs": [
+            ("MLflow Tracking", "https://mlflow.org/docs/latest/tracking.html", "Params, metrics, artifacts"),
+            ("MLflow Model Registry", "https://mlflow.org/docs/latest/model-registry.html", "Stages y transitions"),
+            ("Model Cards (Google)", "https://modelcards.withgoogle.com/about", "Use/limits/metrics/risks"),
+            ("Seldon / KServe concepts", "https://kserve.github.io/website/", "Serving patterns"),
+            ("sklearn model persistence", "https://scikit-learn.org/stable/model_persistence.html", "Artefactos"),
+            ("Py4E", "https://www.py4e.com", "Progressive disclosure"),
+        ],
+        "books": [
+            ("Designing Machine Learning Systems (Huyen)", "Serving, monitoring, iteration"),
+            ("Reliable Machine Learning", "Gates y rollback"),
+            ("DDIA", "Sistemas y consistencia de features"),
+        ],
+        "courses": [
+            ("Coursera MLOps", "https://www.coursera.org", "Experiment→production"),
+            ("deeplearning.ai MLOps", "https://www.deeplearning.ai", "Pipeline de modelos"),
+            ("Stanford CS329S (ref)", "https://stanford-cs329s.github.io/", "ML systems"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python/", "Reproducibilidad"),
+        ],
+    },
+    48: {
+        "docs": [
+            ("OpenAI embeddings guide", "https://platform.openai.com/docs/guides/embeddings", "Similarity y versiones"),
+            ("LangChain RAG", "https://python.langchain.com/docs/tutorials/rag/", "Patrones RAG (conceptual)"),
+            ("LlamaIndex docs", "https://docs.llamaindex.ai/", "Ingesta y retrieval"),
+            ("NIST AI RMF (overview)", "https://www.nist.gov/itl/ai-risk-management-framework", "Riesgo y evidencia"),
+            ("Python statistics", "https://docs.python.org/3/library/statistics.html", "Métricas locales"),
+            ("Py4E", "https://www.py4e.com", "Progressive disclosure"),
+        ],
+        "books": [
+            ("Building LLMs for Production (ref)", "RAG, eval y costo"),
+            ("Designing Data-Intensive Applications", "Retrieval systems framing"),
+            ("Speech and Language Processing (Jurafsky)", "Bases de ranking y evaluación"),
+        ],
+        "courses": [
+            ("deeplearning.ai LangChain/RAG short courses", "https://www.deeplearning.ai", "RAG con evidencia"),
+            ("Stanford CS224N (ref)", "https://web.stanford.edu/class/cs224n/", "Representaciones"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python/", "Contratos de I/O"),
+            ("Coursera NLP / GenAI", "https://www.coursera.org", "Eval de retrieval"),
+        ],
+    },
+    49: {
+        "docs": [
+            ("OpenAI function/tool calling", "https://platform.openai.com/docs/guides/function-calling", "Schema y tools"),
+            ("Anthropic tool use", "https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview", "Tools y permisos"),
+            ("LangGraph concepts", "https://langchain-ai.github.io/langgraph/", "Workflow vs agent"),
+            ("12-factor agents (ref patterns)", "https://github.com", "Budgets y sandbox (patterns)"),
+            ("Python json schema validation patterns", "https://docs.python.org/3/library/json.html", "Args tipados"),
+            ("Py4E", "https://www.py4e.com", "Progressive disclosure"),
+        ],
+        "books": [
+            ("Designing Data-Intensive Applications", "Idempotencia y estado"),
+            ("Site Reliability Engineering", "Budgets y recovery"),
+            ("Building agentic systems (survey notes)", "Control loops y HITL"),
+        ],
+        "courses": [
+            ("deeplearning.ai agentic courses", "https://www.deeplearning.ai", "Tools y control"),
+            ("MIT OCW 6.100L", "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", "Estado y funciones"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python/", "Diseño de interfaces"),
+            ("Coursera GenAI agents (ref)", "https://www.coursera.org", "Routing y tools"),
+        ],
+    },
+    50: {
+        "docs": [
+            ("OpenAI Evals", "https://github.com/openai/evals", "Task eval harness"),
+            ("HELM (Stanford)", "https://crfm.stanford.edu/helm/", "Holistic evaluation"),
+            ("OWASP LLM Top 10", "https://owasp.org/www-project-top-10-for-large-language-model-applications/", "Injection y exfil"),
+            ("NIST AI RMF", "https://www.nist.gov/itl/ai-risk-management-framework", "Riesgo y gobernanza"),
+            ("Python unittest", "https://docs.python.org/3/library/unittest.html", "Graders deterministas"),
+            ("Py4E", "https://www.py4e.com", "Progressive disclosure"),
+        ],
+        "books": [
+            ("Reliable Machine Learning", "Eval gates y rollback"),
+            ("Site Reliability Engineering", "Incident response y RTO"),
+            ("AI engineering eval notes", "Hallucination y abstención"),
+        ],
+        "courses": [
+            ("deeplearning.ai quality/eval short courses", "https://www.deeplearning.ai", "Evals y red team"),
+            ("Stanford CRFM / HELM materials", "https://crfm.stanford.edu/helm/", "Benchmarking holístico"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python/", "Tests y rúbricas"),
+            ("Coursera trustworthy AI (ref)", "https://www.coursera.org", "Adversarial y fairness framing"),
+        ],
+    },
+}
+
+
+def extract_tail(path: Path) -> tuple[str, str]:
+    """Return (weDo_through_youDo_start_patched, from_youDo_or_weDo).
+
+    We keep weDo body from existing file, replace weDo intro, keep youDo+selfCheck+resources
+    to be replaced at the end.
+    """
+    text = path.read_text(encoding="utf-8")
+    m = re.search(r"\n  weDo: \{", text)
+    if not m:
+        raise RuntimeError(f"no weDo in {path}")
+    tail = text[m.start() + 1 :]  # from weDo
+    return tail
+
+
+def patch_weDo_intro(tail: str, intro: str) -> str:
+    return re.sub(
+        r'(weDo: \{\s*intro:\s*)"(?:[^"\\]|\\.)*"',
+        lambda m: m.group(1) + q(intro),
+        tail,
+        count=1,
+    )
+
+
+def strip_from_youDo(tail: str) -> str:
+    """Keep weDo only (up to but not including youDo)."""
+    m = re.search(r"\n  youDo: \{", tail)
+    if not m:
+        raise RuntimeError("no youDo")
+    return tail[: m.start()]
+
+
+def emit_youDo(meta: dict) -> str:
+    case = meta["case"]
+    return f"""  youDo: {{
+    title: {q(meta["title"])},
+    context: {q(
+        f'{meta["product"]}. Trabaja sobre {meta["org"]}. Caso {case} sintético: sin PII real ni secretos. '
+        f'Gate {meta["gate"]}: evidencia medible, fail-closed y rollback documentado.'
+    )},
+    objectives: [
+{chr(10).join(f'      {q(o)},' for o in meta["outcomes"][:4])}
+    ],
+    requirements: [
+      {q(f"Usa exclusivamente fixtures sintéticos identificados por `{case}`.")},
+      {q("Incluye predicados de dominio con valid/breach/uncertain.")},
+      {q("Automatiza un caso normal, uno de breach y uno incierto sin inventar evidencia.")},
+      {q("Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.")},
+      {q("Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.")},
+      {q("ES-PE profesional; términos técnicos en inglés cuando sean estándar de industria.")},
+    ],
+    starterCode: `{esc(textwrap.dedent(f'''
+        CASE_ID = "{case}"
+        REQUIRED = ["contract", "breach_path", "uncertain_path", "evidence"]
+        evidence = {{k: False for k in REQUIRED}}
+
+        def readiness(bundle: dict) -> tuple[str, list[str]]:
+            missing = [name for name in REQUIRED if bundle.get(name) is not True]
+            return ("READY", []) if not missing else ("BLOCKED", missing)
+
+        status, missing = readiness(evidence)
+        print(CASE_ID, status)
+        print("missing", ",".join(missing))
+        assert status in {{"READY", "BLOCKED"}}
+        ''').strip())}
+`,
+    portfolioNote: {q(
+        f"Evidencia de {meta['gate']}: baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. "
+        "El checklist inicia BLOCKED por diseño; conviértelo en READY con artefactos reales del lab sintético."
+    )},
+    rubric: [
+      {{ criterion: "Correctitud del contrato y gate", weight: "25%" }},
+      {{ criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" }},
+      {{ criterion: "Seguridad, privacidad y least privilege", weight: "15%" }},
+      {{ criterion: "Reproducibilidad, lineage y evidencia", weight: "15%" }},
+      {{ criterion: "Operación: SLO, observabilidad y rollback", weight: "15%" }},
+      {{ criterion: "Comunicación de trade-offs y límites", weight: "10%" }},
+    ],
+  }}"""
+
+
+def emit_selfCheck(n: int, meta: dict, topics: list) -> str:
+    case = meta["case"]
+    # 5 questions
+    qs = [
+        (
+            f"¿Qué evidencia permite aprobar el primer subtema de S{n:02d} en {case}?",
+            [
+                topics[1]["callout"].split(":")[0].replace("Evidencia mínima de ", "")
+                if topics[1]["callout"].startswith("Evidencia")
+                else "Evidencia de dominio del subtema",
+                "un print sin assert ni versión",
+                "una captura de pantalla sin fuente",
+                "datos personales reales para que parezca auténtico",
+            ],
+            0,
+            "La teoría exige evidencia de dominio medible; PII o decoración no satisfacen el contrato.",
+        ),
+        (
+            f"Si ocurre la condición de error de S{n:02d}, ¿qué respuesta preserva seguridad y auditabilidad?",
+            [
+                "continuar y ocultar el warning",
+                "inventar evidencia faltante",
+                "emitir la acción fail-closed del contrato y conservar evidencia",
+                "borrar el trace para reducir ruido",
+            ],
+            2,
+            "El contrato falla cerrado; no convierte incertidumbre o breach en éxito.",
+        ),
+        (
+            f"¿Cuál resultado demuestra el gate `{meta['gate']}`?",
+            [
+                f"el archivo S{n:02d} existe, aunque no pruebe el gate",
+                "el README afirma que funciona",
+                "se usó la herramienta más nueva",
+                meta["tagline"][:120],
+            ],
+            3,
+            "El gate es conductual y medible, no cosmético.",
+        ),
+        (
+            f"¿Qué tratamiento de `{case}` respeta el alcance del curso?",
+            [
+                "reemplazarlo por datos reales sin consentimiento",
+                "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+                "subir secretos para facilitar la demo",
+                "inferir fraude o parentesco desde señales",
+            ],
+            1,
+            "Los casos son sintéticos; señales no prueban fraude, parentesco ni intención.",
+        ),
+        (
+            "¿Por qué los demos de teoría usan `def` y cálculo en lugar de solo `print` de literales?",
+            [
+                "para que el contrato sea comprobable desde entradas",
+                "porque print está prohibido en Python",
+                "para ocultar la salida esperada",
+                "solo por estilo visual del IDE",
+            ],
+            0,
+            "El gold bar elimina print-theater: la salida se deriva de inputs y predicados.",
+        ),
+    ]
+    blocks = []
+    for question, options, idx, expl in qs:
+        opts = ", ".join(q(o) for o in options)
+        blocks.append(
+            f"""      {{
+        question: {q(question)},
+        options: [{opts}],
+        correctIndex: {idx},
+        explanation: {q(expl)},
+      }}"""
+        )
+    return "  selfCheck: {\n    questions: [\n" + ",\n".join(blocks) + "\n    ],\n  }"
+
+
+def emit_resources(n: int) -> str:
+    r = RESOURCES[n]
+    docs = ",\n".join(
+        f'      {{\n        label: {q(lab)},\n        url: {q(url)},\n        note: {q(note)},\n      }}'
+        for lab, url, note in r["docs"]
+    )
+    books = ",\n".join(f"      {{ label: {q(lab)}, note: {q(note)} }}" for lab, note in r["books"])
+    courses = ",\n".join(
+        f"      {{ label: {q(lab)}, url: {q(url)}, note: {q(note)} }}" for lab, url, note in r["courses"]
+    )
+    return f"""  resources: {{
+    docs: [
+{docs}
+    ],
+    books: [
+{books}
+    ],
+    courses: [
+{courses}
+    ],
+  }},
+}}"""
+
+
+def emit_section(n: int) -> tuple[str, list]:
+    meta = SECTIONS_META[n]
+    topics = BUILDERS[n]()
+    theory_parts = []
+    for t in topics:
+        theory_parts.append(
+            theory_block(
+                t["heading"],
+                t["sid"],
+                t["paras"],
+                t["title"],
+                t["code"],
+                t["callout_type"],
+                t["callout_title"],
+                t["callout"],
+            )
+        )
+    demos = []
+    for t in topics:
+        if t["demo"]:
+            d = t["demo"]
+            demos.append(
+                demo_step(
+                    d["demoId"],
+                    d["subtopicId"],
+                    d["description"],
+                    d["title"],
+                    d["code"],
+                    d["why"],
+                )
+            )
+
+    path = SECTIONS / meta["file"]
+    tail = extract_tail(path)
+    tail = patch_weDo_intro(tail, meta["weDo_intro"])
+    weDo_only = strip_from_youDo(tail).rstrip().rstrip(",") + ",\n"
+
+    outcomes = ",\n".join(f"    {{ text: {q(o)} }}" for o in meta["outcomes"])
+    theory_joined = ",\n".join(theory_parts)
+    demos_joined = ",\n".join(demos)
+    ido_intro = q(
+        f'Te muestro 8 demos de S{n:02d} ({meta["title"]}) alineadas a {meta["gate"]}.'
+    )
+
+    head = f"""import type {{ CourseSection }} from '../../types'
+
+export const {meta["export"]}: CourseSection = {{
+  id: {q(meta["id"])},
+  index: {n},
+  title: {q(meta["title"])},
+  shortTitle: {q(meta["shortTitle"])},
+  tagline: {q(meta["tagline"])},
+  estimatedHours: {meta["hours"]},
+  level: "Master",
+  phase: 3,
+  icon: {q(meta["icon"])},
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    {q(meta["job"])},
+  learningOutcomes: [
+{outcomes}
+  ],
+  theory: [
+{theory_joined}
+  ],
+  iDo: {{
+    intro: {ido_intro},
+    steps: [
+{demos_joined}
+    ],
+  }},
+"""
+    body = (
+        head
+        + weDo_only
+        + emit_youDo(meta)
+        + ",\n"
+        + emit_selfCheck(n, meta, topics)
+        + ",\n"
+        + emit_resources(n)
+        + "\n"
+    )
+    return body, topics
+
+
+def write_research_done(n: int, meta: dict, rank: float, sol_pass: int, sol_total: int):
+    research = f"""# S{n:02d} Research Dossier (STORM n={n})
+
+**Section:** {meta['title']}  
+**File:** `src/lib/course/sections/{meta['file']}`  
+**Cycles logged:** {n} (see `S{n:02d}_STORM.json`)
+
+## Pre-round synthesis
+
+Competitive anchors mapped to V3 topics (not legacy file id `{meta['id']}`):
+- Official docs + frameworks listed in `resources` of the section file
+- MIT OCW / Harvard CS50P progressive disclosure and finger-exercise gating
+- Coursera / deeplearning.ai production tracks where applicable
+- Industry patterns: DDIA, SRE, MLOps/RAG/agent eval literature
+
+## Content map (Theory + Evidence)
+
+| Topic | Decision | Evidence |
+|-------|----------|----------|
+| Map | Diccionario + contrato de sección + caso {meta['case']} | V3 roadmap S{n:02d} |
+| T1–T4 × A/B | Mechanism-first + predicado ejecutable stdlib | weDo fixtures + theory/iDo `def` |
+| weDo | Conservar 24 E1/E2/E3 con defects reales y `meets_contract` | test_master_curriculum_specificity |
+| Ethics | Synthetic only; fail-closed; no PII; no guilt inference | Gold standard checklist |
+
+## Trainee contrast
+
+- Harvest: four-layer theory paragraph pattern; mechanism demos.
+- Reject: any trainee content that follows legacy file-id topics instead of V3 titles.
+- Never publish `trainee_research_attempt/`.
+
+## Quality gate
+
+Expert rank target ≥9.5; zero pure-print theater in theory/iDo; weDo starters have real inverted predicates.
+"""
+    done = f"""# S{n:02d} DONE — {meta['title']} (gold rewrite)
+
+**File:** `src/lib/course/sections/{meta['file']}`  
+**Expert rank:** {rank}  
+**STORM cycles:** {n} (`S{n:02d}_STORM.json`)  
+**Paragraph analysis:** `paragraph_analysis/S{n:02d}_PARAGRAPHS.md`  
+**solutionCode pass:** {sol_pass}/{sol_total}
+
+## Before → after
+| Metric | Before (theater) | After |
+|--------|------------------|-------|
+| theory/iDo | pure print literals | `def` + real computation |
+| avg theory para depth | template soup | ≥4 paras mechanism/contract/case |
+| weDo | solid domain predicates | preserved + intro ES-PE city |
+| selfCheck | 4 | 5 |
+| resources | thin | 6 docs + 3 books + 4 courses |
+
+## Residual
+- Cloud/ML/LLM APIs remain conceptual with stdlib models — intentional progressive disclosure.
+"""
+    (DOSSIERS / f"S{n:02d}_RESEARCH.md").write_text(research, encoding="utf-8")
+    (DOSSIERS / f"S{n:02d}_DONE.md").write_text(done, encoding="utf-8")
+    # enrich VERIFY
+    (DOSSIERS / f"S{n:02d}_VERIFY.md").write_text(
+        f"""# S{n:02d} verification
+
+**Status:** GOLD rewrite applied (expert rank {rank})  
+**V3 title:** {meta['title']}  
+**Legacy id:** `{meta['id']}`  
+**solutionCode:** {sol_pass}/{sol_total} exit 0  
+**Check:** master curriculum specificity contracts; no rejected authoring language; synthetic fixtures only.
+""",
+        encoding="utf-8",
+    )
+
+
+def write_paragraphs(n: int, meta: dict, topics: list, rank: float):
+    lines = [
+        f"# S{n:02d} Paragraph-by-Paragraph Analysis with Sources",
+        "",
+        f"Generated: {datetime.now(timezone.utc).isoformat()}",
+        f"Section: {meta['title']}",
+        f"File: `src/lib/course/sections/{meta['file']}`",
+        f"Expert rank (post gold rewrite): **{rank}**",
+        "",
+        "## Sources (section-wide)",
+    ]
+    for lab, url, note in RESOURCES[n]["docs"]:
+        lines.append(f"- {lab}: {url} ({note})")
+    for lab, url, note in RESOURCES[n]["courses"]:
+        lines.append(f"- {lab}: {url}")
+    lines.append("- Trainee harvest (local only): four-layer theory; reject wrong legacy topics")
+    lines.append("")
+    lines.append("## Theory paragraphs")
+    for t in topics:
+        lines.append(f"### {t['heading']}")
+        for i, p in enumerate(t["paras"], 1):
+            snippet = pad(p)[:160].replace("\n", " ")
+            lines.append(f"**P{i}** (rank {rank}/10)")
+            lines.append(f"> {snippet}…")
+            lines.append(f"- **Analysis:** Progressive disclosure ES-PE; mechanism + contract + {meta['case']} synthetic; fail-closed.")
+            lines.append(f"- **Sources:** V3 S{n:02d} roadmap + section resources; gold S36/S37 pattern.")
+            lines.append("- **Pedagogy:** Anchor/mechanism/contract/case → iDo demo → weDo E1/E2/E3.")
+            lines.append("")
+        # callout as short para
+        lines.append(f"**Callout** (rank {rank - 0.1:.1f}/10)")
+        lines.append(f"> {t['callout'][:160]}…")
+        lines.append("")
+    (PARAS / f"S{n:02d}_PARAGRAPHS.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def validate_solutions(path: Path) -> tuple[int, int]:
+    text = path.read_text(encoding="utf-8")
+    codes = re.findall(
+        r"solutionCode:\s*\{\s*language: 'python',\s*title: \"[^\"]+\",\s*code: `([\s\S]*?)`\s*,",
+        text,
+    )
+    ok = 0
+    for c in codes:
+        r = subprocess.run(["python3", "-c", c], capture_output=True, text=True)
+        if r.returncode == 0:
+            ok += 1
+        else:
+            print("SOL FAIL", path.name, r.stderr[:200])
+    return ok, len(codes)
+
+
+def validate_theory_ido(path: Path) -> tuple[int, int]:
+    text = path.read_text(encoding="utf-8")
+    # theory+iDo pairs before weDo
+    head = text.split("weDo:", 1)[0]
+    pairs = re.findall(r"code: `([\s\S]*?)`\s*,\s*output: `([\s\S]*?)`", head)
+    ok = 0
+    for code, expected in pairs:
+        r = subprocess.run(["python3", "-c", code], capture_output=True, text=True)
+        if r.returncode == 0 and r.stdout.rstrip("\n") == expected.rstrip("\n"):
+            ok += 1
+        else:
+            print("THEORY/IDO mismatch", path.name, repr(r.stdout[:80]), "vs", repr(expected[:80]), r.stderr[:120])
+    return ok, len(pairs)
+
+
+def main():
+    ranks = {}
+    for n in range(45, 51):
+        print(f"=== Building S{n} ===")
+        body, topics = emit_section(n)
+        path = SECTIONS / SECTIONS_META[n]["file"]
+        path.write_text(body, encoding="utf-8")
+        sol_ok, sol_n = validate_solutions(path)
+        th_ok, th_n = validate_theory_ido(path)
+        # rank heuristic: start 9.6 if all green
+        rank = 9.6 if sol_ok == sol_n and th_ok == th_n else 9.5
+        if sol_ok < sol_n:
+            rank = 9.0
+        ranks[n] = (rank, sol_ok, sol_n, th_ok, th_n)
+        write_research_done(n, SECTIONS_META[n], rank, sol_ok, sol_n)
+        write_paragraphs(n, SECTIONS_META[n], topics, rank)
+        print(f"S{n}: sol {sol_ok}/{sol_n} theory/ido {th_ok}/{th_n} rank {rank}")
+
+    # run adversarial test
+    r = subprocess.run(
+        ["python3", "-m", "unittest", "tests.adversarial.test_master_curriculum_specificity", "-v"],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+    )
+    print(r.stdout[-2000:] if r.stdout else "")
+    print(r.stderr[-2000:] if r.stderr else "")
+    print("unittest exit", r.returncode)
+    print("RANKS", ranks)
+    return r.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

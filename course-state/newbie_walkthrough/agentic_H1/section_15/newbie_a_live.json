@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s15-2a4400336708",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "code": "# dual explorer-H1 · S15-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nidx_list = df.index.tolist()\nh1_out = idx_list\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T1-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "code": "# dual explorer-H1 · S15-T1-A-E2\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nval = s[\"C002\"]\nh1_out = val\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T1-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "code": "# dual explorer-H1 · S15-T1-A-E3\nimport pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nh1_out = out.to_dict()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T1-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "code": "# dual explorer-H1 · S15-T1-B-E1\nimport pandas as pd\nfrom io import StringIO\ncsv = \"a,b\\n1,NA\\n2,3\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nh1_out = int(df[\"b\"].isna().sum())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T1-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, StringIO; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "StringIO",
+        "csv",
+        "read_csv",
+        "na_values"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "code": "# dual explorer-H1 · S15-T1-B-E2\nimport pandas as pd\nfrom io import StringIO\ncsv = \"fecha,x\\n2024-01-01,1\\n2024-02-01,2\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nh1_out = str(df[\"fecha\"].dtype)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T1-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, StringIO; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "StringIO",
+        "csv",
+        "fecha",
+        "n2024"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "code": "# dual explorer-H1 · S15-T1-B-E3\nimport pandas as pd\nfrom io import StringIO\ncsv = \"cliente_id,monto,z\\nC001,1.0,99\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nh1_out = df.columns.tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T1-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, StringIO; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "StringIO",
+        "csv",
+        "cliente_id",
+        "monto"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "code": "# dual explorer-H1 · S15-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\npicked = df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist()\nh1_out = picked\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T2-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "code": "# dual explorer-H1 · S15-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ndf2 = df.assign(doble=df[\"score\"] * 2)\nh1_out = df2[\"doble\"].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T2-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "df2",
+        "assign"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "code": "# dual explorer-H1 · S15-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T2-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(int(df.iloc[1, 0]))']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "int",
+        "iloc",
+        "transferencia"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "code": "# dual explorer-H1 · S15-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf[\"flag\"] = \"\"\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nh1_out = df[\"flag\"].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T2-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "flag",
+        "loc"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "code": "# dual explorer-H1 · S15-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nh1_out = sub[\"ok\"].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T2-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "sub",
+        "loc"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "code": "# dual explorer-H1 · S15-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ncopia = df.copy()\ncopia.loc[0, \"score\"] = 99.0\nh1_out = df[\"score\"].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T2-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "copia",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "code": "# dual explorer-H1 · S15-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nh1_out = df[\"region\"].dtype.name\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T3-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima",
+        "str"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "code": "# dual explorer-H1 · S15-T3-A-E2\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T3-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, to_numeric; salida anclada a prints ['print([float(x) if pd.notna(x) else float(\"nan\") for x in s])']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "to_numeric",
+        "Series",
+        "errors",
+        "coerce"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "code": "# dual explorer-H1 · S15-T3-A-E3\nimport pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nh1_out = int(s.isna().sum())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T3-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, to_datetime; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "to_datetime",
+        "Series",
+        "fecha",
+        "errors"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "code": "# dual explorer-H1 · S15-T3-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\nnum = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nh1_out = int(num.isna().sum() - before)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T3-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "before",
+        "int"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "code": "# dual explorer-H1 · S15-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\nh1_out = \"missing\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T3-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "code": "# dual explorer-H1 · S15-T3-B-E3\nimport pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nh1_out = str(s.dtype)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T3-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "Series",
+        "C001",
+        "astype",
+        "string"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "code": "# dual explorer-H1 · S15-T4-A-E1\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\ndf2 = pd.read_csv(buf)\nh1_out = df2.columns.tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T4-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, StringIO; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "StringIO",
+        "DataFrame",
+        "buf",
+        "to_csv"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "code": "# dual explorer-H1 · S15-T4-A-E2\nimport pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nh1_out = len(bio.getvalue()) > 0\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T4-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, BytesIO; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "BytesIO",
+        "DataFrame",
+        "bio",
+        "to_excel"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "code": "# dual explorer-H1 · S15-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in sorted(df.columns)}\nh1_out = contract\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T4-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "code": "# dual explorer-H1 · S15-T4-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmem = int(df.memory_usage(deep=True).sum())\nh1_out = mem > 0\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T4-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "Lima",
+        "Cusco",
+        "mem"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "code": "# dual explorer-H1 · S15-T4-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T4-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, DataFrame; salida anclada a prints ['print(manifest[\"rows\"], manifest[\"columns\"])']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "manifest",
+        "rows",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "code": "# dual explorer-H1 · S15-T4-B-E3\nimport pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\ndigest = hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8]\nh1_out = digest\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» (S15) resolví S15-T4-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S15, pandas, hashlib; salida anclada a prints ['print(h1_out)']. Teoría activa: «Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, e.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S15",
+        "pandas",
+        "hashlib",
+        "DataFrame",
+        "digest",
+        "sha1"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S15 Q0: «¿Qué método de selección usa etiquetas de index/columnas?». En la teoría del slim_packet («Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ) la opción «loc» es la que describe el concepto; descarto p.ej. ['iloc', 'iat solo posicional forzado']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S15 Q1: «SettingWithCopyWarning se relaciona con:». En la teoría del slim_packet («Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ) la opción «Asignación sobre slices que pueden ser view/copy (chained assignment)» es la que describe el concepto; descarto p.ej. ['Parquet vs CSV', 'Falta de openpyxl']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S15 Q2: «errors='coerce' en to_numeric:». En la teoría del slim_packet («Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ) la opción «Convierte inválidos a NaN» es la que describe el concepto; descarto p.ej. ['Borra la columna', 'Eleva siempre excepción']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S15 Q3: «Un manifest de export debería incluir al menos:». En la teoría del slim_packet («Series/DataFrame/index» Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ) la opción «Filas, columnas y provenance/hash del artefacto» es la que describe el concepto; descarto p.ej. ['Solo el nombre del analista', 'Contraseñas de BD']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:55:49.084872+00:00",
+  "session_started_at": "2026-07-23T07:55:23.218436+00:00",
+  "session_ended_at": "2026-07-23T07:55:49.084872+00:00"
+}

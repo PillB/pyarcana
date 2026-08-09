@@ -1,0 +1,1116 @@
+{
+  "section_index": 44,
+  "section_id": "multimodal",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S44-T1-A-E1",
+          "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "matrix",
+            "ci",
+            "iDo_S44-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-A-E2",
+          "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "matrix",
+            "ci",
+            "iDo_S44-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-A-E3",
+          "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "matrix",
+            "ci",
+            "iDo_S44-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-B-E1",
+          "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\n",
+          "note": "",
+          "concepts_used": [
+            "cache",
+            "artifacts",
+            "iDo_S44-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-B-E2",
+          "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\n",
+          "note": "",
+          "concepts_used": [
+            "cache",
+            "artifacts",
+            "iDo_S44-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-B-E3",
+          "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\n",
+          "note": "",
+          "concepts_used": [
+            "cache",
+            "artifacts",
+            "iDo_S44-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-A-E1",
+          "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "perms",
+            "secret_scan",
+            "iDo_S44-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-A-E2",
+          "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "perms",
+            "secret_scan",
+            "iDo_S44-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-A-E3",
+          "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "perms",
+            "secret_scan",
+            "iDo_S44-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-B-E1",
+          "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "sbom",
+            "attest",
+            "iDo_S44-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-B-E2",
+          "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "sbom",
+            "attest",
+            "iDo_S44-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-B-E3",
+          "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "sbom",
+            "attest",
+            "iDo_S44-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-A-E1",
+          "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "envs",
+            "approvals",
+            "iDo_S44-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-A-E2",
+          "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "envs",
+            "approvals",
+            "iDo_S44-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-A-E3",
+          "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "envs",
+            "approvals",
+            "iDo_S44-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-B-E1",
+          "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "canary",
+            "rollback",
+            "iDo_S44-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-B-E2",
+          "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "canary",
+            "rollback",
+            "iDo_S44-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-B-E3",
+          "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "canary",
+            "rollback",
+            "iDo_S44-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-A-E1",
+          "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "branch",
+            "review",
+            "iDo_S44-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-A-E2",
+          "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "branch",
+            "review",
+            "iDo_S44-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-A-E3",
+          "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "branch",
+            "review",
+            "iDo_S44-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-B-E1",
+          "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "failure",
+            "audit",
+            "iDo_S44-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-B-E2",
+          "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "failure",
+            "audit",
+            "iDo_S44-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-B-E3",
+          "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "failure",
+            "audit",
+            "iDo_S44-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S44-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nmatrix_ok True\n",
+          "expected_head": "True\nn 3\nmatrix_ok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nmatrix_ok True\n",
+          "expected_head": "True\nn 3\nmatrix_ok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nmatrix_ok True\n",
+          "expected_head": "True\nn 3\nmatrix_ok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cache_hit True\nartifact wheel\ncondition main_only\n",
+          "expected_head": "cache_hit True\nartifact wheel\ncondition main_only",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cache_hit True\nartifact wheel\ncondition main_only\n",
+          "expected_head": "cache_hit True\nartifact wheel\ncondition main_only",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cache_hit True\nartifact wheel\ncondition main_only\n",
+          "expected_head": "cache_hit True\nartifact wheel\ncondition main_only",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "gitleaks block\nperms least\npin True\n",
+          "expected_head": "gitleaks block\nperms least\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "gitleaks block\nperms least\npin True\n",
+          "expected_head": "gitleaks block\nperms least\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "gitleaks block\nperms least\npin True\n",
+          "expected_head": "gitleaks block\nperms least\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "attest True\nverifiable True\nspdx True\n",
+          "expected_head": "attest True\nverifiable True\nspdx True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "attest True\nverifiable True\nspdx True\n",
+          "expected_head": "attest True\nverifiable True\nspdx True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "attest True\nverifiable True\nspdx True\n",
+          "expected_head": "attest True\nverifiable True\nspdx True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env staging\nneeds_approval True\nprod_gate True\n",
+          "expected_head": "env staging\nneeds_approval True\nprod_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env staging\nneeds_approval True\nprod_gate True\n",
+          "expected_head": "env staging\nneeds_approval True\nprod_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env staging\nneeds_approval True\nprod_gate True\n",
+          "expected_head": "env staging\nneeds_approval True\nprod_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migration expand_first\nblue_green optional\nrollback_demo True\n",
+          "expected_head": "migration expand_first\nblue_green optional\nrollback_demo True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migration expand_first\nblue_green optional\nrollback_demo True\n",
+          "expected_head": "migration expand_first\nblue_green optional\nrollback_demo True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migration expand_first\nblue_green optional\nrollback_demo True\n",
+          "expected_head": "migration expand_first\nblue_green optional\nrollback_demo True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reviews 1\nrelease_notes True\nconventional True\n",
+          "expected_head": "reviews 1\nrelease_notes True\nconventional True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reviews 1\nrelease_notes True\nconventional True\n",
+          "expected_head": "reviews 1\nrelease_notes True\nconventional True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reviews 1\nrelease_notes True\nconventional True\n",
+          "expected_head": "reviews 1\nrelease_notes True\nconventional True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "on_fail block\nevidence_n 2\naudit_trail True\n",
+          "expected_head": "on_fail block\nevidence_n 2\naudit_trail True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "on_fail block\nevidence_n 2\naudit_trail True\n",
+          "expected_head": "on_fail block\nevidence_n 2\naudit_trail True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "on_fail block\nevidence_n 2\naudit_trail True\n",
+          "expected_head": "on_fail block\nevidence_n 2\naudit_trail True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S44-T1-A-E1",
+          "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-A-E2",
+          "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-A-E3",
+          "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-B-E1",
+          "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-B-E2",
+          "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T1-B-E3",
+          "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-A-E1",
+          "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-A-E2",
+          "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-A-E3",
+          "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-B-E1",
+          "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-B-E2",
+          "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T2-B-E3",
+          "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-A-E1",
+          "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-A-E2",
+          "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-A-E3",
+          "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-B-E1",
+          "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-B-E2",
+          "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T3-B-E3",
+          "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-A-E1",
+          "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-A-E2",
+          "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-A-E3",
+          "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-B-E1",
+          "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-B-E2",
+          "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S44-T4-B-E3",
+          "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S44-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S44-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nmatrix_ok True\n",
+          "expected_head": "True\nn 3\nmatrix_ok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nmatrix_ok True\n",
+          "expected_head": "True\nn 3\nmatrix_ok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nmatrix_ok True\n",
+          "expected_head": "True\nn 3\nmatrix_ok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cache_hit True\nartifact wheel\ncondition main_only\n",
+          "expected_head": "cache_hit True\nartifact wheel\ncondition main_only",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cache_hit True\nartifact wheel\ncondition main_only\n",
+          "expected_head": "cache_hit True\nartifact wheel\ncondition main_only",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cache_hit True\nartifact wheel\ncondition main_only\n",
+          "expected_head": "cache_hit True\nartifact wheel\ncondition main_only",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "gitleaks block\nperms least\npin True\n",
+          "expected_head": "gitleaks block\nperms least\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "gitleaks block\nperms least\npin True\n",
+          "expected_head": "gitleaks block\nperms least\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "gitleaks block\nperms least\npin True\n",
+          "expected_head": "gitleaks block\nperms least\npin True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "attest True\nverifiable True\nspdx True\n",
+          "expected_head": "attest True\nverifiable True\nspdx True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "attest True\nverifiable True\nspdx True\n",
+          "expected_head": "attest True\nverifiable True\nspdx True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "attest True\nverifiable True\nspdx True\n",
+          "expected_head": "attest True\nverifiable True\nspdx True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env staging\nneeds_approval True\nprod_gate True\n",
+          "expected_head": "env staging\nneeds_approval True\nprod_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env staging\nneeds_approval True\nprod_gate True\n",
+          "expected_head": "env staging\nneeds_approval True\nprod_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "env staging\nneeds_approval True\nprod_gate True\n",
+          "expected_head": "env staging\nneeds_approval True\nprod_gate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migration expand_first\nblue_green optional\nrollback_demo True\n",
+          "expected_head": "migration expand_first\nblue_green optional\nrollback_demo True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migration expand_first\nblue_green optional\nrollback_demo True\n",
+          "expected_head": "migration expand_first\nblue_green optional\nrollback_demo True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migration expand_first\nblue_green optional\nrollback_demo True\n",
+          "expected_head": "migration expand_first\nblue_green optional\nrollback_demo True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reviews 1\nrelease_notes True\nconventional True\n",
+          "expected_head": "reviews 1\nrelease_notes True\nconventional True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reviews 1\nrelease_notes True\nconventional True\n",
+          "expected_head": "reviews 1\nrelease_notes True\nconventional True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reviews 1\nrelease_notes True\nconventional True\n",
+          "expected_head": "reviews 1\nrelease_notes True\nconventional True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "on_fail block\nevidence_n 2\naudit_trail True\n",
+          "expected_head": "on_fail block\nevidence_n 2\naudit_trail True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "on_fail block\nevidence_n 2\naudit_trail True\n",
+          "expected_head": "on_fail block\nevidence_n 2\naudit_trail True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S44-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "on_fail block\nevidence_n 2\naudit_trail True\n",
+          "expected_head": "on_fail block\nevidence_n 2\naudit_trail True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

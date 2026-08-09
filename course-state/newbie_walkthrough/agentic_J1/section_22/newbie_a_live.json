@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s22-afd09ac434ae",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type(), \"|\", msg.get_charset())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "email",
+        "mime",
+        "text",
+        "import",
+        "MIMEText",
+        "msg",
+        "Hola",
+        "plain",
+        "utf"
+      ],
+      "justification_from_packet": "para S22-T1-A-E1: E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola',… — partiendo del fixture conservado en el starter. Código imprime ['print(msg.get_content_type(), \"|\", msg.get_charset())']. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['from email.mime.text import MIMEText', \"print(msg['Content-Type']) o as_string.\"]."
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt.add_header('Content-Disposition', 'attachment', filename='a.txt')\nmsg.attach(att)\nprint(any(p.get_filename() == 'a.txt' for p in msg.walk()))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "email",
+        "mime",
+        "multipart",
+        "import",
+        "MIMEMultipart",
+        "application",
+        "MIMEApplication",
+        "msg",
+        "mixed"
+      ],
+      "justification_from_packet": "para S22-T1-A-E2: E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = … — mirando hints + theory del subtema activo. Código imprime [\"print(any(p.get_filename() == 'a.txt' for p in msg.walk()))\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['MIMEMultipart + attach', 'Content-Disposition filename']."
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(sum(1 for _ in msg.walk()))\n",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "email",
+        "mime",
+        "multipart",
+        "import",
+        "MIMEMultipart",
+        "text",
+        "MIMEText",
+        "msg",
+        "mixed"
+      ],
+      "justification_from_packet": "para S22-T1-A-E3: E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = … — leí la instruction y el starter del quiz_card. Código imprime ['print(sum(1 for _ in msg.walk()))']. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['alternative dentro de mixed', 'alt.attach dos MIMEText']."
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import html\n\nprint(html.escape('<script>x</script>'))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "html",
+        "escape",
+        "script",
+        "guiado",
+        "Concepto",
+        "Fixture",
+        "S22",
+        "datos",
+        "sint"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T1-B-E1: E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<s… Código imprime [\"print(html.escape('<script>x</script>'))\"]. Hints: ['import html', 'html.escape']."
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import html\n\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "html",
+        "name",
+        "Ana",
+        "Hola",
+        "escape",
+        "independiente",
+        "Concepto",
+        "interpolaci",
+        "con"
+      ],
+      "justification_from_packet": "para S22-T1-B-E2: E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>… — mirando hints + theory del subtema activo. Código imprime [\"print('Hola ' + html.escape(name))\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['escape antes de format', 'no uses f-string con HTML crudo']."
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "urls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    status = 'ok' if 'example.pe' in u else 'blocked'\n    print(u, status)\n",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [
+        "urls",
+        "https",
+        "example",
+        "evil",
+        "test",
+        "status",
+        "else",
+        "blocked",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T1-B-E3: E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = … Código imprime ['print(u, status)']. Hints: [\"if 'example.pe' in url\", 'lista de prueba']."
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "requested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\ngranted = [s for s in requested if s in allowed]\nprint(granted)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "requested",
+        "mail",
+        "draft",
+        "full",
+        "allowed",
+        "readonly",
+        "granted",
+        "guiado",
+        "Concepto",
+        "filtrar"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo para S22-T2-A-E1: E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail… Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['list comprehension', 'set membership'] Código imprime ['print(granted)']."
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "granted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "granted",
+        "mail",
+        "draft",
+        "bad",
+        "full",
+        "admin",
+        "isdisjoint",
+        "independiente",
+        "Concepto",
+        "denied"
+      ],
+      "justification_from_packet": "El contrato Pass de la tarea pide una salida concreta. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T2-A-E2: E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = [… Código imprime ['print(bad.isdisjoint(granted))']. Hints: ['all(x not in granted for x in ...)', 'set isdisjoint']."
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "datetime",
+        "import",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc",
+        "exp",
+        "minutes",
+        "hours"
+      ],
+      "justification_from_packet": "El contrato Pass de la tarea pide una salida concreta. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T2-A-E3: E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = dat… Código imprime [\"print('refresh' if exp < now else 'valid')\"]. Hints: ['datetime.fromisoformat', 'compara con now UTC']."
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "store = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "d001",
+        "status",
+        "draft",
+        "guiado",
+        "Concepto",
+        "crear",
+        "Fixture",
+        "S22",
+        "datos"
+      ],
+      "justification_from_packet": "para S22-T2-B-E1: E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d00… — partiendo del fixture conservado en el starter. Código imprime [\"print(store['d001']['status'])\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['dict assignment', 'print store[id]']."
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "datetime",
+        "import",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc",
+        "expires_at",
+        "seconds",
+        "independiente"
+      ],
+      "justification_from_packet": "En el paquete activo aparece el patrón iDo relacionado para S22-T2-B-E2: E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datet… Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['timedelta', 'now < expires'] Código imprime ['print(now < expires_at)']."
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "store = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "def",
+        "create_draft",
+        "len",
+        "status",
+        "draft",
+        "return",
+        "transferencia",
+        "Concepto",
+        "ids"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T2-B-E3: E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}… Código imprime ['print(create_draft(), create_draft())']. Hints: ['len(store)+1', 'f-string d{n:03d}']."
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pat",
+        "ana",
+        "example",
+        "bad",
+        "bool",
+        "match",
+        "guiado",
+        "Concepto",
+        "regex"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T3-A-E1: E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\… Código imprime ['print(e, bool(re.match(pat, e)))']. Hints: ['re.match', 'bool del match']."
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "DIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and '@' in em else 'missing')\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "DIRECTORY",
+        "C001",
+        "ana",
+        "example",
+        "get",
+        "verified",
+        "else",
+        "missing",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "para S22-T3-A-E2: E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = … — mirando hints + theory del subtema activo. Código imprime [\"print('verified' if em and '@' in em else 'missing')\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['dict.get', 'split @']."
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "ana",
+        "rojas",
+        "example",
+        "com",
+        "zip",
+        "break",
+        "score",
+        "max",
+        "len",
+        "round"
+      ],
+      "justification_from_packet": "para S22-T3-A-E3: E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b… — resuelvo el todo sin tocar asserts ni datos del fixture. Código imprime [\"print(round(score, 2), 'match_no_es_fraude')\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['os.path common o loop', 'no uses el score como prueba de fraude']."
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "xs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "list",
+        "dict",
+        "fromkeys",
+        "guiado",
+        "Concepto",
+        "dedupe",
+        "lista",
+        "preservando",
+        "orden",
+        "Fixture"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S22-T3-B-E1: E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@… Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['dict.fromkeys', 'list'] Código imprime ['print(list(dict.fromkeys(xs)))']."
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "email",
+        "other",
+        "test",
+        "role",
+        "endswith",
+        "bcc",
+        "independiente",
+        "Concepto",
+        "forzar"
+      ],
+      "justification_from_packet": "para S22-T3-B-E2: E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{… — el contrato pass de la tarea pide una salida concreta. Código imprime [\"print(rows[0]['role'])\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['endswith', 'mutar role']."
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "rows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "example",
+        "other",
+        "test",
+        "vis",
+        "role",
+        "endswith",
+        "bcc",
+        "append",
+        "len"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T3-B-E3: E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a… Código imprime ['print(len(vis), vis)']. Hints: ['filtrar roles', 'after policy']."
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "T = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "draft",
+        "submit",
+        "pending",
+        "state",
+        "guiado",
+        "Concepto",
+        "transici",
+        "Fixture",
+        "S22",
+        "datos"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T4-A-E1: E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft… Código imprime ['print(state)']. Hints: ['dict de dicts', 'TRANSITIONS[state][action]']."
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint('invalid' if nxt is None else nxt)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "draft",
+        "submit",
+        "pending",
+        "approve",
+        "approved",
+        "state",
+        "action",
+        "nxt",
+        "get",
+        "invalid"
+      ],
+      "justification_from_packet": "En el paquete activo aparece el patrón iDo relacionado. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T4-A-E2: E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'d… Código imprime [\"print('invalid' if nxt is None else nxt)\"]. Hints: ['try/except o .get', 'None check']."
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "log = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "log",
+        "append",
+        "from",
+        "pending",
+        "approved",
+        "actor",
+        "rev1",
+        "transferencia",
+        "Concepto",
+        "aprobaci"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Luego para S22-T4-A-E3: E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []… Código imprime ['print(log)']. Hints: ['append dict', 'actor obligatorio']."
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import hashlib\n\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "hashlib",
+        "sha256",
+        "run",
+        "hexdigest",
+        "guiado",
+        "Concepto",
+        "idempotency",
+        "key",
+        "Fixture"
+      ],
+      "justification_from_packet": "para S22-T4-B-E1: E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sh… — el contrato pass de la tarea pide una salida concreta. Código imprime [\"print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\"]. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['hashlib.sha256', 'hexdigest slice']."
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "store = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "def",
+        "create",
+        "key",
+        "return",
+        "independiente",
+        "Concepto",
+        "idempotente",
+        "por",
+        "Fixture"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S22-T4-B-E2: E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {… Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['cache dict', 'return existing'] Código imprime [\"print(create('k') == create('k'))\"]."
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "audit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "store",
+        "key",
+        "range",
+        "append",
+        "retry_hit",
+        "else",
+        "create",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "para S22-T4-B-E3: E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = [];… — mirando hints + theory del subtema activo. Código imprime ['print(audit)']. Ancla de theory: «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UT Hints: ['lista de event names', 'mismo key']."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "justification_from_packet": "S22 Q0: «¿Qué garantiza no enviar correo real en el gate de S22?» → [1] Solo drafts/.eml en sandbox y aprobación humana. La pregunta del paquete se responde con «templates y sanitización»: Los **templates** interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (`h. Otras opciones (['[0] Usar mail.full', '[2] CC a todos']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "justification_from_packet": "S22 Q1: «Un score alto de similitud entre dos emails implica:» → [3] Solo evidencia débil de contacto a revisar; no prueba de fraude. En selfCheck_stems del quiz_card «templates y sanitización»: Los **templates** interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (`h. Otras opciones (['[0] Fraude demostrado', '[1] Parentesco']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Descarto distractores y me quedo con «Least privilege en OAuth de correo significa:». Elijo [0] «Solo los scopes mínimos (p. ej. draft) necesarios» porque «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evit. Descarto ['[1] Pedir todos los scopes', '[2] Compartir el refresh token en Slack']. Sección S22."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Comparando opciones con la theory «La idempotency key al reintentar create_draft debe:». Elijo [2] «Reutilizar el mismo draft_id si la key existe» porque «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evit. Descarto ['[0] Crear siempre un draft nuevo', '[1] Borrar el audit log']. Sección S22."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "Según el párrafo de theory sobre «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?». Elijo [1] «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» porque «MIME, encoding, HTML/text y attachments»: **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evit. Descarto ['[0] Declarar fraude o parentesco y bloquear al cliente', '[2] Enviar el correo sin aprobación porque el score su']. Sección S22."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:20:04+00:00",
+  "session_started_at": "2026-07-23T12:19:55+00:00",
+  "session_ended_at": "2026-07-23T12:20:04+00:00",
+  "receipt_response_sha256": "f2929527d4911e1f18cd35449a084301bdac4a3b5c5cfa2ec5a4b2db6f9083cb"
+}

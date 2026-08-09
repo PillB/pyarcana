@@ -1,0 +1,179 @@
+{
+  "sections_done": [
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "n_sections": 13,
+  "n_lives": 26,
+  "duration_samples": [
+    {
+      "section": 27,
+      "agent": "newbie_a",
+      "duration_s": 19.34,
+      "persona": "explorer"
+    },
+    {
+      "section": 27,
+      "agent": "newbie_b",
+      "duration_s": 23.43,
+      "persona": "skeptic"
+    },
+    {
+      "section": 28,
+      "agent": "newbie_a",
+      "duration_s": 25.07,
+      "persona": "explorer"
+    },
+    {
+      "section": 28,
+      "agent": "newbie_b",
+      "duration_s": 21.33,
+      "persona": "skeptic"
+    },
+    {
+      "section": 29,
+      "agent": "newbie_a",
+      "duration_s": 25.35,
+      "persona": "explorer"
+    },
+    {
+      "section": 29,
+      "agent": "newbie_b",
+      "duration_s": 23.27,
+      "persona": "skeptic"
+    },
+    {
+      "section": 30,
+      "agent": "newbie_a",
+      "duration_s": 17.94,
+      "persona": "explorer"
+    },
+    {
+      "section": 30,
+      "agent": "newbie_b",
+      "duration_s": 31.96,
+      "persona": "skeptic"
+    },
+    {
+      "section": 31,
+      "agent": "newbie_a",
+      "duration_s": 23.53,
+      "persona": "explorer"
+    },
+    {
+      "section": 31,
+      "agent": "newbie_b",
+      "duration_s": 30.17,
+      "persona": "skeptic"
+    },
+    {
+      "section": 32,
+      "agent": "newbie_a",
+      "duration_s": 28.38,
+      "persona": "explorer"
+    },
+    {
+      "section": 32,
+      "agent": "newbie_b",
+      "duration_s": 24.54,
+      "persona": "skeptic"
+    },
+    {
+      "section": 33,
+      "agent": "newbie_a",
+      "duration_s": 19.37,
+      "persona": "explorer"
+    },
+    {
+      "section": 33,
+      "agent": "newbie_b",
+      "duration_s": 26.91,
+      "persona": "skeptic"
+    },
+    {
+      "section": 34,
+      "agent": "newbie_a",
+      "duration_s": 26.9,
+      "persona": "explorer"
+    },
+    {
+      "section": 34,
+      "agent": "newbie_b",
+      "duration_s": 22.15,
+      "persona": "skeptic"
+    },
+    {
+      "section": 35,
+      "agent": "newbie_a",
+      "duration_s": 17.66,
+      "persona": "explorer"
+    },
+    {
+      "section": 35,
+      "agent": "newbie_b",
+      "duration_s": 27.07,
+      "persona": "skeptic"
+    },
+    {
+      "section": 36,
+      "agent": "newbie_a",
+      "duration_s": 30.6,
+      "persona": "explorer"
+    },
+    {
+      "section": 36,
+      "agent": "newbie_b",
+      "duration_s": 26.82,
+      "persona": "skeptic"
+    },
+    {
+      "section": 37,
+      "agent": "newbie_a",
+      "duration_s": 19.38,
+      "persona": "explorer"
+    },
+    {
+      "section": 37,
+      "agent": "newbie_b",
+      "duration_s": 21.39,
+      "persona": "skeptic"
+    },
+    {
+      "section": 38,
+      "agent": "newbie_a",
+      "duration_s": 22.83,
+      "persona": "explorer"
+    },
+    {
+      "section": 38,
+      "agent": "newbie_b",
+      "duration_s": 28.94,
+      "persona": "skeptic"
+    },
+    {
+      "section": 39,
+      "agent": "newbie_a",
+      "duration_s": 26.38,
+      "persona": "explorer"
+    },
+    {
+      "section": 39,
+      "agent": "newbie_b",
+      "duration_s": 30.94,
+      "persona": "skeptic"
+    }
+  ],
+  "manifest_entries_s27_s39": 26,
+  "issues": []
+}

@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -51,5 +52,42 @@ prompt
 
 server.log
 # Skills directory
-/skills/test-results/
+/skills/
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/.playwright-browsers/
+/package-lock.json
+
+# Python audit caches
+__pycache__/
+*.py[cod]
+
+# Forensic screenshots (large, regenerable)
+/scripts/screenshots/*.png
+/scripts/screenshots/analysis/
+
+# Internal test credentials
+docs/TEST_ACCOUNTS.md
+db/*.db
+db/*.db-journal
+
+# e2e max run logs
+course-state/e2e_max_logs/
+test-results/
+playwright-report-e2e-max/
 playwright-report/
+
+# Local research only — never publish
+trainee_research_attempt/
+
+# Exemplar notebooks (full solutions) — NEVER publish
+# These are private reference notebooks for capstone exemplars.
+exemplars_private/
+exemplars_private/
+
+# Test databases
+prisma/db/
+db/
+backups/

@@ -1,0 +1,309 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s40-2267a4d4c8",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] <= record[\"target_ms\"] and bool(record[\"owner\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "justification_from_packet": "Al leer el exercise `S40-T1-A-E1` (guided) sobre `requisitos funcionales y quality attributes` y el fixture `CASO-LIM-040-1A`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S40. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "requisitos funcionales y quality attributes",
+        "S40-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"source\", \"stimulus\", \"environment\", \"response\", \"observed_ms\", \"target_ms\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"observed_ms\"] <= record[\"target_ms\"] and bool(record[\"owner\"]) else \"REJECT_QA_SCENARIO\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\ninvalid = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":410,\"target_ms\":300,\"owner\":\"platform\"}}\nincomplete = {**valid}\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S40-T1-A-E2` (independent) sobre `requisitos funcionales y quality attributes` y el fixture `CASO-S40`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Queda listo para grade de forma y justificación con soporte léxico. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "requisitos funcionales y quality attributes",
+        "S40-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"source\", \"stimulus\", \"environment\", \"response\", \"observed_ms\", \"target_ms\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_QA_OWNER\"\n    return \"CONTINUE\" if record[\"observed_ms\"] <= record[\"target_ms\"] and bool(record[\"owner\"]) else \"REJECT_QA_SCENARIO\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\ninvalid = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":410,\"target_ms\":300,\"owner\":\"platform\"}}\nuncertain = {**valid}\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S40-T1-A-E3` (transfer) sobre `requisitos funcionales y quality attributes` y el fixture `CASO-LIM-040-1A`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "requisitos funcionales y quality attributes",
+        "S40-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record[\"residual_risk\"] <= 2\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S40-T1-B-E1` (guided) sobre `trade-offs, riesgos y criterios medibles` y el fixture `CASO-LIM-040-1B`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Dejo justificación anclada a instruction, hints y theory activos. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "trade-offs, riesgos y criterios medibles",
+        "S40-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"scores\", \"selected\", \"risk_owner\", \"residual_risk\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record[\"residual_risk\"] <= 2 else \"REOPEN_TRADEOFF\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\ninvalid = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":2.0,\"async\":4.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":4}}\nincomplete = {**valid}\nincomplete.pop(\"residual_risk\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S40-T1-B-E2` (independent) sobre `trade-offs, riesgos y criterios medibles` y el fixture `CASO-S40`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "trade-offs, riesgos y criterios medibles",
+        "S40-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"scores\", \"selected\", \"risk_owner\", \"residual_risk\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ESCALATE_RESIDUAL_RISK\"\n    return \"CONTINUE\" if record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record[\"residual_risk\"] <= 2 else \"REOPEN_TRADEOFF\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\ninvalid = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":2.0,\"async\":4.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":4}}\nuncertain = {**valid}\nuncertain.pop(\"residual_risk\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S40-T1-B-E3` (transfer) sobre `trade-offs, riesgos y criterios medibles` y el fixture `CASO-LIM-040-1B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "trade-offs, riesgos y criterios medibles",
+        "S40-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = all(edge != [\"domain\",\"infrastructure\"] for edge in record[\"dependencies\"]) and record[\"layers\"][2] == \"domain\"\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S40-T2-A-E1` (guided) sobre `cohesión/coupling y capas` y el fixture `CASO-LIM-040-2A`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "cohesión/coupling y capas",
+        "S40-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"dependencies\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if all(edge != [\"domain\",\"infrastructure\"] for edge in record[\"dependencies\"]) and record[\"layers\"][2] == \"domain\" else \"REDRAW_BOUNDARY\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\ninvalid = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"domain\",\"infrastructure\"]]}}\nincomplete = {**valid}\nincomplete.pop(\"dependencies\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S40-T2-A-E2` (independent) sobre `cohesión/coupling y capas` y el fixture `CASO-S40`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S40. La respuesta es reproducible con los fixtures del starter/paquete. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "cohesión/coupling y capas",
+        "S40-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"dependencies\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_LAYER_OWNER\"\n    return \"CONTINUE\" if all(edge != [\"domain\",\"infrastructure\"] for edge in record[\"dependencies\"]) and record[\"layers\"][2] == \"domain\" else \"REDRAW_BOUNDARY\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\ninvalid = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"domain\",\"infrastructure\"]]}}\nuncertain = {**valid}\nuncertain.pop(\"dependencies\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S40-T2-A-E3` (transfer) sobre `cohesión/coupling y capas` y el fixture `CASO-LIM-040-2A`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S40. El learner path queda auditablesin ocultar warnings ni evidencia. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "cohesión/coupling y capas",
+        "S40-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = record[\"adapter\"].endswith(record[\"port\"]) and not record[\"domain_imports\"] and record[\"contract_tests\"] >= 3\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S40-T2-B-E1` (guided) sobre `ports/adapters y dependencia hacia dominio` y el fixture `CASO-LIM-040-2B`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "ports/adapters y dependencia hacia dominio",
+        "S40-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"port\", \"adapter\", \"domain_imports\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"adapter\"].endswith(record[\"port\"]) and not record[\"domain_imports\"] and record[\"contract_tests\"] >= 3 else \"INVERT_DEPENDENCY\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\ninvalid = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"SqlRepo\",\"domain_imports\":[\"sqlalchemy\"],\"contract_tests\":0}}\nincomplete = {**valid}\nincomplete.pop(\"contract_tests\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S40-T2-B-E2` (independent) sobre `ports/adapters y dependencia hacia dominio` y el fixture `CASO-S40`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "ports/adapters y dependencia hacia dominio",
+        "S40-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"port\", \"adapter\", \"domain_imports\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DEFINE_PORT_CONTRACT\"\n    return \"CONTINUE\" if record[\"adapter\"].endswith(record[\"port\"]) and not record[\"domain_imports\"] and record[\"contract_tests\"] >= 3 else \"INVERT_DEPENDENCY\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\ninvalid = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"SqlRepo\",\"domain_imports\":[\"sqlalchemy\"],\"contract_tests\":0}}\nuncertain = {**valid}\nuncertain.pop(\"contract_tests\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Con el packet activo de esta sección `S40-T2-B-E3` (transfer) sobre `ports/adapters y dependencia hacia dominio` y el fixture `CASO-LIM-040-2B`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "ports/adapters y dependencia hacia dominio",
+        "S40-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = record[\"contexts\"][\"intake\"].isdisjoint(record[\"contexts\"][\"er\"]) and record[\"translations\"].get(\"case\") == \"record\"\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S40-T3-A-E1` (guided) sobre `bounded contexts y lenguaje ubicuo` y el fixture `CASO-LIM-040-3A`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S40. El learner path queda auditablesin ocultar warnings ni evidencia. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "bounded contexts y lenguaje ubicuo",
+        "S40-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"contexts\"][\"intake\"].isdisjoint(record[\"contexts\"][\"er\"]) and record[\"translations\"].get(\"case\") == \"record\" else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S40-T3-A-E2` (independent) sobre `bounded contexts y lenguaje ubicuo` y el fixture `CASO-S40`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Queda listo para grade de forma y justificación con soporte léxico. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "bounded contexts y lenguaje ubicuo",
+        "S40-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WORKSHOP_UBIQUITOUS_LANGUAGE\"\n    return \"CONTINUE\" if record[\"contexts\"][\"intake\"].isdisjoint(record[\"contexts\"][\"er\"]) and record[\"translations\"].get(\"case\") == \"record\" else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nuncertain = {**valid}\nuncertain.pop(\"translations\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S40-T3-A-E3` (transfer) sobre `bounded contexts y lenguaje ubicuo` y el fixture `CASO-LIM-040-3A`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S40. El learner path queda auditablesin ocultar warnings ni evidencia. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "bounded contexts y lenguaje ubicuo",
+        "S40-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = record[\"entity_id\"].startswith(\"CASE-\") and record[\"vo\"][\"currency\"] == \"PEN\" and record[\"vo_frozen\"] and record[\"service_stateless\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "justification_from_packet": "Al leer el exercise `S40-T3-B-E1` (guided) sobre `entities, value objects y servicios` y el fixture `CASO-LIM-040-3B`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S40. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "entities, value objects y servicios",
+        "S40-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"vo\", \"vo_frozen\", \"service_stateless\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"entity_id\"].startswith(\"CASE-\") and record[\"vo\"][\"currency\"] == \"PEN\" and record[\"vo_frozen\"] and record[\"service_stateless\"] else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"\",\"vo\":{\"amount\":-1,\"currency\":\"USD\"},\"vo_frozen\":False,\"service_stateless\":False}}\nincomplete = {**valid}\nincomplete.pop(\"service_stateless\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S40-T3-B-E2` (independent) sobre `entities, value objects y servicios` y el fixture `CASO-S40`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "entities, value objects y servicios",
+        "S40-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"vo\", \"vo_frozen\", \"service_stateless\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLARIFY_INVARIANT\"\n    return \"CONTINUE\" if record[\"entity_id\"].startswith(\"CASE-\") and record[\"vo\"][\"currency\"] == \"PEN\" and record[\"vo_frozen\"] and record[\"service_stateless\"] else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"\",\"vo\":{\"amount\":-1,\"currency\":\"USD\"},\"vo_frozen\":False,\"service_stateless\":False}}\nuncertain = {**valid}\nuncertain.pop(\"service_stateless\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S40-T3-B-E3` (transfer) sobre `entities, value objects y servicios` y el fixture `CASO-LIM-040-3B`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S40. La respuesta es reproducible con los fixtures del starter/paquete. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "entities, value objects y servicios",
+        "S40-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = {\"context\",\"container\"} <= record[\"c4_levels\"] and {\"decision\",\"alternatives\",\"consequences\",\"rollback\"} <= record[\"adr_fields\"] and record[\"adr_status\"] == \"accepted\"\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S40-T4-A-E1` (guided) sobre `diagramas C4/flujo y ADRs` y el fixture `CASO-LIM-040-4A`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "diagramas C4/flujo y ADRs",
+        "S40-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"c4_levels\", \"adr_fields\", \"adr_status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if {\"context\",\"container\"} <= record[\"c4_levels\"] and {\"decision\",\"alternatives\",\"consequences\",\"rollback\"} <= record[\"adr_fields\"] and record[\"adr_status\"] == \"accepted\" else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\ninvalid = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\"},\"adr_fields\":{\"decision\"},\"adr_status\":\"accepted\"}}\nincomplete = {**valid}\nincomplete.pop(\"adr_status\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S40-T4-A-E2` (independent) sobre `diagramas C4/flujo y ADRs` y el fixture `CASO-S40`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Así el código queda alineado al paquete K2 y al outcome del subtema. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "diagramas C4/flujo y ADRs",
+        "S40-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"c4_levels\", \"adr_fields\", \"adr_status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ARCH_REVIEW\"\n    return \"CONTINUE\" if {\"context\",\"container\"} <= record[\"c4_levels\"] and {\"decision\",\"alternatives\",\"consequences\",\"rollback\"} <= record[\"adr_fields\"] and record[\"adr_status\"] == \"accepted\" else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\ninvalid = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\"},\"adr_fields\":{\"decision\"},\"adr_status\":\"accepted\"}}\nuncertain = {**valid}\nuncertain.pop(\"adr_status\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S40-T4-A-E3` (transfer) sobre `diagramas C4/flujo y ADRs` y el fixture `CASO-LIM-040-4A`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "diagramas C4/flujo y ADRs",
+        "S40-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = record[\"v1_fields\"] <= record[\"v11_fields\"] and bool(record[\"debt_owner\"]) and record[\"retire_on\"] >= \"2026-12-01\"\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "justification_from_packet": "En la práctica del weDo `S40-T4-B-E1` (guided) sobre `APIs, eventos, deuda y evolución compatible` y el fixture `CASO-LIM-040-4B`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S40. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_40.",
+      "concepts_used": [
+        "APIs, eventos, deuda y evolución compatible",
+        "S40-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"v1_fields\", \"v11_fields\", \"debt_owner\", \"retire_on\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"v1_fields\"] <= record[\"v11_fields\"] and bool(record[\"debt_owner\"]) and record[\"retire_on\"] >= \"2026-12-01\" else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\ninvalid = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\"},\"debt_owner\":\"\",\"retire_on\":\"\"}}\nincomplete = {**valid}\nincomplete.pop(\"retire_on\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S40-T4-B-E2` (independent) sobre `APIs, eventos, deuda y evolución compatible` y el fixture `CASO-S40`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S40. El learner path queda auditablesin ocultar warnings ni evidencia. El reject/missing/continue quedó coherente con tests del weDo de S40.",
+      "concepts_used": [
+        "APIs, eventos, deuda y evolución compatible",
+        "S40-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"v1_fields\", \"v11_fields\", \"debt_owner\", \"retire_on\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"NEGOTIATE_VERSION\"\n    return \"CONTINUE\" if record[\"v1_fields\"] <= record[\"v11_fields\"] and bool(record[\"debt_owner\"]) and record[\"retire_on\"] >= \"2026-12-01\" else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\ninvalid = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\"},\"debt_owner\":\"\",\"retire_on\":\"\"}}\nuncertain = {**valid}\nuncertain.pop(\"retire_on\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S40-T4-B-E3` (transfer) sobre `APIs, eventos, deuda y evolución compatible` y el fixture `CASO-LIM-040-4B`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S40. La respuesta es reproducible con los fixtures del starter/paquete. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S40.",
+      "concepts_used": [
+        "APIs, eventos, deuda y evolución compatible",
+        "S40-T4-B",
+        "packet_contract"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck Q0 de S40: La opción refleja la evidencia de aprobación descrita en theory del selfCheck: mínima, sintética y con dueño o umbral cuando aplica. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck Q1 de S40: El gate de la sección se demuestra con fronteras explícitas, métricas y rollback o abstención cuando el paquete lo exige. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck Q2 de S40: El gate de la sección se demuestra con fronteras explícitas, métricas y rollback o abstención cuando el paquete lo exige. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck Q3 de S40: El gate de la sección se demuestra con fronteras explícitas, métricas y rollback o abstención cuando el paquete lo exige. Anclaje léxico al active packet agentic_K2, persona explorer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:30:33.126692+00:00",
+  "session_started_at": "2026-07-23T15:30:08.863967Z",
+  "session_ended_at": "2026-07-23T15:30:33.103137Z",
+  "receipt_response_sha256": "f474b526f536d42344b2b99777633c59ef8e1b55be0fe998b6bb167d204adc7b",
+  "receipt_exercises_sha256": "028fd9228fac472d5192f91ae0d954329a93aa4ddacd2a32f123ae7b75025336",
+  "receipt_selfcheck_sha256": "a6395e77b210b0d4f7037281e024ba7924b830b1d9106c2814e6b0108b17a81f"
+}

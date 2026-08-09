@@ -1,0 +1,25 @@
+{
+  "INACTIVE_PRESERVED": [
+    {
+      "path": "src/lib/course/sections/s07-pandas.ts",
+      "reason": "Historical alternate section file not imported by active index"
+    },
+    {
+      "path": "src/lib/course/sections/s08-visualization.ts",
+      "reason": "Historical alternate section file not imported by active index"
+    },
+    {
+      "path": "src/lib/course/sections/s09-sklearn.ts",
+      "reason": "Historical alternate section file not imported by active index"
+    },
+    {
+      "path": "src/lib/course/sections/s10-testing.ts",
+      "reason": "Historical alternate section file not imported by active index"
+    },
+    {
+      "path": "src/lib/course/sections/s11-advanced-topics.ts",
+      "reason": "Historical alternate section file not imported by active index"
+    }
+  ],
+  "policy": "Do not delete; exclude from active manifests only"
+}

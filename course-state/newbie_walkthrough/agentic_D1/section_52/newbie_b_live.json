@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 52,
+  "packet_sha": "27ccf9109ffd9c11",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,\"metrics\":{\"ttr\",\"review_precision\"},\"baseline_frozen\":True}}\nmeets_contract = record[\"jobs\"] != 0 or not record[\"baseline_frozen\"]\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n",
+      "answer": "S52-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Calcula",
+        "contrato",
+        "stakeholders",
+        "jobs",
+        "success",
+        "metrics",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"baseline_frozen\", \"case_id\", \"jobs\", \"metrics\", \"stakeholders\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"jobs\"] != 0 or not record[\"baseline_frozen\"]) else \"REOPEN_CF1\"\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\nincomplete = dict(valid)\nincomplete.pop(\"baseline_frozen\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REOPEN_CF1 MISSING:baseline_frozen",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Modela",
+        "tres",
+        "rutas",
+        "stakeholders",
+        "jobs",
+        "success",
+        "metrics"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"baseline_frozen\", \"case_id\", \"jobs\", \"metrics\", \"stakeholders\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INTERVIEW_STAKEHOLDER\"\n    return \"CONTINUE\" if (record[\"jobs\"] != 0 or not record[\"baseline_frozen\"]) else \"REOPEN_CF1\"\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\nuncertain = dict(valid)\nuncertain.pop(\"baseline_frozen\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REOPEN_CF1 INTERVIEW_STAKEHOLDER",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "stakeholders",
+        "jobs",
+        "success"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_with_owner\":5,\"no_go\":{\"real-pii\",\"auto-risk-decision\"},\"residual_risk_accepted\":True}}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n",
+      "answer": "S52-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Compara",
+        "contrato",
+        "cambios",
+        "constraints",
+        "riesgos",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_wi`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"constraints\", \"no_go\", \"residual_risk_accepted\", \"risks_with_owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])) else \"DECLARE_NO_GO\"\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 0, 'no_go': set(), 'residual_risk_accepted': False}\nincomplete = dict(valid)\nincomplete.pop(\"residual_risk_accepted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS DECLARE_NO_GO MISSING:residual_risk_accepted",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Verifica",
+        "tres",
+        "rutas",
+        "cambios",
+        "constraints",
+        "riesgos",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"constraints\", \"no_go\", \"residual_risk_accepted\", \"risks_with_owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INDEPENDENT_RISK_REVIEW\"\n    return \"CONTINUE\" if (not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])) else \"DECLARE_NO_GO\"\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 0, 'no_go': set(), 'residual_risk_accepted': False}\nuncertain = dict(valid)\nuncertain.pop(\"residual_risk_accepted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE DECLARE_NO_GO INDEPENDENT_RISK_REVIEW",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "cambios",
+        "constraints",
+        "riesgos"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = (not record[\"shared_database\"]) and record[\"apis_versioned\"] and record[\"events_versioned\"]\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+      "answer": "S52-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Filtra",
+        "contrato",
+        "bounded",
+        "contexts",
+        "APIs",
+        "eventos",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"}`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"apis_versioned\", \"case_id\", \"contexts\", \"contract_tests\", \"events_versioned\", \"shared_database\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not record[\"shared_database\"]) and record[\"apis_versioned\"] and record[\"events_versioned\"]) else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'triage', 'reporting', 'intake'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'reporting', 'intake', 'er', 'triage', 'copilot'}, 'apis_versioned': False, 'events_versioned': False, 'shared_database': True, 'contract_tests': 12}\nincomplete = dict(valid)\nincomplete.pop(\"contract_tests\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS STOP_INTEGRATION_RELEASE MISSING:contract_tests",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "bounded",
+        "contexts",
+        "APIs",
+        "eventos"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"apis_versioned\", \"case_id\", \"contexts\", \"contract_tests\", \"events_versioned\", \"shared_database\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MAP_BOUNDED_CONTEXTS\"\n    return \"CONTINUE\" if ((not record[\"shared_database\"]) and record[\"apis_versioned\"] and record[\"events_versioned\"]) else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'triage', 'reporting', 'intake'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'reporting', 'intake', 'er', 'triage', 'copilot'}, 'apis_versioned': False, 'events_versioned': False, 'shared_database': True, 'contract_tests': 12}\nuncertain = dict(valid)\nuncertain.pop(\"contract_tests\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE STOP_INTEGRATION_RELEASE MAP_BOUNDED_CONTEXTS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "bounded",
+        "contexts",
+        "APIs"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_prepares_draft\":True,\"rag_cites\":True,\"human_decides\":True,\"infers_fraud\":False}}\nmeets_contract = (not record[\"infers_fraud\"]) and record[\"human_decides\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n",
+      "answer": "S52-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Modela",
+        "contrato",
+        "datos",
+        "modelos",
+        "RPA",
+        "RAG",
+        "human"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_p`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"er_proposes_match\", \"human_decides\", \"infers_fraud\", \"rag_cites\", \"rpa_prepares_draft\", \"triage_prioritizes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not record[\"infers_fraud\"]) and record[\"human_decides\"]) else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': True}\nincomplete = dict(valid)\nincomplete.pop(\"infers_fraud\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS BLOCK_AUTOMATED_RISK_DECISION MISSING:infers_fraud",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Audita",
+        "tres",
+        "rutas",
+        "datos",
+        "modelos",
+        "RPA",
+        "RAG"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"er_proposes_match\", \"human_decides\", \"infers_fraud\", \"rag_cites\", \"rpa_prepares_draft\", \"triage_prioritizes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HUMAN_REVIEW\"\n    return \"CONTINUE\" if ((not record[\"infers_fraud\"]) and record[\"human_decides\"]) else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': True}\nuncertain = dict(valid)\nuncertain.pop(\"infers_fraud\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE BLOCK_AUTOMATED_RISK_DECISION REQUEST_HUMAN_REVIEW",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "datos",
+        "modelos",
+        "RPA"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":True,\"red_team\":True,\"performance\":True,\"open_p0\":0,\"open_p1\":0}}\nmeets_contract = record[\"open_p0\"]==0 and record[\"open_p1\"]==0 and record[\"red_team\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n",
+      "answer": "S52-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Verifica",
+        "contrato",
+        "tests",
+        "evals",
+        "red",
+        "team",
+        "performance"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":Tr`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contract\", \"evals\", \"integration\", \"open_p0\", \"open_p1\", \"performance\", \"red_team\", \"unit\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"open_p0\"]==0 and record[\"open_p1\"]==0 and record[\"red_team\"]) else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 1, 'open_p1': 1}\nincomplete = dict(valid)\nincomplete.pop(\"open_p1\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS BLOCK_FINAL_ON_P0_P1 MISSING:open_p1",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Decide",
+        "tres",
+        "rutas",
+        "tests",
+        "evals",
+        "red",
+        "team"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contract\", \"evals\", \"integration\", \"open_p0\", \"open_p1\", \"performance\", \"red_team\", \"unit\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"FIX_AND_RERUN_REGRESSION\"\n    return \"CONTINUE\" if (record[\"open_p0\"]==0 and record[\"open_p1\"]==0 and record[\"red_team\"]) else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 1, 'open_p1': 1}\nuncertain = dict(valid)\nuncertain.pop(\"open_p1\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE BLOCK_FINAL_ON_P0_P1 FIX_AND_RERUN_REGRESSION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tests",
+        "evals",
+        "red"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\":4,\"rollback_min\":8,\"rto_min\":15,\"disaster_exercise\":True}}\nmeets_contract = record[\"availability\"] >= record[\"slo\"] and record[\"rollback_min\"] <= record[\"rto_min\"] and record[\"disaster_exercise\"]\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n",
+      "answer": "S52-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Clasifica",
+        "contrato",
+        "SLO",
+        "backup",
+        "rollback",
+        "disaster",
+        "exercise"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"availability\", \"backup_age_h\", \"case_id\", \"disaster_exercise\", \"rollback_min\", \"rpo_h\", \"rto_min\", \"slo\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"availability\"] >= record[\"slo\"] and record[\"rollback_min\"] <= record[\"rto_min\"] and record[\"disaster_exercise\"]) else \"NO_GO_RESILIENCE\"\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.0, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\nincomplete = dict(valid)\nincomplete.pop(\"disaster_exercise\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS NO_GO_RESILIENCE MISSING:disaster_exercise",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Calcula",
+        "tres",
+        "rutas",
+        "SLO",
+        "backup",
+        "rollback",
+        "disaster"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"availability\", \"backup_age_h\", \"case_id\", \"disaster_exercise\", \"rollback_min\", \"rpo_h\", \"rto_min\", \"slo\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_DISASTER_EXERCISE\"\n    return \"CONTINUE\" if (record[\"availability\"] >= record[\"slo\"] and record[\"rollback_min\"] <= record[\"rto_min\"] and record[\"disaster_exercise\"]) else \"NO_GO_RESILIENCE\"\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.0, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\nuncertain = dict(valid)\nuncertain.pop(\"disaster_exercise\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE NO_GO_RESILIENCE RUN_DISASTER_EXERCISE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "backup",
+        "rollback"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = record[\"result_ttr_min\"] <= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+      "answer": "S52-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Audita",
+        "contrato",
+        "demo",
+        "narrativa",
+        "sobre",
+        "CASO",
+        "PER"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synt`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"baseline_ttr_min\", \"benchmark_synthetic\", \"case_id\", \"cv_claims_sourced\", \"demo_minutes\", \"personal_contribution\", \"result_ttr_min\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"result_ttr_min\"] <= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]) else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 0, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = dict(valid)\nincomplete.pop(\"personal_contribution\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REJECT_UNSUPPORTED_PORTFOLIO_CLAIM MISSING:personal_contribution",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Compara",
+        "tres",
+        "rutas",
+        "demo",
+        "narrativa",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"baseline_ttr_min\", \"benchmark_synthetic\", \"case_id\", \"cv_claims_sourced\", \"demo_minutes\", \"personal_contribution\", \"result_ttr_min\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RECORD_PERSONAL_CONTRIBUTION\"\n    return \"CONTINUE\" if (record[\"result_ttr_min\"] <= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"]) else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 0, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nuncertain = dict(valid)\nuncertain.pop(\"personal_contribution\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REJECT_UNSUPPORTED_PORTFOLIO_CLAIM RECORD_PERSONAL_CONTRIBUTION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "demo",
+        "narrativa",
+        "con"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = record.get(\"case_id\") == 'CASO-PER-052-4B' and not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+      "answer": "S52-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Decide",
+        "contrato",
+        "arquitectura",
+        "READMEs",
+        "cards",
+        "licencia",
+        "video"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `record = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"artifacts\", \"case_id\", \"cpn4c_independent\", \"reproducible_command\", \"tradeoffs_defended\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-PER-052-4B' and not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])) else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'model_card', 'architecture', 'LICENSE', 'ADR', 'defense', 'README', 'video', 'system_card'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B-ADV', 'artifacts': {'model_card', 'architecture', 'LICENSE', 'ADR', 'defense', 'README', 'video', 'system_card'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nincomplete = dict(valid)\nincomplete.pop(\"cpn4c_independent\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS BLOCK_INCOMPLETE_EVIDENCE_BUNDLE MISSING:cpn4c_independent",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Filtra",
+        "tres",
+        "rutas",
+        "arquitectura",
+        "READMEs",
+        "cards",
+        "licencia"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"artifacts\", \"case_id\", \"cpn4c_independent\", \"reproducible_command\", \"tradeoffs_defended\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SCHEDULE_TECHNICAL_DEFENSE\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-PER-052-4B' and not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])) else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'model_card', 'architecture', 'LICENSE', 'ADR', 'defense', 'README', 'video', 'system_card'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B-ADV', 'artifacts': {'model_card', 'architecture', 'LICENSE', 'ADR', 'defense', 'README', 'video', 'system_card'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nuncertain = dict(valid)\nuncertain.pop(\"cpn4c_independent\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE BLOCK_INCOMPLETE_EVIDENCE_BUNDLE SCHEDULE_TECHNICAL_DEFENSE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S52",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "arquitectura",
+        "READMEs",
+        "cards"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S52-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV Revalida stakeholders y métricas de CF-1 Actualiza constraints, riesgos y ». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué evidencia permite aprobar `stakeholders, jobs y success metrics de CF-1` en CASO-PER-052?» elijo «matriz stakeholder/job/métrica con evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV\nRevalida stakeholders y métricas de CF-1\nAct». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «Si ocurre la condición de error de S52, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir NO_GO_RELEASE y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV\nRevalida stakeholders y métricas de CF-1\nAct». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-FINAL · plataforma integral defendible`?» elijo «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV\nRevalida stakeholders y métricas de CF-1\nAct». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV\nRevalida stakeholders y métricas de CF-1\nAct». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:39:57.599089+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s52-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

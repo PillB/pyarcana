@@ -1,0 +1,82 @@
+{
+  "agent": "newbie_b",
+  "persona": "skeptic",
+  "attempt": "agentic_L1",
+  "range": "27-39",
+  "method": "live_agentic_packet_only_no_execution",
+  "forbidden_honored": [
+    "bulk generators",
+    "SC maps",
+    "phrase banks",
+    "K1/K2",
+    "newbie_a"
+  ],
+  "sections": [
+    {
+      "section": 27,
+      "latency_ms": 41191,
+      "session_id": "l1-skeptic-s27-5e36178b02"
+    },
+    {
+      "section": 28,
+      "latency_ms": 50895,
+      "session_id": "l1-skeptic-s28-7fff94393e"
+    },
+    {
+      "section": 29,
+      "latency_ms": 53152,
+      "session_id": "l1-skeptic-s29-2b73802a8c"
+    },
+    {
+      "section": 30,
+      "latency_ms": 27805,
+      "session_id": "l1-skeptic-s30-6b3a950b5e"
+    },
+    {
+      "section": 31,
+      "latency_ms": 55259,
+      "session_id": "l1-skeptic-s31-82d84d98e8"
+    },
+    {
+      "section": 32,
+      "latency_ms": 53312,
+      "session_id": "l1-skeptic-s32-6453e9b56b"
+    },
+    {
+      "section": 33,
+      "latency_ms": 38504,
+      "session_id": "l1-skeptic-s33-cd8934203a"
+    },
+    {
+      "section": 34,
+      "latency_ms": 44204,
+      "session_id": "l1-skeptic-s34-29380133a8"
+    },
+    {
+      "section": 35,
+      "latency_ms": 29703,
+      "session_id": "l1-skeptic-s35-a762d785be"
+    },
+    {
+      "section": 36,
+      "latency_ms": 61304,
+      "session_id": "l1-skeptic-s36-9260caacf2"
+    },
+    {
+      "section": 37,
+      "latency_ms": 35787,
+      "session_id": "l1-skeptic-s37-9e0563e075"
+    },
+    {
+      "section": 38,
+      "latency_ms": 48599,
+      "session_id": "l1-skeptic-s38-5e9bc7badb"
+    },
+    {
+      "section": 39,
+      "latency_ms": 52404,
+      "session_id": "l1-skeptic-s39-779ca8aa85"
+    }
+  ],
+  "n": 13
+}

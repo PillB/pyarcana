@@ -1,0 +1,529 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a-agentic_G1-s44-dual43_52",
+  "production_note": "agentic_G1 dual-LLM explorer: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T1-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nmeets_contract = record[\"lint\"] and record[\"types\"] and record[\"tests\"] and record[\"matrix\"] == record[\"supported\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "lint",
+        "types",
+        "tests",
+        "matrices",
+        "matriz",
+        "soportada",
+        "verde",
+        "calcula",
+        "contrato",
+        "sobre"
+      ],
+      "justification_from_packet": "[Explorer/S44-T1-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T1-A-E1 · Calcula el contrato de `lint/types/tests y matrices` sobre `CASO-PIU-044-1A`. La entrada es el dict completo del starter; la operación debe demostrar tres gates y mat». Hints: «Relaciona los campos `lint`, `types`, `tests`, `matrix`, `supported` con la regla explicada en S44-T1-A.; El predicado correcto debe ser verdadero porque el fix». Theory `lint/types/tests y matrices` exige evidencia «lint/types/tests y matriz soportada en verde». Demo S44-T1-A-DEMO. Predicado de dominio: `record[\"lint\"] and record[\"types\"] and record[\"tests\"] and record[\"matrix\"] == record[\"supported\"]`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T1-A-E2 explorer: model valid/adverse/missing routes\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"lint\"] and record[\"types\"] and record[\"tests\"] and record[\"matrix\"] == record[\"supported\"]) else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nincomplete = {**valid}\nincomplete.pop(\"supported\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "lint",
+        "types",
+        "tests",
+        "matrices",
+        "modela",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Explorer/S44-T1-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T1-A-E2 · Modela tres rutas de `lint/types/tests y matrices`: fixture válido, fixture adverso y registro sin `supported`. Entrada: dict con case_id, lint, types, tests, matrix,». Hints: «Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.; Después aplica la regla de S44-T1-A: tres gates y matriz exactamente so». Theory `lint/types/tests y matrices` exige evidencia «lint/types/tests y matriz soportada en verde». Demo S44-T1-A-DEMO. Predicado de dominio: `record[\"lint\"] and record[\"types\"] and record[\"tests\"] and record[\"matrix\"] == record[\"supported\"]`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T1-A-E3 explorer: closed-fail CONTINUE/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_MATRIX\"\n    return \"CONTINUE\" if (record[\"lint\"] and record[\"types\"] and record[\"tests\"] and record[\"matrix\"] == record[\"supported\"]) else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nuncertain = {**valid}\nuncertain.pop(\"supported\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "lint",
+        "types",
+        "tests",
+        "matrices",
+        "simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Explorer/S44-T1-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T1-A-E3 · Simula fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. `CASO-PIU-044-1A` debe continuar, el adverso debe devolver `FAIL_CI_GATE` y la au». Hints: «Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró tres gates y ». Theory `lint/types/tests y matrices` exige evidencia «lint/types/tests y matriz soportada en verde». Demo S44-T1-A-DEMO. Predicado de dominio: `record[\"lint\"] and record[\"types\"] and record[\"tests\"] and record[\"matrix\"] == record[\"supported\"]`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T1-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nmeets_contract = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "caches",
+        "artifacts",
+        "condiciones",
+        "cache",
+        "miss",
+        "conserva",
+        "resultado",
+        "artifact",
+        "verificable",
+        "compara"
+      ],
+      "justification_from_packet": "[Explorer/S44-T1-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T1-B-E1 · Compara el contrato de `caches, artifacts y condiciones` sobre `CASO-PIU-044-1B`. La entrada es el dict completo del starter; la operación debe demostrar cache opcion». Hints: «Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`, `conditions_cover_tags` con la regla explicada en S44-T1-B.; El pred». Theory `caches, artifacts y condiciones` exige evidencia «cache miss conserva resultado y artifact es verificable». Demo S44-T1-B-DEMO. Predicado de dominio: `not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T1-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"conditions_cover_tags\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"cache_key\", \"cache_miss_passes\", \"artifact_digest\", \"retention_days\", \"conditions_cover_tags\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\n    return \"PASS\" if ok else \"DISCARD_PIPELINE_RESULT\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "caches",
+        "artifacts",
+        "condiciones",
+        "verifica",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Explorer/S44-T1-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T1-B-E2 · Verifica tres rutas de `caches, artifacts y condiciones`: fixture válido, fixture adverso y registro sin `conditions_cover_tags`. Entrada: dict con case_id, cache_key». Hints: «Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.; Después aplica la regla de S44-T1-B: cache opcional, artifa». Theory `caches, artifacts y condiciones` exige evidencia «cache miss conserva resultado y artifact es verificable». Demo S44-T1-B-DEMO. Predicado de dominio: `not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T1-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"conditions_cover_tags\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"cache_key\", \"cache_miss_passes\", \"artifact_digest\", \"retention_days\", \"conditions_cover_tags\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"INSPECT_WORKFLOW_CONDITION\"\n    ok = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\n    return \"CONTINUE\" if ok else \"DISCARD_PIPELINE_RESULT\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "caches",
+        "artifacts",
+        "condiciones",
+        "extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Explorer/S44-T1-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos. `CASO-PIU-044-1B` debe continuar, el adverso debe devolver `DISCARD_PIPELIN». Hints: «Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ». Theory `caches, artifacts y condiciones` exige evidencia «cache miss conserva resultado y artifact es verificable». Demo S44-T1-B-DEMO. Predicado de dominio: `not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T2-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nmeets_contract = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "permisos",
+        "mínimos",
+        "pinning",
+        "secret",
+        "scanning",
+        "acciones",
+        "pinned",
+        "filtra",
+        "contrato",
+        "sobre"
+      ],
+      "justification_from_packet": "[Explorer/S44-T2-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T2-A-E1 · Filtra el contrato de `permisos mínimos, pinning y secret scanning` sobre `CASO-PIU-044-2A`. La entrada es el dict completo del starter; la operación debe demostrar t». Hints: «Relaciona los campos `token_permissions`, `actions_pinned`, `secret_hits`, `dependency_review` con la regla explicada en S44-T2-A.; El predicado correcto debe s». Theory `permisos mínimos, pinning y secret scanning` exige evidencia «permisos mínimos y acciones pinned». Demo S44-T2-A-DEMO. Predicado de dominio: `not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"action`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T2-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"dependency_review\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"token_permissions\", \"actions_pinned\", \"secret_hits\", \"dependency_review\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\n    return \"PASS\" if ok else \"REVOKE_AND_ROTATE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "permisos",
+        "mínimos",
+        "pinning",
+        "secret",
+        "scanning",
+        "clasifica",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido"
+      ],
+      "justification_from_packet": "[Explorer/S44-T2-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T2-A-E2 · Clasifica tres rutas de `permisos mínimos, pinning y secret scanning`: fixture válido, fixture adverso y registro sin `dependency_review`. Entrada: dict con case_id, ». Hints: «Primero se calcula `missing`; ningún acceso a dependency_review debe ocurrir antes de esa rama.; Después aplica la regla de S44-T2-A: token mínimo, acciones pin». Theory `permisos mínimos, pinning y secret scanning` exige evidencia «permisos mínimos y acciones pinned». Demo S44-T2-A-DEMO. Predicado de dominio: `not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T2-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"dependency_review\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"token_permissions\", \"contents\", \"actions_pinned\", \"secret_hits\", \"dependency_review\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"SECURITY_APPROVAL\"\n    ok = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\n    return \"CONTINUE\" if ok else \"REVOKE_AND_ROTATE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "permisos",
+        "mínimos",
+        "pinning",
+        "secret",
+        "scanning",
+        "defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres"
+      ],
+      "justification_from_packet": "[Explorer/S44-T2-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T2-A-E3 · Defiende fallo cerrado para `permisos mínimos, pinning y secret scanning` con tres fixtures distintos. `CASO-PIU-044-2A` debe continuar, el adverso debe devolver `REV». Hints: «Una ausencia no equivale a breach: enrútala a `SECURITY_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró token mín». Theory `permisos mínimos, pinning y secret scanning` exige evidencia «permisos mínimos y acciones pinned». Demo S44-T2-A-DEMO. Predicado de dominio: `not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T2-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nmeets_contract = not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "sbom",
+        "provenance",
+        "attestations",
+        "coinciden",
+        "digest",
+        "modela",
+        "contrato",
+        "sobre",
+        "caso",
+        "piu"
+      ],
+      "justification_from_packet": "[Explorer/S44-T2-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T2-B-E1 · Modela el contrato de `SBOM, provenance y attestations` sobre `CASO-PIU-044-2B`. La entrada es el dict completo del starter; la operación debe demostrar SBOM y proven». Hints: «Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_valid` con la regla explicada en S44-T2-B.; El predicado correcto debe». Theory `SBOM, provenance y attestations` exige evidencia «SBOM y provenance coinciden con digest». Demo S44-T2-B-DEMO. Predicado de dominio: `not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"s`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T2-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"attestation_valid\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)\n    return \"PASS\" if ok else \"REJECT_ATTESTATION\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "sbom",
+        "provenance",
+        "attestations",
+        "audita",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro"
+      ],
+      "justification_from_packet": "[Explorer/S44-T2-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T2-B-E2 · Audita tres rutas de `SBOM, provenance y attestations`: fixture válido, fixture adverso y registro sin `attestation_valid`. Entrada: dict con case_id, artifact_digest». Hints: «Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.; Después aplica la regla de S44-T2-B: SBOM y provenance enlazado». Theory `SBOM, provenance y attestations` exige evidencia «SBOM y provenance coinciden con digest». Demo S44-T2-B-DEMO. Predicado de dominio: `not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T2-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"attestation_valid\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"REBUILD_PROVENANCE\"\n    ok = not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)\n    return \"CONTINUE\" if ok else \"REJECT_ATTESTATION\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "sbom",
+        "provenance",
+        "attestations",
+        "recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos"
+      ],
+      "justification_from_packet": "[Explorer/S44-T2-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTAT». Hints: «Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró SBOM y p». Theory `SBOM, provenance y attestations` exige evidencia «SBOM y provenance coinciden con digest». Demo S44-T2-B-DEMO. Predicado de dominio: `not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T3-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nmeets_contract = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "environments",
+        "approvals",
+        "promoción",
+        "sin",
+        "aprobación",
+        "verifica",
+        "contrato",
+        "sobre",
+        "caso"
+      ],
+      "justification_from_packet": "[Explorer/S44-T3-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T3-A-E1 · Verifica el contrato de `environments y approvals` sobre `CASO-PIU-044-3A`. La entrada es el dict completo del starter; la operación debe demostrar mismo digest proba». Hints: «Relaciona los campos `source_env`, `target_env`, `approved_by`, `tested_digest`, `promoted_digest` con la regla explicada en S44-T3-A.; El predicado correcto de». Theory `environments y approvals` exige evidencia «promoción sin reconstruccion y con aprobación». Demo S44-T3-A-DEMO. Predicado de dominio: `not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T3-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"promoted_digest\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\n    return \"PASS\" if ok else \"DENY_PROMOTION\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "environments",
+        "approvals",
+        "decide",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso",
+        "registro",
+        "sin"
+      ],
+      "justification_from_packet": "[Explorer/S44-T3-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T3-A-E2 · Decide tres rutas de `environments y approvals`: fixture válido, fixture adverso y registro sin `promoted_digest`. Entrada: dict con case_id, source_env, target_env, ». Hints: «Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.; Después aplica la regla de S44-T3-A: mismo digest probado y aprob». Theory `environments y approvals` exige evidencia «promoción sin reconstruccion y con aprobación». Demo S44-T3-A-DEMO. Predicado de dominio: `not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T3-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"promoted_digest\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"REQUEST_RELEASE_APPROVAL\"\n    ok = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\n    return \"CONTINUE\" if ok else \"DENY_PROMOTION\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "environments",
+        "approvals",
+        "contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures",
+        "distintos",
+        "caso"
+      ],
+      "justification_from_packet": "[Explorer/S44-T3-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ». Hints: «Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró mi». Theory `environments y approvals` exige evidencia «promoción sin reconstruccion y con aprobación». Demo S44-T3-A-DEMO. Predicado de dominio: `not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T3-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nmeets_contract = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations",
+        "canary",
+        "blue",
+        "green",
+        "rollback",
+        "fallido",
+        "revierte",
+        "dentro",
+        "rto",
+        "clasifica"
+      ],
+      "justification_from_packet": "[Explorer/S44-T3-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T3-B-E1 · Clasifica el contrato de `migrations, canary/blue-green y rollback` sobre `CASO-PIU-044-3B`. La entrada es el dict completo del starter; la operación debe demostrar m». Hints: «Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada ». Theory `migrations, canary/blue-green y rollback` exige evidencia «canary fallido revierte dentro del RTO». Demo S44-T3-B-DEMO. Predicado de dominio: `not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\"`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T3-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"rto_seconds\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"migration_compatible\", \"canary_error_rate\", \"max_error_rate\", \"rollback_tested\", \"rollback_seconds\", \"rto_seconds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if ok else \"ROLLBACK_RELEASE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations",
+        "canary",
+        "blue",
+        "green",
+        "rollback",
+        "calcula",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido"
+      ],
+      "justification_from_packet": "[Explorer/S44-T3-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T3-B-E2 · Calcula tres rutas de `migrations, canary/blue-green y rollback`: fixture válido, fixture adverso y registro sin `rto_seconds`. Entrada: dict con case_id, migration_c». Hints: «Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.; Después aplica la regla de S44-T3-B: migración compatible, canary baj». Theory `migrations, canary/blue-green y rollback` exige evidencia «canary fallido revierte dentro del RTO». Demo S44-T3-B-DEMO. Predicado de dominio: `not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T3-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"rto_seconds\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"migration_compatible\", \"canary_error_rate\", \"max_error_rate\", \"rollback_tested\", \"rollback_seconds\", \"rto_seconds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"PAUSE_CANARY\"\n    ok = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\n    return \"CONTINUE\" if ok else \"ROLLBACK_RELEASE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations",
+        "canary",
+        "blue",
+        "green",
+        "rollback",
+        "instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres"
+      ],
+      "justification_from_packet": "[Explorer/S44-T3-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos. `CASO-PIU-044-3B` debe continuar, el adverso debe devolver `ROL». Hints: «Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró migración comp». Theory `migrations, canary/blue-green y rollback` exige evidencia «canary fallido revierte dentro del RTO». Demo S44-T3-B-DEMO. Predicado de dominio: `not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T4-A-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nmeets_contract = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "branch",
+        "review",
+        "policy",
+        "release",
+        "notes",
+        "trazable",
+        "changelog",
+        "audita",
+        "contrato",
+        "sobre"
+      ],
+      "justification_from_packet": "[Explorer/S44-T4-A-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T4-A-E1 · Audita el contrato de `branch/review policy y release notes` sobre `CASO-PIU-044-4A`. La entrada es el dict completo del starter; la operación debe demostrar branch p». Hints: «Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_notes` con la regla explicada en S44-T4-A.; El predicado correcto debe ». Theory `branch/review policy y release notes` exige evidencia «release trazable a review y changelog». Demo S44-T4-A-DEMO. Predicado de dominio: `not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"r`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T4-A-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"release_notes\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\n    return \"PASS\" if ok else \"BLOCK_UNREVIEWED_RELEASE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "branch",
+        "review",
+        "policy",
+        "release",
+        "notes",
+        "compara",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido"
+      ],
+      "justification_from_packet": "[Explorer/S44-T4-A-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T4-A-E2 · Compara tres rutas de `branch/review policy y release notes`: fixture válido, fixture adverso y registro sin `release_notes`. Entrada: dict con case_id, protected_bra». Hints: «Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.; Después aplica la regla de S44-T4-A: branch protegida, review/check». Theory `branch/review policy y release notes` exige evidencia «release trazable a review y changelog». Demo S44-T4-A-DEMO. Predicado de dominio: `not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T4-A-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"release_notes\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"COMPLETE_RELEASE_NOTES\"\n    ok = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\n    return \"CONTINUE\" if ok else \"BLOCK_UNREVIEWED_RELEASE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "branch",
+        "review",
+        "policy",
+        "release",
+        "notes",
+        "aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres"
+      ],
+      "justification_from_packet": "[Explorer/S44-T4-A-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIE». Hints: «Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró bran». Theory `branch/review policy y release notes` exige evidencia «release trazable a review y changelog». Demo S44-T4-A-DEMO. Predicado de dominio: `not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# S44-T4-B-E1 explorer: fix defective meets_contract from starter\nrecord = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nmeets_contract = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\nassert meets_contract, 'valid fixture must pass domain contract'\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "failure",
+        "handling",
+        "evidencia",
+        "auditable",
+        "fallo",
+        "crítico",
+        "bloquea",
+        "deja",
+        "decide",
+        "contrato"
+      ],
+      "justification_from_packet": "[Explorer/S44-T4-B-E1] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T4-B-E1 · Decide el contrato de `failure handling y evidencia auditable` sobre `CASO-PIU-044-4B`. La entrada es el dict completo del starter; la operación debe demostrar fallo ». Hints: «Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `evidence_retained` con la regla explicada en S44-T4-B.; El predicado cor». Theory `failure handling y evidencia auditable` exige evidencia «fallo crítico bloquea y deja evidencia auditable». Demo S44-T4-B-DEMO. Predicado de dominio: `not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])`. Entrega ancla: `record = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# S44-T4-B-E2 explorer: three routes for domain contract\nrecord = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nvalid = record\n# adverse flips domain-critical signal\ninvalid = {**valid, **{k: (not v if isinstance(v, bool) else v) for k, v in list(valid.items()) if k != \"case_id\"}}\n# stronger adverse: ensure fixed_pred is False\ndef _force_fail(rec):\n    bad = dict(rec)\n    # try common fail knobs\n    for k, v in list(bad.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool) and v is True:\n            bad[k] = False\n            return bad\n        if isinstance(v, bool) and v is False and k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"cache_authoritative\", \"leakage\", \"overlap\", \"side_effect\", \"forbidden_tool_used\", \"pii_in_trace\", \"holdout_touched\"):\n            bad[k] = True\n            return bad\n        if isinstance(v, (int, float)) and k.endswith((\"_cves\", \"error_rate\", \"open_p0\", \"open_p1\")):\n            bad[k] = 1\n            return bad\n    bad[\"_broken\"] = True\n    return bad\ninvalid = _force_fail(valid)\nincomplete = {k: v for k, v in valid.items() if k != \"evidence_retained\"}\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    record_local = record  # alias for predicate using name record\n    record = record_local\n    ok = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\n    return \"PASS\" if ok else \"STOP_SILENT_FAILURE\"\n\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "failure",
+        "handling",
+        "evidencia",
+        "auditable",
+        "filtra",
+        "tres",
+        "rutas",
+        "fixture",
+        "válido",
+        "adverso"
+      ],
+      "justification_from_packet": "[Explorer/S44-T4-B-E2] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T4-B-E2 · Filtra tres rutas de `failure handling y evidencia auditable`: fixture válido, fixture adverso y registro sin `evidence_retained`. Entrada: dict con case_id, critical». Hints: «Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.; Después aplica la regla de S44-T4-B: fallo crítico bloquea con ». Theory `failure handling y evidencia auditable` exige evidencia «fallo crítico bloquea y deja evidencia auditable». Demo S44-T4-B-DEMO. Predicado de dominio: `not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])`. Entrega ancla: `def assess`. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# S44-T4-B-E3 explorer: closed failure routing\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\ndef force_adverse(rec: dict) -> dict:\n    bad = dict(rec)\n    for k, v in rec.items():\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            if k in (\"secret_baked\", \"debug_shell\", \"shared_database\", \"infers_fraud\", \"compiler_in_runtime\", \"pii_in_trace\", \"forbidden_tool_used\", \"side_effect\", \"leakage\", \"overlap\", \"critical_failure\"):\n                bad[k] = True\n                return bad\n            if v is True:\n                bad[k] = False\n                return bad\n        if k == \"uid\" and isinstance(v, int):\n            bad[k] = 0\n            return bad\n        if isinstance(v, (int, float)) and \"cve\" in k:\n            bad[k] = 1\n            return bad\n    bad[\"uid\"] = 0\n    return bad\ninvalid = force_adverse(valid)\nuncertain_rec = {k: v for k, v in valid.items() if k != \"evidence_retained\"}\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # absence is not breach\n        return \"ASSIGN_INCIDENT_OWNER\"\n    ok = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\n    return \"CONTINUE\" if ok else \"STOP_SILENT_FAILURE\"\n\nprint(decide(valid), decide(invalid), decide(uncertain_rec))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "failure",
+        "handling",
+        "evidencia",
+        "auditable",
+        "demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "[Explorer/S44-T4-B-E3] Resuelvo solo con quiz_card+slim_packet. Instrucción: «S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos. `CASO-PIU-044-4B` debe continuar, el adverso debe devolver `STOP_SI». Hints: «Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró fallo». Theory `failure handling y evidencia auditable` exige evidencia «fallo crítico bloquea y deja evidencia auditable». Demo S44-T4-B-DEMO. Predicado de dominio: `not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])`. Entrega ancla: `def decide`. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En theory del paquete activo, la evidencia esperada del primer subtema es «lint/types/tests y matriz soportada en verde»; la opción elegida repite esa evidencia para aprobar el contrato de «CI/CD y seguridad de la cadena de suministro».",
+      "confidence": 0.88,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "El error de sección bloquea release; theory exige no ocultar evidencia. La opción «emitir STOP_PIPELINE y conservar evidencia» emite la acción de contención y conserva el trace.",
+      "confidence": 0.88,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "El criterio de éxito del contrato operativo en theory es «el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging»; la opción del gate coincide con ese resultado defendible, no con afirmaciones vacías.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Theory del caso peruano sintético prohíbe PII real, secretos y inferir fraude/parentesco; «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» respeta alcance mínimo y revisión humana.",
+      "confidence": 0.88,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T05:44:16.312792+00:00",
+  "session_started_at": "2026-07-23T05:43:04.312792+00:00",
+  "session_ended_at": "2026-07-23T05:44:16.312792+00:00"
+}

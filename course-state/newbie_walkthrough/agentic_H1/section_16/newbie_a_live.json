@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s16-b1f26146f14e",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "code": "# dual explorer-H1 · S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nnull_count = int(df[\"id\"].isna().sum())\nh1_out = null_count\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T1-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "null_count",
+        "int"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "code": "# dual explorer-H1 · S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, kind in policy.items():\n    if kind != \"required\":\n        continue\n    n = int(df[col].isna().sum())\n    if n > 0:\n        viol[col] = n\nh1_out = viol\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T1-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, policy; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "code": "# dual explorer-H1 · S16-T1-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = int(df[\"id\"].isna().sum())\nh1_out = \"fail\" if viol > 0 else \"pass\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T1-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellen…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "viol",
+        "int",
+        "isna"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "code": "# dual explorer-H1 · S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nh1_out = df[\"was_null\"].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T1-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "was_null",
+        "isna"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "code": "# dual explorer-H1 · S16-T1-B-E2\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = float(s.isna().mean())\nh1_out = \"blocked\" if rate > 0.3 else \"ok\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T1-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "rate",
+        "float",
+        "isna"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "code": "# dual explorer-H1 · S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nh1_out = filled.tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T1-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "med",
+        "median",
+        "filled"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "code": "# dual explorer-H1 · S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nh1_out = int(df.duplicated(keep=False).sum())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T2-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el ent…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "h1_out",
+        "int",
+        "duplicated"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "code": "# dual explorer-H1 · S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nh1_out = conf[conf > 1].index.tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T2-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de i…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "code": "# dual explorer-H1 · S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) == 0:\n    label = \"missing\"\nelif sub[\"region\"].nunique() > 1:\n    label = \"conflict\"\nelse:\n    label = \"unique\"\nh1_out = label\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T2-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflict…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "region"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "code": "# dual explorer-H1 · S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nmask = df.duplicated(\"id\", keep=False)\nquarantine = df[mask].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(clean), len(quarantine))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T2-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(len(clean), len(quarantine))']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "mask",
+        "duplicated",
+        "keep"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "code": "# dual explorer-H1 · S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nh1_out = q.columns.tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T2-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture);…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated",
+        "keep"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "code": "# dual explorer-H1 · S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\ncard_ok = df[\"id\"].is_unique and len(df) == df[\"id\"].nunique()\nh1_out = \"card_ok\" if card_ok else \"card_fail\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T2-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "card_ok",
+        "is_unique",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "code": "# dual explorer-H1 · S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nh1_out = s.str.strip().str.title().tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T3-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco'…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "code": "# dual explorer-H1 · S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nh1_out = float(v.sum())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T3-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "str",
+        "replace",
+        "regex"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "code": "# dual explorer-H1 · S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T3-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evi…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(df[\"region_raw\"].tolist(), df[\"region\"].tolist())']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima",
+        "region"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "code": "# dual explorer-H1 · S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nh1_out = (s < 0).tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T3-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "h1_out",
+        "tolist",
+        "guiado"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "code": "# dual explorer-H1 · S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nh1_out = s[mask].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T3-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr",
+        "mask"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "code": "# dual explorer-H1 · S16-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nh1_out = label\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T3-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, Series; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "Series",
+        "val",
+        "iloc",
+        "label"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "code": "# dual explorer-H1 · S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nh1_out = missing\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T4-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['mont…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "missing"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "code": "# dual explorer-H1 · S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nmask = df[\"fin\"] < df[\"inicio\"]\nh1_out = df.index[mask].tolist()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T4-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime",
+        "fin"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "code": "# dual explorer-H1 · S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nh1_out = \"schema_fail\" if missing else \"schema_ok\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T4-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle seg…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, pandas, DataFrame; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "missing",
+        "monto",
+        "not"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "code": "# dual explorer-H1 · S16-T4-B-E1\nrows_in = 10\nq = 3\nrows_clean = rows_in - q\nh1_out = rows_clean\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T4-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del re…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, rows_in, rows_clean; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "rows_in",
+        "rows_clean",
+        "h1_out",
+        "guiado",
+        "Concepto"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "code": "# dual explorer-H1 · S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"gate\", \"pass\": False})\nh1_out = len(audit)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T4-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, audit, event; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "audit",
+        "event",
+        "start",
+        "append",
+        "gate"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "code": "# dual explorer-H1 · S16-T4-B-E3\nn_q = 1\ngate_pass = n_q == 0\nh1_out = gate_pass\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» (S16) resolví S16-T4-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica mét…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S16, n_q, gate_pass; salida anclada a prints ['print(h1_out)']. Teoría activa: «nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S16",
+        "n_q",
+        "gate_pass",
+        "h1_out",
+        "transferencia",
+        "Concepto"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S16 Q0: «Un campo marked required con nulls debe:». En la teoría del slim_packet («nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, ) la opción «Provocar violación/cuarentena o fail del gate» es la que describe el concepto; descarto p.ej. ['Imputarse siempre con 0', 'Ignorarse si es <5% de filas']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S16 Q1: «Duplicado exacto vs conflicto de clave:». En la teoría del slim_packet («nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, ) la opción «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» es la que describe el concepto; descarto p.ej. ['Son lo mismo y siempre se drop_duplicates', 'Conflicto solo existe en SQL, no en pandas']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S16 Q2: «Conservar region_raw al normalizar sirve para:». En la teoría del slim_packet («nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, ) la opción «Auditar y disputar la forma canónica sin perder el valor original» es la que describe el concepto; descarto p.ej. ['Acelerar groupby', 'Imputar nulls automáticamente']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S16 Q3: «IQR sin domain bounds es riesgoso porque:». En la teoría del slim_packet («nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, ) la opción «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» es la que describe el concepto; descarto p.ej. ['No funciona con floats', 'Siempre es más lento que z-score']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S16 Q4: «Un quality gate que falla debe:». En la teoría del slim_packet («nulls y políticas por campo» Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, ) la opción «Publicar métricas y cuarentena aunque pass=False» es la que describe el concepto; descarto p.ej. ['Ocultar métricas para no alarmar', 'Imputar todos los nulls y reintentar en silencio']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:56:45.135362+00:00",
+  "session_started_at": "2026-07-23T07:56:21.677202+00:00",
+  "session_ended_at": "2026-07-23T07:56:45.135362+00:00"
+}

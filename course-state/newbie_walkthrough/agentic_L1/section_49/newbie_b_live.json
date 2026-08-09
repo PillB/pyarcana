@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s49-d26ce9468b",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S49-T1-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «workflow vs agente» reconstruí la regla (workflow preferido cuando pasos conocidos y baseline gana) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'agent_success', 'baseline_success', 'branch_count', 'case_id', 'known_steps', 'tool_choice_uncertain'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]\n    return \"PASS\" if meets else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {\"case_id\": 'CASO-AYA-049-1A', **{'known_steps':True, 'branch_count':2, 'tool_choice_uncertain':False, 'baseline_success':0.96, 'agent_success':0.9}}\ninvalid = {\"case_id\": 'CASO-AYA-049-1A', **{'known_steps':True, 'branch_count':2, 'tool_choice_uncertain':False, 'baseline_success':-1, 'agent_success':0.9}}\nincomplete = {k: v for k, v in valid.items() if k != 'agent_success'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T1-A-E2, no acepto el predicado defectuoso del starter: para «workflow vs agente» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'agent_success', 'baseline_success', 'branch_count', 'case_id', 'known_steps', 'tool_choice_uncertain'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_AGENT_BASELINE'\n    meets = not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]\n    return \"CONTINUE\" if meets else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {\"case_id\": 'CASO-AYA-049-1A', **{'known_steps':True, 'branch_count':2, 'tool_choice_uncertain':False, 'baseline_success':0.96, 'agent_success':0.9}}\ninvalid = {\"case_id\": 'CASO-AYA-049-1A', **{'known_steps':True, 'branch_count':2, 'tool_choice_uncertain':False, 'baseline_success':-1, 'agent_success':0.9}}\nuncertain = {k: v for k, v in valid.items() if k != 'agent_success'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S49 · S49-T1-A-E3: leí hints «Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.» y la teoría del subtema «agent_success». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T1-B-E1, no acepto el predicado defectuoso del starter: para «routing, planner/worker y evaluator–optimizer» el paquete exige demostrar ruta válida, plan acotado, outputs completos y evaluación. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'evaluator_pass', 'max_steps', 'plan_steps', 'route', 'worker_outputs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]\n    return \"PASS\" if meets else 'STOP_AGENT_LOOP'\n\nvalid = {\"case_id\": 'CASO-AYA-049-1B', **{'route':'report', 'plan_steps':3, 'max_steps':5, 'worker_outputs':3, 'evaluator_pass':True}}\ninvalid = {\"case_id\": 'CASO-AYA-049-1B', **{'route':'report', 'plan_steps':1003, 'max_steps':5, 'worker_outputs':3, 'evaluator_pass':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'evaluator_pass'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T1-B-E2, no acepto el predicado defectuoso del starter: para «routing, planner/worker y evaluator–optimizer» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'evaluator_pass', 'max_steps', 'plan_steps', 'route', 'worker_outputs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REPLAN_WITH_BOUNDS'\n    meets = record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]\n    return \"CONTINUE\" if meets else 'STOP_AGENT_LOOP'\n\nvalid = {\"case_id\": 'CASO-AYA-049-1B', **{'route':'report', 'plan_steps':3, 'max_steps':5, 'worker_outputs':3, 'evaluator_pass':True}}\ninvalid = {\"case_id\": 'CASO-AYA-049-1B', **{'route':'report', 'plan_steps':1003, 'max_steps':5, 'worker_outputs':3, 'evaluator_pass':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'evaluator_pass'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T1-B-E3, no acepto el predicado defectuoso del starter: para «evaluator_pass» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = record['side_effect'] is False and record['typed_errors'] is True\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S49-T2-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «funciones de responsabilidad única» reconstruí la regla (una responsabilidad, schema estrecho y error tipado) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'responsibilities', 'schema_fields', 'side_effect', 'tool', 'typed_errors'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['side_effect'] is False and record['typed_errors'] is True\n    return \"PASS\" if meets else 'DISABLE_OVERBROAD_TOOL'\n\nvalid = {\"case_id\": 'CASO-AYA-049-2A', **{'tool':'get_case_status', 'responsibilities':1, 'schema_fields':{'case_id'}, 'side_effect':False, 'typed_errors':True}}\ninvalid = {\"case_id\": 'CASO-AYA-049-2A', **{'tool':'get_case_status', 'responsibilities':1, 'schema_fields':{'case_id'}, 'side_effect':True, 'typed_errors':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'typed_errors'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T2-A-E2, no acepto el predicado defectuoso del starter: para «funciones de responsabilidad única» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'responsibilities', 'schema_fields', 'side_effect', 'tool', 'typed_errors'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DISABLE_OVERBROAD_TOOL'\n    meets = record['side_effect'] is False and record['typed_errors'] is True\n    return \"CONTINUE\" if meets else 'SPLIT_TOOL_CONTRACT'\n\nvalid = {\"case_id\": 'CASO-AYA-049-2A', **{'tool':'get_case_status', 'responsibilities':1, 'schema_fields':{'case_id'}, 'side_effect':False, 'typed_errors':True}}\ninvalid = {\"case_id\": 'CASO-AYA-049-2A', **{'tool':'get_case_status', 'responsibilities':1, 'schema_fields':{'case_id'}, 'side_effect':True, 'typed_errors':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'typed_errors'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T2-A-E3, no acepto el predicado defectuoso del starter: para «typed_errors» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T2-B-E1, no acepto el predicado defectuoso del starter: para «schema, permisos, idempotencia y errores» el paquete exige demostrar schema/scope válidos y retry con un solo efecto. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'attempts', 'case_id', 'effects', 'error_kind', 'granted', 'idempotency_key', 'schema_valid', 'scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1\n    return \"PASS\" if meets else 'DENY_TOOL_CALL'\n\nvalid = {\"case_id\": 'CASO-AYA-049-2B', **{'schema_valid':True, 'scope':'report:prepare', 'granted':{'report:prepare'}, 'idempotency_key':'tool-1', 'attempts':2, 'effects':1, 'error_kind':'retryable'}}\ninvalid = {\"case_id\": 'CASO-AYA-049-2B', **{'schema_valid':True, 'scope':'report:prepare', 'granted':{'report:prepare'}, 'idempotency_key':'tool-1', 'attempts':2, 'effects':1001, 'error_kind':'retryable'}}\nincomplete = {k: v for k, v in valid.items() if k != 'error_kind'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S49 · S49-T2-B-E2: leí hints «Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.» y la teoría del subtema «schema, permisos, idempotencia y errores». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'attempts', 'case_id', 'effects', 'error_kind', 'granted', 'idempotency_key', 'schema_valid', 'scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CLASSIFY_TOOL_ERROR'\n    meets = record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1\n    return \"CONTINUE\" if meets else 'DENY_TOOL_CALL'\n\nvalid = {\"case_id\": 'CASO-AYA-049-2B', **{'schema_valid':True, 'scope':'report:prepare', 'granted':{'report:prepare'}, 'idempotency_key':'tool-1', 'attempts':2, 'effects':1, 'error_kind':'retryable'}}\ninvalid = {\"case_id\": 'CASO-AYA-049-2B', **{'schema_valid':True, 'scope':'report:prepare', 'granted':{'report:prepare'}, 'idempotency_key':'tool-1', 'attempts':2, 'effects':1001, 'error_kind':'retryable'}}\nuncertain = {k: v for k, v in valid.items() if k != 'error_kind'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S49 · S49-T2-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.» y la teoría del subtema «error_kind». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = record['retrieved_just_in_time'] is True and record['checkpoint_after_effect'] is True and record['provenance'] is True\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S49-T3-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «contexto mínimo, retrieval JIT y checkpoints» reconstruí la regla (contexto bajo presupuesto, JIT, provenance y checkpoint) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint_after_effect', 'context_tokens', 'max_context_tokens', 'provenance', 'retrieved_just_in_time'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['retrieved_just_in_time'] is True and record['checkpoint_after_effect'] is True and record['provenance'] is True\n    return \"PASS\" if meets else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {\"case_id\": 'CASO-AYA-049-3A', **{'context_tokens':1200, 'max_context_tokens':2000, 'retrieved_just_in_time':True, 'checkpoint_after_effect':True, 'provenance':True}}\ninvalid = {\"case_id\": 'CASO-AYA-049-3A', **{'context_tokens':1200, 'max_context_tokens':2000, 'retrieved_just_in_time':False, 'checkpoint_after_effect':True, 'provenance':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'provenance'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T3-A-E2, no acepto el predicado defectuoso del starter: para «contexto mínimo, retrieval JIT y checkpoints» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'checkpoint_after_effect', 'context_tokens', 'max_context_tokens', 'provenance', 'retrieved_just_in_time'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RETRIEVE_MINIMUM_CONTEXT'\n    meets = record['retrieved_just_in_time'] is True and record['checkpoint_after_effect'] is True and record['provenance'] is True\n    return \"CONTINUE\" if meets else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {\"case_id\": 'CASO-AYA-049-3A', **{'context_tokens':1200, 'max_context_tokens':2000, 'retrieved_just_in_time':True, 'checkpoint_after_effect':True, 'provenance':True}}\ninvalid = {\"case_id\": 'CASO-AYA-049-3A', **{'context_tokens':1200, 'max_context_tokens':2000, 'retrieved_just_in_time':False, 'checkpoint_after_effect':True, 'provenance':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'provenance'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S49 · S49-T3-A-E3: leí hints «Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.» y la teoría del subtema «provenance». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T3-B-E1, no acepto el predicado defectuoso del starter: para «memoria, compaction y last-known-good» el paquete exige demostrar compaction conserva restricciones, retención y LKG. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'facts_after', 'facts_before', 'last_known_good', 'memory_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]\n    return \"PASS\" if meets else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {\"case_id\": 'CASO-AYA-049-3B', **{'facts_before':{'budget', 'case_id', 'no_prod_write'}, 'facts_after':{'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days':7, 'last_known_good':'cp-7'}}\ninvalid = {\"case_id\": 'CASO-AYA-049-3B', **{'facts_before':{'__x', 'budget', 'case_id', 'no_prod_write'}, 'facts_after':{'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days':7, 'last_known_good':'cp-7'}}\nincomplete = {k: v for k, v in valid.items() if k != 'last_known_good'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T3-B-E2, no acepto el predicado defectuoso del starter: para «memoria, compaction y last-known-good» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'facts_after', 'facts_before', 'last_known_good', 'memory_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RESTORE_LAST_KNOWN_GOOD'\n    meets = not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]\n    return \"CONTINUE\" if meets else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {\"case_id\": 'CASO-AYA-049-3B', **{'facts_before':{'budget', 'case_id', 'no_prod_write'}, 'facts_after':{'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days':7, 'last_known_good':'cp-7'}}\ninvalid = {\"case_id\": 'CASO-AYA-049-3B', **{'facts_before':{'__x', 'budget', 'case_id', 'no_prod_write'}, 'facts_after':{'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days':7, 'last_known_good':'cp-7'}}\nuncertain = {k: v for k, v in valid.items() if k != 'last_known_good'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T3-B-E3, no acepto el predicado defectuoso del starter: para «last_known_good» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T4-A-E1, no acepto el predicado defectuoso del starter: para «stopping conditions y budgets» el paquete exige demostrar meta lograda dentro de pasos, tokens y costo. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cost_pen', 'goal_met', 'max_cost_pen', 'max_steps', 'max_tokens', 'steps', 'tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]\n    return \"PASS\" if meets else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {\"case_id\": 'CASO-AYA-049-4A', **{'goal_met':True, 'steps':4, 'max_steps':6, 'tokens':3200, 'max_tokens':5000, 'cost_pen':0.04, 'max_cost_pen':0.06}}\ninvalid = {\"case_id\": 'CASO-AYA-049-4A', **{'goal_met':True, 'steps':1004, 'max_steps':6, 'tokens':3200, 'max_tokens':5000, 'cost_pen':0.04, 'max_cost_pen':0.06}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_cost_pen'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T4-A-E2, no acepto el predicado defectuoso del starter: para «stopping conditions y budgets» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cost_pen', 'goal_met', 'max_cost_pen', 'max_steps', 'max_tokens', 'steps', 'tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASK_FOR_SCOPE_REDUCTION'\n    meets = record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]\n    return \"CONTINUE\" if meets else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {\"case_id\": 'CASO-AYA-049-4A', **{'goal_met':True, 'steps':4, 'max_steps':6, 'tokens':3200, 'max_tokens':5000, 'cost_pen':0.04, 'max_cost_pen':0.06}}\ninvalid = {\"case_id\": 'CASO-AYA-049-4A', **{'goal_met':True, 'steps':1004, 'max_steps':6, 'tokens':3200, 'max_tokens':5000, 'cost_pen':0.04, 'max_cost_pen':0.06}}\nuncertain = {k: v for k, v in valid.items() if k != 'max_cost_pen'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S49-T4-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «max_cost_pen» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S49-T4-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «sandbox, human approval y recuperación» reconstruí la regla (sandbox mínimo, aprobación y reanudación sin repetir efectos) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approval_present', 'approval_required', 'case_id', 'checkpoint', 'filesystem', 'network', 'replayed_effects', 'sensitive_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0\n    return \"PASS\" if meets else 'SANDBOX_AND_STOP'\n\nvalid = {\"case_id\": 'CASO-AYA-049-4B', **{'network':'none', 'filesystem':'workspace-read', 'sensitive_action':'prepare-draft', 'approval_required':True, 'approval_present':True, 'checkpoint':'cp-9', 'replayed_effects':0}}\ninvalid = {\"case_id\": 'CASO-AYA-049-4B', **{'network':'none', 'filesystem':'workspace-read', 'sensitive_action':'prepare-draft', 'approval_required':True, 'approval_present':True, 'checkpoint':'cp-9', 'replayed_effects':1000}}\nincomplete = {k: v for k, v in valid.items() if k != 'replayed_effects'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S49 · S49-T4-B-E2: leí hints «Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.» y la teoría del subtema «sandbox, human approval y recuperación». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'approval_present', 'approval_required', 'case_id', 'checkpoint', 'filesystem', 'network', 'replayed_effects', 'sensitive_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_APPROVAL'\n    meets = record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0\n    return \"CONTINUE\" if meets else 'SANDBOX_AND_STOP'\n\nvalid = {\"case_id\": 'CASO-AYA-049-4B', **{'network':'none', 'filesystem':'workspace-read', 'sensitive_action':'prepare-draft', 'approval_required':True, 'approval_present':True, 'checkpoint':'cp-9', 'replayed_effects':0}}\ninvalid = {\"case_id\": 'CASO-AYA-049-4B', **{'network':'none', 'filesystem':'workspace-read', 'sensitive_action':'prepare-draft', 'approval_required':True, 'approval_present':True, 'checkpoint':'cp-9', 'replayed_effects':1000}}\nuncertain = {k: v for k, v in valid.items() if k != 'replayed_effects'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S49/S49-T4-B-E3, no acepto el predicado defectuoso del starter: para «replayed_effects» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Q0 de S49: elijo «ADR workflow/agente con baseline» porque la teoría y el youDo piden evidencia gobernada y traza conservada; las demás opciones ocultan fallos o contaminan el caso sintético. Stem: «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?».",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Q1 de S49: elijo «emitir STOP_AGENT y conservar evidencia» porque la teoría y el youDo piden evidencia gobernada y traza conservada; las demás opciones ocultan fallos o contaminan el caso sintético. Stem: «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?».",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Q2 de S49: elijo «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» porque la teoría y el youDo piden evidencia gobernada y traza conservada; las demás opciones ocultan fallos o contaminan el caso sintético. Stem: «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?».",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Q3 de S49: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque la teoría y el youDo piden evidencia gobernada y traza conservada; las demás opciones ocultan fallos o contaminan el caso sintético. Stem: «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?».",
+      "confidence": 0.86,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:20.277766+00:00",
+  "session_started_at": "2026-07-23T16:55:36.766061Z",
+  "session_ended_at": "2026-07-23T16:56:25.766061Z",
+  "receipt_response_sha256": "2cd2c2e0879bfb5de950d242d1f6735836276325470a4ccfab65b5db20cc4748",
+  "receipt_exercises_sha256": "f99b69e23d52a897fc2a301bd4db9157621c799edee3f117af94bc6cd10291c7",
+  "receipt_selfcheck_sha256": "a0329009ca1e7bd008ecabfd51ee3d0da6af305a032f2ed9e296dee8dd3b5408"
+}

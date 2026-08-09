@@ -1,0 +1,1093 @@
+{
+  "section_index": 10,
+  "section_id": "sklearn",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 6,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 6,
+        "total": 6,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 5,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S10-T1-A-E1",
+          "code": "def _spaces(s):\n    return s.strip()\n\ndef clean(s):\n    return _spaces(s)\n\n__all__ = ['clean']\nprint(__all__)\nprint(clean('  X '))",
+          "note": "",
+          "concepts_used": [
+            "__all__",
+            "privado _"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-A-E2",
+          "code": "def util_norm(s):\n    return s.strip().lower()\n\ndef a_side(s):\n    return util_norm(s)\n\ndef b_side(s):\n    return util_norm(s) + '!' \n\nprint('a', a_side(' Hi '))\nprint('b', b_side(' Hi '))\nprint('ok util compartido sin ciclo')",
+          "note": "",
+          "concepts_used": [
+            "evitar ciclo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-A-E3",
+          "code": "print('normalize.py importa compare en el mismo paquete -> relativo OK')\nprint('plugin externo usa familiarity_core -> absoluto')\nprint('ejecutar el CLI del paquete -> python -m paquete')",
+          "note": "",
+          "concepts_used": [
+            "imports"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-B-E1",
+          "code": "def _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\npublic = [\"normalize\", \"compare\"]\nprivate = [\"_tokenize\"]\nprint('public', public)\nprint('private', private)",
+          "note": "",
+          "concepts_used": [
+            "API pública"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-B-E2",
+          "code": "def normalize(s):\n    return \" \".join(s.split()).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\n__all__ = [\"normalize\", \"compare\"]\nprint(__all__)\nprint(compare(\"A\", \"a\"))",
+          "note": "",
+          "concepts_used": [
+            "fachada"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-B-E3",
+          "code": "print('BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score')\nprint('NEW_VERSION: 1.0.0 (era 0.x o bump major)')",
+          "note": "",
+          "concepts_used": [
+            "breaking major"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-A-E1",
+          "code": "project = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project)",
+          "note": "",
+          "concepts_used": [
+            "pyproject"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-A-E2",
+          "code": "paths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nfor p in paths:\n    print(p)",
+          "note": "",
+          "concepts_used": [
+            "layout src"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-A-E3",
+          "code": "print('cause: nombre del paquete no coincide con import')\nprint('cause: no se instaló editable (pip install -e .)')\nprint('cause: cwd incorrecto / sys.path no ve el package')",
+          "note": "",
+          "concepts_used": [
+            "ModuleNotFoundError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-B-E1",
+          "code": "cambios = [\n    (\"renombrar normalize a clean_name (API pública)\", \"major\"),\n    (\"añadir flag --format a report\", \"minor\"),\n    (\"corregir typo en help\", \"patch\"),\n    (\"eliminar subcomando compare\", \"major\"),\n]\nfor c, n in cambios:\n    print(f\"{c}: {n}\")",
+          "note": "",
+          "concepts_used": [
+            "semver"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-B-E2",
+          "code": "print('dependencies=[]  # N1 stdlib')\nprint('requires-python>=3.11')",
+          "note": "",
+          "concepts_used": [
+            "deps mínimas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-B-E3",
+          "code": "print('POLICY: renames de entidades de dominio se versionan major')\nprint('POLICY: nuevas entidades opcionales pueden ser minor')\nprint('POLICY: documentar CHANGELOG entre S10 CLI y S11 dominio')",
+          "note": "",
+          "concepts_used": [
+            "compat S11"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-A-E1",
+          "code": "import argparse\np = argparse.ArgumentParser(prog='familiarity')\nsub = p.add_subparsers(dest='cmd', required=True)\nr = sub.add_parser('report')\nr.add_argument('--format', choices=['text', 'json'], default='text')\nns = p.parse_args(['report', '--format', 'json'])\nprint(ns)",
+          "note": "",
+          "concepts_used": [
+            "argparse subparsers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-A-E2",
+          "code": "casos = [\n    (\"normalize ok\", 0),\n    (\"archivo de input no existe\", 1),\n    (\"flag desconocido\", 2),\n    (\"subcomando ausente\", 2),\n    (\"validación de config falla al arrancar\", 1),\n]\nfor c, code in casos:\n    print(f\"{c}: {code}\")",
+          "note": "",
+          "concepts_used": [
+            "exit codes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-A-E3",
+          "code": "print('HELP: Usa normalize para limpiar texto sintético del intake')\nprint('HELP: report --format json genera un resumen legible')\nprint('HELP: Si falta un archivo, revisa la ruta en --input')",
+          "note": "",
+          "concepts_used": [
+            "help operador"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-B-E1",
+          "code": "from io import StringIO\n\ndef process(n, err):\n    err.write('event=done\\n')\n    return n * 2\n\nerr = StringIO()\nout = process(3, err)\nprint('stdout', out)\nprint('stderr', err.getvalue().strip())",
+          "note": "",
+          "concepts_used": [
+            "stdout stderr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-B-E2",
+          "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == '-':\n        return stdin_text\n    return file_text\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))",
+          "note": "",
+          "concepts_used": [
+            "stdin dash"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-B-E3",
+          "code": "print('BAD: prints de progreso mezclados con JSON')\nprint('GOOD: {\"ok\": true}')",
+          "note": "",
+          "concepts_used": [
+            "stdout limpio"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-A-E1",
+          "code": "print('1:defaults')\nprint('2:file')\nprint('3:env')\nprint('4:flags')",
+          "note": "",
+          "concepts_used": [
+            "precedencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-A-E2",
+          "code": "def merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+          "note": "",
+          "concepts_used": [
+            "merge_config"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-A-E3",
+          "code": "print('result=INFO')\nprint('razón: flags CLI tienen precedencia sobre env')",
+          "note": "",
+          "concepts_used": [
+            "flag gana"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-B-E1",
+          "code": "for e in ['.env', '*.pem', 'credentials.json', '.venv/']:\n    print(f'ignore: {e}')",
+          "note": "",
+          "concepts_used": [
+            ".gitignore secretos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-B-E2",
+          "code": "def validate_config(cfg: dict) -> None:\n    for k in (\"log_level\", \"data_dir\"):\n        if not cfg.get(k):\n            raise RuntimeError(f\"config: falta {k}\")\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+          "note": "",
+          "concepts_used": [
+            "validate_config"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-B-E3",
+          "code": "print('log_level: DEBUG → INFO')\nprint('echo_sql: True → False')\nprint('api_token: hardcoded → (sin default; solo env/secret store)')",
+          "note": "",
+          "concepts_used": [
+            "defaults seguros"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S10-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['clean']\nX\n",
+          "expected_head": "['clean']\nx",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "a hi\nb hi!\nok util compartido sin ciclo\n",
+          "expected_head": "hola:a\nhola:b\nok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "normalize.py importa compare en el mismo paquete -> relativo OK\nplugin externo usa familiarity_core -> absoluto\nejecutar",
+          "expected_head": "normalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)\nplugin exter",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "public ['normalize', 'compare']\nprivate ['_tokenize']\n",
+          "expected_head": "public ['normalize', 'compare']\nprivate ['_tokenize']\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['normalize', 'compare']\nTrue\n",
+          "expected_head": "['normalize', 'compare']\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score\nNEW_VERSION: 1.0.0 (era 0.x o bump major)\n",
+          "expected_head": "BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\nNEW_VERSION: 1.0.0 -> 2.0.0\nMIGRATION: usar compare(a,b) == ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}\n",
+          "expected_head": "{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "src/familiarity_core/__init__.py\nsrc/familiarity_core/normalize.py\nsrc/familiarity_core/cli.py\npyproject.toml\n",
+          "expected_head": "src/familiarity_core/__init__.py\nsrc/familiarity_core/normalize.py\nsrc/familiarity_core/cli.py\npyproject.toml",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "cause: nombre del paquete no coincide con import\ncause: no se instaló editable (pip install -e .)\ncause: cwd incorrecto ",
+          "expected_head": "cause: paquete no instalado (falta pip install -e .)\ncause: nombre import != nombre de carpeta (familiarity_core)\ncause:",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "renombrar normalize a clean_name (API pública): major\nañadir flag --format a report: minor\ncorregir typo en help: patch\n",
+          "expected_head": "renombrar normalize a clean_name (API pública): major\nañadir flag --format a report: minor\ncorregir typo en help: patch\n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "dependencies=[]  # N1 stdlib\nrequires-python>=3.11\n",
+          "expected_head": "{'requires-python': '>=3.11', 'dependencies': [], 'optional-dependencies': {'dev': ['pytest']}}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "POLICY: renames de entidades de dominio se versionan major\nPOLICY: nuevas entidades opcionales pueden ser minor\nPOLICY: ",
+          "expected_head": "POLICY: renombrar ClientRecord es MAJOR; documentar migración\nPOLICY: añadir campo opcional con default es MINOR\nPOLICY:",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Namespace(cmd='report', format='json')\n",
+          "expected_head": "Namespace(cmd='report', format='json')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "normalize ok: 0\narchivo de input no existe: 1\nflag desconocido: 2\nsubcomando ausente: 2\nvalidación de config falla al ar",
+          "expected_head": "normalize ok: 0\narchivo de input no existe: 1\nflag desconocido: 2\nsubcomando ausente: 2\nvalidación de config falla al ar",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "HELP: Usa normalize para limpiar texto sintético del intake\nHELP: report --format json genera un resumen legible\nHELP: S",
+          "expected_head": "HELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\nHELP: familiarity normalize --field n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stdout 6\nstderr event=done\n",
+          "expected_head": "6\nstderr: event=done",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "desde stdin\ndesde file\n",
+          "expected_head": "desde stdin\ndesde file",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "BAD: prints de progreso mezclados con JSON\nGOOD: {\"ok\": true}\n",
+          "expected_head": "BAD\nempezando\n{\"ok\": true}\nfin\nGOOD\n{\"ok\": true}\nstderr_only empezando | fin |",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1:defaults\n2:file\n3:env\n4:flags\n",
+          "expected_head": "1:defaults\n2:file\n3:env\n4:flags",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'log_level': 'ERROR', 'jobs': 1}\n",
+          "expected_head": "{'log_level': 'ERROR', 'jobs': 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "result=INFO\nrazón: flags CLI tienen precedencia sobre env\n",
+          "expected_head": "result=INFO\nrazon=el flag CLI tiene mayor precedencia que la variable de entorno",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ignore: .env\nignore: *.pem\nignore: credentials.json\nignore: .venv/\n",
+          "expected_head": "ignore: .env\nignore: .env.*\nignore: *.pem\nignore: credentials.json",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\nconfig: falta data_dir\n",
+          "expected_head": "ok\nconfig: falta clave requerida 'data_dir'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "log_level: DEBUG → INFO\necho_sql: True → False\napi_token: hardcoded → (sin default; solo env/secret store)\n",
+          "expected_head": "log_level: 'DEBUG' -> 'INFO'\necho_sql: True -> False\napi_token: 'hardcoded' -> None",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 19,
+      "code_tried": 24,
+      "code_ratio": 0.792,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 6,
+        "total": 6,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 5,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S10-T1-A-E1",
+          "code": "def _trim(s):\n    return s.strip()\n\ndef clean(s):\n    return _trim(s)\n\n__all__ = ['clean']\nprint(__all__)\nprint(clean('  X '))",
+          "note": "",
+          "concepts_used": [
+            "__all__"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-A-E2",
+          "code": "def util_common(x):\n    return x\n\ndef a_f(x):\n    return util_common(x) + '-a'\n\ndef b_g(x):\n    return util_common(x) + '-b'\n\nprint('ok', a_f('z'), b_g('z'))",
+          "note": "",
+          "concepts_used": [
+            "break circular import"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-A-E3",
+          "code": "casos = [\n    \"normalize.py importa compare en el mismo paquete\",\n    \"plugin externo usa familiarity_core\",\n    \"ejecutar el CLI del paquete\",\n]\nrec = [\n    \"relativo (from .compare import ...)\",\n    \"absoluto (import familiarity_core...)\",\n    \"python -m familiarity_core (entry)\",\n]\nfor c, r in zip(casos, rec):\n    print(f'{c} -> {r}')",
+          "note": "",
+          "concepts_used": [
+            "import styles"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-B-E1",
+          "code": "def _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return ' '.join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\nprint('public', ['normalize', 'compare'])\nprint('private', ['_tokenize'])",
+          "note": "",
+          "concepts_used": [
+            "_ private"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-B-E2",
+          "code": "def normalize(s):\n    return ' '.join(s.split()).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\n__all__ = ['normalize', 'compare']\nprint(__all__)\nprint(compare('A', 'a'))",
+          "note": "",
+          "concepts_used": [
+            "facade"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T1-B-E3",
+          "code": "print('BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score')\nprint('NEW_VERSION: 1.0.0 (major)')",
+          "note": "",
+          "concepts_used": [
+            "SemVer major"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-A-E1",
+          "code": "project = {\n    'name': 'familiarity-core',\n    'version': '0.1.0',\n    'requires-python': '>=3.11',\n}\nprint(project)",
+          "note": "",
+          "concepts_used": [
+            "pyproject"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-A-E2",
+          "code": "paths = [\n    'pyproject.toml',\n    'src/familiarity_core/__init__.py',\n    'src/familiarity_core/normalize.py',\n    'src/familiarity_core/cli.py',\n]\nfor p in paths:\n    print(p)",
+          "note": "",
+          "concepts_used": [
+            "src layout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-A-E3",
+          "code": "print('cause: nombre del paquete no coincide con import')\nprint('cause: no se instaló editable (pip install -e .)')\nprint('cause: cwd incorrecto / packages discovery mal configurado')",
+          "note": "",
+          "concepts_used": [
+            "ModuleNotFoundError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-B-E1",
+          "code": "cambios = [\n    (\"renombrar normalize a clean_name (API pública)\", \"major\"),\n    (\"añadir flag --format a report\", \"minor\"),\n    (\"corregir typo en help\", \"patch\"),\n    (\"eliminar subcomando compare\", \"major\"),\n]\nfor c, n in cambios:\n    print(f'{c}: {n}')",
+          "note": "",
+          "concepts_used": [
+            "SemVer classify"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-B-E2",
+          "code": "dependencies = []\nprint('dependencies', dependencies)\nprint('requires-python', '>=3.11')\nprint('note: N1 stdlib only')",
+          "note": "",
+          "concepts_used": [
+            "stdlib deps"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T2-B-E3",
+          "code": "print('POLICY: renames de API pública se versionan major')\nprint('POLICY: nuevas entidades opcionales son minor')\nprint('POLICY: documentar CHANGELOG y requires-python')",
+          "note": "",
+          "concepts_used": [
+            "compat policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-A-E1",
+          "code": "import argparse\np = argparse.ArgumentParser()\nsub = p.add_subparsers(dest='cmd', required=True)\nr = sub.add_parser('report')\nr.add_argument('--format', choices=['text', 'json'], default='text')\nns = p.parse_args(['report', '--format', 'json'])\nprint(ns)",
+          "note": "",
+          "concepts_used": [
+            "argparse subparsers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-A-E2",
+          "code": "casos = [\n    (\"normalize ok\", 0),\n    (\"archivo de input no existe\", 1),\n    (\"flag desconocido\", 2),\n    (\"subcomando ausente\", 2),\n    (\"validación de config falla al arrancar\", 1),\n]\nfor c, code in casos:\n    print(f'{c}: {code}')",
+          "note": "",
+          "concepts_used": [
+            "exit codes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-A-E3",
+          "code": "print('HELP: familiarity normalize \"texto\" — limpia y normaliza un texto sintético')\nprint('HELP: familiarity report --format json — imprime un resumen del lote')\nprint('HELP: usa --help en cada subcomando para ver opciones y códigos de salida')",
+          "note": "",
+          "concepts_used": [
+            "help text"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-B-E1",
+          "code": "from io import StringIO\nimport sys\n\ndef process(n):\n    print('event=done', file=sys.stderr)\n    return n * 2\n\nout, err = StringIO(), StringIO()\nold_out, old_err = sys.stdout, sys.stderr\nsys.stdout, sys.stderr = out, err\ntry:\n    result = process(3)\n    print(result)\nfinally:\n    sys.stdout, sys.stderr = old_out, old_err\nprint('stdout', out.getvalue().strip())\nprint('stderr', err.getvalue().strip())",
+          "note": "",
+          "concepts_used": [
+            "stdout stderr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-B-E2",
+          "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == '-':\n        return stdin_text\n    return file_text if file_text is not None else ''\n\nprint(read_input('-', stdin_text='desde stdin'))\nprint(read_input('file.csv', file_text='desde file'))",
+          "note": "",
+          "concepts_used": [
+            "path or -"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T3-B-E3",
+          "code": "def good_cli():\n    print('{\"ok\": true}')\n\nprint('GOOD')\ngood_cli()",
+          "note": "",
+          "concepts_used": [
+            "clean stdout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-A-E1",
+          "code": "layers = ['defaults', 'file', 'env', 'flags']\nfor i, layer in enumerate(layers, start=1):\n    print(f'{i}:{layer}')",
+          "note": "",
+          "concepts_used": [
+            "precedence ranks"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-A-E2",
+          "code": "def merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+          "note": "",
+          "concepts_used": [
+            "merge None skip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-A-E3",
+          "code": "print('result=INFO')\nprint('razón: flags CLI ganan a env (precedencia flags > env)')",
+          "note": "",
+          "concepts_used": [
+            "flags beat env"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-B-E1",
+          "code": "for e in ['.env', '*.pem', 'credentials.json', '.venv/']:\n    print(f'ignore: {e}')",
+          "note": "",
+          "concepts_used": [
+            "secrets gitignore"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-B-E2",
+          "code": "def validate_config(cfg: dict) -> None:\n    for k in ('log_level', 'data_dir'):\n        if not cfg.get(k):\n            raise RuntimeError(f'missing required config: {k}')\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+          "note": "",
+          "concepts_used": [
+            "validate config"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S10-T4-B-E3",
+          "code": "print('log_level: DEBUG → INFO')\nprint('echo_sql: True → False')\nprint('api_token: hardcoded → remove (env only, never default)')",
+          "note": "",
+          "concepts_used": [
+            "safe defaults"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S10-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['clean']\nX\n",
+          "expected_head": "['clean']\nx",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ok z-a z-b\n",
+          "expected_head": "hola:a\nhola:b\nok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "normalize.py importa compare en el mismo paquete -> relativo (from .compare import ...)\nplugin externo usa familiarity_c",
+          "expected_head": "normalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)\nplugin exter",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "public ['normalize', 'compare']\nprivate ['_tokenize']\n",
+          "expected_head": "public ['normalize', 'compare']\nprivate ['_tokenize']\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['normalize', 'compare']\nTrue\n",
+          "expected_head": "['normalize', 'compare']\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score\nNEW_VERSION: 1.0.0 (major)\n",
+          "expected_head": "BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\nNEW_VERSION: 1.0.0 -> 2.0.0\nMIGRATION: usar compare(a,b) == ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}\n",
+          "expected_head": "{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pyproject.toml\nsrc/familiarity_core/__init__.py\nsrc/familiarity_core/normalize.py\nsrc/familiarity_core/cli.py\n",
+          "expected_head": "src/familiarity_core/__init__.py\nsrc/familiarity_core/normalize.py\nsrc/familiarity_core/cli.py\npyproject.toml",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "cause: nombre del paquete no coincide con import\ncause: no se instaló editable (pip install -e .)\ncause: cwd incorrecto ",
+          "expected_head": "cause: paquete no instalado (falta pip install -e .)\ncause: nombre import != nombre de carpeta (familiarity_core)\ncause:",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "renombrar normalize a clean_name (API pública): major\nañadir flag --format a report: minor\ncorregir typo en help: patch\n",
+          "expected_head": "renombrar normalize a clean_name (API pública): major\nañadir flag --format a report: minor\ncorregir typo en help: patch\n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "dependencies []\nrequires-python >=3.11\nnote: N1 stdlib only\n",
+          "expected_head": "{'requires-python': '>=3.11', 'dependencies': [], 'optional-dependencies': {'dev': ['pytest']}}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "POLICY: renames de API pública se versionan major\nPOLICY: nuevas entidades opcionales son minor\nPOLICY: documentar CHANG",
+          "expected_head": "POLICY: renombrar ClientRecord es MAJOR; documentar migración\nPOLICY: añadir campo opcional con default es MINOR\nPOLICY:",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Namespace(cmd='report', format='json')\n",
+          "expected_head": "Namespace(cmd='report', format='json')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "normalize ok: 0\narchivo de input no existe: 1\nflag desconocido: 2\nsubcomando ausente: 2\nvalidación de config falla al ar",
+          "expected_head": "normalize ok: 0\narchivo de input no existe: 1\nflag desconocido: 2\nsubcomando ausente: 2\nvalidación de config falla al ar",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "HELP: familiarity normalize \"texto\" — limpia y normaliza un texto sintético\nHELP: familiarity report --format json — imp",
+          "expected_head": "HELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\nHELP: familiarity normalize --field n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stdout 6\nstderr event=done\n",
+          "expected_head": "6\nstderr: event=done",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "desde stdin\ndesde file\n",
+          "expected_head": "desde stdin\ndesde file",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "GOOD\n{\"ok\": true}\n",
+          "expected_head": "BAD\nempezando\n{\"ok\": true}\nfin\nGOOD\n{\"ok\": true}\nstderr_only empezando | fin |",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1:defaults\n2:file\n3:env\n4:flags\n",
+          "expected_head": "1:defaults\n2:file\n3:env\n4:flags",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'log_level': 'ERROR', 'jobs': 1}\n",
+          "expected_head": "{'log_level': 'ERROR', 'jobs': 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "result=INFO\nrazón: flags CLI ganan a env (precedencia flags > env)\n",
+          "expected_head": "result=INFO\nrazon=el flag CLI tiene mayor precedencia que la variable de entorno",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ignore: .env\nignore: *.pem\nignore: credentials.json\nignore: .venv/\n",
+          "expected_head": "ignore: .env\nignore: .env.*\nignore: *.pem\nignore: credentials.json",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\nmissing required config: data_dir\n",
+          "expected_head": "ok\nconfig: falta clave requerida 'data_dir'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S10-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "log_level: DEBUG → INFO\necho_sql: True → False\napi_token: hardcoded → remove (env only, never default)\n",
+          "expected_head": "log_level: 'DEBUG' -> 'INFO'\necho_sql: True -> False\napi_token: 'hardcoded' -> None",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 17,
+      "code_tried": 24,
+      "code_ratio": 0.708,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

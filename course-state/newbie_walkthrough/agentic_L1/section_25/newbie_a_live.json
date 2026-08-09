@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 25,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s25-218c751bfa",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S25-T1-A-E1",
+      "code": "d=True\nprint('rules' if d else 'llm')\n",
+      "justification_from_packet": "Desde «regla vs modelo especializado vs LLM»: Problema determinista → preferir rules a LLM."
+    },
+    {
+      "exercise_id": "S25-T1-A-E2",
+      "code": "fixed,n=True,600\nprint('specialized_model' if fixed and n>=500 else 'other')\n",
+      "justification_from_packet": "Desde «regla vs modelo especializado vs LLM»: Con labels fijos y n>=500 cabe specialized_model."
+    },
+    {
+      "exercise_id": "S25-T1-A-E3",
+      "code": "print('no_auto_fraud')\n",
+      "justification_from_packet": "Desde «regla vs modelo especializado vs LLM»: Política del curso: no_auto_fraud en AI assist."
+    },
+    {
+      "exercise_id": "S25-T1-B-E1",
+      "code": "lic='mit'\nprint('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')\n",
+      "justification_from_packet": "Desde «model cards, licencias y local/cloud»: Licencia MIT permite reuse_ok."
+    },
+    {
+      "exercise_id": "S25-T1-B-E2",
+      "code": "has_pii=True\nprint('local_or_private_vpc' if has_pii else 'cloud_ok')\n",
+      "justification_from_packet": "Desde «model cards, licencias y local/cloud»: Con PII el despliegue es local_or_private_vpc."
+    },
+    {
+      "exercise_id": "S25-T1-B-E3",
+      "code": "not_for=['fraud adjudication','legal advice']\nprint('fraud adjudication' in not_for)\n",
+      "justification_from_packet": "Desde «model cards, licencias y local/cloud»: Modelo not_for incluye fraud adjudication → True."
+    },
+    {
+      "exercise_id": "S25-T2-A-E1",
+      "code": "t='Factura electrónica'\nprint('billing' if 'factura' in t.lower() else 'other')\n",
+      "justification_from_packet": "Desde «Hugging Face pipelines/endpoints»: Clasificador simple etiqueta billing."
+    },
+    {
+      "exercise_id": "S25-T2-A-E2",
+      "code": "model_id='local-clf'; label='billing'\nprint({'model': model_id, 'label': label})\n",
+      "justification_from_packet": "Desde «Hugging Face pipelines/endpoints»: Manifest model+label del endpoint local."
+    },
+    {
+      "exercise_id": "S25-T2-A-E3",
+      "code": "texts=['factura 1','hola']\nprint(['billing' if 'factura' in t else 'other' for t in texts])\n",
+      "justification_from_packet": "Desde «Hugging Face pipelines/endpoints»: Batch de labels billing/other."
+    },
+    {
+      "exercise_id": "S25-T2-B-E1",
+      "code": "cache={'a':1}; k='a'\nprint(k in cache)\n",
+      "justification_from_packet": "Desde «batching, timeout, cache, costo y fallback»: Cache hit True reduce costo del endpoint."
+    },
+    {
+      "exercise_id": "S25-T2-B-E2",
+      "code": "tokens=1000\nprint(0.002 * tokens / 1000)\n",
+      "justification_from_packet": "Desde «batching, timeout, cache, costo y fallback»: Costo estimado 0.002 por 1k tokens."
+    },
+    {
+      "exercise_id": "S25-T2-B-E3",
+      "code": "try:\n    raise TimeoutError('t')\nexcept TimeoutError:\n    print('timeout_retry')\n",
+      "justification_from_packet": "Desde «batching, timeout, cache, costo y fallback»: TimeoutError → timeout_retry controlado."
+    },
+    {
+      "exercise_id": "S25-T3-A-E1",
+      "code": "import json\nprint(json.loads('{\"n\":1}')['n'])\n",
+      "justification_from_packet": "Desde «objetivo, contexto, restricciones, ejemplos y salida estructurada»: Parse JSON del generador: n=1."
+    },
+    {
+      "exercise_id": "S25-T3-A-E2",
+      "code": "req={'mediana','n'}; obj={'mediana':1,'n':2,'x':3}\nprint(req.issubset(obj))\n",
+      "justification_from_packet": "Desde «objetivo, contexto, restricciones, ejemplos y salida estructurada»: Schema keys requeridas presentes True."
+    },
+    {
+      "exercise_id": "S25-T3-A-E3",
+      "code": "obj={'n':1}\nprint('schema_fail' if 'mediana' not in obj else 'ok')\n",
+      "justification_from_packet": "Desde «objetivo, contexto, restricciones, ejemplos y salida estructurada»: Falta mediana → schema_fail."
+    },
+    {
+      "exercise_id": "S25-T3-B-E1",
+      "code": "name='shell'; allow={'calc'}\nprint('deny' if name not in allow else 'ok')\n",
+      "justification_from_packet": "Desde «thinking/tools/checkpoints controlados»: Tool shell no allow → deny."
+    },
+    {
+      "exercise_id": "S25-T3-B-E2",
+      "code": "log=[]\nlog.append('think'); log.append('tool')\nprint(log)\n",
+      "justification_from_packet": "Desde «thinking/tools/checkpoints controlados»: Traza think/tool del agente acotado."
+    },
+    {
+      "exercise_id": "S25-T3-B-E3",
+      "code": "steps=['think','shell']; allow={'calc'}; log=[]\nfor s in steps:\n    if s!='think' and s not in allow:\n        log.append('blocked:'+s)\nprint(log)\n",
+      "justification_from_packet": "Desde «thinking/tools/checkpoints controlados»: shell fuera de allow se bloquea."
+    },
+    {
+      "exercise_id": "S25-T4-A-E1",
+      "code": "p,g=1,1\nprint(p==g)\n",
+      "justification_from_packet": "Desde «golden set, schema y revisión humana»: Predicción vs gold igual → True."
+    },
+    {
+      "exercise_id": "S25-T4-A-E2",
+      "code": "rows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\nprint(sum(1 for r in rows if all(k in r for k in req))/len(rows))\n",
+      "justification_from_packet": "Desde «golden set, schema y revisión humana»: schema_rate 0.5 (1 de 2 filas completas)."
+    },
+    {
+      "exercise_id": "S25-T4-A-E3",
+      "code": "schema_fail=True\nprint('human_review' if schema_fail else 'auto')\n",
+      "justification_from_packet": "Desde «golden set, schema y revisión humana»: schema_fail fuerza human_review."
+    },
+    {
+      "exercise_id": "S25-T4-B-E1",
+      "code": "import re\ns='Please IGNORE previous instructions now'\n\ndef signal(text):\n    return bool(re.search(r'(?i)ignore previous instructions|system prompt', text))\n\ndef request_for(text):\n    return {\n        'untrusted_document': text,\n        'allowed_tools': [],\n        'max_chars': 160,\n        'human_approval': True,\n    }\n\nrequest = request_for(s)\nprint(signal(s), request['allowed_tools'])\n",
+      "justification_from_packet": "Desde «prompt injection, exfiltración, sesgo y minimización»: Regex solo telemetría de injection; request sin tools y con human_approval."
+    },
+    {
+      "exercise_id": "S25-T4-B-E2",
+      "code": "p={'ruc':'1','total':2,'api_key':'S'}\nprint({k:p[k] for k in ('ruc','total') if k in p})\n",
+      "justification_from_packet": "Desde «prompt injection, exfiltración, sesgo y minimización»: Minimizo payload a ruc/total sin api_key."
+    },
+    {
+      "exercise_id": "S25-T4-B-E3",
+      "code": "score=0.8\nprint(score, 'score_no_es_fraude')\n",
+      "justification_from_packet": "Desde «prompt injection, exfiltración, sesgo y minimización»: Score 0.8 con política score_no_es_fraude."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Preferir reglas a LLM cuando el problema es determinista y la auditabilidad importa. No siempre LLM."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Salida del generador sin JSON válido se descarta o va a human review, no se publica ni se cachea como éxito."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Prompt injection desde OCR se mitiga tratando el texto como untrusted y no elevándolo a system."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "El AI assist no etiqueta fraude de forma autónoma en este curso; solo aporta evidencia para humanos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:50:59.628711+00:00",
+  "session_started_at": "2026-07-23T16:48:50+00:00",
+  "session_ended_at": "2026-07-23T16:49:42.700000+00:00",
+  "receipt_response_sha256": "b028d8110e84e22f60f38cb345429018e37ccadba21be6575115de4b504559a3",
+  "receipt_exercises_sha256": "7cde0253e1194e00997fcf49e2e6a70546e211b0b4617c45aa10097ced6ccad7",
+  "receipt_selfcheck_sha256": "d54a45c33b16055a479f59b5d32bfeb3df4a6c72652db675cf85d5e36cff443d"
+}

@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s38-3fe91c01a2cf",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "id": "S38-T1-A-E1",
+      "code": "# skeptic/S38-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S38/S38-T1-A-E1 («Concurrencia, observabilidad y workflows resilientes»): S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida exacta tres líneas con la elecci. Apoyo léxico K2: operativo, Salida, evadir, triage. Hint: Para CPU-bound en CPython prefiere processes por el GIL.. Starter: TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S38-T1-A"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "id": "S38-T1-A-E2",
+      "code": "# skeptic/S38-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S38-T1-A-E2 («Concurrencia, observabilidad y workflows resilientes»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_threads, bound io y ok True. El star». Señal del starter: TODO contractual. Hint: I/O-bound: threads o async liberan espera de red.. Léxico del paquete: evento, processes, async_or_threads, Salida. Prefiero lo aburrido, determinista y auditable; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S38-T1-A"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "id": "S38-T1-A-E3",
+      "code": "# skeptic/S38-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S38-T1-A-E3. La sección «Concurrencia, observabilidad y workflows resilientes» pide: S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; salida: True, ok True, n 1. El st. Me anclé en concurrente, vectorial, cuello y en «measure_first es política de equipo, no opcional.». Marcas del starter: TODO contractual. Por eso derivé el cuerpo desde forma esperada sin inventar APIs; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S38-T1-A"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "id": "S38-T1-B-E1",
+      "code": "# skeptic/S38-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\nimport json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S38-T1-B-E1 («Concurrencia, observabilidad y workflows resilientes»): releí con desconfianza el starter del quiz_card. Enunciado: «S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True, compact True. El sta». Señal del starter: TODO contractual. Hint: json.dumps produce el blob estable; mide len(...encode()).. Léxico del paquete: observabilidad, CPython, brilla, pesada. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S38-T1-B"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "id": "S38-T1-B-E2",
+      "code": "# skeptic/S38-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que el primer predicado booleano sea correcto al cerrar S38-T1-B-E2. La sección «Concurrencia, observabilidad y workflows resilientes» pide: S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para el runbook de Red Andina sinté. Me anclé en pesada, cuello, conviene y en «GIL limita paralelismo CPU en threads Python puros.». Marcas del starter: TODO contractual. Por eso revisé que no quede TODO ni pass de relleno; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S38-T1-B"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "id": "S38-T1-B-E3",
+      "code": "# skeptic/S38-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S38-T1-B-E3 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect: arrastra PII y bytes de más).. Flags: TODO contractual. Conceptos activos: densas, caliente, disco, bloquees, observabilidad. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S38-T1-B"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "id": "S38-T2-A-E1",
+      "code": "# skeptic/S38-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S38-T2-A-E1 («Concurrencia, observabilidad y workflows resilientes»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal. Implement». Señal del starter: TODO contractual. Hint: rate=2 ⇒ dos True y el tercero False.. Léxico del paquete: documentada, processes, elección, liviano. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S38-T2-A"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "id": "S38-T2-A-E2",
+      "code": "# skeptic/S38-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"backpressure\")\nprint(\"ok\", True)\nprint(\"maxsize\", 50)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S38-T2-A-E2. La sección «Concurrencia, observabilidad y workflows resilientes» pide: S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure del worker de scoring. Starte. Me anclé en bloquees, siempre, async y en «maxsize finito = backpressure.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso revisé que no quede TODO ni pass de relleno; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S38-T2-A"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "id": "S38-T2-A-E3",
+      "code": "# skeptic/S38-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"provider\")\nprint(\"ok\", True)\nprint(\"ban_risk\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S38-T2-A-E3 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato de transferencia: rate limit de. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: features, triage, Entrada, evento, pesada. No asumo que el primer predicado booleano sea correcto.",
+      "concepts_used": [
+        "S38-T2-A"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "id": "S38-T2-B-E1",
+      "code": "# skeptic/S38-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\npolicy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que el primer predicado booleano sea correcto al cerrar S38-T2-B-E1. La sección «Concurrencia, observabilidad y workflows resilientes» pide: S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_fail='ignore' (defect). Ajusta. Me anclé en vectorial, conviene, cuello y en «seconds>0 evita hang infinito.». Marcas del starter: TODO contractual. Por eso seguí el knowledge boundary: solo landing + packet K2; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S38-T2-B"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "id": "S38-T2-B-E2",
+      "code": "# skeptic/S38-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\nclose_in_finally = True\nprint(close_in_finally)\nprint(\"resource\", \"conn\")\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S38-T2-B-E2 no improvisé APIs: confronté predicados invertidos y marcas DEFECTO y armé el cuerpo desde el quiz_card. Resumen de instrucción: S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No abras sockets reales; modela. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: concurrente, disco, Contrato, vectorial, esperas. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S38-T2-B"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "id": "S38-T2-B-E3",
+      "code": "# skeptic/S38-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"incident\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S38/S38-T2-B-E3 («Concurrencia, observabilidad y workflows resilientes»): S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corrige para reconocer el riesgo o. Apoyo léxico K2: siempre, resilientes, operativo, cuello. Hint: Hang sin timeout = incidente de cola bloqueada.. Starter: forma esperada en comentarios del starter, TODO contractual. Exijo evidencia lexical en theory/iDo del paquete activo; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S38-T2-B"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "id": "S38-T3-A-E1",
+      "code": "# skeptic/S38-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\nevent = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S38-T3-A-E1. La sección «Concurrencia, observabilidad y workflows resilientes» pide: S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Starter omite corr (defect → False). Me anclé en liviano, brilla, muchos y en «corr debe ser truthy string.». Marcas del starter: TODO contractual. Por eso contrasté theory headings con el enunciado del ejercicio; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S38-T3-A"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "id": "S38-T3-A-E2",
+      "code": "# skeptic/S38-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\npillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\nprint(\"ok\", True)\nprint(\"n\", len(pillars))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S38-T3-A-E2 no improvisé APIs: confronté predicados invertidos y marcas DEFECTO y armé el cuerpo desde el quiz_card. Resumen de instrucción: S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Completa el contrato pedagógico de o. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: mixed, pesada, siempre, brilla, Contrato. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "concepts_used": [
+        "S38-T3-A"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "id": "S38-T3-A-E3",
+      "code": "# skeptic/S38-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\npii_raw = False\nprint(pii_raw)\nprint(\"ok\", True)\nprint(\"redact\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S38/S38-T3-A-E3 («Concurrencia, observabilidad y workflows resilientes»): S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite PII). Contrato de privacidad d. Apoyo léxico K2: caliente, quieres, CPython, evadir. Hint: Nunca pii_raw True en logs de operación.. Starter: forma esperada en comentarios del starter, TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S38-T3-A"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "id": "S38-T3-B-E1",
+      "code": "# skeptic/S38-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\nphone = \"90000001\"\nredacted = phone[:2] + \"****\" + phone[-2:]\nprint(redacted)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S38-T3-B-E1 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True, pii False. St. Flags: TODO contractual. Conceptos activos: cuello, trabajo, bound, liviano, evento. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S38-T3-B"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "id": "S38-T3-B-E2",
+      "code": "# skeptic/S38-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\np95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\nprint(\"p95\", p95)\nprint(\"limit\", limit)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S38/S38-T3-B-E2 («Concurrencia, observabilidad y workflows resilientes»): S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el predicado del error bu. Apoyo léxico K2: medida, evento, siempre, muchos. Hint: slo_ok cuando observado <= objetivo de latencia.. Starter: forma esperada en comentarios del starter, TODO contractual. No asumo que el primer predicado booleano sea correcto; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S38-T3-B"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "id": "S38-T3-B-E3",
+      "code": "# skeptic/S38-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"error_budget\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S38-T3-B-E3 («Concurrencia, observabilidad y workflows resilientes»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transferencia nombra el mecanismo qu». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: Error budget cuantifica cuánto incumplimiento queda en el periodo.. Léxico del paquete: threads, concurrente, processes, caliente. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S38-T3-B"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "id": "S38-T4-A-E1",
+      "code": "# skeptic/S38-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\nprint(\"ok\", True)\nprint(\"n\", len(states))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S38-T4-A-E1 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa la máquina de estados del batch. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: vectorial, observabilidad, medida, resilientes, documentada. No asumo que el primer predicado booleano sea correcto.",
+      "concepts_used": [
+        "S38-T4-A"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "id": "S38-T4-A-E2",
+      "code": "# skeptic/S38-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"case:step:ver\")\nprint(\"ok\", True)\nprint(\"dup\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S38/S38-T4-A-E2 («Concurrencia, observabilidad y workflows resilientes»): S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pasos). Fija el contrato de key d. Apoyo léxico K2: quieres, CPython, documentada, caliente. Hint: Incluye step y versión de lógica para evitar colisiones.. Starter: forma esperada en comentarios del starter, TODO contractual. Exijo evidencia lexical en theory/iDo del paquete activo; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S38-T4-A"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "id": "S38-T4-A-E3",
+      "code": "# skeptic/S38-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S38-T4-A-E3 («Concurrencia, observabilidad y workflows resilientes»): crucé instruction contra hints e iDo del slim_packet. Enunciado: «S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume desde 'intake' (defect: rehac». Señal del starter: TODO contractual. Hint: resume_from = último step checkpointed.. Léxico del paquete: bloquees, features, threads, operativo. Prefiero lo aburrido, determinista y auditable; riesgo: si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S38-T4-A"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "id": "S38-T4-B-E1",
+      "code": "# skeptic/S38-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S38/S38-T4-B-E1 («Concurrencia, observabilidad y workflows resilientes»): S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). Implementa exponencia. Apoyo léxico K2: async, evento, conviene, workflows. Hint: Fórmula didáctica: base * 2**attempt.. Starter: TODO contractual. No asumo que el primer predicado booleano sea correcto; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S38-T4-B"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "id": "S38-T4-B-E2",
+      "code": "# skeptic/S38-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"poison\")\nprint(\"ok\", True)\nprint(\"replay\", \"controlled\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S38-T4-B-E2 («Concurrencia, observabilidad y workflows resilientes»): releí con desconfianza el starter del quiz_card. Enunciado: «S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísla veneno; replay es controlado». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: DLQ = mensajes que fallan de forma no transitoria.. Léxico del paquete: conviene, Contrato, caliente, cuello. Prefiero lo aburrido, determinista y auditable; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S38-T4-B"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "id": "S38-T4-B-E3",
+      "code": "# skeptic/S38-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(True)\nprint(\"oncall\", True)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S38-T4-B-E3. La sección «Concurrencia, observabilidad y workflows resilientes» pide: S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferencia: el drill sintético exige r. Me anclé en trabajo, bloquees, evento y en «Runbook: síntomas → checks → acciones.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso derivé el cuerpo desde forma esperada sin inventar APIs; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S38-T4-B"
+      ],
+      "confidence": 0.88
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Concurrencia, observabilidad y workflows resilientes» el stem «Para CPU bound en CPython suele preferirse:» apunta a «Procesos» (índice 1). Evidencia léxica: siempre, conviene, triage, brilla, medida. Rechacé: Miles de threads CPU / Quitar timeouts. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Concurrencia, observabilidad y workflows resilientes» el stem «Backpressure evita:» apunta a «Colas infinitas y OOM» (índice 3). Evidencia léxica: resilientes, async_or_threads, documentada, trabajo, Salida. Rechacé: Solo tests / Checkpoints. Me resisto a copiar sin anclar en el paquete.",
+      "confidence": 0.77
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Concurrencia, observabilidad y workflows resilientes» el stem «Idempotencia permite:» apunta a «Reejecutar sin side effects duplicados» (índice 0). Evidencia léxica: threads, async_or_threads, caliente, processes, documentada. Rechacé: Duplicar cobros / Borrar DLQ siempre. Prefiero lo aburrido, determinista y auditable.",
+      "confidence": 0.82
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Concurrencia, observabilidad y workflows resilientes» el stem «En logs de prod debes:» apunta a «Redactar PII y correlacionar» (índice 2). Evidencia léxica: esperas, brilla, quieres, evadir, Contrato. Rechacé: PII completa / Desactivar métricas. No asumo que el primer predicado booleano sea correcto.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Concurrencia, observabilidad y workflows resilientes» el stem «Un proveedor sin timeout en el worker suele causar:» apunta a «Hang de workers y cola bloqueada» (índice 1). Evidencia léxica: conviene, operativo, densas, disco, observabilidad. Rechacé: Mejor p95 mágico / Idempotencia automática. Me resisto a copiar sin anclar en el paquete.",
+      "confidence": 0.93
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:20:35.517433+00:00",
+  "session_started_at": "2026-07-23T15:19:45.708484+00:00",
+  "session_ended_at": "2026-07-23T15:20:35.515386+00:00",
+  "receipt_response_sha256": "d67fca2598e35dea668ee87f0014e03808f2501b83f1563f850ee3d48a04d4d4",
+  "receipt_exercises_sha256": "2ca20fd9d4898e54b6b2e28733e8b410326500047a4cc8eca28e75cef3be33cc",
+  "receipt_selfcheck_sha256": "e5d9a27368f14256c5bd0ecf5d848f5b304dc607c736ee6e1a3d085a6af3b74c"
+}

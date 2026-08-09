@@ -1,0 +1,1068 @@
+{
+  "section_index": 21,
+  "section_id": "fastapi",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S21-T1-A-E1",
+          "code": "from jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+          "note": "",
+          "concepts_used": [
+            "jinja2"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-A-E2",
+          "code": "from jinja2 import Template\nprint(Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(region=\"Lima\", median=28.0, n=40))\n",
+          "note": "",
+          "concepts_used": [
+            "kpi template"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-A-E3",
+          "code": "from jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+          "note": "",
+          "concepts_used": [
+            "render_kpi"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-B-E1",
+          "code": "median = None\nprint(\"—\" if median is None else median)\n",
+          "note": "",
+          "concepts_used": [
+            "missing —"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-B-E2",
+          "code": "print(f\"{28.456:.2f}\")\n",
+          "note": "",
+          "concepts_used": [
+            "format"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-B-E3",
+          "code": "from jinja2 import Template\nrows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": 22}]\nprint(Template(\"{% for r in rows %}{{ r.region }}:{{ r.value }}\\n{% endfor %}\").render(rows=rows))\n",
+          "note": "",
+          "concepts_used": [
+            "jinja for"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-A-E1",
+          "code": "sections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}]\nprint([s[\"name\"] for s in sections])\n",
+          "note": "",
+          "concepts_used": [
+            "outline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-A-E2",
+          "code": "sections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}]\nprint(sum(1 for s in sections if s[\"h\"] == 1))\n",
+          "note": "",
+          "concepts_used": [
+            "count H1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-A-E3",
+          "code": "def render_outline(sections):\n    return \"\\n\".join(\"  \" * (s[\"h\"] - 1) + f\"H{s['h']} {s['name']}\" for s in sections)\nprint(render_outline([{\"h\": 1, \"name\": \"Método\"}, {\"h\": 2, \"name\": \"Datos\"}]))\n",
+          "note": "",
+          "concepts_used": [
+            "indent outline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-B-E1",
+          "code": "chars, pages = 10, 2\nprint(\"needs_ocr\" if chars / pages < 20 else \"digital\")\n",
+          "note": "",
+          "concepts_used": [
+            "density"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-B-E2",
+          "code": "def classify(chars, pages):\n    return \"digital\" if chars / max(pages, 1) >= 20 else \"needs_ocr\"\nprint(classify(100, 1))\n",
+          "note": "",
+          "concepts_used": [
+            "classify"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-B-E3",
+          "code": "text = \"\"\nprint({\"needs_ocr\": not bool(text)})\n",
+          "note": "",
+          "concepts_used": [
+            "empty text"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-A-E1",
+          "code": "print({\"id\": \"H1\", \"evidencia\": \"Tabla1\"}[\"id\"])\n",
+          "note": "",
+          "concepts_used": [
+            "hallazgo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-A-E2",
+          "code": "s = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+          "note": "",
+          "concepts_used": [
+            "n= check"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-A-E3",
+          "code": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"r\"], {}, [{\"id\": \"H1\"}]).keys()))\n",
+          "note": "",
+          "concepts_used": [
+            "pack_report"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-B-E1",
+          "code": "print({\"median_Lima\": 28.0} == {\"median_Lima\": 28.0})\n",
+          "note": "",
+          "concepts_used": [
+            "parity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-B-E2",
+          "code": "cap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+          "note": "",
+          "concepts_used": [
+            "Fuente"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-B-E3",
+          "code": "def check_parity(a, b, c):\n    return a == b == c\nprint(check_parity(1, 1, 2))\nprint(check_parity(1, 1, 1))\n",
+          "note": "",
+          "concepts_used": [
+            "check_parity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-A-E1",
+          "code": "print([round(v, 1) for v in [28.04, 28.0]])\n",
+          "note": "",
+          "concepts_used": [
+            "round 1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-A-E2",
+          "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n",
+          "note": "",
+          "concepts_used": [
+            "fmt_pen"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-A-E3",
+          "code": "def a11y_min(has_h1, alts):\n    return bool(has_h1) and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"Barras mediana por región n en tooltip\"]))\n",
+          "note": "",
+          "concepts_used": [
+            "a11y"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-B-E1",
+          "code": "print({\"status\": \"pending_review\"}[\"status\"])\n",
+          "note": "",
+          "concepts_used": [
+            "pending_review"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-B-E2",
+          "code": "import hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+          "note": "",
+          "concepts_used": [
+            "sha1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-B-E3",
+          "code": "print(all({\"dashboard\": True, \"xlsx\": True, \"doc\": True}.values()))\n",
+          "note": "",
+          "concepts_used": [
+            "ready"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S21-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Hola Ana\n",
+          "expected_head": "Hola Ana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima: 28.0 PEN (n=40)\n",
+          "expected_head": "28 PEN (n=40)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Lima: 28.0 PEN (n=40)\n",
+          "expected_head": "Cusco: 22.5 PEN (n=32)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "—\n",
+          "expected_head": "—",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "28.46\n",
+          "expected_head": "28.46",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima:28\nCusco:22\n\n",
+          "expected_head": "Lima:1\nCusco:2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Resumen', 'Método']\n",
+          "expected_head": "['Resumen', 'Método']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "H1 Método\n  H2 Datos\n",
+          "expected_head": "A\n  B",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "needs_ocr\n",
+          "expected_head": "needs_ocr",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "digital\n",
+          "expected_head": "digital",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'needs_ocr': True}\n",
+          "expected_head": "{'needs_ocr': True, 'n_chars': 0}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "H1\n",
+          "expected_head": "H1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['hallazgos', 'metodo', 'resumen']\n",
+          "expected_head": "['hallazgos', 'metodo', 'resumen']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nTrue\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[28.0, 28.0]\n",
+          "expected_head": "[28.0, 28.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "28.0 PEN\n",
+          "expected_head": "28.0 PEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pending_review\n",
+          "expected_head": "pending_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "385fcd67\n",
+          "expected_head": "385fcd67",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S21-T1-A-E1",
+          "code": "from jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+          "note": "Hints Template.render.",
+          "concepts_used": [
+            "jinja Template"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-A-E2",
+          "code": "from jinja2 import Template\nprint(Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(region=\"Lima\", median=28, n=40))\n",
+          "note": "Theory template pattern Lima 28 n=40.",
+          "concepts_used": [
+            "median n PEN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-A-E3",
+          "code": "from jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\n\nprint(render_kpi({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+          "note": "Hints fixed template region/median/n.",
+          "concepts_used": [
+            "render_kpi"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-B-E1",
+          "code": "median = None\nprint(\"—\" if median is None else median)\n",
+          "note": "Starter median=None → —.",
+          "concepts_used": [
+            "missing em-dash"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-B-E2",
+          "code": "x = 28.456\nprint(f\"{x:.2f}\")\n",
+          "note": "Hints 28.46.",
+          "concepts_used": [
+            "2 decimals"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T1-B-E3",
+          "code": "from jinja2 import Template\nrows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": 22}]\nprint(Template(\"{% for r in rows %}{{ r.region }}:{{ r.value }}\\n{% endfor %}\").render(rows=rows), end=\"\")\n",
+          "note": "Hints for loop two regions.",
+          "concepts_used": [
+            "jinja for"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-A-E1",
+          "code": "sections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}]\nprint([s[\"name\"] for s in sections])\n",
+          "note": "Hints list of dicts names.",
+          "concepts_used": [
+            "sections list"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-A-E2",
+          "code": "sections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}]\nprint(sum(1 for s in sections if s[\"h\"] == 1))\n",
+          "note": "Starter → 2.",
+          "concepts_used": [
+            "count H1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-A-E3",
+          "code": "def render_outline(sections):\n    lines = []\n    for s in sections:\n        pad = \"  \" * (s[\"h\"] - 1)\n        lines.append(f\"{pad}H{s['h']} {s['name']}\")\n    return \"\\n\".join(lines)\n\nprint(render_outline([{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 2, \"name\": \"Datos\"}]))\n",
+          "note": "Demo render_outline pattern.",
+          "concepts_used": [
+            "outline indent"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-B-E1",
+          "code": "chars, pages = 10, 2\ndens = chars / max(pages, 1)\nprint(\"needs_ocr\" if dens < 20 else \"digital\")\n",
+          "note": "10/2=5 < 20 → needs_ocr.",
+          "concepts_used": [
+            "ocr density"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-B-E2",
+          "code": "def classify(chars, pages):\n    dens = chars / max(pages, 1)\n    return \"digital\" if dens >= 20 else \"needs_ocr\"\n\nprint(classify(100, 1))\n",
+          "note": "Demo classify; 100/1 digital.",
+          "concepts_used": [
+            "classify"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T2-B-E3",
+          "code": "text = \"\"\nprint({\"needs_ocr\": not bool(text)})\n",
+          "note": "Hints bool(text).",
+          "concepts_used": [
+            "empty text ocr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-A-E1",
+          "code": "h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+          "note": "Hints dict H1.",
+          "concepts_used": [
+            "hallazgo id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-A-E2",
+          "code": "s = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+          "note": "Starter has n=.",
+          "concepts_used": [
+            "resumen n="
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-A-E3",
+          "code": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\n\nprint(sorted(pack_report([\"x\"], {}, [{\"id\": \"H1\"}]).keys()))\n",
+          "note": "Hints 3 keys sorted.",
+          "concepts_used": [
+            "pack_report"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-B-E1",
+          "code": "dash = {\"median_Lima\": 28}\ndoc = {\"median_Lima\": 28}\nprint(dash == doc)\n",
+          "note": "Hints compare → True.",
+          "concepts_used": [
+            "parity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-B-E2",
+          "code": "cap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+          "note": "Starter contains Fuente.",
+          "concepts_used": [
+            "caption Fuente"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T3-B-E3",
+          "code": "def check_parity(a, b, c):\n    return a == b == c\n\nprint(check_parity(1, 1, 2))\nprint(check_parity(1, 1, 1))\n",
+          "note": "Hints two prints fail then success.",
+          "concepts_used": [
+            "check_parity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-A-E1",
+          "code": "vals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+          "note": "Hints round list.",
+          "concepts_used": [
+            "round 1 decimal"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-A-E2",
+          "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nprint(fmt_pen(28.04))\n",
+          "note": "Demo fmt_pen 28.0 PEN.",
+          "concepts_used": [
+            "fmt_pen"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-A-E3",
+          "code": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\n\nprint(a11y_min(True, [\"Barras mediana por región n=40\"]))\n",
+          "note": "Demo a11y_min pattern.",
+          "concepts_used": [
+            "a11y_min"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-B-E1",
+          "code": "approval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+          "note": "Final demo approval status.",
+          "concepts_used": [
+            "pending_review"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-B-E2",
+          "code": "import hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+          "note": "Hints sha1 slice 8.",
+          "concepts_used": [
+            "sha1_8"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S21-T4-B-E3",
+          "code": "def ready(checklist):\n    return all(checklist.values())\n\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\n",
+          "note": "Final demo ready_for_review.",
+          "concepts_used": [
+            "visual checklist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S21-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Hola Ana\n",
+          "expected_head": "Hola Ana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima: 28 PEN (n=40)\n",
+          "expected_head": "28 PEN (n=40)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Lima: 28.0 PEN (n=40)\n",
+          "expected_head": "Cusco: 22.5 PEN (n=32)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "—\n",
+          "expected_head": "—",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "28.46\n",
+          "expected_head": "28.46",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima:28\nCusco:22\n",
+          "expected_head": "Lima:1\nCusco:2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Resumen', 'Método']\n",
+          "expected_head": "['Resumen', 'Método']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "H1 Resumen\n  H2 Datos\n",
+          "expected_head": "A\n  B",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "needs_ocr\n",
+          "expected_head": "needs_ocr",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "digital\n",
+          "expected_head": "digital",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'needs_ocr': True}\n",
+          "expected_head": "{'needs_ocr': True, 'n_chars': 0}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "H1\n",
+          "expected_head": "H1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['hallazgos', 'metodo', 'resumen']\n",
+          "expected_head": "['hallazgos', 'metodo', 'resumen']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nTrue\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[28.0, 28.0]\n",
+          "expected_head": "[28.0, 28.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "28.0 PEN\n",
+          "expected_head": "28.0 PEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pending_review\n",
+          "expected_head": "pending_review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "385fcd67\n",
+          "expected_head": "385fcd67",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S21-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

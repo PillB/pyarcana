@@ -1,0 +1,200 @@
+{
+  "version": "3.2",
+  "section": "S02",
+  "section_id": "basics",
+  "phase": "PHASE_4_IN_PROGRESS",
+  "lane": "LANE-S02-P4",
+  "generated_at": "2026-07-20T18:30:00Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/s01/orchestration",
+
+  "preamble": {
+    "objective": "Retarget s02-basics.ts from Absolute Basics (conditionals/loops) to V3 Valores/tipos/operadores/I-O; author minimum T1-A and T1-B full packages; prefer T2-A/T2-B.",
+    "scope_in": [
+      "src/lib/course/sections/s02-basics.ts",
+      "course-state/s02_phase4_progress.json",
+      "course-state/lanes/LANE-S02-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "s01-setup.ts",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+
+  "meta_updates": {
+    "id": "basics",
+    "index": 2,
+    "title": "Valores, tipos, operadores e I/O",
+    "shortTitle": "Basics de Python",
+    "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+    "estimatedHours": 6,
+    "learningOutcomes": 8,
+    "youDo": "Budget Calculator → Parser de intake (CP-N1-A increment)"
+  },
+
+  "subtopics_authored": {
+    "S02-T1-A": {
+      "slug": "literals-types",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T1-A-DEMO",
+      "exercises": ["S02-T1-A-E1", "S02-T1-A-E2", "S02-T1-A-E3"],
+      "executed": true
+    },
+    "S02-T1-B": {
+      "slug": "type-inspect-convert",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T1-B-DEMO",
+      "exercises": ["S02-T1-B-E1", "S02-T1-B-E2", "S02-T1-B-E3"],
+      "executed": true
+    },
+    "S02-T2-A": {
+      "slug": "assignment-naming",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T2-A-DEMO",
+      "exercises": ["S02-T2-A-E1", "S02-T2-A-E2", "S02-T2-A-E3"],
+      "executed": true
+    },
+    "S02-T2-B": {
+      "slug": "identity-mutability",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T2-B-DEMO",
+      "exercises": ["S02-T2-B-E1", "S02-T2-B-E2", "S02-T2-B-E3"],
+      "executed": true
+    },
+    "S02-T3-A": { "slug": "operators-precedence", "status": "NOT_STARTED" },
+    "S02-T3-B": { "slug": "decimal-money", "status": "NOT_STARTED" },
+    "S02-T4-A": { "slug": "io-fstrings", "status": "NOT_STARTED" },
+    "S02-T4-B": { "slug": "parse-error-messages", "status": "NOT_STARTED" }
+  },
+
+  "counts": {
+    "subtopics_done": 4,
+    "subtopics_target": 8,
+    "demos_done": 4,
+    "demos_target": 8,
+    "exercises_done": 12,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 4,
+    "intro_theory_blocks": 1
+  },
+
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "items": [
+      {
+        "id": "S02-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "type() de literales de cliente + 42 vs '42' → False"
+      },
+      {
+        "id": "S02-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "0/3.14/Lima/False/None → int/float/str/bool/NoneType"
+      },
+      {
+        "id": "S02-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "int vs str; isinstance(True,int) True"
+      },
+      {
+        "id": "S02-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "contacto str; Ñahui Unicode; all type checks True"
+      },
+      {
+        "id": "S02-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "int(' 19 ') OK; 'abc' mensaje con campo"
+      },
+      {
+        "id": "S02-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "21 int"
+      },
+      {
+        "id": "S02-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "safe_int 4 casos incl. vacío y espacios"
+      },
+      {
+        "id": "S02-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "pipeline edad+monto; error parcial; raw intacto"
+      },
+      {
+        "id": "S02-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "snake_case + == comparación"
+      },
+      {
+        "id": "S02-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "rename PEP8"
+      },
+      {
+        "id": "S02-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "solution runs; starter intentionally broken (= vs ==)"
+      },
+      {
+        "id": "S02-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "schema mapeo 6 columnas incl. apellido_paterno"
+      },
+      {
+        "id": "S02-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "raw strip; alias vs copy; is None"
+      },
+      {
+        "id": "S02-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "tabla is/==; SyntaxWarning expected on 1 is True literal"
+      },
+      {
+        "id": "S02-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "original unchanged after copy+append"
+      },
+      {
+        "id": "S02-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "raw keys preserved after clean upper"
+      }
+    ],
+    "unverified": []
+  },
+
+  "deferred_from_legacy": [
+    "conditionals/if-elif as primary path",
+    "for/while/enumerate/comprehensions",
+    "*args/**kwargs depth",
+    "Personal Budget Calculator youDo"
+  ],
+
+  "remaining_phase4": [
+    "S02-T3-A operators-precedence theory+demo+E1/E2/E3",
+    "S02-T3-B decimal-money theory+demo+E1/E2/E3",
+    "S02-T4-A io-fstrings theory+demo+E1/E2/E3",
+    "S02-T4-B parse-error-messages theory+demo+E1/E2/E3",
+    "Optional: expand youDo solution sample; topic evaluations long-form"
+  ],
+
+  "files_changed": [
+    "src/lib/course/sections/s02-basics.ts",
+    "course-state/s02_phase4_progress.json",
+    "course-state/lanes/LANE-S02-P4.status.json"
+  ]
+}

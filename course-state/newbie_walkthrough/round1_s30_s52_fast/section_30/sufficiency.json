@@ -1,0 +1,56 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Si dos registros son la misma entidad"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fracción de verdaderos matches que sobreviven al blocking"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "estado `missing` (ni agree ni disagree)"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de g"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "clerical review"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Leakage (fuga) de identidad entre train y test"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "prioridad de revisión / enlace de entidad candidato, no veredicto legal"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Antes del scorer (filter_before_score), para no gastar CPU en lo incomparable"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "La fracción de pares gold match que el sistema mantiene en el mismo cluster"
+  }
+]

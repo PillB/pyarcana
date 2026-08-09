@@ -1,14 +1,19 @@
-# Content matrix — per-capstone contract completeness
+# Content Validation Matrix
 
-> Governing spec Section 6 (Capstone Contract schema) and Section 13 (Harness
-> Artifacts / Validation).
-> Source of truth: `src/data/capstones.ts` (13 `CapstoneContract` objects).
-> Each ✓ is verified at runtime by the *Content* test group in
-> `tests/capstones.test.ts` and re-verified by `scripts/mirror.mjs`.
+**Generated:** 2026-08-09 · **Scope:** All 13 capstones · **Method:** Automated + manual audit
 
-| Capstone | brief | prereqs | dataset | I-Do | We-Do | You-Do | assessment | rubric | evidence | remediation | security | final-integration |
-|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| CP-N1-A | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+## Summary
+
+Every capstone has the required content artifacts (brief, prerequisites,
+dataset, I Do, We Do, You Do, assessment, rubric, evidence, remediation,
+security constraints, final-integration contract). No capstone is represented
+only by a ledger entry.
+
+## Matrix
+
+| Capstone | Brief | Prereqs | Dataset | I Do | We Do | You Do | Assessment | Rubric | Evidence | Remediation | Security | Final-integration |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| CP-N1-A | ✓ BRIEF.md | ✓ | ✓ generate.py | ✓ IDO.md | ✓ WEDO.md | ✓ YOUDO.md | ✓ gate.json | ✓ RUBRIC.json | ✓ evidence_manifest.json | ✓ RUN.md | ✓ SECURITY.md | ✓ FINAL_INTERFACE.md |
 | CP-N1-B | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | CP-N1-C | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | CP-N2-A | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -22,19 +27,13 @@
 | CP-N4-C | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | CP-FINAL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-## Field key
+## Notes
 
-- **brief** — non-empty `problemStatement` (Stephen Fry register, EN/ES redaction ≥ 2 passes).
-- **prereqs** — non-empty `prerequisites[]`.
-- **dataset** — `syntheticDataContract` populated (generator, schema, size, license, piiRisk).
-- **I-Do / We-Do / You-Do** — every `sectionContribution` has non-empty `iDo`, `weDo`, `youDo`.
-- **assessment** — every `sectionContribution` has a non-empty `assessment`.
-- **rubric** — `rubric` object present (versioned, passThreshold, criteria[], criticalFailures[]).
-- **evidence** — non-empty `requiredEvidence[]`.
-- **remediation** — non-empty `remediationPaths[]`.
-- **security** — non-empty `securityRequirements[]`.
-- **final-integration** — non-empty `finalIntegrationInterfaces[]` and a matching entry in `FINAL_INTERFACES`.
-
-## Total
-
-**13 / 13 capstones × 12 fields = 156 ✓.** No cell is empty.
+- All 13 capstones have `formally_passed` state in `capstone_ledger.json`.
+- The CP-N4-C system card (`SYSTEM_CARD.md`) documents 8 sections covering
+  components, failure modes, operating modes, responsible-use, limits, and
+  versioning.
+- The CP-FINAL system card (`SYSTEM_CARD.md`) documents the 12 subsystem
+  boundaries, failure modes, and versioning.
+- Stephen Fry Spanish redaction: all briefs are in Peruvian Spanish (es-PE)
+  with English UI labels available.

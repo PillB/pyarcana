@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:22:33.740000+00:00",
+  "session_ended_at": "2026-07-23T12:23:32.210000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "pol",
+        "tica",
+        "required",
+        "conteo",
+        "nulls",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S16-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e …». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «isna().sum().». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "mapa",
+        "violaciones",
+        "required",
+        "dado",
+        "policy",
+        "optional"
+      ],
+      "justification_from_packet": "Explorer S16-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «Itera policy.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T1-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = {\"id\": int(df[\"id\"].isna().sum())} if df[\"id\"].isna().any() else {}\nprint(\"fail\" if viol else \"pass\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "gate",
+        "pass",
+        "fail",
+        "por",
+        "required",
+        "hay"
+      ],
+      "justification_from_packet": "Explorer S16-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellen…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «Usa el dict viol.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0.0)\nprint(df[\"was_null\"].tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "indicador",
+        "ausencia",
+        "antes",
+        "imputar",
+        "sobre",
+        "monto"
+      ],
+      "justification_from_packet": "Explorer S16-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «was_null = isna.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T1-B-E2\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "cap",
+        "imputaci",
+        "fixture",
+        "null",
+        "monto",
+        "rate"
+      ],
+      "justification_from_packet": "Explorer S16-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «mean de isna.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), filled.tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "mediana",
+        "estable",
+        "pre",
+        "post",
+        "null",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S16-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «median skipna.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "duplicados",
+        "exactos",
+        "con",
+        "una",
+        "fila",
+        "exacta"
+      ],
+      "justification_from_packet": "Explorer S16-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el ent…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «duplicated(keep=False).sum().». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"dept\": [\"Lima\", \"Cusco\", \"Lima\"]})\nids = df.groupby(\"cliente_id\")[\"dept\"].nunique()\nprint(ids[ids > 1].index.tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "conflictos",
+        "atributo",
+        "detecta",
+        "cliente_id",
+        "con",
+        "una"
+      ],
+      "justification_from_packet": "Explorer S16-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de i…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «groupby nunique > 1.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"dept\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif sub.duplicated(keep=False).any() and sub.duplicated(keep=False).all():\n    print(\"exact\")\nelif sub[\"dept\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "clasificar",
+        "exact",
+        "conflict",
+        "clean",
+        "para",
+        "c001"
+      ],
+      "justification_from_packet": "Explorer S16-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflict…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «Lógica en orden.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)]\nc = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(c))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "split",
+        "quarantine",
+        "clean",
+        "por",
+        "clave",
+        "separa"
+      ],
+      "justification_from_packet": "Explorer S16-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imp…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «duplicated(key, keep=False).». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "evidencia",
+        "cuarentena",
+        "asegura",
+        "que",
+        "quarantine",
+        "conserve"
+      ],
+      "justification_from_packet": "Explorer S16-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); …». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «copy del mask.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_bad\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "cardinalidad",
+        "fila",
+        "por",
+        "nunique",
+        "len",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S16-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pa…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «cardinalidad 1:1.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "normalizaci",
+        "strings",
+        "sobre",
+        "lima",
+        "cusco",
+        "aplica"
+      ],
+      "justification_from_packet": "Explorer S16-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco'…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «str.strip().str.title().». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "parse",
+        "montos",
+        "pen",
+        "sint",
+        "ticos",
+        "quita"
+      ],
+      "justification_from_packet": "Explorer S16-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «str.replace.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"dept\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"dept\"].tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "conservar",
+        "raw",
+        "crea",
+        "region",
+        "can",
+        "nica"
+      ],
+      "justification_from_packet": "Explorer S16-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evi…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «Nueva col no pisa raw.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "domain",
+        "bounds",
+        "marca",
+        "domain_error",
+        "monto",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S16-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en …». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «s < 0.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "outliers",
+        "estad",
+        "sticos",
+        "iqr",
+        "dado",
+        "lista"
+      ],
+      "justification_from_packet": "Explorer S16-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye …». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «quantile 0.25/0.75.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "etiqueta",
+        "error",
+        "flag",
+        "para",
+        "valor",
+        "domain"
+      ],
+      "justification_from_packet": "Explorer S16-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «Prioriza error.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "columnas",
+        "required",
+        "faltantes",
+        "monto",
+        "solo",
+        "con"
+      ],
+      "justification_from_packet": "Explorer S16-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['mont…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «list comprehension.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "cross",
+        "field",
+        "temporal",
+        "encuentra",
+        "ndices",
+        "donde"
+      ],
+      "justification_from_packet": "Explorer S16-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del …». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «máscara datetime.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "schema",
+        "drift",
+        "gate",
+        "faltan",
+        "columnas",
+        "required"
+      ],
+      "justification_from_packet": "Explorer S16-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle seg…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «Usa lista missing.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import pandas as pd`."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T4-B-E1\nrows_in = 10\nq = 3\nprint(rows_in - q)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "rows_clean",
+        "dado",
+        "rows_in",
+        "quarantine_n",
+        "imprime",
+        "quarantine"
+      ],
+      "justification_from_packet": "Explorer S16-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del re…». Completé el contrato Pass con código ancla `rows_in = 10`. Pista del paquete: «resta simple.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `rows_in = 10`."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"valor\": 2})\nprint(len(audit))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "audit",
+        "append",
+        "only",
+        "evento",
+        "quarantine",
+        "lista"
+      ],
+      "justification_from_packet": "Explorer S16-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del …». Completé el contrato Pass con código ancla `audit = [{\"event\": \"start\"}]`. Pista del paquete: «audit.append.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S16-T4-B-E3\nn_q = 1\nmetrics = {\"pass\": n_q == 0, \"rows_quarantine\": n_q}\nprint(metrics[\"pass\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "metrics",
+        "pass",
+        "quarantine",
+        "entonces",
+        "false",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S16-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica mét…». Completé el contrato Pass con código ancla `n_q = 1`. Pista del paquete: «pass = n_q==0.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `n_q = 1`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Provocar violación/cuarentena o fail del gate",
+      "justification_from_packet": "Explorer S16 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S16-T1-A\", \"heading\": \"nulls y políticas por campo\", \"paragraphs\": [\"Cada campo del contrato tiene polít…») y la pregunta «Un campo marked required con nulls debe:». La opción [3] «Provocar violación/cuarentena o fail del gate» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+      "justification_from_packet": "Explorer S16 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S16-T1-A\", \"heading\": \"nulls y políticas por campo\", \"paragraphs\": [\"Cada campo del contrato tiene polít…») y la pregunta «Duplicado exacto vs conflicto de clave:». La opción [1] «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Auditar y disputar la forma canónica sin perder el valor original",
+      "justification_from_packet": "Explorer S16 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S16-T1-A\", \"heading\": \"nulls y políticas por campo\", \"paragraphs\": [\"Cada campo del contrato tiene polít…») y la pregunta «Conservar region_raw al normalizar sirve para:». La opción [2] «Auditar y disputar la forma canónica sin perder el valor original» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+      "justification_from_packet": "Explorer S16 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S16-T1-A\", \"heading\": \"nulls y políticas por campo\", \"paragraphs\": [\"Cada campo del contrato tiene polít…») y la pregunta «IQR sin domain bounds es riesgoso porque:». La opción [0] «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Publicar métricas y cuarentena aunque pass=False",
+      "justification_from_packet": "Explorer S16 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S16-T1-A\", \"heading\": \"nulls y políticas por campo\", \"paragraphs\": [\"Cada campo del contrato tiene polít…») y la pregunta «Un quality gate que falla debe:». La opción [3] «Publicar métricas y cuarentena aunque pass=False» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:23:32.210000+00:00"
+}

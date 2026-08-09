@@ -1,0 +1,46 @@
+[
+  {
+    "section": 38,
+    "title": "Concurrencia, observabilidad y workflows resilientes",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 22.83,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_38/newbie_a_live.json",
+        "sha": "7dabd9da8a46",
+        "instance_id": "h1-explorer-s38-fc445c42180f"
+      },
+      "newbie_b": {
+        "duration_s": 28.94,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_38/newbie_b_live.json",
+        "sha": "0656e2450548",
+        "instance_id": "h1-skeptic-s38-570266b6697d"
+      }
+    }
+  },
+  {
+    "section": 39,
+    "title": "Responsible ML Case Triage y cierre de nivel",
+    "agents": {
+      "newbie_a": {
+        "duration_s": 26.38,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_39/newbie_a_live.json",
+        "sha": "2f7c3f722290",
+        "instance_id": "h1-explorer-s39-ee61358cc0e3"
+      },
+      "newbie_b": {
+        "duration_s": 30.94,
+        "n_ex": 24,
+        "n_sc": 5,
+        "path": "/Users/pabloillescas/Projects/PyArcana/course-state/newbie_walkthrough/agentic_H1/section_39/newbie_b_live.json",
+        "sha": "d135a4f5071e",
+        "instance_id": "h1-skeptic-s39-5f6eb1ff8435"
+      }
+    }
+  }
+]

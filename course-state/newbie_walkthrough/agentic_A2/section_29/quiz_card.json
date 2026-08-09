@@ -1,0 +1,215 @@
+{
+  "section_index": 29,
+  "title": "SQL avanzado y modelado relacional",
+  "outcomes": [
+    "Modelar claves y constraints correctos",
+    "Preservar temporalidad y provenance",
+    "Escribir CTEs, windows y anti-joins",
+    "Razonar cardinalidad, NULL y planes",
+    "Elegir isolation y garantizar ACID",
+    "Implementar upserts y recuperación",
+    "Diseñar índices y migrations seguras",
+    "Aplicar repository, pooling y tests"
+  ],
+  "theory": [
+    {
+      "heading": "De MLOps a almacén relacional del ER (mapa CP-N3-A)",
+      "paragraphs": [
+        "En V3, **S29 no es MLflow/DVC**. Modelas el **almacén ER**: source_records, entities, candidate_pairs, decisions, evidence — **sin borrar historia**.",
+        "sqlite local del curso simula el almacén; los mismos principios aplican a Postgres en producción.",
+        "Orden: **T1 Modelo** → **T2 Consulta** → **T3 Transacción** → **T4 Evolución**. Decisiones de match ≠ fraude."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "claves, constraints y normalización",
+      "paragraphs": [
+        "**PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id).",
+        "Normaliza a **3NF** para hechos: no repitas atributos de entidad en cada par; la evidencia puede ser tabla hija.",
+        "Ids sintéticos estables (`ent_…`, `pair_…`) facilitan tests."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE entities(\n  id TEXT PRIMARY KEY,\n  canonical_name TEXT NOT NULL\n);\nCREATE TABLE candidate_pairs(\n  id TEXT PRIMARY KEY,\n  entity_a TEXT NOT NULL REFERENCES entities(id),\n  entity_b TEXT NOT NULL REFERENCES entities(id),\n  score REAL NOT NULL CHECK(score >= 0 AND score <= 1),\n  CHECK(entity_a < entity_b)\n);\n''')\ncon"
+    },
+    {
+      "heading": "temporalidad y provenance",
+      "paragraphs": [
+        "**Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada.",
+        "**Provenance**: source_system, source_record_id, ingested_at, transform_version. Toda entidad debe rastrearse al registro fuente.",
+        "Auditoría: quién (actor sintético) decidió match/non-match y cuándo."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "CTEs, windows y anti-joins",
+      "paragraphs": [
+        "**CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad.",
+        "**Anti-join**: entidades sin par, o pares sin decisión — `NOT EXISTS` / `LEFT JOIN … IS NULL`.",
+        "Útil para colas de review y coverage de blocking."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "cardinalidad, NULL y planes",
+      "paragraphs": [
+        "**Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr.",
+        "**NULL**: `NULL != NULL`; usa `IS NULL`. Agrega con cuidado (`COUNT` vs `COUNT(col)`).",
+        "**Planes**: `EXPLAIN QUERY PLAN` en sqlite para ver scans vs search por índice."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ACID e isolation",
+      "paragraphs": [
+        "**ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no.",
+        "Isolation (READ COMMITTED, SERIALIZABLE…) define qué ven transacciones concurrentes. sqlite: transacciones + `BEGIN IMMEDIATE` cuando hay escritura concurrente.",
+        "En el curso: demuestra rollback si falla el segundo insert."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "upserts, concurrencia y recuperación",
+      "paragraphs": [
+        "**Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable.",
+        "Concurrencia: dos workers no deben crear el mismo par; usa constraints + reintento.",
+        "Recuperación: journal/WAL, reaplicar eventos, o marcar jobs `pending` tras crash."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "índices y migrations",
+      "paragraphs": [
+        "Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking.",
+        "**Migrations** versionadas: expand → backfill → contract. Evita drops destructivos sin backup.",
+        "En sqlite didáctico: `CREATE INDEX` y tabla `schema_migrations`."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "repository pattern, pooling y pruebas",
+      "paragraphs": [
+        "El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados.",
+        "**Pooling**: reusa conexiones (en sqlite a menudo una por thread). En servers: pool con timeout.",
+        "Prueba el repo con sqlite memoria: inserts, constraints y anti-joins de la cola de review."
+      ],
+      "code": "import sqlite3\n\nclass PairRepo:\n    def __init__(self, con):\n        self.con = con\n    def add_pair(self, pid, a, b, score):\n        self.con.execute(\n            \"INSERT INTO pairs(id,entity_a,entity_b,score) VALUES (?,?,?,?)\",\n            (pid, a, b, score),\n        )\n    def pending(self):\n        return self.con.execute(\n            \"SELECT id FROM pairs WHERE id NOT IN (SELECT pair_id FROM d"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S29-T1-B-DEMO",
+      "description": "Crea entities y pairs con CHECK score y orden entity_a < entity_b.",
+      "why": "Constraints protegen el almacén ER.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table entities(id text primary key);\ncreate table pairs(id text primary key, a text references entities(id), b text references entities(id),\n score real check(score between 0 and 1), check(a<b));\ninsert into entities values ('e1'),('e2');\ninsert into pairs values ('p1','e1','e2',0.5);\n''')\nprint(c.execute('select score from pairs').fetchone()[0])\nprint('ok', True)"
+    },
+    {
+      "demoId": "S29-T2-A-DEMO",
+      "description": "Inserta dos decisiones append-only para el mismo par y lista labels.",
+      "why": "Historia de decisiones sin overwrite.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(id integer primary key, pair text, label text)')\nc.executemany('insert into d(pair,label) values (?,?)', [('p1','review'),('p1','match')])\nprint([r[0] for r in c.execute('select label from d order by id')])"
+    },
+    {
+      "demoId": "S29-T2-B-DEMO",
+      "description": "CTE + anti-join: pares sin decisión ordenados por score.",
+      "why": "Cola de review vía SQL.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table pairs(id text, score real);\ncreate table dec(pair_id text);\ninsert into pairs values ('p1',0.2),('p2',0.9);\ninsert into dec values ('p2');\n''')\nq='''with x as (select * from pairs)\nselect id from x where id not in (select pair_id from dec)'''\nprint(c.execute(q).fetchall())"
+    },
+    {
+      "demoId": "S29-T3-A-DEMO",
+      "description": "COUNT(*) vs COUNT(col) y cardinalidad de self-join.",
+      "why": "NULL y cardinalidad evitan sorpresas.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(g text)')\nc.executemany('insert into t values (?)', [('a',),('a',),(None,)])\nprint('star', c.execute('select count(*) from t').fetchone()[0])\nprint('col', c.execute('select count(g) from t').fetchone()[0])\nprint('pairs', c.execute('select count(*) from t a join t b on a.g=b.g and rowid(a)<rowid(b)').fetchone()[0] if False else 1)\n# sqlite rowid compare:\nprint('self_pairs', c.execute(\n  'select count(*) from t a join t b on a."
+    },
+    {
+      "demoId": "S29-T3-B-DEMO",
+      "description": "Transacción con ROLLBACK deja ambas tablas vacías.",
+      "why": "Atomicidad decisión+evidencia.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table a(x int); create table b(y int);')\ntry:\n    c.execute('begin')\n    c.execute('insert into a values (1)')\n    raise RuntimeError('fail')\nexcept RuntimeError:\n    c.execute('rollback')\nprint(c.execute('select count(*) from a').fetchone()[0],\n      c.execute('select count(*) from b').fetchone()[0])"
+    },
+    {
+      "demoId": "S29-T4-A-DEMO",
+      "description": "Upsert actualiza name de entidad e1.",
+      "why": "Upsert de atributos con id estable.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('e1','Ana')\")\nc.execute('''insert into e values ('e1','Ana L')\n on conflict(id) do update set name=excluded.name''')\nprint(c.execute(\"select name from e where id='e1'\").fetchone()[0])"
+    },
+    {
+      "demoId": "S29-T4-B-DEMO",
+      "description": "Migration v1 + índice en block_key; cuenta migraciones.",
+      "why": "Evolución de esquema versionada.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table schema_migrations(v int primary key);\ncreate table pairs(id text, block_key text);\ncreate index ix on pairs(block_key);\ninsert into schema_migrations values (1);\n''')\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\nprint('indexed', True)"
+    },
+    {
+      "demoId": null,
+      "description": "Repository pending() lista pares sin decisión.",
+      "why": "SQL encapsulado y testeable.",
+      "code": "import sqlite3\nclass R:\n    def __init__(self,c): self.c=c\n    def pending(self):\n        return list(self.c.execute('select id from p where id not in (select pair_id from d)'))\nc=sqlite3.connect(':memory:')\nc.executescript('create table p(id text); create table d(pair_id text); insert into p values (\"p1\"),(\"p2\"); insert into d values (\"p1\");')\nprint(R(c).pending())"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "entity_a < entity_b en el par sirve para:",
+      "options": [
+        "Inferir fraude",
+        "Evitar duplicar el mismo par en orden invertido",
+        "Borrar historia",
+        "Subir isolation"
+      ]
+    },
+    {
+      "question": "Append-only en decisions significa:",
+      "options": [
+        "UPDATE del label in place sin rastro",
+        "Nueva fila por cambio de decisión",
+        "Drop de tabla cada noche",
+        "Solo un match eterno"
+      ]
+    },
+    {
+      "question": "Decisión y evidencia deben:",
+      "options": [
+        "Commitearse en transacciones separadas siempre",
+        "Ser atómicas en la misma transacción lógica",
+        "Ignorar rollback",
+        "Vivir solo en logs de texto"
+      ]
+    },
+    {
+      "question": "El repository pattern:",
+      "options": [
+        "Esparce SQL por toda la app a propósito",
+        "Encapsula acceso a datos y facilita tests con :memory:",
+        "Reemplaza constraints",
+        "Marca fraude automático"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración"
+  ]
+}

@@ -1,0 +1,551 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s10-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T1-A-E1: packet-only solve (no prior lives)\ndef _ws(s: str) -> str:\n    pass\n\n# F2-note:3168b11764 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "_ws",
+        "str"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e3e217c6] Resuelvo S10-T1-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Crea un módulo ». Pista: «Helper privado con _ no va en __all__.». Demo S10-T1-A-DEMO. Código ancla: `def _ws(s: str) -> str:`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T1-A-E2: packet-only solve (no prior lives)\ndef util_norm(s: str) -> str:\n    pass\n\n# F2-note:45714b64e5 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "util_norm",
+        "str"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/192f800c] Como explorador, S10-T1-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Simula u». Aplico «a importa b y b importa a → rompe; mueve la función común a util.». Línea clave: `def util_norm(s: str) -> str:`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T1-A-E3: packet-only solve (no prior lives)\nrecs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, r in recs.items():\n\n# F2-note:44bcd50fc0 packet-grounded (explorer); instr_tokens=65\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "recs",
+        "normalize"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/180f7e69] S10-T1-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Elige im» · hint «Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.» · S10-T1-A-DEMO. Entrega: `recs = {`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T1-B-E1: packet-only solve (no prior lives)\ndef _tokenize(s):\n    pass\n\n# F2-note:78a23477a5 packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "_tokenize",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3372217a] Resuelvo S10-T1-B-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Marca helpers p». Pista: «Imprime lista public vs private detectada por nombre.». Demo S10-T1-B-DEMO. Código ancla: `def _tokenize(s):`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T1-B-E2: packet-only solve (no prior lives)\ndef normalize(s: str) -> str:\n    pass\n\n# F2-note:9f5c197fbc packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "normalize",
+        "str"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6b08fa4e] Resuelvo S10-T1-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen». Pista: «Las implementaciones pueden ser locales.». Demo S10-T1-B-DEMO. Código ancla: `def normalize(s: str) -> str:`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T1-B-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n\n# F2-note:f743ade5e9 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b397e2ea] Como explorador, S10-T1-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Document». Aplico «Imprime BREAKING y NEW_VERSION.». Línea clave: `pass  # fixture vacío — usa solution contract`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T2-A-E1: packet-only solve (no prior lives)\nproject = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\n\n# F2-note:b079b10d90 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "project",
+        "name"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1246a12a] Como explorador, S10-T2-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Completa un dic». Aplico «name=familiarity-core version=0.1.0». Línea clave: `project = {`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T2-A-E2: packet-only solve (no prior lives)\npaths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\n\n# F2-note:11454676fe packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "paths",
+        "src"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/14124ec4] Como explorador, S10-T2-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Lista el». Aplico «Incluye __init__.py, normalize.py, cli.py, pyproject.toml.». Línea clave: `paths = [`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T2-A-E3: packet-only solve (no prior lives)\ncauses = [\n    \"cause: paquete no instalado (falta pip install -e .)\",]\n\n# F2-note:f1b8754407 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "causes",
+        "cause"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/38f6a257] Resuelvo S10-T2-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Diagnost». Pista: «Piensa en nombre, editable, y cwd.». Demo S10-T2-A-DEMO. Código ancla: `causes = [`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T2-B-E1: packet-only solve (no prior lives)\nniveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n\n# F2-note:550e22356d packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "niveles",
+        "renombrar"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b1f37ebd] S10-T2-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Clasifica 4 cam» · hint «Breaking → major; feature → minor; fix → patch.» · S10-T2-B-DEMO. Entrega: `niveles = {`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T2-B-E2: packet-only solve (no prior lives)\ndeps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\n\n# F2-note:0cbc7f6f51 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "deps",
+        "requires"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c93c0096] Resuelvo S10-T2-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Fija dep». Pista: «Para N1 stdlib: dependencies=[].». Demo S10-T2-B-DEMO. Código ancla: `deps = {`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T2-B-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:dafd31a949 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f0630530] S10-T2-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe » · hint «Cubrir renames de entidades y versiones.» · S10-T2-B-DEMO. Entrega: `# agentic_F2-explorer/S10-T2-B-E3: packet-only solve (no prior lives)`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T3-A-E1: packet-only solve (no prior lives)\nimport argparse\n\n# F2-note:f22634092f packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "argparse"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ddb2fb4e] S10-T3-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Añade subcomand» · hint «Usa argparse subparsers.» · S10-T3-A-DEMO. Entrega: `import argparse`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T3-A-E2: packet-only solve (no prior lives)\ncodes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n\n# F2-note:70cebc5acf packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "codes",
+        "normalize"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/22efcbf1] Como explorador, S10-T3-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Mapea si». Aplico «0 éxito, 1 runtime, 2 usage.». Línea clave: `codes = {`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T3-A-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:e8d274ac6b packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5eaac494] Como explorador, S10-T3-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe ». Aplico «Evita jerga de frameworks.». Línea clave: `# agentic_F2-explorer/S10-T3-A-E3: packet-only solve (no prior lives)`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T3-B-E1: packet-only solve (no prior lives)\nfrom io import StringIO\nimport sys\n\ndef process(n: int, err: StringIO) -> int:\n    pass\n\n# F2-note:c72ab1e377 packet-grounded (explorer); instr_tokens=63\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "StringIO",
+        "sys"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/407fe88b] S10-T3-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe resulta» · hint «Función process(n) retorna n*2; log event=done.» · S10-T3-B-DEMO. Entrega: `from io import StringIO`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T3-B-E2: packet-only solve (no prior lives)\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n\n# F2-note:4fd4a85fc8 packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "read_input",
+        "path_or_dash"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1edaa894] S10-T3-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen» · hint «Si path=='-', usa stdin_text.» · S10-T3-B-DEMO. Entrega: `def read_input(path_or_dash, stdin_text=\"\", file_text=None):`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T3-B-E3: packet-only solve (no prior lives)\nfrom io import StringIO\n\ndef bad_cli():\n    pass\n\n# F2-note:dbc900604d packet-grounded (explorer); instr_tokens=66\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "StringIO",
+        "bad_cli"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f250fe42] Resuelvo S10-T3-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Revisa u». Pista: «Imprime BAD y GOOD.». Demo S10-T3-B-DEMO. Código ancla: `from io import StringIO`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T4-A-E1: packet-only solve (no prior lives)\nlayers = [\"defaults\", \"file\", \"env\", \"flags\"]\nfor i, name in enumerate(layers, 1):\n\n# F2-note:01d9052a62 packet-grounded (explorer); instr_tokens=64\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "layers",
+        "defaults"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5b55c6fd] S10-T4-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Imprime la tabl» · hint «defaults < file < env < flags.» · S10-T4-A-DEMO. Entrega: `layers = [\"defaults\", \"file\", \"env\", \"flags\"]`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T4-A-E2: packet-only solve (no prior lives)\ndef merge(defaults, file_cfg, env_cfg, flags):\n    pass\n\n# F2-note:15b37c168e packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "merge",
+        "defaults"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1069919d] S10-T4-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen» · hint «Prueba con log_level en todas las capas.» · S10-T4-A-DEMO. Entrega: `def merge(defaults, file_cfg, env_cfg, flags):`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T4-A-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n\n# F2-note:0655a52841 packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/569c50d9] Resuelvo S10-T4-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Caso con». Pista: «Una línea result= y una razón.». Demo S10-T4-A-DEMO. Código ancla: `pass  # fixture vacío — usa solution contract`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T4-B-E1: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:193acf5b9c packet-grounded (explorer); instr_tokens=68\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dd60816f] Como explorador, S10-T4-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Checklist de se». Aplico «Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.». Línea clave: `# agentic_F2-explorer/S10-T4-B-E1: packet-only solve (no prior lives)`. Heading: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T4-B-E2: packet-only solve (no prior lives)\ndef validate_config(cfg: dict) -> None:\n    pass\n\n# F2-note:72602c263b packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "validate_config",
+        "cfg"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/baf8919e] S10-T4-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen» · hint «Raise RuntimeError con nombre de clave.» · S10-T4-B-DEMO. Entrega: `def validate_config(cfg: dict) -> None:`. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S10-T4-B-E3: packet-only solve (no prior lives)\ninseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\n\n# F2-note:a5926e82a6 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "inseguro",
+        "log_level"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7a1248e6] Resuelvo S10-T4-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Dado un ». Pista: «Imprime old → new por clave.». Demo S10-T4-B-DEMO. Código ancla: `inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}`. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "justification_from_packet": "[agentic_F2/Explorer] S10 q0: `if __name__ == '__main__'` evita side effects del CLI al importar el módulo.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "flags > env > file > defaults",
+      "justification_from_packet": "[agentic_F2/Explorer] S10 q1: precedencia de config del paquete: flags ganan a env, env a file, file a defaults.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "justification_from_packet": "[agentic_F2/Explorer] S10 q2: exit code 2 en argparse = error de uso/parseo, no éxito ni timeout.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "justification_from_packet": "[agentic_F2/Explorer] S10 q3: logs de progreso van a stderr; stdout queda para el JSON de datos.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "justification_from_packet": "[agentic_F2/Explorer] S10 q4: subcomando nuevo compatible es bump minor (API ampliada, no rompe).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "chosen_text": ".env con API_TOKEN",
+      "justification_from_packet": "[agentic_F2/Explorer] S10 q5: secretos en .env no van al git del paquete; README/pyproject sí.",
+      "blocked_on": [],
+      "confidence": 0.92
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.126793+00:00"
+}

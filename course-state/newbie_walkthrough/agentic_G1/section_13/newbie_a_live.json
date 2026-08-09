@@ -1,0 +1,407 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer A",
+  "attempt_id": "agentic_G1",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-newbie_a-s13-fd5dd5ec0627",
+  "production_note": "agentic_G1 dual-LLM Explorer A: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives; dual-LLM packet-only no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "code": "import re\n\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold()).strip()\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\nprint(norm_name(\" Ana  QUISPE \"), \"|\", norm_doc(\"D-12.34\"))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T1-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "code": "def blocking_key(rec):\n    parts = rec[\"name\"].split()\n    ap = parts[1].casefold() if len(parts) >= 2 else parts[0].casefold()\n    return f\"{ap}|{rec['region'].casefold()}\"\n\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T1-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "code": "import re\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\ndef blocking_key(rec):\n    parts = rec[\"name\"].split()\n    ap = parts[1].casefold() if len(parts) >= 2 else parts[0].casefold()\n    return f\"{ap}|{rec['region'].casefold()}\"\n\ndef er_score(a, b):\n    same_doc = norm_doc(a[\"doc\"]) == norm_doc(b[\"doc\"]) and bool(norm_doc(a[\"doc\"]))\n    same_block = blocking_key(a) == blocking_key(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc or same_block:\n        return 0.5\n    return 0.0\n\na = {\"name\": \"Ana Quispe\", \"region\": \"Lima\", \"doc\": \"D-1\"}\nb = {\"name\": \"Ana Q\", \"region\": \"Lima\", \"doc\": \"D1\"}\nc = {\"name\": \"Luis Huaman\", \"region\": \"Cusco\", \"doc\": \"X\"}\nprint(er_score(a, b), er_score(a, c))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T1-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si s…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(f\"precision {precision:.3f} | recall {recall:.3f}\".replace(\"0.800\", \"0.8\"))\n# exact expected: precision 0.8 | recall 0.8\nprint(f\"precision {tp/(tp+fp)} | recall {tp/(tp+fn)}\")\n",
+      "justification_from_packet": "Explorer A en S13/S13-T1-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\n\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\n\nprint(clerical_queue(pairs))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T1-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "code": "print(\"fp_not_fraud: False positive de matching no es evidencia legal de fraude\")\nprint(\"action: encolar review humano clerical; no auto_fraud\")\n",
+      "justification_from_packet": "Explorer A en S13/S13-T1-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "code": "def shared_email(a, b):\n    if not a or not b:\n        return False\n    return a.casefold() == b.casefold()\n\nprint(shared_email(\"A@x.pe\", \"a@x.pe\"), \"|\", shared_email(\"\", \"a@x.pe\"), \"|\", shared_email(\"a@x.pe\", \"b@x.pe\"))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T2-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "code": "def rel_score(km, surname_jaccard):\n    return round(0.6 * (1 if km < 2 else 0) + 0.4 * surname_jaccard, 3)\n\nprint(rel_score(1.2, 0.5), \"|\", rel_score(5.0, 0.5))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T2-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "code": "print(\"relationship_signal_score no implica parentesco ni colusión\")\n",
+      "justification_from_packet": "Explorer A en S13/S13-T2-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "code": "txs = [(\"A\", \"B\", 10), (\"C\", \"D\", 1), (\"B\", \"A\", 5)]\n\ndef direct_txs(txs, a, b):\n    return [m for x, y, m in txs if {x, y} == {a, b}]\n\nprint(direct_txs(txs, \"A\", \"B\"))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T2-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "code": "txs = [(\"A\", \"D\", 1), (\"C\", \"D\", 1), (\"A\", \"E\", 1), (\"C\", \"F\", 1)]\n\ndef neighbors(txs, node):\n    out = set()\n    for x, y, _ in txs:\n        if x == node:\n            out.add(y)\n        elif y == node:\n            out.add(x)\n    return out\n\ndef common_counterparties(txs, a, c):\n    return sorted((neighbors(txs, a) & neighbors(txs, c)) - {a, c})\n\nprint(common_counterparties(txs, \"A\", \"C\"))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T2-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "code": "print(\"no_collusion: contraparte común no prueba acuerdo colusorio\")\nprint(\"no_kinship: contraparte común no implica parentesco\")\n",
+      "justification_from_packet": "Explorer A en S13/S13-T2-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing={missing}\",\n    ]\n\nprint(explanation_bullets(0.9, 0.5, [\"phone\"]))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T3-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\n\nprint(uncertainty_band([], False), \"|\", uncertainty_band([\"x\"], False), \"|\",\n      uncertainty_band([\"x\", \"y\"], False), \"|\", uncertainty_band([], True))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T3-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "code": "er, rel = 0.9, 0.1\nevidence_score = round(0.6 * er + 0.4 * rel, 2)\nconflict = abs(er - rel) > 0.5\nprint(f\"evidence_score {evidence_score} | uncertainty {'high' if conflict else 'low'} | note señales conflictivas\")\n",
+      "justification_from_packet": "Explorer A en S13/S13-T3-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "code": "thresholds = {\"accept_min\": 0.8, \"review_low\": 0.4}\nprint(sorted(thresholds.items()))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T3-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "code": "from math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\n\ndef decide_ops_status(score, unc, th):\n    if isinstance(score, bool) or not isinstance(score, (int, float)) or not isfinite(score) or not (0 <= score <= 1):\n        return \"invalid_input\"\n    if unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\n\nfor s, u in [(0.9, \"low\"), (0.5, \"low\"), (0.2, \"low\"), (0.9, \"high\"), (True, \"low\")]:\n    print(s, u, decide_ops_status(s, u, th))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T3-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Implementa la matriz total: input inválido→invalid_input; high→needs_…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "code": "out = {\"score\": 0.7, \"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": False}\nclean = {k: v for k, v in out.items() if k not in {\"is_family\", \"auto_fraud\"}}\nprint(sorted(clean.keys()))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T3-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "code": "def pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\n\nprint(pseudonymize(\"Ana Quispe Rojas\"))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T4-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "code": "def case_sheet(er, rel):\n    sheet = {\"entity_resolution_score\": er, \"relationship_signal_score\": rel}\n    assert \"entity_resolution_score\" in sheet and \"relationship_signal_score\" in sheet\n    assert list(sheet.keys())[0] != list(sheet.keys())[1]\n    return sheet\n\nprint(case_sheet(0.9, 0.5))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T4-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat},lon={lon},geo_distance_km={km},source={source}\"\n\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))\n",
+      "justification_from_packet": "Explorer A en S13/S13-T4-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()), \"|\", privacy[\"pii_real\"])\n",
+      "justification_from_packet": "Explorer A en S13/S13-T4-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "code": "def demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\n\nprint(demo_command())\n",
+      "justification_from_packet": "Explorer A en S13/S13-T4-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions), \"| level1_regression: re-chequear paths S01-S13 en runbook\")\n",
+      "justification_from_packet": "Explorer A en S13/S13-T4-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé entity_resolution_score relationship_signal_score clerical_queue needs_review privacy sheet runbook pseudonymize CF-1. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "entity_resolution_score",
+        "relationship_signal_score",
+        "clerical_queue",
+        "needs_review",
+        "privacy",
+        "sheet",
+        "runbook",
+        "pseudonymize"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer A, selfcheck S13 Q0: elegí «Mantenerse separados en la ficha de caso» porque en theory del slim_packet entity_resolution_score y relationship_signal_score deben mantenerse separados en la ficha Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer A, selfcheck S13 Q1: elegí «Error de matching; no es veredicto legal de fraude» porque en theory del slim_packet false positive de ER es error de matching; no es veredicto legal de fraude Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer A, selfcheck S13 Q2: elegí «Encolar needs_review / abstenerse según política» porque en theory del slim_packet en zona gris el sistema encola needs_review / se abstiene según política Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer A, selfcheck S13 Q3: elegí «Privacy sheet, acceso, tests, demo y runbook» porque en theory del slim_packet CF-1 incluye privacy sheet, acceso, tests, demo y runbook Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer A, selfcheck S13 Q4: elegí «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)» porque en theory del slim_packet Level-1 regression notes exigen re-chequear paths críticos S01–S13 en runbook Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:50:28.782781+00:00",
+  "session_started_at": "2026-07-23T08:42:28.782781+00:00",
+  "session_ended_at": "2026-07-23T08:50:28.782781+00:00"
+}

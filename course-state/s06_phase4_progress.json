@@ -1,0 +1,322 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S06-S08-P4",
+  "generated_at": "2026-07-20T07:02:09Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/s01-s05/orchestration",
+  "preamble": {
+    "objective": "Retarget numpy section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s06-numpy.ts",
+      "course-state/s06_phase4_progress.json",
+      "course-state/lanes/LANE-S06-S08-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "s01-setup.ts",
+      "s02-basics.ts",
+      "s03-data-structures.ts",
+      "s04-functions-modules.ts",
+      "s05-oop.ts",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "numpy",
+    "index": 6,
+    "title": "Colecciones y estructuras de datos",
+    "shortTitle": "Colecciones",
+    "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+    "estimatedHours": 6,
+    "learningOutcomes": 8,
+    "youDo": "Modelo tabular en memoria (CP-N1-B)",
+    "icon": "Layers",
+    "legacy_note": "NumPy vectorization demoted; target is in-memory collections for CP-N1-B"
+  },
+  "subtopics_authored": {
+    "S06-T1-A": {
+      "slug": "list-tuple-slicing",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T1-A-DEMO",
+      "exercises": [
+        "S06-T1-A-E1",
+        "S06-T1-A-E2",
+        "S06-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S06-T1-B": {
+      "slug": "unpacking-aliasing-copy",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T1-B-DEMO",
+      "exercises": [
+        "S06-T1-B-E1",
+        "S06-T1-B-E2",
+        "S06-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S06-T2-A": {
+      "slug": "dicts-membership",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T2-A-DEMO",
+      "exercises": [
+        "S06-T2-A-E1",
+        "S06-T2-A-E2",
+        "S06-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S06-T2-B": {
+      "slug": "sets-dedup",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T2-B-DEMO",
+      "exercises": [
+        "S06-T2-B-E1",
+        "S06-T2-B-E2",
+        "S06-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S06-T3-A": {
+      "slug": "nested-traversal",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T3-A-DEMO",
+      "exercises": [
+        "S06-T3-A-E1",
+        "S06-T3-A-E2",
+        "S06-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S06-T3-B": {
+      "slug": "safe-access-missing",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T3-B-DEMO",
+      "exercises": [
+        "S06-T3-B-E1",
+        "S06-T3-B-E2",
+        "S06-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S06-T4-A": {
+      "slug": "sort-key",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T4-A-DEMO",
+      "exercises": [
+        "S06-T4-A-E1",
+        "S06-T4-A-E2",
+        "S06-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S06-T4-B": {
+      "slug": "structure-choice-determinism",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S06-T4-B-DEMO",
+      "exercises": [
+        "S06-T4-B-E1",
+        "S06-T4-B-E2",
+        "S06-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Modelo tabular en memoria (CP-N1-B)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S06-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S06-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "next_action": "PHASE 5 exam bank for numpy V3 slugs. Do not mark S06 passed from this lane."
+}

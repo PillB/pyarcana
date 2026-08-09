@@ -1,0 +1,560 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 6,
+  "packet_sha": "54854c2439f22319",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_06/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.563794+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "ca92b7543b45",
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T1-A-E1\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(ventana))\nempty = []\nv0 = empty[-2:]\nprint(v0, len(v0))\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "txs",
+        "ventana",
+        "len",
+        "empty"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S06-T1-A-E1. Instruction: «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y…». iDo obligatorio `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint: «Usa txs[-2:] (funciona también si hay menos de 2).». Solo admito `ventana` + `txs` porque salen del packet. Teory heading: «Listas, tuplas y slicing»."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T1-A-E2\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "headers",
+        "monto",
+        "KEYS",
+        "tuple",
+        "more"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T1-A-E2 contra instruction/iDo. Instruction: «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)`…». Prueba iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint: «tuple(lista) o keys = ('id','monto')». Solo admito `headers` + `monto` porque salen del packet. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T1-A-E3\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', type(e).__name__, e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "ids",
+        "C001",
+        "C002",
+        "try",
+        "append"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S06-T1-A-E3. Instruction: «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e…». Soporte `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint: «tuple no tiene append → AttributeError». Code auditado con `AttributeError` + `append`; sin APIs fantasma. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T1-B-E1\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "fila",
+        "C001",
+        "Lima",
+        "cid",
+        "region"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S06-T1-B-E1. Instruction: «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo…». iDo obligatorio `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint: «a, b, c = fila». Code auditado con `region` + `monto`; sin APIs fantasma. Teory heading: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T1-B-E2\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('xs', xs, 'copia', copia)\ncopia.append(4)\nprint('xs after copia append', xs, 'copia', copia)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "alias",
+        "copia",
+        "copy",
+        "append",
+        "after"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S06-T1-B-E2. Instruction: «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a…». Prueba iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint: «alias comparte objeto; copy es superficial de la lista de ints.». Check: `append` + `alias` están en instruction/iDo/code. Teory heading: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T1-B-E3\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('after shallow mut orig', rows)\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "copy",
+        "rows",
+        "tags",
+        "shallow",
+        "deep"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S06-T1-B-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags…». iDo obligatorio `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint: «import copy; deepcopy». Check: `deepcopy` + `tags` están en instruction/iDo/code. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T2-A-E1\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "pares",
+        "C001",
+        "Lima",
+        "C002",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S06-T2-A-E1 solo si hay rastro en slim_packet. Instruction: «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.». Cita demo `S06-T2-A-DEMO` (Bug de alias al 'copiar' lista de dicts de clientes) → «». Hint: «dict(pares) o comprensión». Check: `pares` + `Cusco` están en instruction/iDo/code. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T2-A-E2\nidx = {'C001': 'Ana'}\nprint(idx.get('C001'), idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "idx",
+        "C001",
+        "Ana",
+        "get",
+        "C999"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T2-A-E2 contra instruction/iDo. Instruction: «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.». Soporte `S06-T2-A-DEMO` (Bug de alias al 'copiar' lista de dicts de clientes) → «». Hint: «idx.get('C999','N/A')». Solo admito `KeyError` + `except` porque salen del packet. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T2-A-E3\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intact', defaults)\n# peligro: copy before update\nbase = dict(defaults)\nbase.update(override)\nprint('after update on copy', base, 'defaults', defaults)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "defaults",
+        "retry",
+        "timeout",
+        "override",
+        "merged"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T2-A-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de…». Prueba iDo `S06-T2-A-DEMO` (Bug de alias al 'copiar' lista de dicts de clientes) → «». Hint: «{**defaults, **override} o defaults | override (3.9+)». Solo admito `defaults` + `override` porque salen del packet. Teory heading: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T2-B-E1\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "emails",
+        "com",
+        "unicos",
+        "sorted",
+        "set"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S06-T2-B-E1. Instruction: «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.». Prueba iDo `S06-T2-B-DEMO` (Índice id→cliente y lookup seguro) → «». Hint: «sorted(set(emails))». Check: `com` + `set` están en instruction/iDo/code. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T2-B-E2\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint(sorted(a & b))\nprint(sorted(a ^ b))\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "com",
+        "sorted"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T2-B-E2 contra instruction/iDo. Instruction: «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.». iDo obligatorio `S06-T2-B-DEMO` (Índice id→cliente y lookup seguro) → «». Hint: «a & b ; a ^ b». Check: `sorted` + `print(` están en instruction/iDo/code. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T2-B-E3\ndef dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        elif seen[k] != r:\n            conflicts.append({'id': k, 'a': seen[k], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "dedup_report",
+        "rows",
+        "key",
+        "seen",
+        "unique"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T2-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas…». Soporte `S06-T2-B-DEMO` (Índice id→cliente y lookup seguro) → «». Hint: «seen dict; si key existe y row!=prev → conflict». Solo admito `dedup_report` + `def dedup_report` porque salen del packet. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T3-A-E1\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "contacts",
+        "C002",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S06-T3-A-E1 solo si hay rastro en slim_packet. Instruction: «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.». iDo obligatorio `S06-T3-A-DEMO` (ids únicos; intersección de lotes; conflictos = mismo id datos distintos) → «rows = [ {\"id\": \"C001\", \"email\": \"a@ex.com\"}, {\"id\": \"C002\", \"email\": \"b@ex.com\"},». Hint: «len(c['contacts'])». Huellas en code: `print(` + `C001`. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T3-A-E2\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "txs",
+        "monto",
+        "C002"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S06-T3-A-E2. Instruction: «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.». iDo obligatorio `S06-T3-A-DEMO` (ids únicos; intersección de lotes; conflictos = mismo id datos distintos) → «rows = [ {\"id\": \"C001\", \"email\": \"a@ex.com\"}, {\"id\": \"C002\", \"email\": \"b@ex.com\"},». Hint: «doble for o comprehension anidada». Huellas en code: `client_id` + `tx_id`. Teory heading: «Estructuras anidadas y recorridos»."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T3-A-E3\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    status = 'ok' if isinstance(txs, list) else 'review'\n    print(c['id'], status)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "txs",
+        "C002",
+        "C003"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T3-A-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).». iDo obligatorio `S06-T3-A-DEMO` (ids únicos; intersección de lotes; conflictos = mismo id datos distintos) → «rows = [ {\"id\": \"C001\", \"email\": \"a@ex.com\"}, {\"id\": \"C002\", \"email\": \"b@ex.com\"},». Hint: «isinstance(c.get('txs'), list)». Code auditado con `status` + `review`; sin APIs fantasma. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T3-B-E1\ndef get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "get_nested",
+        "keys",
+        "default",
+        "cur",
+        "not"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S06-T3-B-E1. Instruction: «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.». Soporte `S06-T3-B-DEMO` (Modelo en memoria Client con contacts[] y txs[]) → «». Hint: «Recorre keys; si falta retorna default.». Check: `get_nested` + `def get_nested` están en instruction/iDo/code. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T3-B-E2\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        tag = 'missing'\n    else:\n        tag = 'present'\n    print(f\"{c['id']}: {tag}\")\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "email",
+        "com",
+        "C002"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S06-T3-B-E2. Instruction: «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.». iDo obligatorio `S06-T3-B-DEMO` (Modelo en memoria Client con contacts[] y txs[]) → «». Hint: «'email' not in c or c['email'] is None → missing». Huellas en code: `missing` + `present`. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T3-B-E3\nvals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "vals",
+        "repr",
+        "falsy",
+        "not",
+        "bool"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T3-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None…». Cita demo `S06-T3-B-DEMO` (Modelo en memoria Client con contacts[] y txs[]) → «». Hint: «bool(x) vs x is None». Solo admito `missing` + `falsy` porque salen del packet. Teory heading: «Acceso seguro y valores faltantes»."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T4-A-E1\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "rows",
+        "monto",
+        "ordered",
+        "sorted",
+        "key"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S06-T4-A-E1 solo si hay rastro en slim_packet. Instruction: «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.». Cita demo `S06-T4-A-DEMO` (Extraer teléfono opcional de contacto anidado) → «». Hint: «key=lambda r: r['monto']». Huellas en code: `sorted` + `monto`. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T4-A-E2\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "rows",
+        "nombre",
+        "Zed",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S06-T4-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.». Cita demo `S06-T4-A-DEMO` (Extraer teléfono opcional de contacto anidado) → «». Hint: «key=lambda r: (r['region'], r['nombre'])». Check: `nombre` + `key` están en instruction/iDo/code. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T4-A-E3\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('sort returns', ret, 'rows', rows)\ncopy_sorted = sorted(base)\nprint('sorted copy', copy_sorted, 'base intact', base)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "rows",
+        "base",
+        "ret",
+        "sort",
+        "returns"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S06-T4-A-E3. Instruction: «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada…». Prueba iDo `S06-T4-A-DEMO` (Extraer teléfono opcional de contacto anidado) → «». Hint: «x = lst.sort() → x is None». Check: `sorted` + `rows` están en instruction/iDo/code. Teory heading: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T4-B-E1\njobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nstructs = ['list', 'dict', 'set']\nfor j, s in zip(jobs, structs):\n    print(j, '→', s)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S06-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "jobs",
+        "cola",
+        "llegada",
+        "filas",
+        "lookup"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S06-T4-B-E1. Instruction: «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.». iDo obligatorio `S06-T4-B-DEMO` (Ordenar clientes por región luego nombre) → «clients = [ {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"}, {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\":…». Hint: «list / dict / set». Solo admito `llegada` + `lookup` porque salen del packet. Teory heading: «Estructura adecuada, complejidad y determinismo»."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T4-B-E2\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S06-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "json",
+        "payload",
+        "ids",
+        "C002",
+        "C001"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S06-T4-B-E2. Instruction: «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.». Soporte `S06-T4-B-DEMO` (Ordenar clientes por región luego nombre) → «clients = [ {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"}, {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\":…». Hint: «sorted ids; sort_keys=True». Solo admito `sort_keys` + `sorted` porque salen del packet. Teory heading: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S06-T4-B-E3\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\nprint('membership list: O(n) por chequeo')\nprint('membership set: O(1) promedio')\ns = set(ids)\nprint('C003 in set →', 'C003' in s)\n# B2 dual-run (Skeptic): re-validated vs packet S06 S06-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S06-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S06",
+        "ids",
+        "C001",
+        "C002",
+        "C003",
+        "C004"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S06-T4-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x…». Prueba iDo `S06-T4-B-DEMO` (Ordenar clientes por región luego nombre) → «clients = [ {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"}, {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\":…». Hint: «list O(n) vs set O(1) promedio». Check: `membership` + `print(` están en instruction/iDo/code. Teory heading: «Estructura adecuada, complejidad y determinismo»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…a=[]` y `len=0`. Usa txs[-2:] (funciona también si hay menos de 2). print la lista y luego len(ventana). txs = [10, 20, 30, 40, 50] # TODO empty = [] # TODO empty E2 (ind…». Choose [1] «[3,4]». xs[-2:] last two → [3,4] for [1,2,3,4]."
+    },
+    {
+      "question_index": 1,
+      "question": "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+      "chosen_index": 1,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…secuencias y distinguir alias vs copia superficial/profunda Modelar registros con dict, get e índices id→fila Deduplicar con set y reportar conflictos sin borrarlos Nave…». Choose [1] «a también ve el append (alias)». b = a is alias; b.append visible on a."
+    },
+    {
+      "question_index": 2,
+      "question": "Para reportar dos filas con mismo id y payload distinto debes…",
+      "chosen_index": 2,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…uplicación que **reporta conflictos** y salidas **deterministas**. Esta sección (id de plataforma `numpy` conservado) retematiza a colecciones V3 e inicia el bloque **CP-…». Choose [2] «Listar conflicto en conflicts sin silenciar». Same id different payload → list in conflicts; no silent drop."
+    },
+    {
+      "question_index": 3,
+      "question": "rows.sort(key=...) retorna…",
+      "chosen_index": 1,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Ordenamiento y key» — quote: «`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)`.». Choose [1] «None (muta in-place)». list.sort mutates in-place and returns None."
+    },
+    {
+      "question_index": 4,
+      "question": "json.dumps(..., sort_keys=True) ayuda a…",
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…ismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids produce el mismo string en cada corrida. Reproducibilidad es parte del gate de calidad. Ve…». Choose [1] «salidas deterministas/reproducibles». json.dumps(..., sort_keys=True) → deterministic/reproducible output."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

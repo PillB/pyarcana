@@ -1,0 +1,314 @@
+{
+  "1": {
+    "sha16": "9756bfc7317e3957",
+    "chars": 7498,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S01.txt"
+  },
+  "2": {
+    "sha16": "70700fae4c65a415",
+    "chars": 7500,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S02.txt"
+  },
+  "3": {
+    "sha16": "caebbbc9bddc8781",
+    "chars": 7518,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S03.txt"
+  },
+  "4": {
+    "sha16": "fe937a96744ee9ac",
+    "chars": 7522,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S04.txt"
+  },
+  "5": {
+    "sha16": "99d32c1777114368",
+    "chars": 7494,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S05.txt"
+  },
+  "6": {
+    "sha16": "4a5bf7e1d602afe8",
+    "chars": 7498,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S06.txt"
+  },
+  "7": {
+    "sha16": "dbcbfa0c855b9aa7",
+    "chars": 7520,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S07.txt"
+  },
+  "8": {
+    "sha16": "b679b39bb33078dd",
+    "chars": 7500,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S08.txt"
+  },
+  "9": {
+    "sha16": "ed41e61ae9787edc",
+    "chars": 7514,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S09.txt"
+  },
+  "10": {
+    "sha16": "c0fae9835c241e36",
+    "chars": 7507,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S10.txt"
+  },
+  "11": {
+    "sha16": "28a9e539144e4aa0",
+    "chars": 7507,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S11.txt"
+  },
+  "12": {
+    "sha16": "13459a27ab7c3696",
+    "chars": 7515,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S12.txt"
+  },
+  "13": {
+    "sha16": "47d85625e0cce052",
+    "chars": 7521,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S13.txt"
+  },
+  "14": {
+    "sha16": "1181cd2b056ea268",
+    "chars": 7509,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S14.txt"
+  },
+  "15": {
+    "sha16": "11c27877d1adbb85",
+    "chars": 7515,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S15.txt"
+  },
+  "16": {
+    "sha16": "a8a478df6f99fedf",
+    "chars": 7517,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S16.txt"
+  },
+  "17": {
+    "sha16": "e1131b5dadbd289a",
+    "chars": 7511,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S17.txt"
+  },
+  "18": {
+    "sha16": "0170cf60c6151c84",
+    "chars": 7525,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S18.txt"
+  },
+  "19": {
+    "sha16": "2424f33f5954e482",
+    "chars": 7519,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S19.txt"
+  },
+  "20": {
+    "sha16": "d508d00c7b569366",
+    "chars": 7499,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S20.txt"
+  },
+  "21": {
+    "sha16": "3b207a848b717a2c",
+    "chars": 7507,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S21.txt"
+  },
+  "22": {
+    "sha16": "8d89d116f654f5b8",
+    "chars": 7525,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S22.txt"
+  },
+  "23": {
+    "sha16": "b937a36fe7a8fd1f",
+    "chars": 7523,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S23.txt"
+  },
+  "24": {
+    "sha16": "71b69c5a67458fc1",
+    "chars": 7517,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S24.txt"
+  },
+  "25": {
+    "sha16": "635362ae5a2811f6",
+    "chars": 7533,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S25.txt"
+  },
+  "26": {
+    "sha16": "646e691988aaab61",
+    "chars": 7527,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S26.txt"
+  },
+  "27": {
+    "sha16": "667e8d36d07f1d31",
+    "chars": 7527,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S27.txt"
+  },
+  "28": {
+    "sha16": "125184397fdb7628",
+    "chars": 7513,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S28.txt"
+  },
+  "29": {
+    "sha16": "997882919658d33f",
+    "chars": 7503,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S29.txt"
+  },
+  "30": {
+    "sha16": "1f29582c5932e0dc",
+    "chars": 7521,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S30.txt"
+  },
+  "31": {
+    "sha16": "5ed9fdfdb608c16b",
+    "chars": 7521,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S31.txt"
+  },
+  "32": {
+    "sha16": "84f417d673398302",
+    "chars": 7519,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S32.txt"
+  },
+  "33": {
+    "sha16": "f4b4c1d41d8604e5",
+    "chars": 7523,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S33.txt"
+  },
+  "34": {
+    "sha16": "fbdec480d93f1eb9",
+    "chars": 7527,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S34.txt"
+  },
+  "35": {
+    "sha16": "5563fb80ecd54453",
+    "chars": 7519,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S35.txt"
+  },
+  "36": {
+    "sha16": "157c615a5e6c988a",
+    "chars": 7525,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S36.txt"
+  },
+  "37": {
+    "sha16": "8d157590fcbfce48",
+    "chars": 7517,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S37.txt"
+  },
+  "38": {
+    "sha16": "502111af6f8365e2",
+    "chars": 7531,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S38.txt"
+  },
+  "39": {
+    "sha16": "1ecbd7f920b1dab8",
+    "chars": 7527,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S39.txt"
+  },
+  "40": {
+    "sha16": "147c2b6e8bbd1a26",
+    "chars": 7533,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S40.txt"
+  },
+  "41": {
+    "sha16": "f5e178426b86d8e2",
+    "chars": 7521,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S41.txt"
+  },
+  "42": {
+    "sha16": "1ac17471ebc0d9a9",
+    "chars": 7511,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S42.txt"
+  },
+  "43": {
+    "sha16": "9681f1d44248c8b5",
+    "chars": 7505,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S43.txt"
+  },
+  "44": {
+    "sha16": "6e7983cc14c2d59a",
+    "chars": 7513,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S44.txt"
+  },
+  "45": {
+    "sha16": "077090bad376ed0d",
+    "chars": 7499,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S45.txt"
+  },
+  "46": {
+    "sha16": "04e6859135c6cb41",
+    "chars": 7519,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S46.txt"
+  },
+  "47": {
+    "sha16": "0944f700bfd67bff",
+    "chars": 7513,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S47.txt"
+  },
+  "48": {
+    "sha16": "fbc1e04839fabd8c",
+    "chars": 7519,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S48.txt"
+  },
+  "49": {
+    "sha16": "5570daf47cc49576",
+    "chars": 7521,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S49.txt"
+  },
+  "50": {
+    "sha16": "32301a93b9f1acfb",
+    "chars": 7523,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S50.txt"
+  },
+  "51": {
+    "sha16": "051da12927f2a9c1",
+    "chars": 7525,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S51.txt"
+  },
+  "52": {
+    "sha16": "6afe78b8320c0174",
+    "chars": 7523,
+    "verbatim_ok": true,
+    "path": "/tmp/fixer_spawn_full/S52.txt"
+  }
+}

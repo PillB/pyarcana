@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S38",
+  "section_id": "performance-extreme",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:39Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget performance-extreme section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s38-performance-extreme.ts",
+      "course-state/s38_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "performance-extreme",
+    "index": 38,
+    "title": "Concurrencia, observabilidad y workflows resilientes",
+    "shortTitle": "Concurrencia y resiliencia",
+    "tagline": "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Pipeline reanudable con trace y runbook (CP-N3-C operación)",
+    "icon": "Activity",
+    "legacy_note": "performance-extreme retargeted to concurrency/resilience",
+    "capstone": "CP-N3-C (operación)"
+  },
+  "subtopics_authored": {
+    "S38-T1-A": {
+      "slug": "threads-processes-async",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T1-A-DEMO",
+      "exercises": [
+        "S38-T1-A-E1",
+        "S38-T1-A-E2",
+        "S38-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S38-T1-B": {
+      "slug": "io-vs-cpu-gil-serialize",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T1-B-DEMO",
+      "exercises": [
+        "S38-T1-B-E1",
+        "S38-T1-B-E2",
+        "S38-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S38-T2-A": {
+      "slug": "pools-backpressure-rate",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T2-A-DEMO",
+      "exercises": [
+        "S38-T2-A-E1",
+        "S38-T2-A-E2",
+        "S38-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S38-T2-B": {
+      "slug": "cancel-timeout-resources",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T2-B-DEMO",
+      "exercises": [
+        "S38-T2-B-E1",
+        "S38-T2-B-E2",
+        "S38-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S38-T3-A": {
+      "slug": "logs-metrics-traces",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T3-A-DEMO",
+      "exercises": [
+        "S38-T3-A-E1",
+        "S38-T3-A-E2",
+        "S38-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S38-T3-B": {
+      "slug": "correlation-redact-sli-slo",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T3-B-DEMO",
+      "exercises": [
+        "S38-T3-B-E1",
+        "S38-T3-B-E2",
+        "S38-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S38-T4-A": {
+      "slug": "states-checkpoint-idempotency",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T4-A-DEMO",
+      "exercises": [
+        "S38-T4-A-E1",
+        "S38-T4-A-E2",
+        "S38-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S38-T4-B": {
+      "slug": "retry-dlq-replay-runbook",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S38-T4-B-DEMO",
+      "exercises": [
+        "S38-T4-B-E1",
+        "S38-T4-B-E2",
+        "S38-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Pipeline reanudable con trace y runbook (CP-N3-C operación)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S38-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S38-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

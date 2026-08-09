@@ -1,0 +1,318 @@
+{
+  "version": "3.2",
+  "section": "S10",
+  "section_id": "sklearn",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S09-S11-P4",
+  "generated_at": "2026-07-20T07:17:28Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget sklearn section TS to V3 modules/packaging/CLI; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s10-sklearn.ts",
+      "course-state/s10_phase4_progress.json",
+      "course-state/lanes/LANE-S09-S11-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "sklearn",
+    "index": 10,
+    "title": "Módulos, packaging y CLI profesional",
+    "shortTitle": "Módulos & CLI",
+    "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+    "estimatedHours": 10,
+    "learningOutcomes": 8,
+    "youDo": "Paquete familiarity_core + CLI profesional",
+    "icon": "Package",
+    "gate": "CP-N1-B packaging / CP-N1-C package base",
+    "legacy_note": "scikit-learn ML pipeline demoted to L2; target is familiarity_core packaging+CLI"
+  },
+  "subtopics_authored": {
+    "S10-T1-A": {
+      "slug": "imports-namespaces-main",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T1-A-DEMO",
+      "exercises": [
+        "S10-T1-A-E1",
+        "S10-T1-A-E2",
+        "S10-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S10-T1-B": {
+      "slug": "public-api-dependencies",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T1-B-DEMO",
+      "exercises": [
+        "S10-T1-B-E1",
+        "S10-T1-B-E2",
+        "S10-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S10-T2-A": {
+      "slug": "src-layout-pyproject",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T2-A-DEMO",
+      "exercises": [
+        "S10-T2-A-E1",
+        "S10-T2-A-E2",
+        "S10-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S10-T2-B": {
+      "slug": "versioning-compatibility",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T2-B-DEMO",
+      "exercises": [
+        "S10-T2-B-E1",
+        "S10-T2-B-E2",
+        "S10-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S10-T3-A": {
+      "slug": "argparse-subcommands-exitcodes",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T3-A-DEMO",
+      "exercises": [
+        "S10-T3-A-E1",
+        "S10-T3-A-E2",
+        "S10-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S10-T3-B": {
+      "slug": "stdio-streams-help",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T3-B-DEMO",
+      "exercises": [
+        "S10-T3-B-E1",
+        "S10-T3-B-E2",
+        "S10-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S10-T4-A": {
+      "slug": "config-precedence",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T4-A-DEMO",
+      "exercises": [
+        "S10-T4-A-E1",
+        "S10-T4-A-E2",
+        "S10-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S10-T4-B": {
+      "slug": "secrets-defaults-early-validation",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S10-T4-B-DEMO",
+      "exercises": [
+        "S10-T4-B-E1",
+        "S10-T4-B-E2",
+        "S10-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Paquete familiarity_core + CLI profesional",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S10-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S10-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "next_action": "PHASE 5 exam bank for sklearn V3 slugs. Do not mark S10 passed from this lane."
+}

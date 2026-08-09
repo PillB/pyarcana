@@ -1,0 +1,36 @@
+{
+  "config": {
+    "retries": 0,
+    "trace": "retain-on-failure",
+    "screenshot": "only-on-failure",
+    "video": "retain-on-failure"
+  },
+  "static_pages_local": {
+    "base_url": "http://127.0.0.1:4173",
+    "base_path": "/pyarcana",
+    "specs": ["scripts/static_public.spec.ts", "scripts/safe_agent_journeys.spec.ts"],
+    "passed": 11,
+    "failed": 0
+  },
+  "ci_static_platform_build": {
+    "run": 31219227933,
+    "result": "success"
+  },
+  "ci_browser_regression": {
+    "run": 31219227933,
+    "result": "success",
+    "duration": "7m52s"
+  },
+  "live_round_1": {
+    "base_url": "https://pillb.github.io",
+    "passed": 11,
+    "failed": 0,
+    "result": "pass"
+  },
+  "live_round_2": {
+    "base_url": "https://pillb.github.io",
+    "passed": 11,
+    "failed": 0,
+    "result": "pass"
+  }
+}

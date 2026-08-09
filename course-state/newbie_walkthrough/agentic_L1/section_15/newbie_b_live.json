@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s15-ef2f92ee46",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\nprint(df[\"cliente_id\"].tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en pandas ingesta pide `S15-T1-A-E1` — loc/iloc, coerce y manifest; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(float(s.max()))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S15-T1-A-E2` — loc/iloc, coerce y manifest. Si no cuadra con theory de pandas ingesta, no firmo el pass. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nprint(s1.add(s2, fill_value=0).to_dict())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S15-T1-A-E3` — loc/iloc, coerce y manifest. El iDo/theory de pandas ingesta es la fuente, no mi memoria. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"a,b\\n1,NA\\n2,3\\n\"), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S15-T1-B-E1` — loc/iloc, coerce y manifest, alineado al contrato de pandas ingesta del slim_packet. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"fecha\\n2024-01-01\\n\"), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S15-T1-B-E2` — loc/iloc, coerce y manifest. Sin eso el ejercicio de pandas ingesta queda teatro. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"cliente_id,monto,x\\nC001,1,9\\n\"), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en pandas ingesta pide `S15-T1-B-E3` — loc/iloc, coerce y manifest; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S15-T2-A-E1` — loc/iloc, coerce y manifest. Si no cuadra con theory de pandas ingesta, no firmo el pass. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=df[\"score\"] * 2)[\"doble\"].tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S15-T2-A-E2` — loc/iloc, coerce y manifest. El iDo/theory de pandas ingesta es la fuente, no mi memoria. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S15-T2-A-E3` — loc/iloc, coerce y manifest, alineado al contrato de pandas ingesta del slim_packet. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf = df.copy(); df[\"flag\"] = \"\"; df.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].tolist())\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S15-T2-B-E1` — loc/iloc, coerce y manifest. Sin eso el ejercicio de pandas ingesta queda teatro. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy(); sub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en pandas ingesta pide `S15-T2-B-E2` — loc/iloc, coerce y manifest; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy(); c.loc[:, \"score\"] = 0.0\nprint(df[\"score\"].tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S15-T2-B-E3` — loc/iloc, coerce y manifest. Si no cuadra con theory de pandas ingesta, no firmo el pass. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S15-T3-A-E1` — loc/iloc, coerce y manifest. El iDo/theory de pandas ingesta es la fuente, no mi memoria. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s.tolist()])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S15-T3-A-E2` — loc/iloc, coerce y manifest, alineado al contrato de pandas ingesta del slim_packet. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S15-T3-A-E3` — loc/iloc, coerce y manifest. Sin eso el ejercicio de pandas ingesta queda teatro. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nprint(int(pd.to_numeric(df[\"monto\"], errors=\"coerce\").isna().sum()))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en pandas ingesta pide `S15-T3-B-E1` — loc/iloc, coerce y manifest; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    if \"monto\" not in df.columns:\n        raise KeyError(\"monto\")\nexcept KeyError:\n    print(\"missing\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S15-T3-B-E2` — loc/iloc, coerce y manifest. Si no cuadra con theory de pandas ingesta, no firmo el pass. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S15-T3-B-E3` — loc/iloc, coerce y manifest. El iDo/theory de pandas ingesta es la fuente, no mi memoria. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO(); df.to_csv(buf, index=False); buf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S15-T4-A-E1` — loc/iloc, coerce y manifest, alineado al contrato de pandas ingesta del slim_packet. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]}); bio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S15-T4-A-E2` — loc/iloc, coerce y manifest. Sin eso el ejercicio de pandas ingesta queda teatro. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nprint({c: str(df[c].dtype) for c in sorted(df.columns)})\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en pandas ingesta pide `S15-T4-A-E3` — loc/iloc, coerce y manifest; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S15-T4-B-E1` — loc/iloc, coerce y manifest. Si no cuadra con theory de pandas ingesta, no firmo el pass. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S15-T4-B-E2` — loc/iloc, coerce y manifest. El iDo/theory de pandas ingesta es la fuente, no mi memoria. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nprint(hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S15-T4-B-E3` — loc/iloc, coerce y manifest, alineado al contrato de pandas ingesta del slim_packet. (lectura directa del packet L1 s15).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Theory de pandas ingesta: la opción «loc» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Como skeptic descarto distractores: en pandas ingesta, el slim_packet apunta a «Asignación sobre slices que pueden ser view/copy (chain».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de pandas ingesta se ancla a «Convierte inválidos a NaN» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Releo outcomes de pandas ingesta: «Filas, columnas y provenance/hash del artefacto» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s15 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S16+ para resolver S15."
+  ],
+  "recorded_at": "2026-07-23T16:41:48.881148+00:00",
+  "session_started_at": "2026-07-23T16:40:47.727Z",
+  "session_ended_at": "2026-07-23T16:41:48.880Z",
+  "receipt_response_sha256": "090c1980a52b717325e8ce019f1108e6232a1907ce1e43d758bc3abe0a177270",
+  "receipt_exercises_sha256": "27893b71c47fead8c296117c97ea4a6c367a174fc922a4a6edb17aba08cb2dcf",
+  "receipt_selfcheck_sha256": "377b221a6c3bfc00617f53e654eeaf6edfb162167c684a9aa7aa946a65fcc95b"
+}

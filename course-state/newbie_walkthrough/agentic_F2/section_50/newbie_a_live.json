@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s50-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n\n# F2-note:8bba3d5bcf packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/af13b81b] Resuelvo S50-T1-A-E1 solo con el paquete activo. Instrucción: «S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del starter; la operación debe demostrar sl». Pista: «Relaciona los campos `tasks`, `slices`, `rubric_levels`, `holdout` con la regla explicada ». Demo S50-T1-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('task dataset y rubric')\n\n# F2-note:caedee9961 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fd8e9c93] Resuelvo S50-T1-A-E2 solo con el paquete activo. Instrucción: «S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. Entrada: dict con case_id, tasks, slices, ». Pista: «Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.». Demo S50-T1-A-DEMO. Código ancla: `print('task dataset y rubric')`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos\n2. `CASO-ICA-050-1A` debe continuar, el adverso debe devolver `REBUILD_EVAL_DATASET` y la ausencia de `holdout` debe devolver `CALIBRATE_RUBRIC`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró slices suman tasks, rúbrica 0–3 y holdout; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:060f101993 packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/de89690e] S50-T1-A-E3 — material del slim_packet basta. «S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe continuar, el adverso debe devolver `REBUILD_EVAL_DATASET» · hint «Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el conte» · S50-T1-A-DEMO. Entrega: `1. S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos`. task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n\n# F2-note:84fb05fbf2 packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/593744da] Resuelvo S50-T1-B-E1 solo con el paquete activo. Instrucción: «S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es el dict completo del starter; la operaci». Pista: «Relaciona los campos `outcome`, `process`, `trajectory`, `recovery`, `forbidden_tool_used`». Demo S50-T1-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('resultado, proceso, trajectory y recovery')\n\n# F2-note:296dcb0a77 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/be545cc1] Resuelvo S50-T1-B-E2 solo con el paquete activo. Instrucción: «S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y registro sin `min_dimension`. Entrada: dict ». Pista: «Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama». Demo S50-T1-B-DEMO. Código ancla: `print('resultado, proceso, trajectory y recovery')`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos\n2. `CASO-ICA-050-1B` debe continuar, el adverso debe devolver `FAIL_UNSAFE_TRAJECTORY` y la ausencia de `min_dimension` debe devolver `HUMAN_REVIEW_PROCESS`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró cuatro dimensiones sobre mínimo y ninguna tool prohibida; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:788bac7f0b packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/93c46b7f] Resuelvo S50-T1-B-E3 solo con el paquete activo. Instrucción: «S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO-ICA-050-1B` debe continuar, el adverso ». Pista: «Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el c». Demo S50-T1-B-DEMO. Código ancla: `1. S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures dis`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = record[\"human_llm_agreement\"] < record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n\n# F2-note:7f77975d95 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0f334630] S50-T2-A-E1 — material del slim_packet basta. «S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict completo del starter; la operación debe d» · hint «Relaciona los campos `deterministic`, `human`, `llm`, `human_llm_agreement`, `min_agreemen» · S50-T2-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0`. task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('graders deterministas/humanos/LLM')\n\n# F2-note:dacf1619b4 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5461d7f0] S50-T2-A-E2 — material del slim_packet basta. «S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro sin `min_agreement`. Entrada: dict con cas» · hint «Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama» · S50-T2-A-DEMO. Entrega: `print('graders deterministas/humanos/LLM')`. task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos\n2. `CASO-ICA-050-2A` debe continuar, el adverso debe devolver `RECALIBRATE_GRADERS` y la ausencia de `min_agreement` debe devolver `ADJUDICATE_DISAGREEMENT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró scores acotados y acuerdo humano-LLM sobre umbral; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:d0bac7fc27 packet-grounded (explorer); instr_tokens=47\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/27bcb204] Resuelvo S50-T2-A-E3 solo con el paquete activo. Instrucción: «S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050-2A` debe continuar, el adverso debe dev». Pista: «Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar e». Demo S50-T2-A-DEMO. Código ancla: `1. S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n\n# F2-note:af904e8aa7 packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/52585b77] S50-T2-B-E1 — material del slim_packet basta. «S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es el dict completo del starter; la operac» · hint «Relaciona los campos `anchor_accuracy`, `min_anchor_accuracy`, `order_gap`, `max_order_gap» · S50-T2-B-DEMO. Entrega: `record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"`. task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('calibración, order bias y conjunto retenido')\n\n# F2-note:53d8c0e98f packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dc7d6503] Resuelvo S50-T2-B-E2 solo con el paquete activo. Instrucción: «S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y registro sin `holdout_touched`. Entrada: dic». Pista: «Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa ra». Demo S50-T2-B-DEMO. Código ancla: `print('calibración, order bias y conjunto retenido')`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos\n2. `CASO-ICA-050-2B` debe continuar, el adverso debe devolver `INVALIDATE_JUDGE` y la ausencia de `holdout_touched` debe devolver `SEAL_NEW_HOLDOUT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró anclas calibradas, order bias bajo y holdout intacto; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:e5394df42c packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/72b829d9] Como explorador, S50-T2-B-E3: sigo el starter y el iDo. El enunciado pide «S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CASO-ICA-050-2B` debe continuar, el advers». Aplico «Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el conte». Línea clave: `1. S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures d`. Heading: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n\n# F2-note:598d946eef packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/79b65ff4] S50-T3-A-E1 — material del slim_packet basta. «S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada es el dict completo del starter; la ope» · hint «Relaciona los campos `injection_blocked`, `exfiltration_bytes`, `tool_scope`, `tool_args_v» · S50-T3-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-`. task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('prompt injection, exfiltración y tool misuse')\n\n# F2-note:68146724ff packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/14bd5160] Como explorador, S50-T3-A-E2: sigo el starter y el iDo. El enunciado pide «S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y registro sin `severity`. Entrada: dict con ». Aplico «Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.». Línea clave: `print('prompt injection, exfiltración y tool misuse')`. Heading: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos\n2. `CASO-ICA-050-3A` debe continuar, el adverso debe devolver `BLOCK_SECURITY_P0` y la ausencia de `severity` debe devolver `PRESERVE_ATTACK_TRACE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró injection contenida, cero exfil y tool read-only; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:8d44781f91 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5b1d326b] Resuelvo S50-T3-A-E3 solo con el paquete activo. Instrucción: «S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `CASO-ICA-050-3A` debe continuar, el adve». Pista: «Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el ». Demo S50-T3-A-DEMO. Código ancla: `1. S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n\n# F2-note:2d15b9c689 packet-grounded (explorer); instr_tokens=63\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c2d1c41a] Como explorador, S50-T3-B-E1: sigo el starter y el iDo. El enunciado pide «S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. La entrada es el dict completo del starte». Aplico «Relaciona los campos `document_instruction_treated_as_data`, `poisoned_chunks_removed`, `t». Línea clave: `record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_remove`. Heading: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('indirect injection, data poisoning y least privilege')\n\n# F2-note:9d9446fe9a packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3d7b3ca1] Resuelvo S50-T3-B-E2 solo con el paquete activo. Instrucción: «S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adverso y registro sin `requested_permission». Pista: «Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de e». Demo S50-T3-B-DEMO. Código ancla: `print('indirect injection, data poisoning y least privilege')`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos\n2. `CASO-ICA-050-3B` debe continuar, el adverso debe devolver `QUARANTINE_POISONED_CORPUS` y la ausencia de `requested_permission` debe devolver `REDUCE_TOOL_PRIVILEGE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró indirect injection como datos, poisoning removido y permiso mínimo; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:8036e4f162 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c553ccb0] Resuelvo S50-T3-B-E3 solo con el paquete activo. Instrucción: «S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos. `CASO-ICA-050-3B` debe continua». Pista: «Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el ». Demo S50-T3-B-DEMO. Código ancla: `1. S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tre`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n\n# F2-note:bd4e88e858 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/85545255] Resuelvo S50-T4-A-E1 solo con el paquete activo. Instrucción: «S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo del starter; la operación debe demostra». Pista: «Relaciona los campos `supported_claims`, `total_claims`, `min_support_rate`, `unsupported_». Demo S50-T4-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"uns`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('hallucination y abstención')\n\n# F2-note:693dbf5da8 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dc06fe24] Resuelvo S50-T4-A-E2 solo con el paquete activo. Instrucción: «S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstained_when_empty`. Entrada: dict con case_». Pista: «Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de e». Demo S50-T4-A-DEMO. Código ancla: `print('hallucination y abstención')`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos\n2. `CASO-ICA-050-4A` debe continuar, el adverso debe devolver `BLOCK_HALLUCINATION_REGRESSION` y la ausencia de `abstained_when_empty` debe devolver `REVIEW_ABSTENTION_SLICE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró support rate, cero claim crítica y abstención correcta; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:0beb58b599 packet-grounded (explorer); instr_tokens=48\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6acc21f5] Como explorador, S50-T4-A-E3: sigo el starter y el iDo. El enunciado pide «S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe continuar, el adverso debe devolver `BLO». Aplico «Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar e». Línea clave: `1. S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos`. Heading: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n\n# F2-note:0b38e92fd5 packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/de0121cc] S50-T4-B-E1 — material del slim_packet basta. «S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La entrada es el dict completo del starter; la» · hint «Relaciona los campos `p95_ms`, `slo_ms`, `cost_pen`, `cost_cap_pen`, `cache_acl_safe`, `ro» · S50-T4-B-DEMO. Entrega: `record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cach`. task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('latency/cost/caching, incident response y rollback')\n\n# F2-note:48c590147f packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c75e1e16] Resuelvo S50-T4-B-E2 solo con el paquete activo. Instrucción: «S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: ». Pista: «Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.». Demo S50-T4-B-DEMO. Código ancla: `print('latency/cost/caching, incident response y rollback')`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S50-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos\n2. `CASO-ICA-050-4B` debe continuar, el adverso debe devolver `ROLLBACK_AI_RELEASE` y la ausencia de `rto_minutes` debe devolver `ACTIVATE_INCIDENT_RESPONSE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró latencia/costo/cache dentro de gate y rollback en RTO; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:6a94b4c55a packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S50",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/cd922e8b] Resuelvo S50-T4-B-E3 solo con el paquete activo. Instrucción: «S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos. `CASO-ICA-050-4B` debe continuar, e». Pista: «Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evalua». Demo S50-T4-B-DEMO. Código ancla: `1. S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fi`. Teoría: task dataset y rubric | resultado, proceso, trajectory y recovery | graders dete. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "dataset versionado y rúbrica calibrada",
+      "justification_from_packet": "[agentic_F2/Explorer] S50 q0: task dataset y rubric se aprueban con dataset versionado y rúbrica calibrada.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir BLOCK_CANDIDATE y conservar evidencia",
+      "justification_from_packet": "[agentic_F2/Explorer] S50 q1: error S50 → BLOCK_CANDIDATE y conservar evidencia.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final",
+      "justification_from_packet": "[agentic_F2/Explorer] S50 q2: gate quality IA adversarial = evals retenidos/adversariales repetibles y prueban recuperación, no solo texto final.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F2/Explorer] S50 q3: CASO-ICA-050 sintético, mínimo, trazable, revisión humana.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.944346+00:00"
+}

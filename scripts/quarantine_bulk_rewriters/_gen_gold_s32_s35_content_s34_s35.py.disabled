@@ -1,0 +1,920 @@
+
+
+import os as _os, sys as _sys
+if _os.environ.get("FORCE_BULK_REWRITE") != "1":
+    _sys.stderr.write(
+        "REFUSED: bulk curriculum rewrite disabled (boilerplate risk).\n"
+        "Set FORCE_BULK_REWRITE=1 only for explicit emergency use.\n"
+    )
+    raise SystemExit(2)
+
+"""S34–S35 gold content builders."""
+from __future__ import annotations
+
+import textwrap
+
+from common import FILES, ex_block
+
+
+def _st(sid, heading, dict_line, mech, contract, app, callout, code, demo, evidence, topic):
+    return {
+        "id": sid,
+        "heading": heading,
+        "paras": [dict_line, mech, contract, app],
+        "callout": callout,
+        "code": textwrap.dedent(code),
+        "demo": textwrap.dedent(demo),
+        "evidence": evidence,
+        "topic": topic,
+    }
+
+
+def S34() -> dict:
+    case = "CASO-LIM-034"
+    subtopics = [
+        _st(
+            "S34-T1-A", "Confusion matrix, precision, recall y F-score",
+            "**Diccionario T1-A.** **TP/FP/FN/TN** en cola de review. **Precision** = TP/(TP+FP). **Recall** = TP/(TP+FN). **F1** = 2PR/(P+R). Accuracy engaña con desbalance.",
+            "Mecanismo: cuentas la matriz sobre y_true/y_pred sintéticos; precision y recall se calculan con guardas si el denominador es 0.",
+            "Contrato. Entrada: tp,fp,fn. Salida: precision, recall, f1. Error: reportar solo accuracy con prevalencia 1%.",
+            f"Aplicación `{case}-T1A`: tp=1,fp=1,fn=0 → P=0.5 R=1.0. Métricas del workbench, no veredicto de fraude.",
+            "Accuracy-only → REJECT_ACCURACY_ONLY. Missing counts → REQUEST_CONFUSION.",
+            '''\
+            def prf(tp, fp, fn):
+                p = tp / (tp + fp) if tp + fp else 0.0
+                r = tp / (tp + fn) if tp + fn else 0.0
+                f1 = 2 * p * r / (p + r) if p + r else 0.0
+                return p, r, f1
+            p, r, f1 = prf(1, 1, 0)
+            print("precision", p)
+            print("recall", r)
+            print("f1", round(f1, 2))
+            ''',
+            '''\
+            def precision(tp, fp):
+                return tp / (tp + fp) if tp + fp else 0.0
+            print(precision(1, 1))
+            print("accuracy_only", False)
+            print("ok", True)
+            ''',
+            "P/R/F1 desde matriz de confusión", "métricas base",
+        ),
+        _st(
+            "S34-T1-B", "PR-AUC, top-k y carga de revisión",
+            "**PR-AUC** resume el tradeoff precision-recall. **Top-k** alinea con capacidad de cola. **Carga de revisión** = k o expected flags por día.",
+            "Mecanismo didáctico: P@k = sum(relevant[:k])/k; approx PR con promedio de precisions en umbrales sintéticos.",
+            "Contrato. Entrada: ranked relevance, k, capacity. Salida: p_at_k y load. Error: k >> capacity.",
+            f"Aplicación `{case}-T1B`: ranked [1,0,1,0], k=2 → 0.5; capacity=50.",
+            "k>capacity → REJECT_OVER_CAPACITY. Missing ranking → REQUEST_RANKING.",
+            '''\
+            def precision_at_k(ranked, k):
+                return sum(ranked[:k]) / k if k else 0.0
+            ranked, k, cap = [1, 0, 1, 0], 2, 50
+            print("p_at_k", precision_at_k(ranked, k))
+            print("k", k)
+            print("over_capacity", k > cap)
+            ''',
+            '''\
+            def load_ok(k, capacity):
+                return k <= capacity
+            print(0.5)
+            print("load_ok", load_ok(2, 50))
+            print("ok", True)
+            ''',
+            "P@k alineado a capacidad", "top-k y carga",
+        ),
+        _st(
+            "S34-T2-A", "Class weights y resampling dentro de CV",
+            "**Class weight** rebalancea el costo por clase. **Resampling** (over/under) solo **dentro** de folds de train; hacerlo antes de split es leakage.",
+            "Mecanismo: weight_pos = n_neg/n_pos; resample solo indices de train_fold.",
+            "Contrato. Entrada: y_train counts, in_cv flag. Salida: weight y in_cv True. Error: SMOTE global antes de CV.",
+            f"Aplicación `{case}-T2A`: 90 neg / 10 pos → weight 9.0; in_cv True.",
+            "Resample fuera de CV → REJECT_RESAMPLE_LEAK. Missing: REQUEST_CLASS_WEIGHT.",
+            '''\
+            def pos_weight(n_neg, n_pos):
+                return n_neg / n_pos if n_pos else 0.0
+            print("weight", pos_weight(90, 10))
+            print("in_cv", True)
+            print("leak_resample", False)
+            ''',
+            '''\
+            def safe_resample(in_cv: bool) -> str:
+                return "ok" if in_cv else "REJECT_RESAMPLE_LEAK"
+            print(safe_resample(True))
+            print(safe_resample(False))
+            print("weight", 9.0)
+            ''',
+            "weights/resample solo dentro de CV", "desbalance en CV",
+        ),
+        _st(
+            "S34-T2-B", "Prevalencia y métricas engañosas",
+            "Con **prevalencia** 1%, accuracy 99% prediciendo siempre negativo es inútil. Reporta prevalencia y métricas alineadas a la cola (P/R, P@k).",
+            "Mecanismo: baseline_acc = 1 - prevalence; si model_acc ≈ baseline_acc sin recall, flag misleading.",
+            "Contrato. Entrada: prevalence, accuracy, recall. Salida: misleading flag. Error: vanity accuracy sola.",
+            f"Aplicación `{case}-T2B`: prev=0.01, acc=0.99, recall=0 → misleading True.",
+            "Accuracy vanity → REJECT_VANITY_ACC. Missing prev → REQUEST_PREVALENCE.",
+            '''\
+            def misleading(prev, acc, recall, eps=0.02):
+                baseline = 1 - prev
+                return abs(acc - baseline) < eps and recall < 0.1
+            print("misleading", misleading(0.01, 0.99, 0.0))
+            print("prevalence", 0.01)
+            print("accuracy_only", False)
+            ''',
+            '''\
+            def baseline_acc(prev):
+                return 1 - prev
+            print(baseline_acc(0.01))
+            print("misleading", True)
+            print("ok", True)
+            ''',
+            "prevalencia expuesta vs vanity accuracy", "métricas engañosas",
+        ),
+        _st(
+            "S34-T3-A", "Reliability curves y Brier score",
+            "**Calibración:** si predices 0.8, ~80% deben ser positivos. **Brier** = mean((p−y)²). Reliability por bins de p.",
+            "Mecanismo: Brier sobre listas p,y; reliability = mean(y) en bin vs mean(p).",
+            "Contrato. Entrada: probs, labels. Salida: brier y calibrated flag. Error: usar probs crudas como riesgos absolutos sin check.",
+            f"Aplicación `{case}-T3A`: p=[0.1,0.9], y=[0,1] → brier 0.01.",
+            "Sin Brier/reliability → REQUEST_CALIBRATION. Breach: REJECT_UNCALIBRATED_RISK.",
+            '''\
+            def brier(probs, ys):
+                return sum((p - y) ** 2 for p, y in zip(probs, ys)) / len(probs)
+            print("brier", brier([0.1, 0.9], [0, 1]))
+            print("reliability", "bins")
+            print("ok", True)
+            ''',
+            '''\
+            def brier(probs, ys):
+                return sum((p - y) ** 2 for p, y in zip(probs, ys)) / len(probs)
+            print(round(brier([0.2, 0.8], [0, 1]), 2))
+            print("calibrated_check", True)
+            print("ok", True)
+            ''',
+            "Brier + reliability documentados", "calibración base",
+        ),
+        _st(
+            "S34-T3-B", "Calibradores y evaluación fuera de muestra",
+            "Calibradores (**Platt/isotonic** conceptualmente) se **fit en holdout**, nunca en el test final. Evalúa calibración **out-of-sample**.",
+            "Mecanismo: split cal_fit / cal_eval; no reuses test para fit del calibrador.",
+            "Contrato. Entrada: fit_on, eval_on. Salida: oos True. Error: fit calibrador en test.",
+            f"Aplicación `{case}-T3B`: fit=val, eval=test → oos True.",
+            "Calibrator on test → REJECT_CAL_LEAK. Missing: REQUEST_OOS_SPLIT.",
+            '''\
+            def oos_ok(fit_on, eval_on):
+                return fit_on != "test" and eval_on == "test"
+            print("oos", oos_ok("val", "test"))
+            print("fit_on", "val")
+            print("method", "platt_or_isotonic")
+            ''',
+            '''\
+            def gate(fit_on):
+                return "ok" if fit_on != "test" else "REJECT_CAL_LEAK"
+            print(gate("val"))
+            print(gate("test"))
+            print("oos", True)
+            ''',
+            "calibrador OOS", "calibración OOS",
+        ),
+        _st(
+            "S34-T4-A", "Threshold por costo y capacidad",
+            "El **umbral** no es 0.5 por magia: maximiza utilidad bajo **costos** y **capacidad** de review. thr alto → menos FP, más FN.",
+            "Mecanismo: para thr en grid, pred=p>=thr; cost = fp*c_fp + fn*c_fn; elige thr con cost mínimo sujeto a load<=capacity.",
+            "Contrato. Entrada: costs, capacity, thr_star. Salida: thr y expected_load. Error: thr fijo 0.5 sin costos.",
+            f"Aplicación `{case}-T4A`: thr=0.7, capacity=20, load=15.",
+            "thr mágico 0.5 sin costos → REJECT_MAGIC_THRESHOLD. Missing: REQUEST_COST_GRID.",
+            '''\
+            def pick_thr(candidates, loads, capacity):
+                ok = [(t, l) for t, l in zip(candidates, loads) if l <= capacity]
+                return ok[-1] if ok else (candidates[0], loads[0])
+            thr, load = pick_thr([0.5, 0.7, 0.9], [40, 15, 5], 20)
+            print("thr", thr)
+            print("load", load)
+            print("capacity", 20)
+            ''',
+            '''\
+            def under_capacity(load, cap):
+                return load <= cap
+            print("thr", 0.7)
+            print("ok", under_capacity(15, 20))
+            print("magic_0_5", False)
+            ''',
+            "thr por costo/capacidad", "umbral de decisión",
+        ),
+        _st(
+            "S34-T4-B", "Abstención, slices y sensibilidad",
+            "**Abstención** (banda gris) envía a humano. **Slices** (canal/región sintética) detectan fallas locales. **Sensibilidad** a thr documenta robustez.",
+            "Mecanismo: si p en [lo,hi] → ABSTAIN; reporta metric por slice; Δmetric al mover thr ±ε.",
+            "Contrato. Entrada: p, band, slice_metrics. Salida: decision y worst_slice. Error: auto-decidir en banda gris.",
+            f"Aplicación `{case}-T4B`: p=0.55 en [0.4,0.6] → ABSTAIN; cierra CP-N3-B workbench con ranking calibrado para revisión.",
+            "Decidir en banda gris → REJECT_NO_ABSTAIN. Missing slices → REQUEST_SLICE_REPORT.",
+            '''\
+            def decide(p, lo=0.4, hi=0.6):
+                if lo <= p <= hi:
+                    return "ABSTAIN"
+                return "REVIEW" if p > hi else "SKIP"
+            print(decide(0.55))
+            print("human_required", True)
+            print("auto_fraud", False)
+            ''',
+            '''\
+            def worst_slice(metrics):
+                return min(metrics, key=metrics.get)
+            print(worst_slice({"app": 0.7, "ussd": 0.4}))
+            print("abstain_band", True)
+            print("ok", True)
+            ''',
+            "abstención + slices + no auto-fraude", "decisión y slices",
+        ),
+    ]
+
+    # 24 exercises compact
+    ex = []
+    specs = [
+        ("S34-T1-A-E1", "S34-T1-A", "guided",
+         f"S34-T1-A-E1 · Precision: tp=1 fp=1 → 0.5. Imprime precision 0.5, recall 1.0 (fn=0), ok True. Starter suma mal (defect). {case}-1A.",
+         "P=tp/(tp+fp).", ["fn=0 → recall 1.", "No uses accuracy."],
+         "tp, fp, fn = 1, 1, 0\nprint(\"precision\", tp / (tp + fp + fn))  # DEFECT\nprint(\"recall\", 1.0)\nprint(\"ok\", True)\n",
+         "tp, fp, fn = 1, 1, 0\nprint(\"precision\", tp / (tp + fp))\nprint(\"recall\", tp / (tp + fn) if tp + fn else 0)\nprint(\"ok\", True)\n"),
+        ("S34-T1-A-E2", "S34-T1-A", "independent",
+         f"S34-T1-A-E2 · F1: P=0.5 R=1.0 → 2PR/(P+R)=0.666…. Imprime f1 redondeado 2 dec (0.67), accuracy_only False, ok True. Starter promedio simple (defect). {case}-1A.",
+         "F1 = 2PR/(P+R).", ["No (P+R)/2.", "accuracy_only False."],
+         "p, r = 0.5, 1.0\nprint(\"f1\", round((p + r) / 2, 2))  # DEFECT\nprint(\"accuracy_only\", False)\nprint(\"ok\", True)\n",
+         "p, r = 0.5, 1.0\nprint(\"f1\", round(2 * p * r / (p + r), 2))\nprint(\"accuracy_only\", False)\nprint(\"ok\", True)\n"),
+        ("S34-T1-A-E3", "S34-T1-A", "transfer",
+         f"S34-T1-A-E3 · Solo accuracy reportada → REJECT_ACCURACY_ONLY. Imprime status REJECT_ACCURACY_ONLY, ok True, n 1. Starter PASS (defect). {case}-1A.",
+         "Prohíbe accuracy-only en desbalance.", ["REJECT_ACCURACY_ONLY.", "n 1."],
+         "accuracy_only = True\nprint(\"status\", \"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+         "accuracy_only = True\nprint(\"status\", \"REJECT_ACCURACY_ONLY\" if accuracy_only else \"PASS\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n"),
+        ("S34-T1-B-E1", "S34-T1-B", "guided",
+         f"S34-T1-B-E1 · P@k: ranked=[1,0,1,0] k=2 → 0.5. Imprime 0.5, k 2, ok True. Starter k=4 (defect). {case}-1B.",
+         "P@k=sum(ranked[:k])/k.", ["k=2 del fixture.", "No uses k=len."],
+         "ranked = [1, 0, 1, 0]\nk = 4  # DEFECT\nprint(sum(ranked[:k]) / k)\nprint(\"k\", k)\nprint(\"ok\", True)\n",
+         "ranked = [1, 0, 1, 0]\nk = 2\nprint(sum(ranked[:k]) / k)\nprint(\"k\", k)\nprint(\"ok\", True)\n"),
+        ("S34-T1-B-E2", "S34-T1-B", "independent",
+         f"S34-T1-B-E2 · Capacidad: k=40 capacity=20 → over_capacity True. Imprime over_capacity True, action reduce_k, ok True. Starter False (defect). {case}-1B.",
+         "over si k>capacity.", ["action reduce_k.", "No satures la cola."],
+         "k, capacity = 40, 20\nprint(\"over_capacity\", False)  # DEFECT\nprint(\"action\", \"reduce_k\")\nprint(\"ok\", True)\n",
+         "k, capacity = 40, 20\nprint(\"over_capacity\", k > capacity)\nprint(\"action\", \"reduce_k\")\nprint(\"ok\", True)\n"),
+        ("S34-T1-B-E3", "S34-T1-B", "transfer",
+         f"S34-T1-B-E3 · Ranking ausente → REQUEST_RANKING. Imprime REQUEST_RANKING, ok True, p_at_k None como string 'n/a'. Starter 0.0 (defect). {case}-1B.",
+         "Sin ranking no hay P@k.", ["REQUEST_RANKING.", "p_at_k n/a."],
+         "ranked = None\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"p_at_k\", 0.0)\n",
+         "ranked = None\nprint(\"PASS\" if ranked is not None else \"REQUEST_RANKING\")\nprint(\"ok\", True)\nprint(\"p_at_k\", \"n/a\")\n"),
+        ("S34-T2-A-E1", "S34-T2-A", "guided",
+         f"S34-T2-A-E1 · pos_weight: 90/10 → 9.0. Imprime weight 9.0, in_cv True, ok True. Starter 10/90 (defect). {case}-2A.",
+         "weight = n_neg/n_pos.", ["in_cv True.", "No inviertas."],
+         "n_neg, n_pos = 90, 10\nprint(\"weight\", n_pos / n_neg)  # DEFECT\nprint(\"in_cv\", True)\nprint(\"ok\", True)\n",
+         "n_neg, n_pos = 90, 10\nprint(\"weight\", n_neg / n_pos)\nprint(\"in_cv\", True)\nprint(\"ok\", True)\n"),
+        ("S34-T2-A-E2", "S34-T2-A", "independent",
+         f"S34-T2-A-E2 · Resample antes de CV: in_cv False → REJECT_RESAMPLE_LEAK. Imprime status, in_cv False, ok True. Starter PASS (defect). {case}-2A.",
+         "Resample solo dentro de train folds.", ["REJECT_RESAMPLE_LEAK.", "in_cv False adverso."],
+         "in_cv = False\nprint(\"status\", \"PASS\")  # DEFECT\nprint(\"in_cv\", in_cv)\nprint(\"ok\", True)\n",
+         "in_cv = False\nprint(\"status\", \"PASS\" if in_cv else \"REJECT_RESAMPLE_LEAK\")\nprint(\"in_cv\", in_cv)\nprint(\"ok\", True)\n"),
+        ("S34-T2-A-E3", "S34-T2-A", "transfer",
+         f"S34-T2-A-E3 · Pipeline: weights + in_cv. Imprime leak_resample False, weight 9.0, ok True. Starter leak True (defect). {case}-2A.",
+         "leak_resample False es gate.", ["weight 9.0 del fixture.", "ok True."],
+         "print(\"leak_resample\", True)  # DEFECT\nprint(\"weight\", 9.0)\nprint(\"ok\", True)\n",
+         "print(\"leak_resample\", False)\nprint(\"weight\", 9.0)\nprint(\"ok\", True)\n"),
+        ("S34-T2-B-E1", "S34-T2-B", "guided",
+         f"S34-T2-B-E1 · baseline_acc: prev=0.01 → 0.99. Imprime 0.99, prevalence 0.01, ok True. Starter prev (defect). {case}-2B.",
+         "baseline_acc = 1 - prevalence.", ["No imprimas solo prev.", "0.99."],
+         "prev = 0.01\nprint(prev)  # DEFECT\nprint(\"prevalence\", prev)\nprint(\"ok\", True)\n",
+         "prev = 0.01\nprint(1 - prev)\nprint(\"prevalence\", prev)\nprint(\"ok\", True)\n"),
+        ("S34-T2-B-E2", "S34-T2-B", "independent",
+         f"S34-T2-B-E2 · misleading: acc≈baseline y recall 0 → True. Imprime misleading True, recall 0.0, ok True. Starter False (defect). {case}-2B.",
+         "Vanity accuracy con recall nulo.", ["misleading True.", "recall 0.0."],
+         "print(\"misleading\", False)  # DEFECT\nprint(\"recall\", 0.0)\nprint(\"ok\", True)\n",
+         "print(\"misleading\", True)\nprint(\"recall\", 0.0)\nprint(\"ok\", True)\n"),
+        ("S34-T2-B-E3", "S34-T2-B", "transfer",
+         f"S34-T2-B-E3 · Vanity → REJECT_VANITY_ACC. Imprime status REJECT_VANITY_ACC, metric precision_recall, ok True. Starter SHIP (defect). {case}-2B.",
+         "No promociones accuracy-only.", ["REJECT_VANITY_ACC.", "metric precision_recall."],
+         "print(\"status\", \"SHIP\")  # DEFECT\nprint(\"metric\", \"precision_recall\")\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_VANITY_ACC\")\nprint(\"metric\", \"precision_recall\")\nprint(\"ok\", True)\n"),
+        ("S34-T3-A-E1", "S34-T3-A", "guided",
+         f"S34-T3-A-E1 · Brier: p=[0.1,0.9] y=[0,1] → 0.01. Imprime brier 0.01, ok True, n 2. Starter usa abs (defect). {case}-3A.",
+         "mean((p-y)^2).", ["No mean(abs).", "n=2."],
+         "probs, ys = [0.1, 0.9], [0, 1]\nprint(\"brier\", sum(abs(p - y) for p, y in zip(probs, ys)) / len(probs))  # DEFECT\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+         "probs, ys = [0.1, 0.9], [0, 1]\nprint(\"brier\", sum((p - y) ** 2 for p, y in zip(probs, ys)) / len(probs))\nprint(\"ok\", True)\nprint(\"n\", 2)\n"),
+        ("S34-T3-A-E2", "S34-T3-A", "independent",
+         f"S34-T3-A-E2 · Reliability idea: bin mean p=0.8 mean y=0.5 → gap 0.3. Imprime gap 0.3, calibrated False, ok True. Starter gap 0 (defect). {case}-3A.",
+         "gap = abs(mean_p - mean_y).", ["calibrated False si gap material.", "0.3."],
+         "mean_p, mean_y = 0.8, 0.5\nprint(\"gap\", 0)  # DEFECT\nprint(\"calibrated\", False)\nprint(\"ok\", True)\n",
+         "mean_p, mean_y = 0.8, 0.5\nprint(\"gap\", abs(mean_p - mean_y))\nprint(\"calibrated\", False)\nprint(\"ok\", True)\n"),
+        ("S34-T3-A-E3", "S34-T3-A", "transfer",
+         f"S34-T3-A-E3 · Riesgo sin calibrar → REJECT_UNCALIBRATED_RISK. Imprime status, risk_as_prob False, ok True. Starter PASS (defect). {case}-3A.",
+         "No trates score crudo como probabilidad absoluta.", ["REJECT_UNCALIBRATED_RISK.", "risk_as_prob False."],
+         "print(\"status\", \"PASS\")  # DEFECT\nprint(\"risk_as_prob\", False)\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_UNCALIBRATED_RISK\")\nprint(\"risk_as_prob\", False)\nprint(\"ok\", True)\n"),
+        ("S34-T3-B-E1", "S34-T3-B", "guided",
+         f"S34-T3-B-E1 · OOS: fit_on=val eval_on=test → oos True. Imprime oos True, method platt_or_isotonic, ok True. Starter fit test (defect). {case}-3B.",
+         "fit ≠ test.", ["oos True.", "method platt_or_isotonic."],
+         "fit_on, eval_on = \"test\", \"test\"  # DEFECT\nprint(\"oos\", fit_on != \"test\")\nprint(\"method\", \"platt_or_isotonic\")\nprint(\"ok\", True)\n",
+         "fit_on, eval_on = \"val\", \"test\"\nprint(\"oos\", fit_on != \"test\" and eval_on == \"test\")\nprint(\"method\", \"platt_or_isotonic\")\nprint(\"ok\", True)\n"),
+        ("S34-T3-B-E2", "S34-T3-B", "independent",
+         f"S34-T3-B-E2 · Cal leak: fit_on=test → REJECT_CAL_LEAK. Imprime status, fit_on test, ok True. Starter PASS (defect). {case}-3B.",
+         "Calibrador no se fitea en test.", ["REJECT_CAL_LEAK.", "fit_on test adverso."],
+         "fit_on = \"test\"\nprint(\"status\", \"PASS\")  # DEFECT\nprint(\"fit_on\", fit_on)\nprint(\"ok\", True)\n",
+         "fit_on = \"test\"\nprint(\"status\", \"PASS\" if fit_on != \"test\" else \"REJECT_CAL_LEAK\")\nprint(\"fit_on\", fit_on)\nprint(\"ok\", True)\n"),
+        ("S34-T3-B-E3", "S34-T3-B", "transfer",
+         f"S34-T3-B-E3 · Split OOS ausente → REQUEST_OOS_SPLIT. Imprime REQUEST_OOS_SPLIT, ok True, n 0. Starter PASS (defect). {case}-3B.",
+         "Necesitas holdout de calibración.", ["REQUEST_OOS_SPLIT.", "n 0."],
+         "has_oos = False\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"n\", 0)\n",
+         "has_oos = False\nprint(\"PASS\" if has_oos else \"REQUEST_OOS_SPLIT\")\nprint(\"ok\", True)\nprint(\"n\", 0)\n"),
+        ("S34-T4-A-E1", "S34-T4-A", "guided",
+         f"S34-T4-A-E1 · thr bajo capacity: candidates 0.5/0.7/0.9 loads 40/15/5 cap 20 → thr 0.7. Imprime thr 0.7, load 15, capacity 20. Starter elige 0.5 (defect). {case}-4A.",
+         "Elige thr con load<=capacity (p.ej. el mayor thr factible o el documentado 0.7).",
+         ["load 15.", "No uses 0.5 mágico si satura."],
+         "print(\"thr\", 0.5)  # DEFECT\nprint(\"load\", 15)\nprint(\"capacity\", 20)\n",
+         "print(\"thr\", 0.7)\nprint(\"load\", 15)\nprint(\"capacity\", 20)\n"),
+        ("S34-T4-A-E2", "S34-T4-A", "independent",
+         f"S34-T4-A-E2 · Magic 0.5 sin costos → REJECT_MAGIC_THRESHOLD. Imprime status, thr 0.5, costs_missing True. Starter PASS (defect). {case}-4A.",
+         "Umbral requiere costos/capacidad.", ["REJECT_MAGIC_THRESHOLD.", "costs_missing True."],
+         "costs_missing = True\nprint(\"status\", \"PASS\")  # DEFECT\nprint(\"thr\", 0.5)\nprint(\"costs_missing\", True)\n",
+         "costs_missing = True\nprint(\"status\", \"REJECT_MAGIC_THRESHOLD\" if costs_missing else \"PASS\")\nprint(\"thr\", 0.5)\nprint(\"costs_missing\", True)\n"),
+        ("S34-T4-A-E3", "S34-T4-A", "transfer",
+         f"S34-T4-A-E3 · Cost grid: c_fp=1 c_fn=5 → prefiere thr que reduzca FN. Imprime priority fn, c_fn 5, ok True. Starter priority fp (defect). {case}-4A.",
+         "Si c_fn>c_fp prioriza reducir FN (más recall).", ["priority fn.", "c_fn 5."],
+         "c_fp, c_fn = 1, 5\nprint(\"priority\", \"fp\")  # DEFECT\nprint(\"c_fn\", c_fn)\nprint(\"ok\", True)\n",
+         "c_fp, c_fn = 1, 5\nprint(\"priority\", \"fn\" if c_fn > c_fp else \"fp\")\nprint(\"c_fn\", c_fn)\nprint(\"ok\", True)\n"),
+        ("S34-T4-B-E1", "S34-T4-B", "guided",
+         f"S34-T4-B-E1 · Abstain: p=0.55 band [0.4,0.6] → ABSTAIN. Imprime ABSTAIN, human_required True, auto_fraud False. Starter REVIEW (defect). {case}-4B.",
+         "Banda gris → humano.", ["auto_fraud False.", "ABSTAIN."],
+         "p, lo, hi = 0.55, 0.4, 0.6\nprint(\"REVIEW\")  # DEFECT\nprint(\"human_required\", True)\nprint(\"auto_fraud\", False)\n",
+         "p, lo, hi = 0.55, 0.4, 0.6\nprint(\"ABSTAIN\" if lo <= p <= hi else (\"REVIEW\" if p > hi else \"SKIP\"))\nprint(\"human_required\", True)\nprint(\"auto_fraud\", False)\n"),
+        ("S34-T4-B-E2", "S34-T4-B", "independent",
+         f"S34-T4-B-E2 · Worst slice: metrics app 0.7 ussd 0.4 → ussd. Imprime ussd, slice_report True, ok True. Starter max (defect). {case}-4B.",
+         "worst = min metric.", ["slice_report True.", "ussd."],
+         "m = {\"app\": 0.7, \"ussd\": 0.4}\nprint(max(m, key=m.get))  # DEFECT\nprint(\"slice_report\", True)\nprint(\"ok\", True)\n",
+         "m = {\"app\": 0.7, \"ussd\": 0.4}\nprint(min(m, key=m.get))\nprint(\"slice_report\", True)\nprint(\"ok\", True)\n"),
+        ("S34-T4-B-E3", "S34-T4-B", "transfer",
+         f"S34-T4-B-E3 · Workbench gate: ranking calibrado + HITL, sin auto fraude. Imprime auto_fraud False, calibrated_rank True, gate CP-N3-B. Starter auto_fraud True (defect). {case}-4B cierra CP-N3-B.",
+         "Relationship Investigation Workbench no etiqueta fraude automático.",
+         ["auto_fraud False.", "gate CP-N3-B."],
+         "print(\"auto_fraud\", True)  # DEFECT\nprint(\"calibrated_rank\", True)\nprint(\"gate\", \"CP-N3-B\")\n",
+         "print(\"auto_fraud\", False)\nprint(\"calibrated_rank\", True)\nprint(\"gate\", \"CP-N3-B\")\n"),
+    ]
+    for eid, st, kind, instr, hint, hints, starter, sol in specs:
+        ex.append(ex_block(eid, st, kind, instr, hint, hints, starter, sol, case=case))
+
+    return {
+        "index": 34,
+        "file": FILES[34][0],
+        "export": FILES[34][1],
+        "id": FILES[34][2],
+        "title": "Métricas, desbalance, calibración y umbrales",
+        "short": "Métricas y umbrales",
+        "tagline": "Relationship Investigation Workbench combina grafo y evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+        "hours": 19,
+        "icon": "Gauge",
+        "accent": "bg-gradient-to-br from-fuchsia-500 to-purple-900",
+        "job": (
+            "Cerrar CP-N3-B exige métricas honestas bajo desbalance, calibración OOS y umbrales por costo/capacidad. "
+            "En colas sintéticas tipo fintech Lima, accuracy vanity y thr=0.5 mágico dañan la operación. "
+            "Id `cv-ai-integration` legacy; V3 es métricas/calibración/umbrales. Caso CASO-LIM-034. Auto-fraude prohibido."
+        ),
+        "outcomes": [
+            "Calcular confusion matrix, precision, recall y F1",
+            "Usar P@k y PR thinking alineados a capacidad de cola",
+            "Aplicar class weights y resampling solo dentro de CV",
+            "Detectar vanity accuracy bajo baja prevalencia",
+            "Medir Brier y gaps de reliability",
+            "Calibrar fuera de muestra sin leakage",
+            "Elegir threshold por costo y capacidad",
+            "Implementar abstención, slices y gate sin auto-fraude",
+        ],
+        "case": case,
+        "product": "Ranking calibrado para review humano (cierre CP-N3-B)",
+        "map_heading": "Mapa S34: métricas, desbalance, calibración y umbrales",
+        "map_paras": [
+            "**Diccionario S34.** **Precision/Recall/F1**, **P@k**, **prevalence**, **class weight**, **Brier**, **reliability**, **threshold**, **abstención**, **slice**. Accuracy no es la métrica de cola desbalanceada.",
+            "Prerrequisito S33. Producto: workbench con ranking calibrado para revisión humana; no etiqueta fraude automático.",
+            "Contrato. Entrada: scores/probs sintéticos CASO-LIM-034 + capacidad. Salida: métricas, thr, abstain policy. Error: vanity accuracy, cal leak, thr mágico, auto-fraude → bloqueo.",
+            "Orden: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Stack stdlib; sklearn metrics como referencia.",
+        ],
+        "map_code": textwrap.dedent(
+            """\
+            def section_contract():
+                return {
+                    "case": "CASO-LIM-034",
+                    "auto_fraud": False,
+                    "calibrated_rank": True,
+                    "human_review": True,
+                    "gate": "CP-N3-B",
+                }
+            c = section_contract()
+            print("case", c["case"])
+            print("auto_fraud", c["auto_fraud"])
+            print("human_review", c["human_review"])
+            print("gate", c["gate"])
+            """
+        ),
+        "subtopics": subtopics,
+        "exercises": ex,
+        "weDo_intro": (
+            "S34 · Laboratorio métricas/calibración/umbrales (cierre CP-N3-B): 24 retos. "
+            "E1/E2/E3 con DEFECT real. CASO-LIM-034; sin PII; sin auto-fraude."
+        ),
+        "youDo": {
+            "title": "Ranking calibrado para revisión (CP-N3-B)",
+            "context": "Métricas P/R/P@k, desbalance en CV, Brier, thr por capacidad y abstención sobre CASO-LIM-034. Id cv-ai-integration legacy.",
+            "objectives": [
+                "P/R/F1 y P@k",
+                "Weights/resample in-CV",
+                "Brier + OOS calibration",
+                "thr + abstain + slices",
+            ],
+            "requirements": [
+                "No accuracy-only",
+                "No auto-fraude",
+                "HITL en banda gris",
+                "Capacidad de cola respetada",
+            ],
+            "starter": textwrap.dedent(
+                """\
+                # CASO-LIM-034 · métricas y umbrales (youDo)
+                def precision_at_k(ranked, k):
+                    return sum(ranked[:k]) / k
+                def brier(probs, ys):
+                    return sum((p - y) ** 2 for p, y in zip(probs, ys)) / len(probs)
+                if __name__ == "__main__":
+                    print("p_at_2", precision_at_k([1, 0, 1], 2))
+                    print("brier", brier([0.1, 0.9], [0, 1]))
+                    print("auto_fraud", False)
+                """
+            ),
+            "portfolio": "Workbench CP-N3-B: ranking calibrado + HITL + sin auto-fraude.",
+            "gate_criterion": "calibrated rank + capacity thr + abstain + auto_fraud False",
+        },
+        "selfcheck": [
+            {"q": "Con prevalencia 1%, predecir siempre negativo da accuracy ≈:", "opts": ["1%", "50%", "99%", "0%"], "i": 2, "e": "baseline_acc = 1 - prevalence; por eso accuracy engaña."},
+            {"q": "Resampling de minoría antes de hacer el split de CV es:", "opts": ["Best practice", "Leakage", "Calibración", "Abstención"], "i": 1, "e": "Debe ocurrir solo dentro de folds de train."},
+            {"q": "Brier score mide:", "opts": ["Profundidad del árbol", "Error cuadrático de probabilidades", "Kafka lag", "Entity overlap"], "i": 1, "e": "mean((p-y)^2); útil para calibración."},
+            {"q": "Un umbral 0.5 sin costos ni capacidad es:", "opts": ["Óptimo Bayes", "Magic threshold a rechazar", "Obligatorio en sklearn", "P@k"], "i": 1, "e": "thr se elige por costo/capacidad de review."},
+            {"q": "El workbench CP-N3-B debe:", "opts": ["Etiquetar fraude automático", "Usar ranking calibrado + revisión humana", "Borrar el baseline", "Ignorar slices"], "i": 1, "e": "Explica casos y registra decisiones; no auto-fraude."},
+        ],
+        "resources_docs": [
+            ("sklearn metrics", "https://scikit-learn.org/stable/modules/model_evaluation.html", "P/R/F1, Brier, curves"),
+            ("sklearn calibration", "https://scikit-learn.org/stable/modules/calibration.html", "Reliability y calibradores"),
+            ("sklearn imbalanced tips", "https://imbalanced-learn.org/stable/", "Resampling en pipelines"),
+            ("Google Rules of ML", "https://developers.google.com/machine-learning/guides/rules-of-ml", "Métricas de producto"),
+            ("Python statistics", "https://docs.python.org/3/library/statistics.html", "Medias en stdlib"),
+            ("Py4E", "https://www.py4e.com", "Pedagogía gradual"),
+        ],
+        "resources_courses": [
+            ("Stanford CS229 evaluation notes", "https://cs229.stanford.edu/", "Métricas y generalización"),
+            ("Coursera ML", "https://www.coursera.org/learn/machine-learning", "Precision/recall"),
+            ("MIT 6.036", "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/", "Evaluación"),
+            ("deeplearning.ai", "https://www.deeplearning.ai/", "Error analysis"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python", "Exercises"),
+            ("StatQuest precision recall", "https://www.youtube.com/watch?v=qWfzIYCvBqo", "Claridad visual"),
+        ],
+        "books": [
+            ("ISLR — classification metrics", "P/R y resampling"),
+            ("Hands-On ML — performance measures", "Matrices y curves"),
+            ("Calibrated probability literature (survey)", "Platt/isotonic ideas"),
+        ],
+    }
+
+
+def S35() -> dict:
+    case = "CASO-LIM-035"
+    subtopics = [
+        _st(
+            "S35-T1-A", "Coeficientes e importancia por permutación",
+            "**Importancia por permutación:** mide caída de métrica al barajar una feature. Más fiable que |coef| solo, pero sigue siendo asociativa.",
+            "Mecanismo: baseline_metric - metric_after_shuffle(feature). Ranking por drop.",
+            "Contrato. Entrada: drops por feature, metric. Salida: top feature y causal False. Error: rank de culpa moral.",
+            f"Aplicación `{case}-T1A`: shared_phone drop 0.1 > amount 0.03; no implica parentesco.",
+            "Culpa por importancia → REJECT_IMPORTANCE_AS_GUILT. Missing: REQUEST_PERM_DROPS.",
+            '''\
+            def top_by_drop(drops):
+                return max(drops, key=drops.get)
+            drops = {"shared_phone": 0.1, "amount_7d": 0.03}
+            print("top", top_by_drop(drops))
+            print("metric", "precision_at_k")
+            print("causal", False)
+            ''',
+            '''\
+            def rank(drops):
+                return sorted(drops, key=drops.get, reverse=True)
+            print(rank({"shared_phone": 0.1, "amount_7d": 0.03}))
+            print("guilt", False)
+            print("ok", True)
+            ''',
+            "perm importance sin culpa", "importancia",
+        ),
+        _st(
+            "S35-T1-B", "Explicación local, correlación y límites",
+            "**Explicación local** (contribuciones toy / idea SHAP): por qué *este* score. **Correlación** entre features confunde atribuciones. Límites: no es prueba causal ni legal.",
+            "Mecanismo: contrib = w_i * x_i; suma ≈ score − b. Documenta `local_only=True`.",
+            "Contrato. Entrada: w, x. Salida: contribs y disclaimer. Error: usar explicación como veredicto.",
+            f"Aplicación `{case}-T1B`: contribs amount 1.0 shared 0.2; local_only True.",
+            "Veredicto desde SHAP → REJECT_LOCAL_AS_VERDICT. Missing: REQUEST_LOCAL_CONTEXT.",
+            '''\
+            def contribs(w, x):
+                return [wi * xi for wi, xi in zip(w, x)]
+            print(contribs([0.5, 0.2], [2.0, 1.0]))
+            print("local_only", True)
+            print("legal_proof", False)
+            ''',
+            '''\
+            def sum_contrib(c):
+                return sum(c)
+            print(sum_contrib([1.0, 0.2]))
+            print("correlation_caveat", True)
+            print("ok", True)
+            ''',
+            "explicación local con límites", "explicación local",
+        ),
+        _st(
+            "S35-T2-A", "Cohortes y métricas por slice",
+            "**Equidad de medición:** reporta precision/recall (o P@k) por **cohorte/slice** sintético (canal, región). n pequeño → incertidumbre alta.",
+            "Mecanismo: metric(slice)=tp/(tp+fp); flag low_n si n<min_n.",
+            "Contrato. Entrada: metrics_by_slice, min_n. Salida: worst slice y low_n flags. Error: promediar ocultando slice roto.",
+            f"Aplicación `{case}-T2A`: ussd 0.4 vs app 0.7; n_ussd=8 < 30 → low_n.",
+            "Ocultar slices → REJECT_HIDDEN_SLICE. Missing: REQUEST_SLICE_N.",
+            '''\
+            def worst(metrics):
+                return min(metrics, key=metrics.get)
+            m = {"app": 0.7, "ussd": 0.4}
+            print("worst", worst(m))
+            print("min_n", 30)
+            print("report_slices", True)
+            ''',
+            '''\
+            def low_n(n, min_n=30):
+                return n < min_n
+            print(low_n(8))
+            print(low_n(100))
+            print("ok", True)
+            ''',
+            "métricas por slice con n", "equidad por slice",
+        ),
+        _st(
+            "S35-T2-B", "Proxies, sample size y daño diferencial",
+            "**Proxies** (distrito, canal) pueden correlacionar con atributos sensibles. **Daño diferencial:** mismo modelo, peores errores en un slice. n insuficiente → no afirmes paridad.",
+            "Mecanismo: checklist proxy_risk; require n>=min para claims; HITL en slices frágiles.",
+            "Contrato. Entrada: proxy_flags, n, harm_gap. Salida: review_required. Error: afirmar fairness con n=5.",
+            f"Aplicación `{case}-T2B`: proxy_risk True, n=5 → no claim de paridad.",
+            "Fairness claim con n bajo → REJECT_FAIRNESS_CLAIM. Missing: REQUEST_PROXY_AUDIT.",
+            '''\
+            def fairness_claim_ok(n, min_n, proxy_risk):
+                return n >= min_n and not proxy_risk
+            print("claim_ok", fairness_claim_ok(5, 30, True))
+            print("proxy_risk", True)
+            print("hitl", True)
+            ''',
+            '''\
+            def review(proxy_risk, harm_gap):
+                return proxy_risk or harm_gap > 0.1
+            print(review(True, 0.0))
+            print("n_guard", True)
+            print("ok", True)
+            ''',
+            "proxies + n guard + HITL", "proxies y daño",
+        ),
+        _st(
+            "S35-T3-A", "Incertidumbre: calibración e intervalos (conformal idea)",
+            "**Incertidumbre** comunica que el score no es certeza. **Conformal** (idea): bandas con cobertura empírica. Intervalos anchos → abstenerse.",
+            "Mecanismo: width = hi-lo; si width > thr → uncertain. Calibración conecta con S34.",
+            "Contrato. Entrada: lo, hi, thr. Salida: uncertain flag. Error: punto único sin banda en decisiones de alto impacto.",
+            f"Aplicación `{case}-T3A`: [0.2,0.8] width 0.6 > 0.3 → uncertain True.",
+            "Punto único en alto impacto → REJECT_POINT_ONLY. Missing: REQUEST_INTERVAL.",
+            '''\
+            def uncertain(lo, hi, thr=0.3):
+                return (hi - lo) > thr
+            print("uncertain", uncertain(0.2, 0.8))
+            print("width", 0.6)
+            print("point_only", False)
+            ''',
+            '''\
+            def width(lo, hi):
+                return hi - lo
+            print(width(0.2, 0.8))
+            print("conformal_idea", True)
+            print("ok", True)
+            ''',
+            "bandas de incertidumbre", "incertidumbre",
+        ),
+        _st(
+            "S35-T3-B", "Out-of-distribution y abstención",
+            "**OOD:** input lejos del train (distancia toy / max |z|). **Abstención** envía a humano en vez de forzar clase.",
+            "Mecanismo: max_abs_z > z_thr → OOD → ABSTAIN.",
+            "Contrato. Entrada: z_scores, thr. Salida: ood y action. Error: predecir en OOD sin flag.",
+            f"Aplicación `{case}-T3B`: z=[0.1, 4.0], thr=3 → OOD ABSTAIN.",
+            "Predicción OOD silenciosa → REJECT_SILENT_OOD. Missing: REQUEST_OOD_POLICY.",
+            '''\
+            def ood_action(zs, thr=3.0):
+                ood = max(abs(z) for z in zs) > thr
+                return ood, "ABSTAIN" if ood else "SCORE"
+            ood, act = ood_action([0.1, 4.0])
+            print("ood", ood)
+            print("action", act)
+            print("human", True)
+            ''',
+            '''\
+            def max_abs(zs):
+                return max(abs(z) for z in zs)
+            print(max_abs([0.1, 4.0]))
+            print("policy", "abstain_on_ood")
+            print("ok", True)
+            ''',
+            "OOD → abstain HITL", "OOD y abstención",
+        ),
+        _st(
+            "S35-T4-A", "Model card y contestabilidad",
+            "**Model card:** intended use, datos, métricas, límites, ethical considerations. **Contestabilidad:** canal para apelar/override con registro.",
+            "Mecanismo: checklist de campos obligatorios; missing → no deploy.",
+            "Contrato. Entrada: card fields. Salida: complete flag. Error: card vacía o sin límites.",
+            f"Aplicación `{case}-T4A`: fields use/data/metrics/limits/ethics presentes.",
+            "Card incompleta → REJECT_INCOMPLETE_CARD. Missing: REQUEST_MODEL_CARD.",
+            '''\
+            def card_complete(fields, required):
+                return set(required) <= set(fields)
+            req = ["use", "data", "metrics", "limits", "ethics"]
+            print("complete", card_complete(req, req))
+            print("contestable", True)
+            print("deploy", True)
+            ''',
+            '''\
+            def missing(fields, required):
+                return sorted(set(required) - set(fields))
+            print(missing(["use", "data"], ["use", "data", "metrics"]))
+            print("card", True)
+            print("ok", True)
+            ''',
+            "model card completa + contestable", "model card",
+        ),
+        _st(
+            "S35-T4-B", "Aprobación, override, apelación y retiro",
+            "**Gobernanza:** aprobación humana antes de acciones que afectan personas; **override/apelación** auditados; **retiro** si drift/daño.",
+            "Mecanismo: estados PENDING→APPROVED|REJECTED; override requiere reason_code; retire si harm_flag.",
+            "Contrato. Entrada: state machine events. Salida: audit trail. Error: auto-approve de sanciones.",
+            f"Aplicación `{case}-T4B`: ficha de caso con evidencia, contribución, incertidumbre y decisión humana (inicio CP-N3-C).",
+            "Auto-approve daño → REJECT_AUTO_APPROVE. Missing: REQUEST_APPEAL_PATH.",
+            '''\
+            def next_state(state, event):
+                transitions = {("PENDING", "approve"): "APPROVED", ("PENDING", "reject"): "REJECTED", ("APPROVED", "retire"): "RETIRED"}
+                return transitions.get((state, event), state)
+            print(next_state("PENDING", "approve"))
+            print(next_state("APPROVED", "retire"))
+            print("auto_approve", False)
+            ''',
+            '''\
+            def audit(event, reason):
+                return {"event": event, "reason": reason, "pii": False}
+            print(audit("override", "analyst_disagreement"))
+            print("appeal_path", True)
+            print("ok", True)
+            ''',
+            "aprobación/override/retiro auditados", "gobernanza",
+        ),
+    ]
+
+    specs = [
+        ("S35-T1-A-E1", "S35-T1-A", "guided",
+         f"S35-T1-A-E1 · Top drop: shared_phone 0.1 > amount 0.03. Imprime top shared_phone, causal False, ok True. Starter min (defect). {case}-1A.",
+         "top = max drop.", ["causal False.", "shared_phone."],
+         "d = {\"shared_phone\": 0.1, \"amount_7d\": 0.03}\nprint(\"top\", min(d, key=d.get))  # DEFECT\nprint(\"causal\", False)\nprint(\"ok\", True)\n",
+         "d = {\"shared_phone\": 0.1, \"amount_7d\": 0.03}\nprint(\"top\", max(d, key=d.get))\nprint(\"causal\", False)\nprint(\"ok\", True)\n"),
+        ("S35-T1-A-E2", "S35-T1-A", "independent",
+         f"S35-T1-A-E2 · Importancia ≠ culpa: imprime guilt False, metric precision_at_k, ok True. Starter guilt True (defect). {case}-1A.",
+         "Perm importance no prueba conducta.", ["guilt False.", "metric precision_at_k."],
+         "print(\"guilt\", True)  # DEFECT\nprint(\"metric\", \"precision_at_k\")\nprint(\"ok\", True)\n",
+         "print(\"guilt\", False)\nprint(\"metric\", \"precision_at_k\")\nprint(\"ok\", True)\n"),
+        ("S35-T1-A-E3", "S35-T1-A", "transfer",
+         f"S35-T1-A-E3 · Sin drops → REQUEST_PERM_DROPS. Imprime REQUEST_PERM_DROPS, ok True, n 0. Starter PASS (defect). {case}-1A.",
+         "Necesitas vector de drops.", ["REQUEST_PERM_DROPS.", "n 0."],
+         "drops = {}\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"n\", 0)\n",
+         "drops = {}\nprint(\"PASS\" if drops else \"REQUEST_PERM_DROPS\")\nprint(\"ok\", True)\nprint(\"n\", 0)\n"),
+        ("S35-T1-B-E1", "S35-T1-B", "guided",
+         f"S35-T1-B-E1 · Contrib: w=[0.5,0.2] x=[2,1] → [1.0, 0.2]. Imprime lista, local_only True, legal_proof False. Starter suma (defect). {case}-1B.",
+         "contrib_i = w_i * x_i.", ["local_only True.", "legal_proof False."],
+         "w, x = [0.5, 0.2], [2.0, 1.0]\nprint([sum(w)])  # DEFECT\nprint(\"local_only\", True)\nprint(\"legal_proof\", False)\n",
+         "w, x = [0.5, 0.2], [2.0, 1.0]\nprint([wi * xi for wi, xi in zip(w, x)])\nprint(\"local_only\", True)\nprint(\"legal_proof\", False)\n"),
+        ("S35-T1-B-E2", "S35-T1-B", "independent",
+         f"S35-T1-B-E2 · Local as verdict → REJECT_LOCAL_AS_VERDICT. Imprime status, local_only True, ok True. Starter PASS (defect). {case}-1B.",
+         "Explicación local no es veredicto.", ["REJECT_LOCAL_AS_VERDICT.", "local_only True."],
+         "print(\"status\", \"PASS\")  # DEFECT\nprint(\"local_only\", True)\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_LOCAL_AS_VERDICT\")\nprint(\"local_only\", True)\nprint(\"ok\", True)\n"),
+        ("S35-T1-B-E3", "S35-T1-B", "transfer",
+         f"S35-T1-B-E3 · Suma contribs = score-b idea: [1.0,0.2] → 1.2. Imprime 1.2, correlation_caveat True, ok True. Starter max (defect). {case}-1B.",
+         "sum(contribs).", ["correlation_caveat True.", "1.2."],
+         "c = [1.0, 0.2]\nprint(max(c))  # DEFECT\nprint(\"correlation_caveat\", True)\nprint(\"ok\", True)\n",
+         "c = [1.0, 0.2]\nprint(sum(c))\nprint(\"correlation_caveat\", True)\nprint(\"ok\", True)\n"),
+        ("S35-T2-A-E1", "S35-T2-A", "guided",
+         f"S35-T2-A-E1 · Worst slice: app 0.7 ussd 0.4 → ussd. Imprime ussd, report_slices True, ok True. Starter max (defect). {case}-2A.",
+         "worst = min metric.", ["report_slices True.", "ussd."],
+         "m = {\"app\": 0.7, \"ussd\": 0.4}\nprint(max(m, key=m.get))  # DEFECT\nprint(\"report_slices\", True)\nprint(\"ok\", True)\n",
+         "m = {\"app\": 0.7, \"ussd\": 0.4}\nprint(min(m, key=m.get))\nprint(\"report_slices\", True)\nprint(\"ok\", True)\n"),
+        ("S35-T2-A-E2", "S35-T2-A", "independent",
+         f"S35-T2-A-E2 · low_n: n=8 min_n=30 → True. Imprime low_n True, min_n 30, ok True. Starter False (defect). {case}-2A.",
+         "low_n si n < min_n.", ["min_n 30.", "True."],
+         "n, min_n = 8, 30\nprint(\"low_n\", False)  # DEFECT\nprint(\"min_n\", min_n)\nprint(\"ok\", True)\n",
+         "n, min_n = 8, 30\nprint(\"low_n\", n < min_n)\nprint(\"min_n\", min_n)\nprint(\"ok\", True)\n"),
+        ("S35-T2-A-E3", "S35-T2-A", "transfer",
+         f"S35-T2-A-E3 · Hidden global avg → REJECT_HIDDEN_SLICE. Imprime status, slices_reported False, ok True. Starter PASS (defect). {case}-2A.",
+         "No ocultes slices rotos en el promedio.", ["REJECT_HIDDEN_SLICE.", "slices_reported False adverso."],
+         "slices_reported = False\nprint(\"status\", \"PASS\")  # DEFECT\nprint(\"slices_reported\", False)\nprint(\"ok\", True)\n",
+         "slices_reported = False\nprint(\"status\", \"PASS\" if slices_reported else \"REJECT_HIDDEN_SLICE\")\nprint(\"slices_reported\", False)\nprint(\"ok\", True)\n"),
+        ("S35-T2-B-E1", "S35-T2-B", "guided",
+         f"S35-T2-B-E1 · claim_ok: n=5 proxy_risk True → False. Imprime claim_ok False, hitl True, ok True. Starter True (defect). {case}-2B.",
+         "n bajo o proxy → no claim.", ["hitl True.", "claim_ok False."],
+         "print(\"claim_ok\", True)  # DEFECT\nprint(\"hitl\", True)\nprint(\"ok\", True)\n",
+         "n, min_n, proxy_risk = 5, 30, True\nprint(\"claim_ok\", n >= min_n and not proxy_risk)\nprint(\"hitl\", True)\nprint(\"ok\", True)\n"),
+        ("S35-T2-B-E2", "S35-T2-B", "independent",
+         f"S35-T2-B-E2 · Fairness claim inválido → REJECT_FAIRNESS_CLAIM. Imprime status, n 5, ok True. Starter PASS (defect). {case}-2B.",
+         "No afirmes paridad con n=5.", ["REJECT_FAIRNESS_CLAIM.", "n 5."],
+         "print(\"status\", \"PASS\")  # DEFECT\nprint(\"n\", 5)\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_FAIRNESS_CLAIM\")\nprint(\"n\", 5)\nprint(\"ok\", True)\n"),
+        ("S35-T2-B-E3", "S35-T2-B", "transfer",
+         f"S35-T2-B-E3 · Proxy audit missing → REQUEST_PROXY_AUDIT. Imprime REQUEST_PROXY_AUDIT, ok True, harm_gap 0.2. Starter PASS (defect). {case}-2B.",
+         "Audita proxies antes de claims.", ["REQUEST_PROXY_AUDIT.", "harm_gap 0.2."],
+         "has_proxy_audit = False\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"harm_gap\", 0.2)\n",
+         "has_proxy_audit = False\nprint(\"PASS\" if has_proxy_audit else \"REQUEST_PROXY_AUDIT\")\nprint(\"ok\", True)\nprint(\"harm_gap\", 0.2)\n"),
+        ("S35-T3-A-E1", "S35-T3-A", "guided",
+         f"S35-T3-A-E1 · Width: lo=0.2 hi=0.8 → 0.6; thr=0.3 → uncertain True. Imprime uncertain True, width 0.6, point_only False. Starter thr 1.0 (defect). {case}-3A.",
+         "uncertain si width > thr.", ["width=hi-lo.", "point_only False."],
+         "lo, hi, thr = 0.2, 0.8, 1.0  # DEFECT thr\nprint(\"uncertain\", (hi - lo) > thr)\nprint(\"width\", hi - lo)\nprint(\"point_only\", False)\n",
+         "lo, hi, thr = 0.2, 0.8, 0.3\nprint(\"uncertain\", (hi - lo) > thr)\nprint(\"width\", hi - lo)\nprint(\"point_only\", False)\n"),
+        ("S35-T3-A-E2", "S35-T3-A", "independent",
+         f"S35-T3-A-E2 · Point only en alto impacto → REJECT_POINT_ONLY. Imprime status, impact high, ok True. Starter PASS (defect). {case}-3A.",
+         "Alto impacto exige banda/incertidumbre.", ["REJECT_POINT_ONLY.", "impact high."],
+         "print(\"status\", \"PASS\")  # DEFECT\nprint(\"impact\", \"high\")\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_POINT_ONLY\")\nprint(\"impact\", \"high\")\nprint(\"ok\", True)\n"),
+        ("S35-T3-A-E3", "S35-T3-A", "transfer",
+         f"S35-T3-A-E3 · Interval missing → REQUEST_INTERVAL. Imprime REQUEST_INTERVAL, ok True, n 0. Starter PASS (defect). {case}-3A.",
+         "Pide lo/hi o conformal band.", ["REQUEST_INTERVAL.", "n 0."],
+         "has_interval = False\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"n\", 0)\n",
+         "has_interval = False\nprint(\"PASS\" if has_interval else \"REQUEST_INTERVAL\")\nprint(\"ok\", True)\nprint(\"n\", 0)\n"),
+        ("S35-T3-B-E1", "S35-T3-B", "guided",
+         f"S35-T3-B-E1 · OOD: zs=[0.1,4.0] thr=3 → ood True action ABSTAIN. Imprime ood True, action ABSTAIN, human True. Starter thr 5 (defect). {case}-3B.",
+         "ood si max|z| > thr.", ["ABSTAIN.", "human True."],
+         "zs, thr = [0.1, 4.0], 5  # DEFECT\nood = max(abs(z) for z in zs) > thr\nprint(\"ood\", ood)\nprint(\"action\", \"ABSTAIN\" if ood else \"SCORE\")\nprint(\"human\", True)\n",
+         "zs, thr = [0.1, 4.0], 3\nood = max(abs(z) for z in zs) > thr\nprint(\"ood\", ood)\nprint(\"action\", \"ABSTAIN\" if ood else \"SCORE\")\nprint(\"human\", True)\n"),
+        ("S35-T3-B-E2", "S35-T3-B", "independent",
+         f"S35-T3-B-E2 · Silent OOD → REJECT_SILENT_OOD. Imprime status, ood True, ok True. Starter PASS (defect). {case}-3B.",
+         "OOD debe flaggearse.", ["REJECT_SILENT_OOD.", "ood True."],
+         "print(\"status\", \"PASS\")  # DEFECT\nprint(\"ood\", True)\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_SILENT_OOD\")\nprint(\"ood\", True)\nprint(\"ok\", True)\n"),
+        ("S35-T3-B-E3", "S35-T3-B", "transfer",
+         f"S35-T3-B-E3 · Policy missing → REQUEST_OOD_POLICY. Imprime REQUEST_OOD_POLICY, ok True, policy none. Starter PASS (defect). {case}-3B.",
+         "Define abstain_on_ood.", ["REQUEST_OOD_POLICY.", "policy none."],
+         "has_policy = False\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"policy\", \"none\")\n",
+         "has_policy = False\nprint(\"PASS\" if has_policy else \"REQUEST_OOD_POLICY\")\nprint(\"ok\", True)\nprint(\"policy\", \"none\")\n"),
+        ("S35-T4-A-E1", "S35-T4-A", "guided",
+         f"S35-T4-A-E1 · Card complete: required use/data/metrics/limits/ethics todos presentes → True. Imprime complete True, contestable True, deploy True. Starter falta ethics (defect). {case}-4A.",
+         "set(required) ⊆ fields.", ["contestable True.", "deploy True si complete."],
+         "fields = [\"use\", \"data\", \"metrics\", \"limits\"]  # DEFECT missing ethics\nreq = [\"use\", \"data\", \"metrics\", \"limits\", \"ethics\"]\nprint(\"complete\", set(req) <= set(fields))\nprint(\"contestable\", True)\nprint(\"deploy\", True)\n",
+         "fields = [\"use\", \"data\", \"metrics\", \"limits\", \"ethics\"]\nreq = [\"use\", \"data\", \"metrics\", \"limits\", \"ethics\"]\nprint(\"complete\", set(req) <= set(fields))\nprint(\"contestable\", True)\nprint(\"deploy\", True)\n"),
+        ("S35-T4-A-E2", "S35-T4-A", "independent",
+         f"S35-T4-A-E2 · Incomplete card → REJECT_INCOMPLETE_CARD. Imprime status, complete False, ok True. Starter PASS (defect). {case}-4A.",
+         "Sin card completa no deploy.", ["REJECT_INCOMPLETE_CARD.", "complete False."],
+         "print(\"status\", \"PASS\")  # DEFECT\nprint(\"complete\", False)\nprint(\"ok\", True)\n",
+         "print(\"status\", \"REJECT_INCOMPLETE_CARD\")\nprint(\"complete\", False)\nprint(\"ok\", True)\n"),
+        ("S35-T4-A-E3", "S35-T4-A", "transfer",
+         f"S35-T4-A-E3 · Missing card → REQUEST_MODEL_CARD. Imprime REQUEST_MODEL_CARD, ok True, n 0. Starter PASS (defect). {case}-4A.",
+         "Pide model card.", ["REQUEST_MODEL_CARD.", "n 0."],
+         "has_card = False\nprint(\"PASS\")  # DEFECT\nprint(\"ok\", True)\nprint(\"n\", 0)\n",
+         "has_card = False\nprint(\"PASS\" if has_card else \"REQUEST_MODEL_CARD\")\nprint(\"ok\", True)\nprint(\"n\", 0)\n"),
+        ("S35-T4-B-E1", "S35-T4-B", "guided",
+         f"S35-T4-B-E1 · Transition PENDING+approve → APPROVED. Imprime APPROVED, auto_approve False, ok True. Starter RETIRED (defect). {case}-4B.",
+         "Tabla de transiciones.", ["auto_approve False.", "APPROVED."],
+         "print(\"APPROVED\" if False else \"RETIRED\")  # DEFECT\nprint(\"auto_approve\", False)\nprint(\"ok\", True)\n",
+         "state, event = \"PENDING\", \"approve\"\ntrans = {(\"PENDING\", \"approve\"): \"APPROVED\"}\nprint(trans[(state, event)])\nprint(\"auto_approve\", False)\nprint(\"ok\", True)\n"),
+        ("S35-T4-B-E2", "S35-T4-B", "independent",
+         f"S35-T4-B-E2 · Override audit: event override reason analyst_disagreement, pii False. Imprime reason, pii False, appeal_path True. Starter pii True (defect). {case}-4B.",
+         "Audit sin PII.", ["appeal_path True.", "pii False."],
+         "print(\"reason\", \"analyst_disagreement\")\nprint(\"pii\", True)  # DEFECT\nprint(\"appeal_path\", True)\n",
+         "print(\"reason\", \"analyst_disagreement\")\nprint(\"pii\", False)\nprint(\"appeal_path\", True)\n"),
+        ("S35-T4-B-E3", "S35-T4-B", "transfer",
+         f"S35-T4-B-E3 · Case fiche: evidence + model_contrib + uncertainty + human_decision. Imprime auto_guilt False, human_decision True, gate CP-N3-C-start. Starter auto_guilt True (defect). {case}-4B inicia CP-N3-C.",
+         "Ficha distingue evidencia, modelo, incertidumbre y humano.",
+         ["auto_guilt False.", "gate CP-N3-C-start."],
+         "print(\"auto_guilt\", True)  # DEFECT\nprint(\"human_decision\", True)\nprint(\"gate\", \"CP-N3-C-start\")\n",
+         "print(\"auto_guilt\", False)\nprint(\"human_decision\", True)\nprint(\"gate\", \"CP-N3-C-start\")\n"),
+    ]
+    ex = [ex_block(eid, st, kind, instr, hint, hints, starter, sol, case=case)
+          for eid, st, kind, instr, hint, hints, starter, sol in specs]
+
+    return {
+        "index": 35,
+        "file": FILES[35][0],
+        "export": FILES[35][1],
+        "id": FILES[35][2],
+        "title": "Explicabilidad, equidad e incertidumbre",
+        "short": "Explainability y equidad",
+        "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+        "hours": 19,
+        "icon": "Scale",
+        "accent": "bg-gradient-to-br from-violet-400 to-purple-800",
+        "job": (
+            "Inicio CP-N3-C: explicabilidad, equidad por slices, incertidumbre/OOD y gobernanza (model card, "
+            "apelación, retiro). En fintech/banca de procesos (Red Andina sintética) una importancia de feature "
+            "mal comunicada se vuelve daño. Id `system-design` legacy; V3 es explainability/fairness/uncertainty. "
+            "Caso CASO-LIM-035. Auto-culpa prohibida."
+        ),
+        "outcomes": [
+            "Calcular importancia por permutación sin claims de culpa",
+            "Producir explicaciones locales con límites y sin valor legal",
+            "Reportar métricas por slice con guardas de n",
+            "Auditar proxies y daño diferencial con HITL",
+            "Comunicar incertidumbre e intervalos (idea conformal)",
+            "Detectar OOD y abstenerse con ruta humana",
+            "Completar model card contestable",
+            "Operar aprobación, override, apelación y retiro auditados",
+        ],
+        "case": case,
+        "product": "Ficha de caso explicable con incertidumbre y decisión humana (inicio CP-N3-C)",
+        "map_heading": "Mapa S35: explicabilidad, equidad e incertidumbre",
+        "map_paras": [
+            "**Diccionario S35.** **Perm importance**, **explicación local**, **slice/cohorte**, **proxy**, **low_n**, **incertidumbre/intervalo**, **OOD**, **model card**, **contestabilidad**, **override/retiro**.",
+            "Prerrequisito S34. Producto: ficha que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana.",
+            "Contrato. Entrada: modelo + scores CASO-LIM-035. Salida: explicaciones, slices, OOD policy, card y audit. Error: culpa por importancia, fairness sin n, silent OOD, auto-approve → bloqueo.",
+            "Orden: T1 explicación → T2 equidad → T3 incertidumbre → T4 gobernanza. Stack stdlib; SHAP/sklearn inspection como referencia profesional.",
+        ],
+        "map_code": textwrap.dedent(
+            """\
+            def section_contract():
+                return {
+                    "case": "CASO-LIM-035",
+                    "auto_guilt": False,
+                    "human_decision": True,
+                    "model_card": True,
+                    "gate": "CP-N3-C-start",
+                }
+            c = section_contract()
+            print("case", c["case"])
+            print("auto_guilt", c["auto_guilt"])
+            print("human_decision", c["human_decision"])
+            print("gate", c["gate"])
+            """
+        ),
+        "subtopics": subtopics,
+        "exercises": ex,
+        "weDo_intro": (
+            "S35 · Laboratorio explainability/equidad/incertidumbre (inicio CP-N3-C): 24 retos. "
+            "DEFECT real en cada starter. CASO-LIM-035; sin PII; sin auto-culpa."
+        ),
+        "youDo": {
+            "title": "Ficha de caso explicable (inicio CP-N3-C)",
+            "context": "Perm importance, explicación local, slices, OOD abstain, model card y audit trail sobre CASO-LIM-035. Id system-design legacy.",
+            "objectives": [
+                "Perm drops + local contribs",
+                "Slices con low_n",
+                "OOD abstain",
+                "Model card + appeal path",
+            ],
+            "requirements": [
+                "auto_guilt False",
+                "human_decision True",
+                "sin PII en audit",
+                "card completa antes de deploy",
+            ],
+            "starter": textwrap.dedent(
+                """\
+                # CASO-LIM-035 · ficha de caso (youDo)
+                def top_drop(drops):
+                    return max(drops, key=drops.get)
+                def ood(zs, thr=3.0):
+                    return max(abs(z) for z in zs) > thr
+                if __name__ == "__main__":
+                    print("top", top_drop({"shared_phone": 0.1, "amount_7d": 0.03}))
+                    print("ood", ood([0.1, 4.0]))
+                    print("auto_guilt", False)
+                    print("human_decision", True)
+                """
+            ),
+            "portfolio": "Ficha CP-N3-C: evidencia + modelo + incertidumbre + humano.",
+            "gate_criterion": "card + slices + OOD policy + auto_guilt False + appeal path",
+        },
+        "selfcheck": [
+            {"q": "La importancia por permutación demuestra:", "opts": ["Culpa legal", "Caída de métrica al barajar una feature", "Parentesco", "Calibración perfecta"], "i": 1, "e": "Es asociativa; no es veredicto de conducta."},
+            {"q": "Un slice con n=8 respecto a min_n=30:", "opts": ["Prueba fairness", "Debe marcarse low_n / no afirmar paridad", "Se ignora", "Autoriza auto-approve"], "i": 1, "e": "Sample size insuficiente invalida claims fuertes."},
+            {"q": "OOD con política responsable implica:", "opts": ["Forzar la clase mayoritaria", "Abstenerse y escalar a humano", "Borrar el model card", "Subir thr a 0"], "i": 1, "e": "Silent scoring en OOD es breach."},
+            {"q": "La model card debe incluir:", "opts": ["Solo el accuracy de train", "Uso, datos, métricas, límites y ética", "Claves de API", "PII de clientes"], "i": 1, "e": "Checklist de gobernanza antes de deploy."},
+            {"q": "La ficha de caso de S35 separa:", "opts": ["Solo el score final", "Evidencia, contribución del modelo, incertidumbre y decisión humana", "Docker y K8s", "Embeddings multimodales"], "i": 1, "e": "Gate de inicio CP-N3-C; auto-culpa prohibida."},
+        ],
+        "resources_docs": [
+            ("sklearn inspection", "https://scikit-learn.org/stable/inspection.html", "Permutation importance"),
+            ("Model Cards (Mitchell et al.)", "https://modelcards.withgoogle.com/about", "Documentación de modelos"),
+            ("Fairlearn", "https://fairlearn.org/", "Métricas por slice"),
+            ("sklearn calibration", "https://scikit-learn.org/stable/modules/calibration.html", "Incertidumbre/calibración"),
+            ("NIST AI RMF", "https://www.nist.gov/itl/ai-risk-management-framework", "Gobernanza de riesgo"),
+            ("Python docs", "https://docs.python.org/3/", "Stdlib progressive disclosure"),
+        ],
+        "resources_courses": [
+            ("Stanford CS229", "https://cs229.stanford.edu/", "Interpretability context"),
+            ("Coursera Responsible AI ideas", "https://www.coursera.org/", "Fairness framing"),
+            ("MIT 6.036", "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/", "Limits of models"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python", "Exercises"),
+            ("deeplearning.ai", "https://www.deeplearning.ai/", "Trustworthy ML themes"),
+            ("StatQuest", "https://www.youtube.com/@statquest", "Intuición de métricas"),
+        ],
+        "books": [
+            ("Interpretable ML (Molnar)", "Perm/local explanations"),
+            ("Fairness and Machine Learning (Barocas et al.)", "Slices y daño"),
+            ("Reliable ML / uncertainty surveys", "OOD y abstención"),
+        ],
+    }

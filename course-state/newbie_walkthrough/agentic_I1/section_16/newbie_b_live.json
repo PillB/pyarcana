@@ -1,0 +1,268 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s16-141914-35",
+  "production_note": "agentic_I1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint( int(df[\"id\"].isna().sum()))\n",
+      "justification_from_packet": "S16-T1-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, role in policy.items():\n    if role == \"required\":\n        n = int(df[col].isna().sum())\n        if n:\n            viol[col] = n\nprint( viol)\n",
+      "justification_from_packet": "S16-T1-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` re»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nprint( \"fail\" if df[\"id\"].isna().any() else \"pass\")\n",
+      "justification_from_packet": "S16-T1-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones r»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint( df[\"was_null\"].tolist())\n",
+      "justification_from_packet": "S16-T1-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, c»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint( \"blocked\" if rate > 0.3 else \"ok\")\n",
+      "justification_from_packet": "S16-T1-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmedian_v = s.median()\nprint( s.fillna(med).tolist())\n",
+      "justification_from_packet": "S16-T1-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,No»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [3, 3, 4]})\nprint( int(df.duplicated(keep=False).sum()))\n",
+      "justification_from_packet": "S16-T2-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cue»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 1, 2], \"v\": [10, 20, 30]})\n# key conflicts: same id different attrs\nconf = df.groupby(\"id\").filter(lambda g: g[\"v\"].nunique() > 1)[\"id\"].unique().tolist()\nprint( conf)\n",
+      "justification_from_packet": "S16-T2-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 1], \"v\": [1, 1]})\nkind = \"exact\" if df.duplicated().any() and df.groupby(\"id\")[\"v\"].nunique().max() == 1 else (\n    \"conflict\" if df.groupby(\"id\")[\"v\"].nunique().max() > 1 else \"clean\"\n)\nprint( kind)\n",
+      "justification_from_packet": "S16-T2-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C0»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 1, 2], \"v\": [1, 1, 2]})\nbefore = len(df)\ndf2 = df.drop_duplicates()\nprint( (before, len(df2)))\n",
+      "justification_from_packet": "S16-T2-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 1], \"v\": [10, 20]})\n# quarantine conflict keys\nq_cols = [\"id\", \"v\"]\nprint( q_cols)\n",
+      "justification_from_packet": "S16-T2-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine c»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"v\": [1, 2]})\nprint( \"card_ok\" if df[\"id\"].is_unique else \"card_fail\")\n",
+      "justification_from_packet": "S16-T2-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint( s.str.strip().str.title().tolist())\n",
+      "justification_from_packet": "S16-T3-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` apl»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ns = pd.Series([\"a\", \"b\", \"a\"])\nprint( int(s.map({\"a\": 1, \"b\": 2}).notna().sum()))\n",
+      "justification_from_packet": "S16-T3-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region_raw\"] = df[\"region\"]\ndf[\"region\"] = df[\"region\"].str.title()\nprint( df[[\"region_raw\", \"region\"]].values.tolist())\n",
+      "justification_from_packet": "S16-T3-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `regi»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ns = pd.Series([-1.0, 2.0, 0.0])\nprint( (s < 0).tolist())\n",
+      "justification_from_packet": "S16-T3-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprim»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ns = pd.Series([1.0, 100.0, 2.0])\nlo, hi = 0.0, 50.0\n# clamp\nout = s.clip(lo, hi)\nprint( out.tolist())\n",
+      "justification_from_packet": "S16-T3-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\nval = -5\nprint( \"error\" if val < 0 else \"ok\")\n",
+      "justification_from_packet": "S16-T3-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None], \"ok\": [1, 1]})\nnull_cols = [c for c in df.columns if df[c].isna().any()]\nprint( null_cols)\n",
+      "justification_from_packet": "S16-T4-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None, 2.0]})\nprint( df.index[df[\"monto\"].isna()].tolist())\n",
+      "justification_from_packet": "S16-T4-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fi»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\nviolations = 2\nprint( \"quarantine\" if violations else \"clean\")\n",
+      "justification_from_packet": "S16-T4-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required im»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\nrows_in, rows_clean, rows_q = 10, 7, 3\nprint( rows_clean)\n",
+      "justification_from_packet": "S16-T4-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime ro»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport pandas as pd\naudit = [{\"run\": 1}]\naudit.append({\"run\": 2})\nprint( len(audit))\n",
+      "justification_from_packet": "S16-T4-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import pandas as pd` cubre la Tarea del packet («E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "code": "# skeptic path: packet fixtures only\nprint( False)\n",
+      "justification_from_packet": "S16-T4-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `print( False)` cubre la Tarea del packet («E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S16: contrasté las opciones con theory sobre required; descarté distractores y me quedo con índice 3 («Provocar violación/cuarentena o fail del gate») porque el paquete lo enseña explícitamente frente a «Un campo marked required con nulls debe:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S16: contrasté las opciones con theory sobre null; descarté distractores y me quedo con índice 1 («Exacto = filas idénticas; conflicto = misma clave con atributos distin») porque el paquete lo enseña explícitamente frente a «Duplicado exacto vs conflicto de clave:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S16: contrasté las opciones con theory sobre duplicado; descarté distractores y me quedo con índice 2 («Auditar y disputar la forma canónica sin perder el valor original») porque el paquete lo enseña explícitamente frente a «Conservar region_raw al normalizar sirve para:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S16: contrasté las opciones con theory sobre conflict; descarté distractores y me quedo con índice 0 («Puede marcar (o borrar) colas legítimas de negocio como si fueran erro») porque el paquete lo enseña explícitamente frente a «IQR sin domain bounds es riesgoso porque:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S16: contrasté las opciones con theory sobre IQR; descarté distractores y me quedo con índice 3 («Publicar métricas y cuarentena aunque pass=False») porque el paquete lo enseña explícitamente frente a «Un quality gate que falla debe:».",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:19:49+00:00",
+  "session_started_at": "2026-07-23T14:19:14+00:00",
+  "session_ended_at": "2026-07-23T14:19:49+00:00"
+}

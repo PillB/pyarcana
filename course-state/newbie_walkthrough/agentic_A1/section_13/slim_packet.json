@@ -1,0 +1,753 @@
+{
+  "attempt_id": "agentic_A1",
+  "section_index": 13,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    }
+  ],
+  "active": {
+    "id": "rpa-automation",
+    "index": 13,
+    "title": "Familiarity Evidence Dashboard y cierre de nivel",
+    "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+    "jobRelevance": "Cerrar el nivel 1 exige un **Familiarity Evidence Dashboard** con entity resolution determinista, señales de relación **separadas** del score ER, fichas pseudonimizadas, revisión humana y límites explícitos (sin parentesco/fraude automático). Esta sección (id de plataforma `rpa-automation` conservado) retematiza a V3 y es la **puerta de salida N1**: cierre **CP-N1-C**, **regresión de nivel 1 (S01–S13)** y artefactos **CF-1**.",
+    "learningOutcomes": [
+      "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+      "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+      "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+      "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+      "Producir score de evidencia con incertidumbre y explicación legible",
+      "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+      "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+      "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+    ],
+    "theory": [
+      {
+        "heading": "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)",
+        "paragraphs": [
+          "En V3, **S13 no es el path principal de Playwright, Ollama, OCR ni Prefect**. Ese material se reubica al tramo de automatización avanzada. Aquí cierras **CP-N1-C** con un **Familiarity Evidence Dashboard**: ER por reglas, señales de relación separadas, explicación humana y operación responsable.",
+          "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados.",
+          "Orden: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Normalización, blocking y entity resolution",
+        "paragraphs": [
+          "Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región).",
+          "ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+).",
+          "No colapses ER con señales de relación: son scores **separados** en la ficha de caso."
+        ],
+        "code": "import re\n\ndef norm_doc(d: str) -> str:\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\ndef norm_name(n: str) -> str:\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\n\ndef block_key(rec):\n    ap = norm_name(rec[\"name\"]).split()[-1]\n    return f\"{ap}|{rec['region'].casefold()}\"\n\na = {\"name\": \"Ana Quispe\", \"document_id\": \"D-12.34\", \"region\": \"Lima\"}\nb = {\"name\": \"ANA  QUISPE\", \"document_id\": \"d1234\", \"region\": \"Lima\"}\nscore = 1.0 if norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) and block_key(a) == block_key(b) else 0.0\nprint(\"block\", block_key(a), block_key(b))\nprint(\"entity_resolution_score\", score)\nprint(\"relationship_signal_score\", \"SEPARATE\")",
+        "code_output": "block quispe|lima quispe|lima\nentity_resolution_score 1.0\nrelationship_signal_score SEPARATE"
+      },
+      {
+        "heading": "Verdad etiquetada, precision/recall y revisión clerical",
+        "paragraphs": [
+          "Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples.",
+          "Scores en **banda de duda** van a **cola clerical** (humano), no a auto-merge.",
+          "Un **FP no implica fraude**: es error de matching de identidad, no veredicto legal."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Email/teléfono/dirección compartidos, distancia y apellidos",
+        "paragraphs": [
+          "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido.",
+          "Agrégalas en `relationship_signal_score` con pesos documentados. **No es veredicto de parentesco**.",
+          "Cada señal debe poder listarse en la explicación de la ficha."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Transacciones directas y contrapartes comunes",
+        "paragraphs": [
+          "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión.",
+          "Modela un graphlet simple y emite objetos `RelationshipEvidence` con tipo y traza.",
+          "Disclaimer obligatorio: common counterparty ≠ collusion claim."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Score de evidencia, incertidumbre y explicación",
+        "paragraphs": [
+          "Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles.",
+          "Campos de auditoría: inputs usados, missing fields, versión de reglas.",
+          "Señales conflictivas → explicación honesta, no score maquillado."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Umbral de revisión, abstención y no inferencia automática",
+        "paragraphs": [
+          "Umbrales: accept_pair / needs_review / abstain según score e incertidumbre. **Nunca** `auto_fraud=true` ni `is_family=true`.",
+          "Human-in-the-loop: la acción operativa es de **datos** (revisar/aceptar/rechazar par), no veredicto legal.",
+          "Auditoría: elimina cualquier path que setee parentesco/fraude automático."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Dashboard/mapa pseudonimizado y ficha de caso",
+        "paragraphs": [
+          "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable.",
+          "**Pseudonimiza** nombres en vista (`A*** Q***`). Ficha muestra ER score **y** relationship score por separado.",
+          "No es un design system completo (eso es tramo producto/UI posterior)."
+        ],
+        "code": "def pseudonymize(name: str) -> str:\n    parts = name.split()\n    return \" \".join(p[0] + \"***\" for p in parts if p)\n\ncases = [\n    {\n        \"case_id\": \"CASE-1\",\n        \"display_name\": pseudonymize(\"Ana Quispe\"),\n        \"entity_resolution_score\": 0.92,\n        \"relationship_signal_score\": 0.41,\n        \"lat\": -12.0464,\n        \"lon\": -77.0428,\n        \"geo_tooltip\": \"geo_distance_km=1.2; source=mock\",\n    },\n    {\n        \"case_id\": \"CASE-2\",\n        \"display_name\": pseudonymize(\"Luis Huamán\"),\n        \"entity_resolution_score\": 0.55,\n        \"relationship_signal_score\": 0.60,\n        \"lat\": -16.4090,\n        \"lon\": -71.5375,\n        \"geo_tooltip\": \"shared_phone; source=synthetic\",\n    },\n]\nfor c in cases:\n    print(c[\"case_id\"], c[\"display_name\"], \"ER\", c[\"entity_resolution_score\"], \"REL\", c[\"relationship_signal_score\"])",
+        "code_output": "CASE-1 A*** Q*** ER 0.92 REL 0.41\nCASE-2 L*** H*** ER 0.55 REL 0.6"
+      },
+      {
+        "heading": "Privacidad, acceso, pruebas, demo y runbook",
+        "paragraphs": [
+          "**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer).",
+          "**Tests green** de ER, señales y umbrales. **Demo de un comando**. **Runbook** incluye incidente de PII en log.",
+          "Artefactos **CF-1** + notas de **regresión level-1 (S01–S13)** cierran el nivel."
+        ],
+        "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"egress_public_geocoder\": \"city_address_only\",\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nrunbook_steps = [\n    \"setup venv\",\n    \"load synthetic fixtures\",\n    \"run ER + signals\",\n    \"open dashboard\",\n    \"process review queue\",\n]\nincident = {\n    \"trigger\": \"token_or_name_in_log\",\n    \"action\": [\"rotate_secret\", \"redact_logs\", \"postmortem\"],\n}\nprint(\"privacy\", privacy)\nprint(\"demo_cmd\", \"python -m demo_n1_dashboard\")\nprint(\"runbook\", runbook_steps)\nprint(\"incident\", incident)\nprint(\"level1_regression\", \"S01-S13 checklist required\")",
+        "code_output": "privacy {'data_class': 'synthetic_only', 'pii_real': False, 'egress_public_geocoder': 'city_address_only', 'roles': ['viewer', 'reviewer']}\ndemo_cmd python -m demo_n1_dashboard\nrunbook ['setup venv', 'load synthetic fixtures', 'run ER + signals', 'open dashboard', 'process review queue']\nincident {'trigger': 'token_or_name_in_log', 'action': ['rotate_secret', 'redact_logs', 'postmortem']}\nlevel1_regression S01-S13 checklist required"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S13-T1-B-DEMO",
+          "description": "Emparejar 2 registros sintéticos por documento normalizado + bloque región.",
+          "why": "Reglas deterministas transparentes antes de cualquier modelo probabilístico.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S13-T2-A-DEMO",
+          "description": "Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.",
+          "why": "Métricas + cola clerical cierran el loop de calidad de ER.",
+          "code": "import random\nrandom.seed(13)\n# synthetic labels and scores\npairs = []\nfor i in range(20):\n    y = 1 if i % 3 == 0 else 0\n    score = 0.85 if y == 1 else 0.2\n    if i in (4, 9, 15):\n        score = 0.55  # gray band\n    pairs.append({\"id\": f\"P{i}\", \"y\": y, \"score\": score, \"pred\": int(score >= 0.7)})\ntp = sum(1 for p in pairs if p[\"y\"] == 1 and p[\"pred\"] == 1)\nfp = sum(1 for p in pairs if p[\"y\"] == 0 and p[\"pred\"] == 1)\nfn = sum(1 for p in pairs if p[\"y\"] == 1 and p[\"pred\"] == 0)\nreview = [p[\"id\"] for p in pairs if 0.4 <= p[\"score\"] <= 0.7][:3]\nprint(\"tp\", tp, \"fp\", fp, \"fn\", fn)\nprint(\"precision\", round(tp / max(1, tp + fp), 3))\nprint(\"recall\", round(tp / max(1, tp + fn), 3))\nprint(\"clerical_queue\", review)",
+          "language": "python",
+          "output": "tp 5 fp 0 fn 2\nprecision 1.0\nrecall 0.714\nclerical_queue ['P4', 'P9', 'P15']"
+        },
+        {
+          "demoId": "S13-T2-B-DEMO",
+          "description": "Dos entidades: shared phone + 1.2 km → señales con explicación.",
+          "why": "Explicación lista para la ficha sin veredicto de parentesco.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S13-T3-A-DEMO",
+          "description": "Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.",
+          "why": "Graphlet mínimo con disclaimers operativos.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S13-T3-B-DEMO",
+          "description": "Ficha con score, uncertainty low/med/high y 3 bullets de por qué.",
+          "why": "La ficha es el artefacto humano del dashboard.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S13-T4-A-DEMO",
+          "description": "Scores en zona gris → status=needs_review; nunca auto_fraud=true.",
+          "why": "Política de abstención y revisión protege al estudiante y al usuario final.",
+          "code": "def decide(score, unc):\n    if unc == \"high\" or 0.4 <= score <= 0.7:\n        return \"needs_review\"\n    if score < 0.4:\n        return \"abstain\"\n    return \"accept_pair\"\n\nsamples = [(0.55, \"med\"), (0.9, \"low\"), (0.15, \"low\")]\nfor sc, u in samples:\n    print({\"score\": sc, \"uncertainty\": u, \"status\": decide(sc, u), \"auto_fraud\": False, \"is_family\": False})",
+          "language": "python",
+          "output": "{'score': 0.55, 'uncertainty': 'med', 'status': 'needs_review', 'auto_fraud': False, 'is_family': False}\n{'score': 0.9, 'uncertainty': 'low', 'status': 'accept_pair', 'auto_fraud': False, 'is_family': False}\n{'score': 0.15, 'uncertainty': 'low', 'status': 'abstain', 'auto_fraud': False, 'is_family': False}"
+        },
+        {
+          "demoId": "S13-T4-B-DEMO",
+          "description": "Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.",
+          "why": "Producto mínimo: ficha + mapa con scores separados.",
+          "code": "def pseudo(n):\n    return \" \".join(p[0] + \"***\" for p in n.split())\n\ncases = [\n    (\"CASE-1\", \"Ana Quispe\", 0.91, 0.4, -12.0464, -77.0428),\n    (\"CASE-2\", \"Luis Huamán\", 0.52, 0.66, -16.4090, -71.5375),\n    (\"CASE-3\", \"María Rojas\", 0.77, 0.22, -12.05, -77.12),\n]\nfor cid, name, er, rel, lat, lon in cases:\n    print({\n        \"case_id\": cid,\n        \"display\": pseudo(name),\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n        \"map\": (lat, lon),\n    })",
+          "language": "python",
+          "output": "{'case_id': 'CASE-1', 'display': 'A*** Q***', 'entity_resolution_score': 0.91, 'relationship_signal_score': 0.4, 'map': (-12.0464, -77.0428)}\n{'case_id': 'CASE-2', 'display': 'L*** H***', 'entity_resolution_score': 0.52, 'relationship_signal_score': 0.66, 'map': (-16.409, -71.5375)}\n{'case_id': 'CASE-3', 'display': 'M*** R***', 'entity_resolution_score': 0.77, 'relationship_signal_score': 0.22, 'map': (-12.05, -77.12)}"
+        },
+        {
+          "demoId": null,
+          "description": "Runbook: setup → load synthetic → run ER → open dashboard → review queue (+ regresión N1).",
+          "why": "Operación N1 completa sin marcar passed en checkpoint/ledger.",
+          "code": "steps = [\n    \"1. setup: python -m venv .venv && pip install -r requirements.txt\",\n    \"2. load synthetic fixtures (no real PII)\",\n    \"3. run ER + relationship signals\",\n    \"4. open dashboard scaffold\",\n    \"5. process clerical review queue\",\n    \"6. level-1 regression notes: re-run critical checks S01-S13\",\n    \"7. CF-1: privacy sheet + demo script + access notes\",\n]\nfor s in steps:\n    print(s)\nprint(\"demo_cmd: python -m demo_n1_dashboard --synthetic\")\nprint(\"section_passed_written_by_this_lane\", False)",
+          "language": "python",
+          "output": "1. setup: python -m venv .venv && pip install -r requirements.txt\n2. load synthetic fixtures (no real PII)\n3. run ER + relationship signals\n4. open dashboard scaffold\n5. process clerical review queue\n6. level-1 regression notes: re-run critical checks S01-S13\n7. CF-1: privacy sheet + demo script + access notes\ndemo_cmd: python -m demo_n1_dashboard --synthetic\nsection_passed_written_by_this_lane False"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S13-T1-A-E1",
+          "instruction": "E1 (guiado) — `norm_name` y `norm_doc`: casefold, colapsar espacios; doc solo [a-z0-9]. Prueba ' Ana  QUISPE ' y 'D-12.34'.",
+          "hints": [
+            "re.sub para espacios y no alfanuméricos",
+            "casefold no solo lower"
+          ],
+          "kind": "guided",
+          "tests": "ana quispe / d1234",
+          "starterCode": "import re\ndef norm_name(n):\n    # TODO\n    ...\ndef norm_doc(d):\n    # TODO\n    ...\nprint(norm_name(\" Ana  QUISPE \"))\nprint(norm_doc(\"D-12.34\"))"
+        },
+        {
+          "id": "S13-T1-A-E2",
+          "instruction": "E2 (independiente) — `blocking_key(rec)` = primer_apellido|region en casefold. Nombre 'Luis Huamán Soto', region 'Cusco'.",
+          "hints": [
+            "Último token no; usa el segundo token como apellido paterno o el último: documenta. Aquí: split()[1] si hay >=2 else split()[0].",
+            "Formato f'{ap}|{region}'"
+          ],
+          "kind": "independent",
+          "tests": "huamán|cusco",
+          "starterCode": "def blocking_key(rec):\n    # TODO apellido paterno = segundo token si existe\n    ...\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))"
+        },
+        {
+          "id": "S13-T1-A-E3",
+          "instruction": "E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si solo doc; 0.0 si no. Documenta con print de los tres casos sintéticos.",
+          "hints": [
+            "Combina igualdad de doc y block",
+            "Scores solo 1.0/0.5/0.0"
+          ],
+          "kind": "transfer",
+          "tests": "1.0 0.5 0.0",
+          "starterCode": "import re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef bkey(r):\n    ap = r[\"name\"].casefold().split()[-1]\n    return f\"{ap}|{r['region'].casefold()}\"\ndef er_score(a, b):\n    # TODO\n    ...\nA = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nB = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"region\": \"Lima\"}\nC = {\"name\": \"Ana Other\", \"document_id\": \"X1\", \"region\": \"Cusco\"}\nD = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"region\": \"Lima\"}\nprint(er_score(A, B), er_score(A, C), er_score(A, D))"
+        },
+        {
+          "id": "S13-T1-B-E1",
+          "instruction": "E1 (guiado) — De tp,fp,fn calcula precision y recall; imprime redondeado a 3 decimales. tp=8,fp=2,fn=2.",
+          "hints": [
+            "precision = tp/(tp+fp)",
+            "recall = tp/(tp+fn)"
+          ],
+          "kind": "guided",
+          "tests": "0.8 y 0.8",
+          "starterCode": "tp, fp, fn = 8, 2, 2\n# TODO\nprint(\"precision\", round(tp / (tp + fp), 3))\nprint(\"recall\", round(tp / (tp + fn), 3))"
+        },
+        {
+          "id": "S13-T1-B-E2",
+          "instruction": "E2 (independiente) — `clerical_queue(pairs, low=0.4, high=0.7)` devuelve ids con score en [low, high] inclusive.",
+          "hints": [
+            "list comprehension con filtro de banda",
+            "Orden estable por id"
+          ],
+          "kind": "independent",
+          "tests": "['P2','P3']",
+          "starterCode": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    # TODO\n    ...\nprint(clerical_queue(pairs))"
+        },
+        {
+          "id": "S13-T1-B-E3",
+          "instruction": "E3 (transferencia) — Redacta (print) 2 líneas: por qué un FP de ER no implica fraude; y qué acción operativa tomar (review).",
+          "hints": [
+            "Mensajes fijos cortos",
+            "Incluye la palabra review"
+          ],
+          "kind": "transfer",
+          "tests": "texto + needs_review",
+          "starterCode": "print(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")\nprint(\"ops_action:\", \"needs_review\")"
+        },
+        {
+          "id": "S13-T2-A-E1",
+          "instruction": "E1 (guiado) — `shared_email(a,b)` True si emails casefold iguales y no vacíos.",
+          "hints": [
+            "a and b and a.casefold()==b.casefold()",
+            "'' no cuenta como shared"
+          ],
+          "kind": "guided",
+          "tests": "True False False",
+          "starterCode": "def shared_email(a, b):\n    # TODO\n    ...\nprint(shared_email(\"Ana@Example.com\", \"ana@example.com\"))\nprint(shared_email(\"\", \"\"))\nprint(shared_email(\"a@x.com\", \"b@x.com\"))"
+        },
+        {
+          "id": "S13-T2-A-E2",
+          "instruction": "E2 (independiente) — `rel_score(km, surname_jaccard)` = 0.6*(1 if km<2 else 0)+0.4*jaccard; round 3.",
+          "hints": [
+            "Combina distancia y apellido",
+            "km=1.2, j=0.5 → 0.8"
+          ],
+          "kind": "independent",
+          "tests": "0.8 y 0.2",
+          "starterCode": "def rel_score(km, surname_jaccard):\n    # TODO\n    ...\nprint(rel_score(1.2, 0.5))\nprint(rel_score(5.0, 0.5))"
+        },
+        {
+          "id": "S13-T2-A-E3",
+          "instruction": "E3 (transferencia) — Imprime disclaimer exacto: 'relationship_signal_score no implica parentesco ni colusión'.",
+          "hints": [
+            "Un solo print",
+            "Texto exacto para tests de portfolio"
+          ],
+          "kind": "transfer",
+          "tests": "frase exacta",
+          "starterCode": "print(\"relationship_signal_score no implica parentesco ni colusión\")"
+        },
+        {
+          "id": "S13-T2-B-E1",
+          "instruction": "E1 (guiado) — `direct_txs(txs, a, b)` lista montos de transferencias directas entre a y b (cualquier dirección).",
+          "hints": [
+            "set equality de endpoints",
+            "Orden de aparición"
+          ],
+          "kind": "guided",
+          "tests": "[10, 5]",
+          "starterCode": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    # TODO\n    ...\nprint(direct_txs(txs, \"A\", \"B\"))"
+        },
+        {
+          "id": "S13-T2-B-E2",
+          "instruction": "E2 (independiente) — `common_counterparties(txs, a, c)` devuelve sorted set de nodos que transan con ambos.",
+          "hints": [
+            "Intersección de vecinos",
+            "Excluye a y c de la salida si aparecen"
+          ],
+          "kind": "independent",
+          "tests": "['D']",
+          "starterCode": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\ndef common_counterparties(txs, a, c):\n    # TODO\n    ...\nprint(common_counterparties(txs, \"A\", \"C\"))"
+        },
+        {
+          "id": "S13-T2-B-E3",
+          "instruction": "E3 (transferencia) — Lista 2 cosas que NO debes inferir de contraparte común (print líneas no_collusion y no_kinship).",
+          "hints": [
+            "Mensajes explícitos",
+            "Incluye collusion y kinship en el texto"
+          ],
+          "kind": "transfer",
+          "tests": "dos disclaimers",
+          "starterCode": "print(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")"
+        },
+        {
+          "id": "S13-T3-A-E1",
+          "instruction": "E1 (guiado) — `explanation_bullets(er, rel, missing)` devuelve lista de 3 strings formateados.",
+          "hints": [
+            "f-strings con los tres inputs",
+            "missing puede ser lista"
+          ],
+          "kind": "guided",
+          "tests": "lista len 3",
+          "starterCode": "def explanation_bullets(er, rel, missing):\n    # TODO\n    ...\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))"
+        },
+        {
+          "id": "S13-T3-A-E2",
+          "instruction": "E2 (independiente) — `uncertainty_band(missing, conflict)` → high si conflict o len(missing)>=2; med si missing; low si no.",
+          "hints": [
+            "Orden de ifs: conflict primero",
+            "missing=[] conflict=False → low"
+          ],
+          "kind": "independent",
+          "tests": "low med high high",
+          "starterCode": "def uncertainty_band(missing, conflict):\n    # TODO\n    ...\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))"
+        },
+        {
+          "id": "S13-T3-A-E3",
+          "instruction": "E3 (transferencia) — Caso conflictivo er=0.9 rel=0.1: imprime evidence_score ponderado 0.6/0.4 y uncertainty high + bullet 'señales conflictivas'.",
+          "hints": [
+            "abs(er-rel)>0.5 → conflict",
+            "No maquilles el score"
+          ],
+          "kind": "transfer",
+          "tests": "score 0.58 high",
+          "starterCode": "er, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 3)\nconflict = abs(er - rel) > 0.5\nprint(\"evidence_score\", score)\nprint(\"uncertainty\", \"high\" if conflict else \"low\")\nprint(\"note\", \"señales conflictivas\")"
+        },
+        {
+          "id": "S13-T3-B-E1",
+          "instruction": "E1 (guiado) — Config dict thresholds: accept_min=0.8, review_low=0.4, review_high=0.7. Imprime sorted items.",
+          "hints": [
+            "Tres claves numéricas",
+            "Usarás el dict en E2"
+          ],
+          "kind": "guided",
+          "tests": "tres umbrales",
+          "starterCode": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n    \"review_high\": 0.7,\n}\nprint(sorted(thresholds.items()))"
+        },
+        {
+          "id": "S13-T3-B-E2",
+          "instruction": "E2 (independiente) — `decide_ops_status(score, unc, th)`: needs_review si unc==high o score en [review_low, review_high]; abstain si score < review_low; accept_pair si score >= accept_min; else needs_review. Sin fraud labels.",
+          "hints": [
+            "Implementa la matriz de decisión",
+            "Nunca devuelvas fraud/family"
+          ],
+          "kind": "independent",
+          "tests": "accept/review/abstain/review",
+          "starterCode": "th = {\"accept_min\": 0.8, \"review_low\": 0.4, \"review_high\": 0.7}\ndef decide_ops_status(score, unc, th):\n    # TODO\n    ...\nfor s, u in [(0.9, \"low\"), (0.55, \"med\"), (0.2, \"low\"), (0.85, \"high\")]:\n    print(s, u, decide_ops_status(s, u, th))"
+        },
+        {
+          "id": "S13-T3-B-E3",
+          "instruction": "E3 (transferencia) — Auditoría: dado un dict de campos de salida, elimina claves is_family y auto_fraud si existen; imprime sorted keys restantes.",
+          "hints": [
+            "pop o dict comprehension",
+            "No dejes rastros de esas claves"
+          ],
+          "kind": "transfer",
+          "tests": "['score','status']",
+          "starterCode": "out = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}\n# TODO strip forbidden\nforbidden = {\"is_family\", \"auto_fraud\"}\nclean = {k: v for k, v in out.items() if k not in forbidden}\nprint(sorted(clean.keys()))"
+        },
+        {
+          "id": "S13-T4-A-E1",
+          "instruction": "E1 (guiado) — `pseudonymize('Ana Quispe Rojas')` → 'A*** Q*** R***'.",
+          "hints": [
+            "primer char + *** por token",
+            "split por espacios"
+          ],
+          "kind": "guided",
+          "tests": "A*** Q*** R***",
+          "starterCode": "def pseudonymize(name):\n    # TODO\n    ...\nprint(pseudonymize(\"Ana Quispe Rojas\"))"
+        },
+        {
+          "id": "S13-T4-A-E2",
+          "instruction": "E2 (independiente) — `case_sheet(er, rel)` dict con ambos scores y assert er key != rel key; imprime sheet.",
+          "hints": [
+            "Claves entity_resolution_score y relationship_signal_score",
+            "No fusionar en un solo score sin etiqueta"
+          ],
+          "kind": "independent",
+          "tests": "dos claves distintas",
+          "starterCode": "def case_sheet(er, rel):\n    # TODO\n    ...\nprint(case_sheet(0.9, 0.4))"
+        },
+        {
+          "id": "S13-T4-A-E3",
+          "instruction": "E3 (transferencia) — `map_tooltip(lat, lon, km, source)` string con coords y geoseñal trazable.",
+          "hints": [
+            "Incluye source=",
+            "Formato legible una línea"
+          ],
+          "kind": "transfer",
+          "tests": "source=mock en tooltip",
+          "starterCode": "def map_tooltip(lat, lon, km, source):\n    # TODO\n    ...\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))"
+        },
+        {
+          "id": "S13-T4-B-E1",
+          "instruction": "E1 (guiado) — Completa privacy sheet dict: data_class=synthetic_only, pii_real=False, roles=['viewer','reviewer']. Imprime json-like sorted keys.",
+          "hints": [
+            "Tres campos mínimos CF-1",
+            "pii_real debe ser False"
+          ],
+          "kind": "guided",
+          "tests": "keys + False",
+          "starterCode": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\nprint(privacy[\"pii_real\"])"
+        },
+        {
+          "id": "S13-T4-B-E2",
+          "instruction": "E2 (independiente) — `demo_command()` devuelve 'python -m demo_n1_dashboard --synthetic'.",
+          "hints": [
+            "String fijo documentado en runbook",
+            "Un comando para reproducir"
+          ],
+          "kind": "independent",
+          "tests": "comando único",
+          "starterCode": "def demo_command():\n    # TODO\n    ...\nprint(demo_command())"
+        },
+        {
+          "id": "S13-T4-B-E3",
+          "instruction": "E3 (transferencia) — Runbook de incidente PII en log: lista de 3 acciones rotate_secret, redact_logs, postmortem. Imprime joined por '|'.",
+          "hints": [
+            "Orden fijo de respuesta",
+            "También menciona level-1 regression en un segundo print"
+          ],
+          "kind": "transfer",
+          "tests": "3 acciones + nota regresión",
+          "starterCode": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-check S01-S13 critical paths after incident\")"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Familiarity Evidence Dashboard — cierre CP-N1-C + regresión nivel 1 + CF-1",
+      "context": "Cierras el **Familiarity Evidence Dashboard (CP-N1-C)**: ER determinista por reglas, `entity_resolution_score` **separado** de `relationship_signal_score`, geoseñal trazable, fichas pseudonimizadas, umbrales de revisión/abstención **sin** parentesco/fraude automático. Incluye **notas de regresión de nivel 1 (S01–S13)**: re-ejecuta checks críticos de secciones previas (colecciones, texto, archivos, APIs/SQL/geo) sobre fixtures sintéticos y registra resultado en el runbook. Entrega artefactos **CF-1** (privacy sheet, acceso, tests, demo de un comando). Esta lane **no** marca section_passed ni edita checkpoint/ledger.",
+      "objectives": [
+        "Pipeline normalize → blocking → entity_resolution_score",
+        "Precision/recall + cola clerical sobre pares sintéticos",
+        "relationship_signal_score (shared contact, geo, apellidos, txs) separado del ER",
+        "Ficha con uncertainty + explicación; decide_ops_status sin auto_fraud/is_family",
+        "Dashboard scaffold 3 casos + mapa/tooltips",
+        "Privacy sheet + demo cmd + runbook de incidente",
+        "Level-1 regression notes: checklist S01–S13 en runbook de entrega"
+      ],
+      "requirements": [
+        "Datos 100% sintéticos; vista pseudonimizada",
+        "ER score y relationship score nunca colapsados en un solo campo sin etiquetar",
+        "Prohibido is_family / auto_fraud en salidas",
+        "Tests de reglas ER, señales y umbrales en verde",
+        "Demo: python -m demo_n1_dashboard --synthetic",
+        "Runbook con regresión level-1 (S01–S13) y respuesta a PII en log",
+        "CF-1: privacy sheet + roles viewer/reviewer + notes de acceso"
+      ],
+      "portfolioNote": "Portfolio N1: captura del dashboard con 3 casos, ficha con ER≠REL, privacy sheet, salida del demo command y sección **Level-1 regression** del runbook (S01–S13). No afirmes section_passed hasta el proceso de gate del curso.",
+      "starterCode": "\"\"\"familiarity_dashboard.py — CP-N1-C close + CF-1 + level-1 regression notes\nS13 V3. Datos sintéticos. Sin auto parentesco/fraude.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport re\nfrom typing import Any\n\n\ndef norm_doc(d: str) -> str:\n    # TODO\n    raise NotImplementedError\n\n\ndef blocking_key(rec: dict) -> str:\n    # TODO\n    raise NotImplementedError\n\n\ndef er_score(a: dict, b: dict) -> float:\n    # TODO\n    raise NotImplementedError\n\n\ndef relationship_signal_score(a: dict, b: dict) -> float:\n    # TODO shared phone / geo / surname — no kinship\n    raise NotImplementedError\n\n\ndef decide_ops_status(score: float, uncertainty: str) -> str:\n    # TODO accept_pair | needs_review | abstain — never fraud/family\n    raise NotImplementedError\n\n\ndef pseudonymize(name: str) -> str:\n    # TODO\n    raise NotImplementedError\n\n\ndef privacy_sheet() -> dict:\n    return {\n        \"data_class\": \"synthetic_only\",\n        \"pii_real\": False,\n        \"roles\": [\"viewer\", \"reviewer\"],\n    }\n\n\ndef level1_regression_notes() -> list[str]:\n    \"\"\"Notas de regresión de nivel 1 (S01–S13). No marca passed.\"\"\"\n    return [\n        \"S06-S08: modelo en memoria + normalize + CSV/JSON quarantine\",\n        \"S09-S11: calidad/validación según roadmap V3 del tramo\",\n        \"S12: HTTP timeout/retry + SQL params + MockGeocoder egress policy\",\n        \"S13: ER != relationship scores; review thresholds; no auto_fraud\",\n        \"Registrar pass/fail de smoke checks en runbook; no editar checkpoint/ledger aquí\",\n    ]\n\n\ndef main() -> None:\n    a = {\"name\": \"Ana Quispe\", \"document_id\": \"D-1\", \"region\": \"Lima\", \"phone\": \"900\", \"km\": 1.0}\n    b = {\"name\": \"ANA QUISPE\", \"document_id\": \"d1\", \"region\": \"Lima\", \"phone\": \"900\", \"km\": 1.0}\n    print(\"pseudo\", pseudonymize(a[\"name\"]))\n    print(\"privacy\", privacy_sheet())\n    print(\"regression_notes\", level1_regression_notes())\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "entity_resolution_score y relationship_signal_score deben…",
+        "options": [
+          "Fusionarse siempre en un solo número sin etiqueta",
+          "Mantenerse separados en la ficha de caso",
+          "Reemplazarse por is_family",
+          "Ocultarse al revisor"
+        ]
+      },
+      {
+        "question": "Un false positive de ER implica…",
+        "options": [
+          "Fraude confirmado",
+          "Parentesco automático",
+          "Error de matching; no es veredicto legal de fraude",
+          "Borrar la cola clerical"
+        ]
+      },
+      {
+        "question": "En zona gris de score el sistema debe…",
+        "options": [
+          "Marcar auto_fraud=true",
+          "Encolar needs_review / abstenerse según política",
+          "Setear is_family",
+          "Publicar PII real en el mapa"
+        ]
+      },
+      {
+        "question": "CF-1 en S13 incluye…",
+        "options": [
+          "Solo un modelo de deep learning",
+          "Privacy sheet, acceso, tests, demo y runbook",
+          "Hardcodear tokens en el repo",
+          "Marcar section_passed desde el author lane"
+        ]
+      },
+      {
+        "question": "Level-1 regression notes en el You Do exigen…",
+        "options": [
+          "Ignorar S01–S12",
+          "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+          "Borrar el dashboard",
+          "Enviar PII a geocoder público"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "3e127eb2c78e3634"
+}

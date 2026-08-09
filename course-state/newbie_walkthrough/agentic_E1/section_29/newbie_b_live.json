@@ -1,0 +1,525 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 29,
+  "packet_sha": "298a66f05c46a228",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s29-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE entities(id TEXT PRIMARY KEY)')\ncon.execute(\"INSERT INTO entities VALUES ('e1')\")\nprint(con.execute('SELECT COUNT(*) FROM entities').fetchone()[0])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "entities"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T1-A-E1: relleno TODO/defecto invertido según instrucción «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.p». Pistas: sqlite3; PRIMARY KEY. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE s(score REAL CHECK(score BETWEEN 0 AND 1))')\ntry:\n    con.execute('INSERT INTO s VALUES (1.5)')\nexcept sqlite3.IntegrityError:\n    print('bad_score')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "score"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T1-A-E2: relleno TODO/defecto invertido según instrucción «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entr». Pistas: try/except; CHECK. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T1-A-E3: relleno TODO/defecto invertido según instrucción «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp». Pistas: comparación strings; a<b. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "sqlite3"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T1-B-E1: relleno TODO/defecto invertido según instrucción «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada». Pistas: append-only; count. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T1-B-E2: relleno TODO/defecto invertido según instrucción «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter». Pistas: dict; provenance. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "valid_to"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T1-B-E3: relleno TODO/defecto invertido según instrucción «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada ». Pistas: None; temporal. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pairs = ['p1', 'p2']\ndecided = {'p1'}\nprint([p for p in pairs if p not in decided])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "pairs",
+        "decided",
+        "S29",
+        "Con",
+        "decision",
+        "solo",
+        "lista",
+        "ids"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T2-A-E1: relleno TODO/defecto invertido según instrucción «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el sta». Pistas: NOT IN o left join; anti-join. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "scores"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T2-A-E2: relleno TODO/defecto invertido según instrucción «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada». Pistas: sorted; rank 1. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T2-A-E3: relleno TODO/defecto invertido según instrucción «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet». Pistas: literal; WITH. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "S29"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T2-B-E1: relleno TODO/defecto invertido según instrucción «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO». Pistas: combinatoria; pares. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T2-B-E2: relleno TODO/defecto invertido según instrucción «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e». Pistas: is; NULL. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T2-B-E3: relleno TODO/defecto invertido según instrucción «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id». Pistas: string; planes. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE t(id INT)')\ncon.execute('BEGIN')\ncon.execute('INSERT INTO t VALUES (1)')\ncon.execute('ROLLBACK')\nprint(con.execute('SELECT COUNT(*) FROM t').fetchone()[0])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "BEGIN"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T3-A-E1: relleno TODO/defecto invertido según instrucción «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet». Pistas: rollback; atomic. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T3-A-E2: relleno TODO/defecto invertido según instrucción «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @ex». Pistas: string; ACID. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "evidence_ok"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T3-A-E3: relleno TODO/defecto invertido según instrucción «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada ». Pistas: guard; transacción. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE e(id TEXT PRIMARY KEY, name TEXT)')\ncon.execute(\"INSERT INTO e VALUES ('1','A')\")\ncon.execute(\"INSERT INTO e VALUES ('1','B') ON CONFLICT(id) DO UPDATE SET name=excluded.name\")\nprint(con.execute(\"SELECT name FROM e WHERE id='1'\").fetchone()[0])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "TEXT"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T3-B-E1: relleno TODO/defecto invertido según instrucción «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrad». Pistas: ON CONFLICT; DO UPDATE. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T3-B-E2: relleno TODO/defecto invertido según instrucción «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el ». Pistas: literal/dict; resume. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "conflict"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T3-B-E3: relleno TODO/defecto invertido según instrucción «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo;». Pistas: política; concurrencia. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "migrations = []\nmigrations.append({'version': 2, 'name': 'add_index'})\nprint(max(m['version'] for m in migrations))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations",
+        "append",
+        "version",
+        "name",
+        "add_index",
+        "max",
+        "S29",
+        "Registra"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T4-A-E1: relleno TODO/defecto invertido según instrucción «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e». Pistas: schema_migrations; insert. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T4-A-E2: relleno TODO/defecto invertido según instrucción «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter ». Pistas: convención; índices. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T4-A-E3: relleno TODO/defecto invertido según instrucción «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; i». Pistas: string; migrations. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "store"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T4-B-E1: relleno TODO/defecto invertido según instrucción «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp». Pistas: dict; repository. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T4-B-E2: relleno TODO/defecto invertido según instrucción «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; im». Pistas: dict; pooling. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "pending_count"
+      ],
+      "justification_from_packet": "Solo usé lo explícito en theory/iDo/hints/starter del paquete activo de S29 (CASO sintético del exercise batch 27_39). Completé S29-T4-B-E3: relleno TODO/defecto invertido según instrucción «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; imp». Pistas: assert blando; memoria. Sin solutions/correctIndex/TS ni copias de D1/D2."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic E1-S29: entity_a < entity_b canonicalizes undirected pairs so the inverted order is not stored twice in the relational model. Elegí índice 0 «Evitar duplicar el mismo par en orden invertido» porque el material de theory/iDo del paquete activo (sin correctIndex ni intentos previos) respalda ese contrato y descarta fraudes automáticos o parentesco. Confianza calibrada como skeptic."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic E1-S29: append-only decisions mean a new row per decision change, not silent in-place UPDATE that erases history. Elegí índice 2 «Nueva fila por cambio de decisión» porque el material de theory/iDo del paquete activo (sin correctIndex ni intentos previos) respalda ese contrato y descarta fraudes automáticos o parentesco. Confianza calibrada como skeptic."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic E1-S29: decision and evidence must commit atomically in one logical transaction to avoid orphan evidence rows. Elegí índice 3 «Ser atómicas en la misma transacción lógica» porque el material de theory/iDo del paquete activo (sin correctIndex ni intentos previos) respalda ese contrato y descarta fraudes automáticos o parentesco. Confianza calibrada como skeptic."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic E1-S29: repository pattern encapsulates SQL and enables :memory: tests without scattering queries through the app. Elegí índice 1 «Encapsula acceso a datos y facilita tests con :memory:» porque el material de theory/iDo del paquete activo (sin correctIndex ni intentos previos) respalda ese contrato y descarta fraudes automáticos o parentesco. Confianza calibrada como skeptic."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:15:22.797552+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

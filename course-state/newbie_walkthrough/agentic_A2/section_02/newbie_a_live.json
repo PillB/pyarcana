@@ -1,0 +1,504 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A2",
+  "section_index": 2,
+  "packet_sha": "5acdd2e718dd4432",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_02/packet.json",
+  "recorded_at": "2026-07-21T22:16:52.419156+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(r3[\"errors\"])\n    print(x, \"→\", x)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "literales",
+        "Lima",
+        "False",
+        "None",
+        "for",
+        "lit",
+        "print",
+        "errors"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T1-A-E1. Instruction del paquete: E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`, `3.14`, `\"Lima\"`, `False`, `None`.. Hints: Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).; None imprime type NoneType, no \"None\". Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", x, x)\nprint(\"igualdad cruda:\", x)\nprint(\"igualdad tras str():\", x)\nprint(\"isinstance(True, int) →\", x)\nprint(\"Nota: x\")  # una frase sobre no abusar",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "codigo_int",
+        "codigo_str",
+        "print",
+        "tipos",
+        "igualdad",
+        "cruda",
+        "tras",
+        "str"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T1-A-E2. Instruction del paquete: E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name__`, el resultado de `42 == \"42\"`, y el de `str(42) == \"42\"`. Comenta en un print por qué `isinstan. Hints: No conviertas antes de la primera comparación. str(42) produce el texto \"42\".; bool es subclase de int en Python: isinstance(True, int) → True. En negocio, mode. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Completa valor y tipo esperado (int, float, str, bool, type(None) no hace falta aquí)\ncampos = {\n    \"nombres\": (\"x\", str),\n    \"apellido_paterno\": (\"x\", str),\n    \"apellido_materno\": (\"x\", str),\n    \"contacto\": (\"x\", str),  # teléfono\n    \"edad\": (x, int),\n    \"activo\": (x, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Completa",
+        "valor",
+        "tipo",
+        "esperado",
+        "int",
+        "float",
+        "str",
+        "bool"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T1-A-E3. Instruction del paquete: E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales de ejemplo. Campos: nombres, apellido_paterno, apellido_materno, contacto (teléfo. Hints: contacto = \"999000111\" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.; Puedes guardar tuplas (valor, tipo_esperado) en un dict y validar typ. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = \" 21 \"\nedad = x(raw.quit())\nprint(edad, type(edad).__name__)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "edad",
+        "quit",
+        "print",
+        "type",
+        "__name__",
+        "guiado",
+        "Dado"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T1-B-E1. Instruction del paquete: E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe quedar `21` de tipo int.. Hints: int(raw.strip()) — strip primero, constructor después.; Si haces int(raw) sin strip, en \" 21 \" también funciona en Python 3, pero el hábito strip es obligatorio. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    print(r3[\"errors\"])\n    # print(r3[\"errors\"]): int(texto) → (True, n, None)\n    # print(r3[\"errors\"]): ValueError → (False, None, msg)\n    pass\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "safe_int",
+        "campo",
+        "str",
+        "valor",
+        "texto",
+        "strip",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T1-B-E2. Instruction del paquete: E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si convierte, o `(False, None, mensaje)` si está vacío (tras strip) o no es entero. Prueba con `\" 21 . Hints: Tras strip, si texto == \"\", error de vacío. try/except ValueError para letras.; Mensaje accionable: incluye el nombre del campo y el valor recibido con !r (repr. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Cliente sintético (no es persona real)\nnombres = \"María José\"\napellido_paterno = \"Quispe\"\nedad = 34\nmonto_soles = 150.5\nactivo = True\nreferencia = None\n\ncampos = [\n    (\"nombres\", nombres),\n    (\"apellido_paterno\", apellido_paterno),\n    (\"edad\", edad),\n    (\"monto_soles\", monto_soles),\n    (\"activo\", activo),\n    (\"referencia\", referencia),\n]\nfor label, valor in campos:\n    print(f\"{label}: valor={valor!r} type={type(valor).__name__}\")\n\nprint(\"type(42)=\", type(42).__name__)\nprint(\"type('42')=\", type(\"42\").__name__)\nprint(\"42 == '42' →\", 42 == \"42\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cliente",
+        "persona",
+        "real",
+        "nombres",
+        "apellido_paterno",
+        "Quispe",
+        "edad",
+        "monto_soles"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T1-B-E3. Instruction del paquete: E3 (transferencia) — Pipeline de 2 campos: `edad` (int) y `monto` (float) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla, el otro puede seguir OK; raw siempre conserva . Hints: Reutiliza safe_int y escribe safe_float análogo. Acumula mensajes en errors[].; clean[\"edad\"] = None si falla, pero raw[\"edad\"] sigue siendo el string de entrad. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Antes (malo):\n# NombreCliente = \"Luis\"\n# AP = \"Ramos\"\n# x = 0\n# l = 5\n# EdadMaxima = 120\n\n# Después (bueno):\nx = \"Luis\"\nx = \"Ramos\"\nx = 0\nx = 5\nx = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Antes",
+        "malo",
+        "NombreCliente",
+        "Luis",
+        "Ramos",
+        "EdadMaxima",
+        "bueno",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T2-A-E1. Instruction del paquete: E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMaxima` (constante de negocio). Imprime los cinco nombres buenos con valores sintéticos.. Hints: snake_case para vars; UPPER_CASE para la constante de tope de edad.; Evita l/O/I: usa longitud, indice. apellido_paterno en lugar de AP.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\n\n# Corrige las tres líneas (hoy están mal a propósito):\nif estado = \"activo\":\n    print(\"ok estado\")\nif codigo = 10:\n    print(\"ok codigo\")\nif flag = True:\n    print(\"ok flag\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "estado",
+        "activo",
+        "codigo",
+        "flag",
+        "True",
+        "Corrige",
+        "tres",
+        "hoy"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T2-A-E2. Instruction del paquete: E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Corrígelas para que imprima tres líneas `ok ...` sin SyntaxError.. Hints: En cada if, cambia = por ==. No uses el operador walrus := en S02.; if flag == True funciona; también puedes escribir if flag: — ambas aceptables aquí si el arc. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nprint(r3[\"errors\"])\nmapeo = {\n    # \"Nombres\": \"nombres\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "encabezados",
+        "Nombres",
+        "Apellido",
+        "Paterno",
+        "Materno",
+        "Cel",
+        "Edad",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T2-A-E3. Instruction del paquete: E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Apellido Paterno`, `Apellido Materno`, `Teléfono / Cel`, `Dirección`, `Edad (años). Hints: Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.; Ejemplos: \"Apellido Paterno\" → apellido_paterno; \"Teléfono / Cel\" → telefono o co. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"None is None →\", x)\nprint(\"[] == [] →\", x)\nprint(\"[] is [] →\", x)\nprint(\"1 == True →\", x)\nprint(\"1 is True →\", x)\n# Comentario: x",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "None",
+        "True",
+        "Comentario",
+        "guiado",
+        "Completa",
+        "tabla",
+        "predicciones"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T2-B-E1. Instruction del paquete: E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] is []`, `1 == True`, `1 is True`. Luego escribe una línea de comentario: cuándo usar `is` v. Hints: Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.; 1 == True es True (bool subtipo int), pero 1 is True es False: no uses is para igual. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = x  # debe ser copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "original",
+        "trabajo",
+        "debe",
+        "ser",
+        "copia",
+        "alias",
+        "append",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T2-B-E2. Instruction del paquete: E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append(\"c\")` y demuestra que `original` sigue siendo `[\"a\", \"b\"]`.. Hints: trabajo = original.copy()  o  trabajo = original[:]; Si haces trabajo = original, append mutará ambos. Verifica con print y con `original is trabajo` → False.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    print(r3[\"errors\"])\n    pass\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "make_record",
+        "nombres",
+        "str",
+        "contacto",
+        "dict",
+        "print",
+        "errors"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T2-B-E3. Instruction del paquete: E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `nombres` y `contacto` (strip). Luego muta solo el campo limpio a `.upper()` y **as. Hints: Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.; Tras upper() en clean, assert rec[\"nombres_raw\"] == entrada_origin. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "n = 17\nd = 5\nprint(r3[\"errors\"])\nprint(\"//\", x)\nprint(\"%\", x)\nprint(\"**\", x)\nprint(\"/\", x)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "errors",
+        "guiado",
+        "imprime",
+        "Comenta",
+        "devuelve",
+        "float"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T3-A-E1. Instruction del paquete: E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por qué `/` devuelve float.. Hints: Usa los operadores // % ** / directamente. No hace falta import.; 17//5 → 3, 17%5 → 2, 2**4 → 16, 17/5 → 3.4 (float).. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = x  # debe ser 9\nassert cuadrado_neg == 9\nprint(\"assert OK\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "sin",
+        "cuadrado_neg",
+        "debe",
+        "ser",
+        "assert",
+        "independiente",
+        "Demuestra"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T3-A-E2. Instruction del paquete: E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y haz `assert cuadrado_neg == 9`.. Hints: ** tiene mayor precedencia que el unario menos. Paréntesis cambian el orden.; print(-3**2) y print((-3)**2); el assert solo pasa con (-3)**2.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "linea_a = 50\nlinea_b = 30\nprint(r3[\"errors\"])\nsubtotal = x\ntotal = x\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "linea_a",
+        "linea_b",
+        "print",
+        "errors",
+        "subtotal",
+        "total",
+        "transferencia",
+        "ticket"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T3-A-E3. Instruction del paquete: E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = 50 + 30` y `total = subtotal * (1 + 0.18)` con **paréntesis explícitos** en la t. Hints: subtotal primero; luego multiplica por (1 + 0.18), no 1 + 0.18 * subtotal sin revisar.; Con base 80, total float es 94.3999… — es la motivación de Decimal. Si u. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", 2 + 2)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "decimal",
+        "import",
+        "Decimal",
+        "print",
+        "float",
+        "guiado",
+        "Imprime"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T3-B-E1. Instruction del paquete: E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `decimal`.. Hints: from decimal import Decimal. Construye Decimal desde strings, no desde 0.1 float.; float imprime 0.30000000000000004; Decimal imprime 0.3.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\nprint(r3[\"errors\"])\npropina = x\ntotal = x\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "decimal",
+        "import",
+        "Decimal",
+        "ROUND_HALF_EVEN",
+        "cuenta",
+        "print",
+        "errors"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T3-B-E2. Instruction del paquete: E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina y total con `quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)`. Sin float.. Hints: from decimal import Decimal, ROUND_HALF_EVEN. Multiplica por Decimal(\"0.10\").; propina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HAL. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    print(r3[\"errors\"])\n    pass\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "decimal",
+        "import",
+        "Decimal",
+        "ROUND_HALF_EVEN",
+        "InvalidOperation",
+        "def",
+        "parse_monto"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T3-B-E3. Instruction del paquete: E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace vacío, parsee con `Decimal`, quantize a `0.01`, error accionable si falla. Prueb. Hints: try/except InvalidOperation. raw en el mensaje con !r.; from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation. Si strip vacío → error antes de Decimal.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nombre = \"José\"\nprint(r3[\"errors\"])\nprint(x)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "nombre",
+        "print",
+        "errors",
+        "guiado",
+        "imprime",
+        "saludo",
+        "string",
+        "Hola"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T4-A-E1. Instruction del paquete: E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acento incluido).. Hints: f\"Hola, {nombre}. Bienvenido al intake.\"; No concatenes con + salvo que practiques; f-string es el estilo S02.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(r3[\"errors\"])\nprint(f\"nombres: {x}\")\nprint(f\"apellido_paterno: {x}\")\nprint(f\"contacto: {x}\")\nprint(f\"monto: S/ {x:.2f}\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "decimal",
+        "import",
+        "Decimal",
+        "nombres",
+        "Ana",
+        "apellido_paterno",
+        "Ramos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T4-A-E2. Instruction del paquete: E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un reporte multi-línea con f-string incluyendo `S/ {monto:.2f}`.. Hints: Usa varios print(f\"...\") o un solo f-string multi-línea. :.2f formatea dos decimales.; Incluye las 4 etiquetas: nombres, apellido_paterno, contacto, monto.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    print(r3[\"errors\"])\n    pass\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "simular_intake",
+        "nombres",
+        "str",
+        "contacto",
+        "edad",
+        "dict",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T4-A-E3. Instruction del paquete: E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input()` real: recibe los valores (como si vinieran de prompts), devuelve un dict con . Hints: No uses input(). Los parámetros ya simulan las respuestas del usuario.; types = {k: type(v).__name__ for k, v in datos.items()}. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def parse_nombres(valor: str) -> dict:\n    print(r3[\"errors\"])\n    pass\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "parse_nombres",
+        "valor",
+        "str",
+        "dict",
+        "print",
+        "errors",
+        "pass"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T4-B-E1. Instruction del paquete: E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None si vacío) y `errors` (lista). Si vacío tras strip, agrega error accionable. Prueba con `\"\"`. Hints: Siempre guarda raw = valor original antes de strip.; errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\"). Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = \"  Ñahui  \"\nprint(r3[\"errors\"])\nraw = x\nclean = x\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "original",
+        "print",
+        "errors",
+        "raw",
+        "clean",
+        "repr",
+        "assert",
+        "Unicode"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T4-B-E2. Instruction del paquete: E2 (independiente) — Parsea `apellido_materno = \"  Ñahui  \"` conservando raw con espacios y clean strip. Assert de round-trip Unicode: clean == \"Ñahui\" y raw original intacto.. Hints: No encodes a ascii. Python 3 str es Unicode.; raw = original; clean = original.strip(); assert raw == original.. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Cliente sintético (no es persona real)\nnombres = \"María José\"\napellido_paterno = \"Quispe\"\nedad = 34\nmonto_soles = 150.5\nactivo = True\nreferencia = None\n\ncampos = [\n    (\"nombres\", nombres),\n    (\"apellido_paterno\", apellido_paterno),\n    (\"edad\", edad),\n    (\"monto_soles\", monto_soles),\n    (\"activo\", activo),\n    (\"referencia\", referencia),\n]\nfor label, valor in campos:\n    print(f\"{label}: valor={valor!r} type={type(valor).__name__}\")\n\nprint(\"type(42)=\", type(42).__name__)\nprint(\"type('42')=\", type(\"42\").__name__)\nprint(\"42 == '42' →\", 42 == \"42\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cliente",
+        "persona",
+        "real",
+        "nombres",
+        "apellido_paterno",
+        "Quispe",
+        "edad",
+        "monto_soles"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S02-T4-B-E3. Instruction del paquete: E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None)` con `*_raw`, limpios, `errors`, y `safe_int` para edad. Suite de 3 tests: fe. Hints: Reutiliza el patrón del DEMO T4-B. No dejes que ValueError se escape.; assert r[\"edad_raw\"]==\"abc\" y any(\"edad\" in e.lower() for e in errors). raw siempre prese. Teoría activa: De “Absolute Basics” a valores y tipos (mapa de la sección) | Literales y tipos básicos | Inspección, conversión y validación | Asignación y convenciones de nombres | Identidad, mutabilidad y copias s. iDo demos: S02-T1-B-DEMO | S02-T2-A-DEMO | S02-T2-B-DEMO | S02-T3-A-DEMO | S02-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "NoneType",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría de tipos: `None` es ausencia de valor y 'su tipo es **NoneType**'. No es null, void ni un str vacío."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "str y False",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: type(x).__name__ da 'str'/'int'; 42 (int) y '42' (str) 'no son el mismo valor' y `42 == \"42\"` es False. Así type(\"42\").__name__ es str y la comparación es False."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Porque no es una cantidad aritmética y puede necesitar ceros o formato",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: el teléfono 'debe modelarse como str' porque 'no es una cantidad aritmética y puede tener ceros a la izquierda'."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "[1, 2, 3]",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría de aliasing: si `b = a` y a es lista, 'b es un alias: mutar b muta a'. Tras b.append(3), a vale [1, 2, 3]."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "if x is None:",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: 'El idioma correcto para ausencia es **x is None** (no x == None)'."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "persona_seed": "c2df81fca375",
+  "run": "agentic_A2_second_consecutive"
+}

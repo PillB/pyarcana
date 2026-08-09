@@ -1,0 +1,96 @@
+{
+  "section": 28,
+  "section_id": "llm-agents",
+  "file": "src/lib/course/sections/s28-llm-agents.ts",
+  "title": "Pruebas de datos, propiedades e integración",
+  "shortTitle": "Props e integración",
+  "score_before": 3.8,
+  "score_after_estimate": 9.6,
+  "status": "fixed_validated",
+  "anti_aberration_ok": true,
+  "pass_type": "residual95",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S28_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S28_FIXER_REPORT.md",
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-05_residual_3_starters_io",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-15_selfcheck_plus2",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-20",
+    "ML-1",
+    "ML-2",
+    "ML-3",
+    "ML-4",
+    "ML-5",
+    "ML-6"
+  ],
+  "issues_deferred": [
+    "ISSUE-08_platform_id_filename_llm-agents_rename",
+    "ML-7_platform_id_llm-agents_routing"
+  ],
+  "meta_leaks_cleared": [
+    "ML-1",
+    "ML-2",
+    "ML-3",
+    "ML-4",
+    "ML-5",
+    "ML-6"
+  ],
+  "meta_leaks_deferred": [
+    "ML-7"
+  ],
+  "this_pass_residual_edits": [
+    "S28-T2-A-E1 starter single-line I/O + remove DEFECT scaffold",
+    "S28-T4-A-E2 starter single-line I/O + remove DEFECT scaffold",
+    "S28-T4-B-E1 starter single-line I/O + remove DEFECT scaffold",
+    "selfCheck +2 items schema fail-closed and FakeClock"
+  ],
+  "runtime_oracles_verified": {
+    "theory_ido_wedo_code_output_pairs": 40,
+    "mismatches": 0,
+    "weDo_solutions": 24,
+    "starter_solution_print_line_mismatches": 0,
+    "youDo_starter_runs": true,
+    "youDo_stdout": "qa_starter_ok"
+  },
+  "validation": {
+    "theory_ido_code_output_pairs_ok": 40,
+    "weDo_solution_pairs_ok": 24,
+    "youDo_starter_runs": true,
+    "meta_leak_hits": 0,
+    "theory_paragraph_duplicates": 0,
+    "weDo_instruction_unique": 24,
+    "weDo_feedback_unique": 24,
+    "weDo_instruction_min_chars": 166,
+    "weDo_instructions_under_150": 0,
+    "selfCheck_questions": 7,
+    "caso_lim_028_count": 1,
+    "brace_delta": 0
+  },
+  "structure": {
+    "theory_headings": 9,
+    "ido_demos": 8,
+    "wedo_exercises": 24,
+    "youdo": 1,
+    "self_check": 7,
+    "learning_outcomes": 8
+  },
+  "notes": "Residual95 Fixer 2026-07-24 against S28_EXPLORER_REPORT.md only. Closed ISSUE-05 residual (3 starter I/O + DEFECT harness scaffolds) and strengthened ISSUE-15 SelfCheck (7 items). Full re-validation: 40/40 code↔output, 24/24 starter/sol lines, youDo qa_starter_ok, meta 0. ISSUE-08/ML-7 platform id llm-agents deferred. Hand-crafted only — no bulk content generation. score_after_estimate 9.6.",
+  "date": "2026-07-24"
+}

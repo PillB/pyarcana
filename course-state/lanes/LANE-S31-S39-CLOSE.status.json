@@ -1,0 +1,416 @@
+{
+  "lane_id": "LANE-S31-S39-CLOSE",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK + PHASE_6_VALIDATION",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "scope": [
+    "S31",
+    "S32",
+    "S33",
+    "S34",
+    "S35",
+    "S36",
+    "S37",
+    "S38",
+    "S39"
+  ],
+  "phase5": {
+    "streaming-data": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s31_phase5_exam_bank.json",
+      "concept_slugs": [
+        "nodes-edges-direction-weight",
+        "multigraph-time-provenance",
+        "entities-tx-contacts",
+        "dedup-agg-keep-detail",
+        "degree-components-paths",
+        "centrality-limited-interp",
+        "subgraphs-tests",
+        "viz-scale-privacy-edge-evidence"
+      ],
+      "title_v3": "Grafos y evidencia relacional"
+    },
+    "microservices": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s32_phase5_exam_bank.json",
+      "concept_slugs": [
+        "num-cat-text-features",
+        "missing-scale-encode",
+        "shared-contact-distance",
+        "windows-frequency",
+        "columntransformer-custom",
+        "fit-transform-persist",
+        "entity-group-time-split",
+        "leakage-skew-versioning"
+      ],
+      "title_v3": "Feature engineering y pipelines sin leakage"
+    },
+    "advanced-models": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s33_phase5_exam_bank.json",
+      "concept_slugs": [
+        "unit-target-horizon",
+        "costs-rule-dummy",
+        "reg-logreg-regularization",
+        "coefs-assumptions-scaling",
+        "trees-rf-boosting",
+        "overfit-depth-repro",
+        "pipeline-min-tracking",
+        "cv-error-analysis"
+      ],
+      "title_v3": "ML supervisado y baselines responsables"
+    },
+    "cv-ai-integration": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s34_phase5_exam_bank.json",
+      "concept_slugs": [
+        "confusion-pr-f-prauc",
+        "topk-review-load",
+        "class-weights-resampling-cv",
+        "prevalence-misleading-metrics",
+        "reliability-brier",
+        "calibrators-oos",
+        "threshold-cost-capacity",
+        "abstention-slices-sensitivity"
+      ],
+      "title_v3": "Métricas, desbalance, calibración y umbrales"
+    },
+    "system-design": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s35_phase5_exam_bank.json",
+      "concept_slugs": [
+        "coefs-perm-importance",
+        "local-corr-limits",
+        "cohorts-slice-metrics",
+        "proxies-sample-harm",
+        "cal-intervals-conformal",
+        "ood-abstention",
+        "model-card-contestability",
+        "approve-override-appeal-retire"
+      ],
+      "title_v3": "Explicabilidad, equidad e incertidumbre"
+    },
+    "ai-apis-advanced": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s36_phase5_exam_bank.json",
+      "concept_slugs": [
+        "scale-kmeans-density",
+        "choice-stability-metrics",
+        "pca-visualization",
+        "prudent-projection-interp",
+        "iforest-lof-rules",
+        "novelty-vs-outlier-contam",
+        "splits-backtests-windows",
+        "scarce-labels-pk-human"
+      ],
+      "title_v3": "Clustering, anomalías y validación temporal"
+    },
+    "dbt-bigquery": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s37_phase5_exam_bank.json",
+      "concept_slugs": [
+        "wall-cpu-memory-profile",
+        "bench-warmup-variability",
+        "complexity-blocking",
+        "structures-vectorize-reduce",
+        "dtypes-chunking-columnar",
+        "cache-invalidate-ooc",
+        "perf-budget-tests",
+        "total-cost-clarity-no-micro"
+      ],
+      "title_v3": "Profiling, algoritmos y rendimiento"
+    },
+    "performance-extreme": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s38_phase5_exam_bank.json",
+      "concept_slugs": [
+        "threads-processes-async",
+        "io-vs-cpu-gil-serialize",
+        "pools-backpressure-rate",
+        "cancel-timeout-resources",
+        "logs-metrics-traces",
+        "correlation-redact-sli-slo",
+        "states-checkpoint-idempotency",
+        "retry-dlq-replay-runbook"
+      ],
+      "title_v3": "Concurrencia, observabilidad y workflows resilientes"
+    },
+    "integrator-phase2": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s39_phase5_exam_bank.json",
+      "concept_slugs": [
+        "intake-er-rel-features-model",
+        "contracts-versions-ownership",
+        "queue-evidence-packet-explain",
+        "decision-override-feedback-appeal",
+        "privacy-fairness-security",
+        "drift-incidents-rollback-human",
+        "acceptance-demo",
+        "cards-value-metrics-postmortem"
+      ],
+      "title_v3": "Responsible ML Case Triage y cierre de nivel"
+    }
+  },
+  "phase6": {
+    "S31": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s31_phase6_validation.json"
+    },
+    "S32": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s32_phase6_validation.json"
+    },
+    "S33": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s33_phase6_validation.json"
+    },
+    "S34": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s34_phase6_validation.json"
+    },
+    "S35": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s35_phase6_validation.json"
+    },
+    "S36": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s36_phase6_validation.json"
+    },
+    "S37": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s37_phase6_validation.json"
+    },
+    "S38": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s38_phase6_validation.json"
+    },
+    "S39": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s39_phase6_validation.json"
+    }
+  },
+  "sections_authorized_to_close": [
+    "S31",
+    "S32",
+    "S33",
+    "S34",
+    "S35",
+    "S36",
+    "S37",
+    "S38",
+    "S39"
+  ],
+  "sections_blocked": [],
+  "pass_fail_table": [
+    {
+      "section": "S31",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S32",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S33",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S34",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S35",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S36",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S37",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S38",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S39",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    }
+  ],
+  "privacy_note": "Scores, centralidad, anomalías y alertas priorizan revisión; no implican fraude, parentesco ni colusión.",
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s31_phase5_exam_bank.json",
+    "course-state/s32_phase5_exam_bank.json",
+    "course-state/s33_phase5_exam_bank.json",
+    "course-state/s34_phase5_exam_bank.json",
+    "course-state/s35_phase5_exam_bank.json",
+    "course-state/s36_phase5_exam_bank.json",
+    "course-state/s37_phase5_exam_bank.json",
+    "course-state/s38_phase5_exam_bank.json",
+    "course-state/s39_phase5_exam_bank.json",
+    "course-state/s31_phase6_validation.json",
+    "course-state/s32_phase6_validation.json",
+    "course-state/s33_phase6_validation.json",
+    "course-state/s34_phase6_validation.json",
+    "course-state/s35_phase6_validation.json",
+    "course-state/s36_phase6_validation.json",
+    "course-state/s37_phase6_validation.json",
+    "course-state/s38_phase6_validation.json",
+    "course-state/s39_phase6_validation.json",
+    "course-state/lanes/LANE-S31-S39-CLOSE.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json"
+  ],
+  "next_action": "Orchestrator: merge authorized S31–S39 into checkpoint/section_ledger; db:seed updated banks."
+}

@@ -1,0 +1,1073 @@
+{
+  "version": "3.2",
+  "section": "S27",
+  "section_id": "async-concurrency",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S27 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S27 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s27-async-concurrency.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "async-concurrency",
+    "index": 27,
+    "title_platform": "Concurrencia Avanzada y Arquitecturas Async",
+    "title_v3": "Estrategia de pruebas con pytest",
+    "title_decision": "KEEP platform id 'async-concurrency' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+    "estimatedHours": 12,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "Nivel 2 (S14–S26)"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-A (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "async-concurrency",
+    "platform_title": "Concurrencia Avanzada y Arquitecturas Async",
+    "v3_title": "Estrategia de pruebas con pytest",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante prioriza pruebas según riesgo y pirámide.",
+    "El estudiante escribe tests AAA con oráculos confiables.",
+    "El estudiante usa discovery y assertions de pytest.",
+    "El estudiante aísla estado con fixtures y scopes.",
+    "El estudiante cubre excepciones, floats, fechas y tmp files.",
+    "El estudiante diseña casos negativos con mensajes útiles.",
+    "El estudiante mide cobertura por rama y riesgo.",
+    "El estudiante interpreta mutación conceptual y fallas útiles."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S27-T1-A",
+      "slug": "risks-test-pyramid",
+      "title": "riesgos y pirámide de pruebas"
+    },
+    {
+      "subtopic_id": "S27-T1-B",
+      "slug": "aaa-oracles",
+      "title": "Arrange–Act–Assert y oráculos confiables"
+    },
+    {
+      "subtopic_id": "S27-T2-A",
+      "slug": "discovery-assertions",
+      "title": "discovery y assertions"
+    },
+    {
+      "subtopic_id": "S27-T2-B",
+      "slug": "fixtures-scopes-isolation",
+      "title": "fixtures, scopes y aislamiento"
+    },
+    {
+      "subtopic_id": "S27-T3-A",
+      "slug": "exceptions-floats-dates-tmp",
+      "title": "excepciones, floats, fechas y archivos temporales"
+    },
+    {
+      "subtopic_id": "S27-T3-B",
+      "slug": "negative-cases-messages",
+      "title": "casos negativos y mensajes"
+    },
+    {
+      "subtopic_id": "S27-T4-A",
+      "slug": "branch-risk-coverage",
+      "title": "branch y risk coverage"
+    },
+    {
+      "subtopic_id": "S27-T4-B",
+      "slug": "mutation-useful-failures",
+      "title": "mutación conceptual, fallas útiles y mantenimiento"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S27-T1",
+      "title": "Diseño",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S27-T1-A",
+          "slug": "risks-test-pyramid",
+          "title": "riesgos y pirámide de pruebas",
+          "outcome": "El estudiante prioriza pruebas según riesgo y pirámide.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "riesgos y pirámide de pruebas",
+              "must_cover": [
+                "riesgos",
+                "pirámide",
+                "unit/integration/e2e"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T1-A-DEMO",
+              "title": "Demo: riesgos y pirámide de pruebas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T1-A-E1",
+                "kind": "guided",
+                "title": "riesgos y pirámide de pruebas — guided",
+                "skill": "risks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T1-A-E2",
+                "kind": "independent",
+                "title": "riesgos y pirámide de pruebas — independent",
+                "skill": "risks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T1-A-E3",
+                "kind": "transfer",
+                "title": "riesgos y pirámide de pruebas — transfer",
+                "skill": "risks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S27-T1-B",
+          "slug": "aaa-oracles",
+          "title": "Arrange–Act–Assert y oráculos confiables",
+          "outcome": "El estudiante escribe tests AAA con oráculos confiables.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Arrange–Act–Assert y oráculos confiables",
+              "must_cover": [
+                "AAA",
+                "oráculo",
+                "assert"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T1-B-DEMO",
+              "title": "Demo: Arrange–Act–Assert y oráculos confiables",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T1-B-E1",
+                "kind": "guided",
+                "title": "Arrange–Act–Assert y oráculos confiables — guided",
+                "skill": "aaa",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T1-B-E2",
+                "kind": "independent",
+                "title": "Arrange–Act–Assert y oráculos confiables — independent",
+                "skill": "aaa",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T1-B-E3",
+                "kind": "transfer",
+                "title": "Arrange–Act–Assert y oráculos confiables — transfer",
+                "skill": "aaa",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S27-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S27-T1-EVAL-1",
+            "title": "riesgos y pirámide de pruebas — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S27-T1-EVAL-2",
+            "title": "Arrange–Act–Assert y oráculos confiables — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S27-T2",
+      "title": "Pytest",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S27-T2-A",
+          "slug": "discovery-assertions",
+          "title": "discovery y assertions",
+          "outcome": "El estudiante usa discovery y assertions de pytest.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "discovery y assertions",
+              "must_cover": [
+                "pytest discovery",
+                "assert rewrite",
+                "node ids"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T2-A-DEMO",
+              "title": "Demo: discovery y assertions",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T2-A-E1",
+                "kind": "guided",
+                "title": "discovery y assertions — guided",
+                "skill": "discovery",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T2-A-E2",
+                "kind": "independent",
+                "title": "discovery y assertions — independent",
+                "skill": "discovery",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T2-A-E3",
+                "kind": "transfer",
+                "title": "discovery y assertions — transfer",
+                "skill": "discovery",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S27-T2-B",
+          "slug": "fixtures-scopes-isolation",
+          "title": "fixtures, scopes y aislamiento",
+          "outcome": "El estudiante aísla estado con fixtures y scopes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "fixtures, scopes y aislamiento",
+              "must_cover": [
+                "fixture",
+                "scope",
+                "isolation"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T2-B-DEMO",
+              "title": "Demo: fixtures, scopes y aislamiento",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T2-B-E1",
+                "kind": "guided",
+                "title": "fixtures, scopes y aislamiento — guided",
+                "skill": "fixtures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T2-B-E2",
+                "kind": "independent",
+                "title": "fixtures, scopes y aislamiento — independent",
+                "skill": "fixtures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T2-B-E3",
+                "kind": "transfer",
+                "title": "fixtures, scopes y aislamiento — transfer",
+                "skill": "fixtures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S27-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S27-T2-EVAL-1",
+            "title": "discovery y assertions — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S27-T2-EVAL-2",
+            "title": "fixtures, scopes y aislamiento — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S27-T3",
+      "title": "Bordes",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S27-T3-A",
+          "slug": "exceptions-floats-dates-tmp",
+          "title": "excepciones, floats, fechas y archivos temporales",
+          "outcome": "El estudiante cubre excepciones, floats, fechas y tmp files.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "excepciones, floats, fechas y archivos temporales",
+              "must_cover": [
+                "pytest.raises",
+                "approx",
+                "tmp_path"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T3-A-DEMO",
+              "title": "Demo: excepciones, floats, fechas y archivos temporales",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T3-A-E1",
+                "kind": "guided",
+                "title": "excepciones, floats, fechas y archivos temporales — guided",
+                "skill": "exceptions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T3-A-E2",
+                "kind": "independent",
+                "title": "excepciones, floats, fechas y archivos temporales — independent",
+                "skill": "exceptions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T3-A-E3",
+                "kind": "transfer",
+                "title": "excepciones, floats, fechas y archivos temporales — transfer",
+                "skill": "exceptions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S27-T3-B",
+          "slug": "negative-cases-messages",
+          "title": "casos negativos y mensajes",
+          "outcome": "El estudiante diseña casos negativos con mensajes útiles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "casos negativos y mensajes",
+              "must_cover": [
+                "negative tests",
+                "error messages"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T3-B-DEMO",
+              "title": "Demo: casos negativos y mensajes",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T3-B-E1",
+                "kind": "guided",
+                "title": "casos negativos y mensajes — guided",
+                "skill": "negative",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T3-B-E2",
+                "kind": "independent",
+                "title": "casos negativos y mensajes — independent",
+                "skill": "negative",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T3-B-E3",
+                "kind": "transfer",
+                "title": "casos negativos y mensajes — transfer",
+                "skill": "negative",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S27-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S27-T3-EVAL-1",
+            "title": "excepciones, floats, fechas y archivos temporales — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S27-T3-EVAL-2",
+            "title": "casos negativos y mensajes — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S27-T4",
+      "title": "Cobertura",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S27-T4-A",
+          "slug": "branch-risk-coverage",
+          "title": "branch y risk coverage",
+          "outcome": "El estudiante mide cobertura por rama y riesgo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "branch y risk coverage",
+              "must_cover": [
+                "branch coverage",
+                "risk-based"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T4-A-DEMO",
+              "title": "Demo: branch y risk coverage",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T4-A-E1",
+                "kind": "guided",
+                "title": "branch y risk coverage — guided",
+                "skill": "branch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T4-A-E2",
+                "kind": "independent",
+                "title": "branch y risk coverage — independent",
+                "skill": "branch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T4-A-E3",
+                "kind": "transfer",
+                "title": "branch y risk coverage — transfer",
+                "skill": "branch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S27-T4-B",
+          "slug": "mutation-useful-failures",
+          "title": "mutación conceptual, fallas útiles y mantenimiento",
+          "outcome": "El estudiante interpreta mutación conceptual y fallas útiles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "mutación conceptual, fallas útiles y mantenimiento",
+              "must_cover": [
+                "mutation testing",
+                "useful failures"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S27-T4-B-DEMO",
+              "title": "Demo: mutación conceptual, fallas útiles y mantenimiento",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S27-T4-B-E1",
+                "kind": "guided",
+                "title": "mutación conceptual, fallas útiles y mantenimiento — guided",
+                "skill": "mutation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T4-B-E2",
+                "kind": "independent",
+                "title": "mutación conceptual, fallas útiles y mantenimiento — independent",
+                "skill": "mutation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S27-T4-B-E3",
+                "kind": "transfer",
+                "title": "mutación conceptual, fallas útiles y mantenimiento — transfer",
+                "skill": "mutation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S27-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S27-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S27-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S27-T4-EVAL-1",
+            "title": "branch y risk coverage — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S27-T4-EVAL-2",
+            "title": "mutación conceptual, fallas útiles y mantenimiento — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S27-PROJ",
+    "title": "Estrategia de pruebas con pytest",
+    "replaces_legacy": "Legacy You Do de 'Concurrencia Avanzada y Arquitecturas Async' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-A (inicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-A (inicio)",
+    "increment_gate": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'async-concurrency' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s27-async-concurrency.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Concurrencia Avanzada y Arquitecturas Async' vs 'Estrategia de pruebas con pytest'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-A (inicio)",
+    "increment_gate": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión.",
+    "project_id": "S27-PROJ",
+    "section_passed": false,
+    "notes": "S27 contributes to CP-N3-A (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S27",
+    "risk": "Display title still 'Concurrencia Avanzada y Arquitecturas Async' until product rename; topic mismatch vs V3 'Estrategia de pruebas con pytest'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S27-T1-A first"
+  }
+}

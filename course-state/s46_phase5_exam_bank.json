@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S46",
+  "section_id": "gpu-computing",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "gpu-computing",
+    "title_v3": "Ingeniería de datos y orquestación de producción",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "entender-cuda-programming-mode",
+    "implementar-kernels-cuda-custo",
+    "usar-cupy-para-arrays-gpu-con",
+    "optimizar-inferencia-de-modelo"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S46 (Ingeniería de datos y orquestación de producción).",
+  "families": [
+    {
+      "family_id": "S46-T1-A-EX",
+      "concept": "windows-event-time-watermarks",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T1-B-EX",
+      "concept": "late-data-exactly-once",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T2-A-EX",
+      "concept": "dag-assets-dependency",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T2-B-EX",
+      "concept": "schedules-backfills-state",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T3-A-EX",
+      "concept": "contracts-freshness",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T3-B-EX",
+      "concept": "lineage-obs-ownership",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T4-A-EX",
+      "concept": "partitions-incremental",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S46-T4-B-EX",
+      "concept": "slo-incidents-data-recovery",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (gpu-computing key)",
+    "course-state/s46_phase5_exam_bank.json"
+  ]
+}

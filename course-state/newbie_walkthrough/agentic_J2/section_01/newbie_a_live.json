@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s01-3caeb15f87c4",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "id": "S01-T1-A-E1",
+      "code": "# exploración s01/S01-T1-A-E1\n# Sesión REPL esperada (local-python):\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.9.6'   # o la versión de tu máquina\n# >>> quit()\n",
+      "justification_from_packet": "Exercise S01-T1-A-E1: el contrato observable es «E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py». Del theory/iDo cercano tomé «Para salir usa quit() o exit(). Eso no cierra la termin» y de hints «En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] pa». [bb5988] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "id": "S01-T1-A-E2",
+      "code": "# exploración s01/S01-T1-A-E2\nimport sys\n\ndef main() -> None:\n    nombre = \"Ana Rojas\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n_j2_mark = 1\n",
+      "justification_from_packet": "En «Entorno reproducible y trabajo seguro» resolví S01-T1-A-E2 leyendo la instruction: «E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe». La pista «Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica» me dio el patrón concreto del weDo. [7619fd] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "id": "S01-T1-A-E3",
+      "code": "# exploración s01/S01-T1-A-E3\n# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Confirmar el sistema operativo y abrir una terminal nueva.\n2. Probar `python --version` y, si falla, `python3 --version` y (en Windows) `py --version`.\n3. Windows: reinstalar desde https://www.python.org/downloads/ marcando \"Add python.exe to PATH\"; desactivar el alias de Microsoft Store si redirige a la tienda.\n4. macOS/Linux: usar `python3` de forma consistente o crear un alias documentado en el README del proyecto; no mezclar sin documentar.\n5. Cerrar y reabrir la terminal; repetir `python --version` o `python3 --version`.\n6. Solo después de ver 3.x, usar `python -m pip --version` (o `python3 -m pip --version`).\n\n## Verificación final\n- Comando: `python3 --version` (o `python --version` si ese es el que responde)\n- Resultado esperado: una línea `Python 3.12.x` (o la 3.x instalada, ≥ 3.10 recomendado para el curso)\n",
+      "justification_from_packet": "En «Entorno reproducible y trabajo seguro» resolví S01-T1-A-E3 leyendo la instruction: «E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se». La pista «En Windows el culpable típico es el PATH o el alias de la Microsoft Store.» me dio el patrón concreto del weDo. [edd75d] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "id": "S01-T1-B-E1",
+      "code": "# exploración s01/S01-T1-B-E1\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n# → codigo_ok=0\n\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# → codigo_fail=1\n\n# PowerShell equivalente:\n# python -c \"import sys; print('ok'); sys.exit(0)\"\n# echo \"codigo_ok=$LASTEXITCODE\"\n# python -c \"import sys; print('fail'); sys.exit(1)\"\n# echo \"codigo_fail=$LASTEXITCODE\"\n_j2_mark = 1\n",
+      "justification_from_packet": "En «Entorno reproducible y trabajo seguro» resolví S01-T1-B-E1 leyendo la instruction: «E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (». La pista «Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerS» me dio el patrón concreto del weDo. [952a8d] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "id": "S01-T1-B-E2",
+      "code": "# exploración s01/S01-T1-B-E2\nimport sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n_j2_mark = 1\n",
+      "justification_from_packet": "Como explorer en «Entorno reproducible y trabajo seguro», S01-T1-B-E2 se cierra con lo enseñado: E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime. Hint operativa: «sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en». [9eb9f7] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "id": "S01-T1-B-E3",
+      "code": "# exploración s01/S01-T1-B-E3\n# pip falla: ¿PATH o paquete/intérprete?\n\n## Escenario A — \"pip no se reconoce como comando\"\n- Clasificación: fallo de PATH / ejecutable no encontrado (la shell no localiza `pip`).\n- Pasos:\n  1. Verificar intérprete: `python --version` o `python3 --version` (y en Windows `py --version`).\n  2. Evitar depender de un `pip` suelto: usar `python -m pip --version` (o `python3 -m pip --version`).\n  3. Si el intérprete no existe, reparar instalación/PATH (python.org, \"Add to PATH\"); no es un problema de pandas todavía.\n\n## Escenario B — pip corre, pero import pandas falla\n- Clasificación: pip e intérprete no coinciden, o el paquete no está en el entorno activo (venv no activado / otro Python).\n- Pasos:\n  1. `python -c \"import sys; print(sys.executable)\"` y `python -m pip --version` — deben referirse al mismo prefijo.\n  2. Reinstalar en ese intérprete: `python -m pip install pandas` (con venv activado si el proyecto usa venv).\n  3. Reprobar: `python -c \"import pandas; print(pandas.__version__)\"` y confirmar exit code 0.\n\n## Comando preferido del curso\n- `python -m pip install ...` / `python -m pip install -r requirements.txt` (atado al mismo intérprete).\n_j2_mark = 1\n",
+      "justification_from_packet": "Armé S01-T1-B-E3 desde el quiz_card de «Entorno reproducible y trabajo seguro». Instruction recortada: «E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip». Verifiqué con la pista «Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir p». [4efe61] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "id": "S01-T2-A-E1",
+      "code": "# exploración s01/S01-T2-A-E1\nmkdir -p lab_venv_t2a && cd lab_venv_t2a\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# .../lab_venv_t2a/.venv\ndeactivate\n_j2_mark = 1\n",
+      "justification_from_packet": "En «Entorno reproducible y trabajo seguro» resolví S01-T2-A-E1 leyendo la instruction: «E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica qu». La pista «Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/b» me dio el patrón concreto del weDo. [78fb62] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "id": "S01-T2-A-E2",
+      "code": "# exploración s01/S01-T2-A-E2\ndeactivate 2>/dev/null || true\nrm -rf .venv\n# PowerShell: Remove-Item -Recurse -Force .venv\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\nls hello.py 2>/dev/null || echo \"(tu código fuente permanece en el proyecto)\"\n_j2_mark = 1\n",
+      "justification_from_packet": "Como explorer en «Entorno reproducible y trabajo seguro», S01-T2-A-E2 se cierra con lo enseñado: E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbra. Hint operativa: «El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scri». [581791] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "id": "S01-T2-A-E3",
+      "code": "# exploración s01/S01-T2-A-E3\n# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl Proyecto A (reporte legacy) necesita una API de pandas 1.x. El Proyecto B (pipeline nuevo) necesita pandas 2.x. Si ambos instalan en el mismo site-packages global, actualizar B rompe A (o al revés). El error aparece semanas después y parece “de código”, pero es de entorno.\n\n## Flujo recomendado (este curso)\n1. En cada repo: `python3 -m venv .venv` y activar.\n2. Instalar solo ahí: `python -m pip install ...` / `-r requirements.txt`.\n3. Si el entorno se rompe: borrar `.venv` y recrearlo; el código fuente no se toca.\n\n## Nota sobre la herramienta\n- venv es **stdlib** (viene con Python; no requiere descarga extra como gestor aparte).\n- Nombre canónico de carpeta en este curso: **`.venv`** (`venv` es alias aceptado).\n- conda/uv existen y son útiles en otros contextos; aquí el default es venv por portabilidad en onboarding.\n",
+      "justification_from_packet": "Exercise S01-T2-A-E3: el contrato observable es «E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no p». Del theory/iDo cercano tomé «Cierra con el flujo: python -m venv .venv → activate →» y de hints «Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x.». [bc2020] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "id": "S01-T2-B-E1",
+      "code": "# exploración s01/S01-T2-B-E1\nsource .venv/bin/activate\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n_j2_mark = 1\n",
+      "justification_from_packet": "Armé S01-T2-B-E1 desde el quiz_card de «Entorno reproducible y trabajo seguro». Instruction recortada: «E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `». Verifiqué con la pista «Siempre: python -m pip install ... y python -m pip freeze > requirements.tx». [a12106] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "id": "S01-T2-B-E2",
+      "code": "# exploración s01/S01-T2-B-E2\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -c \"import requests; print('ok', requests.__version__)\"\n_j2_mark = 1\n",
+      "justification_from_packet": "Exercise S01-T2-B-E2: el contrato observable es «E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno». Del theory/iDo cercano tomé «python3 -m venv .venv_replica && source .venv_replica/b» y de hints «No copies site-packages a mano. El contrato es el archivo -r.». [268ba6] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "id": "S01-T2-B-E3",
+      "code": "# exploración s01/S01-T2-B-E3\n# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl módulo de terceros no está en el site-packages del intérprete actual.\n\n## Hipótesis B — instalado en otro intérprete\n`pip` (u otro Python) instaló el paquete en un prefijo distinto al de `python` que ejecuta el import.\n\n## Protocolo (5 pasos)\n1. `python -c \"import sys; print(sys.executable); print(sys.prefix)\"`\n2. Confirmar si el módulo es stdlib (no pip) o terceros (sí pip).\n3. `python -m pip show requests` (o el paquete) con **el mismo** python.\n4. Si falta: activar `.venv` del proyecto y `python -m pip install ...` o `-r requirements.txt`.\n5. Reprobar import y anotar versión; no reinstalar el SO.\n\n## ¿stdlib o terceros?\n- requests: **terceros** (requiere pip)\n- datetime: **stdlib** (no va en requirements.txt)\n_j2_mark = 1\n",
+      "justification_from_packet": "Exercise S01-T2-B-E3: el contrato observable es «E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En u». Del theory/iDo cercano tomé «requests es de terceros; sys/datetime no. Si pip list m» y de hints «Primero identifica el intérprete; luego pregunta si el módulo es stdlib; lu». [47ee47] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "id": "S01-T3-A-E1",
+      "code": "# exploración s01/S01-T3-A-E1\nmkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "justification_from_packet": "Para S01-T3-A-E1 el paquete de «Entorno reproducible y trabajo seguro» pide: E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional. Anclé la respuesta a «git add <archivo> && git commit -m \"docs: ...\" — el prefijo va en minúscula» y conservé el fixture del starter. [862a1b] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "id": "S01-T3-A-E2",
+      "code": "# exploración s01/S01-T3-A-E2\n# Lectura de diff\n\n## Comandos usados\n`echo \"Setup con venv.\" >> README.md && git add README.md && git commit -m \"docs: documentar venv\" && git show HEAD`\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas añadidas al README (p. ej. `+Setup con venv.`).\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: el header del diff muestra el path existente y un conteo pequeño de inserciones; no es un \"new file mode\" con todo el contenido en +.\n\n## 3) Resumen en una frase\nEl commit documenta en el README que el setup usa venv.\n",
+      "justification_from_packet": "Armé S01-T3-A-E2 desde el quiz_card de «Entorno reproducible y trabajo seguro». Instruction recortada: «E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdow». Verifiqué con la pista «Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEA». [b4c142] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "id": "S01-T3-A-E3",
+      "code": "# exploración s01/S01-T3-A-E3\n# Mejor mensaje de commit\n\n## Elección\n**B** — `feat: agregar smoke hello_env`\n\n## Justificación\nInforma el tipo (nueva capacidad), el artefacto y el propósito (smoke). Un colega en `git log` entiende el cambio sin abrir el diff. A no aporta contexto; C es vago y no usa Conventional Commits.\n\n## Reescritura de A\n`chore: guardar progreso local de hello_env` (solo en rama personal; preferible no pushear wip a main).\n\n## Reescritura de C\n`docs: aclarar pasos de setup en README` o `feat: agregar smoke hello_env` según el diff real.\n",
+      "justification_from_packet": "Armé S01-T3-A-E3 desde el quiz_card de «Entorno reproducible y trabajo seguro». Instruction recortada: «E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py`». Verifiqué con la pista «El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué». [b12667] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "id": "S01-T3-B-E1",
+      "code": "# exploración s01/S01-T3-B-E1\ngit switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "justification_from_packet": "En «Entorno reproducible y trabajo seguro» resolví S01-T3-B-E1 leyendo la instruction: «E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archi». La pista «git switch -c feat/practica-s01 (equivalente moderno a checkout -b)» me dio el patrón concreto del weDo. [db35b6] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "id": "S01-T3-B-E2",
+      "code": "# exploración s01/S01-T3-B-E2\n# Título del PR\nfeat: agregar smoke hello_env y documentar install\n\n## Resumen\n- Agrega `scripts/hello_env.py` como smoke del entorno\n- Documenta en README: venv, activate, pip install -r\n- Prepara el esqueleto CP-N1-A para S02–S04\n\n## Plan de prueba\n1. `python -m venv .venv` && activate\n2. `python -m pip install -r requirements.txt`\n3. `python scripts/hello_env.py` → exit 0\n\n## Seguridad\n- [x] No incluye `.env` ni secretos\n- [x] Solo datos sintéticos si hay CSV de ejemplo\n- [x] `.gitignore` cubre `.venv/`, `venv/`, `.env`\n",
+      "justification_from_packet": "Exercise S01-T3-B-E2: el contrato observable es «E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/he». Del theory/iDo cercano tomé «Plan de prueba: comandos concretos (venv, install -r, p» y de hints «Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti». [f6fe4c] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "id": "S01-T3-B-E3",
+      "code": "# exploración s01/S01-T3-B-E3\n# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. `git status` para confirmar que el cambio es solo local y no commiteado.\n2. `git restore README.md` para volver al último contenido commiteado (si estaba staged: `git restore --staged README.md` y luego `git restore README.md`).\n\n## ¿Cuándo stash en su lugar?\nSi *podrías* querer el cambio después: `git stash push -m \"wip readme\"` y más tarde `git stash pop`.\n\n## Por qué NO force-push a main\nReescribe historial compartido y puede borrar commits de otras personas. El rechazo de un push se resuelve con pull/rebase en tu rama o con PR, no con force a main.\n\n## Por qué no reset --hard como default\nBorra cambios no commiteados de forma fácil de lamentar. Primero restore/stash; hard solo con conciencia y backup.\n",
+      "justification_from_packet": "Exercise S01-T3-B-E3: el contrato observable es «E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `». Del theory/iDo cercano tomé «reset --hard borra trabajo no commiteado sin red de seg» y de hints «restore descarta cambios no deseados en working tree; stash guarda para des». [8c40f5] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "id": "S01-T4-A-E1",
+      "code": "# exploración s01/S01-T4-A-E1\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "justification_from_packet": "Exercise S01-T4-A-E1: el contrato observable es «E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.». Del theory/iDo cercano tomé «target-version como \"py312\" (string). line-length es nú» y de hints «TOML usa secciones entre corchetes y listas con corchetes para select.». [a6d141] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "id": "S01-T4-A-E2",
+      "code": "# exploración s01/S01-T4-A-E2\nfrom datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n_j2_mark = 1\n",
+      "justification_from_packet": "Exercise S01-T4-A-E2: el contrato observable es «E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff che». Del theory/iDo cercano tomé «python -m pip install ruff && python -m ruff check arch» y de hints «F401 = imported but unused. La corrección habitual es borrar el import.». [8f2569] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "id": "S01-T4-A-E3",
+      "code": "# exploración s01/S01-T4-A-E3\n# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]` con `line-length = 88`.\n\n## Por qué no ALL el día 1\nALL enciende decenas de reglas (complejidad, opiniones de estilo avanzadas, plugins). En un repo nuevo con notebooks y scripts, el ruido entierra los hallazgos útiles y el equipo aprende a ignorar CI.\n\n## Qué cubren E, F, I\n- **F (pyflakes):** imports sin usar, nombres indefinidos — bugs baratos.\n- **E (pycodestyle errores):** problemas claros de estilo/sintaxis básica.\n- **I (isort):** orden de imports reproducible en review.\n\n## Cuándo ampliar\nCuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (p. ej. bugbear) con un PR de adopción, no por sorpresa en main.\n",
+      "justification_from_packet": "Exercise S01-T4-A-E3: el contrato observable es «E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justif». Del theory/iDo cercano tomé «Ampliar cuando el check limpio en E/F/I ya es hábito y» y de hints «ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza». [e2ae65] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "id": "S01-T4-B-E1",
+      "code": "# exploración s01/S01-T4-B-E1\n# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
+      "justification_from_packet": "Armé S01-T4-B-E1 desde el quiz_card de «Entorno reproducible y trabajo seguro». Instruction recortada: «E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*». Verifiqué con la pista «Una entrada por línea. Las barras finales marcan directorios.». [1094c6] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "id": "S01-T4-B-E2",
+      "code": "# exploración s01/S01-T4-B-E2\n# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://example.com/api\nDB_HOST=localhost\nLOG_LEVEL=INFO\n# Sin passwords ni tokens reales\n",
+      "justification_from_packet": "En «Entorno reproducible y trabajo seguro» resolví S01-T4-B-E2 leyendo la instruction: «E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HO». La pista «Clave=valor; el valor en example es placeholder. El .env local puede tener» me dio el patrón concreto del weDo. [59b5a0] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "id": "S01-T4-B-E3",
+      "code": "# exploración s01/S01-T4-B-E3\n# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. `git clone <url> && cd python-ds-journey` completa sin error\n- [ ] 2. `python -m venv .venv` + activate; `python -c \"import sys; print(sys.prefix)\"` contiene `.venv`\n- [ ] 3. `python -m pip install -r requirements.txt` exit 0\n- [ ] 4. `python scripts/hello_env.py` exit 0\n- [ ] 5. `git check-ignore -v .env` confirma ignore; `.env.example` está trackeado\n\n## Datos\n- [ ] `data/clients_synthetic.csv` es sintético (sin PII real)\n- [ ] `data/data_dictionary.md` describe cada columna del CSV\n- [ ] README menciona esqueleto CP-N1-A e instrucciones install/run\n_j2_mark = 1\n",
+      "justification_from_packet": "Como explorer en «Entorno reproducible y trabajo seguro», S01-T4-B-E3 se cierra con lo enseñado: E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (cl. Hint operativa: «Cada ítem debe ser observable (comando + resultado esperado), no “que se ve». [978ef4] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Entorno reproducible y trabajo seguro"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Entorno reproducible y trabajo seguro» #0: «¿Para qué sirve un entorno virtual (venv) en Python?». Elegí «Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de» porque el theory del paquete describe ese comportamiento de forma directa. [11f628] conf~0.79.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Entorno reproducible y trabajo seguro» #1: «¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?». Elegí «.venv/ (o venv/)» porque el theory del paquete describe ese comportamiento de forma directa. [ff7bac] conf~0.87.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Entorno reproducible y trabajo seguro» #2: «¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?». Elegí «\"feat: agregar cálculo de churn por segmento\"» porque el theory del paquete describe ese comportamiento de forma directa. [7aa342] conf~0.84.",
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Entorno reproducible y trabajo seguro» #3: «¿Qué comando te permite replicar el entorno de otro desarrollador?». Elegí «pip install -r requirements.txt» porque el theory del paquete describe ese comportamiento de forma directa. [77e017] conf~0.72.",
+      "confidence": 0.72
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Entorno reproducible y trabajo seguro» #4: «¿Por qué NO debes subir el archivo .env a GitHub?». Elegí «Porque suele contener credenciales (API keys, passwords, tokens) que son se» porque el theory del paquete describe ese comportamiento de forma directa. [835b36] conf~0.93.",
+      "confidence": 0.93
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:09.008463+00:00",
+  "session_started_at": "2026-07-23T12:44:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:44:33.945199+00:00",
+  "receipt_response_sha256": "02aaf4d7b66e8a9ce53a100474c0588c4c0279a87979596a7d59df716f986726"
+}

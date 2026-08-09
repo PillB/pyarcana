@@ -1,0 +1,357 @@
+{
+  "agent": "b",
+  "section_index": 39,
+  "recorded_at": "2026-08-01T15:18:22.284347+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          0.0,
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Documentas smoke y expediente; la promoción la confirma un revisor externo",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          6.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "Bump major, owner contactable y revalidación de paths",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          2.0,
+          5.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S39-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Abre el starter: `meets` usa `reversed(CANON)` (bug).n2. Compara `record[\"stages\"]` con `CANON` en el orden correcto.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: acepta orden invertido como OK (bug).n2. Primero calcula `missing` de `case_id`, `stages`, `label_",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Si falta `stages` → `REQUEST_STAGE_LIST`.n2. Si `er_claims_parentesco` → `REJECT_ER_SCOPE`.n3. Si orden o política in",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\n# DEFECTO: exige minor ante breaking\nmeets = record[\"breaking\"] and record[\"bump\"] == \"minor\" and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cuando",
+          "localiza",
+          "cambia",
+          "imprime",
+          "mantén"
+        ]
+      },
+      {
+        "exercise_id": "S39-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Calcula missing de claves requeridas.n2. Si owner vacío o ausente → `MISSING:owner`.n3. Si `breaking` y `bump != \"maj",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Tarea: registry con owners y bump major\n# DEFECTO: decide no valida owners ni bump\n# Corrige el defecto del predicado; la salida debe coincidir con el enunciado\nregistry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"3.0.0\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    # DEFECTO: no valida owners ni bump\n    return \"CONTINUE\"\n\n# Tres rutas visibles: happy (CONTINUE 4), sin owner, breaking sin major\nno_owner = {**registry, \"ranker\": {**registry[\"ranker\"], \"owner\": \"\"}}\nbad_bump = {**registry, \"graph_schema\": {**registry[\"graph_schema\"], \"bump\": \"minor\"}}\n# Happy path: imprime CONTINUE 4 (corrige el off-by-one y las validaciones)\nprint(decide(registry), len(registry) - 1, decide(no_owner), decide(bad_bump))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "ESCALATE_NO_OWNER",
+          "reject_bump_policy",
+          "REJECT_BUMP_POLICY",
+          "escalate_no_owner",
+          "adversas",
+          "uses"
+        ]
+      },
+      {
+        "exercise_id": "S39-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\n# DEFECTO: solo mira el score\nmeets = packet.get(\"score\", 0) > 0\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cuatro",
+          "subtema",
+          "verifica",
+          "chequeos",
+          "claves",
+          "longitud",
+          "reemplaza",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S39-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Primero missing de claves requeridas.n2. Luego rechaza listas vacías de evidence o graph_path.n3. Imprime las tres ev",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Score-only (solo case_id+score) → REJECT_SCORE_ALONE.n2. Sin `uncertainty` → REQUEST_UNCERTAINTY.n3. Packet OK → CONT",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n# DEFECTO: ignora humano\nfinal = auto\noverride = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "subtema",
+          "none",
+          "calcula",
+          "imprime",
+          "umbral",
+          "verifica"
+        ]
+      },
+      {
+        "exercise_id": "S39-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Si appeal y no hay second_reviewer → MISSING.n2. Si hay human_action → devuélvelo.n3. Si no, auto por umbral.n4. Impr",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Override sin audit_entry → REJECT_NO_AUDIT.n2. Feedback sin feedback_id → REQUEST_FEEDBACK_ID.n3. Happy con leakage_c",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "checklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\n# DEFECTO: no niega secrets_in_repo\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "subtema",
+          "abre",
+          "imprime",
+          "pii",
+          "usa",
+          "incluye",
+          "negar",
+          "sin"
+        ]
+      },
+      {
+        "exercise_id": "S39-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Missing de claves requeridas primero.n2. Si secrets_in_repo True → REJECT_SECRETS.n3. Si no, valida resto y PASS/REJE",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Slices vacíos o ausentes → REQUEST_SLICE_METRICS.n2. Si algún fp_rate > umbral → REJECT_SLICE_FP.n3. Si no → CONTINUE",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "def mode(drift_high, incident):\n    # DEFECTO: prioriza drift\n    if drift_high:\n        return \"abstain_more\"\n    if incident:\n        return \"human_only\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "luego",
+          "primero",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S39-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Tarea: modos drift e incidente\n# DEFECTO: ramas invertidas human_only/abstain\n# Corrige el defecto del predicado; la salida debe coincidir con el enunciado\ndef mode(drift_high, incident):\n    # DEFECTO: ramas invertidas\n    if drift_high:\n        return \"human_only\"\n    if incident:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "combinaciones",
+          "imprime",
+          "llamar",
+          "tres",
+          "prioriza",
+          "sobre",
+          "hardcodees"
+        ]
+      },
+      {
+        "exercise_id": "S39-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Incident con prev → ROLLBACK + id.n2. Incident sin prev → REQUEST_PREV_MODEL.n3. Solo drift → MONITOR abstain_more.n4",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Tarea: aceptación sin etiqueta auto_fraud\n# DEFECTO: clave auto_fraud_ok incorrecta\n# Corrige el defecto del predicado; la salida debe coincidir con el enunciado\nacceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\n# DEFECTO: clave incorrecta\nmeets = \"auto_fraud_ok\" in acceptance and \"audit_log\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exige",
+          "subtema",
+          "también",
+          "imprime",
+          "hardcodees",
+          "reemplaza"
+        ]
+      },
+      {
+        "exercise_id": "S39-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Missing de claves primero.n2. Si self_declared_promotion True → REJECT_AUTO_PASS.n3. Valida scope y cf3_review extern",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S39-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Tarea: matriz de caminos e2e\n# DEFECTO: decide CONTINUE sin validar paths\n# Corrige el defecto del predicado; la salida debe coincidir con el enunciado\ndef decide(paths: list):\n    # DEFECTO: acepta cualquier lista; debe exigir happy+override+ood_abstain\n    return \"CONTINUE\", len(paths)\n\nfull = [\"happy\", \"override\", \"ood_abstain\"]\nhappy_only = [\"happy\"]\npartial = [\"happy\", \"override\"]\n# Tres rutas visibles: completo / solo happy / sin ood_abstain\nprint(*decide(full), decide(happy_only)[0], decide(partial)[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "REQUEST_DEMO_PATH",
+          "reject_happy_only",
+          "request_demo_path",
+          "vacío",
+          "incompleto",
+          "imprime",
+          "REJECT_HAPPY_ONLY"
+        ]
+      },
+      {
+        "exercise_id": "S39-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Tarea: model/data/system cards\n# DEFECTO: exige ops extra innecesariamente\n# Corrige el defecto del predicado; la salida debe coincidir con el enunciado\ncards = [\"model\", \"data\", \"system\"]\n# DEFECTO: exige ops\nmeets = set(cards) == {\"model\", \"data\", \"system\", \"ops\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "rellenes",
+          "imprime",
+          "compensar",
+          "card",
+          "cuarta",
+          "incluye"
+        ]
+      },
+      {
+        "exercise_id": "S39-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Tarea: métricas de valor (no solo AUC)\n# DEFECTO: acepta auc solo como value\n# Corrige el defecto del predicado; la salida debe coincidir con el enunciado\ndef assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    # DEFECTO: acepta solo auc\n    return \"PASS\" if \"auc\" in payload[\"value\"] or \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hay",
+          "imprime",
+          "tres",
+          "falta",
+          "rutas"
+        ]
+      },
+      {
+        "exercise_id": "S39-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. blameless no True → REJECT_BLAMEFUL.n2. root_cause vacío → REQUEST_ROOT_CAUSE.n3. actions vacía → REQUEST_ACTIONS.n4.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "4ca394a02ab4e370"
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "version": "3.2",
+  "section": "S12",
+  "section_id": "performance",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s12-performance.ts",
+    "orphan_files": [],
+    "total_lines": 1222,
+    "structure": {
+      "id": "performance",
+      "index": 12,
+      "title": "Performance, Concurrency & Logging",
+      "shortTitle": "Performance & Logging",
+      "tagline_platform": "Performance, Concurrency & Logging",
+      "estimatedHours": 12,
+      "level": "Principiante avanzado",
+      "phase": 0
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "Multiprocessing & concurrent.futures",
+        "v3_alignment": "none as primary — partial overlap resiliencia; not HTTP/SQL/geo"
+      },
+      {
+        "block": 2,
+        "heading": "Profiling",
+        "v3_alignment": "none"
+      },
+      {
+        "block": 3,
+        "heading": "Logging estructurado",
+        "v3_alignment": "overlap S9 V3 — already owned by S09 target"
+      },
+      {
+        "block": 4,
+        "heading": "argparse CLI",
+        "v3_alignment": "overlap S10 V3 — packaging/CLI"
+      }
+    ],
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "Process vs Thread pools",
+      "GIL",
+      "profiling timeit/cProfile",
+      "logging JSON/rotating",
+      "argparse CLI",
+      "pyproject entry points"
+    ],
+    "iDo_steps_count": 3,
+    "weDo_steps_count": 3,
+    "youDo_project": {
+      "title": "Capstone: Performance Optimizer — de script lento a CLI production-ready",
+      "maps_to_capstone_current": "legacy portfolio",
+      "maps_to_capstone_v3_target": "CP-N1-C (adquisición + geoevidencia)"
+    },
+    "selfCheck_questions": {
+      "total": 5
+    },
+    "codePlayground_demo": {
+      "note": "Demos viven principalmente en iDo; V3 requiere 8 demos por subtema",
+      "verified": false
+    }
+  },
+  "exam_bank_inventory": {
+    "source_file": "prisma/seed.ts",
+    "section_id": "performance",
+    "total_questions": 12,
+    "unique_concepts": 4,
+    "variants_per_concept": 3,
+    "concepts": [
+      {
+        "slug": "multiprocessing-vs-threads",
+        "variants": 3,
+        "coverage": "Legacy perf — NOT V3 S12 primary"
+      },
+      {
+        "slug": "profiling-tools",
+        "variants": 3,
+        "coverage": "Legacy perf"
+      },
+      {
+        "slug": "logging-best-practices",
+        "variants": 3,
+        "coverage": "Maps better to V3 S9"
+      },
+      {
+        "slug": "argparse-cli",
+        "variants": 3,
+        "coverage": "Maps better to V3 S10"
+      }
+    ],
+    "gap_vs_v3": {
+      "current_concepts": 4,
+      "v3_target_subtopics": 8,
+      "missing_subtopics": 8,
+      "missing_concept_slugs": [
+        "T1-a: requests-status-json",
+        "T1-b: timeout-pagination-retry-ratelimit",
+        "T2-a: auth-secrets-cache-provenance",
+        "T2-b: contract-tests-fallback",
+        "T3-a: schema-crud-joins",
+        "T3-b: params-transactions-constraints-indexes",
+        "T4-a: normalize-geocode-authorized",
+        "T4-b: coord-quality-haversine-cache-policy"
+      ]
+    }
+  },
+  "platform_inventory": {
+    "section_renders": true,
+    "tabs_visible": [
+      "theory",
+      "ido",
+      "wedo",
+      "youdo",
+      "quiz"
+    ],
+    "section_registered_in_index": true
+  },
+  "counting_summary": {
+    "current_state": {
+      "topics": 4,
+      "topics_v3_aligned": 0,
+      "subtopics": 0,
+      "demos": 3,
+      "student_exercises": 3,
+      "topic_evaluations": 0,
+      "exam_variants": 12,
+      "section_exam": 1,
+      "project_increments": 1,
+      "selfCheck_mcq": 5
+    },
+    "v3_target": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variants": 24,
+      "section_exam": 1,
+      "project_increments": 1
+    },
+    "gap": {
+      "topics_need_full_retheme": 4,
+      "subtopics": 8,
+      "demos": 5,
+      "student_exercises": 21,
+      "topic_evaluations": 4,
+      "exam_variants": 12,
+      "project_needs_retheme": true
+    }
+  },
+  "issues_found": [
+    {
+      "issue_id": "S12-CONTENT-001",
+      "severity": "P0",
+      "status": "open",
+      "category": "topic_mismatch",
+      "observed_evidence": "src/lib/course/sections/s12-performance.ts enseña 'Performance, Concurrency & Logging'. V3 S12 exige 'APIs, SQL y geodatos responsables'.",
+      "expected": "4 temas V3 con 8 subtemas: ['T1', 'T2', 'T3', 'T4']",
+      "root_cause": "Contenido V2/plataforma; V3 redefinió S9–S13 del nivel 1 de datos/familiaridad",
+      "impact": "Cero cobertura de outcomes V3; bloquea compliance claim",
+      "fix": "PHASE 3–5: retheme; preservar archivo legado hasta migración",
+      "verification": [
+        "Theory headings match V3 T1–T4",
+        "You Do matches V3 project"
+      ]
+    },
+    {
+      "issue_id": "S12-CONTENT-002",
+      "severity": "P1",
+      "status": "open",
+      "category": "counting_contract",
+      "observed_evidence": "~3 demos, ~3 ejercicios formales, 12 exam variants, 0 topic evals",
+      "expected": "8 demos, 24 exercises, 24 exam variants, 4 topic evaluations",
+      "root_cause": "Estructura V2",
+      "impact": "Insuficiente práctica/evaluación mastery",
+      "fix": "Expandir a vector canónico en PHASE 3–5",
+      "verification": [
+        "subtopics=8",
+        "variants=24",
+        "exercises=24"
+      ]
+    },
+    {
+      "issue_id": "S12-CONTENT-003",
+      "severity": "P1",
+      "status": "open",
+      "category": "capstone_alignment",
+      "observed_evidence": "You Do = Capstone: Performance Optimizer — de script lento a CLI production-ready",
+      "expected": "adaptadores limitados a SQLite, HTTP síncrono, auth básica y un geocoder mock/intercambiable; demo con coordenadas sintéticas o precalculadas; no envía PII bancaria a servicios públicos",
+      "root_cause": "Proyecto legado de portafolio DS/RPA",
+      "impact": "Capstone CP-N1-C (adquisición + geoevidencia) pierde incremento de S12",
+      "fix": "Rediseñar You Do en PHASE 3/4",
+      "verification": [
+        "Project maps to V3 gate"
+      ]
+    },
+    {
+      "issue_id": "S12-CONTENT-004",
+      "severity": "P1",
+      "status": "open",
+      "category": "exam_bank",
+      "observed_evidence": "4 conceptos legacy: ['multiprocessing-vs-threads', 'profiling-tools', 'logging-best-practices', 'argparse-cli']",
+      "expected": "8 familias A/B/C V3",
+      "root_cause": "Banco alineado a título plataforma",
+      "impact": "Examen no mide skills V3",
+      "fix": "PHASE 5: 8×3 variantes nuevas",
+      "verification": [
+        "8 concepts × 3 under production plan"
+      ]
+    },
+    {
+      "issue_id": "S12-CONTENT-005",
+      "severity": "P2",
+      "status": "open",
+      "category": "topic_evaluations",
+      "observed_evidence": "0 topic evaluations; solo selfCheck de sección",
+      "expected": "4 evaluaciones de tema (2 tareas + rúbrica 0–3)",
+      "root_cause": "Shape CourseSection no modela topic evals aún",
+      "impact": "Sin assessment formativo por tema",
+      "fix": "Blueprint PHASE 3 declara 4 paquetes",
+      "verification": [
+        "topic_evaluations count = 4 in blueprint"
+      ]
+    }
+  ],
+  "phase_1_gate": {
+    "all_paths_inspected": true,
+    "all_artifacts_counted": true,
+    "all_gaps_registered": true,
+    "issues_count": 5,
+    "issues_P0": 1,
+    "issues_P1": 3,
+    "issues_P2": 1,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3",
+    "notes": "PHASE 2 (source research deep) deferred in factory lane; blueprints authorized at S03-comparable scope. No section passed."
+  }
+}

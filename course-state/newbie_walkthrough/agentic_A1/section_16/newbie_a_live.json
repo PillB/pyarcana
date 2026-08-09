@@ -1,0 +1,506 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A1",
+  "section_index": 16,
+  "packet_sha": "0aff4e778711b8ce",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_16/packet.json",
+  "recorded_at": "2026-07-21T22:08:46.485052+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'id':['C001', None]})\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "None",
+        "print",
+        "len",
+        "audit"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T1-A-E1. Instruction del paquete: Dado policy required en 'id', cuenta nulls de id e imprime el entero.. Hints: isna().sum().; int(...).. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\npolicy={'a':'required','b':'optional'}\ndf=pd.DataFrame({'a':[1,None],'b':[None,2]})\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame",
+        "None",
+        "print"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T1-A-E2. Instruction del paquete: Construye dict de violaciones solo para campos required con nulls.. Hints: Itera policy.; Incluye solo n>0 required.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Imprime",
+        "fail",
+        "hay"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T1-A-E3. Instruction del paquete: Imprime 'fail' si hay violaciones required, si no 'pass'.. Hints: Usa el dict viol.; Mensaje corto.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'monto':[1.0, None]})\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "None",
+        "print",
+        "len",
+        "audit"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T1-B-E1. Instruction del paquete: Crea columna was_null booleana antes de fillna(0) sobre monto; imprime was_null list.. Hints: was_null = isna.; luego fillna.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "null_rate",
+        "imprime",
+        "blocked"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T1-B-E2. Instruction del paquete: Si null_rate > 0.3 imprime 'blocked', si no 'ok'. Fixture 2 de 4 null.. Hints: mean de isna.; cap 0.3.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Imputa",
+        "mediana",
+        "muestra"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T1-B-E3. Instruction del paquete: Imputa mediana y muestra que la mediana de no-null no cambia tras fill de un solo null en [1,2,None].. Hints: median skipna.; fillna(median).. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Cuenta",
+        "filas",
+        "marcadas"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T2-A-E1. Instruction del paquete: Cuenta filas marcadas por duplicated(keep=False) en un DF con una fila exacta repetida.. Hints: duplicated(keep=False).sum().; Dos filas exactas → 2.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Detecta",
+        "cliente_id",
+        "distinta"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T2-A-E2. Instruction del paquete: Detecta cliente_id con más de una región distinta; imprime lista de ids en conflicto.. Hints: groupby nunique > 1.; unique ids.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Clasifica",
+        "exact",
+        "dup"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T2-A-E3. Instruction del paquete: Clasifica: si exact dup print 'exact', elif conflicto región print 'conflict', else 'clean' para id C001 en fixture de una fila.. Hints: Lógica en orden.; Fixture simple.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':['a','a','b'], 'v':[1,2,3]})\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "len",
+        "audit",
+        "Separa",
+        "quarantine"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T2-B-E1. Instruction del paquete: Separa quarantine (dup key keep=False) y clean drop_duplicates keep first; imprime lens.. Hints: duplicated(key, keep=False).; drop_duplicates.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Asegura",
+        "quarantine",
+        "conserve"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T2-B-E2. Instruction del paquete: Asegura que quarantine conserve columna batch de evidencia; imprime columns del q.. Hints: copy del mask.; No dropear cols.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Imprime",
+        "card_ok",
+        "nunique"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T2-B-E3. Instruction del paquete: Imprime 'card_ok' si nunique(id)==len(df) en un DF sin dups de clave.. Hints: cardinalidad 1:1.; Comparar nunique y len.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "strip",
+        "title",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T3-A-E1. Instruction del paquete: strip + title sobre [' lima ','CUSCO']; imprime lista.. Hints: str.strip().str.title().; Series string methods.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Quita",
+        "prefijo",
+        "castea"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T3-A-E2. Instruction del paquete: Quita prefijo 'S/' y castea float en ['S/1.5','S/2']; imprime suma.. Hints: str.replace.; astype float.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Conserva",
+        "raw",
+        "crea"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T3-A-E3. Instruction del paquete: Conserva raw: crea region desde region_raw y verifica que region_raw sigue igual.. Hints: Nueva col no pisa raw.; print both.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Marca",
+        "domain_error",
+        "monto"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T3-B-E1. Instruction del paquete: Marca domain_error si monto < 0; imprime lista booleana.. Hints: s < 0.; tolist.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Dado",
+        "usa",
+        "IQR"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T3-B-E2. Instruction del paquete: Dado [1,2,3,100], usa IQR 1.5 y lista valores stat-outlier.. Hints: quantile 0.25/0.75.; fence q1-1.5iqr.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Etiqueta",
+        "error",
+        "domain"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T3-B-E3. Instruction del paquete: Etiqueta 'error' si domain, 'flag' si solo stat, 'ok' else para valor -1 en [1,2,-1].. Hints: Prioriza error.; Una fila simple.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Lista",
+        "columnas",
+        "required"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T4-A-E1. Instruction del paquete: Lista columnas required faltantes respecto a ['id','monto'] en DF solo con id.. Hints: list comprehension.; not in columns.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "Encuentra",
+        "donde",
+        "fin"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T4-A-E2. Instruction del paquete: Encuentra índices donde fin < inicio.. Hints: máscara datetime.; index[mask].tolist().. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "len",
+        "audit",
+        "missing",
+        "cols",
+        "drift"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T4-A-E3. Instruction del paquete: Si missing cols: print 'drift'; else print 'schema_ok'.. Hints: Usa lista missing.; Mensajes fijos.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(len(audit)\nrows_in=10\nq=3\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "len",
+        "audit",
+        "rows_in",
+        "Dado",
+        "quarantine_n",
+        "imprime",
+        "rows_clean"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T4-B-E1. Instruction del paquete: Dado rows_in=10 y quarantine_n=3, imprime rows_clean.. Hints: resta simple.; int.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "audit=[{'event':'start'}]\nprint(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "event",
+        "start",
+        "print",
+        "len",
+        "Append",
+        "evento",
+        "quarantine"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T4-B-E2. Instruction del paquete: Append evento quarantine a audit list e imprime len(audit).. Hints: audit.append.; lista previa con start.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(len(audit)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "len",
+        "audit",
+        "metrics",
+        "pass",
+        "False",
+        "quarantine",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S16-T4-B-E3. Instruction del paquete: metrics pass=False si quarantine>0; imprime pass boolean para n_q=1.. Hints: pass = n_q==0.; json opcional.. Teoría activa: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores y límites de imputación | duplicados exactos vs conflictos | claves, cardinalidad y conservación de . iDo demos: S16-T1-B-DEMO | S16-T2-A-DEMO | S16-T2-B-DEMO | S16-T3-A-DEMO | S16-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S16 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «nulls y políticas por campo»: «Cada campo tiene política: **required** (null ⇒ cuarentena/falla) u optional (null permitido con indicador)». Un required con null genera violación/cuarentena o fail del gate, no rellenar con 0."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S16 Q1: opción [0]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «duplicados exactos vs conflictos»: «**Exacto**: filas idénticas… **Conflicto**: misma clave, valores distintos en atributos». Conflicto ≠ filas idénticas; es misma clave con atributos distintos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S16 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «métricas, cuarentena y audit trail»: la cuarentena retiene filas rechazadas con razón (métricas %fail, filas en cuarentena); no borra evidencia ni envía a producción sin marca. iDo muestra quarantine con reason."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S16 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «reglas de schema y cross-field»: contrato de schema exige columnas presentes; ante drift (required faltante) se falla de forma explicable con el nombre de la columna, no defaults ocultos ni inventar con random."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "4cdb9f91780f"
+}

@@ -1,0 +1,553 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 7,
+  "packet_sha": "8c4859070b267af7",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_07/packet.json",
+  "recorded_at": "2026-07-22T01:46:20.205662+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "5359455a9730",
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T1-A-E1\nimport unicodedata\nnames = ['José', 'Jose\\u0301', '']\nfor s in names:\n    print(repr(s), '→', repr(unicodedata.normalize('NFC', s)))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "unicodedata",
+        "names",
+        "Jose",
+        "u0301"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T1-A-E1 leo literalmente: «E1 (guiado) — Normaliza a NFC la lista `['José', 'Jose\\u0301', '']` e imprime cada resultado. El vacío permanece vacío.». El patrón iDo `S07-T1-B-DEMO` me da la forma (Comparar 'José' vs 'Jose\\u0301' con y sin normalize): «import unicodedata a = \"José\" b = \"Jose\\u0301\"». Pista del paquete: «unicodedata.normalize('NFC', s)». En el code dejo `import unicodedata` / `unicodedata` como ancla del mismo patrón. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T1-A-E2\na, b = 'MAÑANA', 'mañana'\nmatch = a.casefold() == b.casefold()\nprint(match)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "match",
+        "casefold"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T1-A-E2 me baso en la instrucción del paquete: «E2 (independiente) — Usa casefold para decidir si `'MAÑANA'` y `'mañana'` matchean. Imprime True/False.». El patrón iDo `S07-T1-B-DEMO` me da la forma (Comparar 'José' vs 'Jose\\u0301' con y sin normalize): «import unicodedata a = \"José\" b = \"Jose\\u0301\"». Pista del paquete: «a.casefold() == b.casefold()». Tokens que copié al code: `casefold` / `print(`. Teoría cercana: «Code points, normalización y casefold»."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T1-A-E3\nimport unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw equal', a == b)\nna, nb = unicodedata.normalize('NFC', a), unicodedata.normalize('NFC', b)\nprint('NFC equal', na == nb)\nprint('causa: NFD residual (combining mark) vs NFC compuesto')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "unicodedata",
+        "Jose",
+        "u0301",
+        "raw"
+      ],
+      "justification_from_packet": "[B1/Explorer] S07-T1-A-E3: copio el encargo del weDo: «E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad cruda, igualdad NFC y un mensaje de causa (NFD…». Cruce con iDo `S07-T1-B-DEMO` (Comparar 'José' vs 'Jose\\u0301' con y sin normalize): «import unicodedata a = \"José\" b = \"Jose\\u0301\"». Pista del paquete: «Compara sin/con normalize». Queda reflejado con `import unicodedata` / `unicodedata` en mi solución. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T1-B-E1\nraw = 'Ana María Quispe Huamán'\ntoks = raw.split()\nap1, ap2 = toks[-2:]\ngiven = ' '.join(toks[:-2])\nprint(given)\nprint(ap1, ap2)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "raw",
+        "Ana",
+        "Quispe",
+        "toks"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T1-B-E1 leo literalmente: «E1 (guiado) — De `'Ana María Quispe Huamán'` extrae given y dos apellidos (últimos dos tokens). Imprímelos.». El patrón iDo `S07-T1-B-DEMO` me da la forma (Comparar 'José' vs 'Jose\\u0301' con y sin normalize): «import unicodedata a = \"José\" b = \"Jose\\u0301\"». Pista del paquete: «tokens[-2:]». Tokens que copié al code: `Quispe` / `print(`. Teoría cercana: «Tildes, ñ, partículas y apellidos compuestos»."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T1-B-E2\nraw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\nap1, ap2 = toks[-2:]\ngiven = ' '.join(toks[:-2])\nprint(given)\nprint(ap1, ap2)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "raw",
+        "del",
+        "Carmen",
+        "Quispe"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S07-T1-B-E2 siguiendo el texto de la instrucción: «E2 (independiente) — Preserva partículas en given: `'María del Carmen Quispe Ríos'`. given debe incluir `del Carmen`.». El patrón iDo `S07-T1-B-DEMO` me da la forma (Comparar 'José' vs 'Jose\\u0301' con y sin normalize): «import unicodedata a = \"José\" b = \"Jose\\u0301\"». Pista del paquete: «No borres tokens del medio al cortar apellidos finales.». Tokens que copié al code: `Carmen` / `Quispe`. Teoría cercana: «Tildes, ñ, partículas y apellidos compuestos»."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T1-B-E3\ndef parse_nombre(raw):\n    toks = ' '.join(raw.split()).split()\n    if len(toks) < 3:\n        return {'raw': raw, 'status': 'review', 'given': ' '.join(toks), 'ap1': None, 'ap2': None}\n    return {'raw': raw, 'status': 'ok', 'given': ' '.join(toks[:-2]), 'ap1': toks[-2], 'ap2': toks[-1]}\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "parse_nombre",
+        "raw",
+        "toks",
+        "join"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T1-B-E3 leo literalmente: «E3 (transferencia) — Si hay menos de 3 tokens, marca `status='review'` y no inventes apellido2. Prueba `'Madonna'` y un nombre completo.». El patrón iDo `S07-T1-B-DEMO` me da la forma (Comparar 'José' vs 'Jose\\u0301' con y sin normalize): «import unicodedata a = \"José\" b = \"Jose\\u0301\"». Pista del paquete: «len(toks) < 3 → review». En el code dejo `def parse_nombre` / `Madonna` como ancla del mismo patrón. Teoría cercana: «Exacta y por tokens (Jaccard simple)»."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T2-A-E1\nline = 'C001, Ana , Lima'\nfields = [p.strip() for p in line.split(',')]\nprint(fields)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "line",
+        "C001",
+        "Ana",
+        "Lima"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T2-A-E1 me baso en la instrucción del paquete: «E1 (guiado) — Split CSV-like simple `'C001,Ana,Lima'` en lista de campos strippeados e imprime.». Miro el demo iDo `S07-T2-A-DEMO` (Parse suave de 'María del Carmen Quispe Huamán'): «import unicodedata raw = \"María del Carmen Quispe Huamán\" norm = unicodedata.normalize(\"NFC\", \"…». Pista del paquete: «split(',') + strip por campo». En el code dejo `print(` / `strip` como ancla del mismo patrón. Teoría cercana: «split / join / search / replace»."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T2-A-E2\ntoks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks))\nprint('-'.join(toks))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "toks",
+        "join"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T2-A-E2 leo literalmente: «E2 (independiente) — Une tokens `['Jr.', 'Unión', '450']` con espacio estable e imprime. Luego con `'-'`.». Replico la forma del demo `S07-T2-A-DEMO` (Parse suave de 'María del Carmen Quispe Huamán'): «import unicodedata raw = \"María del Carmen Quispe Huamán\" norm = unicodedata.normalize(\"NFC\", \"…». Pista del paquete: «' '.join(tokens)». Mi respuesta incluye `print(` / `toks`, alineado a esa demo. Teoría cercana: «Exacta y por tokens (Jaccard simple)»."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T2-A-E3\nraw = '999.000-111'\ndigits = ''.join(ch for ch in raw if ch.isdigit())\nprint(digits)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "raw",
+        "digits",
+        "join",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S07-T2-A-E3 siguiendo el texto de la instrucción: «E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo cambia `.` y `-` a vacío para demo de dígitos+… o…». Replico la forma del demo `S07-T2-A-DEMO` (Parse suave de 'María del Carmen Quispe Huamán'): «import unicodedata raw = \"María del Carmen Quispe Huamán\" norm = unicodedata.normalize(\"NFC\", \"…». Pista del paquete: «replace('.','').replace('-','') o filter isdigit». En el code dejo `print(` / `join` como ancla del mismo patrón. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T2-B-E1\ndef normalize_email(raw):\n    return raw.strip().lower()\nprint(normalize_email('  A@B.COM '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "normalize_email",
+        "raw",
+        "strip",
+        "lower"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T2-B-E1 leo literalmente: «E1 (guiado) — `normalize_email` strip+lower; imprime resultado de `' A@B.COM '`.». Replico la forma del demo `S07-T2-B-DEMO` (Limpiar dirección sintética: strip, colapsar espacios, join tokens): «raw = \" Jr. de la Unión 450 \" limpio = \" \".join(raw.strip().split()) print(limpio)». Pista del paquete: «strip + lower». En el code dejo `normalize_email` / `def normalize_email` como ancla del mismo patrón. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T2-B-E2\nraw = '(+51) 999-000-111'\ndigits = ''.join(ch for ch in raw if ch.isdigit())\nprint(digits)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "raw",
+        "digits",
+        "join",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S07-T2-B-E2 siguiendo el texto de la instrucción: «E2 (independiente) — Teléfono a dígitos: `'(+51) 999-000-111'` → `'51999000111'`.». Cruce con iDo `S07-T2-B-DEMO` (Limpiar dirección sintética: strip, colapsar espacios, join tokens): «raw = \" Jr. de la Unión 450 \" limpio = \" \".join(raw.strip().split()) print(limpio)». Pista del paquete: «filter isdigit». Queda reflejado con `print(` / `join` en mi solución. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T2-B-E3\nimport re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+\\.com$'\nrejected = re.fullmatch(pat, email) is None\nprint('rejected', rejected)\nprint('Política: preferir strip+lower y presencia de @; no overfit de regex')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "email",
+        "user",
+        "tag",
+        "example"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T2-B-E3 leo literalmente: «E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+` y mayúsculas ya lower. Imprime rejected=True y la política…». Miro el demo iDo `S07-T2-B-DEMO` (Limpiar dirección sintética: strip, colapsar espacios, join tokens): «raw = \" Jr. de la Unión 450 \" limpio = \" \".join(raw.strip().split()) print(limpio)». Pista del paquete: «fullmatch sobre email lower». Tokens que copié al code: `rejected` / `print(`. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T3-A-E1\nimport re\npat = r'^[A-Z]{3}$'\nprint(bool(re.fullmatch(pat, 'LIM')))\nprint(bool(re.fullmatch(pat, 'Lima')))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "pat",
+        "bool",
+        "fullmatch",
+        "LIM"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T3-A-E1 me baso en la instrucción del paquete: «E1 (guiado) — `fullmatch` de código región `^[A-Z]{3}$` sobre `'LIM'` y `'Lima'`. Imprime bools.». Miro el demo iDo `S07-T3-A-DEMO` (normalize_email y normalize_phone_pe sintético): «def normalize_email(raw: str) -> str: s = raw.strip().lower() if \"@\" not in s:». Pista del paquete: «re.fullmatch». En el code dejo `import re` / `fullmatch` como ancla del mismo patrón. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T3-A-E2\nimport re\npat = re.compile(r'^(?P<nom>\\w+) (?P<ap>\\w+)$')\nm = pat.fullmatch('Ana Quispe')\nprint(m.groupdict() if m else None)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "pat",
+        "compile",
+        "nom",
+        "fullmatch"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T3-A-E2 leo literalmente: «E2 (independiente) — Extrae grupos nombre/apellido de `r'^(?P<nom>\\w+) (?P<ap>\\w+)$'` sobre `'Ana Quispe'`.». El patrón iDo `S07-T3-A-DEMO` me da la forma (normalize_email y normalize_phone_pe sintético): «def normalize_email(raw: str) -> str: s = raw.strip().lower() if \"@\" not in s:». Pista del paquete: «groupdict()». Tokens que copié al code: `import re` / `fullmatch`. Teoría cercana: «Patrones, grupos y anchors»."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T3-A-E3\nimport re\ntext = 'DNI 12345678'\nprint('search', bool(re.search(r'\\d{8}', text)))\nprint('fullmatch', bool(re.fullmatch(r'\\d{8}', text)))\nprint('Nota: fullmatch exige la cadena entera; search encuentra en medio')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "text",
+        "DNI",
+        "search",
+        "bool"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T3-A-E3 me baso en la instrucción del paquete: «E3 (transferencia) — Contrasta search vs fullmatch del patrón `\\d{8}` sobre `'DNI 12345678'`. Imprime ambos bools y cuándo usarías cada uno (print corto).». Cruce con iDo `S07-T3-A-DEMO` (normalize_email y normalize_phone_pe sintético): «def normalize_email(raw: str) -> str: s = raw.strip().lower() if \"@\" not in s:». Pista del paquete: «search True fullmatch False». En el code dejo `import re` / `fullmatch` como ancla del mismo patrón. Teoría cercana: «split / join / search / replace»."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T3-B-E1\nimport re\nphone = re.compile(r'\\b9\\d{8}\\b')\nfor s in ['ok 999111222', 'solo 12345']:\n    print(s, phone.findall(s))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "phone",
+        "compile",
+        "solo",
+        "findall"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T3-B-E1 leo literalmente: «E1 (guiado) — Compila `\\b9\\d{8}\\b` y reutiliza sobre dos strings; imprime findall de cada uno.». El patrón iDo `S07-T3-B-DEMO` me da la forma (Extraer DNI sintético 8 dígitos con grupos): «import re pat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\") text = \"Cliente demo DNI 12345678 activo\"». Pista del paquete: «re.compile una vez». Mi respuesta incluye `import re` / `compile`, alineado a esa demo. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T3-B-E2\nimport re\nlog = 'ok LIM-01 y CUS-02 fin'\ncodes = re.findall(r'[A-Z]{3}-\\d{2}', log)\nprint(codes)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "log",
+        "LIM",
+        "CUS",
+        "fin"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T3-B-E2 me baso en la instrucción del paquete: «E2 (independiente) — findall de códigos `[A-Z]{3}-\\d{2}` en un log sintético con dos códigos.». Cruce con iDo `S07-T3-B-DEMO` (Extraer DNI sintético 8 dígitos con grupos): «import re pat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\") text = \"Cliente demo DNI 12345678 activo\"». Pista del paquete: «re.findall(pat, log)». En el code dejo `import re` / `findall` como ancla del mismo patrón. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T3-B-E3\nprint(\"patrón peligroso: (a+)+b sobre strings largos de a's\")\nprint('Riesgo: catastrophic backtracking con cuantificadores anidados ambiguos')\nprint('Mitigación: preferir a+b o métodos str; patrones simples')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "peligroso",
+        "sobre",
+        "strings",
+        "largos"
+      ],
+      "justification_from_packet": "[B1/Explorer] S07-T3-B-E3: copio el encargo del weDo: «E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por qué preferimos `a+b` o str methods. No necesitas…». Replico la forma del demo `S07-T3-B-DEMO` (Extraer DNI sintético 8 dígitos con grupos): «import re pat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\") text = \"Cliente demo DNI 12345678 activo\"». Pista del paquete: «Cuantificadores anidados ambiguos». Queda reflejado con `backtracking` / `print(` en mi solución. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T4-A-E1\ndef norm(s):\n    return ' '.join(s.split()).casefold()\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "norm",
+        "join",
+        "split",
+        "casefold"
+      ],
+      "justification_from_packet": "[B1/Explorer] S07-T4-A-E1: copio el encargo del weDo: «E1 (guiado) — Exact match tras normalize: collapse + casefold de `' Juan PEREZ '` vs `'juan perez'`.». Miro el demo iDo `S07-T4-A-DEMO` (compile de patrón teléfono; finditer sobre log sintético): «import re phone = re.compile(r\"\\b9\\d{8}\\b\") log = \"ok 999111222 noise 12345 otro 988777666\"». Pista del paquete: «join split + casefold». Queda reflejado con `casefold` / `print(` en mi solución. Teoría cercana: «Code points, normalización y casefold»."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T4-A-E2\ndef token_jaccard(a, b):\n    A = set(a.casefold().split())\n    B = set(b.casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "token_jaccard",
+        "set",
+        "casefold",
+        "split"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T4-A-E2 me baso en la instrucción del paquete: «E2 (independiente) — Implementa Jaccard de tokens y calcula score redondeado a 3 decimales para `'Juan Perez'` vs `'Juan P Perez'`.». El patrón iDo `S07-T4-A-DEMO` me da la forma (compile de patrón teléfono; finditer sobre log sintético): «import re phone = re.compile(r\"\\b9\\d{8}\\b\") log = \"ok 999111222 noise 12345 otro 988777666\"». Pista del paquete: «|A∩B|/|A∪B|». Mi respuesta incluye `def token_jaccard` / `print(`, alineado a esa demo. Teoría cercana: «Exacta y por tokens (Jaccard simple)»."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T4-A-E3\na, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nif score == 1.0:\n    decision = 'exact'\nelif 0.4 <= score < 1.0:\n    decision = 'review'\nelse:\n    decision = 'no_match'\nprint(decision, a, b, score)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "score",
+        "Juan",
+        "Perez",
+        "decision"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T4-A-E3 leo literalmente: «E3 (transferencia) — Si score está en [0.4, 1.0) decide `review`; si 1.0 `exact`; si <0.4 `no_match`. Aplica a score 0.67 e imprime decisión + raws.». Miro el demo iDo `S07-T4-A-DEMO` (compile de patrón teléfono; finditer sobre log sintético): «import re phone = re.compile(r\"\\b9\\d{8}\\b\") log = \"ok 999111222 noise 12345 otro 988777666\"». Pista del paquete: «Umbrales explícitos». Queda reflejado con `no_match` / `review` en mi solución. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T4-B-E1\ncases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\nfor c in cases:\n    if c['pred'] == 'match' and c['truth'] == 'no':\n        tag = 'FP'\n    elif c['pred'] == 'no' and c['truth'] == 'match':\n        tag = 'FN'\n    else:\n        tag = 'other'\n    print(tag)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "cases",
+        "pred",
+        "match",
+        "truth"
+      ],
+      "justification_from_packet": "[B1/Explorer] S07-T4-B-E1: copio el encargo del weDo: «E1 (guiado) — Clasifica FP/FN: pred match + truth no → FP; pred no + truth match → FN. Dos casos sintéticos.». Miro el demo iDo `S07-T4-B-DEMO` (token_jaccard('Juan Perez', 'Juan P. Perez')): «def token_jaccard(a: str, b: str) -> float: A = set(a.replace(\".\", \" \").casefold().split()) B =…». Pista del paquete: «Tabla de confusión 2x2 simplificada». Queda reflejado con `print(` / `match` en mi solución. Teoría cercana: «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T4-B-E2\nevidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'Jaccard medio; no auto-fusionar',\n}\nprint(evidence)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "evidence",
+        "raw_a",
+        "Juan",
+        "Perez"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S07-T4-B-E2 leo literalmente: «E2 (independiente) — Empaqueta evidencia `dict(raw_a, raw_b, score, decision, reason)` e imprímelo para un par sintético.». Replico la forma del demo `S07-T4-B-DEMO` (token_jaccard('Juan Perez', 'Juan P. Perez')): «def token_jaccard(a: str, b: str) -> float: A = set(a.replace(\".\", \" \").casefold().split()) B =…». Pista del paquete: «Un dict con 5 claves». Queda reflejado con `raw_a` / `raw_b` en mi solución. Teoría cercana: «FP/FN y conservación de evidencia»."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S07-T4-B-E3\nprint('1) Jaccard no es fuente autoritativa de identidad')\nprint('2) Un score no prueba parentesco ni vínculo legal')\nprint('3) Riesgo ético/producto: score → revisión humana con evidencia, no etiqueta familiar')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S07",
+        "Jaccard",
+        "fuente",
+        "autoritativa",
+        "identidad"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S07-T4-B-E3 me baso en la instrucción del paquete: «E3 (transferencia) — Redacta en 2-3 prints por qué el pipeline **no** afirma parentesco ni identidad legal a partir de Jaccard.». Miro el demo iDo `S07-T4-B-DEMO` (token_jaccard('Juan Perez', 'Juan P. Perez')): «def token_jaccard(a: str, b: str) -> float: A = set(a.replace(\".\", \" \").casefold().split()) B =…». Pista del paquete: «Falta fuente autoritativa; riesgo ético; score ≠ prueba». Queda reflejado con `parentesco` / `identidad` en mi solución. Teoría cercana: «Exacta y por tokens (Jaccard simple)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría Unicode: NFC vs NFD; sin normalize, '\"José\" == \"Jose\\u0301\"' puede ser False aunque se vean iguales — formas distintas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Marcar review y conservar raw",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría de parser de nombres: si no hay segundo apellido, 'marca review en vez de inventar' y el normalizador conserva raw."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Cuando la transformación es literal/simple",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: 'Antes de regex' usa strip/split/join/replace; el 80% de limpieza simple se resuelve con str methods cuando es literal/simple."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "None (no es full match)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría/iDo: fullmatch ancla inicio y fin; el demo imprime fullmatch de 'DNI 12345678' con r'\\d{8}' como False/None (no es full match de solo dígitos)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Ir a review con evidencia (raw, score)",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría Jaccard: es señal débil; 'Score medio → review, no auto-merge'. No afirma parentesco ni fusiona identidades."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

@@ -1,22 +1,29 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
-  testDir: "./tests/e2e",
-  testMatch: /.*\.e2e\.ts/,
-  timeout: 30_000,
-  retries: 0,
+  testDir: './scripts',
+  testMatch: '*.spec.ts',
+  fullyParallel: false, // Run serially to avoid dev server contention
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 0 : 0,
+  workers: 1,
+  reporter: [
+    ['html', { outputFolder: 'playwright-report' }],
+    ['list'],
+  ],
   use: {
-    baseURL: "http://localhost:3000",
-    headless: true,
-    screenshot: "only-on-failure",
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    // Zero-retry audit jobs must retain evidence on the first failure
+    // (on-first-retry never fires when retries: 0).
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
-    { name: "chromium", use: { browserName: "chromium" } },
+    {
+      name: 'desktop-chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
   ],
-  webServer: {
-    command: "bun run dev",
-    port: 3000,
-    reuseExistingServer: true,
-    timeout: 60_000,
-  },
-});
+  // No webServer — we run dev server separately
+})

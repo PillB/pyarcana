@@ -1,0 +1,3865 @@
+{
+  "source_file": "/home/z/my-project/pyarcana_repo/src/lib/course/sections/s38-performance-extreme.ts",
+  "total_records": 237,
+  "filtered_records": 218,
+  "total_sentences": 395,
+  "total_words": 5582,
+  "aggregate": {
+    "fh_mean": 79.16,
+    "inflesz_mean": 75.1,
+    "wps_mean": 14.13,
+    "spw_mean": 1.888
+  },
+  "band_distribution": {
+    "difícil": 20,
+    "normal": 47,
+    "bastante_difícil": 38,
+    "muy_fácil": 140,
+    "muy_difícil": 17,
+    "bastante_fácil": 70,
+    "fácil": 63
+  },
+  "finding_distribution": {
+    "missing_terminal": 25,
+    "long_sentence": 11,
+    "run_on": 4,
+    "high_comma_density": 3,
+    "english_dominant_suspect": 24,
+    "space_before_punct_or_doublespace": 2
+  },
+  "per_paragraph": [
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 44,
+      "spw": 2.444,
+      "wps": 18.0,
+      "fh": 41.8,
+      "inflesz": 36.5,
+      "band": "difícil",
+      "locator": "L8:tagline",
+      "field": "tagline",
+      "text": "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 65,
+      "n_syllables": 122,
+      "spw": 1.877,
+      "wps": 32.5,
+      "fh": 61.1,
+      "inflesz": 57.4,
+      "band": "normal",
+      "locator": "L15:paragraph",
+      "field": "paragraph",
+      "text": "En operación de triage (fintech, retail, banca de procesos en Perú y la región), un batch de scoring no puede colgarse por un proveedor lento ni duplicar side effects al reiniciar. Esta sección entrena concurrencia correcta, **observabilidad** (logs/metrics/traces; o11y en jerga de industria) y workflows con checkpoint/idempotencia para el gate CP-N3-C. Logs sin PII real; datos sintéticos CASO-LIM-038.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 65
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 10,
+      "spw": 1.667,
+      "wps": 6.0,
+      "fh": 100.7,
+      "inflesz": 97.0,
+      "band": "muy_fácil",
+      "locator": "L28:heading",
+      "field": "heading",
+      "text": "Operación del triage (CP-N3-C)",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 102,
+      "n_syllables": 199,
+      "spw": 1.951,
+      "wps": 102.0,
+      "fh": -14.3,
+      "inflesz": -16.7,
+      "band": "muy_difícil",
+      "locator": "L30:paragraph",
+      "field": "paragraph",
+      "text": "**Diccionario de la sección** (léelo antes de T1). **Bound (I/O vs CPU):** cuello de botella medido. **GIL:** Global Interpreter Lock de CPython (limita CPU multi-thread). **Backpressure:** cola con `maxsize` que frena al productor. **Token bucket:** rate limit didáctico (aquí estático; en prod se rellena por ventana). **Observabilidad (o11y):** logs + metrics + traces unidos por correlation_id. **SLI/SLO:** indicador vs objetivo de servicio; **error budget** es lo que se consume al violar el SLO. **Idempotency key:** `case:step:ver` para no duplicar side effects. **DLQ:** dead-letter queue de mensajes venenosos. **last_done / resume_from:** último paso checkpointed vs siguiente pendiente.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 102
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 71,
+      "n_syllables": 151,
+      "spw": 2.127,
+      "wps": 23.667,
+      "fh": 55.1,
+      "inflesz": 50.7,
+      "band": "bastante_difícil",
+      "locator": "L31:paragraph",
+      "field": "paragraph",
+      "text": "Esta sección opera el pipeline de triage CP-N3-C bajo carga realista: el batch debe reanudarse tras un crash, trazar cada caso sintético y sobrevivir a un proveedor lento o a un worker caído. No optimizamos microsegundos a ciegas; diseñamos concurrencia correcta, observabilidad y workflows con checkpoint e idempotencia. Continúa la disciplina de S37 (medir antes de cambiar) y prepara los contratos que S39 ensamblará en el Case Triage N3.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 71
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 64,
+      "n_syllables": 136,
+      "spw": 2.125,
+      "wps": 16.0,
+      "fh": 63.0,
+      "inflesz": 58.4,
+      "band": "normal",
+      "locator": "L32:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo de la sección. Entrada: cola de casos sintéticos `CASO-LIM-038`, límites de tasa del proveedor mock, budgets de latencia p95 y políticas de retry/DLQ. Salida: pipeline reanudable con trace por case_id, métricas de cola y runbook de fallos. Error: side effect duplicado, PII raw en logs o cola sin backpressure bloquea promoción. Criterio: mismo resultado funcional tras reejecución controlada.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 64
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 95,
+      "n_syllables": 189,
+      "spw": 1.989,
+      "wps": 19.0,
+      "fh": 68.1,
+      "inflesz": 63.9,
+      "band": "normal",
+      "locator": "L33:paragraph",
+      "field": "paragraph",
+      "text": "Caso sintético Red Andina (organización ficticia, datos inventados): un worker de scoring recibe picos de I/O hacia un API mock y CPU de features en lotes. Seguiremos el caso `c-synth-1` a lo largo de T1–T4: medir bound → acotar cola y tasa → emitir o11y sin PII → checkpoint/idempotencia → retry/DLQ/runbook. El foco es **concurrencia correcta y resiliencia operativa**, no micro-optimización con Numba/Cython. Orden: T1 Concurrencia → T2 Control de carga → T3 Observabilidad → T4 Workflows resilientes. Stack didáctico: **stdlib** (`json`, `time`, `queue`, dicts) + contratos conceptuales de asyncio/multiprocessing sin red real.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 95
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 28,
+      "n_syllables": 63,
+      "spw": 2.25,
+      "wps": 14.0,
+      "fh": 57.6,
+      "inflesz": 52.7,
+      "band": "bastante_difícil",
+      "locator": "L59:paragraph",
+      "field": "paragraph",
+      "text": "Pipeline reanudable con trace por caso, sin PII real en logs y con runbook de proveedor lento / proceso caído / reejecución. Si falta evidencia de idempotencia, no se promociona.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 12,
+      "spw": 1.714,
+      "wps": 7.0,
+      "fh": 96.8,
+      "inflesz": 93.0,
+      "band": "muy_fácil",
+      "locator": "L63:heading",
+      "field": "heading",
+      "text": "Threads, processes y async (elegir por bound)",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 116,
+      "n_syllables": 221,
+      "spw": 1.905,
+      "wps": 29.0,
+      "fh": 62.9,
+      "inflesz": 59.1,
+      "band": "normal",
+      "locator": "L66:paragraph",
+      "field": "paragraph",
+      "text": "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada. **Mide primero** (wall vs CPU en el path caliente); la moda del framework no es un contrato. En stdlib, el modelo se materializa con `concurrent.futures.ThreadPoolExecutor` / `ProcessPoolExecutor` o `asyncio` + `wait_for` para timeouts; aquí practicamos el **criterio de elección**, colas acotadas y contratos de fallo sin lanzar pools pesados ni red real en el navegador.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 116
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 73,
+      "n_syllables": 140,
+      "spw": 1.918,
+      "wps": 24.333,
+      "fh": 67.0,
+      "inflesz": 63.0,
+      "band": "normal",
+      "locator": "L67:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: etiqueta de bound (`io` | `cpu` | `mixed`) medida en el path caliente del triage sintético y un tope de workers N. Salida: elección documentada `async_or_threads` | `processes` | `batch_then_io` y pool_size = N. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 73
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 108,
+      "n_syllables": 178,
+      "spw": 1.648,
+      "wps": 27.0,
+      "fh": 80.4,
+      "inflesz": 77.2,
+      "band": "fácil",
+      "locator": "L68:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T1A` (Red Andina sintético): el caso `c-synth-1` entra por intake (I/O al proveedor mock de normalización) y luego calcula features locales (CPU). Primero midimos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool con N acotado (p. ej. 4). Datos inventados; sin credenciales ni red real; sin PII en logs del bench. El mismo `c-synth-1` reaparece en T2 (cola y timeout), T3 (corr y SLO) y T4 (checkpoint y DLQ): es un solo batch que se endurece por capas.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 108
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 22,
+      "n_syllables": 43,
+      "spw": 1.955,
+      "wps": 11.0,
+      "fh": 78.3,
+      "inflesz": 74.1,
+      "band": "bastante_fácil",
+      "locator": "L106:paragraph",
+      "field": "paragraph",
+      "text": "No elijas async ni multiproceso por moda. Profilea el path del caso sintético y documenta bound + elección en el runbook del batch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 11,
+      "spw": 1.571,
+      "wps": 7.0,
+      "fh": 105.4,
+      "inflesz": 101.9,
+      "band": "muy_fácil",
+      "locator": "L110:heading",
+      "field": "heading",
+      "text": "I/O vs CPU, GIL y serialización",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 87,
+      "n_syllables": 153,
+      "spw": 1.759,
+      "wps": 21.75,
+      "fh": 79.1,
+      "inflesz": 75.5,
+      "band": "bastante_fácil",
+      "locator": "L113:paragraph",
+      "field": "paragraph",
+      "text": "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json entre procesos). Si el payload entre workers es grande, el pool puede ser **más lento** que un solo proceso bien vectorizado: el tiempo se va en copiar bytes, no en score. Por eso la decisión «processes» de T1-A solo es completa cuando también mides el tamaño del blob que cruzará el boundary.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 87
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 59,
+      "n_syllables": 130,
+      "spw": 2.203,
+      "wps": 14.75,
+      "fh": 59.6,
+      "inflesz": 54.8,
+      "band": "bastante_difícil",
+      "locator": "L114:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia `compact_payload`. Error: copiar DataFrames enteros entre procesos o loguear el blob crudo con PII. Criterio: el costo de serialización está medido y el payload entre workers es el mínimo necesario para el paso.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 59
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 105,
+      "n_syllables": 200,
+      "spw": 1.905,
+      "wps": 52.5,
+      "fh": 39.0,
+      "inflesz": 35.7,
+      "band": "difícil",
+      "locator": "L115:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T1B` (sigue `c-synth-1`): en lugar de enviar el registro completo del cliente sintético al process pool de features, enviamos `{case_id, score, feature_ids}`. `json.dumps` del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC. En código de producción usarías `ProcessPoolExecutor` con ese payload mínimo; aquí medimos bytes y preferimos compacto sin lanzar procesos en el playground. Puente a T2: con el modelo elegido, la cola del worker aún puede crecer sin límite si no hay backpressure.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 105
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 19,
+      "n_syllables": 36,
+      "spw": 1.895,
+      "wps": 9.5,
+      "fh": 83.5,
+      "inflesz": 79.3,
+      "band": "fácil",
+      "locator": "L138:paragraph",
+      "field": "paragraph",
+      "text": "A veces el process pool es más lento que un solo proceso. Mide serialización + queue antes de multiplicar workers.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 11,
+      "spw": 2.2,
+      "wps": 5.0,
+      "fh": 69.7,
+      "inflesz": 64.8,
+      "band": "normal",
+      "locator": "L142:heading",
+      "field": "heading",
+      "text": "Pools, backpressure y rate limits",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 102,
+      "n_syllables": 192,
+      "spw": 1.882,
+      "wps": 25.5,
+      "fh": 67.9,
+      "inflesz": 64.1,
+      "band": "normal",
+      "locator": "L145:paragraph",
+      "field": "paragraph",
+      "text": "Un pool acota la concurrencia máxima (N workers). Una cola con `maxsize` aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. En stdlib eso es `queue.Queue(maxsize=Q)` (o `asyncio.Queue` en async): no es un comentario de diseño, es un tope de memoria. Un rate limit (token bucket **didáctico estático**: tokens iniciales sin recarga en el fixture) protege al proveedor mock de un ban o de saturación. En prod el bucket se rellena por ventana de tiempo; aquí solo practicamos allow/deny y cola acotada para fijar el modelo mental.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 102
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 52,
+      "n_syllables": 116,
+      "spw": 2.231,
+      "wps": 10.4,
+      "fh": 62.4,
+      "inflesz": 57.5,
+      "band": "normal",
+      "locator": "L146:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infinita, o ignorar 429 del proveedor. Criterio: bajo pico sintético, la memoria se mantiene acotada y el proveedor no recibe más de R tokens por ventana.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 52
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 93,
+      "n_syllables": 161,
+      "spw": 1.731,
+      "wps": 23.25,
+      "fh": 79.3,
+      "inflesz": 75.7,
+      "band": "bastante_fácil",
+      "locator": "L147:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T2A` (`c-synth-1` y vecinos): el batch de Lima (ficticio) intenta encolar una ráfaga; con `Queue(maxsize=2)` el tercer case_id no entra y se registra backpressure. El bucket de 2 tokens niega el tercer allow inmediato. Así no tumbamos el worker de scoring ni el mock API. Sin PII real; solo case_id sintéticos. Puente a T2-B: aunque la cola esté acotada, un fetch sin timeout aún puede colgar un worker — la profundidad de cola y el timeout son capas distintas del mismo incidente.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 93
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 21,
+      "n_syllables": 42,
+      "spw": 2.0,
+      "wps": 10.5,
+      "fh": 76.1,
+      "inflesz": 71.7,
+      "band": "bastante_fácil",
+      "locator": "L187:paragraph",
+      "field": "paragraph",
+      "text": "Producer bloquea o devuelve rechazo cuando la cola llena. Documenta la política en el runbook: drop, block o DLQ de overflow.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 4,
+      "n_syllables": 11,
+      "spw": 2.75,
+      "wps": 4.0,
+      "fh": 37.8,
+      "inflesz": 31.5,
+      "band": "difícil",
+      "locator": "L191:heading",
+      "field": "heading",
+      "text": "Cancelación, timeout y recursos",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 75,
+      "n_syllables": 150,
+      "spw": 2.0,
+      "wps": 18.75,
+      "fh": 67.7,
+      "inflesz": 63.5,
+      "band": "normal",
+      "locator": "L194:paragraph",
+      "field": "paragraph",
+      "text": "Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de espera y on_fail (`retry_or_dlq`). La cancelación libera la tarea colgada; el `finally` o context manager cierra conexiones y archivos aunque falle el fetch. En async real usarías `asyncio.wait_for(coro, timeout=…)`; aquí simulamos el mismo contrato comparando latencia mock vs presupuesto, sin red ni event loop en el playground.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 75
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 52,
+      "n_syllables": 105,
+      "spw": 2.019,
+      "wps": 10.4,
+      "fh": 75.1,
+      "inflesz": 70.6,
+      "band": "bastante_fácil",
+      "locator": "L195:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: latencia mock del proveedor, timeout_s y política on_fail. Salida: status `ok` | `timeout`, dict de política y flag de cierre de recurso. Error: olvidar close, o retry infinito sin tope. Criterio: toda I/O externa del triage tiene timeout y camino de fallo explícito hacia retry o DLQ.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 52
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 88,
+      "n_syllables": 163,
+      "spw": 1.852,
+      "wps": 22.0,
+      "fh": 73.3,
+      "inflesz": 69.4,
+      "band": "bastante_fácil",
+      "locator": "L196:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T2B` (`c-synth-1` geocoding mock): si latencia_ms > timeout_s*1000, marcamos timeout y enrutamos a retry/DLQ. El recurso sintético se cierra en `finally` aunque falle. Incidente clásico de runbook: «sin timeout → cola bloqueada → p95 explotado». Con la cola de T2-A acotada y el timeout de este tramo, el batch ya no se cuelga en silencio: falla de forma observable. Puente a T3: cuando aparece el timeout, el on-call necesita logs/metrics/traces correlacionados, no solo un print local.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 88
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 20,
+      "n_syllables": 44,
+      "spw": 2.2,
+      "wps": 10.0,
+      "fh": 64.6,
+      "inflesz": 59.8,
+      "band": "normal",
+      "locator": "L230:paragraph",
+      "field": "paragraph",
+      "text": "Incidente clásico de operación: un solo proveedor lento satura todos los workers. Timeout + on_fail es obligatorio antes de prod.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 4,
+      "n_syllables": 6,
+      "spw": 1.5,
+      "wps": 4.0,
+      "fh": 112.8,
+      "inflesz": 109.4,
+      "band": "muy_fácil",
+      "locator": "L234:heading",
+      "field": "heading",
+      "text": "Logs, metrics y traces",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 39,
+      "n_syllables": 77,
+      "spw": 1.974,
+      "wps": 39.0,
+      "fh": 48.6,
+      "inflesz": 44.8,
+      "band": "difícil",
+      "locator": "L237:paragraph",
+      "field": "paragraph",
+      "text": "Los tres pilares de **observabilidad (o11y)**: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo largo de intake→score→queue). correlation_id / corr une el camino sin volcar el payload completo del cliente.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 39
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 50,
+      "n_syllables": 101,
+      "spw": 2.02,
+      "wps": 10.0,
+      "fh": 75.4,
+      "inflesz": 71.0,
+      "band": "bastante_fácil",
+      "locator": "L238:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: evento de scoring con case_id sintético, score y corr. Salida: línea de log estructurado + métrica nombrada + pii_raw=False. Error: loguear email/teléfono en claro, o métricas sin dimensiones útiles. Criterio: un on-call puede reconstruir el path de un caso con corr sin abrir PII.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 50
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 74,
+      "n_syllables": 119,
+      "spw": 1.608,
+      "wps": 18.5,
+      "fh": 91.5,
+      "inflesz": 88.1,
+      "band": "muy_fácil",
+      "locator": "L239:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T3A`: al marcar `scored` en `c-synth-1` emitimos `{level:INFO, case_id, event, score, corr}` y la métrica `queue_depth`. Nivel DEBUG solo en sandbox. No usamos OpenTelemetry real en el ejercicio; modelamos el contrato con dicts locales y el mismo corr en log y span. Puente a T3-B: el corr no basta si el log lleva PII o el SLO no tiene política de error budget.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 74
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 17,
+      "n_syllables": 32,
+      "spw": 1.882,
+      "wps": 8.5,
+      "fh": 85.2,
+      "inflesz": 81.1,
+      "band": "fácil",
+      "locator": "L267:paragraph",
+      "field": "paragraph",
+      "text": "Logs + metrics + traces. correlation_id en todo el path. INFO en prod; DEBUG acotado al sandbox sintético.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 10,
+      "spw": 2.0,
+      "wps": 5.0,
+      "fh": 81.7,
+      "inflesz": 77.2,
+      "band": "fácil",
+      "locator": "L271:heading",
+      "field": "heading",
+      "text": "Correlation, redacción y SLI/SLO",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 63,
+      "n_syllables": 125,
+      "spw": 1.984,
+      "wps": 21.0,
+      "fh": 66.4,
+      "inflesz": 62.2,
+      "band": "normal",
+      "locator": "L274:paragraph",
+      "field": "paragraph",
+      "text": "Redactar PII en logs es obligatorio: un email sintético `ana@example.pe` se muestra como `an***`. Los SLI miden realidad (p95 de score_ms, error_rate); el SLO es el objetivo acordado con el dueño del servicio. El **error budget** se consume cuando se viola el SLO: al agotarse, la política operativa prioriza estabilidad (p. ej. pausar deploys no urgentes) sobre features nuevas.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 63
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 57,
+      "n_syllables": 117,
+      "spw": 2.053,
+      "wps": 14.25,
+      "fh": 69.1,
+      "inflesz": 64.7,
+      "band": "normal",
+      "locator": "L275:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: SLI observados y umbrales SLO. Salida: slo_ok booleano, valor redactado y, si aplica, acción de error budget. Error: comparar al revés (celebrar latencia peor que el límite) o guardar PII completa «por si acaso». Criterio: dashboards y alertas se basan en SLI; el runbook dice qué hacer cuando el error budget se agota.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 57
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 70,
+      "n_syllables": 114,
+      "spw": 1.629,
+      "wps": 17.5,
+      "fh": 91.3,
+      "inflesz": 87.9,
+      "band": "muy_fácil",
+      "locator": "L276:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T3B` (`c-synth-1`): p95=120ms vs SLO 200ms y error_rate=0.01 vs 0.02 → slo_ok True. Si p95 sube a 400ms, se abre incidente y se pausan deploys no urgentes según política de error budget. Solo datos sintéticos. Puente a T4: con o11y y presupuesto de error claros, el workflow aún necesita checkpoint e idempotencia para reanudar sin duplicar side effects.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 70
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 20,
+      "n_syllables": 40,
+      "spw": 2.0,
+      "wps": 10.0,
+      "fh": 76.6,
+      "inflesz": 72.2,
+      "band": "bastante_fácil",
+      "locator": "L304:paragraph",
+      "field": "paragraph",
+      "text": "Redacta siempre. correlation_id sí; teléfono/email en claro no. El header X-Corr-Id une requests sin exponer identidad.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 42,
+      "n_syllables": 86,
+      "spw": 2.048,
+      "wps": 14.0,
+      "fh": 69.7,
+      "inflesz": 65.3,
+      "band": "normal",
+      "locator": "L311:paragraph",
+      "field": "paragraph",
+      "text": "Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un checkpoint. La idempotency key (`case:step:ver`) garantiza que reejecutar el mismo paso no duplica side effects (doble enqueue, doble notificación mock).",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 42
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 60,
+      "n_syllables": 121,
+      "spw": 2.017,
+      "wps": 12.0,
+      "fh": 73.6,
+      "inflesz": 69.2,
+      "band": "bastante_fácil",
+      "locator": "L312:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: state dict del caso y clave de idempotencia. Salida: checkpoint con `last_done` (paso terminado) y `resume_from` = **siguiente** paso pendiente. Error: reintentar sin key y crear dos tickets de review, o reejecutar un paso ya `done`. Criterio: tras matar el worker a mitad de batch, el resume continúa desde el siguiente pendiente sin rehacer pasos done.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 90,
+      "n_syllables": 157,
+      "spw": 1.744,
+      "wps": 18.0,
+      "fh": 83.8,
+      "inflesz": 80.2,
+      "band": "fácil",
+      "locator": "L313:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T4A`: caso `c-synth-1` (alias c1 en el store) completó features; el checkpoint guarda `last_done=features`. Al reiniciar, el worker calcula `resume_from=next_step(last_done)` (p. ej. `score`) y **no** reejecuta pasos con status done. La key `c1:features:v3` evita side effects si un reintento llega tarde. Sin secretos ni PII real en el store de checkpoint. Puente a T4-B: si el paso `score` falla de forma no transitoria, no reintentamos infinito — vamos a DLQ y abrimos el runbook.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 90
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 19,
+      "n_syllables": 37,
+      "spw": 1.947,
+      "wps": 6.333,
+      "fh": 83.5,
+      "inflesz": 79.2,
+      "band": "fácil",
+      "locator": "L340:paragraph",
+      "field": "paragraph",
+      "text": "Úsala en APIs y jobs. Formato estable case:step:ver. Reejecutar debe ser seguro por diseño, no por suerte.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 11,
+      "spw": 1.833,
+      "wps": 6.0,
+      "fh": 90.7,
+      "inflesz": 86.6,
+      "band": "muy_fácil",
+      "locator": "L344:heading",
+      "field": "heading",
+      "text": "Retry, dead-letter, replay y runbook",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 44,
+      "n_syllables": 84,
+      "spw": 1.909,
+      "wps": 11.0,
+      "fh": 81.1,
+      "inflesz": 76.9,
+      "band": "fácil",
+      "locator": "L347:paragraph",
+      "field": "paragraph",
+      "text": "Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se reinyecta la DLQ entera sin inspección. El runbook lista síntomas → checks → acciones para el on-call.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 44
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 56,
+      "n_syllables": 113,
+      "spw": 2.018,
+      "wps": 11.2,
+      "fh": 74.3,
+      "inflesz": 69.9,
+      "band": "bastante_fácil",
+      "locator": "L348:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo. Entrada: attempt number y base de backoff; mensaje marcado poison o retriable. Salida: serie de esperas, ruta `retry` | `dlq` y flag runbook. Error: retry infinito, o borrar DLQ sin análisis. Criterio: el camino de fallo se prueba en sandbox antes de prod; el runbook existe y se actualiza tras cada incidente sintético de drill.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 56
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 69,
+      "n_syllables": 98,
+      "spw": 1.42,
+      "wps": 17.25,
+      "fh": 104.0,
+      "inflesz": 101.1,
+      "band": "muy_fácil",
+      "locator": "L349:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T4B` (cierra el hilo de `c-synth-1`): attempts 0..3 con base 0.1 → [0.1, 0.2, 0.4, 0.8]. Un payload malformado va a DLQ como poison; el replay se hace caso a caso tras fix del parser. Drill de on-call: reiniciar worker, verificar checkpoint, rejugar batch acotado. Estos contratos de operación alimentan el Case Triage N3 en S39.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 69
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 20,
+      "n_syllables": 38,
+      "spw": 1.9,
+      "wps": 10.0,
+      "fh": 82.6,
+      "inflesz": 78.5,
+      "band": "fácil",
+      "locator": "L375:paragraph",
+      "field": "paragraph",
+      "text": "Documento del on-call: síntomas, checks, acciones (restart worker, replay batch, escalar proveedor). Se prueba el fallo antes de prod.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 4,
+          "wc": 20
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 83,
+      "n_syllables": 146,
+      "spw": 1.759,
+      "wps": 41.5,
+      "fh": 59.0,
+      "inflesz": 55.7,
+      "band": "bastante_difícil",
+      "locator": "L380:intro",
+      "field": "intro",
+      "text": "Te muestro 8 demos sobre el hilo de `c-synth-1` / CASO-LIM-038 (sintético), en el mismo orden que endurecerías un batch en operación: medir bound (S37 → aquí) → payload compacto → cola acotada → timeout → observabilidad (o11y) → SLO/error budget → checkpoint → retry/DLQ/runbook. Cada demo ejecuta un mecanismo stdlib o un contrato local con think-aloud; sin red real ni PII. Al final del You Do ensamblas los cuatro pilares para el gate CP-N3-C (S39 los integrará en el Case Triage).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 83
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 28,
+      "spw": 1.647,
+      "wps": 17.0,
+      "fh": 90.7,
+      "inflesz": 87.2,
+      "band": "muy_fácil",
+      "locator": "L386:description",
+      "field": "description",
+      "text": "Demo: medir wall vs CPU del path caliente y elegir modelo de concurrencia para c-synth-1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 28,
+      "n_syllables": 57,
+      "spw": 2.036,
+      "wps": 14.0,
+      "fh": 70.4,
+      "inflesz": 66.0,
+      "band": "bastante_fácil",
+      "locator": "L413:why",
+      "field": "why",
+      "text": "Think-aloud: no elijo processes por moda; mido wall vs CPU del tramo features y solo entonces documento processes. La tabla bound→modelo queda justificada por el bottleneck.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 21,
+      "spw": 1.75,
+      "wps": 12.0,
+      "fh": 89.6,
+      "inflesz": 85.8,
+      "band": "fácil",
+      "locator": "L419:description",
+      "field": "description",
+      "text": "Demo: comparar bytes de payload full vs compacto antes de cruzar IPC.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 34,
+      "n_syllables": 61,
+      "spw": 1.794,
+      "wps": 11.333,
+      "fh": 87.6,
+      "inflesz": 83.7,
+      "band": "fácil",
+      "locator": "L437:why",
+      "field": "why",
+      "text": "Think-aloud: el process pool paga serialización. Si mando email en el blob, inflamos IPC y arriesgamos PII en logs de cola. Compacto gana en bytes y en privacidad; GIL sigue limitando threads CPU.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 34
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 26,
+      "spw": 2.167,
+      "wps": 12.0,
+      "fh": 64.6,
+      "inflesz": 59.9,
+      "band": "normal",
+      "locator": "L443:description",
+      "field": "description",
+      "text": "Demo: Queue(maxsize) aplica backpressure; token bucket niega el exceso de tasa.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 35,
+      "n_syllables": 69,
+      "spw": 1.971,
+      "wps": 17.5,
+      "fh": 70.7,
+      "inflesz": 66.5,
+      "band": "bastante_fácil",
+      "locator": "L476:why",
+      "field": "why",
+      "text": "Think-aloud: con maxsize=2 el tercer caso no entra a memoria — eso es backpressure. Luego el token bucket (estático aquí) protege al proveedor; primero acotamos la cola del worker, después la tasa de salida.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 35
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 24,
+      "spw": 2.4,
+      "wps": 10.0,
+      "fh": 52.6,
+      "inflesz": 47.3,
+      "band": "bastante_difícil",
+      "locator": "L482:description",
+      "field": "description",
+      "text": "Demo: timeout simulado por latencia mock + cierre garantizado en finally.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 34,
+      "n_syllables": 57,
+      "spw": 1.676,
+      "wps": 11.333,
+      "fh": 94.7,
+      "inflesz": 91.1,
+      "band": "muy_fácil",
+      "locator": "L504:why",
+      "field": "why",
+      "text": "Think-aloud: el mock tarda 2.5s y el budget es 1s → timeout, no hang. El finally corre igual y libera la conn sintética. Sin este contrato, un solo proveedor lento satura el pool.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 34
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 28,
+      "spw": 1.867,
+      "wps": 15.0,
+      "fh": 79.5,
+      "inflesz": 75.5,
+      "band": "bastante_fácil",
+      "locator": "L510:description",
+      "field": "description",
+      "text": "Demo: evento scored con correlation_id, métrica de cola y pii_raw=False (o11y mínima).",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 36,
+      "n_syllables": 59,
+      "spw": 1.639,
+      "wps": 12.0,
+      "fh": 96.3,
+      "inflesz": 92.7,
+      "band": "muy_fácil",
+      "locator": "L532:why",
+      "field": "why",
+      "text": "Think-aloud: el on-call reconstruye el path de c-synth-1 con corr-1. La métrica nombra latency_ms; pii_raw False es parte del contrato, no un extra. Observabilidad (o11y) = logs + metrics + traces correlacionados.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 36
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 17,
+      "spw": 1.545,
+      "wps": 11.0,
+      "fh": 102.9,
+      "inflesz": 99.6,
+      "band": "muy_fácil",
+      "locator": "L538:description",
+      "field": "description",
+      "text": "Demo: SLO ok, redacción de PII y acción de error budget.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 33,
+      "n_syllables": 58,
+      "spw": 1.758,
+      "wps": 11.0,
+      "fh": 90.2,
+      "inflesz": 86.3,
+      "band": "muy_fácil",
+      "locator": "L557:why",
+      "field": "why",
+      "text": "Think-aloud: p95 120 ≤ 200 → SLO ok y aún se pueden shippear features. Si se viola, el error budget empuja a freeze de deploys no urgentes. Redacción siempre, aunque el email sea sintético.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 33
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 28,
+      "n_syllables": 58,
+      "spw": 2.071,
+      "wps": 14.0,
+      "fh": 68.3,
+      "inflesz": 63.8,
+      "band": "normal",
+      "locator": "L583:why",
+      "field": "why",
+      "text": "Think-aloud: last_done=features no significa rehacer features; resume_from avanza a score. La key case:step:ver hace seguro un reintento tardío sin duplicar side effects.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 20,
+      "spw": 2.222,
+      "wps": 9.0,
+      "fh": 64.3,
+      "inflesz": 59.4,
+      "band": "normal",
+      "locator": "L589:description",
+      "field": "description",
+      "text": "Demo: backoff exponencial, ruta poison→DLQ y runbook presente.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 26,
+      "n_syllables": 53,
+      "spw": 2.038,
+      "wps": 13.0,
+      "fh": 71.3,
+      "inflesz": 66.8,
+      "band": "bastante_fácil",
+      "locator": "L608:why",
+      "field": "why",
+      "text": "Think-aloud: retriable usa backoff; poison va directo a DLQ con replay controlado. El runbook (síntomas→checks→acciones) es entregable de operación, no un wiki opcional.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 60,
+      "n_syllables": 112,
+      "spw": 1.867,
+      "wps": 15.0,
+      "fh": 79.5,
+      "inflesz": 75.5,
+      "band": "bastante_fácil",
+      "locator": "L613:intro",
+      "field": "intro",
+      "text": "S38 · Laboratorio de operación resiliente del triage (24 retos). E1 repara un defecto del contrato, E2 fija la política válida/inválida y E3 transfiere el criterio a un incidente sintético nuevo (cambio de fixture, no solo renombrar el print). Sigue el hilo de `c-synth-1` cuando el fixture lo indique. Fixtures CASO-LIM-038; sin PII real ni red.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 58,
+      "n_syllables": 98,
+      "spw": 1.69,
+      "wps": 14.5,
+      "fh": 90.7,
+      "inflesz": 87.1,
+      "band": "muy_fácil",
+      "locator": "L619:instruction",
+      "field": "instruction",
+      "text": "S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: implementa pick(bound) para que bound='cpu' devuelva 'processes'; imprime la elección, la etiqueta bound y ok True. El starter ignora bound y devuelve siempre 'async_or_threads' (defect). Salida esperada: processes / bound cpu / ok True.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 58
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 15,
+      "spw": 1.5,
+      "wps": 10.0,
+      "fh": 106.6,
+      "inflesz": 103.4,
+      "band": "muy_fácil",
+      "locator": "L620:hint",
+      "field": "hint",
+      "text": "Para CPU-bound en CPython prefiere processes por el GIL.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 15,
+      "spw": 1.5,
+      "wps": 10.0,
+      "fh": 106.6,
+      "inflesz": 103.4,
+      "band": "muy_fácil",
+      "locator": "L622:paragraph",
+      "field": "paragraph",
+      "text": "Para CPU-bound en CPython prefiere processes por el GIL.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L626:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 36,
+      "spw": 1.636,
+      "wps": 22.0,
+      "fh": 86.2,
+      "inflesz": 82.9,
+      "band": "fácil",
+      "locator": "L627:feedback",
+      "field": "feedback",
+      "text": "S38-T1-A-E1: explica por qué processes evita el GIL en features densas y por qué async no acelera CPU pura.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 51,
+      "n_syllables": 83,
+      "spw": 1.627,
+      "wps": 12.75,
+      "fh": 96.2,
+      "inflesz": 92.7,
+      "band": "muy_fácil",
+      "locator": "L667:instruction",
+      "field": "instruction",
+      "text": "S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: implementa pick(bound) para bound='io' → 'async_or_threads'; imprime la elección, bound io y ok True. El starter mapea todo a 'processes' (defect de copy-paste). Fixture sintético sin red real.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 51
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 15,
+      "spw": 1.5,
+      "wps": 10.0,
+      "fh": 106.6,
+      "inflesz": 103.4,
+      "band": "muy_fácil",
+      "locator": "L668:hint",
+      "field": "hint",
+      "text": "I/O-bound: threads o async liberan espera de red.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 15,
+      "spw": 1.5,
+      "wps": 10.0,
+      "fh": 106.6,
+      "inflesz": 103.4,
+      "band": "muy_fácil",
+      "locator": "L670:paragraph",
+      "field": "paragraph",
+      "text": "I/O-bound: threads o async liberan espera de red.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 18,
+      "spw": 2.0,
+      "wps": 9.0,
+      "fh": 77.7,
+      "inflesz": 73.2,
+      "band": "bastante_fácil",
+      "locator": "L671:paragraph",
+      "field": "paragraph",
+      "text": "processes añaden IPC innecesario si no hay CPU densa.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 0,
+          "wc": 9
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L674:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 23,
+      "spw": 1.353,
+      "wps": 17.0,
+      "fh": 108.3,
+      "inflesz": 105.5,
+      "band": "muy_fácil",
+      "locator": "L675:feedback",
+      "field": "feedback",
+      "text": "S38-T1-A-E2: justifica async_or_threads cuando wall >> cpu en el tramo de red mock.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 61,
+      "n_syllables": 95,
+      "spw": 1.557,
+      "wps": 15.25,
+      "fh": 97.8,
+      "inflesz": 94.6,
+      "band": "muy_fácil",
+      "locator": "L715:instruction",
+      "field": "instruction",
+      "text": "S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): con wall_ms=100 y cpu_ms=95 mide el bound y elige el modelo. Imprime el modelo ('processes'), measure_first True y ok True. Starter salta la medición (measure_first=False) y deja choice='async_or_threads' (defect). Implementa measure_bound + pick como en la demo T1-A; sin red real.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 61
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 9,
+      "spw": 0.818,
+      "wps": 11.0,
+      "fh": 146.5,
+      "inflesz": 144.9,
+      "band": "muy_fácil",
+      "locator": "L718:paragraph",
+      "field": "paragraph",
+      "text": "Si cpu_ms >= wall_ms * 0.8 el bound es cpu.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 13,
+      "spw": 1.625,
+      "wps": 8.0,
+      "fh": 101.2,
+      "inflesz": 97.6,
+      "band": "muy_fácil",
+      "locator": "L719:paragraph",
+      "field": "paragraph",
+      "text": "pick('cpu') → 'processes'; no elijas async por moda.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L722:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 22,
+      "spw": 1.833,
+      "wps": 12.0,
+      "fh": 84.6,
+      "inflesz": 80.6,
+      "band": "fácil",
+      "locator": "L723:feedback",
+      "field": "feedback",
+      "text": "S38-T1-A-E3: sin medición no hay elección defendible de concurrencia.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 35,
+      "n_syllables": 55,
+      "spw": 1.571,
+      "wps": 17.5,
+      "fh": 94.7,
+      "inflesz": 91.4,
+      "band": "muy_fácil",
+      "locator": "L771:instruction",
+      "field": "instruction",
+      "text": "S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json.dumps(...).encode('utf-8'). Imprime el tamaño en bytes (8), ok True solo si el blob decodificado es exactamente '{\\",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 35
+        },
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 24,
+      "spw": 1.846,
+      "wps": 13.0,
+      "fh": 82.8,
+      "inflesz": 78.8,
+      "band": "fácil",
+      "locator": "L772:hint",
+      "field": "hint",
+      "text": "json.dumps produce el blob estable entre procesos; str(dict) usa comillas simples.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L778:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 30,
+      "spw": 1.429,
+      "wps": 21.0,
+      "fh": 99.7,
+      "inflesz": 96.8,
+      "band": "muy_fácil",
+      "locator": "L779:feedback",
+      "field": "feedback",
+      "text": "S38-T1-B-E1: el costo de IPC se mide sobre el blob JSON real que cruzará procesos, no sobre str().",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 47,
+      "n_syllables": 85,
+      "spw": 1.809,
+      "wps": 11.75,
+      "fh": 86.3,
+      "inflesz": 82.4,
+      "band": "fácil",
+      "locator": "L812:instruction",
+      "field": "instruction",
+      "text": "S38-T1-B-E2 · Política GIL para threads CPU: con model='threads' y bound='cpu', el runbook debe registrar gil_cpu_threads='limited' (no 'unlimited'). Imprime limited, ok True, cpu_threads True. Starter asume unlimited (defect). Usa la función gil_status(model, bound); no lances threads reales.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 47
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 19,
+      "spw": 2.111,
+      "wps": 9.0,
+      "fh": 71.0,
+      "inflesz": 66.3,
+      "band": "bastante_fácil",
+      "locator": "L813:hint",
+      "field": "hint",
+      "text": "GIL limita paralelismo CPU en threads Python puros → 'limited'.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 19,
+      "spw": 1.727,
+      "wps": 11.0,
+      "fh": 92.0,
+      "inflesz": 88.2,
+      "band": "muy_fácil",
+      "locator": "L815:paragraph",
+      "field": "paragraph",
+      "text": "Si model=='threads' y bound=='cpu' → limited; processes evaden el GIL.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 20,
+      "spw": 2.5,
+      "wps": 8.0,
+      "fh": 48.7,
+      "inflesz": 43.1,
+      "band": "difícil",
+      "locator": "L816:paragraph",
+      "field": "paragraph",
+      "text": "Para CPU densa documenta limited y evalúa processes.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L819:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 30,
+      "spw": 2.143,
+      "wps": 14.0,
+      "fh": 64.0,
+      "inflesz": 59.3,
+      "band": "normal",
+      "locator": "L820:feedback",
+      "field": "feedback",
+      "text": "S38-T1-B-E2: la etiqueta limited evita falsas expectativas de speedup multi-thread.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 54,
+      "n_syllables": 85,
+      "spw": 1.574,
+      "wps": 13.5,
+      "fh": 98.6,
+      "inflesz": 95.3,
+      "band": "muy_fácil",
+      "locator": "L859:instruction",
+      "field": "instruction",
+      "text": "S38-T1-B-E3 · Transferencia IPC: compara bytes de full (con email sintético) vs compact (case_id+score) con json.dumps(...).encode(). Imprime 'compact_payload', ok True y el tamaño en bytes del compact (31). Starter prefiere 'full_record' sin medir (defect: arrastra PII y bytes de más). Fixture CASO-LIM-038 sin red.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 54
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 16,
+      "spw": 1.6,
+      "wps": 10.0,
+      "fh": 100.6,
+      "inflesz": 97.2,
+      "band": "muy_fácil",
+      "locator": "L862:paragraph",
+      "field": "paragraph",
+      "text": "json.dumps(payload).encode() mide el blob real de IPC.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L863:paragraph",
+      "field": "paragraph",
+      "text": "full_record con email infla bytes y arriesga PII en logs de cola.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L866:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 22,
+      "spw": 1.692,
+      "wps": 13.0,
+      "fh": 92.0,
+      "inflesz": 88.4,
+      "band": "muy_fácil",
+      "locator": "L867:feedback",
+      "field": "feedback",
+      "text": "S38-T1-B-E3: compact_payload es privacidad y performance a la vez.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 40,
+      "n_syllables": 60,
+      "spw": 1.5,
+      "wps": 10.0,
+      "fh": 106.6,
+      "inflesz": 103.4,
+      "band": "muy_fácil",
+      "locator": "L907:instruction",
+      "field": "instruction",
+      "text": "S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal. Implementa el bucket mínimo del fixture CASO-LIM-038-2A.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 40
+        },
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 3,
+          "wc": 40
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 11,
+      "spw": 1.375,
+      "wps": 8.0,
+      "fh": 116.2,
+      "inflesz": 113.2,
+      "band": "muy_fácil",
+      "locator": "L908:hint",
+      "field": "hint",
+      "text": "rate=2 ⇒ dos True y el tercero False.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 11,
+      "spw": 1.375,
+      "wps": 8.0,
+      "fh": 116.2,
+      "inflesz": 113.2,
+      "band": "muy_fácil",
+      "locator": "L910:paragraph",
+      "field": "paragraph",
+      "text": "rate=2 ⇒ dos True y el tercero False.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 21,
+      "spw": 2.333,
+      "wps": 9.0,
+      "fh": 57.7,
+      "inflesz": 52.5,
+      "band": "bastante_difícil",
+      "locator": "L911:paragraph",
+      "field": "paragraph",
+      "text": "No rellenes tokens entre llamadas en este fixture estático.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L914:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 22,
+      "spw": 1.833,
+      "wps": 12.0,
+      "fh": 84.6,
+      "inflesz": 80.6,
+      "band": "fácil",
+      "locator": "L915:feedback",
+      "field": "feedback",
+      "text": "S38-T2-A-E1: el bucket acota la ráfaga visible al proveedor.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 52,
+      "n_syllables": 92,
+      "spw": 1.769,
+      "wps": 17.333,
+      "fh": 83.0,
+      "inflesz": 79.3,
+      "band": "fácil",
+      "locator": "L962:instruction",
+      "field": "instruction",
+      "text": "S38-T2-A-E2 · Cola acotada con Queue: crea Queue(maxsize=50), encola c1 y c2, e imprime la política 'backpressure', ok True y maxsize 50. Starter reporta 'unbounded_queue' y maxsize None sin acotar la cola (defect: sin backpressure). Corrige para modelar la cola del worker de scoring CASO-LIM-038.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 52
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 17,
+      "spw": 1.7,
+      "wps": 10.0,
+      "fh": 94.6,
+      "inflesz": 90.9,
+      "band": "muy_fácil",
+      "locator": "L965:paragraph",
+      "field": "paragraph",
+      "text": "from queue import Queue; maxsize=50 acota memoria del worker.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 21,
+      "spw": 2.333,
+      "wps": 9.0,
+      "fh": 57.7,
+      "inflesz": 52.5,
+      "band": "bastante_difícil",
+      "locator": "L966:paragraph",
+      "field": "paragraph",
+      "text": "Cola sin tope (política None / ilimitada) ⇒ OOM bajo pico.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L969:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 22,
+      "spw": 2.0,
+      "wps": 11.0,
+      "fh": 75.6,
+      "inflesz": 71.2,
+      "band": "bastante_fácil",
+      "locator": "L970:feedback",
+      "field": "feedback",
+      "text": "S38-T2-A-E2: backpressure protege memoria y estabilidad del batch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 47,
+      "n_syllables": 80,
+      "spw": 1.702,
+      "wps": 15.667,
+      "fh": 88.7,
+      "inflesz": 85.1,
+      "band": "fácil",
+      "locator": "L1004:instruction",
+      "field": "instruction",
+      "text": "S38-T2-A-E3 · Transferencia: con TokenBucket(rate=1), el segundo allow() es False — el rate limit protege al 'provider' y ban_risk es True. Starter imprime 'flood' y ban_risk False (defect: ignora al proveedor). Imprime 'provider', ok True, ban_risk True tras demostrar el deny.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 47
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 18,
+      "spw": 1.5,
+      "wps": 12.0,
+      "fh": 104.6,
+      "inflesz": 101.4,
+      "band": "muy_fácil",
+      "locator": "L1005:hint",
+      "field": "hint",
+      "text": "Sin rate limit el mock/API puede banear la IP del batch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 18,
+      "spw": 1.5,
+      "wps": 12.0,
+      "fh": 104.6,
+      "inflesz": 101.4,
+      "band": "muy_fácil",
+      "locator": "L1007:paragraph",
+      "field": "paragraph",
+      "text": "Sin rate limit el mock/API puede banear la IP del batch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1011:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 26,
+      "spw": 2.0,
+      "wps": 13.0,
+      "fh": 73.6,
+      "inflesz": 69.2,
+      "band": "bastante_fácil",
+      "locator": "L1012:feedback",
+      "field": "feedback",
+      "text": "S38-T2-A-E3: rate limit es cortesía y supervivencia ante el proveedor.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 60,
+      "n_syllables": 93,
+      "spw": 1.55,
+      "wps": 15.0,
+      "fh": 98.5,
+      "inflesz": 95.3,
+      "band": "muy_fácil",
+      "locator": "L1059:instruction",
+      "field": "instruction",
+      "text": "S38-T2-B-E1 · Política de timeout: con latency_ms=8000 y timeout_s=5 marca status timeout y on_fail='retry_or_dlq'. Imprime 5, on_fail retry_or_dlq y ok True. Starter usa timeout_s=0 y on_fail='ignore' (defect: hang sin camino de fallo). Simula el fetch mock comparando latencia vs presupuesto; sin threads reales.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 19,
+      "spw": 1.9,
+      "wps": 10.0,
+      "fh": 82.6,
+      "inflesz": 78.5,
+      "band": "fácil",
+      "locator": "L1063:paragraph",
+      "field": "paragraph",
+      "text": "Si latency supera el presupuesto, status es timeout (no ok).",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1066:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 22,
+      "spw": 1.467,
+      "wps": 15.0,
+      "fh": 103.5,
+      "inflesz": 100.5,
+      "band": "muy_fácil",
+      "locator": "L1067:feedback",
+      "field": "feedback",
+      "text": "S38-T2-B-E1: timeout + on_fail es el mínimo viable de I/O externa.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 49,
+      "n_syllables": 82,
+      "spw": 1.673,
+      "wps": 12.25,
+      "fh": 93.9,
+      "inflesz": 90.3,
+      "band": "muy_fácil",
+      "locator": "L1107:instruction",
+      "field": "instruction",
+      "text": "S38-T2-B-E2 · Cierre de recurso en finally: simula un fetch mock y cierra la 'conn' en finally aunque falle. Imprime True (closed), resource 'conn', ok True. Starter deja closed=False y no usa finally (defect: leak). Sin sockets reales; solo el patrón try/finally del worker sintético.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 49
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 15,
+      "spw": 1.875,
+      "wps": 8.0,
+      "fh": 86.2,
+      "inflesz": 82.0,
+      "band": "fácil",
+      "locator": "L1108:hint",
+      "field": "hint",
+      "text": "finally/context manager cierra aunque falle el fetch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 15,
+      "spw": 1.875,
+      "wps": 8.0,
+      "fh": 86.2,
+      "inflesz": 82.0,
+      "band": "fácil",
+      "locator": "L1110:paragraph",
+      "field": "paragraph",
+      "text": "finally/context manager cierra aunque falle el fetch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 13,
+      "spw": 1.625,
+      "wps": 8.0,
+      "fh": 101.2,
+      "inflesz": 97.6,
+      "band": "muy_fácil",
+      "locator": "L1111:paragraph",
+      "field": "paragraph",
+      "text": "Leak de conn tumba el pool bajo carga.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1114:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 19,
+      "spw": 1.727,
+      "wps": 11.0,
+      "fh": 92.0,
+      "inflesz": 88.2,
+      "band": "muy_fácil",
+      "locator": "L1115:feedback",
+      "field": "feedback",
+      "text": "S38-T2-B-E2: sin close determinista el pool se agota.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 56,
+      "n_syllables": 101,
+      "spw": 1.804,
+      "wps": 14.0,
+      "fh": 84.3,
+      "inflesz": 80.5,
+      "band": "fácil",
+      "locator": "L1154:instruction",
+      "field": "instruction",
+      "text": "S38-T2-B-E3 · Transferencia runbook: con latency_ms=5000 y timeout_s=1.0 marca incidente de proveedor lento. Imprime incident True, ok True y action 'open_runbook' (no 'ignore'). Starter usa timeout_s=0, niega el incidente y action='ignore' (defect: hang sin playbook). Implementa needs_incident + action_for del fixture CASO-LIM-038.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 56
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 19,
+      "spw": 2.375,
+      "wps": 8.0,
+      "fh": 56.2,
+      "inflesz": 50.9,
+      "band": "bastante_difícil",
+      "locator": "L1155:hint",
+      "field": "hint",
+      "text": "Hang o timeout superado ⇒ incidente y open_runbook.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1161:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 28,
+      "spw": 1.75,
+      "wps": 16.0,
+      "fh": 85.5,
+      "inflesz": 81.8,
+      "band": "fácil",
+      "locator": "L1162:feedback",
+      "field": "feedback",
+      "text": "S38-T2-B-E3: nombrar el incidente y abrir el runbook es el primer paso operable.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 51,
+      "n_syllables": 83,
+      "spw": 1.627,
+      "wps": 12.75,
+      "fh": 96.2,
+      "inflesz": 92.7,
+      "band": "muy_fácil",
+      "locator": "L1206:instruction",
+      "field": "instruction",
+      "text": "S38-T3-A-E1 · Evento scored con correlation id: implementa emit_scored(case_id, corr, score) que devuelva dict con event='scored', case_id, corr y pii_raw=False. Imprime True (corr presente), event 'scored', ok True. Starter omite corr (defect → False). Path intake→score de c-synth-1 sin PII.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 51
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 13,
+      "spw": 1.444,
+      "wps": 9.0,
+      "fh": 111.0,
+      "inflesz": 107.8,
+      "band": "muy_fácil",
+      "locator": "L1207:hint",
+      "field": "hint",
+      "text": "corr debe ser truthy string en el dict emitido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 13,
+      "spw": 1.444,
+      "wps": 9.0,
+      "fh": 111.0,
+      "inflesz": 107.8,
+      "band": "muy_fácil",
+      "locator": "L1209:paragraph",
+      "field": "paragraph",
+      "text": "corr debe ser truthy string en el dict emitido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 13,
+      "spw": 1.444,
+      "wps": 9.0,
+      "fh": 111.0,
+      "inflesz": 107.8,
+      "band": "muy_fácil",
+      "locator": "L1210:paragraph",
+      "field": "paragraph",
+      "text": "Sin corr no hay reconstrucción del path del caso.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1213:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 15,
+      "spw": 1.5,
+      "wps": 10.0,
+      "fh": 106.6,
+      "inflesz": 103.4,
+      "band": "muy_fácil",
+      "locator": "L1214:feedback",
+      "field": "feedback",
+      "text": "S38-T3-A-E1: correlation_id une spans del caso.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 63,
+      "n_syllables": 111,
+      "spw": 1.762,
+      "wps": 15.75,
+      "fh": 85.1,
+      "inflesz": 81.3,
+      "band": "fácil",
+      "locator": "L1255:instruction",
+      "field": "instruction",
+      "text": "S38-T3-A-E2 · Tres pilares de observabilidad (o11y): implementa active_pillars(signals) que devuelva, en orden fijo, solo las claves True entre logs/metrics/traces. Con los tres activos imprime ['logs','metrics','traces'], ok True y n 3. Starter solo activa logs y deja la función incompleta (defect: omite metrics/traces). No hardcodees la lista de tres si puedes filtrar el dict.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 63
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 20,
+      "spw": 1.818,
+      "wps": 11.0,
+      "fh": 86.5,
+      "inflesz": 82.6,
+      "band": "fácil",
+      "locator": "L1258:paragraph",
+      "field": "paragraph",
+      "text": "Logs eventos, metrics agregados, traces spans — los tres deben estar True.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 21,
+      "spw": 2.1,
+      "wps": 10.0,
+      "fh": 70.6,
+      "inflesz": 66.0,
+      "band": "bastante_fácil",
+      "locator": "L1259:paragraph",
+      "field": "paragraph",
+      "text": "Un solo pilar no basta para diagnosticar cola + latencia + caso.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1262:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 25,
+      "spw": 1.786,
+      "wps": 14.0,
+      "fh": 85.4,
+      "inflesz": 81.6,
+      "band": "fácil",
+      "locator": "L1263:feedback",
+      "field": "feedback",
+      "text": "S38-T3-A-E2: un solo pilar no basta para diagnosticar cola + latencia + caso.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 51,
+      "n_syllables": 89,
+      "spw": 1.745,
+      "wps": 12.75,
+      "fh": 89.1,
+      "inflesz": 85.4,
+      "band": "fácil",
+      "locator": "L1304:instruction",
+      "field": "instruction",
+      "text": "S38-T3-A-E3 · pii_raw debe ser False y el email sintético debe redactarse (an***). Imprime False, ok True (solo si redact(email)=='an***' y pii_raw es False), y redact True. Starter imprime True y no enmascara (defect: permite PII). Contrato de privacidad del pipeline CP-N3-C operación.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 51
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 12,
+      "spw": 1.5,
+      "wps": 8.0,
+      "fh": 108.7,
+      "inflesz": 105.4,
+      "band": "muy_fácil",
+      "locator": "L1305:hint",
+      "field": "hint",
+      "text": "Nunca pii_raw True en logs de operación.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 12,
+      "spw": 1.5,
+      "wps": 8.0,
+      "fh": 108.7,
+      "inflesz": 105.4,
+      "band": "muy_fácil",
+      "locator": "L1307:paragraph",
+      "field": "paragraph",
+      "text": "Nunca pii_raw True en logs de operación.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 16,
+      "spw": 1.455,
+      "wps": 11.0,
+      "fh": 108.3,
+      "inflesz": 105.2,
+      "band": "muy_fácil",
+      "locator": "L1308:paragraph",
+      "field": "paragraph",
+      "text": "redact(s) = s[:2] + '***' si len>2; conserva case_id sintético.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 0,
+          "wc": 11
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1311:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 27,
+      "spw": 1.8,
+      "wps": 15.0,
+      "fh": 83.5,
+      "inflesz": 79.7,
+      "band": "fácil",
+      "locator": "L1312:feedback",
+      "field": "feedback",
+      "text": "S38-T3-A-E3: privacidad es parte del contrato de observabilidad (o11y), no un extra.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 46,
+      "n_syllables": 74,
+      "spw": 1.609,
+      "wps": 11.5,
+      "fh": 98.6,
+      "inflesz": 95.1,
+      "band": "muy_fácil",
+      "locator": "L1350:instruction",
+      "field": "instruction",
+      "text": "S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True solo si el valor impreso es '90****01', y pii False. Starter imprime el número completo (defect). No uses PII real.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 46
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 19,
+      "spw": 2.714,
+      "wps": 7.0,
+      "fh": 36.8,
+      "inflesz": 30.7,
+      "band": "difícil",
+      "locator": "L1351:hint",
+      "field": "hint",
+      "text": "Conserva prefijo/sufijo mínimo; enmascara el medio.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 16,
+      "spw": 1.455,
+      "wps": 11.0,
+      "fh": 108.3,
+      "inflesz": 105.2,
+      "band": "muy_fácil",
+      "locator": "L1354:paragraph",
+      "field": "paragraph",
+      "text": "ok = redacted == '90****01'; pii False siempre en logs de operación.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1357:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 22,
+      "spw": 1.833,
+      "wps": 12.0,
+      "fh": 84.6,
+      "inflesz": 80.6,
+      "band": "fácil",
+      "locator": "L1358:feedback",
+      "field": "feedback",
+      "text": "S38-T3-B-E1: redacción es mecánica y revisable en code review.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 57,
+      "n_syllables": 81,
+      "spw": 1.421,
+      "wps": 14.25,
+      "fh": 107.0,
+      "inflesz": 104.1,
+      "band": "muy_fácil",
+      "locator": "L1389:instruction",
+      "field": "instruction",
+      "text": "S38-T3-B-E2 · SLI compuesto: p95_ms=100 (SLO≤200) y error_rate=0.01 (SLO≤0.02). Implementa slo_ok(sli, slo) que sea True solo si **ambos** umbrales se cumplen. Imprime True, p95 100 y limit 200. Starter solo mira p95 y además compara al revés (defect: ignora error_rate y invierte el signo).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 57
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 17,
+      "spw": 1.7,
+      "wps": 10.0,
+      "fh": 94.6,
+      "inflesz": 90.9,
+      "band": "muy_fácil",
+      "locator": "L1392:paragraph",
+      "field": "paragraph",
+      "text": "Ambos SLI deben respetar su SLO; uno solo no basta.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 21,
+      "spw": 2.625,
+      "wps": 8.0,
+      "fh": 41.2,
+      "inflesz": 35.3,
+      "band": "difícil",
+      "locator": "L1393:paragraph",
+      "field": "paragraph",
+      "text": "Comparación invertida enciende alertas falsas o las apaga.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1396:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 26,
+      "spw": 1.733,
+      "wps": 15.0,
+      "fh": 87.5,
+      "inflesz": 83.8,
+      "band": "fácil",
+      "locator": "L1397:feedback",
+      "field": "feedback",
+      "text": "S38-T3-B-E2: un SLO multi-SLI evita celebrar latencia buena con errores altos.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 56,
+      "n_syllables": 108,
+      "spw": 1.929,
+      "wps": 18.667,
+      "fh": 72.1,
+      "inflesz": 68.0,
+      "band": "bastante_fácil",
+      "locator": "L1438:instruction",
+      "field": "instruction",
+      "text": "S38-T3-B-E3 · Error budget operativo: implementa budget_action(remaining) — si remaining==0 devuelve 'freeze_nonurgent_deploys', si no 'ship_features'. Con remaining=0 imprime el mecanismo 'error_budget', ok True (solo si la acción es freeze) y n 1. Starter imprime 'uptime_only' y n 0 porque ignora remaining (defect: SLO sin consecuencia operativa).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 56
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 30,
+      "spw": 3.0,
+      "wps": 10.0,
+      "fh": 16.6,
+      "inflesz": 9.9,
+      "band": "muy_difícil",
+      "locator": "L1439:hint",
+      "field": "hint",
+      "text": "Error budget cuantifica cuánto incumplimiento queda; al agotarse prioriza estabilidad.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 22,
+      "spw": 2.444,
+      "wps": 9.0,
+      "fh": 51.0,
+      "inflesz": 45.5,
+      "band": "bastante_difícil",
+      "locator": "L1441:paragraph",
+      "field": "paragraph",
+      "text": "Error budget cuantifica cuánto incumplimiento queda en el periodo.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1445:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 15,
+      "spw": 1.364,
+      "wps": 11.0,
+      "fh": 113.8,
+      "inflesz": 110.9,
+      "band": "muy_fácil",
+      "locator": "L1446:feedback",
+      "field": "feedback",
+      "text": "S38-T3-B-E3: sin error budget el SLO es eslogan.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 46,
+      "n_syllables": 79,
+      "spw": 1.717,
+      "wps": 15.333,
+      "fh": 88.2,
+      "inflesz": 84.5,
+      "band": "fácil",
+      "locator": "L1482:instruction",
+      "field": "instruction",
+      "text": "S38-T4-A-E1 · Estados del workflow: define WORKFLOW_STATES con pending/running/done/failed y una función is_terminal(status) que sea True para done y failed. Imprime la lista de estados, ok True y n 4. Starter omite 'failed' y no marca terminales (defect).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 46
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 18,
+      "spw": 2.0,
+      "wps": 9.0,
+      "fh": 77.7,
+      "inflesz": 73.2,
+      "band": "bastante_fácil",
+      "locator": "L1483:hint",
+      "field": "hint",
+      "text": "failed es estado terminal de error, distinto de pending.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 15,
+      "spw": 1.875,
+      "wps": 8.0,
+      "fh": 86.2,
+      "inflesz": 82.0,
+      "band": "fácil",
+      "locator": "L1485:paragraph",
+      "field": "paragraph",
+      "text": "failed y done son terminales; pending/running no.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 15,
+      "spw": 2.5,
+      "wps": 6.0,
+      "fh": 50.7,
+      "inflesz": 45.1,
+      "band": "bastante_difícil",
+      "locator": "L1486:paragraph",
+      "field": "paragraph",
+      "text": "Cuatro estados mínimos del workflow didáctico.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1489:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 19,
+      "spw": 1.357,
+      "wps": 14.0,
+      "fh": 111.1,
+      "inflesz": 108.3,
+      "band": "muy_fácil",
+      "locator": "L1490:feedback",
+      "field": "feedback",
+      "text": "S38-T4-A-E1: sin estado failed no hay ruta clara a DLQ/retry.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 54,
+      "n_syllables": 82,
+      "spw": 1.519,
+      "wps": 18.0,
+      "fh": 97.4,
+      "inflesz": 94.2,
+      "band": "muy_fácil",
+      "locator": "L1527:instruction",
+      "field": "instruction",
+      "text": "S38-T4-A-E2 · Implementa idem_key(case, step, ver) → 'case:step:ver'. Con case='c-synth-1', step='features', ver='v3' imprime la key, ok True (key termina en :v3 y tiene 3 segmentos) y dup False. Starter imprime 'c-synth-1:features' sin :ver y dup True (defect: colisiones al cambiar lógica).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 54
+        },
+        {
+          "rule": "space_before_punct_or_doublespace",
+          "sev": "L"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 16,
+      "spw": 1.6,
+      "wps": 10.0,
+      "fh": 100.6,
+      "inflesz": 97.2,
+      "band": "muy_fácil",
+      "locator": "L1528:hint",
+      "field": "hint",
+      "text": "Incluye step y versión de lógica: f'{case}:{step}:{ver}'.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 24,
+      "spw": 2.182,
+      "wps": 11.0,
+      "fh": 64.7,
+      "inflesz": 59.9,
+      "band": "normal",
+      "locator": "L1530:paragraph",
+      "field": "paragraph",
+      "text": "Incluye step y versión de lógica para evitar colisiones entre deploys.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 21,
+      "spw": 2.1,
+      "wps": 10.0,
+      "fh": 70.6,
+      "inflesz": 66.0,
+      "band": "bastante_fácil",
+      "locator": "L1531:paragraph",
+      "field": "paragraph",
+      "text": "dup False = reejecutar el mismo paso no duplica side effects.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1534:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 23,
+      "spw": 1.533,
+      "wps": 15.0,
+      "fh": 99.5,
+      "inflesz": 96.3,
+      "band": "muy_fácil",
+      "locator": "L1535:feedback",
+      "field": "feedback",
+      "text": "S38-T4-A-E2: la key estable es la base de la idempotencia del checkpoint.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 38,
+      "n_syllables": 75,
+      "spw": 1.974,
+      "wps": 9.5,
+      "fh": 78.7,
+      "inflesz": 74.4,
+      "band": "bastante_fácil",
+      "locator": "L1570:instruction",
+      "field": "instruction",
+      "text": "S38-T4-A-E3 · Resume al siguiente pendiente: last_done='features' → resume_from='score' (no rehacer features). Imprime 'score', ok True, checkpoint True. Starter hardcodea 'intake' (defect: rehace trabajo). Usa el mapa NEXT del fixture CASO-LIM-038.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 38
+        },
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 3,
+          "wc": 38
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 21,
+      "spw": 1.615,
+      "wps": 13.0,
+      "fh": 96.7,
+      "inflesz": 93.2,
+      "band": "muy_fácil",
+      "locator": "L1571:hint",
+      "field": "hint",
+      "text": "resume_from = NEXT[last_done], no el last_done mismo ni intake fijo.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 13,
+      "spw": 2.167,
+      "wps": 6.0,
+      "fh": 70.7,
+      "inflesz": 65.9,
+      "band": "bastante_fácil",
+      "locator": "L1573:paragraph",
+      "field": "paragraph",
+      "text": "last_done=features ⇒ siguiente es score.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 17,
+      "spw": 1.889,
+      "wps": 9.0,
+      "fh": 84.3,
+      "inflesz": 80.2,
+      "band": "fácil",
+      "locator": "L1574:paragraph",
+      "field": "paragraph",
+      "text": "No vuelvas a intake si features ya está done.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 0,
+          "wc": 9
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1577:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 20,
+      "spw": 1.667,
+      "wps": 12.0,
+      "fh": 94.6,
+      "inflesz": 91.0,
+      "band": "muy_fácil",
+      "locator": "L1578:feedback",
+      "field": "feedback",
+      "text": "S38-T4-A-E3: reanudar mal es tan malo como no reanudar.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 38,
+      "n_syllables": 51,
+      "spw": 1.342,
+      "wps": 9.5,
+      "fh": 116.6,
+      "inflesz": 113.7,
+      "band": "muy_fácil",
+      "locator": "L1611:instruction",
+      "field": "instruction",
+      "text": "S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). Implementa exponencial del fixture CASO-LIM-038-4B.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 38
+        },
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 38
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 11,
+      "spw": 2.2,
+      "wps": 5.0,
+      "fh": 69.7,
+      "inflesz": 64.8,
+      "band": "normal",
+      "locator": "L1612:hint",
+      "field": "hint",
+      "text": "Fórmula didáctica: base * 2**attempt.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 11,
+      "spw": 2.2,
+      "wps": 5.0,
+      "fh": 69.7,
+      "inflesz": 64.8,
+      "band": "normal",
+      "locator": "L1614:paragraph",
+      "field": "paragraph",
+      "text": "Fórmula didáctica: base * 2**attempt.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 17,
+      "spw": 1.545,
+      "wps": 11.0,
+      "fh": 102.9,
+      "inflesz": 99.6,
+      "band": "muy_fácil",
+      "locator": "L1615:paragraph",
+      "field": "paragraph",
+      "text": "En prod añadir jitter; aquí solo el valor exacto 0.8.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1618:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 22,
+      "spw": 2.0,
+      "wps": 11.0,
+      "fh": 75.6,
+      "inflesz": 71.2,
+      "band": "bastante_fácil",
+      "locator": "L1619:feedback",
+      "field": "feedback",
+      "text": "S38-T4-B-E1: backoff exponencial reduce presión sobre el proveedor.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 37,
+      "n_syllables": 67,
+      "spw": 1.811,
+      "wps": 12.333,
+      "fh": 85.6,
+      "inflesz": 81.7,
+      "band": "fácil",
+      "locator": "L1652:instruction",
+      "field": "instruction",
+      "text": "S38-T4-B-E2 · Enruta kind='poison' a DLQ: imprime 'dlq', ok True, replay 'controlled'. Starter imprime 'retry_forever' y replay 'uncontrolled' (defect: reintenta veneno en bucle). Implementa route(kind) del fixture CASO-LIM-038 (poison→dlq).",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 37
+        },
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 3,
+          "wc": 37
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 25,
+      "spw": 2.083,
+      "wps": 12.0,
+      "fh": 69.6,
+      "inflesz": 65.0,
+      "band": "normal",
+      "locator": "L1653:hint",
+      "field": "hint",
+      "text": "DLQ = mensajes que fallan de forma no transitoria; replay controlado tras inspección.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 11,
+      "spw": 2.2,
+      "wps": 5.0,
+      "fh": 69.7,
+      "inflesz": 64.8,
+      "band": "normal",
+      "locator": "L1656:paragraph",
+      "field": "paragraph",
+      "text": "Replay ciego reinyecta el veneno.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1659:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E2.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 19,
+      "spw": 1.727,
+      "wps": 11.0,
+      "fh": 92.0,
+      "inflesz": 88.2,
+      "band": "muy_fácil",
+      "locator": "L1660:feedback",
+      "field": "feedback",
+      "text": "S38-T4-B-E2: poison + replay controlado es higiene de cola.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 65,
+      "n_syllables": 121,
+      "spw": 1.862,
+      "wps": 16.25,
+      "fh": 78.6,
+      "inflesz": 74.6,
+      "band": "bastante_fácil",
+      "locator": "L1695:instruction",
+      "field": "instruction",
+      "text": "S38-T4-B-E3 · Runbook de on-call para c-synth-1: define un dict con symptoms (provider_slow, worker_down) y actions (restart_worker, replay_batch, escalate_provider). Imprime True (runbook existe), oncall True, ok True solo si 'restart_worker' está en actions. Starter deja runbook vacío y oncall False (defect: operar sin playbook). Transferencia: el drill sintético exige runbook documentado antes de prod.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 65
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 19,
+      "spw": 2.375,
+      "wps": 8.0,
+      "fh": 56.2,
+      "inflesz": 50.9,
+      "band": "bastante_difícil",
+      "locator": "L1696:hint",
+      "field": "hint",
+      "text": "Runbook: síntomas → checks → acciones; no improvise bajo presión.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 0,
+          "wc": 8
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 17,
+      "spw": 1.889,
+      "wps": 9.0,
+      "fh": 84.3,
+      "inflesz": 80.2,
+      "band": "fácil",
+      "locator": "L1698:paragraph",
+      "field": "paragraph",
+      "text": "Runbook mínimo: symptoms + actions con al menos restart_worker.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 20,
+      "spw": 1.538,
+      "wps": 13.0,
+      "fh": 101.3,
+      "inflesz": 98.0,
+      "band": "muy_fácil",
+      "locator": "L1699:paragraph",
+      "field": "paragraph",
+      "text": "Tras un drill, actualiza el runbook con lo que falló en el checklist.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1702:tests",
+      "field": "tests",
+      "text": "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E3.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 25,
+      "spw": 1.786,
+      "wps": 14.0,
+      "fh": 85.4,
+      "inflesz": 81.6,
+      "band": "fácil",
+      "locator": "L1703:feedback",
+      "field": "feedback",
+      "text": "S38-T4-B-E3: el runbook es entregable de operación, no un wiki opcional.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 41,
+      "n_syllables": 76,
+      "spw": 1.854,
+      "wps": 13.667,
+      "fh": 81.7,
+      "inflesz": 77.7,
+      "band": "fácil",
+      "locator": "L1735:paragraph",
+      "field": "paragraph",
+      "text": "Construye un mini-worker sintético con pool/backpressure, logs redactados, checkpoint idempotente, retry/DLQ y runbook de proveedor lento. Integra el hilo de `c-synth-1` visto en T1–T4. Solo datos CASO-LIM-038; sin PII real ni servicios externos.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 41
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 13,
+      "spw": 2.6,
+      "wps": 5.0,
+      "fh": 45.7,
+      "inflesz": 39.9,
+      "band": "difícil",
+      "locator": "L1737:paragraph",
+      "field": "paragraph",
+      "text": "Concurrencia adecuada al bound medido",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 4,
+      "n_syllables": 12,
+      "spw": 3.0,
+      "wps": 4.0,
+      "fh": 22.8,
+      "inflesz": 15.9,
+      "band": "muy_difícil",
+      "locator": "L1738:paragraph",
+      "field": "paragraph",
+      "text": "Timeouts y backpressure acotados",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 17,
+      "spw": 2.125,
+      "wps": 8.0,
+      "fh": 71.2,
+      "inflesz": 66.4,
+      "band": "bastante_fácil",
+      "locator": "L1739:paragraph",
+      "field": "paragraph",
+      "text": "Observabilidad (logs/metrics/traces) + SLI/SLO con redacción",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 12,
+      "spw": 2.4,
+      "wps": 5.0,
+      "fh": 57.7,
+      "inflesz": 52.3,
+      "band": "bastante_difícil",
+      "locator": "L1740:paragraph",
+      "field": "paragraph",
+      "text": "Checkpoint, idempotencia, retry y runbook",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 12,
+      "spw": 1.714,
+      "wps": 7.0,
+      "fh": 96.8,
+      "inflesz": 93.0,
+      "band": "muy_fácil",
+      "locator": "L1743:paragraph",
+      "field": "paragraph",
+      "text": "Trace por case_id y correlation_id",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 16,
+      "spw": 2.667,
+      "wps": 6.0,
+      "fh": 40.7,
+      "inflesz": 34.7,
+      "band": "difícil",
+      "locator": "L1745:paragraph",
+      "field": "paragraph",
+      "text": "Runbook de fallos (lento / caído / reejecución)",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 4,
+      "n_syllables": 13,
+      "spw": 3.25,
+      "wps": 4.0,
+      "fh": 7.8,
+      "inflesz": 0.4,
+      "band": "muy_difícil",
+      "locator": "L1746:paragraph",
+      "field": "paragraph",
+      "text": "Documentación en español profesional",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 22,
+      "spw": 2.444,
+      "wps": 9.0,
+      "fh": 51.0,
+      "inflesz": 45.5,
+      "band": "bastante_difícil",
+      "locator": "L1747:paragraph",
+      "field": "paragraph",
+      "text": "Mismo resultado tras resume controlado (last_done → siguiente paso)",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 41,
+      "n_syllables": 82,
+      "spw": 2.0,
+      "wps": 10.25,
+      "fh": 76.4,
+      "inflesz": 72.0,
+      "band": "bastante_fácil",
+      "locator": "L1806:paragraph",
+      "field": "paragraph",
+      "text": "Operación CP-N3-C; evidencia de pipeline reanudable con trace por caso. Completa measure_bound + pick, fetch_policy (timeout mock), métrica de cola y runbook() con síntomas→acciones. Documenta en markdown un drill de proveedor lento. Sin red real ni PII.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 41
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 12,
+      "spw": 1.714,
+      "wps": 7.0,
+      "fh": 96.8,
+      "inflesz": 93.0,
+      "band": "muy_fácil",
+      "locator": "L1820:question",
+      "field": "question",
+      "text": "Para CPU bound en CPython suele preferirse:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 39,
+      "spw": 1.95,
+      "wps": 20.0,
+      "fh": 69.4,
+      "inflesz": 65.4,
+      "band": "normal",
+      "locator": "L1823:explanation",
+      "field": "explanation",
+      "text": "El GIL limita el paralelismo CPU multi-thread; processes (con costo de IPC) son la opción habitual para features densas.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 33,
+      "spw": 2.062,
+      "wps": 16.0,
+      "fh": 66.8,
+      "inflesz": 62.3,
+      "band": "normal",
+      "locator": "L1829:explanation",
+      "field": "explanation",
+      "text": "Una cola con maxsize acota memoria y fuerza al productor a esperar o rechazar bajo pico.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 27,
+      "spw": 2.25,
+      "wps": 12.0,
+      "fh": 59.6,
+      "inflesz": 54.7,
+      "band": "bastante_difícil",
+      "locator": "L1835:explanation",
+      "field": "explanation",
+      "text": "Con idempotency keys, reintentar un paso done no duplica enqueues ni notificaciones.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 6,
+      "spw": 1.2,
+      "wps": 5.0,
+      "fh": 129.7,
+      "inflesz": 127.1,
+      "band": "muy_fácil",
+      "locator": "L1838:question",
+      "field": "question",
+      "text": "En logs de prod debes:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 35,
+      "spw": 2.692,
+      "wps": 13.0,
+      "fh": 32.0,
+      "inflesz": 26.1,
+      "band": "difícil",
+      "locator": "L1841:explanation",
+      "field": "explanation",
+      "text": "Redacción + correlation_id permiten diagnosticar sin exponer identidad; case_id sintético es aceptable.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 17,
+      "spw": 1.889,
+      "wps": 9.0,
+      "fh": 84.3,
+      "inflesz": 80.2,
+      "band": "fácil",
+      "locator": "L1844:question",
+      "field": "question",
+      "text": "Un proveedor sin timeout en el worker suele causar:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 30,
+      "spw": 1.875,
+      "wps": 16.0,
+      "fh": 78.0,
+      "inflesz": 74.0,
+      "band": "bastante_fácil",
+      "locator": "L1847:explanation",
+      "field": "explanation",
+      "text": "Sin timeout un fetch lento satura el pool; es el incidente clásico de operación del batch.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 23,
+      "spw": 2.3,
+      "wps": 10.0,
+      "fh": 58.6,
+      "inflesz": 53.5,
+      "band": "bastante_difícil",
+      "locator": "L1850:question",
+      "field": "question",
+      "text": "Cuando el error budget se agota, la política operativa suele:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 34,
+      "spw": 2.267,
+      "wps": 15.0,
+      "fh": 55.5,
+      "inflesz": 50.6,
+      "band": "bastante_difícil",
+      "locator": "L1853:explanation",
+      "field": "explanation",
+      "text": "El error budget convierte el SLO en decisión: al agotarse, se prioriza estabilidad sobre features.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 21,
+      "spw": 1.75,
+      "wps": 12.0,
+      "fh": 89.6,
+      "inflesz": 85.8,
+      "band": "fácil",
+      "locator": "L1856:question",
+      "field": "question",
+      "text": "Un mensaje que falla siempre de forma no transitoria debe ir a:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 29,
+      "spw": 1.706,
+      "wps": 17.0,
+      "fh": 87.1,
+      "inflesz": 83.6,
+      "band": "fácil",
+      "locator": "L1859:explanation",
+      "field": "explanation",
+      "text": "La DLQ aísla veneno; el replay se hace caso a caso tras inspección, no en bucle ciego.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 22,
+      "spw": 2.0,
+      "wps": 11.0,
+      "fh": 75.6,
+      "inflesz": 71.2,
+      "band": "bastante_fácil",
+      "locator": "L1862:question",
+      "field": "question",
+      "text": "Antes de elegir threads, processes o async, la disciplina correcta es:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 22,
+      "n_syllables": 43,
+      "spw": 1.955,
+      "wps": 11.0,
+      "fh": 78.3,
+      "inflesz": 74.1,
+      "band": "bastante_fácil",
+      "locator": "L1865:explanation",
+      "field": "explanation",
+      "text": "S37 y S38 comparten la regla: medir primero. La elección de concurrencia se justifica con bound observado, no con preferencia de API.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 26,
+      "spw": 1.733,
+      "wps": 15.0,
+      "fh": 87.5,
+      "inflesz": 83.8,
+      "band": "fácil",
+      "locator": "L1868:question",
+      "field": "question",
+      "text": "Tras un checkpoint con last_done='features', al reiniciar el worker resume_from debe ser:",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 23,
+      "n_syllables": 53,
+      "spw": 2.304,
+      "wps": 11.5,
+      "fh": 56.8,
+      "inflesz": 51.8,
+      "band": "bastante_difícil",
+      "locator": "L1871:explanation",
+      "field": "explanation",
+      "text": "last_done nombra el paso terminado; resume_from avanza al siguiente pendiente. Reejecutar un paso done sin idempotency key arriesga side effects duplicados.",
+      "findings": []
+    }
+  ],
+  "per_sentence_count": 395,
+  "worst_15_sentences": [
+    {
+      "locator": "L67:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L114:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L146:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L195:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L238:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L275:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L312:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L348:paragraph",
+      "field": "paragraph",
+      "text": "Contrato operativo.",
+      "n_words": 2,
+      "n_syl": 8,
+      "spw": 4.0,
+      "wps": 2,
+      "fh": -35.2,
+      "inflesz": -44.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L30:paragraph",
+      "field": "paragraph",
+      "text": "**Diccionario de la sección** (léelo antes de T1). **Bound (I/O vs CPU):** cuello de botella medido. **GIL:** Global Interpreter Lock de CPython (limita CPU multi-thread). **Backpressure:** cola con `maxsize` que frena al productor. **Token bucket:** rate limit didáctico (aquí estático; en prod se rellena por ventana). **Observabilidad (o11y):** logs + metrics + traces unidos por correlation_id. **SLI/SLO:** indicador vs objetivo de servicio; **error budget** es lo que se consume al violar el SLO. **Idempotency key:** `case:step:ver` para no duplicar side effects. **DLQ:** dead-letter queue de mensajes venenosos. **last_done / resume_from:** último paso checkpointed vs siguiente pendiente.",
+      "n_words": 102,
+      "n_syl": 199,
+      "spw": 1.951,
+      "wps": 102,
+      "fh": -14.3,
+      "inflesz": -16.7,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 102
+        }
+      ]
+    },
+    {
+      "locator": "L115:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-038-T1B` (sigue `c-synth-1`): en lugar de enviar el registro completo del cliente sintético al process pool de features, enviamos `{case_id, score, feature_ids}`. `json.dumps` del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC. En código de producción usarías `ProcessPoolExecutor` con ese payload mínimo; aquí medimos bytes y preferimos compacto sin lanzar procesos en el playground.",
+      "n_words": 85,
+      "n_syl": 164,
+      "spw": 1.929,
+      "wps": 85,
+      "fh": 4.4,
+      "inflesz": 1.6,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 85
+        }
+      ]
+    },
+    {
+      "locator": "L1746:paragraph",
+      "field": "paragraph",
+      "text": "Documentación en español profesional",
+      "n_words": 4,
+      "n_syl": 13,
+      "spw": 3.25,
+      "wps": 4,
+      "fh": 7.8,
+      "inflesz": 0.4,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "locator": "L32:paragraph",
+      "field": "paragraph",
+      "text": "Criterio: mismo resultado funcional tras reejecución controlada.",
+      "n_words": 7,
+      "n_syl": 22,
+      "spw": 3.143,
+      "wps": 7,
+      "fh": 11.1,
+      "inflesz": 4.0,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1439:hint",
+      "field": "hint",
+      "text": "Error budget cuantifica cuánto incumplimiento queda; al agotarse prioriza estabilidad.",
+      "n_words": 10,
+      "n_syl": 30,
+      "spw": 3.0,
+      "wps": 10,
+      "fh": 16.6,
+      "inflesz": 9.9,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L31:paragraph",
+      "field": "paragraph",
+      "text": "No optimizamos microsegundos a ciegas; diseñamos concurrencia correcta, observabilidad y workflows con checkpoint e idempotencia.",
+      "n_words": 15,
+      "n_syl": 43,
+      "spw": 2.867,
+      "wps": 15,
+      "fh": 19.5,
+      "inflesz": 13.2,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L532:why",
+      "field": "why",
+      "text": "Observabilidad (o11y) = logs + metrics + traces correlacionados.",
+      "n_words": 6,
+      "n_syl": 18,
+      "spw": 3.0,
+      "wps": 6,
+      "fh": 20.7,
+      "inflesz": 13.9,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 0,
+          "wc": 6
+        }
+      ]
+    }
+  ]
+}

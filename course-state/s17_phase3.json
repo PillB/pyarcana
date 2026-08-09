@@ -1,0 +1,1081 @@
+{
+  "version": "3.2",
+  "section": "S17",
+  "section_id": "packaging",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S17 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S17 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s17-packaging.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "packaging",
+    "index": 17,
+    "title_platform": "Distribución, Packaging y CLI Profesional",
+    "title_v3": "Joins, reshape, groupby y cierre analítico",
+    "title_decision": "KEEP platform id 'packaging' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación, preguntas de ne",
+    "estimatedHours": 14,
+    "level": "Principiante avanzado a competente",
+    "phase": 1,
+    "prerequisites": [
+      "S16"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-A (cierre)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "packaging",
+    "platform_title": "Distribución, Packaging y CLI Profesional",
+    "v3_title": "Joins, reshape, groupby y cierre analítico",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante diseña joins con claves y cardinalidad correctas.",
+    "El estudiante usa validate y anti-join para detectar fan-out/huérfanos.",
+    "El estudiante reshapea con concat/melt/pivot.",
+    "El estudiante mantiene nombres estables long/wide.",
+    "El estudiante agrega con groupby/agg/transform.",
+    "El estudiante construye ventanas, fechas y cohortes.",
+    "El estudiante reconcilia denominadores y totales.",
+    "El estudiante controla leakage temporal antes/después."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S17-T1-A",
+      "slug": "keys-cardinality-joins",
+      "title": "claves y cardinalidad"
+    },
+    {
+      "subtopic_id": "S17-T1-B",
+      "slug": "validate-dup-antijoin",
+      "title": "validate, duplicación accidental y anti-join"
+    },
+    {
+      "subtopic_id": "S17-T2-A",
+      "slug": "concat-melt-pivot",
+      "title": "concat, melt y pivot"
+    },
+    {
+      "subtopic_id": "S17-T2-B",
+      "slug": "long-wide-stable-names",
+      "title": "long/wide y nombres estables"
+    },
+    {
+      "subtopic_id": "S17-T3-A",
+      "slug": "groupby-agg-transform",
+      "title": "groupby/agg/transform"
+    },
+    {
+      "subtopic_id": "S17-T3-B",
+      "slug": "windows-dates-cohorts",
+      "title": "ventanas, fechas y cohortes"
+    },
+    {
+      "subtopic_id": "S17-T4-A",
+      "slug": "denominators-totals",
+      "title": "denominadores y totales"
+    },
+    {
+      "subtopic_id": "S17-T4-B",
+      "slug": "temporal-leakage-controls",
+      "title": "leakage temporal y controles antes/después"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S17-T1",
+      "title": "Joins",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S17-T1-A",
+          "slug": "keys-cardinality-joins",
+          "title": "claves y cardinalidad",
+          "outcome": "El estudiante diseña joins con claves y cardinalidad correctas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "claves y cardinalidad",
+              "must_cover": [
+                "merge how",
+                "key types",
+                "1:1 1:m m:m"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T1-A-DEMO",
+              "title": "Elegir join y validar cardinalidad esperada",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T1-A-E1",
+                "kind": "guided",
+                "title": "claves y cardinalidad — guided",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T1-A-E2",
+                "kind": "independent",
+                "title": "claves y cardinalidad — independent",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T1-A-E3",
+                "kind": "transfer",
+                "title": "claves y cardinalidad — transfer",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S17-T1-B",
+          "slug": "validate-dup-antijoin",
+          "title": "validate, duplicación accidental y anti-join",
+          "outcome": "El estudiante usa validate y anti-join para detectar fan-out/huérfanos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "validate, duplicación accidental y anti-join",
+              "must_cover": [
+                "validate=",
+                "indicator",
+                "anti-join"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T1-B-DEMO",
+              "title": "Detectar fan-out y hacer anti-join de huérfanos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T1-B-E1",
+                "kind": "guided",
+                "title": "validate, duplicación accidental y anti-join — guided",
+                "skill": "validate",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T1-B-E2",
+                "kind": "independent",
+                "title": "validate, duplicación accidental y anti-join — independent",
+                "skill": "validate",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T1-B-E3",
+                "kind": "transfer",
+                "title": "validate, duplicación accidental y anti-join — transfer",
+                "skill": "validate",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S17-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S17-T1-EVAL-1",
+            "title": "claves y cardinalidad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S17-T1-EVAL-2",
+            "title": "validate, duplicación accidental y anti-join — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S17-T2",
+      "title": "Forma",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S17-T2-A",
+          "slug": "concat-melt-pivot",
+          "title": "concat, melt y pivot",
+          "outcome": "El estudiante reshapea con concat/melt/pivot.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "concat, melt y pivot",
+              "must_cover": [
+                "concat",
+                "melt",
+                "pivot_table"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T2-A-DEMO",
+              "title": "Pasar long↔wide con melt/pivot",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T2-A-E1",
+                "kind": "guided",
+                "title": "concat, melt y pivot — guided",
+                "skill": "concat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T2-A-E2",
+                "kind": "independent",
+                "title": "concat, melt y pivot — independent",
+                "skill": "concat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T2-A-E3",
+                "kind": "transfer",
+                "title": "concat, melt y pivot — transfer",
+                "skill": "concat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S17-T2-B",
+          "slug": "long-wide-stable-names",
+          "title": "long/wide y nombres estables",
+          "outcome": "El estudiante mantiene nombres estables long/wide.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "long/wide y nombres estables",
+              "must_cover": [
+                "column naming",
+                "multiindex cols",
+                "stable schema"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T2-B-DEMO",
+              "title": "Estabilizar nombres de columnas post-reshape",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T2-B-E1",
+                "kind": "guided",
+                "title": "long/wide y nombres estables — guided",
+                "skill": "long",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T2-B-E2",
+                "kind": "independent",
+                "title": "long/wide y nombres estables — independent",
+                "skill": "long",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T2-B-E3",
+                "kind": "transfer",
+                "title": "long/wide y nombres estables — transfer",
+                "skill": "long",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S17-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S17-T2-EVAL-1",
+            "title": "concat, melt y pivot — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S17-T2-EVAL-2",
+            "title": "long/wide y nombres estables — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S17-T3",
+      "title": "Agregación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S17-T3-A",
+          "slug": "groupby-agg-transform",
+          "title": "groupby/agg/transform",
+          "outcome": "El estudiante agrega con groupby/agg/transform.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "groupby/agg/transform",
+              "must_cover": [
+                "groupby",
+                "agg dict",
+                "transform"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T3-A-DEMO",
+              "title": "Agregar métricas y reinyectar con transform",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T3-A-E1",
+                "kind": "guided",
+                "title": "groupby/agg/transform — guided",
+                "skill": "groupby",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T3-A-E2",
+                "kind": "independent",
+                "title": "groupby/agg/transform — independent",
+                "skill": "groupby",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T3-A-E3",
+                "kind": "transfer",
+                "title": "groupby/agg/transform — transfer",
+                "skill": "groupby",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S17-T3-B",
+          "slug": "windows-dates-cohorts",
+          "title": "ventanas, fechas y cohortes",
+          "outcome": "El estudiante construye ventanas, fechas y cohortes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ventanas, fechas y cohortes",
+              "must_cover": [
+                "rolling",
+                "resample",
+                "cohort labels"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T3-B-DEMO",
+              "title": "Construir cohorte temporal y ventana móvil",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T3-B-E1",
+                "kind": "guided",
+                "title": "ventanas, fechas y cohortes — guided",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T3-B-E2",
+                "kind": "independent",
+                "title": "ventanas, fechas y cohortes — independent",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T3-B-E3",
+                "kind": "transfer",
+                "title": "ventanas, fechas y cohortes — transfer",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S17-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S17-T3-EVAL-1",
+            "title": "groupby/agg/transform — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S17-T3-EVAL-2",
+            "title": "ventanas, fechas y cohortes — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S17-T4",
+      "title": "Reconciliación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S17-T4-A",
+          "slug": "denominators-totals",
+          "title": "denominadores y totales",
+          "outcome": "El estudiante reconcilia denominadores y totales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "denominadores y totales",
+              "must_cover": [
+                "sum checks",
+                "denominators",
+                "bridge tables"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T4-A-DEMO",
+              "title": "Reconciliar totales vs desagregados",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T4-A-E1",
+                "kind": "guided",
+                "title": "denominadores y totales — guided",
+                "skill": "denominators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T4-A-E2",
+                "kind": "independent",
+                "title": "denominadores y totales — independent",
+                "skill": "denominators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T4-A-E3",
+                "kind": "transfer",
+                "title": "denominadores y totales — transfer",
+                "skill": "denominators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S17-T4-B",
+          "slug": "temporal-leakage-controls",
+          "title": "leakage temporal y controles antes/después",
+          "outcome": "El estudiante controla leakage temporal antes/después.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "leakage temporal y controles antes/después",
+              "must_cover": [
+                "as-of joins",
+                "cutoff",
+                "before/after"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S17-T4-B-DEMO",
+              "title": "Evitar leakage temporal en agregados",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S17-T4-B-E1",
+                "kind": "guided",
+                "title": "leakage temporal y controles antes/después — guided",
+                "skill": "temporal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T4-B-E2",
+                "kind": "independent",
+                "title": "leakage temporal y controles antes/después — independent",
+                "skill": "temporal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S17-T4-B-E3",
+                "kind": "transfer",
+                "title": "leakage temporal y controles antes/después — transfer",
+                "skill": "temporal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S17-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S17-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S17-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S17-T4-EVAL-1",
+            "title": "denominadores y totales — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S17-T4-EVAL-2",
+            "title": "leakage temporal y controles antes/después — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S17-PROJ",
+    "title": "Executive Data Quality & EDA Portfolio (cierre CP-N2-A)",
+    "replaces_legacy": "Legacy You Do de 'Distribución, Packaging y CLI Profesional' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Dataset limpio + notebook/script reproducible",
+      "Reconciliación de totales y denominadores",
+      "Preguntas de negocio respondidas con evidencia",
+      "Memo de límites y no-claims"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-A (cierre)",
+    "increment_gate": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación, preguntas de negocio y memo de límites"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'packaging' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s17-packaging.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Distribución, Packaging y CLI Profesional' vs 'Joins, reshape, groupby y cierre analítico'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-A (cierre)",
+    "increment_gate": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación, preguntas de negocio y memo de límites",
+    "project_id": "S17-PROJ",
+    "section_passed": false,
+    "notes": "S17 contributes to CP-N2-A (cierre). No passed states written by factory lane.",
+    "capstone_gate": "CP-N2-A",
+    "gate_role": "CLOSE",
+    "promotion_requires": [
+      "CP-N2-A portfolio evidence"
+    ],
+    "blocks_until_pass": "S18 formally may proceed content-wise but N2-A must pass before N2 promotion"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Distribución, Packaging y CLI Profesional' until product rename; large topic mismatch vs V3 'Joins, reshape, groupby y cierre analítico'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S17-T1-A first"
+  }
+}

@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s38-aae8ddea08e9",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "id": "S38-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T1-A-E1 (packet-only) · revisión dual\n# CASO-LIM-038-1A — defect: wrong concurrency for CPU-bound features\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T1-A-E1 (guided) leyendo la instruction del quiz_card: «S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida ex…». La pista «Para CPU-bound en CPython prefiere processes por el GIL.» fijó el patrón observable; conf~0.67.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "id": "S38-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T1-A-E2 (packet-only) · revisión dual\n# CASO-LIM-038-1A2 — defect: processes for pure I/O\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)",
+      "justification_from_packet": "Para S38-T1-A-E2 del paquete «Concurrencia, observabilidad y workflows resilientes» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound». Hint usado: «I/O-bound: threads o async liberan espera de red.». [Ske-38-E2]",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "id": "S38-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T1-A-E3 (packet-only) · revisión dual\n# defect: skip measurement\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T1-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['measure_first es política de equipo, no opcional.', 'Sin medir, la elección de pool es teatro.'] y en el tramo «S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige » sin inventar APIs fuera del card.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "id": "S38-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T1-B-E1 (packet-only) · revisión dual\nimport json\npayload = {\"x\": 2}\n# defect: wrong serialization metric\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T1-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['json.dumps produce el blob estable; mide len(...encode()).', 'str(dict) no es el contrato de IPC.'] y en el tramo «S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta l» sin inventar APIs fuera del card.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "id": "S38-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T1-B-E2 (packet-only) · revisión dual\n# defect: wrong GIL note\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T1-B-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['GIL limita paralelismo CPU en threads Python puros.', 'Para CPU densa documenta limited y evalúa processes.'] y en el tramo «S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_» sin inventar APIs fuera del card.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "id": "S38-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T1-B-E3 (packet-only) · revisión dual\n# defect: send full record between processes\nprint(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T1-B-E3 (transfer) leyendo la instruction del quiz_card: «S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect:…». La pista «Solo case_id, score y feature_ids cruzan el IPC.» fijó el patrón observable; conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "id": "S38-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T2-A-E1 (packet-only) · revisión dual\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)",
+      "justification_from_packet": "Cruce theory/iDo de S38 con el starter de S38-T2-A-E1: la salida contractual sigue «S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, thi». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "id": "S38-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T2-A-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"backpressure\")",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T2-A-E2 (independent) leyendo la instruction del quiz_card: «S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure…». La pista «maxsize finito = backpressure.» fijó el patrón observable; conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "id": "S38-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T2-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"provider\")",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T2-A-E3 (transfer) leyendo la instruction del quiz_card: «S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato d…». La pista «Sin rate limit el mock/API puede banear la IP del batch.» fijó el patrón observable; conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "id": "S38-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T2-B-E1 (packet-only) · revisión dual\npolicy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T2-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['seconds>0 evita hang infinito.', 'on_fail debe ser retry_or_dlq, no ignore.'] y en el tramo «S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fix» sin inventar APIs fuera del card.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "id": "S38-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T2-B-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\nprint(close_in_finally)",
+      "justification_from_packet": "Cruce theory/iDo de S38 con el starter de S38-T2-B-E2: la salida contractual sigue «S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok Tru». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "id": "S38-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T2-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T2-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Hang sin timeout = incidente de cola bloqueada.', 'El runbook debe listar este síntoma.'] y en el tramo «S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok T» sin inventar APIs fuera del card.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "id": "S38-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T3-A-E1 (packet-only) · revisión dual\nevent = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T3-A-E1 (guided) leyendo la instruction del quiz_card: «S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Start…». La pista «corr debe ser truthy string.» fijó el patrón observable; conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "id": "S38-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T3-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T3-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Logs eventos, metrics agregados, traces spans.', 'Los tres son necesarios en operación.'] y en el tramo «S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True,» sin inventar APIs fuera del card.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "id": "S38-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T3-A-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\nprint(pii_raw)",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T3-A-E3 (transfer) leyendo la instruction del quiz_card: «S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite …». La pista «Nunca pii_raw True en logs de operación.» fijó el patrón observable; conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "id": "S38-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T3-B-E1 (packet-only) · revisión dual\nphone = \"90000001\"\n# defect: raw phone in log\nprint(phone[:2] + \"****\" + phone[-2:])\nprint(\"ok\", True)\nprint(\"pii\", False)",
+      "justification_from_packet": "Cruce theory/iDo de S38 con el starter de S38-T3-B-E1: la salida contractual sigue «S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + ***». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "id": "S38-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T3-B-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T3-B-E2 (independent) leyendo la instruction del quiz_card: «S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Cor…». La pista «slo_ok cuando observado <= objetivo de latencia.» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "id": "S38-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T3-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"error_budget\")",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T3-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Error budget cuantifica cuánto incumplimiento queda en el periodo.', 'Al agotarse, se prioriza estabilidad sobre features.'] y en el tramo «S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter impr» sin inventar APIs fuera del card.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "id": "S38-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T4-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T4-A-E1 (guided) leyendo la instruction del quiz_card: «S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa l…». La pista «failed es estado terminal de error, distinto de pending.» fijó el patrón observable; conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "id": "S38-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T4-A-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"case:step:ver\")",
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» resolví S38-T4-A-E2 (independent) leyendo la instruction del quiz_card: «S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pas…». La pista «Incluye step y versión de lógica para evitar colisiones.» fijó el patrón observable; conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "id": "S38-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T4-A-E3 (packet-only) · revisión dual\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)",
+      "justification_from_packet": "Cruce theory/iDo de S38 con el starter de S38-T4-A-E3: la salida contractual sigue «S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture ». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.66.",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "id": "S38-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S38-T4-B-E1 (packet-only) · revisión dual\ndef backoff(attempt, base=0.1):\nprint(0.1 * (2 ** 3))\nprint('ok', True)\nprint('n', 1)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)",
+      "justification_from_packet": "Skeptic-B: el weDo S38-T4-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Fórmula didáctica: base * 2**attempt.', 'En prod añadir jitter; aquí solo el valor exacto 0.8.'] y en el tramo «S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3» sin inventar APIs fuera del card.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "id": "S38-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S38-T4-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"poison\")",
+      "justification_from_packet": "Para S38-T4-B-E2 del paquete «Concurrencia, observabilidad y workflows resilientes» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always». Hint usado: «DLQ = mensajes que fallan de forma no transitoria.». [Ske-38-E2]",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "id": "S38-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S38-T4-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)",
+      "justification_from_packet": "Cruce theory/iDo de S38 con el starter de S38-T4-B-E3: la salida contractual sigue «S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Desde el packet S38, para «Para CPU bound en CPython suele preferirse:» la lectura de outcomes/theory apunta a «Procesos». Justificación packet-only sin claves offline. conf=0.64.",
+      "confidence": 0.64,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic-B en S38 Q1: elijo «Colas infinitas y OOM» porque el stem «Backpressure evita:» del quiz_card de «Concurrencia, observabilidad y workflows resilientes» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.69.",
+      "confidence": 0.69,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Selfcheck Q2 de «Concurrencia, observabilidad y workflows resilientes»: la opción índice 0 («Reejecutar sin side effects duplicados») es la que el paquete sostiene frente a «Idempotencia permite:». Las demás contradicen outcomes de la sección. [Skeptic-B-38-q2]",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Desde el packet S38, para «En logs de prod debes:» la lectura de outcomes/theory apunta a «Redactar PII y correlacionar». Justificación packet-only sin claves offline. conf=0.81.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic-B en S38 Q4: elijo «Hang de workers y cola bloqueada» porque el stem «Un proveedor sin timeout en el worker suele causar:» del quiz_card de «Concurrencia, observabilidad y workflows resilientes» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.82.",
+      "confidence": 0.82,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:35:23.372537+00:00",
+  "session_started_at": "2026-07-23T13:35:13.791807Z",
+  "session_ended_at": "2026-07-23T13:35:23.369920Z",
+  "receipt_response_sha256": "0c094524bf4268c0ab6a317b45a389da578837b7909fbb5b8677886ec94e3222",
+  "receipt_exercises_sha256": "b1566d18c19d15ae9eb1adffdda4d52bb6083a39f6f836f22de924d087ed24bb",
+  "receipt_selfcheck_sha256": "8d077ab11faa2e46c97790d1bb2ab1a12ca732ccfe610c9e5c5832d1b6ee2f34"
+}

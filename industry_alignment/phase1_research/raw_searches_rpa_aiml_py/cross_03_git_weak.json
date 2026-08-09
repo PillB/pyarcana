@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://medium.com/@aeh.herman/collaborating-in-git-for-new-junior-developers-cdb0b484f5aa",
+    "name": "Collaborating in Git for New Junior Developers",
+    "snippet": "I want to share some of the collaboration skills and git commands that have proved indispensable to me in the last few months.",
+    "host_name": "medium.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://softwareengineering.stackexchange.com/questions/434078/how-to-handle-code-reviews-on-a-collaborative-feature-branch",
+    "name": "How to handle code reviews on a collaborative feature",
+    "snippet": "Dec 5, 2021 — We are using GitHub as our source code repository along with Visual Studio. We are going to start to use the GitFlow branching model, so a new feature ...",
+    "host_name": "softwareengineering.stackexchange.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/ExperiencedDevs/comments/1j9tim6/tech_lead_pushes_commits_to_my_branch",
+    "name": "Tech lead pushes commits to my branch : r/ExperiencedDevs",
+    "snippet": "Basically when I ask for a PR review , sometimes he uploads his own commits before approving the PR , or adding changes while I'm still working on it.",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=rspOtSd-5QA",
+    "name": "Episode 23 | The GIT TEAM WORKFLOW! (Branching, Pull",
+    "snippet": "This video pulls everything together, Developer's Journey: Learn how to sync your local main branch , create a dedicated feature branch , make ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/A-senior-software-developer-always-ignores-comments-of-a-pull-request-and-he-merges-the-pull-request-to-the-main-branch-without-being-accepted-by-reviewers-What-should-I-do",
+    "name": "A senior software developer always ignores comments",
+    "snippet": "A senior software developer always ignores comments of a pull request, and he merges the pull request to the main branch without being accepted by reviewers. ...",
+    "host_name": "www.quora.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gregoryszorc.com/blog/2020/01/07/problems-with-pull-requests-and-how-to-fix-them",
+    "name": "Problems with Pull Requests and How to Fix Them",
+    "snippet": "Jan 7, 2020 — Tight coupling of pull requests with Git branches can lead to performance issues at scale. We can invert language to arrive at a set of more ...",
+    "host_name": "gregoryszorc.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/erikaheidi/working-with-git-branches-and-pull-requests-3943",
+    "name": "Working with Git Branches and Pull Requests",
+    "snippet": "Nov 19, 2024 — Git branches are an essential feature of the Git version control system. They allow developers to work on different versions of a project simultaneously ...",
+    "host_name": "dev.to",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/14865283/proper-git-workflow-scheme-with-multiple-developers-working-on-same-task",
+    "name": "Proper git workflow scheme with multiple developers",
+    "snippet": "I'm a team leader in our web development company, and I'd like to implement Git workflow in our team. Reading documentation and articles I've found ...",
+    "host_name": "stackoverflow.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

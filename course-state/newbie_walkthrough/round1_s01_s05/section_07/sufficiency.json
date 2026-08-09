@@ -1,0 +1,62 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Formas Unicode distintas (NFC vs. NFD)"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Marcar review y conservar raw"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Cuando la transformación es literal/simple"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Pueden quedar en given o apellidos; no fuerces first/last US"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Ir a review con evidencia (raw, score)"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "fullmatch no coincide; search sí encuentra los 8 dígitos"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Exactamente un @, local y dominio no vacíos, sin espacios"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Preferir patrones simples, limitar la entrada o usar `str`; `re` no ofrece timeo"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Reutiliza el patrón con claridad (y un micro-ahorro); findall/finditer lo consum"
+  },
+  {
+    "i": 9,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Solo dígitos (`51999000111`); longitud/operadora van a review, no a raise automá"
+  }
+]

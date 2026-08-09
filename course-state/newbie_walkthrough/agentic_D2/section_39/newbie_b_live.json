@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 39,
+  "packet_sha": "92753e3551164bb0",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s39-live",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T1-A-E1\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\"\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T1-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "CANON",
+        "intake"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T1-A-E1 la instrucción pide: «S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict con stages (lista ordenada), label_space y auto_fraud. Debe ex». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Compara stages con la tupla canónica; no inviertas el orden ni cambies los datos del fixture.', 'label_space debe ser exactamente needs_review y auto_fraud debe ser False (score ≠ fraude).']. Código contractual resultante incluye `print(\"S39-T1-A\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T1-A-E2\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\") and record.get(\"auto_fraud\") is False\n    return \"PASS\" if not (ok) else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(CANON)}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# D2-Skeptic: packet-only re-walk S39 S39-T1-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "CANON",
+        "intake"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T1-A-E2 la instrucción pide: «S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_space. Entrada: dict con case_id, stages, label_sp». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.', 'El adverso tiene stages al revés: debe fallar por contenido (REJECT_STAGE_ORDER), no por schema.']. Código contractual resultante incluye `print(assess(valid)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T1-A-E3\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef decide(record: dict) -> str:\n    if \"stages\" not in record or record.get(\"stages\") is None:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\") is True:\n        return \"REJECT_ER_SCOPE\"\n    if record.get(\"stages\") != list(CANON):\n        return \"REJECT_STAGE_ORDER\"\n    if record.get(\"label_space\") != \"needs_review\" or record.get(\"auto_fraud\") is True:\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\"stages\": list(CANON), \"label_space\": \"needs_review\", \"auto_fraud\": False, \"er_claims_parentesco\": False}\nbad_order = {**valid, \"stages\": list(reversed(CANON))}\nbad_er = {**valid, \"er_claims_parentesco\": True}\nmissing = {\"label_space\": \"needs_review\", \"auto_fraud\": False}\nprint(decide(valid), decide(bad_order), decide(bad_er), decide(missing))\n# D2-Skeptic: packet-only re-walk S39 S39-T1-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T1-A-E3 la instrucción pide: «S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendiendo parentesco (`er_claims_parentesco=True`) → ». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.', 'ER solo habla de misma entidad; er_claims_parentesco True es REJECT_ER_SCOPE aunque el orden de stages sea correcto.']. Código contractual resultante incluye `print(*results)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T1-B-E1\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = record[\"breaking\"] and record[\"bump\"] == \"major\" and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T1-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T1-B-E1 la instrucción pide: «S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: dict artifact con name, ver, owner y breaking. Si breaking es True, bu». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.', 'No alteres el fixture; corrige solo la expresión booleana del predicado.']. Código contractual resultante incluye `print(\"S39-T1-B\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not record[\"breaking\"]) or record[\"bump\"] == \"major\"\n    return \"PASS\" if ok and bool(record[\"owner\"]) else \"REJECT_BUMP_POLICY\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# D2-Skeptic: packet-only re-walk S39 S39-T1-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "assess"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T1-B-E2 la instrucción pide: «S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, owner, breaking, bump. ». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Si falta owner, devuelve MISSING:owner sin mirar bump.', 'Si breaking y bump != major → REJECT_BUMP_POLICY aunque haya owner.']. Código contractual resultante incluye `print(assess(valid)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T1-B-E3\nregistry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict):\n    for art in reg.values():\n        if not art.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\", len(reg)\n        if art.get(\"breaking\") and art.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\", len(reg)\n    return \"CONTINUE\", len(reg)\n\nprint(*decide(registry))\n# D2-Skeptic: packet-only re-walk S39 S39-T1-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "registry",
+        "er_engine"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T1-B-E3 la instrucción pide: «S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_NO_OWNER`; si hay breaking con bump distinto de». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.', 'n_art es len(registry); no hardcodees 3 por error de off-by-one del starter.']. Código contractual resultante incluye `print(decide(registry)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T2-A-E1\npacket = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = (\n    packet.get(\"score\", 0) > 0\n    and bool(packet.get(\"evidence\"))\n    and bool(packet.get(\"graph_path\"))\n)\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T2-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "packet",
+        "case_id"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T2-A-E1 la instrucción pide: «S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, score, evidence (lista no vacía) y graph_path (lista no vacía).». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['evidence y graph_path deben ser listas con al menos un elemento; score solo no basta.', 'No cambies los datos del fixture feliz; corrige el predicado meets_contract.']. Código contractual resultante incluye `print(\"S39-T2-A\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T2-A-E2\ndef assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# D2-Skeptic: packet-only re-walk S39 S39-T2-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "assess"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T2-A-E2 la instrucción pide: «S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, evidence, graph_path. Salidas exactas: `PASS`, `REJECT_P». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Missing de clave ≠ lista vacía: tokens distintos (MISSING vs REJECT_PACKET_INCOMPLETE).', 'score alone nunca es PASS aunque sea 0.99.']. Código contractual resultante incluye `print(assess(valid)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T2-A-E3\ndef decide(packet: dict):\n    if \"uncertainty\" not in packet and packet.get(\"score\") is not None and not packet.get(\"evidence\"):\n        return \"REQUEST_UNCERTAINTY\"\n    if packet.get(\"score\") is not None and not packet.get(\"evidence\") and not packet.get(\"path\"):\n        return \"REJECT_SCORE_ALONE\"\n    return \"CONTINUE\"\n\nprint(decide({\"case_id\": \"CASO-LIM-039\", \"score\": 0.9, \"evidence\": [\"e1\"], \"path\": [\"a\",\"b\"], \"uncertainty\": \"low\"}))\n# D2-Skeptic: packet-only re-walk S39 S39-T2-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T2-A-E3 la instrucción pide: «S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUEST_UNCERTAINTY`. El s». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.', 'uncertainty ausente es incertidumbre de contrato → REQUEST_UNCERTAINTY, no inventes in_distribution.']. Código contractual resultante incluye `print(decide({\"case_id\": \"CASO-LIM-039\", \"score\": 0.9, \"evidence\": [\"e1\"], \"path`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T2-B-E1\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nif record.get(\"human_action\") is not None:\n    final = record[\"human_action\"]\n    override = True\nelse:\n    final = auto\n    override = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T2-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T2-B-E1 la instrucción pide: «S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_action. Si hay human_action, final=human_action y override=True;». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['human_action no nulo gana siempre; debe setear override True en el evento de audit conceptual.', 'No borres el score; solo corrige la precedencia de la decisión final.']. Código contractual resultante incluye `print(\"S39-T2-B\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T2-B-E2\ndef assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        if not record.get(\"second_reviewer\"):\n            return \"MISSING:second_reviewer\"\n        return \"reopen\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return \"PASS\"\n    return \"PASS\" if auto == \"queue\" else \"PASS\"\n\n# instruction: auto queue PASS with final queue, override PASS, appeal MISSING:second_reviewer\ndef assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        if \"second_reviewer\" not in record or not record.get(\"second_reviewer\"):\n            return \"MISSING:second_reviewer\"\n        return \"PASS\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return \"PASS\"\n    return \"PASS\"\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n# D2-Skeptic: packet-only re-walk S39 S39-T2-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "assess"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T2-B-E2 la instrucción pide: «S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second_reviewer (`MISSING:». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.', 'Override solo aplica cuando human_action no es None; imprime la acción final o el missing.']. Código contractual resultante incluye `print(assess(auto_q)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T2-B-E3\ndef decide(event: dict):\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n# D2-Skeptic: packet-only re-walk S39 S39-T2-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T2-B-E3 la instrucción pide: «S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action logged; si override sin audit_entry → `REJECT_N». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.', 'leakage_care True es obligatorio al loguear feedback hacia datasets o reglas.']. Código contractual resultante incluye `print(*decide(happy)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T3-A-E1\nchecklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T3-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "checklist",
+        "case_id"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T3-A-E1 la instrucción pide: «S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_minimized, rbac, secrets_in_repo, slice_metrics, input_limits. release». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.', 'No borres campos del checklist; corrige solo el predicado all(...).']. Código contractual resultante incluye `print(\"S39-T3-A\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T3-A-E2\ndef assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if c.get(\"secrets_in_repo\"):\n        return \"REJECT_SECRETS\"\n    if not all(c.get(k) for k in (\"pii_minimized\", \"rbac\", \"slice_metrics\", \"input_limits\")):\n        return \"REJECT_SECRETS\"\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# D2-Skeptic: packet-only re-walk S39 S39-T3-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "assess"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T3-A-E2 la instrucción pide: «S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) → `MISSING:rbac`. Entrada: flags del checklist». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Missing de rbac se detecta por claves; secrets True es breach de contenido.', 'min_role conceptual del packet es reviewer; aquí solo validas flags del checklist.']. Código contractual resultante incluye `print(assess(valid)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T3-A-E3\ndef decide(payload: dict):\n    slices = payload.get(\"slices\")\n    if not slices:\n        return \"REQUEST_SLICE_METRICS\", \"fp_rate\"\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for s in slices:\n        if s.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", \"fp_rate\"\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n# D2-Skeptic: packet-only re-walk S39 S39-T3-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T3-A-E3 la instrucción pide: «S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético supera umbral → `REJECT_SLICE_FP`; si OK → `C». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.', 'REQUEST_SLICE_METRICS cuando la clave slices no existe o está vacía.']. Código contractual resultante incluye `print(*decide(happy)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T3-B-E1\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T3-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "mode"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T3-B-E1 la instrucción pide: «S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Prioridad: incident → human_only; si no, drift_high → abst». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.', 'Corrige solo la función mode; el fixture de assert usa incident=True.']. Código contractual resultante incluye `print(\"S39-T3-B\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T3-B-E2\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n# D2-Skeptic: packet-only re-walk S39 S39-T3-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "mode"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T3-B-E2 la instrucción pide: «S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`. Entrada: drift_high, incident. Salidas exactas en una líne». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Tabla de verdad simple: (F,F)=normal, (T,F)=abstain_more, (F,T)=human_only.', 'Si ambos True, human_only (cubierto por la prioridad de incident).']. Código contractual resultante incluye `print(mode(False, False)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T3-B-E3\ndef decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", None\n        return \"ROLLBACK\", ops.get(\"prev_model_id\")\n    if ops.get(\"drift_high\"):\n        return \"MONITOR\", \"current_model\"\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n# D2-Skeptic: packet-only re-walk S39 S39-T3-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T3-B-E3 la instrucción pide: «S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id → `REQUEST_PREV_MODEL`; si solo drift → modo ab». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Rollback apunta a artefacto versionado previo, no al working tree local.', 'Sin prev_model_id no inventes un id; pide REQUEST_PREV_MODEL.']. Código contractual resultante incluye `print(*decide(happy)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T4-A-E1\nacceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = \"no_auto_fraud_label\" in acceptance and \"audit_log\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T4-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "acceptance",
+        "e2e_synthetic_run"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T4-A-E1 la instrucción pide: «S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de strings. Debe incluir `no_auto_fraud_label` y al menos e2e_sy». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Busca el string exacto no_auto_fraud_label dentro de la lista acceptance.', 'No reescribas la lista; corrige la condición membership.']. Código contractual resultante incluye `print(\"S39-T4-A\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T4-A-E2\ndef assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    if notes.get(\"regression_scope\") != \"S27-S39\" or notes.get(\"cf3_lane\") != \"separate_lane\":\n        return \"REJECT_AUTO_PASS\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# D2-Skeptic: packet-only re-walk S39 S39-T4-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "assess"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T4-A-E2 la instrucción pide: «S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe ser False en esta autoría. Entrada: dict gate_». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.', 'cf3_lane separate_lane es el recordatorio de calificación externa.']. Código contractual resultante incluye `print(assess(valid)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T4-A-E3\ndef decide(paths: list):\n    need = {\"happy\", \"override\", \"ood_abstain\"}\n    got = set(paths or [])\n    if not got:\n        return \"REQUEST_DEMO_PATH\", 0\n    if got == {\"happy\"} or (len(got) == 1 and \"happy\" in got):\n        return \"REJECT_HAPPY_ONLY\", len(got)\n    if not need.issubset(got):\n        return \"REQUEST_DEMO_PATH\", len(got)\n    return \"CONTINUE\", 3\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n# D2-Skeptic: packet-only re-walk S39 S39-T4-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T4-A-E3 la instrucción pide: «S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos). Si falta una → `REQUEST_DEMO_PATH`; si hay so». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Compara como conjunto los nombres canónicos; el orden de la lista no importa.', 'ood_abstain es distinto de ood; usa el token canónico del theory block.']. Código contractual resultante incluye `print(*decide([\"happy\", \"override\", \"ood_abstain\"])`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T4-B-E1\ncards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n# D2-Skeptic: packet-only re-walk S39 S39-T4-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "cards",
+        "model"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T4-B-E1 la instrucción pide: «S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe contener exactamente model, data y system (como conjunto). El». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Conjunto {model, data, system}; ni de más ni de menos para el contrato mínimo de S39.', 'Orden de impresión puede ser sorted; el predicado usa igualdad de sets.']. Código contractual resultante incluye `print(\"S39-T4-B\", status)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T4-B-E2\ndef assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    return \"PASS\" if \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# D2-Skeptic: packet-only re-walk S39 S39-T4-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "assess"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T4-B-E2 la instrucción pide: «S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offline → `REJECT_VALUE_ME». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.', 'MISSING:value cuando el payload no trae la clave value.']. Código contractual resultante incluye `print(assess(valid)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S39-T4-B-E3\ndef decide(pm: dict):\n    if pm.get(\"blameless\") is False:\n        return \"REJECT_BLAMEFUL\", False\n    if not pm.get(\"root_cause\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    if not pm.get(\"actions\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n# D2-Skeptic: packet-only re-walk S39 S39-T4-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S39",
+        "def",
+        "decide"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S39 (Responsible ML Case Triage y cierre de nivel). Para S39-T4-B-E3 la instrucción pide: «S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless False → `REJECT_BLAMEFUL`; si falta root_cause». Anclé la solución en theory/iDo («El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma …» / S39-T1-A-DEMO: Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-0) y pistas ['Blameless mira procesos y sistemas; no nombres de personas como root_cause.', 'actions debe ser lista con al menos un ítem (rollback, recalibrate, etc.).']. Código contractual resultante incluye `print(*decide(happy)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "needs_review / prioridad de cola",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 2 «needs_review / prioridad de cola» porque la theory del paquete S39 (Responsible ML Case Triage y cierre de nivel) enseña: «El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia …». La pregunta «El label_space del triage N3 es preferentemente:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se documentan; PASS lo califica otra lane",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 0 «Se documentan; PASS lo califica otra lane» porque la theory del paquete S39 (Responsible ML Case Triage y cierre de nivel) enseña: «El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia …». La pregunta «CF-3 y regresión S27–S39 en esta lane de autoría:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Evidencia y path además del score",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 1 «Evidencia y path además del score» porque la theory del paquete S39 (Responsible ML Case Triage y cierre de nivel) enseña: «El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia …». La pregunta «Evidence packet debe incluir:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "human_only / rollback a artefacto previo",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 3 «human_only / rollback a artefacto previo» porque la theory del paquete S39 (Responsible ML Case Triage y cierre de nivel) enseña: «El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia …». La pregunta «Ante incidente grave el modo seguro es:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Bump major, owner contactable y revalidación de paths",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 1 «Bump major, owner contactable y revalidación de paths» porque la theory del paquete S39 (Responsible ML Case Triage y cierre de nivel) enseña: «El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia …». La pregunta «Un breaking change en graph_schema del triage exige:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ],
+    "note": "Skeptic live solve from agentic_D1 packet only for batch 27–39."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.505512+00:00",
+  "artifact_origin": "direct_agent_output"
+}

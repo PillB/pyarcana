@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-16458c37aa-s27",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "id": "S27-T1-A-E1",
+      "code": "# skeptic L2 S27 S27-T1-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "justification_from_packet": "Como skeptic en «Estrategia de pruebas con pytest», contrasté S27-T1-A-E1: descarto atajos que rompan el caso adverso descrito en: S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imple. Prefiero la forma aburrida y explícita: `impact, likelihood = 5, 4`. [paso 1/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "id": "S27-T1-A-E2",
+      "code": "# skeptic L2 S27 S27-T1-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "Escéptico en S27: validé S27-T1-A-E2 contra theory/iDo: el contrato I/O del paquete manda: S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa. El paquete activo basta para justificar `rows=[('e2e',2,1),('unit',5,5)]`. [paso 2/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "id": "S27-T1-A-E3",
+      "code": "# skeptic L2 S27 S27-T1-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S27 para S27-T1-A-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: compara layer. Quedó `top_layer='unit'` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 3/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "id": "S27-T1-B-E1",
+      "code": "# skeptic L2 S27 S27-T1-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "justification_from_packet": "Crucé hints e instruction de S27-T1-B-E1 antes de tocar el starter: exijo que el código cumpla: S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el start. Implementación verificable con `s=' A  B '` anclada al quiz_card. [paso 4/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "id": "S27-T1-B-E2",
+      "code": "# skeptic L2 S27 S27-T1-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "justification_from_packet": "En modo skeptic para Estrategia de pruebas con pytest, endurecí S27-T1-B-E2: descarto atajos que rompan el caso adverso descrito en: S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imple. Prefiero la forma aburrida y explícita: `raw='ANA'`. [paso 5/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "id": "S27-T1-B-E3",
+      "code": "# skeptic L2 S27 S27-T1-B-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "Como skeptic en «Estrategia de pruebas con pytest», contrasté S27-T1-B-E3: el contrato I/O del paquete manda: S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter . El paquete activo basta para justificar `a,b='X Y','x  y'`. [paso 6/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "id": "S27-T2-A-E1",
+      "code": "# skeptic L2 S27 S27-T2-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "Escéptico en S27: validé S27-T2-A-E1 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: startswith. Quedó `names=['test_a','helper','test_b']` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 7/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "id": "S27-T2-A-E2",
+      "code": "# skeptic L2 S27 S27-T2-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S27 para S27-T2-A-E2: exijo que el código cumpla: S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implement. Implementación verificable con `left,right='a','b'` anclada al quiz_card. [paso 8/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "id": "S27-T2-A-E3",
+      "code": "# skeptic L2 S27 S27-T2-A-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Crucé hints e instruction de S27-T2-A-E3 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el . Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 9/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "id": "S27-T2-B-E1",
+      "code": "# skeptic L2 S27 S27-T2-B-E1: cruce theory/iDo antes de editar\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "justification_from_packet": "En modo skeptic para Estrategia de pruebas con pytest, endurecí S27-T2-B-E1: el contrato I/O del paquete manda: S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte. El paquete activo basta para justificar `from copy import deepcopy`. [paso 10/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "id": "S27-T2-B-E2",
+      "code": "# skeptic L2 S27 S27-T2-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "justification_from_packet": "Como skeptic en «Estrategia de pruebas con pytest», contrasté S27-T2-B-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: literal. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 11/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "id": "S27-T2-B-E3",
+      "code": "# skeptic L2 S27 S27-T2-B-E3: cruce theory/iDo antes de editar\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "justification_from_packet": "Escéptico en S27: validé S27-T2-B-E3 contra theory/iDo: exijo que el código cumpla: S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el s. Implementación verificable con `def make(n):` anclada al quiz_card. [paso 12/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "id": "S27-T3-A-E1",
+      "code": "# skeptic L2 S27 S27-T3-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S27 para S27-T3-A-E1: descarto atajos que rompan el caso adverso descrito en: S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa s. Prefiero la forma aburrida y explícita: `import math`. [paso 13/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "id": "S27-T3-A-E2",
+      "code": "# skeptic L2 S27 S27-T3-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "justification_from_packet": "Crucé hints e instruction de S27-T3-A-E2 antes de tocar el starter: el contrato I/O del paquete manda: S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el. El paquete activo basta para justificar `try:`. [paso 14/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "id": "S27-T3-A-E3",
+      "code": "# skeptic L2 S27 S27-T3-A-E3: cruce theory/iDo antes de editar\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "En modo skeptic para Estrategia de pruebas con pytest, endurecí S27-T3-A-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: tempfile. Quedó `import tempfile` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 15/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "id": "S27-T3-B-E1",
+      "code": "# skeptic L2 S27 S27-T3-B-E1: cruce theory/iDo antes de editar\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Como skeptic en «Estrategia de pruebas con pytest», contrasté S27-T3-B-E1: exijo que el código cumpla: S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter c. Implementación verificable con `email=''` anclada al quiz_card. [paso 16/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "id": "S27-T3-B-E2",
+      "code": "# skeptic L2 S27 S27-T3-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "justification_from_packet": "Escéptico en S27: validé S27-T3-B-E2 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imp. Prefiero la forma aburrida y explícita: `s='sin-arroba'`. [paso 17/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "id": "S27-T3-B-E3",
+      "code": "# skeptic L2 S27 S27-T3-B-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S27 para S27-T3-B-E3: el contrato I/O del paquete manda: S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl. El paquete activo basta para justificar `v=-1`. [paso 18/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "id": "S27-T4-A-E1",
+      "code": "# skeptic L2 S27 S27-T4-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Crucé hints e instruction de S27-T4-A-E1 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: if/else. Quedó `def f(x):` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 19/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "id": "S27-T4-A-E2",
+      "code": "# skeptic L2 S27 S27-T4-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "justification_from_packet": "En modo skeptic para Estrategia de pruebas con pytest, endurecí S27-T4-A-E2: exijo que el código cumpla: S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl. Implementación verificable con `hit={'auto','review'}` anclada al quiz_card. [paso 20/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "id": "S27-T4-A-E3",
+      "code": "# skeptic L2 S27 S27-T4-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "justification_from_packet": "Como skeptic en «Estrategia de pruebas con pytest», contrasté S27-T4-A-E3: descarto atajos que rompan el caso adverso descrito en: S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo;. Prefiero la forma aburrida y explícita: `k,n=2,3`. [paso 21/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "id": "S27-T4-B-E1",
+      "code": "# skeptic L2 S27 S27-T4-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "justification_from_packet": "Escéptico en S27: validé S27-T4-B-E1 contra theory/iDo: el contrato I/O del paquete manda: S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrad. El paquete activo basta para justificar `raw=' a '`. [paso 22/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "id": "S27-T4-B-E2",
+      "code": "# skeptic L2 S27 S27-T4-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S27 para S27-T4-B-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: dict. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 23/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "id": "S27-T4-B-E3",
+      "code": "# skeptic L2 S27 S27-T4-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "justification_from_packet": "Crucé hints e instruction de S27-T4-B-E3 antes de tocar el starter: exijo que el código cumpla: S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; . Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 24/24 · run L2-S27-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S27 «Estrategia de pruebas con pytest»: la pregunta «En la pirámide de pruebas, la base más ancha suele ser:» se responde con «Pruebas unitarias» (chosen_index=2) al cruzar la theory del slim_packet; «E2E UI» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S27 «Estrategia de pruebas con pytest»: la pregunta «Un oráculo confiable es:» se responde con «Una fuente de verdad determinista para el assert» (chosen_index=0) al cruzar la theory del slim_packet; «Un print en consola» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S27 «Estrategia de pruebas con pytest»: la pregunta «Si mutas un casefold y ningún test falla:» se responde con «El contrato es débil; el mutante sobrevivió» (chosen_index=1) al cruzar la theory del slim_packet; «Está bien» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S27 «Estrategia de pruebas con pytest»: la pregunta «Las pruebas de matching en CP-N3-A demuestran:» se responde con «Contratos de misma entidad / normalización — no riesgo ni relación» (chosen_index=3) al cruzar la theory del slim_packet; «Fraude automático» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.581486+00:00",
+  "session_started_at": "2026-07-23T17:47:41.758696Z",
+  "session_ended_at": "2026-07-23T17:48:05.469266Z",
+  "receipt_response_sha256": "d5990e70f8d59472325082ef4695b0a8a29af0f9f58317cdf2ad0d57635a50d9",
+  "receipt_exercises_sha256": "6705bb575ccec40ab8bb9ab7173de976039d82062835e7bca7d31ef4caf493cb",
+  "receipt_selfcheck_sha256": "c4f4c7787c41e4758e0a5fc0d21f42cb24d8e93ea10de96d520fa78a8224f5d0"
+}

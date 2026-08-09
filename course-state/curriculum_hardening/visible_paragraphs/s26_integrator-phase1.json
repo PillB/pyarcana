@@ -1,0 +1,495 @@
+{
+  "index": 26,
+  "id": "integrator-phase1",
+  "title": "Orquestación y VP RPA + AI Analyst",
+  "file": "s26-integrator-phase1.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Cierre CP-N2-C: orquestación del VP y regresión N2",
+      "len": 50
+    },
+    {
+      "i": 1,
+      "text": "S26 cierra el Value Proposition RPA + AI Analyst de CP-N2-C: orquestas el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el run_id une logs, artefactos y la cola HITL sin reescribir historial.",
+      "len": 362
+    },
+    {
+      "i": 2,
+      "text": "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicates de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit.",
+      "len": 320
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Orquestación (DAG/estados/límites) → T2 Resiliencia (checkpoint, retry, DLQ, idempotencia, rollback) → T3 HITL (colas, approve/reject/edit) → T4 Operación/E2E (SLO, runbook, costo/valor). Privacidad: datos de demo son sintéticos; no uses RUC/nombres reales de clientes en los ejercicios.",
+      "len": 308
+    },
+    {
+      "i": 4,
+      "text": "tasks/flows/DAG y estados",
+      "len": 25
+    },
+    {
+      "i": 5,
+      "text": "Un DAG (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. En la práctica del VP peruano sintético, edges como (ingest→validate→analyze→ai_assist→report→approve→draft_email) evitan carreras donde un informe parcial se aprueba por error.",
+      "len": 320
+    },
+    {
+      "i": 6,
+      "text": "Cada task expone estados observables: pending, running, success, failed, skipped. El flow agrega un estado global (p. ej. failed si cualquier nodo crítico falló). El dashboard del analista muestra timestamp y run_id por nodo para que el supervisor en turno sepa qué reanudar.",
+      "len": 275
+    },
+    {
+      "i": 7,
+      "text": "Implementación didáctica con dicts de nodos + edges y orden topológico simple (sin librerías de orquestación externas): si el grafo tuviera un ciclo, el pipeline no arranca. Contrato: input edges list[(str,str)] → output order list[str] sin nodos huérfanos cuando el grafo es válido.",
+      "len": 283
+    },
+    {
+      "i": 8,
+      "text": "límites, metadata y schedules",
+      "len": 29
+    },
+    {
+      "i": 9,
+      "text": "Rate limits (api_rpm, max_parallel_tasks) protegen APIs y colas compartidas: un burst nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata inmutable al start del run: run_id, trigger (manual|schedule), git_sha sintético, data_cutoff — versionas un nuevo run_id si cambias la foto de datos.",
+      "len": 328
+    },
+    {
+      "i": 10,
+      "text": "Schedules tipo cron (0 6 1-5 America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. Documenta ventana de mantenimiento en el runbook: durante deploy, disable_schedule antes de drain de colas para no mezclar versiones de schema de informe.",
+      "len": 268
+    },
+    {
+      "i": 11,
+      "text": "Caso sintético PE: el equipo de RPA en San Isidro fija max_parallel_tasks=2 y api_rpm=30 para el adapter de consulta; si api_rpm>60 en config, el preflight imprime too_high y bloquea el schedule hasta revisión humana del límite. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 472
+    },
+    {
+      "i": 12,
+      "text": "checkpoints, retry/backoff y dead-letter",
+      "len": 40
+    },
+    {
+      "i": 13,
+      "text": "Un checkpoint persiste ids ya procesados para reanudar sin rehacer ingest costoso: tras un crash a mitad de analyze, solo quedan pendientes los no marcados. Persistencia puede ser set en memoria en el lab o archivo JSON en el capstone; el contrato es el mismo: skip si id ∈ ckpt.",
+      "len": 279
+    },
+    {
+      "i": 14,
+      "text": "Retry con backoff exponencial (base 2(attempt-1), con cap) absorbe 429/timeout transitorios del sistema sintético. No reintentes eternamente errores de validación de negocio (schema inválido): esos van a DLQ* con owner y SLA de inspección, no a un basurero silencioso.",
+      "len": 268
+    },
+    {
+      "i": 15,
+      "text": "En el escritorio PE sintético, el item flaky de export cae a DLQ con reason timeout_exhausted; el runbook asigna owner=ops_rpa y alert si la cola crece. Contrato de lab: process_with_dlq(items, flaky_ids) → (ok, dlq, ckpt) sin duplicar ok tras reanudación.",
+      "len": 256
+    },
+    {
+      "i": 16,
+      "text": "idempotencia, concurrencia y rollback",
+      "len": 37
+    },
+    {
+      "i": 17,
+      "text": "Pasos idempotentes usan keys de negocio (run_id, entity_id): la segunda escritura no pisa un valor ya materializado si la semántica es create-once. Así un retry no duplica drafts ni reportes supersedidos solo por reentrega del mensaje. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 479
+    },
+    {
+      "i": 18,
+      "text": "Concurrencia: locks optimistas o flags locked por entidad evitan dos workers escribiendo el mismo informe. Si locked=True, el worker imprime busy y reencola. En multi-proceso real usarías lease con TTL; en el lab el flag enseña el contrato fail-closed.",
+      "len": 252
+    },
+    {
+      "i": 19,
+      "text": "Rollback/compensación no siempre es ACID: si falla draft_email tras write_report, borras draft y marcas report superseded. Documenta el grafo de compensación en el runbook del VP; en ejercicio, pop de keys de side-effect deja state mínimo auditable. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 493
+    },
+    {
+      "i": 20,
+      "text": "revisión de análisis/reporte/destinatario",
+      "len": 41
+    },
+    {
+      "i": 21,
+      "text": "HITL del VP exige tres colas conceptuales: analysis (métricas/outliers sintéticos), report (narrativa), recipient (destinatario del borrador). Cualquier cola con pending>0 bloquea el avance a envío: blocked = any(count>0). El analista en Lima ve checklist mínima metrics+narrative+recipient.",
+      "len": 291
+    },
+    {
+      "i": 22,
+      "text": "La IA asistida solo propone texto o highlights; no cierra el caso. Contrato: si analysis pending, el flow permanece en human_review aunque report esté listo. Esto evita el anti-patrón de “correo automático con narrativa alucinada”. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 475
+    },
+    {
+      "i": 23,
+      "text": "Caso sintético: fixture run cpn2c-hitl-01 con analysis=1, report=1, recipient=0 → blocked True hasta que un revisor asigne recipient y limpie colas. Scores de matching de secciones previas alimentan la cola analysis como evidencia, nunca como veredicto de fraude.",
+      "len": 263
+    },
+    {
+      "i": 24,
+      "text": "aprobación, rechazo, edición y auditoría",
+      "len": 40
+    },
+    {
+      "i": 25,
+      "text": "Toda decisión humana deja audit: {action, actor, ts, reason?}. approve avanza; reject exige reason no vacío (si falta → invalid); edit versiona el artefacto (ver 1→2) sin borrar historia. Sin audit, CP-N2-C no es demostrable en la defensa del capstone.",
+      "len": 252
+    },
+    {
+      "i": 26,
+      "text": "El actor es un id sintético de revisor (r1, r2), no un correo personal real. El sistema no envía: solo materializa draft_email tras approve. Rechazos reabren cola report o analysis según reason code documentado en el runbook. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 469
+    },
+    {
+      "i": 27,
+      "text": "Política PE del curso: un reject por quality_narrative reencola report; un reject por wrong_recipient reencola recipient. Editar el informe incrementa version y registra action=edit. Contrato de lab: audit append-only, nunca reescritura de entradas previas.",
+      "len": 257
+    },
+    {
+      "i": 29,
+      "text": "SLO del VP sintético: success_rate ≥ 0.95 en ventanas diarias; si rate=0.90 → alert_success_rate. Alertas P0 incluyen sends_without_approve>0 (correo o draft marcado enviado sin approve) — violación de control, no un warning suave. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 475
+    },
+    {
+      "i": 30,
+      "text": "El runbook one-liner de incidente: disable_schedule → drain → page. Primero detienes el cron America/Lima, drenas colas/workers, luego pages al on-call. Incluye contacto sintético y severidad; sin severidad el escalamiento es ambiguo en turno noche. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 493
+    },
+    {
+      "i": 31,
+      "text": "Métricas operativas se leen del mismo metadata de run (run_id, trigger). No inventes fraud_rate en el dashboard del VP: el producto mide throughput, fallas, HITL latency y costo de tokens de IA asistida, no culpabilidad. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 464
+    },
+    {
+      "i": 32,
+      "text": "pruebas E2E, seguridad, costo y métricas de valor",
+      "len": 49
+    },
+    {
+      "i": 33,
+      "text": "E2E del cierre: todos los steps del path canónico en success (ingest…draft) con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos del adapter, y fraud_labels=0 en el paquete de evidencia (el VP no auto-etiqueta fraude). En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 485
+    },
+    {
+      "i": 34,
+      "text": "Costo: tokens de IA asistida y minutos de RPA acotados en el informe de valor. Valor: minutos ahorrados estimados (p. ej. 45) frente a proceso manual de consolidación — es estimación de producto, no promesa financiera. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 462
+    },
+    {
+      "i": 35,
+      "text": "Notas de regresión N2 documentan CP-N2-A/B/C critical+privacy y CF-2 interfaces (Familiarity–reporting–automation). El paquete de cierre imprime estructura reproducible para la defensa: e2e, cost, value, fraud_labels=0, n2_regression planned/pass. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 491
+    },
+    {
+      "i": 36,
+      "text": "Caso sintético PE de cierre: run cpn2c-close-e2e con data_cutoff fijo; si algún step failed, E2E imprime False y no se firma el checklist de promoción. Matching/OCR/RPA de secciones previas solo aportan evidencia encolada, nunca un claim de colusión o fraude en el informe final.",
+      "len": 279
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Cierre CP-N2-C: orquestación del VP y regresión N2",
+      "text": "Cierre CP-N2-C: orquestación del VP y regresión N2"
+    },
+    {
+      "i": 1,
+      "len": 362,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S26 cierra el Value Proposition RPA + AI Analyst de CP-N2-C: orquestas el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → bor",
+      "text": "S26 cierra el Value Proposition RPA + AI Analyst de CP-N2-C: orquestas el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el run_id une logs, artefactos y la cola HITL sin reescribir historial."
+    },
+    {
+      "i": 2,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicates de éxito, y cero etiquetas autom",
+      "text": "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicates de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit."
+    },
+    {
+      "i": 3,
+      "len": 308,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Orquestación (DAG/estados/límites) → T2 Resiliencia (checkpoint, retry, DLQ, idempotencia, rollback) → T3 HITL (colas, approve/reject/edit) → T4 Operación/E2E ",
+      "text": "Orden pedagógico: T1 Orquestación (DAG/estados/límites) → T2 Resiliencia (checkpoint, retry, DLQ, idempotencia, rollback) → T3 HITL (colas, approve/reject/edit) → T4 Operación/E2E (SLO, runbook, costo/valor). Privacidad: datos de demo son sintéticos; no uses RUC/nombres reales de clientes en los ejercicios."
+    },
+    {
+      "i": 4,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "tasks/flows/DAG y estados",
+      "text": "tasks/flows/DAG y estados"
+    },
+    {
+      "i": 5,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un DAG (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. En la práctica del VP peruano sintéti",
+      "text": "Un DAG (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. En la práctica del VP peruano sintético, edges como (ingest→validate→analyze→ai_assist→report→approve→draft_email) evitan carreras donde un informe parcial se aprueba por error."
+    },
+    {
+      "i": 6,
+      "len": 275,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada task expone estados observables: pending, running, success, failed, skipped. El flow agrega un estado global (p. ej. failed si cualquier nodo crítico falló). El dashboard del ",
+      "text": "Cada task expone estados observables: pending, running, success, failed, skipped. El flow agrega un estado global (p. ej. failed si cualquier nodo crítico falló). El dashboard del analista muestra timestamp y run_id por nodo para que el supervisor en turno sepa qué reanudar."
+    },
+    {
+      "i": 7,
+      "len": 283,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Implementación didáctica con dicts de nodos + edges y orden topológico simple (sin librerías de orquestación externas): si el grafo tuviera un ciclo, el pipeline no arranca. Contra",
+      "text": "Implementación didáctica con dicts de nodos + edges y orden topológico simple (sin librerías de orquestación externas): si el grafo tuviera un ciclo, el pipeline no arranca. Contrato: input edges list[(str,str)] → output order list[str] sin nodos huérfanos cuando el grafo es válido."
+    },
+    {
+      "i": 8,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "límites, metadata y schedules",
+      "text": "límites, metadata y schedules"
+    },
+    {
+      "i": 9,
+      "len": 328,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Rate limits (api_rpm, max_parallel_tasks) protegen APIs y colas compartidas: un burst nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata in",
+      "text": "Rate limits (api_rpm, max_parallel_tasks) protegen APIs y colas compartidas: un burst nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata inmutable al start del run: run_id, trigger (manual|schedule), git_sha sintético, data_cutoff — versionas un nuevo run_id si cambias la foto de datos."
+    },
+    {
+      "i": 10,
+      "len": 268,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Schedules tipo cron (0 6 1-5 America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. Documenta ventana de mantenimiento en el runbook: durante deploy, ",
+      "text": "Schedules tipo cron (0 6 1-5 America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. Documenta ventana de mantenimiento en el runbook: durante deploy, disable_schedule antes de drain de colas para no mezclar versiones de schema de informe."
+    },
+    {
+      "i": 11,
+      "len": 472,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético PE: el equipo de RPA en San Isidro fija max_parallel_tasks=2 y api_rpm=30 para el adapter de consulta; si api_rpm>60 en config, el preflight imprime too_high y bloqu",
+      "text": "Caso sintético PE: el equipo de RPA en San Isidro fija max_parallel_tasks=2 y api_rpm=30 para el adapter de consulta; si api_rpm>60 en config, el preflight imprime too_high y bloquea el schedule hasta revisión humana del límite. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 12,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "checkpoints, retry/backoff y dead-letter",
+      "text": "checkpoints, retry/backoff y dead-letter"
+    },
+    {
+      "i": 13,
+      "len": 279,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un checkpoint persiste ids ya procesados para reanudar sin rehacer ingest costoso: tras un crash a mitad de analyze, solo quedan pendientes los no marcados. Persistencia puede ser ",
+      "text": "Un checkpoint persiste ids ya procesados para reanudar sin rehacer ingest costoso: tras un crash a mitad de analyze, solo quedan pendientes los no marcados. Persistencia puede ser set en memoria en el lab o archivo JSON en el capstone; el contrato es el mismo: skip si id ∈ ckpt."
+    },
+    {
+      "i": 14,
+      "len": 268,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Retry con backoff exponencial (base 2(attempt-1), con cap) absorbe 429/timeout transitorios del sistema sintético. No reintentes eternamente errores de validación de negocio (schem",
+      "text": "Retry con backoff exponencial (base 2(attempt-1), con cap) absorbe 429/timeout transitorios del sistema sintético. No reintentes eternamente errores de validación de negocio (schema inválido): esos van a DLQ* con owner y SLA de inspección, no a un basurero silencioso."
+    },
+    {
+      "i": 15,
+      "len": 256,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En el escritorio PE sintético, el item flaky de export cae a DLQ con reason timeout_exhausted; el runbook asigna owner=ops_rpa y alert si la cola crece. Contrato de lab: process_wi",
+      "text": "En el escritorio PE sintético, el item flaky de export cae a DLQ con reason timeout_exhausted; el runbook asigna owner=ops_rpa y alert si la cola crece. Contrato de lab: process_with_dlq(items, flaky_ids) → (ok, dlq, ckpt) sin duplicar ok tras reanudación."
+    },
+    {
+      "i": 16,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "idempotencia, concurrencia y rollback",
+      "text": "idempotencia, concurrencia y rollback"
+    },
+    {
+      "i": 17,
+      "len": 479,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Pasos idempotentes usan keys de negocio (run_id, entity_id): la segunda escritura no pisa un valor ya materializado si la semántica es create-once. Así un retry no duplica drafts n",
+      "text": "Pasos idempotentes usan keys de negocio (run_id, entity_id): la segunda escritura no pisa un valor ya materializado si la semántica es create-once. Así un retry no duplica drafts ni reportes supersedidos solo por reentrega del mensaje. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 18,
+      "len": 252,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Concurrencia: locks optimistas o flags locked por entidad evitan dos workers escribiendo el mismo informe. Si locked=True, el worker imprime busy y reencola. En multi-proceso real ",
+      "text": "Concurrencia: locks optimistas o flags locked por entidad evitan dos workers escribiendo el mismo informe. Si locked=True, el worker imprime busy y reencola. En multi-proceso real usarías lease con TTL; en el lab el flag enseña el contrato fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 493,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Rollback/compensación no siempre es ACID: si falla draft_email tras write_report, borras draft y marcas report superseded. Documenta el grafo de compensación en el runbook del VP; ",
+      "text": "Rollback/compensación no siempre es ACID: si falla draft_email tras write_report, borras draft y marcas report superseded. Documenta el grafo de compensación en el runbook del VP; en ejercicio, pop de keys de side-effect deja state mínimo auditable. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 20,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "revisión de análisis/reporte/destinatario",
+      "text": "revisión de análisis/reporte/destinatario"
+    },
+    {
+      "i": 21,
+      "len": 291,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "HITL del VP exige tres colas conceptuales: analysis (métricas/outliers sintéticos), report (narrativa), recipient (destinatario del borrador). Cualquier cola con pending>0 bloquea ",
+      "text": "HITL del VP exige tres colas conceptuales: analysis (métricas/outliers sintéticos), report (narrativa), recipient (destinatario del borrador). Cualquier cola con pending>0 bloquea el avance a envío: blocked = any(count>0). El analista en Lima ve checklist mínima metrics+narrative+recipient."
+    },
+    {
+      "i": 22,
+      "len": 475,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La IA asistida solo propone texto o highlights; no cierra el caso. Contrato: si analysis pending, el flow permanece en human_review aunque report esté listo. Esto evita el anti-pat",
+      "text": "La IA asistida solo propone texto o highlights; no cierra el caso. Contrato: si analysis pending, el flow permanece en human_review aunque report esté listo. Esto evita el anti-patrón de “correo automático con narrativa alucinada”. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 23,
+      "len": 263,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: fixture run cpn2c-hitl-01 con analysis=1, report=1, recipient=0 → blocked True hasta que un revisor asigne recipient y limpie colas. Scores de matching de secciones",
+      "text": "Caso sintético: fixture run cpn2c-hitl-01 con analysis=1, report=1, recipient=0 → blocked True hasta que un revisor asigne recipient y limpie colas. Scores de matching de secciones previas alimentan la cola analysis como evidencia, nunca como veredicto de fraude."
+    },
+    {
+      "i": 24,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "aprobación, rechazo, edición y auditoría",
+      "text": "aprobación, rechazo, edición y auditoría"
+    },
+    {
+      "i": 25,
+      "len": 252,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Toda decisión humana deja audit: {action, actor, ts, reason?}. approve avanza; reject exige reason no vacío (si falta → invalid); edit versiona el artefacto (ver 1→2) sin borrar hi",
+      "text": "Toda decisión humana deja audit: {action, actor, ts, reason?}. approve avanza; reject exige reason no vacío (si falta → invalid); edit versiona el artefacto (ver 1→2) sin borrar historia. Sin audit, CP-N2-C no es demostrable en la defensa del capstone."
+    },
+    {
+      "i": 26,
+      "len": 469,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El actor es un id sintético de revisor (r1, r2), no un correo personal real. El sistema no envía: solo materializa draft_email tras approve. Rechazos reabren cola report o analysis",
+      "text": "El actor es un id sintético de revisor (r1, r2), no un correo personal real. El sistema no envía: solo materializa draft_email tras approve. Rechazos reabren cola report o analysis según reason code documentado en el runbook. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 27,
+      "len": 257,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Política PE del curso: un reject por quality_narrative reencola report; un reject por wrong_recipient reencola recipient. Editar el informe incrementa version y registra action=edi",
+      "text": "Política PE del curso: un reject por quality_narrative reencola report; un reject por wrong_recipient reencola recipient. Editar el informe incrementa version y registra action=edit. Contrato de lab: audit append-only, nunca reescritura de entradas previas."
+    },
+    {
+      "i": 29,
+      "len": 475,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SLO del VP sintético: success_rate ≥ 0.95 en ventanas diarias; si rate=0.90 → alert_success_rate. Alertas P0 incluyen sends_without_approve>0 (correo o draft marcado enviado sin ap",
+      "text": "SLO del VP sintético: success_rate ≥ 0.95 en ventanas diarias; si rate=0.90 → alert_success_rate. Alertas P0 incluyen sends_without_approve>0 (correo o draft marcado enviado sin approve) — violación de control, no un warning suave. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 30,
+      "len": 493,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El runbook one-liner de incidente: disable_schedule → drain → page. Primero detienes el cron America/Lima, drenas colas/workers, luego pages al on-call. Incluye contacto sintético ",
+      "text": "El runbook one-liner de incidente: disable_schedule → drain → page. Primero detienes el cron America/Lima, drenas colas/workers, luego pages al on-call. Incluye contacto sintético y severidad; sin severidad el escalamiento es ambiguo en turno noche. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 31,
+      "len": 464,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Métricas operativas se leen del mismo metadata de run (run_id, trigger). No inventes fraud_rate en el dashboard del VP: el producto mide throughput, fallas, HITL latency y costo de",
+      "text": "Métricas operativas se leen del mismo metadata de run (run_id, trigger). No inventes fraud_rate en el dashboard del VP: el producto mide throughput, fallas, HITL latency y costo de tokens de IA asistida, no culpabilidad. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 32,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "pruebas E2E, seguridad, costo y métricas de valor",
+      "text": "pruebas E2E, seguridad, costo y métricas de valor"
+    },
+    {
+      "i": 33,
+      "len": 485,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "E2E del cierre: todos los steps del path canónico en success (ingest…draft) con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos del adapter, y fraud_labels=",
+      "text": "E2E del cierre: todos los steps del path canónico en success (ingest…draft) con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos del adapter, y fraud_labels=0 en el paquete de evidencia (el VP no auto-etiqueta fraude). En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 34,
+      "len": 462,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Costo: tokens de IA asistida y minutos de RPA acotados en el informe de valor. Valor: minutos ahorrados estimados (p. ej. 45) frente a proceso manual de consolidación — es estimaci",
+      "text": "Costo: tokens de IA asistida y minutos de RPA acotados en el informe de valor. Valor: minutos ahorrados estimados (p. ej. 45) frente a proceso manual de consolidación — es estimación de producto, no promesa financiera. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 35,
+      "len": 491,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Notas de regresión N2 documentan CP-N2-A/B/C critical+privacy y CF-2 interfaces (Familiarity–reporting–automation). El paquete de cierre imprime estructura reproducible para la def",
+      "text": "Notas de regresión N2 documentan CP-N2-A/B/C critical+privacy y CF-2 interfaces (Familiarity–reporting–automation). El paquete de cierre imprime estructura reproducible para la defensa: e2e, cost, value, fraud_labels=0, n2_regression planned/pass. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 36,
+      "len": 279,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético PE de cierre: run cpn2c-close-e2e con data_cutoff fijo; si algún step failed, E2E imprime False y no se firma el checklist de promoción. Matching/OCR/RPA de seccione",
+      "text": "Caso sintético PE de cierre: run cpn2c-close-e2e con data_cutoff fijo; si algún step failed, E2E imprime False y no se firma el checklist de promoción. Matching/OCR/RPA de secciones previas solo aportan evidencia encolada, nunca un claim de colusión o fraude en el informe final."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 16171
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Barras con baseline 0"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Repetir los mismos números clave del chart"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "Sobreclaim / generalización indebida"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Unidad, fuente y limitaciones"
+  }
+]

@@ -1,0 +1,268 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I1",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-s12-explorer-12a9c",
+  "production_note": "agentic_I1 dual-LLM packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "code": "# simular status HTTP\nfor status in [200, 400, 404, 429, 500]:\n    action = {200: \"use_body\", 400: \"client_error\", 404: \"missing\", 429: \"backoff\", 500: \"retry_or_fallback\"}.get(status, \"unknown\")\n    print(status, action)\n",
+      "justification_from_packet": "Explorer: S12-T1-A-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "code": "def parse_entity(payload: dict) -> dict:\n    return {\n        \"id\": payload.get(\"id\"),\n        \"name\": payload.get(\"name\") or payload.get(\"nombre\"),\n        \"ok\": payload.get(\"id\") is not None,\n    }\nprint(parse_entity({\"id\": \"C001\", \"nombre\": \"Ana\"}))\nprint(parse_entity({}))\n",
+      "justification_from_packet": "Explorer: S12-T1-A-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"backoff\",\n    500: \"fallback\",\n    400: \"client_error_no_retry\",\n}\nprint(STATUS_ACTION)\n",
+      "justification_from_packet": "Explorer: S12-T1-A-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "code": "import os\ntoken = os.environ.get(\"API_TOKEN\")\nprint(\"token_from_env\", bool(token))\nprint(\"never hardcode token in repo\")\n",
+      "justification_from_packet": "Explorer: S12-T1-B-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "code": "# timeout y headers sin secretos en logs\nheaders = {\"Accept\": \"application/json\", \"Authorization\": \"***\"}\nprint(\"timeout_s\", 10, \"headers_safe\", headers)\n",
+      "justification_from_packet": "Explorer: S12-T1-B-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "code": "print(\"400 Bad Request del proveedor = error de cliente; no retry ciego infinito\")\n",
+      "justification_from_packet": "Explorer: S12-T1-B-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "code": "cache = {}\ndef get_cached(key, fetch):\n    if key in cache:\n        return cache[key], True\n    val = fetch()\n    cache[key] = val\n    return val, False\nprint(get_cached(\"C1\", lambda: {\"id\": \"C1\"}))\nprint(get_cached(\"C1\", lambda: {\"id\": \"C1\"}))\n",
+      "justification_from_packet": "Explorer: S12-T2-A-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"status\": status,\n        \"cache_hit\": cache_hit,\n    }\nprint(min_provenance(\"https://api.example/x\", 200, False))\n",
+      "justification_from_packet": "Explorer: S12-T2-A-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "code": "def min_provenance(url, status, cache_hit):\n    return {\"source_url\": url, \"status\": status, \"cache_hit\": cache_hit}\nprint(min_provenance(\"https://example/geo\", 200, True))\n",
+      "justification_from_packet": "Explorer: S12-T2-A-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "code": "def classify_http(status):\n    if status >= 500:\n        return \"server\"\n    if status == 429:\n        return \"rate_limit\"\n    if status >= 400:\n        return \"client\"\n    return \"ok\"\nprint(classify_http(503), classify_http(400), classify_http(200))\n",
+      "justification_from_packet": "Explorer: S12-T2-B-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return (local_body, \"fallback\")\n    return ({\"remote\": True}, \"remote\")\nprint(fetch_with_fallback(503, {\"local\": True}))\nprint(fetch_with_fallback(200, {\"local\": True}))\n",
+      "justification_from_packet": "Explorer: S12-T2-B-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "code": "print(\"fallback local documentado en provenance; no ocultar cache_hit\")\n",
+      "justification_from_packet": "Explorer: S12-T2-B-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, score REAL)\")\ncon.execute(\"INSERT INTO evidence VALUES (?,?,?)\", (\"E1\", \"C001\", 0.5))\nprint(con.execute(\"SELECT * FROM evidence\").fetchall())\ncon.close()\n",
+      "justification_from_packet": "Explorer: S12-T3-A-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT)\")\n# placeholders, never f-string with user input\neid = \"C001';OR 1=1\"\nprint(con.execute(\"SELECT * FROM evidence WHERE entity_id = ?\", (eid,)).fetchall())\ncon.close()\n",
+      "justification_from_packet": "Explorer: S12-T3-A-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "code": "print(\"SQL con f-string e input de usuario es inyección; usar placeholders ?\")\n",
+      "justification_from_packet": "Explorer: S12-T3-A-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE c(id TEXT PRIMARY KEY)\")\ntry:\n    with con:\n        con.execute(\"INSERT INTO c VALUES (?)\", (\"C001\",))\n        con.execute(\"INSERT INTO c VALUES (?)\", (\"C001\",))\nexcept sqlite3.IntegrityError:\n    print(\"rollback_on_duplicate\")\nprint(con.execute(\"SELECT COUNT(*) FROM c\").fetchone())\ncon.close()\n",
+      "justification_from_packet": "Explorer: S12-T3-B-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE c(id TEXT PRIMARY KEY)\")\ntry:\n    with con:\n        con.execute(\"INSERT INTO c VALUES (?)\", (\"C001\",))\n        con.execute(\"INSERT INTO c VALUES (?)\", (\"C001\",))\nexcept sqlite3.IntegrityError:\n    print(\"second insert rolled back\")\nprint(\"count\", con.execute(\"SELECT COUNT(*) FROM c\").fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "Explorer: S12-T3-B-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "code": "print(\"transacciones: commit atómico; IntegrityError no deja half-writes\")\n",
+      "justification_from_packet": "Explorer: S12-T3-B-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "code": "payload = {\"street\": \"Av 1\", \"document_id\": \"12345678\", \"lat\": -12.0}\nallowed_keys = {\"street\", \"city\", \"lat\", \"lon\"}\ndef allowed_for_public_geocode(p):\n    return {k: v for k, v in p.items() if k in allowed_keys}\nprint(allowed_for_public_geocode(payload))\nprint(\"document_id no sale a geocoder público\")\n",
+      "justification_from_packet": "Explorer: S12-T4-A-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "code": "print(\"token API en variable de entorno / secret store, nunca en URL ni logs de provenance\")\n",
+      "justification_from_packet": "Explorer: S12-T4-A-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "code": "def allowed_for_public_geocode(payload: dict) -> dict:\n    deny = {\"document_id\", \"email\", \"phone\", \"api_token\"}\n    return {k: v for k, v in payload.items() if k not in deny}\nprint(allowed_for_public_geocode({\"street\": \"x\", \"document_id\": \"1\"}))\n",
+      "justification_from_packet": "Explorer: S12-T4-A-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "code": "import math\n\ndef haversine_km(a, b):\n    lat1, lon1 = a\n    lat2, lon2 = b\n    R = 6371.0\n    p1, p2 = math.radians(lat1), math.radians(lat2)\n    dphi = math.radians(lat2 - lat1)\n    dl = math.radians(lon2 - lon1)\n    x = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2\n    return 2 * R * math.asin(math.sqrt(x))\n\nprint(round(haversine_km((-12.05, -77.05), (-12.06, -77.04)), 3))\n",
+      "justification_from_packet": "Explorer: S12-T4-B-E1 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "code": "def as_relationship_signal(km):\n    return {\"kind\": \"geo_proximity\", \"km\": km, \"is_family\": False, \"is_fraud\": False}\n\nprint(as_relationship_signal(1.2))\n",
+      "justification_from_packet": "Explorer: S12-T4-B-E2 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "code": "def as_relationship_signal(km):\n    # Nunca setees is_family\n    return {\"relationship_signal_score\": max(0.0, 1.0 - km / 10.0), \"km\": km, \"note\": \"geoseñal no veredicto\"}\nprint(as_relationship_signal(1.2))\n",
+      "justification_from_packet": "Explorer: S12-T4-B-E3 resuelto con instruction/hints del quiz_card S12 (HTTP status, SQL placeholders, egress y Haversine); sin ____/TODO y con contrato del exercise.",
+      "concepts_used": [
+        "S12"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Un 400 Bad Request del proveedor se trata como error de cliente (no retry ciego).",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "El token de API vive en variable de entorno / secret store, no hardcodeado.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SQL con f-string e input de usuario es inyección; usar placeholders ?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Enviar document_id bancario a un geocoder público viola la política de egress de CP-N1-C.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "1.2 km entre entidades sintéticas es una geoseñal de relación, no un veredicto.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T11:18:39Z",
+  "session_started_at": "2026-07-23T11:16:47Z",
+  "session_ended_at": "2026-07-23T11:18:39Z"
+}

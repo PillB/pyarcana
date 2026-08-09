@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-3a55d0c91e-s16",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "id": "S16-T1-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':['C001', None]})\nprint(int(df['id'].isna().sum()))\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T1-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero. P. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "id": "S16-T1-A-E2",
+      "code": "import pandas as pd\npolicy={'a':'required','b':'optional'}\ndf=pd.DataFrame({'a':[1,None],'b':[None,2]})\nout={c:int(df[c].isna().sum()) for c,p in policy.items() if p=='required' and df[c].isna().any()}\nprint(out)\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T1-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que tengan nulls (valor. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "id": "S16-T1-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':[None]})\nprint('fail' if df['id'].isna().any() else 'pass')\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T1-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellenes nulls para forzar. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "id": "S16-T1-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'monto':[1.0, None]})\ndf['was_null']=df['monto'].isna()\ndf['monto']=df['monto'].fillna(0)\nprint(df['was_null'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T1-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista de was_null. Pass: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "id": "S16-T1-B-E2",
+      "code": "import pandas as pd\ns=pd.Series([1.0, None, None, 2.0])\nrate=s.isna().mean()\nprint('blocked' if rate>0.3 else 'ok')\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T1-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`, si no `ok`. Pass: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "id": "S16-T1-B-E3",
+      "code": "import pandas as pd\ns=pd.Series([1.0,2.0,None])\nmed=s.median()\nout=s.fillna(med)\nprint(out.tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T1-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de valores originales . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "id": "S16-T2-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'a':[1,1,2],'b':[0,0,9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T2-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el entero. Pass: conteo de. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "id": "S16-T2-A-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001','C001','C002'],'region':['Lima','Cusco','Lima']})\nconf=df.groupby('cliente_id')['region'].nunique()\nprint(conf[conf>1].index.tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T2-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de ids en conflicto. Pas. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "id": "S16-T2-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001'],'region':['Lima'],'score':[1.0]})\nsub=df[df.cliente_id=='C001']\nif len(sub)>1 and sub.duplicated(keep=False).all():\n    print('exact')\nelif sub['region'].nunique()>1:\n    print('conflict')\nelse:\n    print('clean')\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T2-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflicto de región print `c. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "id": "S16-T2-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':['a','a','b'],'v':[1,2,3]})\nq=df[df.duplicated('id', keep=False)]\nclean=df.drop_duplicates('id', keep='first')\nprint(len(q), len(clean))\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T2-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imprime ambos lens. Pas. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "id": "S16-T2-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':['a','a'],'batch':['b1','b2']})\nq=df[df.duplicated('id', keep=False)]\nprint(q.columns.tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T2-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); imprime `columns.tol. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "id": "S16-T2-B-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':['a','b'],'v':[1,2]})\nprint('card_ok' if df['id'].nunique()==len(df) else 'card_fail')\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T2-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pass: `card_ok` en DF . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "id": "S16-T3-A-E1",
+      "code": "import pandas as pd\ns=pd.Series([' lima ','CUSCO'])\nprint(s.str.strip().str.title().tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T3-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco']`. No borres el raw. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "id": "S16-T3-A-E2",
+      "code": "import pandas as pd\ns=pd.Series(['S/1.5','S/2'])\nv=s.str.replace('S/','',regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T3-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass: `3.5`. Normalizar . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "id": "S16-T3-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'region_raw':['lima']})\ndf['region']=df['region_raw'].str.title()\nprint(bool((df['region_raw']=='lima').all()), df['region'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T3-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evidencia según solutio. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "id": "S16-T3-B-E1",
+      "code": "import pandas as pd\ns=pd.Series([1.0,-2.0,3.0])\nprint((s<0).tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T3-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en negativos). No drops. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "id": "S16-T3-B-E2",
+      "code": "import pandas as pd\ns=pd.Series([1.0,2.0,3.0,100.0])\nq1,q3=s.quantile(0.25),s.quantile(0.75)\niqr=q3-q1\nmask=(s<q1-1.5*iqr)|(s>q3+1.5*iqr)\nprint(s[mask].tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T3-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye 100). Domain bounds . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "id": "S16-T3-B-E3",
+      "code": "import pandas as pd\ns=pd.Series([1.0,2.0,-1.0])\nval=s.iloc[2]\nprint('error' if val<0 else 'ok')\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T3-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `error` (dominio). Pr. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "id": "S16-T4-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':[1]})\nrequired=['id','monto']\nprint([c for c in required if c not in df.columns])\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T4-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['monto']` (u orden del or. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "id": "S16-T4-A-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'inicio':pd.to_datetime(['2024-01-01','2024-06-01']),'fin':pd.to_datetime(['2024-02-01','2024-05-01'])})\nprint(df.index[df['fin']<df['inicio']].tolist())\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T4-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del fixture. Cada regla . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "id": "S16-T4-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'id':[1]})\nmissing=[c for c in ['id','monto'] if c not in df.columns]\nprint('drift' if missing else 'schema_ok')\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T4-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle según fixture. Fail-clo. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "id": "S16-T4-B-E1",
+      "code": "rows_in=10\nq=3\nprint(rows_in-q)\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T4-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del reporte del gate.. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: rows_in=10… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "id": "S16-T4-B-E2",
+      "code": "audit=[{'event':'start'}]\naudit.append({'event':'quarantine'})\nprint(len(audit))\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T4-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del oracle (n_prev+1). N. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: audit=[{'event':'start'}]… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "id": "S16-T4-B-E3",
+      "code": "n_q=1\nprint(False if n_q>0 else True)\n",
+      "justification_from_packet": "Como skeptic en Calidad, limpieza y contratos de datos, crucé S16-T4-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica métricas aunque el gate. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: n_q=1… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S16 «Un campo marked required con nulls debe:»: la respuesta «Provocar violación/cuarentena o fail del gate» es la única coherente con el vocabulario de Calidad, limpieza y contratos de datos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S16 «Duplicado exacto vs conflicto de clave:»: la respuesta «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» es la única coherente con el vocabulario de Calidad, limpieza y contratos de datos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S16 «Conservar region_raw al normalizar sirve para:»: la respuesta «Auditar y disputar la forma canónica sin perder el valor original» es la única coherente con el vocabulario de Calidad, limpieza y contratos de datos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Autochequeo skeptic S16 «IQR sin domain bounds es riesgoso porque:»: la respuesta «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» es la única coherente con el vocabulario de Calidad, limpieza y contratos de datos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S16 «Un quality gate que falla debe:»: la respuesta «Publicar métricas y cuarentena aunque pass=False» es la única coherente con el vocabulario de Calidad, limpieza y contratos de datos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:14.829338+00:00",
+  "session_started_at": "2026-07-23T17:25:17.398310Z",
+  "session_ended_at": "2026-07-23T17:26:06.096084Z",
+  "receipt_response_sha256": "6733ae338a18ed6e49e8866e696c42e1abd57cc5e27f4b4765231c55e1ae9ef4",
+  "receipt_exercises_sha256": "910023210072abb6a13738426e5a8b68fee1e87832afe47705484709c5a7b10e",
+  "receipt_selfcheck_sha256": "149d3a3403949b5be723f5c81b544551cba63a8b5620ebe2fa9f35a81d6d9ced"
+}

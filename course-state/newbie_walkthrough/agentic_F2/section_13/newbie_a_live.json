@@ -1,0 +1,541 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s13-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T1-A-E1: packet-only solve (no prior lives)\nimport re\ndef norm_name(n):\n    pass\n\n# F2-note:88636b08ae packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "norm_name",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/79d01f89] Resuelvo S13-T1-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta». Pista: «re.sub para espacios y no alfanuméricos». Demo S13-T1-A-DEMO. Código ancla: `import re`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T1-A-E2: packet-only solve (no prior lives)\ndef blocking_key(rec):\n    pass\n\n# F2-note:72f422dfc4 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "blocking_key",
+        "rec"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/454b9e07] S13-T1-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden» · hint «Último token no; usa el segundo token como apellido paterno o el último: documenta. Aquí: » · S13-T1-A-DEMO. Entrega: `def blocking_key(rec):`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T1-A-E3: packet-only solve (no prior lives)\nimport re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\n\n# F2-note:a4e9311956 packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "norm_doc",
+        "sub"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e81387be] Resuelvo S13-T1-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si solo stdlib + reglas deterministas S01–S13. Documenta el criterio en el». Pista: «Combina igualdad de doc y block». Demo S13-T1-A-DEMO. Código ancla: `import re`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T1-B-E1: packet-only solve (no prior lives)\ntp, fp, fn = 8, 2, 2\n\n# F2-note:202a81af3d packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0bad5183] Como explorador, S13-T1-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta». Aplico «precision = tp/(tp+fp)». Línea clave: `tp, fp, fn = 8, 2, 2`. Heading: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T1-B-E2: packet-only solve (no prior lives)\npairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n\n# F2-note:18bf95a3e4 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pairs",
+        "score"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e0f5bb5e] S13-T1-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden» · hint «list comprehension con filtro de banda» · S13-T1-B-DEMO. Entrega: `pairs = [`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T1-B-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:7293f6e256 packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f98048f0] Resuelvo S13-T1-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Pista: «Mensajes fijos cortos». Demo S13-T1-B-DEMO. Código ancla: `# agentic_F2-explorer/S13-T1-B-E3: packet-only solve (no prior lives)`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T2-A-E1: packet-only solve (no prior lives)\ndef shared_email(a, b):\n    pass\n\n# F2-note:5e06a29a59 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "shared_email",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f633ce1c] Resuelvo S13-T2-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta». Pista: «a and b and a.casefold()==b.casefold()». Demo S13-T2-A-DEMO. Código ancla: `def shared_email(a, b):`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T2-A-E2: packet-only solve (no prior lives)\ndef rel_score(km, surname_jaccard):\n    pass\n\n# F2-note:393b546906 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rel_score",
+        "surname_jaccard"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/cf9239ab] Como explorador, S13-T2-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Aplico «Combina distancia y apellido». Línea clave: `def rel_score(km, surname_jaccard):`. Heading: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T2-A-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n\n# F2-note:17356dc4f2 packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c258aeac] Resuelvo S13-T2-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Pista: «Un solo print». Demo S13-T2-A-DEMO. Código ancla: `pass  # fixture vacío — usa solution contract`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T2-B-E1: packet-only solve (no prior lives)\ntxs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    pass\n\n# F2-note:b2504ee15c packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "txs",
+        "direct_txs"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/38dd1fcd] S13-T2-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta» · hint «set equality de endpoints» · S13-T2-B-DEMO. Entrega: `txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T2-B-E2: packet-only solve (no prior lives)\ntxs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    pass\n\n# F2-note:43839d4942 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "txs",
+        "neighbors"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5caea6c2] S13-T2-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden» · hint «Intersección de vecinos» · S13-T2-B-DEMO. Entrega: `txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T2-B-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:bd0af313ef packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c8aba661] Resuelvo S13-T2-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Pista: «Mensajes explícitos». Demo S13-T2-B-DEMO. Código ancla: `# agentic_F2-explorer/S13-T2-B-E3: packet-only solve (no prior lives)`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T3-A-E1: packet-only solve (no prior lives)\ndef explanation_bullets(er, rel, missing):\n    pass\n\n# F2-note:dfff487c02 packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "explanation_bullets",
+        "rel"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d8566824] S13-T3-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta» · hint «f-strings con los tres inputs» · S13-T3-A-DEMO. Entrega: `def explanation_bullets(er, rel, missing):`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T3-A-E2: packet-only solve (no prior lives)\ndef uncertainty_band(missing, conflict):\n    pass\n\n# F2-note:b61359c1b6 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "uncertainty_band",
+        "missing"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1099874d] Resuelvo S13-T3-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Pista: «Orden de ifs: conflict primero». Demo S13-T3-A-DEMO. Código ancla: `def uncertainty_band(missing, conflict):`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T3-A-E3: packet-only solve (no prior lives)\ner, rel = 0.9, 0.1\n\n# F2-note:dff55da8a8 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rel"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/557dd74c] S13-T3-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden» · hint «abs(er-rel)>0.5 → conflict» · S13-T3-A-DEMO. Entrega: `er, rel = 0.9, 0.1`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T3-B-E1: packet-only solve (no prior lives)\nthresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\n\n# F2-note:82a59503b2 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "thresholds",
+        "accept_min"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/30344713] S13-T3-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta» · hint «Dos límites forman tres intervalos contiguos» · S13-T3-B-DEMO. Entrega: `thresholds = {`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T3-B-E2: packet-only solve (no prior lives)\nfrom math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\ndef decide_ops_status(score, unc, th):\n    pass\n\n# F2-note:eca8365a2f packet-grounded (explorer); instr_tokens=16\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "math",
+        "isfinite"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9e9dffd0] S13-T3-B-E2 — material del slim_packet basta. «E2 (independiente) — Implementa la matriz total: input inválido→invalid_input; high→needs_review; score<review_low→abstain; score<accept_min→needs_review; resto» · hint «Implementa la matriz de decisión» · S13-T3-B-DEMO. Entrega: `from math import isfinite`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T3-B-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:76de073589 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2a9f64c1] S13-T3-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden» · hint «pop o dict comprehension» · S13-T3-B-DEMO. Entrega: `# agentic_F2-explorer/S13-T3-B-E3: packet-only solve (no prior lives)`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T4-A-E1: packet-only solve (no prior lives)\ndef pseudonymize(name):\n    pass\n\n# F2-note:20fb922dc7 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pseudonymize",
+        "name"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e692e54f] Resuelvo S13-T4-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta». Pista: «primer char + *** por token». Demo S13-T4-A-DEMO. Código ancla: `def pseudonymize(name):`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T4-A-E2: packet-only solve (no prior lives)\ndef case_sheet(er, rel):\n    pass\n\n# F2-note:b4103fbaa4 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "case_sheet",
+        "rel"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/17fe24b0] Como explorador, S13-T4-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Aplico «Claves entity_resolution_score y relationship_signal_score». Línea clave: `def case_sheet(er, rel):`. Heading: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T4-A-E3: packet-only solve (no prior lives)\ndef map_tooltip(lat, lon, km, source):\n    pass\n\n# F2-note:c16c53bafd packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "map_tooltip",
+        "lat"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2fe9feff] Resuelvo S13-T4-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Pista: «Incluye source=». Demo S13-T4-A-DEMO. Código ancla: `def map_tooltip(lat, lon, km, source):`. Teoría: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T4-B-E1: packet-only solve (no prior lives)\nprivacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\n\n# F2-note:ae0d1fd729 packet-grounded (explorer); instr_tokens=47\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "privacy",
+        "data_class"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e6b7b2fd] S13-T4-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Ta» · hint «Tres campos mínimos CF-1» · S13-T4-B-DEMO. Entrega: `privacy = {`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T4-B-E2: packet-only solve (no prior lives)\ndef demo_command():\n    pass\n\n# F2-note:771bfa974e packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "demo_command",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3c4aefa5] Como explorador, S13-T4-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden». Aplico «String fijo documentado en runbook». Línea clave: `def demo_command():`. Heading: Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S13-T4-B-E3: packet-only solve (no prior lives)\nactions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\n\n# F2-note:c2cea2ef1b packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S13",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "actions",
+        "rotate_secret"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/eaf96602] S13-T4-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y eviden» · hint «Orden fijo de respuesta» · S13-T4-B-DEMO. Entrega: `actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]`. Normalización, blocking y entity resolution | Verdad etiquetada, precision/recal."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Mantenerse separados en la ficha de caso",
+      "justification_from_packet": "[agentic_F2/Explorer] S13 q0: ER score y relationship_signal se mantienen separados en la ficha; no fusionar sin etiqueta.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Error de matching; no es veredicto legal de fraude",
+      "justification_from_packet": "[agentic_F2/Explorer] S13 q1: false positive de ER = error de matching, no veredicto legal de fraude.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Encolar needs_review / abstenerse según política",
+      "justification_from_packet": "[agentic_F2/Explorer] S13 q2: zona gris → needs_review/abstener; no auto_fraud ni is_family.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Privacy sheet, acceso, tests, demo y runbook",
+      "justification_from_packet": "[agentic_F2/Explorer] S13 q3: CF-1 incluye privacy sheet, acceso, tests, demo y runbook.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+      "justification_from_packet": "[agentic_F2/Explorer] S13 q4: regresión L1 re-chequea paths S01–S13 en runbook; no enviar PII.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.198467+00:00"
+}

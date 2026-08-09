@@ -1,0 +1,492 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:39:24.770000+00:00",
+  "session_ended_at": "2026-07-23T12:40:37.240000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T1-A-E1\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(valor['id'] for valor in nodes if valor['role']=='link' and valor['name']=='Inicio'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "locator",
+        "por",
+        "rol",
+        "nodes",
+        "role",
+        "link",
+        "name",
+        "inicio"
+      ],
+      "justification_from_packet": "Explorer S23-T1-A-E1: partí del starterCode e instruction del quiz_card «Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador …». Completé el contrato Pass con código ancla `nodes=[{'role':'link','name':'Inicio','id':'n1'}]`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T1-A-E2\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "prioridad",
+        "estrategias",
+        "strats",
+        "css",
+        "role",
+        "testid",
+        "ordena",
+        "priorizando"
+      ],
+      "justification_from_packet": "Explorer S23-T1-A-E2: partí del starterCode e instruction del quiz_card «Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Co…». Completé el contrato Pass con código ancla `strats=['css','role','testid']`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `strats=['css','role','testid']`."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T1-A-E3\nnodes=[{'role':'img','name':'logo'}]\nhits=[valor for valor in nodes if valor['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "sin",
+        "control",
+        "button",
+        "nodes",
+        "solo",
+        "img",
+        "logo",
+        "buscar"
+      ],
+      "justification_from_packet": "Explorer S23-T1-A-E3: partí del starterCode e instruction del quiz_card «Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fa…». Completé el contrato Pass con código ancla `nodes=[{'role':'img','name':'logo'}]`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T1-B-E1\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        print(i)\n        break",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "auto",
+        "wait",
+        "simulado",
+        "ready",
+        "vuelve",
+        "true",
+        "intento",
+        "loop"
+      ],
+      "justification_from_packet": "Explorer S23-T1-B-E1: partí del starterCode e instruction del quiz_card «Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep rea…». Completé el contrato Pass con código ancla `for i in range(1, 4):`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `for i in range(1, 4):`."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T1-B-E2\nready = False\nfor i in range(3):\n    if ready:\n        print('ok')\n        break\nelse:\n    print('timeout')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "timeout",
+        "espera",
+        "ready",
+        "false",
+        "fijo",
+        "tras",
+        "intentos",
+        "sin"
+      ],
+      "justification_from_packet": "Explorer S23-T1-B-E2: partí del starterCode e instruction del quiz_card «Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo …». Completé el contrato Pass con código ancla `ready = False`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `ready = False`."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T1-B-E3\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "assertion",
+        "tulo",
+        "expected",
+        "actual",
+        "portal",
+        "demo",
+        "imprime",
+        "pass"
+      ],
+      "justification_from_packet": "Explorer S23-T1-B-E3: partí del starterCode e instruction del quiz_card «Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass…». Completé el contrato Pass con código ancla `expected, actual = 'Portal demo', 'Portal demo'`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `expected, actual = 'Portal demo', 'Portal demo'`."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T2-A-E1\nform = {}\nform['usuario'] = 'ana'\nprint(form)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "fill",
+        "formulario",
+        "sint",
+        "tico",
+        "form",
+        "asigna",
+        "usuario",
+        "ana"
+      ],
+      "justification_from_packet": "Explorer S23-T2-A-E1: partí del starterCode e instruction del quiz_card «Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo f…». Completé el contrato Pass con código ancla `form = {}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `form = {}`."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T2-A-E2\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "verificaci",
+        "download",
+        "sha256",
+        "hex",
+        "data",
+        "primeros",
+        "chars",
+        "hashlib"
+      ],
+      "justification_from_packet": "Explorer S23-T2-A-E2: partí del starterCode e instruction del quiz_card «Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtu…». Completé el contrato Pass con código ancla `import hashlib`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import hashlib`."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T2-A-E3\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "reuso",
+        "sesi",
+        "state",
+        "token",
+        "presente",
+        "imprime",
+        "reuse",
+        "login"
+      ],
+      "justification_from_packet": "Explorer S23-T2-A-E3: partí del starterCode e instruction del quiz_card «Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa …». Completé el contrato Pass con código ancla `state={'token':'t'}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `state={'token':'t'}`."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T2-B-E1\nclass LoginPage:\n    def submit(self, ctx, password):\n        ctx['auth'] = password == 'sandbox'\nctx={}\nLoginPage().submit(ctx, 'sandbox')\nprint(ctx['auth'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "page",
+        "object",
+        "loginpage",
+        "password",
+        "sandbox",
+        "autentica",
+        "implementa",
+        "submit"
+      ],
+      "justification_from_packet": "Explorer S23-T2-B-E1: partí del starterCode e instruction del quiz_card «Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: Tr…». Completé el contrato Pass con código ancla `class LoginPage:`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `class LoginPage:`."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T2-B-E2\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\n    print('ok')\nexcept PermissionError:\n    print('denied')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "reportpage",
+        "sin",
+        "auth",
+        "ctx",
+        "false",
+        "open",
+        "debe",
+        "denegar"
+      ],
+      "justification_from_packet": "Explorer S23-T2-B-E2: partí del starterCode e instruction del quiz_card «ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass:…». Completé el contrato Pass con código ancla `ctx={'auth':False}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `ctx={'auth':False}`."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T2-B-E3\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transici",
+        "estado",
+        "state",
+        "anonymous",
+        "tras",
+        "login",
+        "imprime",
+        "authenticated"
+      ],
+      "justification_from_packet": "Explorer S23-T2-B-E3: partí del starterCode e instruction del quiz_card «Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Us…». Completé el contrato Pass con código ancla `state='anonymous'`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `state='anonymous'`."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T3-A-E1\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "paquete",
+        "evidencia",
+        "con",
+        "trace",
+        "screenshot",
+        "error",
+        "imprime",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer S23-T3-A-E1: partí del starterCode e instruction del quiz_card «Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', …». Completé el contrato Pass con código ancla `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}`."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T3-A-E2\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "filtro",
+        "console",
+        "logs",
+        "err",
+        "timeout",
+        "nav",
+        "imprime",
+        "solo"
+      ],
+      "justification_from_packet": "Explorer S23-T3-A-E2: partí del starterCode e instruction del quiz_card «Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa…». Completé el contrato Pass con código ancla `logs=['ok','ERR timeout','nav']`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `logs=['ok','ERR timeout','nav']`."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T3-A-E3\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "adjuntar",
+        "trace",
+        "falla",
+        "false",
+        "pkg",
+        "step",
+        "not",
+        "ade"
+      ],
+      "justification_from_packet": "Explorer S23-T3-A-E3: partí del starterCode e instruction del quiz_card «Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass:…». Completé el contrato Pass con código ancla `ok=False`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `ok=False`."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T3-B-E1\ndef should_retry(k):\n    return k in {'timeout', '429'}\nfor k in ('timeout','captcha','429'):\n    print(k, should_retry(k))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "pol",
+        "tica",
+        "should_retry",
+        "true",
+        "solo",
+        "para",
+        "timeout",
+        "prueba"
+      ],
+      "justification_from_packet": "Explorer S23-T3-B-E1: partí del starterCode e instruction del quiz_card «Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no …». Completé el contrato Pass con código ancla `def should_retry(k):`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def should_retry(k):`."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T3-B-E2\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "recovery",
+        "stale",
+        "dom",
+        "err",
+        "action",
+        "goto_home",
+        "imprime",
+        "contrato"
+      ],
+      "justification_from_packet": "Explorer S23-T3-B-E2: partí del starterCode e instruction del quiz_card «Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo …». Completé el contrato Pass con código ancla `err='stale'`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `err='stale'`."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T3-B-E3\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        print('ok', i)\n        break\n    if i==3:\n        print('fail', i)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "timeouts",
+        "errors",
+        "lista",
+        "tres",
+        "timeout",
+        "imprime",
+        "fail",
+        "con"
+      ],
+      "justification_from_packet": "Explorer S23-T3-B-E3: partí del starterCode e instruction del quiz_card «Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sin…». Completé el contrato Pass con código ancla `errors=['timeout','timeout','timeout']`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `errors=['timeout','timeout','timeout']`."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T4-A-E1\napi=True\nprint('api' if api else 'rpa')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "api",
+        "first",
+        "gate",
+        "true",
+        "elige",
+        "imprime",
+        "elecci",
+        "del"
+      ],
+      "justification_from_packet": "Explorer S23-T4-A-E1: partí del starterCode e instruction del quiz_card «API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Us…». Completé el contrato Pass con código ancla `api=True`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `api=True`."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T4-A-E2\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "orden",
+        "api",
+        "export",
+        "rpa",
+        "flags",
+        "false",
+        "true",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S23-T4-A-E2: partí del starterCode e instruction del quiz_card «Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export.…». Completé el contrato Pass con código ancla `f={'api':False,'export':True,'rpa':True}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `f={'api':False,'export':True,'rpa':True}`."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T4-A-E3\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "decisi",
+        "documentada",
+        "cae",
+        "rpa",
+        "con",
+        "reason",
+        "no_api",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S23-T4-A-E3: partí del starterCode e instruction del quiz_card «Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa',…». Completé el contrato Pass con código ancla `decision={'method':'rpa','reason':'no_api'}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `decision={'method':'rpa','reason':'no_api'}`."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T4-B-E1\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "captcha",
+        "portal",
+        "demo",
+        "true",
+        "imprime",
+        "human_handoff",
+        "sin",
+        "intentar"
+      ],
+      "justification_from_packet": "Explorer S23-T4-B-E1: partí del starterCode e instruction del quiz_card «CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: hu…». Completé el contrato Pass con código ancla `captcha=True`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `captcha=True`."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T4-B-E2\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "tos",
+        "gana",
+        "sig",
+        "con",
+        "tos_forbidden",
+        "true",
+        "captcha",
+        "action"
+      ],
+      "justification_from_packet": "Explorer S23-T4-B-E2: partí del starterCode e instruction del quiz_card «ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtur…». Completé el contrato Pass con código ancla `sig={'tos_forbidden':True,'captcha':True}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `sig={'tos_forbidden':True,'captcha':True}`."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S23-T4-B-E3\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "payload",
+        "handoff",
+        "arma",
+        "estructura",
+        "con",
+        "url",
+        "step",
+        "screenshot"
+      ],
+      "justification_from_packet": "Explorer S23-T4-B-E3: partí del starterCode e instruction del quiz_card «Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia pa…». Completé el contrato Pass con código ancla `payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}`. Pista del paquete: «contrato I/O en instruction». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `payload={'url':'https://demo.test/app','step':'export','scre`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Refleja la UI accesible y suele ser más estable",
+      "justification_from_packet": "Explorer S23 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S23-T1-A\", \"heading\": \"DOM y locators orientados a usuario\", \"paragraphs\": [\"Prefiere **get_by_role**, *…») y la pregunta «¿Por qué preferir get_by_role a CSS nth-child?». La opción [2] «Refleja la UI accesible y suele ser más estable» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Detenerse y hacer handoff humano",
+      "justification_from_packet": "Explorer S23 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S23-T1-A\", \"heading\": \"DOM y locators orientados a usuario\", \"paragraphs\": [\"Prefiere **get_by_role**, *…») y la pregunta «Ante un CAPTCHA el robot debe:». La opción [0] «Detenerse y hacer handoff humano» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+      "justification_from_packet": "Explorer S23 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S23-T1-A\", \"heading\": \"DOM y locators orientados a usuario\", \"paragraphs\": [\"Prefiere **get_by_role**, *…») y la pregunta «API/export primero significa:». La opción [1] «Buscar integración no-UI antes de automatizar el browser» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+      "justification_from_packet": "Explorer S23 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S23-T1-A\", \"heading\": \"DOM y locators orientados a usuario\", \"paragraphs\": [\"Prefiere **get_by_role**, *…») y la pregunta «Un retry seguro reintenta:». La opción [3] «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:40:37.240000+00:00"
+}

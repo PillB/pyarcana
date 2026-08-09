@@ -1,0 +1,9 @@
+{
+  "section": 19,
+  "id": "databases-orm",
+  "file": "src/lib/course/sections/s19-databases-orm.ts",
+  "score_1_to_10": 6.4,
+  "issue_count": 30,
+  "meta_leak_count": 13,
+  "status": "complete"
+}
