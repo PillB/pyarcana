@@ -221,3 +221,49 @@ Task: QA-driven UI improvements — dark mode, progress overview, search/filter,
 4. **Capstone comparison view** — a feature to compare two capstones side-by-side (rubrics, artifacts, prerequisites) would help learners choose electives.
 5. **Print/export to PDF** — the system cards and capstone briefs should be exportable as PDF for portfolio inclusion.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389) for ongoing QA.
+
+---
+Task ID: cron-webDevReview-2
+Agent: main orchestrator (cron round)
+Task: Scaffold 13 runnable capstone starter project repos with Python code + acceptance tests
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 9 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code CA0C-62F3)
+- Previous round added: dark mode, progress overview, search/filter, grouped sections, styling polish
+
+## Completed modifications this round
+- **13 capstone starter repos** created in `capstones/` directory — each with:
+  - `solution.py`: real runnable Python reference implementation (100-300 lines, stdlib only)
+  - `acceptance.py`: acceptance test script that exits 0 on success, non-zero on failure
+  - `test_solution.py`: pytest tests covering normal, boundary, failure cases
+  - `generator.py` (CP-N1-A): synthetic data generator with seeded random
+  - `README.md`: learner-focused brief with prerequisites, setup, acceptance criteria
+  - `requirements.txt`: minimal deps (stdlib + pytest)
+  - `fixtures/sample.json`: synthetic sample data (CC0, no real PII)
+- **run_all_acceptance.sh**: bash script that runs all 13 acceptance tests and reports pass/fail
+- **capstones/README.md**: index listing all 13 capstones with level, gate, title
+- **tests/capstone-starters.test.ts**: 120 TS structure tests verifying each repo has required files, valid Python, no real PII, synthetic disclaimers
+- Key implementations:
+  - CP-N4-C: full multi-agent harness (provider-neutral adapters, RAG with access filtering + citations, narrow tools with allowlist, human approval gate, OTel-style traces with redaction, loop detection, budget enforcement, generator-verifier separation)
+  - CP-FINAL: integration platform (12 contract tests, E2E trace, backup/restore/rollback drill, no-go condition, system card, threat model, runbook, contribution statement, CV narrative)
+  - CP-N1-A: CLI with argparse, validation, normalisation, JSON+text summaries
+  - CP-N3-A: entity resolution with blocking, comparators, precision/recall, ambiguous queue
+
+## Verification results
+- **All 13 Python acceptance tests pass** (run_all_acceptance.sh: 13 pass, 0 fail)
+- 388 bun tests pass (was 268 + 120 new = 388)
+- 15 Playwright tests pass (no regression)
+- Lint clean
+- All data synthetic (seeded random, CC0, no real PII)
+- No external deps beyond Python stdlib + pytest
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code CA0C-62F3 pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Capstone comparison view** — a feature to compare two capstones side-by-side (rubrics, artifacts, prerequisites).
+4. **Print/export to PDF** — system cards and capstone briefs should be exportable as PDF.
+5. **Dependency graph visualization** — a visual graph showing the 13-capstone flow and upstream dependencies.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
