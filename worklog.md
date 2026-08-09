@@ -405,3 +405,38 @@ Task: Bookmarks filter, section progress per capstone, export/import progress
 4. **Capstone difficulty indicator** — show relative difficulty (artifacts count, critical criteria count) on each card.
 5. **Recently viewed capstones** — track the last 3-5 opened capstones for quick access.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-7
+Agent: main orchestrator (cron round)
+Task: Progress timeline, difficulty indicator, recently viewed capstones
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 19 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code 34F9-B417)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export, deep-linking, progress persistence, keyboard shortcuts, evidence checkboxes, section progress, bookmarks, bookmarks filter, export/import
+
+## Completed modifications this round
+- **Progress timeline**: useTimeline hook tracks when evidence was completed (capstoneId, evidence, timestamp); persisted to localStorage (max 50); timeline card shows last 10 items with date; recorded via toggleEvidenceWithTimeline wrapper
+- **Difficulty indicator**: computed from level*2 + criticalCriteria.length + floor(artifacts/5); four tiers (Foundational/Intermediate/Advanced/Expert) with colored pills (emerald/amber/orange/red) + dark-mode variants; shows on every capstone card
+- **Recently viewed capstones**: useRecent hook tracks last 5 opened (persisted); recently-viewed card with clickable capstone ID chips; Clear button; only appears when non-empty; addRecent called in openWithHash
+- **i18n**: 14 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (no regression)
+- Lint clean, type-check clean
+- agent-browser: difficulty pills render (Intermediate for L1 capstones)
+- agent-browser: recently-viewed section appears after opening a capstone
+- agent-browser: timeline appears after checking off evidence items
+- No console errors
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code 34F9-B417 pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Capstone prerequisites graph** — visualize prerequisite chain for a specific capstone (not just the global dependency graph).
+4. **Streak tracker** — track consecutive days of evidence completion.
+5. **Achievement notifications** — toast when a capstone reaches 100% evidence.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
