@@ -342,6 +342,26 @@ function useAchievements(progress: LearnerProgress): [Achievement | null, () => 
   return [current, dismiss];
 }
 
+// Capstone notes (persisted per capstone)
+const NOTES_KEY = "pyarcana-notes-v1";
+function useNotes(): [Record<string, string>, (id: string, note: string) => void] {
+  const [notes, setNotes] = React.useState<Record<string, string>>({});
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(NOTES_KEY);
+      if (saved) setNotes(JSON.parse(saved));
+    } catch {}
+  }, []);
+  const set = React.useCallback((id: string, note: string) => {
+    setNotes((prev) => {
+      const next = { ...prev, [id]: note };
+      try { localStorage.setItem(NOTES_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }, []);
+  return [notes, set];
+}
+
 function blockerToLearner(lang: Lang, blocker: string): string {
   const map: Record<string, StringKey> = {
     "missing-rollback": "missingRollback",
@@ -489,12 +509,14 @@ function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark, 
 
 // ─────────────────────────────── capstone detail dialog ───────────────────────────────
 
-function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, onViewSystemCard, prog, onToggleEvidence }: {
+function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, onViewSystemCard, prog, onToggleEvidence, notes, onSetNote }: {
   capstoneId: string | null; lang: Lang; onClose: () => void;
   onRunCopilot: (id: string) => void; onRunFinal: (id: string) => void;
   onViewSystemCard?: (id: string) => void;
   prog: LearnerProgress;
   onToggleEvidence?: (id: string, evidence: string, done: boolean) => void;
+  notes: Record<string, string>;
+  onSetNote: (id: string, note: string) => void;
 }) {
   const c = capstoneId ? getCapstone(capstoneId) : null;
   if (!c) return null;
@@ -703,6 +725,20 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
             <section>
               <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "remediationPaths")}</h4>
               <BulletList items={c.remediationPaths} icon={RotateCcw} />
+            </section>
+
+            {/* Notes */}
+            <section className="rounded-md border border-slate-200 p-3 dark:border-slate-700">
+              <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "notes")}</h4>
+              <textarea
+                value={notes[c.capstoneId] ?? ""}
+                onChange={(e) => onSetNote(c.capstoneId, e.target.value)}
+                placeholder={t(lang, "notesPlaceholder")}
+                className="w-full rounded-md border border-slate-300 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                rows={3}
+                aria-label={t(lang, "notes")}
+              />
+              <div className="mt-1 text-[10px] text-slate-400">{t(lang, "notesSaved")}</div>
             </section>
 
             {/* Badge + final integration */}
@@ -1399,6 +1435,84 @@ function KeyboardHelpDialog({ lang, open, onClose }: { lang: Lang; open: boolean
   );
 }
 
+// ─────────────────────────────── progress dashboard ───────────────────────────────
+
+function ProgressDashboardDialog({ lang, open, onClose, progress, learningPath }: {
+  lang: Lang; open: boolean; onClose: () => void;
+  progress: LearnerProgress;
+  learningPath: { capstone: typeof CAPSTONES[0]; status: string; done: number; total: number }[];
+}) {
+  const byLevel = LEVELS.map((lv) => {
+    const caps = CAPSTONES.filter((c) => c.level === lv.levelId && c.capstoneId !== "CP-FINAL");
+    const totalDone = caps.reduce((s, c) => s + (progress[c.capstoneId]?.evidenceCompleted.length ?? 0), 0);
+    const totalArt = caps.reduce((s, c) => s + c.requiredArtifacts.length, 0);
+    return { level: lv, pct: Math.round((totalDone / totalArt) * 100), done: totalDone, total: totalArt };
+  });
+  const statusCounts = {
+    ready: learningPath.filter((x) => x.status === "ready").length,
+    "in-progress": learningPath.filter((x) => x.status === "in-progress").length,
+    completed: learningPath.filter((x) => x.status === "completed").length,
+    blocked: learningPath.filter((x) => x.status === "blocked").length,
+  };
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-h-[90vh] max-w-3xl overflow-hidden p-0">
+        <DialogHeader className="border-b p-4">
+          <div className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <DialogTitle className="text-lg">{t(lang, "progressDashboard")}</DialogTitle>
+          </div>
+          <DialogDescription className="text-xs">{t(lang, "progressDashboardDesc")}</DialogDescription>
+        </DialogHeader>
+        <ScrollArea className="max-h-[calc(90vh-8rem)]">
+          <div className="space-y-4 p-4">
+            {/* Status summary */}
+            <section>
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "learningPath")}</h4>
+              <div className="grid grid-cols-4 gap-2 text-center">
+                <div className="rounded-lg border border-emerald-300 bg-emerald-50/50 p-2 dark:border-emerald-800 dark:bg-emerald-950/20">
+                  <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{statusCounts.ready}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">{t(lang, "ready")}</div>
+                </div>
+                <div className="rounded-lg border border-amber-300 bg-amber-50/50 p-2 dark:border-amber-800 dark:bg-amber-950/20">
+                  <div className="text-xl font-bold text-amber-600 dark:text-amber-400">{statusCounts["in-progress"]}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">{t(lang, "inProgress")}</div>
+                </div>
+                <div className="rounded-lg border border-violet-300 bg-violet-50/50 p-2 dark:border-violet-800 dark:bg-violet-950/20">
+                  <div className="text-xl font-bold text-violet-600 dark:text-violet-400">{statusCounts.completed}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">{t(lang, "completed2")}</div>
+                </div>
+                <div className="rounded-lg border border-slate-300 bg-slate-50 p-2 dark:border-slate-700 dark:bg-slate-800/50">
+                  <div className="text-xl font-bold text-slate-400">{statusCounts.blocked}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">{t(lang, "blocked")}</div>
+                </div>
+              </div>
+            </section>
+            {/* By level */}
+            <section>
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "byLevel")}</h4>
+              <div className="space-y-2">
+                {byLevel.map(({ level, pct, done, total }) => (
+                  <div key={level.stableId} className="rounded-md border p-2 dark:border-slate-700 dark:bg-slate-800">
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="font-medium">{t(lang, "levelLabel")} {level.levelId} — {lang === "es" ? level.spanishName : level.name}</span>
+                      <span className="font-mono text-slate-500 dark:text-slate-400">{done}/{total} · {pct}%</span>
+                    </div>
+                    <Progress value={pct} className="h-2" />
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        </ScrollArea>
+        <DialogFooter className="border-t p-3">
+          <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─────────────────────────────── main page ───────────────────────────────
 
 export default function HomePage() {
@@ -1420,6 +1534,8 @@ export default function HomePage() {
   const [timeline, recordTimeline] = useTimeline();
   const streak = useStreak(timeline);
   const [achievement, dismissAchievement] = useAchievements(progress);
+  const [notes, setNote] = useNotes();
+  const [dashboardOpen, setDashboardOpen] = React.useState(false);
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   const open = React.useCallback((id: string) => {
@@ -1467,6 +1583,29 @@ export default function HomePage() {
   const totalBlockers = CAPSTONES.reduce((s, c) => s + (progress[c.capstoneId]?.blockers.length ?? 0), 0);
   const implementedCount = CAPSTONES.filter((c) => c.status === "implemented").length;
   const sectionsDone = SECTIONS.filter((s) => sectionCompleted.has(s.sectionId)).length;
+
+  // Learning path: classify each capstone as ready/in-progress/completed/blocked
+  const learningPath = React.useMemo(() => {
+    return CAPSTONES.map((c) => {
+      const p = progress[c.capstoneId] ?? DEFAULT_PROGRESS[c.capstoneId];
+      const done = p.evidenceCompleted.length;
+      const total = c.requiredArtifacts.length;
+      // Check prerequisites: all badgeDependencies' capstones must be complete
+      const prereqsMet = c.badgeDependencies.every((bd) => {
+        const fromBadge = BADGES.find((b) => b.badgeId === bd);
+        if (!fromBadge) return true;
+        const fp = progress[fromBadge.capstoneId] ?? DEFAULT_PROGRESS[fromBadge.capstoneId];
+        const fc = getCapstone(fromBadge.capstoneId);
+        return fp.evidenceCompleted.length === fc.requiredArtifacts.length;
+      });
+      let status: "ready" | "in-progress" | "completed" | "blocked";
+      if (done === total && total > 0) status = "completed";
+      else if (done > 0) status = "in-progress";
+      else if (prereqsMet) status = "ready";
+      else status = "blocked";
+      return { capstone: c, status, done, total };
+    });
+  }, [progress]);
 
   // Filter capstones
   const filteredCapstones = React.useMemo(() => {
@@ -1629,6 +1768,43 @@ export default function HomePage() {
             )}
           </section>
         )}
+
+        {/* Learning path */}
+        <section className="mb-6 rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+          <div className="mb-3 flex items-center justify-between">
+            <div>
+              <h2 className="flex items-center gap-1 text-lg font-semibold"><Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />{t(lang, "learningPath")}</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t(lang, "learningPathDesc")}</p>
+            </div>
+            <Button size="sm" variant="outline" className="focus-ring" onClick={() => setDashboardOpen(true)}>
+              <BarChart3 className="mr-1 h-3.5 w-3.5" />{t(lang, "progressDashboard")}
+            </Button>
+          </div>
+          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+            {learningPath.map(({ capstone: c, status, done, total }) => {
+              const statusConfig = {
+                ready: { color: "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800 dark:bg-emerald-950/20", label: t(lang, "ready"), icon: CheckCircle2, iconColor: "text-emerald-600 dark:text-emerald-400" },
+                "in-progress": { color: "border-amber-300 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-950/20", label: t(lang, "inProgress"), icon: Play, iconColor: "text-amber-600 dark:text-amber-400" },
+                completed: { color: "border-violet-300 bg-violet-50/50 dark:border-violet-800 dark:bg-violet-950/20", label: t(lang, "completed2"), icon: CheckCircle2, iconColor: "text-violet-600 dark:text-violet-400" },
+                blocked: { color: "border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50", label: t(lang, "blocked"), icon: XCircle, iconColor: "text-slate-400" },
+              }[status];
+              const Icon = statusConfig.icon;
+              return (
+                <button key={c.capstoneId} onClick={() => openWithHash(c.capstoneId)} className={`card-hover focus-ring rounded-lg border p-2 text-left ${statusConfig.color}`}>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-semibold text-slate-600 dark:text-slate-400">{c.capstoneId}</span>
+                    <Icon className={`h-3.5 w-3.5 ${statusConfig.iconColor}`} />
+                  </div>
+                  <div className="text-xs font-medium text-slate-700 dark:text-slate-300 truncate">{lang === "es" ? c.titleEs : c.title}</div>
+                  <div className="mt-1 flex items-center justify-between text-[10px]">
+                    <span className={statusConfig.iconColor}>{statusConfig.label}</span>
+                    <span className="text-slate-400">{done}/{total}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Tools row: share, reset progress, keyboard help */}
         <section className="mb-6 flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -1897,6 +2073,8 @@ export default function HomePage() {
         onViewSystemCard={(id) => { setOpenId(null); setSysCardId(id); }}
         prog={progress}
         onToggleEvidence={toggleEvidenceWithTimeline}
+        notes={notes}
+        onSetNote={setNote}
       />
       <CopilotHarness lang={lang} open={copilotOpen} onClose={() => setCopilotOpen(false)} />
       <FinalIntegration lang={lang} open={finalOpen} onClose={() => setFinalOpen(false)} />
@@ -1904,6 +2082,7 @@ export default function HomePage() {
       <ComparisonDialog lang={lang} open={compareOpen} onClose={() => setCompareOpen(false)} />
       <DependencyGraphDialog lang={lang} open={graphOpen} onClose={() => setGraphOpen(false)} />
       <KeyboardHelpDialog lang={lang} open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <ProgressDashboardDialog lang={lang} open={dashboardOpen} onClose={() => setDashboardOpen(false)} progress={progress} learningPath={learningPath} />
 
       {/* Achievement toast */}
       {achievement && (
