@@ -213,6 +213,54 @@ function useSectionProgress(): [Set<string>, (sectionId: string) => void] {
   return [completed, toggle];
 }
 
+// Recently viewed capstones (persisted, max 5)
+const RECENT_KEY = "pyarcana-recent-v1";
+function useRecent(): [string[], (id: string) => void, () => void] {
+  const [recent, setRecent] = React.useState<string[]>([]);
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(RECENT_KEY);
+      if (saved) setRecent(JSON.parse(saved));
+    } catch {}
+  }, []);
+  const add = React.useCallback((id: string) => {
+    setRecent((prev) => {
+      const next = [id, ...prev.filter((x) => x !== id)].slice(0, 5);
+      try { localStorage.setItem(RECENT_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }, []);
+  const clear = React.useCallback(() => {
+    setRecent([]);
+    try { localStorage.removeItem(RECENT_KEY); } catch {}
+  }, []);
+  return [recent, add, clear];
+}
+
+// Progress timeline: track when evidence was completed
+const TIMELINE_KEY = "pyarcana-timeline-v1";
+interface TimelineEntry { capstoneId: string; evidence: string; ts: string; }
+function useTimeline(): [TimelineEntry[], (capstoneId: string, evidence: string, done: boolean) => void] {
+  const [timeline, setTimeline] = React.useState<TimelineEntry[]>([]);
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(TIMELINE_KEY);
+      if (saved) setTimeline(JSON.parse(saved));
+    } catch {}
+  }, []);
+  const record = React.useCallback((capstoneId: string, evidence: string, done: boolean) => {
+    setTimeline((prev) => {
+      let next = prev.filter((e) => !(e.capstoneId === capstoneId && e.evidence === evidence));
+      if (done) {
+        next = [{ capstoneId, evidence, ts: new Date().toISOString() }, ...next].slice(0, 50);
+      }
+      try { localStorage.setItem(TIMELINE_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }, []);
+  return [timeline, record];
+}
+
 function blockerToLearner(lang: Lang, blocker: string): string {
   const map: Record<string, StringKey> = {
     "missing-rollback": "missingRollback",
@@ -277,6 +325,10 @@ function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark, 
   const pct = Math.round((done / total) * 100);
   const isFinal = capstoneId === "CP-FINAL";
   const hasBlockers = progress.blockers.length > 0;
+  // Difficulty: based on level + critical criteria count + artifacts count
+  const difficultyScore = c.level * 2 + c.criticalCriteria.length + Math.floor(c.requiredArtifacts.length / 5);
+  const difficulty = difficultyScore <= 8 ? "easy" : difficultyScore <= 12 ? "medium" : difficultyScore <= 16 ? "hard" : "expert";
+  const difficultyColor = { easy: "bg-emerald-100 text-emerald-700 border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800", medium: "bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800", hard: "bg-orange-100 text-orange-700 border-orange-300 dark:bg-orange-950/50 dark:text-orange-300 dark:border-orange-800", expert: "bg-red-100 text-red-700 border-red-300 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800" }[difficulty];
 
   return (
     <Card className={`card-hover flex h-full flex-col ${isFinal ? "border-violet-300 bg-violet-50/40 dark:bg-violet-950/20 dark:border-violet-800" : ""}`}>
@@ -312,6 +364,9 @@ function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark, 
           <Pill><Flag className="h-3 w-3" />{t(lang, "gateLabel")}: {c.gateSection}</Pill>
           <Pill variant="default">v{c.version}</Pill>
           {c.subGates.length > 0 && <Pill variant="warn">{c.subGates.length} {t(lang, "subGateLabel")}</Pill>}
+          <span className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[10px] font-medium ${difficultyColor}`} title={t(lang, "difficulty")}>
+            {t(lang, `difficulty${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}` as StringKey)}
+          </span>
         </div>
         <div>
           <div className="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
@@ -1254,6 +1309,8 @@ export default function HomePage() {
   const [progress, toggleProgress, resetProgress] = useProgress();
   const [bookmarks, toggleBookmark] = useBookmarks();
   const [sectionCompleted, toggleSection] = useSectionProgress();
+  const [recent, addRecent, clearRecent] = useRecent();
+  const [timeline, recordTimeline] = useTimeline();
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   const open = React.useCallback((id: string) => {
@@ -1274,8 +1331,15 @@ export default function HomePage() {
     if (typeof window !== "undefined") {
       window.location.hash = id.toLowerCase();
     }
+    addRecent(id);
     open(id);
-  }, [open]);
+  }, [open, addRecent]);
+
+  // Toggle evidence + record timeline
+  const toggleEvidenceWithTimeline = React.useCallback((id: string, evidence: string, done: boolean) => {
+    toggleProgress(id, evidence, done);
+    recordTimeline(id, evidence, done);
+  }, [toggleProgress, recordTimeline]);
 
   // Keyboard shortcuts
   useKeyboardShortcuts({
@@ -1411,6 +1475,50 @@ export default function HomePage() {
             </div>
           </Card>
         </section>
+
+        {/* Recently viewed + Timeline */}
+        {(recent.length > 0 || timeline.length > 0) && (
+          <section className="mb-6 grid gap-4 md:grid-cols-2">
+            {recent.length > 0 && (
+              <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="flex items-center gap-1 text-sm font-semibold"><BookOpen className="h-4 w-4 text-violet-600 dark:text-violet-400" />{t(lang, "recentlyViewed")}</h3>
+                  <Button size="sm" variant="ghost" className="h-6 text-xs focus-ring" onClick={clearRecent}>{t(lang, "clear")}</Button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {recent.map((id) => {
+                    const c = getCapstone(id);
+                    return (
+                      <button key={id} onClick={() => openWithHash(id)} className="focus-ring rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-mono hover:border-violet-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-violet-700" title={lang === "es" ? c.titleEs : c.title}>
+                        {id}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Card>
+            )}
+            {timeline.length > 0 && (
+              <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="flex items-center gap-1 text-sm font-semibold"><TrendingUp className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />{t(lang, "timeline")}</h3>
+                </div>
+                <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">{t(lang, "timelineDesc")}</p>
+                <div className="max-h-40 space-y-1 overflow-y-auto scrollbar-thin">
+                  {timeline.slice(0, 10).map((e, i) => (
+                    <div key={i} className="flex items-center justify-between rounded border p-1.5 text-xs dark:border-slate-700 dark:bg-slate-800">
+                      <div className="flex items-center gap-1.5">
+                        <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                        <span className="font-mono text-violet-600 dark:text-violet-400">{e.capstoneId}</span>
+                        <span className="text-slate-600 dark:text-slate-400 truncate max-w-[120px]">{e.evidence}</span>
+                      </div>
+                      <span className="text-slate-400 text-[10px]">{new Date(e.ts).toLocaleDateString()}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
+          </section>
+        )}
 
         {/* Tools row: share, reset progress, keyboard help */}
         <section className="mb-6 flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -1678,7 +1786,7 @@ export default function HomePage() {
         onRunFinal={() => { setOpenId(null); setFinalOpen(true); }}
         onViewSystemCard={(id) => { setOpenId(null); setSysCardId(id); }}
         prog={progress}
-        onToggleEvidence={toggleProgress}
+        onToggleEvidence={toggleEvidenceWithTimeline}
       />
       <CopilotHarness lang={lang} open={copilotOpen} onClose={() => setCopilotOpen(false)} />
       <FinalIntegration lang={lang} open={finalOpen} onClose={() => setFinalOpen(false)} />
