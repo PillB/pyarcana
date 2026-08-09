@@ -21,7 +21,7 @@ import {
   Lock, AlertTriangle, CheckCircle2, XCircle, Play, RotateCcw, FileCheck,
   ListChecks, BookOpen, GraduationCap, ArrowRight, Info, Scale,
   Moon, Sun, Search, Filter, TrendingUp, Layers, Sparkles,
-  GitCompare, Printer, Share2, ArrowDown,
+  GitCompare, Printer, Share2, ArrowDown, Star, CheckSquare, Square,
 } from "lucide-react";
 import { CAPSTONES, getCapstone, FINAL_INTERFACES } from "@/data/capstones";
 import { LEVELS, CARDINALITY } from "@/data/levels";
@@ -170,6 +170,48 @@ function useDeepLink(onOpenCapstone: (id: string) => void) {
   }, [onOpenCapstone]);
 }
 
+// Bookmark/favorite capstones (persisted to localStorage)
+const BOOKMARKS_KEY = "pyarcana-bookmarks-v1";
+function useBookmarks(): [Set<string>, (id: string) => void] {
+  const [bookmarks, setBookmarks] = React.useState<Set<string>>(new Set());
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(BOOKMARKS_KEY);
+      if (saved) setBookmarks(new Set(JSON.parse(saved)));
+    } catch {}
+  }, []);
+  const toggle = React.useCallback((id: string) => {
+    setBookmarks((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      try { localStorage.setItem(BOOKMARKS_KEY, JSON.stringify([...next])); } catch {}
+      return next;
+    });
+  }, []);
+  return [bookmarks, toggle];
+}
+
+// Section-level progress (persisted to localStorage)
+const SECTION_PROGRESS_KEY = "pyarcana-section-progress-v1";
+function useSectionProgress(): [Set<string>, (sectionId: string) => void] {
+  const [completed, setCompleted] = React.useState<Set<string>>(new Set());
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(SECTION_PROGRESS_KEY);
+      if (saved) setCompleted(new Set(JSON.parse(saved)));
+    } catch {}
+  }, []);
+  const toggle = React.useCallback((sectionId: string) => {
+    setCompleted((prev) => {
+      const next = new Set(prev);
+      if (next.has(sectionId)) next.delete(sectionId); else next.add(sectionId);
+      try { localStorage.setItem(SECTION_PROGRESS_KEY, JSON.stringify([...next])); } catch {}
+      return next;
+    });
+  }, []);
+  return [completed, toggle];
+}
+
 function blockerToLearner(lang: Lang, blocker: string): string {
   const map: Record<string, StringKey> = {
     "missing-rollback": "missingRollback",
@@ -223,7 +265,7 @@ function BulletList({ items, icon: Icon }: { items: string[]; icon?: React.Compo
 
 // ─────────────────────────────── capstone card ───────────────────────────────
 
-function CapstoneCard({ capstoneId, lang, onOpen, prog }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void; prog: LearnerProgress }) {
+function CapstoneCard({ capstoneId, lang, onOpen, prog, bookmarked, onBookmark }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void; prog: LearnerProgress; bookmarked: boolean; onBookmark: (id: string) => void }) {
   const c = getCapstone(capstoneId);
   const badge = BADGES.find((b) => b.capstoneId === capstoneId);
   const IconBadge = badge ? (ICONS[badge.icon] ?? GraduationCap) : GraduationCap;
@@ -252,6 +294,14 @@ function CapstoneCard({ capstoneId, lang, onOpen, prog }: { capstoneId: string; 
               <CardTitle className="text-base leading-tight">{lang === "es" ? c.titleEs : c.title}</CardTitle>
             </div>
           </div>
+          <button
+            onClick={() => onBookmark(c.capstoneId)}
+            className="focus-ring rounded-md p-1 text-slate-400 hover:text-amber-500 dark:hover:text-amber-400"
+            aria-label={bookmarked ? t(lang, "bookmarked") : t(lang, "bookmark")}
+            aria-pressed={bookmarked}
+          >
+            <Star className={`h-4 w-4 ${bookmarked ? "fill-amber-400 text-amber-400" : ""}`} />
+          </button>
         </div>
         <CardDescription className="mt-1 line-clamp-3 text-xs">{lang === "es" ? c.problemStatementEs : c.problemStatement}</CardDescription>
       </CardHeader>
@@ -503,20 +553,34 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
             </div>
 
             {/* Progress (learner-facing, not internal audit terms) */}
-            <section className="rounded-md border border-slate-200 p-3">
+            <section className="rounded-md border border-slate-200 p-3 dark:border-slate-700">
               <div className="mb-2 flex items-center justify-between">
                 <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t(lang, "progress")}</h4>
                 <span className="text-xs text-slate-500 dark:text-slate-400">{progress.evidenceCompleted.length}/{c.requiredArtifacts.length}</span>
               </div>
-              <div className="grid gap-2 md:grid-cols-2">
-                <div>
-                  <div className="mb-1 flex items-center gap-1 text-xs font-medium text-emerald-700"><CheckCircle2 className="h-3 w-3" />{t(lang, "evidenceCompleted")}</div>
-                  <BulletList items={progress.evidenceCompleted} />
+              <div className="space-y-1">
+                <div className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-slate-400">
+                  <CheckSquare className="h-3 w-3" />{t(lang, "evidenceLabel")} — {t(lang, "markComplete")}
                 </div>
-                <div>
-                  <div className="mb-1 flex items-center gap-1 text-xs font-medium text-amber-700"><AlertTriangle className="h-3 w-3" />{t(lang, "evidenceMissing")}</div>
-                  <BulletList items={progress.evidenceMissing} />
-                </div>
+                {c.requiredArtifacts.map((artifact) => {
+                  const isDone = progress.evidenceCompleted.includes(artifact);
+                  return (
+                    <label key={artifact} className="flex cursor-pointer items-start gap-2 rounded p-1 text-xs hover:bg-slate-50 dark:hover:bg-slate-800">
+                      <button
+                        type="button"
+                        onClick={() => onToggleEvidence?.(c.capstoneId, artifact, !isDone)}
+                        className="focus-ring mt-0.5 shrink-0 rounded"
+                        aria-label={isDone ? t(lang, "markIncomplete") : t(lang, "markComplete")}
+                        aria-pressed={isDone}
+                      >
+                        {isDone
+                          ? <CheckSquare className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                          : <Square className="h-3.5 w-3.5 text-slate-400" />}
+                      </button>
+                      <span className={isDone ? "text-slate-400 line-through dark:text-slate-500" : "text-slate-700 dark:text-slate-300"}>{artifact}</span>
+                    </label>
+                  );
+                })}
               </div>
               {progress.blockers.length > 0 && (
                 <div className="mt-2 rounded-md border border-amber-200 bg-amber-50 p-2">
@@ -1145,6 +1209,7 @@ function KeyboardHelpDialog({ lang, open, onClose }: { lang: Lang; open: boolean
       <DialogContent className="max-w-md p-0">
         <DialogHeader className="border-b p-4">
           <DialogTitle className="text-lg">{t(lang, "keyboardShortcuts")}</DialogTitle>
+          <DialogDescription className="text-xs">{t(lang, "shortcutsHelp")}</DialogDescription>
         </DialogHeader>
         <div className="p-4">
           <div className="space-y-2">
@@ -1179,6 +1244,8 @@ export default function HomePage() {
   const [search, setSearch] = React.useState("");
   const [filter, setFilter] = React.useState<"all" | "implemented" | "missing" | "blocked">("all");
   const [progress, toggleProgress, resetProgress] = useProgress();
+  const [bookmarks, toggleBookmark] = useBookmarks();
+  const [sectionCompleted, toggleSection] = useSectionProgress();
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   const open = React.useCallback((id: string) => {
@@ -1218,6 +1285,7 @@ export default function HomePage() {
   const overallPct = Math.round((totalDone / totalArtifacts) * 100);
   const totalBlockers = CAPSTONES.reduce((s, c) => s + (progress[c.capstoneId]?.blockers.length ?? 0), 0);
   const implementedCount = CAPSTONES.filter((c) => c.status === "implemented").length;
+  const sectionsDone = SECTIONS.filter((s) => sectionCompleted.has(s.sectionId)).length;
 
   // Filter capstones
   const filteredCapstones = React.useMemo(() => {
@@ -1314,11 +1382,11 @@ export default function HomePage() {
           <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "blockersActive")}</div>
-                <div className="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400">{totalBlockers}</div>
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(lang, "sectionsCompleted")}</div>
+                <div className="mt-1 text-2xl font-bold text-emerald-600 dark:text-emerald-400">{sectionsDone}/52</div>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400">
-                <AlertTriangle className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+                <CheckSquare className="h-5 w-5" />
               </div>
             </div>
           </Card>
@@ -1441,7 +1509,7 @@ export default function HomePage() {
                 </details>
                 <div id="capstones" className="grid gap-4 md:grid-cols-3">
                   {levelCapstones.map((c) => (
-                    <CapstoneCard key={c.capstoneId} capstoneId={c.capstoneId} lang={lang} onOpen={openWithHash} prog={progress} />
+                    <CapstoneCard key={c.capstoneId} capstoneId={c.capstoneId} lang={lang} onOpen={openWithHash} prog={progress} bookmarked={bookmarks.has(c.capstoneId)} onBookmark={toggleBookmark} />
                   ))}
                 </div>
               </div>
@@ -1461,7 +1529,7 @@ export default function HomePage() {
               <Pill variant="warn">CP-FINAL · S52</Pill>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={openWithHash} prog={progress} />
+              <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={openWithHash} prog={progress} bookmarked={bookmarks.has("CP-FINAL")} onBookmark={toggleBookmark} />
               <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800 md:col-span-2">
                 <div className="mb-2 flex items-center justify-between">
                   <h3 className="text-sm font-semibold">{t(lang, "finalIntegrationInterfaces")}</h3>
@@ -1505,13 +1573,27 @@ export default function HomePage() {
                   <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
                     {lvSections.map((s) => {
                       const cap = getCapstone(s.capstoneId ?? "");
+                      const sDone = sectionCompleted.has(s.sectionId);
                       return (
-                        <div key={s.sectionId} className="card-hover rounded-md border p-2 text-xs dark:border-slate-700 dark:bg-slate-800">
+                        <div key={s.sectionId} className={`card-hover rounded-md border p-2 text-xs dark:border-slate-700 dark:bg-slate-800 ${sDone ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50/30 dark:bg-emerald-950/20" : ""}`}>
                           <div className="flex items-center justify-between">
-                            <span className="font-mono font-semibold text-slate-500 dark:text-slate-400">{s.sectionId}</span>
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => toggleSection(s.sectionId)}
+                                className="focus-ring shrink-0 rounded"
+                                aria-label={sDone ? t(lang, "markIncomplete") : t(lang, "markComplete")}
+                                aria-pressed={sDone}
+                              >
+                                {sDone
+                                  ? <CheckSquare className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                                  : <Square className="h-3.5 w-3.5 text-slate-400" />}
+                              </button>
+                              <span className="font-mono font-semibold text-slate-500 dark:text-slate-400">{s.sectionId}</span>
+                            </div>
                             <span className="font-mono text-[10px] text-violet-600 dark:text-violet-400">{s.capstoneId}</span>
                           </div>
-                          <div className="font-medium text-slate-700 dark:text-slate-200">{lang === "es" ? s.spanishTitle : s.title}</div>
+                          <div className={`font-medium text-slate-700 dark:text-slate-200 ${sDone ? "line-through text-slate-400 dark:text-slate-500" : ""}`}>{lang === "es" ? s.spanishTitle : s.title}</div>
                           <div className="mt-1 line-clamp-2 text-slate-500 dark:text-slate-400">{s.artifactAdded}</div>
                         </div>
                       );
