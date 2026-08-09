@@ -508,3 +508,38 @@ Task: Learning path recommendation, capstone notes, progress dashboard
 4. **Capstone difficulty filter** — filter by difficulty (Foundational/Intermediate/Advanced/Expert).
 5. **Social sharing** — share a capstone or progress summary via URL.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-10
+Agent: main orchestrator (cron round)
+Task: Onboarding tour, difficulty filter, share progress summary
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 25 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code 7991-C152)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export, deep-linking, progress persistence, keyboard shortcuts, evidence checkboxes, section progress, bookmarks, export/import, timeline, difficulty, recently viewed, prerequisite chain, streak, achievements, learning path, capstone notes, progress dashboard
+
+## Completed modifications this round
+- **Onboarding tour**: 6-step guided walkthrough (Welcome → Progress → Search → Cards → Tools → Learning path); progress dots; Prev/Next/Skip/Done; shows on first visit; replayable via tools button; Playwright tests pre-dismiss
+- **Difficulty filter**: dropdown (All/Foundational/Intermediate/Advanced/Expert); works alongside search and status filters; filters by computed difficulty score
+- **Share progress summary**: copies text summary to clipboard (overall %, evidence, streak, sections, bookmarks, URL); alert confirms copy
+- **i18n**: 24 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (fixed: beforeEach addInitScript pre-dismisses onboarding)
+- Lint clean, type-check clean
+- agent-browser: onboarding dialog appears on first visit, dismisses on Skip
+- agent-browser: difficulty filter dropdown renders with 5 options
+- agent-browser: share progress button renders
+- No console errors
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code 7991-C152 pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Capstone search by tag** — add tags (e.g. "RAG", "ER", "ML") for cross-cutting search.
+4. **Progress heatmap** — a calendar heatmap showing daily evidence completion.
+5. **Achievement gallery** — a dialog showing all unlocked achievements with dates.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
