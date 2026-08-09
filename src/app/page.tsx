@@ -362,6 +362,26 @@ function useNotes(): [Record<string, string>, (id: string, note: string) => void
   return [notes, set];
 }
 
+// Onboarding tour: shows on first visit (unless dismissed)
+const ONBOARDING_KEY = "pyarcana-onboarding-dismissed-v1";
+function useOnboarding(): [boolean, () => void, () => void] {
+  const [show, setShow] = React.useState(false);
+  React.useEffect(() => {
+    try {
+      if (!localStorage.getItem(ONBOARDING_KEY)) setShow(true);
+    } catch {}
+  }, []);
+  const dismiss = React.useCallback(() => {
+    try { localStorage.setItem(ONBOARDING_KEY, "1"); } catch {}
+    setShow(false);
+  }, []);
+  const reset = React.useCallback(() => {
+    try { localStorage.removeItem(ONBOARDING_KEY); } catch {}
+    setShow(true);
+  }, []);
+  return [show, dismiss, reset];
+}
+
 function blockerToLearner(lang: Lang, blocker: string): string {
   const map: Record<string, StringKey> = {
     "missing-rollback": "missingRollback",
@@ -1435,6 +1455,59 @@ function KeyboardHelpDialog({ lang, open, onClose }: { lang: Lang; open: boolean
   );
 }
 
+// ─────────────────────────────── onboarding tour ───────────────────────────────
+
+function OnboardingDialog({ lang, open, onClose }: { lang: Lang; open: boolean; onClose: () => void }) {
+  const [step, setStep] = React.useState(0);
+  const steps = [
+    { title: t(lang, "onboardingWelcome"), desc: t(lang, "onboardingWelcomeDesc"), icon: GraduationCap },
+    { title: t(lang, "onboardingStep1"), desc: t(lang, "onboardingStep1Desc"), icon: TrendingUp },
+    { title: t(lang, "onboardingStep2"), desc: t(lang, "onboardingStep2Desc"), icon: Search },
+    { title: t(lang, "onboardingStep3"), desc: t(lang, "onboardingStep3Desc"), icon: BookOpen },
+    { title: t(lang, "onboardingStep4"), desc: t(lang, "onboardingStep4Desc"), icon: Sparkles },
+    { title: t(lang, "onboardingStep5"), desc: t(lang, "onboardingStep5Desc"), icon: Network },
+  ];
+  const current = steps[step];
+  const Icon = current.icon;
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-w-md p-0">
+        <DialogHeader className="border-b p-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 text-white">
+              <Icon className="h-5 w-5" />
+            </div>
+            <div>
+              <DialogTitle className="text-lg">{current.title}</DialogTitle>
+              <DialogDescription className="text-xs">{step + 1} / {steps.length}</DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
+        <div className="p-4">
+          <p className="text-sm text-slate-600 dark:text-slate-400">{current.desc}</p>
+          {/* Progress dots */}
+          <div className="mt-4 flex justify-center gap-1.5">
+            {steps.map((_, i) => (
+              <button key={i} onClick={() => setStep(i)} className={`h-2 w-2 rounded-full transition-colors focus-ring ${i === step ? "bg-violet-600 dark:bg-violet-400" : "bg-slate-300 dark:bg-slate-700"}`} aria-label={`Step ${i + 1}`} />
+            ))}
+          </div>
+        </div>
+        <DialogFooter className="border-t p-3">
+          <div className="flex w-full items-center justify-between">
+            <Button size="sm" variant="ghost" className="focus-ring" onClick={onClose}>{t(lang, "onboardingSkip")}</Button>
+            <div className="flex gap-2">
+              {step > 0 && <Button size="sm" variant="outline" className="focus-ring" onClick={() => setStep(step - 1)}>{t(lang, "onboardingPrev")}</Button>}
+              {step < steps.length - 1
+                ? <Button size="sm" className="focus-ring" onClick={() => setStep(step + 1)}>{t(lang, "onboardingNext")}</Button>
+                : <Button size="sm" className="focus-ring" onClick={onClose}>{t(lang, "onboardingDone")}</Button>}
+            </div>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─────────────────────────────── progress dashboard ───────────────────────────────
 
 function ProgressDashboardDialog({ lang, open, onClose, progress, learningPath }: {
@@ -1536,6 +1609,8 @@ export default function HomePage() {
   const [achievement, dismissAchievement] = useAchievements(progress);
   const [notes, setNote] = useNotes();
   const [dashboardOpen, setDashboardOpen] = React.useState(false);
+  const [showOnboarding, dismissOnboarding, resetOnboarding] = useOnboarding();
+  const [difficultyFilter, setDifficultyFilter] = React.useState<string>("all");
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   const open = React.useCallback((id: string) => {
@@ -1617,9 +1692,15 @@ export default function HomePage() {
       if (filter === "missing" && p.evidenceMissing.length === 0) return false;
       if (filter === "blocked" && p.blockers.length === 0) return false;
       if (filter === "bookmarked" && !bookmarks.has(c.capstoneId)) return false;
+      // Difficulty filter
+      if (difficultyFilter !== "all") {
+        const ds = c.level * 2 + c.criticalCriteria.length + Math.floor(c.requiredArtifacts.length / 5);
+        const diff = ds <= 8 ? "easy" : ds <= 12 ? "medium" : ds <= 16 ? "hard" : "expert";
+        if (diff !== difficultyFilter) return false;
+      }
       return true;
     });
-  }, [search, filter, lang, progress, bookmarks]);
+  }, [search, filter, lang, progress, bookmarks, difficultyFilter]);
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -1844,6 +1925,15 @@ export default function HomePage() {
             }}>
               <Share2 className="mr-1 h-3 w-3" />{t(lang, "shareLink")}
             </Button>
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" title={t(lang, "shareProgressDesc")} onClick={() => {
+              const summary = `PyArcana Progress: ${overallPct}% overall (${totalDone}/${totalArtifacts} evidence), ${streak.count}-day streak, ${sectionsDone}/52 sections, ${bookmarks.size} bookmarks. ${window.location.href}`;
+              navigator.clipboard?.writeText(summary).then(() => alert(t(lang, "shareProgressCopied"))).catch(() => {});
+            }}>
+              <BarChart3 className="mr-1 h-3 w-3" />{t(lang, "shareProgress")}
+            </Button>
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={resetOnboarding}>
+              <Info className="mr-1 h-3 w-3" />{t(lang, "onboarding")}
+            </Button>
             <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => { if (confirm(t(lang, "resetProgress") + "?")) { resetProgress(); try { localStorage.removeItem(BOOKMARKS_KEY); localStorage.removeItem(SECTION_PROGRESS_KEY); } catch {} window.location.reload(); } }}>
               <RotateCcw className="mr-1 h-3 w-3" />{t(lang, "resetProgress")}
             </Button>
@@ -1881,6 +1971,21 @@ export default function HomePage() {
                 {t(lang, `filter${f.charAt(0).toUpperCase() + f.slice(1)}` as StringKey)}
               </Button>
             ))}
+          </div>
+          {/* Difficulty filter */}
+          <div className="flex items-center gap-1">
+            <select
+              value={difficultyFilter}
+              onChange={(e) => setDifficultyFilter(e.target.value)}
+              className="rounded-md border border-slate-300 bg-white py-1.5 px-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 focus-ring"
+              aria-label={t(lang, "filterDifficulty")}
+            >
+              <option value="all">{t(lang, "allDifficulties")}</option>
+              <option value="easy">{t(lang, "difficultyEasy")}</option>
+              <option value="medium">{t(lang, "difficultyMedium")}</option>
+              <option value="hard">{t(lang, "difficultyHard")}</option>
+              <option value="expert">{t(lang, "difficultyExpert")}</option>
+            </select>
           </div>
         </section>
 
@@ -2083,6 +2188,7 @@ export default function HomePage() {
       <DependencyGraphDialog lang={lang} open={graphOpen} onClose={() => setGraphOpen(false)} />
       <KeyboardHelpDialog lang={lang} open={helpOpen} onClose={() => setHelpOpen(false)} />
       <ProgressDashboardDialog lang={lang} open={dashboardOpen} onClose={() => setDashboardOpen(false)} progress={progress} learningPath={learningPath} />
+      <OnboardingDialog lang={lang} open={showOnboarding} onClose={dismissOnboarding} />
 
       {/* Achievement toast */}
       {achievement && (

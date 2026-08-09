@@ -6,6 +6,13 @@ import { test, expect } from "@playwright/test";
 
 const BASE = "http://localhost:3000";
 
+// Dismiss onboarding dialog before each test
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    try { localStorage.setItem("pyarcana-onboarding-dismissed-v1", "1"); } catch {}
+  });
+});
+
 test.describe("Cardinality and levels", () => {
   test("four levels render with correct headings", async ({ page }) => {
     await page.goto(BASE);
