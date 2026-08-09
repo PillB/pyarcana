@@ -301,3 +301,38 @@ Task: Capstone comparison view, dependency graph visualization, print/export
 4. **Progress persistence** — save learner progress to localStorage so completed evidence survives page refresh.
 5. **Keyboard shortcuts** — e.g. '?' for help, '/' for search focus, 'g c' for compare, 'g g' for graph.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-4
+Agent: main orchestrator (cron round)
+Task: Deep-linking, progress persistence, keyboard shortcuts
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 13 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code 8AD7-B4BE)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export
+
+## Completed modifications this round
+- **Deep-linking via URL hash**: opening a capstone sets `window.location.hash` (e.g. `#cp-n4-c`); `useDeepLink` hook opens the dialog on initial load from hash; shareable links; Share link button copies URL to clipboard; closing dialog clears hash via `history.replaceState`
+- **Progress persistence to localStorage**: `useProgress` hook loads/saves learner progress; evidence completion toggles persist across refresh; merge with defaults; Reset progress button (with confirm); progress overview KPIs read from persisted state
+- **Keyboard shortcuts**: `useKeyboardShortcuts` hook (`/` search, `g c` compare, `g g` graph, `?` help, `d` dark, `l` language, `Esc` close); `KeyboardHelpDialog` with kbd styling; shortcuts help button; doesn't trigger in inputs
+- **Tools row**: between progress overview and search — "Progress saved locally" indicator, Share link, Reset progress, Shortcuts help
+- **i18n**: 15 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (fixed deep-link race condition — useDeepLink now only opens on initial load, not on every hashchange)
+- Lint clean, type-check clean
+- agent-browser: deep-link `#cp-n4-c` opens CP-N4-C dialog
+- agent-browser: View brief opens dialog with all sections
+- agent-browser: keyboard help dialog opens via shortcuts button
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code 8AD7-B4BE pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Evidence toggle UI** — the `onToggleEvidence` prop is wired but the CapstoneDialog doesn't yet have checkboxes in the evidence list; add interactive checkboxes next to each evidence item.
+4. **Section-level progress** — track progress per section (S01–S52), not just per capstone.
+5. **Bookmark/favorite capstones** — let learners star capstones for quick access.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
