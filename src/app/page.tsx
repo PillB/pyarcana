@@ -94,6 +94,82 @@ const DEFAULT_PROGRESS: LearnerProgress = (() => {
   return out;
 })();
 
+const PROGRESS_KEY = "pyarcana-progress-v1";
+
+function useProgress(): [LearnerProgress, (id: string, evidence: string, done: boolean) => void, () => void] {
+  const [progress, setProgress] = React.useState<LearnerProgress>(DEFAULT_PROGRESS);
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(PROGRESS_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Merge with defaults so new capstones appear
+        setProgress({ ...DEFAULT_PROGRESS, ...parsed });
+      }
+    } catch {}
+  }, []);
+  const toggle = React.useCallback((id: string, evidence: string, done: boolean) => {
+    setProgress((prev) => {
+      const cap = prev[id] ?? { evidenceCompleted: [], evidenceMissing: [], blockers: [] };
+      const completed = new Set(cap.evidenceCompleted);
+      const missing = new Set(cap.evidenceMissing);
+      if (done) { completed.add(evidence); missing.delete(evidence); }
+      else { completed.delete(evidence); missing.add(evidence); }
+      const next = { ...prev, [id]: { evidenceCompleted: [...completed], evidenceMissing: [...missing], blockers: cap.blockers } };
+      try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }, []);
+  const reset = React.useCallback(() => {
+    setProgress(DEFAULT_PROGRESS);
+    try { localStorage.removeItem(PROGRESS_KEY); } catch {}
+  }, []);
+  return [progress, toggle, reset];
+}
+
+// Keyboard shortcuts: / search, g c compare, g g graph, ? help, d dark, l lang, Esc close
+function useKeyboardShortcuts(handlers: {
+  onSearch: () => void;
+  onCompare: () => void;
+  onGraph: () => void;
+  onHelp: () => void;
+  onDark: () => void;
+  onLang: () => void;
+}) {
+  const gPressed = React.useRef(false);
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      // Don't trigger when typing in inputs
+      const tag = (e.target as HTMLElement)?.tagName;
+      const isInput = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+      if (isInput && e.key !== "Escape") return;
+      if (e.key === "Escape") { return; }
+      if (e.key === "/") { e.preventDefault(); handlers.onSearch(); }
+      else if (e.key === "?") { e.preventDefault(); handlers.onHelp(); }
+      else if (e.key === "d") { e.preventDefault(); handlers.onDark(); }
+      else if (e.key === "l") { e.preventDefault(); handlers.onLang(); }
+      else if (e.key === "g") { gPressed.current = true; setTimeout(() => gPressed.current = false, 800); }
+      else if (gPressed.current && e.key === "c") { e.preventDefault(); gPressed.current = false; handlers.onCompare(); }
+      else if (gPressed.current && e.key === "g") { e.preventDefault(); gPressed.current = false; handlers.onGraph(); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [handlers]);
+}
+
+// Deep-linking: open capstone from URL hash on initial load
+function useDeepLink(onOpenCapstone: (id: string) => void) {
+  React.useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash.startsWith("cp-")) {
+      const id = hash.toUpperCase();
+      if (CAPSTONES.some((c) => c.capstoneId === id)) {
+        onOpenCapstone(id);
+      }
+    }
+  }, [onOpenCapstone]);
+}
+
 function blockerToLearner(lang: Lang, blocker: string): string {
   const map: Record<string, StringKey> = {
     "missing-rollback": "missingRollback",
@@ -147,11 +223,11 @@ function BulletList({ items, icon: Icon }: { items: string[]; icon?: React.Compo
 
 // ─────────────────────────────── capstone card ───────────────────────────────
 
-function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void }) {
+function CapstoneCard({ capstoneId, lang, onOpen, prog }: { capstoneId: string; lang: Lang; onOpen: (id: string) => void; prog: LearnerProgress }) {
   const c = getCapstone(capstoneId);
   const badge = BADGES.find((b) => b.capstoneId === capstoneId);
   const IconBadge = badge ? (ICONS[badge.icon] ?? GraduationCap) : GraduationCap;
-  const progress = DEFAULT_PROGRESS[capstoneId];
+  const progress = prog[capstoneId] ?? DEFAULT_PROGRESS[capstoneId];
   const total = c.requiredArtifacts.length;
   const done = progress.evidenceCompleted.length;
   const pct = Math.round((done / total) * 100);
@@ -219,10 +295,12 @@ function CapstoneCard({ capstoneId, lang, onOpen }: { capstoneId: string; lang: 
 
 // ─────────────────────────────── capstone detail dialog ───────────────────────────────
 
-function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, onViewSystemCard }: {
+function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, onViewSystemCard, prog, onToggleEvidence }: {
   capstoneId: string | null; lang: Lang; onClose: () => void;
   onRunCopilot: (id: string) => void; onRunFinal: (id: string) => void;
   onViewSystemCard?: (id: string) => void;
+  prog: LearnerProgress;
+  onToggleEvidence?: (id: string, evidence: string, done: boolean) => void;
 }) {
   const c = capstoneId ? getCapstone(capstoneId) : null;
   if (!c) return null;
@@ -230,7 +308,7 @@ function CapstoneDialog({ capstoneId, lang, onClose, onRunCopilot, onRunFinal, o
   const badge = BADGES.find((b) => b.capstoneId === c.capstoneId);
   const hasSystemCard = !!SYSTEM_CARDS[c.capstoneId];
   const rubric = RUBRICS[c.capstoneId];
-  const progress = DEFAULT_PROGRESS[c.capstoneId];
+  const progress = prog[c.capstoneId] ?? DEFAULT_PROGRESS[c.capstoneId];
   const isFinal = c.capstoneId === "CP-FINAL";
 
   return (
@@ -1050,6 +1128,42 @@ function DependencyGraphDialog({ lang, open, onClose }: { lang: Lang; open: bool
   );
 }
 
+// ─────────────────────────────── keyboard help ───────────────────────────────
+
+function KeyboardHelpDialog({ lang, open, onClose }: { lang: Lang; open: boolean; onClose: () => void }) {
+  const shortcuts: [string, string][] = [
+    ["/", t(lang, "shortcutSearch")],
+    ["g c", t(lang, "shortcutCompare")],
+    ["g g", t(lang, "shortcutGraph")],
+    ["?", t(lang, "shortcutHelp")],
+    ["d", t(lang, "shortcutDark")],
+    ["l", t(lang, "shortcutLang")],
+    ["Esc", t(lang, "shortcutEscape")],
+  ];
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-w-md p-0">
+        <DialogHeader className="border-b p-4">
+          <DialogTitle className="text-lg">{t(lang, "keyboardShortcuts")}</DialogTitle>
+        </DialogHeader>
+        <div className="p-4">
+          <div className="space-y-2">
+            {shortcuts.map(([key, desc]) => (
+              <div key={key} className="flex items-center justify-between rounded-md border p-2 text-sm dark:border-slate-700">
+                <span className="text-slate-600 dark:text-slate-400">{desc}</span>
+                <kbd className="rounded border bg-slate-50 px-2 py-0.5 font-mono text-xs font-semibold dark:bg-slate-800 dark:border-slate-600">{key}</kbd>
+              </div>
+            ))}
+          </div>
+        </div>
+        <DialogFooter className="border-t p-3">
+          <Button variant="outline" onClick={onClose}>{t(lang, "closeDialog")}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─────────────────────────────── main page ───────────────────────────────
 
 export default function HomePage() {
@@ -1061,20 +1175,48 @@ export default function HomePage() {
   const [sysCardId, setSysCardId] = React.useState<string | null>(null);
   const [compareOpen, setCompareOpen] = React.useState(false);
   const [graphOpen, setGraphOpen] = React.useState(false);
+  const [helpOpen, setHelpOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [filter, setFilter] = React.useState<"all" | "implemented" | "missing" | "blocked">("all");
+  const [progress, toggleProgress, resetProgress] = useProgress();
+  const searchRef = React.useRef<HTMLInputElement>(null);
 
-  const open = (id: string) => {
+  const open = React.useCallback((id: string) => {
     if (id === "CP-N4-C") { setCopilotOpen(true); return; }
     if (id === "CP-FINAL") { setFinalOpen(true); return; }
     setOpenId(id);
-  };
+  }, []);
 
-  // Compute overall progress
+  const closeAll = React.useCallback(() => {
+    setOpenId(null); setCopilotOpen(false); setFinalOpen(false);
+  }, []);
+
+  // Deep-linking
+  useDeepLink(open);
+
+  // Update URL hash when opening a capstone
+  const openWithHash = React.useCallback((id: string) => {
+    if (typeof window !== "undefined") {
+      window.location.hash = id.toLowerCase();
+    }
+    open(id);
+  }, [open]);
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onSearch: () => searchRef.current?.focus(),
+    onCompare: () => setCompareOpen(true),
+    onGraph: () => setGraphOpen(true),
+    onHelp: () => setHelpOpen(true),
+    onDark: toggleTheme,
+    onLang: toggleLang,
+  });
+
+  // Compute overall progress from persisted state
   const totalArtifacts = CAPSTONES.reduce((s, c) => s + c.requiredArtifacts.length, 0);
-  const totalDone = CAPSTONES.reduce((s, c) => s + DEFAULT_PROGRESS[c.capstoneId].evidenceCompleted.length, 0);
+  const totalDone = CAPSTONES.reduce((s, c) => s + (progress[c.capstoneId]?.evidenceCompleted.length ?? 0), 0);
   const overallPct = Math.round((totalDone / totalArtifacts) * 100);
-  const totalBlockers = CAPSTONES.reduce((s, c) => s + DEFAULT_PROGRESS[c.capstoneId].blockers.length, 0);
+  const totalBlockers = CAPSTONES.reduce((s, c) => s + (progress[c.capstoneId]?.blockers.length ?? 0), 0);
   const implementedCount = CAPSTONES.filter((c) => c.status === "implemented").length;
 
   // Filter capstones
@@ -1082,13 +1224,13 @@ export default function HomePage() {
     const q = search.toLowerCase().trim();
     return CAPSTONES.filter((c) => {
       if (q && !c.capstoneId.toLowerCase().includes(q) && !(lang === "es" ? c.titleEs : c.title).toLowerCase().includes(q) && !c.problemStatement.toLowerCase().includes(q)) return false;
-      const p = DEFAULT_PROGRESS[c.capstoneId];
+      const p = progress[c.capstoneId] ?? DEFAULT_PROGRESS[c.capstoneId];
       if (filter === "implemented" && c.status !== "implemented") return false;
       if (filter === "missing" && p.evidenceMissing.length === 0) return false;
       if (filter === "blocked" && p.blockers.length === 0) return false;
       return true;
     });
-  }, [search, filter, lang]);
+  }, [search, filter, lang, progress]);
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -1193,11 +1335,33 @@ export default function HomePage() {
           </Card>
         </section>
 
+        {/* Tools row: share, reset progress, keyboard help */}
+        <section className="mb-6 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+            <span>{t(lang, "progressSaved")}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => {
+              navigator.clipboard?.writeText(window.location.href).catch(() => {});
+            }}>
+              <Share2 className="mr-1 h-3 w-3" />{t(lang, "shareLink")}
+            </Button>
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => { if (confirm(t(lang, "resetProgress") + "?")) resetProgress(); }}>
+              <RotateCcw className="mr-1 h-3 w-3" />{t(lang, "resetProgress")}
+            </Button>
+            <Button size="sm" variant="ghost" className="focus-ring h-7 text-xs" onClick={() => setHelpOpen(true)}>
+              <Info className="mr-1 h-3 w-3" />{t(lang, "shortcutsHelp")}
+            </Button>
+          </div>
+        </section>
+
         {/* Search + filter */}
         <section className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
+              ref={searchRef}
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -1277,7 +1441,7 @@ export default function HomePage() {
                 </details>
                 <div id="capstones" className="grid gap-4 md:grid-cols-3">
                   {levelCapstones.map((c) => (
-                    <CapstoneCard key={c.capstoneId} capstoneId={c.capstoneId} lang={lang} onOpen={open} />
+                    <CapstoneCard key={c.capstoneId} capstoneId={c.capstoneId} lang={lang} onOpen={openWithHash} prog={progress} />
                   ))}
                 </div>
               </div>
@@ -1297,7 +1461,7 @@ export default function HomePage() {
               <Pill variant="warn">CP-FINAL · S52</Pill>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={open} />
+              <CapstoneCard capstoneId="CP-FINAL" lang={lang} onOpen={openWithHash} prog={progress} />
               <Card className="card-hover p-4 dark:bg-slate-900 dark:border-slate-800 md:col-span-2">
                 <div className="mb-2 flex items-center justify-between">
                   <h3 className="text-sm font-semibold">{t(lang, "finalIntegrationInterfaces")}</h3>
@@ -1391,16 +1555,19 @@ export default function HomePage() {
       <CapstoneDialog
         capstoneId={openId}
         lang={lang}
-        onClose={() => setOpenId(null)}
+        onClose={() => { setOpenId(null); if (typeof window !== "undefined") history.replaceState(null, "", window.location.pathname); }}
         onRunCopilot={() => { setOpenId(null); setCopilotOpen(true); }}
         onRunFinal={() => { setOpenId(null); setFinalOpen(true); }}
         onViewSystemCard={(id) => { setOpenId(null); setSysCardId(id); }}
+        prog={progress}
+        onToggleEvidence={toggleProgress}
       />
       <CopilotHarness lang={lang} open={copilotOpen} onClose={() => setCopilotOpen(false)} />
       <FinalIntegration lang={lang} open={finalOpen} onClose={() => setFinalOpen(false)} />
       <SystemCardDialog capstoneId={sysCardId} lang={lang} open={!!sysCardId} onClose={() => setSysCardId(null)} />
       <ComparisonDialog lang={lang} open={compareOpen} onClose={() => setCompareOpen(false)} />
       <DependencyGraphDialog lang={lang} open={graphOpen} onClose={() => setGraphOpen(false)} />
+      <KeyboardHelpDialog lang={lang} open={helpOpen} onClose={() => setHelpOpen(false)} />
     </div>
   );
 }
