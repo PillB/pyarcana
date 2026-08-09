@@ -371,3 +371,37 @@ Task: Evidence checkboxes, section-level progress, bookmark/favorite capstones
 4. **Section progress per capstone** — show section completion count on each capstone card.
 5. **Export progress** — let learners export their progress as JSON for backup.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-6
+Agent: main orchestrator (cron round)
+Task: Bookmarks filter, section progress per capstone, export/import progress
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 17 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code 4897-5B4D)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export, deep-linking, progress persistence, keyboard shortcuts, evidence checkboxes, section progress, bookmarks
+
+## Completed modifications this round
+- **Bookmarks filter**: new "Bookmarked" filter button (with Star icon) in the filter row; filters capstones to only starred ones; works alongside search and other filters
+- **Section progress per capstone card**: each card shows "Sections in this capstone: X/N" counting completed sections vs total for that capstone; CheckSquare icon label
+- **Export/import progress as JSON**: Export downloads pyarcana-progress.json (progress + bookmarks + sectionCompleted + timestamp); Import reads JSON, writes to localStorage, reloads; error handling for invalid files; Reset now clears all three stores
+- **i18n**: 10 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (no regression)
+- Lint clean, type-check clean
+- agent-browser: "Export progress" and "Import progress" buttons render
+- agent-browser: "Bookmarked" filter works (star a card → filter shows only it)
+- No console errors
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code 4897-5B4D pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Progress timeline** — a visual timeline showing when evidence was completed.
+4. **Capstone difficulty indicator** — show relative difficulty (artifacts count, critical criteria count) on each card.
+5. **Recently viewed capstones** — track the last 3-5 opened capstones for quick access.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
