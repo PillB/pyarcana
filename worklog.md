@@ -474,3 +474,37 @@ Task: Capstone prerequisite chain, streak tracker, achievement toasts
 4. **Capstone notes** — let learners write private notes per capstone (persisted).
 5. **Progress dashboard page** — a dedicated /progress route (or dialog) with charts.
 6. **Cron job active** — webDevReview every 15 min (job ID 314389).
+
+---
+Task ID: cron-webDevReview-9
+Agent: main orchestrator (cron round)
+Task: Learning path recommendation, capstone notes, progress dashboard
+
+## Current project status assessment
+- 388 bun tests pass (0 fail) + 15 Playwright tests pass = 403 total, all green
+- Lint clean, type-check clean, dev server healthy
+- 23 local commits on main; remote set to PillB/pyarcana.git (push pending auth)
+- GitHub auth still pending (device code 83CA-24D6)
+- Previous rounds: dark mode, progress overview, search/filter, 13 starter repos, comparison view, dependency graph, print/export, deep-linking, progress persistence, keyboard shortcuts, evidence checkboxes, section progress, bookmarks, export/import, timeline, difficulty, recently viewed, prerequisite chain, streak, achievements
+
+## Completed modifications this round
+- **Learning path recommendation**: classifies all 13 capstones as Ready/In-progress/Completed/Blocked; color-coded cards with status icon, label, done/total; clicking opens the capstone dialog
+- **Capstone notes**: useNotes hook (persisted); textarea in CapstoneDialog after Remediation; "Notes saved" confirmation
+- **Progress dashboard dialog**: ProgressDashboardDialog with status summary (4 KPI tiles) + by-level breakdown (progress bars); accessible via "Progress dashboard" button in the learning path section
+- **i18n**: 18 new EN/ES strings
+
+## Verification results
+- 388 bun tests pass (no regression)
+- 15 Playwright tests pass (no regression)
+- Lint clean, type-check clean
+- agent-browser: learning path section renders with 13 status cards
+- agent-browser: progress dashboard dialog opens with status + by-level views
+- No console errors
+
+## Unresolved issues / risks / next-phase priorities
+1. **GitHub auth** — device code 83CA-24D6 pending user authorization. Once complete, push to PillB/pyarcana and deploy.
+2. **Deploy + live validation** — after push, verify deployed site matches local.
+3. **Onboarding tour** — a guided first-time walkthrough of the page features.
+4. **Capstone difficulty filter** — filter by difficulty (Foundational/Intermediate/Advanced/Expert).
+5. **Social sharing** — share a capstone or progress summary via URL.
+6. **Cron job active** — webDevReview every 15 min (job ID 314389).
