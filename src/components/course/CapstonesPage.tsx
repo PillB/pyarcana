@@ -565,9 +565,6 @@ function LevelSection({
             <div className="rounded-md border border-dashed border-border bg-background/60 px-3 py-2">
               <div className="mb-0.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 <ShieldAlert className="h-3.5 w-3.5" aria-hidden="true" />
-                {tr('capstones.doesNotEstablish')}
-              </div>
-              <p className="text-xs text-muted-foreground">{level.doesNotEstablish}</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
@@ -730,7 +727,7 @@ function PathDialog({
             </pre>
           )}
           <p className="text-xs text-muted-foreground">
-            Estado de evidencia: <span className="font-medium text-foreground/80">{tr('capstones.notRegistered')}</span>. La rúbrica y el brief definen qué se espera; no constituyen por sí mismos una aprobación.
+            Estado de evidencia: <span className="font-medium text-foreground/80">{tr('capstones.notRegistered')}</span>. La rúbrica y el brief definen qué se espera.
           </p>
         </div>
       </DialogContent>

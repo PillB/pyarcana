@@ -221,9 +221,10 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                       const StepIcon = SUB_STEP_ICONS[step]
                       const stepDone = subStepsDone.includes(step)
                       return (
-                        <div
+                        <button
                           key={step}
-                          className="flex items-center gap-2 rounded-md px-2 py-1 text-xs"
+                          onClick={() => onSelectSection(section.id)}
+                          className="flex w-full items-center gap-2 rounded-md px-2 py-1 text-xs transition-colors hover:bg-sidebar-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <div
                             className={cn(
@@ -244,7 +245,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                           {stepDone && (
                             <CheckCircle2 className="h-3 w-3 text-green-600" />
                           )}
-                        </div>
+                        </button>
                       )
                     })}
                   </motion.div>

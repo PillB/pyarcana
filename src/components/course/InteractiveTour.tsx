@@ -184,6 +184,9 @@ function useElementRect(target: string | undefined, enabled: boolean): Rect | nu
     const el = pickVisible()
     if (!el) return
 
+    // Scroll the target into view so the highlight is visible (fixes step 9 blank)
+    el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+
     const update = () => {
       const visible = pickVisible()
       const targetEl = visible || el

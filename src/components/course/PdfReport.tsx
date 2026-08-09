@@ -606,7 +606,7 @@ function generateCertificateHTML(params: {
     <div class="name">${userName}</div>
     <div class="body-text">
       ha completado ${sectionsCompleted} de ${totalSections} secciones del curso <strong>PyArcana</strong> con método
-      pedagógico I Do / We Do / You Do. Este certificado es un registro de progreso, no una certificación profesional.
+      pedagógico I Do / We Do / You Do. Este certificado es un registro de progreso.
     </div>
 
     <div class="stats-row">
