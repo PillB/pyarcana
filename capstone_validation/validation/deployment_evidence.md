@@ -1,64 +1,74 @@
 # Deployment evidence
 
-> Governing spec Section 13 (Harness Artifacts / Validation).
-> Source of truth: the running Next.js dev server, `git log`, and the curl
-> health check.
+> Governing spec: AGENTS.md release-readiness (exact tested SHA after
+> deploy verification). Local/CI evidence does **not** establish
+> production readiness.
 
-## Dev server
+This file distinguishes two different artifacts. They must not be
+collapsed into one “live” claim.
 
-- Command: `bun run dev` (started in Phase 0).
-- Port: **3000**.
-- Route exposed to learners: `/` (only user-visible route).
+## 1. Verified live baseline (already on GitHub Pages)
 
-## Health check (live)
+Source of truth: `audit/safe-agent/parity-local-live.json`.
 
-```
-$ curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:3000/
-HTTP 200
-```
+| Field | Recorded value |
+| --- | --- |
+| Status | `parity_verified` |
+| Merged / deployed SHA | `038c2352ccc48f65b901c0689d2564f614a2cf96` |
+| Tested PR tip SHA (pre-merge) | `5bf0e89144b1b7954c8bfab44a33724090f93f36` |
+| Deploy run | `31219792163` |
+| Live URL | https://pillb.github.io/pyarcana/ |
+| Live HTTP | 200 |
+| Live last-modified | Fri, 07 Aug 2026 21:24:00 GMT |
+| Recorded | 7 August 2026 |
 
-The page returns **HTTP 200**. The 13-capstone module-load invariant did not
-throw (otherwise the server-rendered page would 500).
+That SHA is **`main` after PR #22/#23**. It is the last independently
+verified live baseline in this repository. It does **not** include the
+CP-FINAL / OTLP work on this branch.
 
-## Module-load invariant (live in the running server)
+Stale SHAs that must not be cited as the live site:
 
-`src/data/capstones.ts` enforces the invariant at import time:
+- `e4607b8` (23 July) — superseded by the August 7 parity record.
+- This branch's HEAD — see section 2.
 
-```ts
-if (CAPSTONES.length !== 13) { throw new Error(...); }
-for (const lv of [1, 2, 3, 4] as const) { /* exactly 3 principal capstones */ }
-if (CAPSTONES.filter((c) => c.capstoneId === "CP-FINAL").length !== 1) { throw ... }
-```
+## 2. Un-deployed candidate (this PR / `feat/scoped-v4`)
 
-A 200 response is therefore evidence that the invariant holds in the deployed
-process.
+PR #25 is a **candidate**. It has not been deployed. No Pages SHA, no
+live HTTP check, and no progress-fixture replay has been recorded for
+this tree.
 
-## Test suite (live)
+After this branch is tested, the exact tested SHA must be written here
+only once a post-deploy smoke on GitHub Pages has compared that same
+SHA/content. Until then:
 
-```
-$ bun test tests/capstones.test.ts
-119 pass
-0 fail
-1821 expect() calls
-Ran 119 tests across 1 file. [68.00ms]
-```
+- Do **not** claim PR #25 is live.
+- Do **not** treat local `bun run dev` HTTP 200 as deployment evidence.
+- Do **not** treat CI green as production readiness.
 
-## agent-browser rendering (planned)
+### Candidate local/CI checks (not live)
 
-The agent-browser skill is available. The verification matrix in
-`validation/playwright_matrix.md` enumerates the user-visible checks: 4 levels,
-3 cards/level, final card + 12 interfaces, N4-C flow (provider → task →
-retrieval → tool → approve → verifier → trace → budget → cited), CP-FINAL flow
-(12 deps → contracts → rollback → contribution), EN/ES toggle, sticky footer.
-Snapshots are appended to the matrix file as each check runs.
+These are the checks that belong to the candidate tree. They remain
+local or CI evidence until the SHA is deployed and re-verified:
 
-## Git / push status
+- Preservation sentinel: `node scripts/preservation_sentinel.mjs`
+- CP-N4-C OTLP suite: `python3 -m pytest course-state/capstones/CP-N4-C/tests/test_otel_export.py`
+- CP-FINAL deep suite: `python3 -m pytest course-state/capstones/CP-FINAL/tests/test_integration_deep.py`
+- Lint, `tsc --noEmit`, dynamic/static builds, adversarial suite
 
-- `git log --oneline` shows a single local commit: `a251060 Initial commit`.
-- `git remote -v` shows no configured remote yet.
-- `gh` CLI is installed user-space at `~/.local/bin/gh` (v2.65.0).
-- GitHub device-flow auth was started in Phase 0 in a detached background
-  process; not yet completed.
-- **Push to `PillB/pyarcana`: pending auth completion.**
-- The 13-capstone system, the N4-C harness, the test suite, and the learner UI
-  are **already runnable locally** regardless of push status.
+Fill in after deploy verification (leave blank until then):
+
+| Field | Value |
+| --- | --- |
+| Candidate SHA tested | _not yet recorded_ |
+| Deployed SHA (must equal tested SHA) | _not deployed_ |
+| Live URL check | _not run_ |
+| Live content / SHA comparison | _not run_ |
+| Progress-fixture compatibility | _not run_ |
+
+## 3. Rollback plan (unchanged)
+
+If a future deploy of this candidate fails live verification, roll
+Pages back to the last verified baseline
+`038c2352ccc48f65b901c0689d2564f614a2cf96` (or whatever later
+`parity-local-live.json` record supersedes it). Do not clear
+`python-ds-progress` as a migration fix.
