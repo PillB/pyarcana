@@ -19,6 +19,10 @@ _EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 _BEARER_RE = re.compile(r"(?i)\b(Bearer\s+|Authorization:\s*)([A-Za-z0-9._\-/+=]+)")
 _KEY_RE = re.compile(r"(?i)(api[_-]?key|token|secret|password|passwd)\s*[:=]\s*['\"]?([A-Za-z0-9._\-/+=]{6,})")
 _LONG_TOKEN_RE = re.compile(r"\b[A-Za-z0-9_\-]{32,}\b")
+# Whole-word "token", not the prefix of usage counts (tokens_in / input_tokens).
+_SECRET_KEY_RE = re.compile(
+    r"(?i).*(api[_-]?key|(?<![A-Za-z])token(?![A-Za-z])|secret|password|passwd|bearer|authorization).*"
+)
 
 
 def redact(text: Any) -> Any:
@@ -42,23 +46,33 @@ def redact(text: Any) -> Any:
         for k, v in text.items():
             rk = redact(k) if isinstance(k, str) else k
             # Drop secrets outright rather than scrub-and-keep.
-            if isinstance(k, str) and re.match(
-                r"(?i).*(api[_-]?key|token|secret|password|passwd|bearer).*", k
-            ):
+            if isinstance(k, str) and _SECRET_KEY_RE.match(k):
                 out[rk if isinstance(rk, str) else k] = "[redacted]"
                 continue
             out[rk if isinstance(rk, str) else k] = redact(v)
         return out
     if isinstance(text, list):
         return [redact(x) for x in text]
+    if isinstance(text, tuple):
+        return tuple(redact(x) for x in text)
     return text
+
+
+def generate_span_id() -> str:
+    """Return a 16-hex-character OTLP span ID (8 bytes)."""
+    return uuid.uuid4().hex[:16]
+
+
+def generate_trace_id() -> str:
+    """Return a 32-hex-character OTLP trace ID (16 bytes)."""
+    return uuid.uuid4().hex
 
 
 class Span:
     """A single named trace span."""
 
     def __init__(self, name: str, parent: Optional["Span"] = None, attrs: Optional[Dict[str, Any]] = None):
-        self.span_id = uuid.uuid4().hex[:12]
+        self.span_id = generate_span_id()
         self.parent_id = parent.span_id if parent else None
         self.name = name
         self.start_ms = int(time.time() * 1000)
@@ -85,7 +99,14 @@ class Span:
 class Tracer:
     """A simple in-memory tracer that produces a flat list of spans."""
 
-    def __init__(self) -> None:
+    def __init__(self, trace_id: Optional[str] = None) -> None:
+        if trace_id is None:
+            self.trace_id = generate_trace_id()
+        else:
+            tid = str(trace_id).lower()
+            if len(tid) != 32 or any(c not in "0123456789abcdef" for c in tid) or set(tid) == {"0"}:
+                raise ValueError(f"invalid OTLP trace ID: {trace_id!r}")
+            self.trace_id = tid
         self._spans: List[Span] = []
         self._stack: List[Span] = []
 
