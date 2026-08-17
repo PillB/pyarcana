@@ -49,3 +49,12 @@
 - No realizar efectos secundarios externos sin aprobación humana (cuando aplica).
 - No inferir relaciones, fraude ni causalidad automáticamente (cuando aplica).
 - No crear referencias a `CP-N4-D` (no existe en el catálogo).
+
+---
+
+<!-- Additive correction (ready-hardening). Original interface text is preserved above. -->
+
+The twelve subsystem modules listed above are **in-process pedagogical twins**
+(`integration/intake.py`, `etl.py`, …). They honor the versioned contracts and
+do **not** import the twelve upstream capstone package trees. GO flags are
+computed from runner work; empty contract objects are fail-closed.

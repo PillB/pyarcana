@@ -19,8 +19,9 @@ from . import contracts
 def serve(request: Dict[str, Any]) -> contracts.ApiResponse:
     api_version = str(request.get("api_version", "v1"))
     user = str(request.get("user", "synthetic_operator"))
-    # Health check is always run; never executed as root.
-    health_ok = bool(request.get("payload")) or True
+    # Health check requires a payload field; `or True` theater is forbidden.
+    # An empty object is a valid body; a missing key is not.
+    health_ok = "payload" in request
     migrations: List[str] = ["0001_initial", "0002_synthetic_seed", "0003_indexes"]
     body: Dict[str, Any] = {
         "ack": True,
@@ -28,11 +29,16 @@ def serve(request: Dict[str, Any]) -> contracts.ApiResponse:
         "is_root": False,
         "health": "ok" if health_ok else "degraded",
     }
+    blob = str(body) + str(request)
+    secrets_embedded = any(
+        marker in blob.lower()
+        for marker in ("api_key=", "bearer ", "password=", "secret=")
+    )
     return contracts.ApiResponse(
         api_version=api_version,
         status_code=200 if health_ok else 503,
         body=body,
         health_check_passed=health_ok,
         migrations_applied=migrations,
-        secrets_embedded=False,
+        secrets_embedded=secrets_embedded,
     )

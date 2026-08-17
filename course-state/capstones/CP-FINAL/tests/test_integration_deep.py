@@ -41,9 +41,14 @@ CRITICAL_BUNDLE_FIELDS = (
 
 
 def _typed_success_results():
-    """Build a complete map of typed contract objects with default GO flags."""
+    """Build a complete map by running the live pedagogical twins.
+
+    Empty dataclass defaults are fail-closed and must not be treated as GO.
+    """
+    scenario = shared_scenario.shared_scenario_v1
+    inputs = platform._build_subsystem_inputs(scenario)
     return {
-        cid: contracts.expected_contract_type(cid)()
+        cid: platform.SUBSYSTEM_RUNNERS[cid](inputs[cid])
         for cid in dependency_graph.UPSTREAM_CAPSTONES
     }
 

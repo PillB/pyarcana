@@ -47,10 +47,19 @@ def resolve(records: List[Dict[str, Any]]) -> contracts.ClusterSet:
             "members": [m.get("id") for m in members],
             "inferred": False,  # explicit: no inference
         })
+    split_covers = len(train) + len(dev) + len(test) == n
+    # Re-block once; flag is True only when the second pass matches.
+    second_blocks: Dict[str, List[Dict[str, Any]]] = {}
+    for r in records:
+        key = _normalize(str(r.get("name", ""))) or "__no_name__"
+        second_blocks.setdefault(key, []).append(r)
+    first_ids = {k: [m.get("id") for m in v] for k, v in blocks.items()}
+    second_ids = {k: [m.get("id") for m in v] for k, v in second_blocks.items()}
+    inferred = any(c.get("inferred") for c in clusters)
     return contracts.ClusterSet(
         clusters=clusters,
-        train_dev_test_split=True,
-        baseline_deterministic=True,
+        train_dev_test_split=split_covers,
+        baseline_deterministic=first_ids == second_ids,
         fp_analysis=fp_analysis,
-        inferred_relationships=False,
+        inferred_relationships=inferred,
     )

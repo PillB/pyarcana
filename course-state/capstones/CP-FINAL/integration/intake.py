@@ -57,11 +57,13 @@ def run(records: List[Dict[str, Any]]) -> contracts.IntakeResult:
     n_total = len(records)
     # Denominator integrity assertion (no silent mismatch).
     assert n_total == n_ok + n_warn + n_error, "denominator mismatch"
+    # Flag is proven only after every row was classified without raising.
+    malformed_handled = len(rows) == n_total
     return contracts.IntakeResult(
         n_total=n_total,
         n_ok=n_ok,
         n_warn=n_warn,
         n_error=n_error,
         rows=rows,
-        malformed_handled=True,
+        malformed_handled=malformed_handled,
     )

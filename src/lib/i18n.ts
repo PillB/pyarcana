@@ -267,7 +267,7 @@ const translations: Record<Language, Dict> = {
 
     // Interactive tour (first-visit guide)
     'tour.welcome.title': 'Bienvenido a PyArcana',
-    'tour.welcome.body': 'Esta es una guía rápida de 17 pasos para conocer la plataforma. Toma menos de un minuto. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
+    'tour.welcome.body': 'Esta es una guía rápida para conocer la plataforma. El recuento de pasos se muestra abajo y puede variar si algún panel no está disponible. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
     'tour.sections.title': 'Secciones del curso',
     'tour.sections.body': 'En la barra lateral tienes las 52 secciones del curso. Cada una sigue el método I Do / We Do / You Do / Autocheck. Marca tu progreso y vuelve cuando quieras.',
     'tour.capstones.title': 'Proyectos y Capstones',
@@ -279,7 +279,7 @@ const translations: Record<Language, Dict> = {
     'tour.tabs.title': 'Método I Do / We Do / You Do',
     'tour.tabs.body': 'Cada sección tiene cuatro pestañas: Teoría (lectura), Yo hago (demo), Hacemos juntos (ejercicios guiados), Tú haces (proyecto individual). Abre cualquier sección para verlas.',
     'tour.autocheck.title': 'Autocheck',
-    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación con variantes por intento. Necesitas 70% para aprobar; tienes 3 intentos por sección.',
+    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación. Necesitas 70% para aprobar. En la edición pública puedes reintentar; el examen formal con cuenta sí limita los intentos.',
     'tour.theme.title': 'Tema claro/oscuro',
     'tour.theme.body': 'Cambia entre tema claro y oscuro. Tu preferencia se guarda automáticamente.',
     'tour.language.title': 'Idioma de la interfaz',
@@ -542,7 +542,7 @@ const translations: Record<Language, Dict> = {
 
     // Interactive tour (first-visit guide)
     'tour.welcome.title': 'Bienvenido a PyArcana',
-    'tour.welcome.body': 'Esta es una guía rápida de 17 pasos para conocer la plataforma. Toma menos de un minuto. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
+    'tour.welcome.body': 'Esta es una guía rápida para conocer la plataforma. El recuento de pasos se muestra abajo y puede variar si algún panel no está disponible. Pulsa Siguiente o Enter para avanzar; Esc para salir en cualquier momento.',
     'tour.sections.title': 'Secciones del curso',
     'tour.sections.body': 'En la barra lateral tienes las 52 secciones del curso. Cada una sigue el método I Do / We Do / You Do / Autocheck. Marca tu progreso y vuelve cuando quieras.',
     'tour.capstones.title': 'Proyectos y Capstones',
@@ -554,7 +554,7 @@ const translations: Record<Language, Dict> = {
     'tour.tabs.title': 'Método I Do / We Do / You Do',
     'tour.tabs.body': 'Cada sección tiene cuatro pestañas: Teoría (lectura), Yo hago (demo), Hacemos juntos (ejercicios guiados), Tú haces (proyecto individual). Abre cualquier sección para verlas.',
     'tour.autocheck.title': 'Autocheck',
-    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación con variantes por intento. Necesitas 70% para aprobar; tienes 3 intentos por sección.',
+    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación. Necesitas 70% para aprobar. En la edición pública puedes reintentar; el examen formal con cuenta sí limita los intentos.',
     'tour.theme.title': 'Tema claro/oscuro',
     'tour.theme.body': 'Cambia entre tema claro y oscuro. Tu preferencia se guarda automáticamente.',
     'tour.language.title': 'Idioma de la interfaz',
@@ -817,7 +817,7 @@ const translations: Record<Language, Dict> = {
 
     // Interactive tour (first-visit guide)
     'tour.welcome.title': 'Welcome to PyArcana',
-    'tour.welcome.body': 'This is a quick 17-step tour of the platform. It takes less than a minute. Press Next or Enter to advance; Esc to exit at any time.',
+    'tour.welcome.body': 'This is a quick tour of the platform. The step count below can change if a panel is not available. Press Next or Enter to advance; Esc to exit at any time.',
     'tour.sections.title': 'Course sections',
     'tour.sections.body': 'The sidebar lists all 52 course sections. Each one follows the I Do / We Do / You Do / Autocheck method. Track your progress and come back any time.',
     'tour.capstones.title': 'Projects and Capstones',
@@ -829,7 +829,7 @@ const translations: Record<Language, Dict> = {
     'tour.tabs.title': 'I Do / We Do / You Do method',
     'tour.tabs.body': 'Each section has four tabs: Theory (reading), I Do (demo), We Do (guided exercises), You Do (individual project). Open any section to see them.',
     'tour.autocheck.title': 'Autocheck',
-    'tour.autocheck.body': 'The fifth tab is the Autocheck: a self-assessment quiz with variants per attempt. You need 70% to pass and have 3 attempts per section.',
+    'tour.autocheck.body': 'The fifth tab is the Autocheck: a self-assessment quiz. You need 70% to pass. On the public edition you can retry; the signed-in formal exam does limit attempts.',
     'tour.theme.title': 'Light/dark theme',
     'tour.theme.body': 'Switch between light and dark theme. Your preference is saved automatically.',
     'tour.language.title': 'Interface language',

@@ -490,60 +490,60 @@ function generateCertificateHTML(params: {
     width: 297mm; height: 210mm;
     background: linear-gradient(135deg, #fef3c7 0%, #ffffff 50%, #ede9fe 100%);
     border: 20px solid #6d28d9;
-    "border-radius": 8px;
+    border-radius: 8px;
     padding: 40px 60px;
-    "box-sizing": border-box;
+    box-sizing: border-box;
     position: relative;
     display: flex;
-    "flex-direction": column;
-    "align-items": center;
-    "justify-content": center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .cert::before {
     content: '';
     position: absolute;
     top: 10px; left: 10px; right: 10px; bottom: 10px;
     border: 2px solid #c4b5fd;
-    "border-radius": 4px;
+    border-radius: 4px;
   }
   .badge-top {
     width: 80px; height: 80px;
     background: linear-gradient(135deg, #6d28d9, #4c1d95);
-    "border-radius": 50%;
+    border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     color: white; font-size: 36px; font-weight: bold;
-    "margin-bottom": 20px;
-    "box-shadow": 0 4px 20px rgba(109, 40, 217, 0.3);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(109, 40, 217, 0.3);
   }
   h1 {
     color: #6d28d9;
-    "font-size": 42px;
+    font-size: 42px;
     margin: 0 0 5px;
-    "letter-spacing": 2px;
-    "text-align": center;
+    letter-spacing: 2px;
+    text-align: center;
   }
   .subtitle {
     color: #666;
-    "font-size": 16px;
-    "margin-bottom": 30px;
-    "text-transform": uppercase;
-    "letter-spacing": 3px;
+    font-size: 16px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
   }
   .name {
-    "font-size": 36px;
+    font-size: 36px;
     color: #1a1a2e;
     margin: 20px 0;
-    "border-bottom": 2px solid #c4b5fd;
-    "padding-bottom": 10px;
-    "text-align": center;
-    "min-width": 400px;
+    border-bottom: 2px solid #c4b5fd;
+    padding-bottom: 10px;
+    text-align: center;
+    min-width: 400px;
   }
   .body-text {
-    "font-size": 16px;
+    font-size: 16px;
     color: #333;
-    "text-align": center;
-    "max-width": 600px;
-    "line-height": 1.6;
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.6;
     margin: 15px 0;
   }
   .stats-row {
@@ -552,48 +552,48 @@ function generateCertificateHTML(params: {
     margin: 25px 0;
   }
   .stat-item {
-    "text-align": center;
+    text-align: center;
   }
   .stat-value {
-    "font-size": 24px;
-    "font-weight": bold;
+    font-size: 24px;
+    font-weight: bold;
     color: #6d28d9;
   }
   .stat-label {
-    "font-size": 11px;
+    font-size: 11px;
     color: #666;
-    "text-transform": uppercase;
-    "letter-spacing": 1px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   .footer-row {
     display: flex;
-    "justify-content": space-between;
+    justify-content: space-between;
     width: 80%;
-    "margin-top": 30px;
-    "border-top": 1px solid #c4b5fd;
-    "padding-top": 15px;
+    margin-top: 30px;
+    border-top: 1px solid #c4b5fd;
+    padding-top: 15px;
   }
   .footer-item {
-    "text-align": center;
+    text-align: center;
   }
   .footer-label {
-    "font-size": 10px;
+    font-size: 10px;
     color: #666;
-    "text-transform": uppercase;
-    "letter-spacing": 1px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   .footer-value {
-    "font-size": 14px;
+    font-size: 14px;
     color: #1a1a2e;
-    "margin-top": 4px;
+    margin-top: 4px;
   }
   .cert-id {
     position: absolute;
     bottom: 20px;
     right: 30px;
-    "font-size": 10px;
+    font-size: 10px;
     color: #999;
-    "font-family": monospace;
+    font-family: monospace;
   }
 </style>
 </head>

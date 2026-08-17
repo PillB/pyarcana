@@ -99,6 +99,8 @@ _ATTR_MAP: Dict[str, str] = {
     "provider": GEN_AI_PROVIDER_NAME,
     "system": GEN_AI_PROVIDER_NAME,
     "adapter": GEN_AI_PROVIDER_NAME,  # production Provider.complete span
+    "operation": GEN_AI_OPERATION_NAME,
+    "operation_name": GEN_AI_OPERATION_NAME,
     "model": GEN_AI_REQUEST_MODEL,
     "request_model": GEN_AI_REQUEST_MODEL,
     "max_tokens": GEN_AI_REQUEST_MAX_TOKENS,

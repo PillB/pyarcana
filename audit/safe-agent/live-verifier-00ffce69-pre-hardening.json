@@ -1,0 +1,23 @@
+{
+  "gate_id": "LIVE_VERIFIER",
+  "checked_at": "2026-08-17T01:37:28Z",
+  "live_url": "https://pillb.github.io/pyarcana/",
+  "live_http": 200,
+  "live_last_modified": "Mon, 17 Aug 2026 01:35:18 GMT",
+  "live_etag": "6a826556-38698",
+  "recorded_sha": "00ffce690684ac72aa2bccbe635d5fc3f0b7bd19",
+  "pages_deploy_run": 31985322015,
+  "content_markers": {
+    "PyArcana": true,
+    "Edición pública": true,
+    "static-site-notice": true,
+    "El arte de aprender Python": true,
+    "no es una certificación profesional": true,
+    "literal capstones.disclaimer key": false,
+    "S52 Capstone FINAL": true,
+    "sidebar-substep in page chunk": true
+  },
+  "claim": "Live Pages at Last-Modified 2026-08-17 01:35:18 matches merge #27 SHA 00ffce69 (origin/main tip before ready-hardening).",
+  "passed": true,
+  "notes": "Exact git SHA is not embedded in the HTML. SHA match is via Pages deploy headSha 00ffce69 and Last-Modified after that deploy. This file is the pre-hardening baseline, not proof of the hardening PR."
+}

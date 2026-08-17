@@ -80,3 +80,20 @@ File an incident via `integration/no_go.py::evaluate`. The no-go evaluation
 produces a structured `NoGoResult` with triggers, severity, and a
 recommended action. The result is included in every `IntegrationBundle`.
 
+---
+
+<!-- Additive correction (ready-hardening). Original and PR #25 text are preserved above. -->
+
+# Implemented API map (authoritative)
+
+| Claimed in earlier notes | Implemented |
+|---|---|
+| `NoGoResult` | `no_go.evaluate -> Tuple[bool, str]`; the pair is stored as `IntegrationBundle.no_go` / `no_go_reason` |
+| `backup_restore.py` in-memory snapshot | `backup_restore.backup` / `restore` write and read **JSON files** under the caller-supplied directory |
+| `demonstrate_rollback` / `RollbackProof` | `integration/rollback.py::demonstrate_rollback` returns a dict with `rollback_proven` |
+| Faithfulness / budget / SLO no-go triggers | Not implemented as separate evaluators. Live triggers are missing subsystem, `None`, type/version mismatch, and computed flag violations |
+| 12 imported capstone packages | **In-process pedagogical twins**. They do not import the twelve package trees |
+
+The 12 runners are in-process pedagogical twins. They do **not** import the
+twelve capstone package trees. Empty contracts are fail-closed.
+

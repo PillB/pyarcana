@@ -64,15 +64,33 @@ def run(task: Dict[str, Any]) -> contracts.CopilotRunRecord:
     # Traces redacted — no PII.
     for entry in audit:
         entry["redacted"] = True
+    retrieved = [
+        doc
+        for entry in audit
+        if entry.get("name") == "search_docs" and isinstance(entry.get("result"), list)
+        for doc in entry["result"]
+    ]
+    rag_cited = bool(retrieved) and all(doc.get("citation") for doc in retrieved)
+    if not retrieved:
+        # No retrieval happened; citation duty is vacuously unmet unless query empty.
+        rag_cited = not bool(query)
+    hitl_ok = all(
+        (entry.get("name") not in {"send_email", "publish", "export_external", "delete_records"})
+        or entry.get("executed") is False
+        for entry in audit
+    )
+    traces_redacted = bool(audit) and all(entry.get("redacted") for entry in audit)
+    if not audit:
+        traces_redacted = True
     return contracts.CopilotRunRecord(
         task_id=task_id,
-        steps_bounded=True,
+        steps_bounded=steps_taken <= MAX_STEPS,
         max_steps=MAX_STEPS,
         steps_taken=steps_taken,
-        rag_cited=True,
+        rag_cited=rag_cited,
         access_control_enforced=authorized,
-        hitl_on_sensitive_effects=True,
-        traces_redacted=True,
-        rollback_available=True,
+        hitl_on_sensitive_effects=hitl_ok,
+        traces_redacted=traces_redacted,
+        rollback_available=all(e.get("name") != "delete_records" or not e.get("executed") for e in audit),
         audit=audit,
     )
