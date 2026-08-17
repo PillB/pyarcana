@@ -280,6 +280,7 @@ class TestCurrentGenAIKeys:
         exported = next(s for s in export_spans_flat(tracer) if s["name"] == "provider.call")
         keys = set(_attr_map(exported))
         assert GEN_AI_PROVIDER_NAME in keys
+        assert GEN_AI_OPERATION_NAME in keys
         assert GEN_AI_REQUEST_MODEL in keys
         assert GEN_AI_USAGE_INPUT_TOKENS in keys
 

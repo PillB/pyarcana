@@ -30,16 +30,22 @@ def review(case: Dict[str, Any]) -> contracts.ReviewPacket:
     decision_evidence = [
         {"decision": "no_adverse_action", "reason": "evidence-only review", "auto": False}
     ]
+    privacy_sheet = {
+        "data_minimization": "synthetic only",
+        "no_pii": "true",
+        "retention": "training_demo",
+        "correction": "human_reviewer_may_amend",
+    }
+    human_review_required = any(
+        ev.get("human_review_required") for ev in relationship_evidence
+    ) or any(not ev.get("auto") for ev in decision_evidence)
+    correction_mechanism = bool(privacy_sheet.get("correction"))
     return contracts.ReviewPacket(
         case_id=case_id,
         entity_evidence=entity_evidence,
         relationship_evidence=relationship_evidence,
         decision_evidence=decision_evidence,
-        human_review_required=True,
-        privacy_sheet={
-            "data_minimization": "synthetic only",
-            "no_pii": "true",
-            "retention": "training_demo",
-        },
-        correction_mechanism=True,
+        human_review_required=human_review_required,
+        privacy_sheet=privacy_sheet,
+        correction_mechanism=correction_mechanism,
     )

@@ -91,7 +91,9 @@ async function captureSurface(
 
 test.describe('Code rendering fidelity', () => {
   test('S01-S52 code, terminal, output, and playground text matches its source', async ({ page }, testInfo) => {
-    test.setTimeout(300_000)
+    // Exhaustive 52×5 walk is ~4.5m on GitHub-hosted Chromium. 300s left
+    // ~30s of headroom and flakes under ordinary runner jitter.
+    test.setTimeout(420_000)
     const outputDir = testInfo.outputPath('code-fidelity')
     await mkdir(outputDir, { recursive: true })
     const manifest: ManifestEntry[] = []

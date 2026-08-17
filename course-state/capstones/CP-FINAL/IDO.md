@@ -69,3 +69,26 @@ they communicate only through these typed contracts.
 - Confidence that the no-go condition is the safety net: the platform
   stops rather than producing a broken result.
 
+---
+
+<!-- Additive correction (ready-hardening). Original and PR #25 text are preserved above. -->
+
+# Implemented API map (authoritative)
+
+Names that appear above but are not listed here are pedagogical vocabulary,
+not extra live APIs.
+
+| Claimed in earlier notes | Implemented |
+|---|---|
+| `platform.integrate(scenario) -> IntegrationBundle` | `integration/platform.py::integrate` |
+| `no_go.evaluate` / `NoGoResult` | `integration/no_go.py::evaluate -> Tuple[bool, str]` (`no_go`, `no_go_reason` on the bundle) |
+| `demonstrate_backup_restore` | `backup_restore.backup` / `backup_restore.restore` (JSON files, not an in-memory snapshot) |
+| `demonstrate_rollback` | `integration/rollback.py::demonstrate_rollback` (in-memory store) |
+| `test_intake` / `test_etl` / … | `integration/contract_tests.py::ContractTests` (`test_intake_contract`, …) |
+| Five no-go triggers (faithfulness, budget, SLO, shared trace) | Implemented triggers: missing subsystem, `None`, type mismatch, version mismatch, positive flag False, negative flag True |
+| `shared_trace_id` | `end_to_end_trace[].run_id` |
+| Twelve upstream packages imported | **In-process pedagogical twins** in `integration/{intake,etl,...}.py`. They do **not** import the twelve capstone package trees. |
+
+GO flags are computed from runner work. Empty contract objects are fail-closed
+and are not a successful integration.
+

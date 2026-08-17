@@ -85,6 +85,8 @@ def deploy(model: Dict[str, Any]) -> contracts.DeployRecord:
         "measured_availability": 0.998,
         "error_budget_remaining": 0.85,
     }
+    train_sig = next((s["signature"] for s in lineage if s.get("step") == "train"), "")
+    serve_sig = hashlib.sha256(str(sorted(schema.items())).encode("utf-8")).hexdigest()[:12]
     return contracts.DeployRecord(
         model_name=name,
         model_version=version,
@@ -96,7 +98,7 @@ def deploy(model: Dict[str, Any]) -> contracts.DeployRecord:
         },
         canary_result=canary_result,
         slo=slo,
-        rollback_available=True,
+        rollback_available=rollback_proven,
         rollback_proven=rollback_proven,
-        train_serve_consistent=True,
+        train_serve_consistent=bool(train_sig) and train_sig == serve_sig,
     )

@@ -6,8 +6,9 @@
  * Built with React state + shadcn Popover/Dialog (no external tour library).
  *
  * Behaviour:
- *  - 11 fixed steps (welcome, sidebar sections, capstones, resources, admin/supervisor [conditional],
- *    I Do/We Do/You Do tabs, Autocheck, theme toggle, language toggle, legal pages, done).
+ *  - 17 defined steps (welcome through done). One (admin/supervisor) is
+ *    conditional, so the public edition typically shows 16. Copy must not
+ *    hardcode the count.
  *  - Desktop targeted step → Radix Popover anchored to a virtual box drawn over the target rect,
  *    with a 4-pane semi-transparent overlay that "cuts out" the highlighted element + a primary ring.
  *  - Mobile (any step) or step without a resolvable target → Dialog (bottom sheet on mobile, centered on desktop).

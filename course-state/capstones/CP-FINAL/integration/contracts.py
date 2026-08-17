@@ -58,7 +58,7 @@ class IntakeResult:
     n_warn: int = 0
     n_error: int = 0
     rows: List[Dict[str, Any]] = field(default_factory=list)
-    malformed_handled: bool = True  # criticalFailure: must handle malformed input
+    malformed_handled: bool = False  # fail-closed until the runner handles rows
 
 
 @dataclass(frozen=True)
@@ -69,7 +69,7 @@ class EtlManifest:
     batch_id: str = ""
     accepted: List[Dict[str, Any]] = field(default_factory=list)
     quarantine: List[Dict[str, Any]] = field(default_factory=list)
-    idempotent: bool = True           # criticalFailure: must be idempotent
+    idempotent: bool = False          # fail-closed until two runs match
     provenance: Dict[str, str] = field(default_factory=dict)
     manifest_hash: str = ""
 
@@ -83,9 +83,9 @@ class ReviewPacket:
     entity_evidence: List[Dict[str, Any]] = field(default_factory=list)
     relationship_evidence: List[Dict[str, Any]] = field(default_factory=list)
     decision_evidence: List[Dict[str, Any]] = field(default_factory=list)
-    human_review_required: bool = True  # criticalFailure: no auto fraud inference
+    human_review_required: bool = False  # fail-closed until review is required
     privacy_sheet: Dict[str, str] = field(default_factory=dict)
-    correction_mechanism: bool = True
+    correction_mechanism: bool = False
 
 
 # --- N2 contracts ----------------------------------------------------------
@@ -100,7 +100,7 @@ class EdaReport:
     n_cols: int = 0
     missingness: Dict[str, float] = field(default_factory=dict)
     profile: Dict[str, Any] = field(default_factory=dict)
-    reproducible: bool = True          # criticalFailure: must be reproducible
+    reproducible: bool = False         # fail-closed until two runs match
     executive_memo: str = ""
     limitations: List[str] = field(default_factory=list)
 
@@ -113,7 +113,7 @@ class ReportBundle:
     spec_id: str = ""
     sections: List[Dict[str, Any]] = field(default_factory=list)
     claims_with_sources: List[Dict[str, Any]] = field(default_factory=list)
-    accessible: bool = True
+    accessible: bool = False
     color_only_encoding: bool = False  # criticalFailure: not color-only
     hidden_denominators: bool = False  # criticalFailure: no hidden denominators
 
@@ -126,9 +126,9 @@ class RpaAudit:
     job_id: str = ""
     steps: List[Dict[str, Any]] = field(default_factory=list)
     approved: bool = False
-    idempotent: bool = True
-    rollback_available: bool = True
-    logs_pii_free: bool = True         # criticalFailure: no PII in logs
+    idempotent: bool = False
+    rollback_available: bool = False
+    logs_pii_free: bool = False        # fail-closed until logs are scanned
 
 
 # --- N3 contracts ----------------------------------------------------------
@@ -139,8 +139,8 @@ class ClusterSet:
     contract_id: str = "CP-N3-A"
     contract_version: str = "2.0.0"
     clusters: List[Dict[str, Any]] = field(default_factory=list)
-    train_dev_test_split: bool = True  # criticalFailure: must split
-    baseline_deterministic: bool = True
+    train_dev_test_split: bool = False  # fail-closed until a split is applied
+    baseline_deterministic: bool = False
     fp_analysis: Dict[str, Any] = field(default_factory=dict)
     inferred_relationships: bool = False  # criticalFailure: NO auto inference
 
@@ -153,9 +153,9 @@ class GraphCase:
     case_id: str = ""
     nodes: List[Dict[str, Any]] = field(default_factory=list)
     edges: List[Dict[str, Any]] = field(default_factory=list)
-    direct_vs_inferred_distinguished: bool = True
-    authorization_enforced: bool = True
-    reproducible: bool = True
+    direct_vs_inferred_distinguished: bool = False
+    authorization_enforced: bool = False
+    reproducible: bool = False
     auto_fraud_labels: bool = False    # criticalFailure: NO auto fraud labels
 
 
@@ -166,11 +166,11 @@ class TriageDecision:
     contract_version: str = "2.0.0"
     case_id: str = ""
     score: float = 0.0
-    calibrated: bool = True
+    calibrated: bool = False
     abstained: bool = False            # criticalFailure: must support abstention
     threshold: float = 0.5
-    human_review_required: bool = True
-    data_leakage_prevented: bool = True
+    human_review_required: bool = False
+    data_leakage_prevented: bool = False
 
 
 # --- N4 contracts ----------------------------------------------------------
@@ -183,7 +183,7 @@ class ApiResponse:
     api_version: str = "v1"
     status_code: int = 200
     body: Dict[str, Any] = field(default_factory=dict)
-    health_check_passed: bool = True
+    health_check_passed: bool = False
     migrations_applied: List[str] = field(default_factory=list)
     secrets_embedded: bool = False     # criticalFailure: NO embedded secrets
 
@@ -199,9 +199,9 @@ class DeployRecord:
     approval: Dict[str, Any] = field(default_factory=dict)
     canary_result: Dict[str, Any] = field(default_factory=dict)
     slo: Dict[str, Any] = field(default_factory=dict)
-    rollback_available: bool = True
-    rollback_proven: bool = True        # criticalFailure: rollback must be proven
-    train_serve_consistent: bool = True
+    rollback_available: bool = False
+    rollback_proven: bool = False       # fail-closed until a rollback proof runs
+    train_serve_consistent: bool = False
 
 
 @dataclass(frozen=True)
@@ -210,14 +210,14 @@ class CopilotRunRecord:
     contract_id: str = "CP-N4-C"
     contract_version: str = "3.0.0"
     task_id: str = ""
-    steps_bounded: bool = True         # criticalFailure: no unbounded loops
+    steps_bounded: bool = False        # fail-closed until the loop is bounded
     max_steps: int = 8
     steps_taken: int = 0
-    rag_cited: bool = True
-    access_control_enforced: bool = True
-    hitl_on_sensitive_effects: bool = True
-    traces_redacted: bool = True       # criticalFailure: redact traces
-    rollback_available: bool = True
+    rag_cited: bool = False
+    access_control_enforced: bool = False
+    hitl_on_sensitive_effects: bool = False
+    traces_redacted: bool = False      # fail-closed until traces are marked redacted
+    rollback_available: bool = False
     audit: List[Dict[str, Any]] = field(default_factory=list)
 
 

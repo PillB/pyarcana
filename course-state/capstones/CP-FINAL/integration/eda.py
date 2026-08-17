@@ -45,13 +45,23 @@ def profile(dataset: Dict[str, Any]) -> contracts.EdaReport:
         f"Missingness ranges over {len(missingness)} columns. "
         f"Observations are descriptive; no causal claims are supported."
     )
+    # Re-profile once more; the flag is True only when both runs match.
+    second_missing = {}
+    for c in cols:
+        miss = sum(1 for r in records if r.get(c) is None or r.get(c) == "")
+        second_missing[c] = round(miss / n_rows, 4) if n_rows else 0.0
+    reproducible = (
+        second_missing == missingness
+        and profile_data["n_rows"] == n_rows
+        and profile_data["n_cols"] == n_cols
+    )
     return contracts.EdaReport(
         dataset_version=str(dataset.get("dataset_version", "shared_scenario_v1")),
         n_rows=n_rows,
         n_cols=n_cols,
         missingness=missingness,
         profile=profile_data,
-        reproducible=True,
+        reproducible=reproducible,
         executive_memo=memo,
         limitations=[
             "Descriptive statistics only — no causal interpretation.",

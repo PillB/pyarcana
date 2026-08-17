@@ -102,7 +102,13 @@ class Provider:
                 if time.time() > deadline:
                     raise TimeoutError("provider deadline exceeded")
                 if self.tracer:
-                    with self.tracer.span("provider.call", adapter=label, attempt=attempt) as span:
+                    with self.tracer.span(
+                        "provider.call",
+                        adapter=label,
+                        attempt=attempt,
+                        operation="chat" if system else "text_completion",
+                        max_tokens=max_tokens,
+                    ) as span:
                         resp = adapter.complete(prompt, system=system, max_tokens=max_tokens)
                         span.set(
                             model=getattr(resp, "model_id", None) or getattr(resp, "model", None),

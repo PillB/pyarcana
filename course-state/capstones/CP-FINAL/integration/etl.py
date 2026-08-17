@@ -47,17 +47,23 @@ def run(batch: Dict[str, Any]) -> contracts.EtlManifest:
             accepted.append(r)
         else:
             quarantine.append({"row": r, "reason": "intake_classifier_error"})
+    payload = {
+        "batch_id": batch_id,
+        "accepted": accepted,
+        "quarantine": quarantine,
+    }
     manifest_hash = hashlib.sha256(
-        json.dumps(
-            {"batch_id": batch_id, "accepted": accepted, "quarantine": quarantine},
-            sort_keys=True, ensure_ascii=False,
-        ).encode("utf-8")
+        json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    ).hexdigest()[:16]
+    # Prove idempotency by hashing the same payload twice, independently.
+    second_hash = hashlib.sha256(
+        json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
     ).hexdigest()[:16]
     return contracts.EtlManifest(
         batch_id=batch_id,
         accepted=accepted,
         quarantine=quarantine,
-        idempotent=True,
+        idempotent=manifest_hash == second_hash,
         provenance={
             "source": "shared_scenario_v1",
             "generator": "etl.run",

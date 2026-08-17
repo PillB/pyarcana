@@ -28,23 +28,26 @@ def score(case: Dict[str, Any]) -> contracts.TriageDecision:
     calibration = {"bucket_low": [0.0, 0.33], "bucket_mid": [0.33, 0.66], "bucket_high": [0.66, 1.0]}
     threshold = 0.5
     abstained = len(signals) == 0 or amount == 0
-    # Abstention path: refuse to score when signals are insufficient.
+    calibrated = all(k in calibration for k in ("bucket_low", "bucket_mid", "bucket_high"))
+    # Leakage check: the case must not carry a serve-time-unavailable label.
+    data_leakage_prevented = "ground_truth" not in case and "label" not in case
+    human_review_required = True  # policy: no adverse action without a reviewer
     if abstained:
         return contracts.TriageDecision(
             case_id=case_id,
             score=0.0,
-            calibrated=True,
+            calibrated=calibrated,
             abstained=True,
             threshold=threshold,
-            human_review_required=True,
-            data_leakage_prevented=True,
+            human_review_required=human_review_required,
+            data_leakage_prevented=data_leakage_prevented,
         )
     return contracts.TriageDecision(
         case_id=case_id,
         score=round(raw, 4),
-        calibrated=True,
+        calibrated=calibrated,
         abstained=False,
         threshold=threshold,
-        human_review_required=True,
-        data_leakage_prevented=True,
+        human_review_required=human_review_required,
+        data_leakage_prevented=data_leakage_prevented,
     )

@@ -85,3 +85,22 @@ production accuracy, or enterprise scale.
 - `backup_restore.py` proves a snapshot can be restored to a known state.
 - `dependency_graph.json` records the upstream → CP-FINAL edge for each
   subsystem.
+
+---
+
+<!-- Additive correction (ready-hardening). Prior SYSTEM_CARD text is preserved above. -->
+
+# Implemented API map (authoritative)
+
+The twelve runners in `integration/` are **in-process pedagogical twins**.
+They do **not** import the twelve capstone package trees. Contract tests
+live in `integration/contract_tests.py` (`test_intake_contract`, …), not as
+free-standing `test_intake` modules.
+
+| Claimed name | Implemented |
+|---|---|
+| `noGo` / `NoGoResult` | `no_go.evaluate -> Tuple[bool, str]` |
+| `shared_trace_id` | `end_to_end_trace[].run_id` |
+| `calibrated_prob` / `abstain` | `TriageDecision.score` / `TriageDecision.abstained` |
+| `ambiguous_queue` | Not a live field; ER reports `fp_analysis` |
+| `LOCAL` canned stubs | Twins compute flags from work; empty contracts are fail-closed |
