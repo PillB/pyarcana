@@ -1,0 +1,33 @@
+{
+  "gate_id": "LIVE_VERIFIER",
+  "checked_at": "2026-08-17T02:38:03Z",
+  "live_url": "https://pillb.github.io/pyarcana/",
+  "live_http": 200,
+  "live_last_modified": "Mon, 17 Aug 2026 02:27:39 GMT",
+  "live_etag": "6a82719b-38698",
+  "recorded_sha": "bc4f0a224d6b14389044de14ef678875b6f727a5",
+  "pages_deploy_run": 31987972685,
+  "tests_run": 31987972682,
+  "pages_head_sha": "bc4f0a224d6b14389044de14ef678875b6f727a5",
+  "content_markers": {
+    "PyArcana": true,
+    "Edición pública": true,
+    "static-site-notice": true,
+    "El arte de aprender Python": true,
+    "no es una certificación profesional": true,
+    "literal capstones.disclaimer key": false,
+    "Capstone FINAL": true,
+    "sidebar-substep in page chunk": true,
+    "tour 17 pasos": false,
+    "tour 3 intentos por sección": false,
+    "puedes reintentar": true
+  },
+  "assets": {
+    "/pyarcana/logo.svg": 200,
+    "/pyarcana/favicon.svg": 200
+  },
+  "page_chunk": "/_next/static/chunks/app/page-2807566c0fcf4d65.js",
+  "claim": "Live Pages Last-Modified 2026-08-17 02:27:39 matches merge #28 SHA bc4f0a22. Tour copy no longer hardcodes 17 steps or a 3-attempt Autocheck cap.",
+  "passed": true,
+  "notes": "Exact git SHA is not embedded in the HTML. SHA match is via Pages deploy headSha bc4f0a22 plus Last-Modified/etag change after that deploy. Functional LMS markers and the new Autocheck retry copy are present in the live page chunk."
+}
