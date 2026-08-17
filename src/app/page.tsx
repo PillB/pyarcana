@@ -20,16 +20,29 @@ import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { CapstonesPage } from '@/components/course/CapstonesPage'
 import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/InteractiveTour'
-import { useServerProgressSync } from '@/lib/progress-store'
+import { useServerProgressSync, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { t, useI18n } from '@/lib/i18n'
 
 type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
 
+function isSubStep(value: unknown): value is SubStep {
+  return typeof value === 'string' && (SUB_STEPS as readonly string[]).includes(value)
+}
+
+function resolveCourseSectionId(id: string): string {
+  const sMatch = /^S(\d{2})$/i.exec(id)
+  if (!sMatch) return id
+  const idx = parseInt(sMatch[1], 10)
+  const found = COURSE_SECTIONS.find((s) => s.index === idx)
+  return found ? found.id : id
+}
+
 export default function Home() {
   const [view, setView] = useState<View>('home')
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null)
+  const [activeSubStep, setActiveSubStep] = useState<SubStep>('theory')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [authTab, setAuthTab] = useState<'login' | 'register'>('login')
@@ -105,7 +118,7 @@ export default function Home() {
     window.history.replaceState(null, '', newUrl)
   }
 
-  const handleSelectSection = (id: string) => {
+  const handleSelectSection = (id: string, subStep?: SubStep) => {
     // Snapshot scroll of the section we are leaving so return can resume.
     if (
       typeof window !== 'undefined' &&
@@ -126,14 +139,10 @@ export default function Home() {
     } else {
       // Accept both slug IDs ("setup") and S## IDs ("S04") from the capstones
       // catalog gateSection field. Map S## to the section with matching index.
-      let resolvedId = id
-      const sMatch = /^S(\d{2})$/i.exec(id)
-      if (sMatch) {
-        const idx = parseInt(sMatch[1], 10)
-        const found = COURSE_SECTIONS.find((s) => s.index === idx)
-        if (found) resolvedId = found.id
-      }
+      const resolvedId = resolveCourseSectionId(id)
+      const nextStep: SubStep = isSubStep(subStep) ? subStep : 'theory'
       setActiveSectionId(resolvedId)
+      setActiveSubStep(nextStep)
       setView('section')
       updateUrl(resolvedId, 'section')
       // Scroll restore/top is handled by SectionView on section.id change.
@@ -196,13 +205,18 @@ export default function Home() {
       <InteractiveTour
         open={tourOpen}
         onClose={() => setTourOpen(false)}
-        onNavigate={(target, sectionId) => {
-          if (target === 'capstones') { setView('capstones') }
-          else if (target === 'resources') { setView('resources') }
-          else if (target === 'home') { setView('home') }
-          else if (target === 'section' && sectionId) {
-            setView('section')
-            setActiveSectionId(sectionId)
+        onNavigate={(target, sectionId, subStep) => {
+          if (target === 'capstones') {
+            setView('capstones')
+            updateUrl(null, 'capstones')
+          } else if (target === 'resources') {
+            setView('resources')
+            updateUrl(null, 'resources')
+          } else if (target === 'home') {
+            setView('home')
+            updateUrl(null, 'home')
+          } else if (target === 'section' && sectionId) {
+            handleSelectSection(sectionId, subStep)
           }
         }}
       />
@@ -485,6 +499,8 @@ export default function Home() {
               {view === 'section' && activeSection && (
                 <SectionView
                   section={activeSection}
+                  activeSubStep={activeSubStep}
+                  onActiveSubStepChange={setActiveSubStep}
                   hasPrev={activeIndex > 0}
                   hasNext={activeIndex < COURSE_SECTIONS.length - 1}
                   onPrev={() => activeIndex > 0 && handleSelectSection(COURSE_SECTIONS[activeIndex - 1].id)}

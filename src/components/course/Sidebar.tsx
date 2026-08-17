@@ -22,7 +22,7 @@ import { useI18n, t } from '@/lib/i18n'
 interface SidebarProps {
   sections: CourseSection[]
   activeSectionId: string | null
-  onSelectSection: (id: string) => void
+  onSelectSection: (id: string, subStep?: SubStep) => void
   onHome: () => void
   view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
 }
@@ -223,7 +223,12 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                       return (
                         <button
                           key={step}
-                          onClick={() => onSelectSection(section.id)}
+                          type="button"
+                          data-testid={`sidebar-substep-${step}`}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            onSelectSection(section.id, step)
+                          }}
                           className="flex w-full items-center gap-2 rounded-md px-2 py-1 text-xs transition-colors hover:bg-sidebar-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <div

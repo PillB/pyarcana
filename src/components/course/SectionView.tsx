@@ -63,6 +63,8 @@ interface SectionViewProps {
   hasNext: boolean
   hasPrev: boolean
   onOpenAuth: () => void
+  activeSubStep?: SubStep
+  onActiveSubStepChange?: (step: SubStep) => void
 }
 
 const TAB_META: Record<SubStep, { icon: React.ElementType; labelKey: string; color: string }> = {
@@ -73,8 +75,27 @@ const TAB_META: Record<SubStep, { icon: React.ElementType; labelKey: string; col
   quiz: { icon: HelpCircle, labelKey: 'section.quiz', color: 'text-rose-600' },
 }
 
-export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenAuth }: SectionViewProps) {
-  const [activeTab, setActiveTab] = useState<SubStep>('theory')
+export function SectionView({
+  section,
+  onPrev,
+  onNext,
+  hasNext,
+  hasPrev,
+  onOpenAuth,
+  activeSubStep,
+  onActiveSubStepChange,
+}: SectionViewProps) {
+  const [uncontrolledTab, setUncontrolledTab] = useState<SubStep>('theory')
+  const [tabSectionId, setTabSectionId] = useState(section.id)
+  if (section.id !== tabSectionId) {
+    setTabSectionId(section.id)
+    setUncontrolledTab('theory')
+  }
+  const activeTab = activeSubStep ?? uncontrolledTab
+  const setActiveTab = (step: SubStep) => {
+    onActiveSubStepChange?.(step)
+    if (activeSubStep === undefined) setUncontrolledTab(step)
+  }
   const lang = useI18n((state) => state.lang)
   const tr = (key: string) => t(key, lang)
   const { data: session } = useSession()
@@ -139,12 +160,6 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
       sessionStorage.setItem(key, String(window.scrollY || 0))
       window.removeEventListener('scroll', onScroll)
     }
-  }, [section.id])
-
-  // Reset active tab when section changes (deferred to avoid effect cascading)
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActiveTab('theory')
   }, [section.id])
 
   const sectionProgress = Math.round(
