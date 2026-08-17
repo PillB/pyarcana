@@ -1980,7 +1980,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
           Todos los enlaces se abren en una pestaña nueva con <code className="rounded bg-muted px-1">rel=&quot;noopener noreferrer&quot;</code>.
           Esto es, una precaución estándar para que el sitio destino no pueda manipular tu pestaña de PyArcana.
           No controlamos el contenido externo: si una página ha cambiado, Moved o cobra ahora, repórtalo y lo
-          actualizaremos. .
+          actualizaremos. La inclusión de un recurso no implica respaldo; úsalo solo si encaja con tu objetivo.
         </p>
         <p className="mt-2 text-xs text-muted-foreground">
           Lee el{' '}

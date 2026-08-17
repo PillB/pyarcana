@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-22T17:33:09.212Z",
+  "generated_at": "2026-08-17T00:17:02.484Z",
   "counts": {
-    "es-PE": 184,
-    "es-ES": 184,
-    "en": 184
+    "es-PE": 255,
+    "es-ES": 255,
+    "en": 255
   },
   "missing": {
     "es-PE": [],
@@ -11,6 +11,11 @@
     "en": []
   },
   "ok": true,
-  "hardcoded_chrome_candidates": [],
-  "hardcoded_ok": true
+  "hardcoded_chrome_candidates": [
+    {
+      "file": "ResourcesPage.tsx",
+      "note": "Spanish chrome strings without useI18n (heuristic)"
+    }
+  ],
+  "hardcoded_ok": false
 }

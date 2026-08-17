@@ -742,8 +742,8 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
           </div>
           <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
             {english
-              ? 'A badge is a small marker that you completed an exercise or section independently. This is, it confirms you practised a specific skill '
-              : 'Un badge es un pequeño marcador de que completaste un ejercicio o sección de forma independiente. Esto es, confirma que practicaste una habilidad concreta '}
+              ? 'A badge is a small marker that you completed an exercise or section independently. This is, it confirms you practised a specific skill — it is not a professional certification.'
+              : 'Un badge es un pequeño marcador de que completaste un ejercicio o sección de forma independiente. Esto es, confirma que practicaste una habilidad concreta — no es una certificación profesional.'}
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
