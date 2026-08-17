@@ -95,9 +95,12 @@ export default function Home() {
         setView('home')
         setActiveSectionId(null)
       } else {
-        const section = COURSE_SECTIONS.find((s) => s.id === hash)
+        const [rawId, rawStep] = hash.split('/')
+        const resolvedId = resolveCourseSectionId(rawId)
+        const section = COURSE_SECTIONS.find((s) => s.id === resolvedId)
         if (section) {
-          setActiveSectionId(hash)
+          setActiveSectionId(section.id)
+          setActiveSubStep(isSubStep(rawStep) ? rawStep : 'theory')
           setView('section')
         }
       }
@@ -131,6 +134,7 @@ export default function Home() {
       )
     }
     if (id === '__resources__') {
+      setActiveSectionId(null)
       setView('resources')
       updateUrl(null, 'resources')
       if (typeof window !== 'undefined') {

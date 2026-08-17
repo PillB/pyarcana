@@ -70,6 +70,7 @@ class TestPageLevelSubstepController(unittest.TestCase):
         page = _read("src/app/page.tsx")
         self.assertIn("const sMatch = /^S(\\d{2})$/i.exec(id)", page)
         self.assertIn("handleSelectSection(sectionId, subStep)", page)
+        self.assertIn("resolveCourseSectionId(rawId)", page)
         self.assertNotRegex(
             page,
             r"setActiveSectionId\(sectionId\)",
