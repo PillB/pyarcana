@@ -26,6 +26,7 @@
 | `no_go_reason` | str | Motivo (vacío si no es no-go (esto es, condición de parada: si algo crítico falla, el sistema dice 'no proceder' en vez de seguir a medias)) |
 | `backup_path` | str? | Ruta del respaldo JSON |
 | `reproducible` | bool | True si la salida es determinista |
+| `contribution_statement` | str | Declaración pedagógica acotada; se serializa en backup/restore |
 
 ## Contratos de los 12 subsistemas
 | Capstone | Interfaz | Tipo retornado |

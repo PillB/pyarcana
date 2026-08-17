@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import os
+from dataclasses import replace
 from typing import Any, Dict, Optional
 
 from . import contracts
@@ -212,10 +213,11 @@ def integrate(scenario: Optional[shared_scenario.SharedScenario] = None,
         no_go_reason=no_go_reason,
         backup_path=None,
         reproducible=True,
+        contribution_statement=contracts.CONTRIBUTION_STATEMENT,
     )
 
     if backup_dir is not None:
-        bundle = bundle.__replace__(backup_path=backup_restore.backup(bundle, backup_dir))
+        bundle = replace(bundle, backup_path=backup_restore.backup(bundle, backup_dir))
 
     return bundle
 

@@ -24,6 +24,7 @@ Secciones contribuyentes: S04, S08, S13, S17, S21, S26, S30, S34, S39, S43, S47,
 - `evidence_bundle`: contratos + traza + grafo + tarjetas (data/model/system) + reproducibilidad.
 - `no_go`, `no_go_reason`: evaluación de condición de no-go (esto es, condición de parada: si algo crítico falla, el sistema dice 'no proceder' en vez de seguir a medias).
 - `backup_path`: respaldo JSON del bundle.
+- `contribution_statement`: declaración pedagógica acotada (la sección «Declaración de contribución personal»); se serializa en backup/restore.
 - `reproducible`: True si la salida es determinista dada la misma semilla.
 
 ## Criterios de aceptación
