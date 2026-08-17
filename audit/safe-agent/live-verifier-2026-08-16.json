@@ -1,0 +1,28 @@
+{
+  "gate_id": "LIVE_VERIFIER",
+  "checked_at": "2026-08-17T00:46:29Z",
+  "live_url": "https://pillb.github.io/pyarcana/",
+  "live_http": 200,
+  "live_last_modified": "Fri, 07 Aug 2026 21:30:34 GMT",
+  "live_etag": "6a764e7a-38698",
+  "recorded_baseline_sha": "038c2352ccc48f65b901c0689d2564f614a2cf96",
+  "recorded_baseline_last_modified": "Fri, 07 Aug 2026 21:24:00 GMT",
+  "content_markers": {
+    "PyArcana": true,
+    "Edición pública": true,
+    "static-site-notice": true,
+    "El arte de aprender Python": true,
+    "no es una certificación profesional": true,
+    "literal capstones.disclaimer key": false,
+    "S52 Capstone FINAL": true
+  },
+  "assets": {
+    "/pyarcana/logo.svg": 200,
+    "/pyarcana/favicon.svg": 200
+  },
+  "candidate_pr25_tip": "un-deployed (local feat/scoped-v4 ahead of origin until push)",
+  "candidate_pr27_tip": "un-deployed (local fix/tour-sidebar-disclaimers ahead of origin until push)",
+  "claim": "Live site matches the August 7 public-edition baseline, not PR #25 or #27.",
+  "passed": true,
+  "notes": "Last-Modified is 21:30:34 vs parity record 21:24:00 same day; same deploy window. Exact git SHA is not embedded in the HTML. Do not claim PR #25/#27 are live."
+}

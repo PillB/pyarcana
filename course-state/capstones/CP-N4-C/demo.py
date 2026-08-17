@@ -32,6 +32,7 @@ from harness import (  # noqa: E402
     HoldoutCase,
     evaluate_trajectory,
 )
+from harness.otel_export import export_otlp_json, validate_otlp_export  # noqa: E402
 
 
 def _build_kb() -> KnowledgeBase:
@@ -114,6 +115,11 @@ def main() -> int:
     # 6) Trajectory evaluation of the run we just produced.
     trajectory = evaluate_trajectory(record.to_dict())
 
+    # 7) Export the production Tracer as strict OTLP/JSON (learner-visible path).
+    otlp_envelope = export_otlp_json(copilot.tracer)
+    otlp_errors = validate_otlp_export(otlp_envelope)
+    otlp_spans = otlp_envelope["resourceSpans"][0]["scopeSpans"][0]["spans"]
+
     # 7) Compose metrics.
     denied = sum(1 for e in policy_audit if e.get("result") == "denied")
     pending_human = sum(1 for e in policy_audit if e.get("result") == "pending_human_approval")
@@ -152,6 +158,10 @@ def main() -> int:
             "score": holdout.score,
         },
         "trajectory": trajectory.to_dict(),
+        "otlp_spans": len(otlp_spans),
+        "otlp_valid": not otlp_errors,
+        "otlp_errors": otlp_errors,
+        "otlp_trace_id": otlp_spans[0]["traceId"] if otlp_spans else "",
     }
 
     # Assertions — if any of these fail the demo exits non-zero.
@@ -177,6 +187,10 @@ def main() -> int:
         failures.append(f"holdout score too low: {holdout.score}")
     if not trajectory.ok:
         failures.append(f"trajectory not ok: {trajectory.to_dict()}")
+    if otlp_errors:
+        failures.append(f"otlp export invalid: {otlp_errors}")
+    if not otlp_spans:
+        failures.append("otlp export produced no spans from the production Tracer")
 
     print(f"METRICS_JSON: {json.dumps(metrics, ensure_ascii=False)}")
     print(

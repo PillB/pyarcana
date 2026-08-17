@@ -113,6 +113,7 @@ _ATTR_MAP: Dict[str, str] = {
     "response_model": GEN_AI_RESPONSE_MODEL,
     "tool_name": GEN_AI_TOOL_NAME,
     "tool.name": GEN_AI_TOOL_NAME,
+    "tool": GEN_AI_TOOL_NAME,  # production ToolResult.to_dict()
     "tool_input": GEN_AI_TOOL_CALL_ARGUMENTS,
     "tool.input": GEN_AI_TOOL_CALL_ARGUMENTS,
     "args": GEN_AI_TOOL_CALL_ARGUMENTS,

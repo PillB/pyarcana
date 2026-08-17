@@ -266,6 +266,22 @@ class TestCurrentGenAIKeys:
         llm = next(s for s in export_spans_flat(tracer_with_spans) if s["name"] == "llm.generate")
         assert GEN_AI_INPUT_MESSAGES in _attr_map(llm)
 
+    def test_production_tool_result_dict_maps_tool_key(self):
+        t = Tracer()
+        with t.span(
+            "tool.call",
+            tool="search_docs",
+            args={"q": "rollback"},
+            result={"ok": True},
+            policy="allow",
+            executed=True,
+        ):
+            pass
+        tool = next(s for s in export_spans_flat(t) if s["name"] == "tool.call")
+        keys = set(_attr_map(tool))
+        assert GEN_AI_TOOL_NAME in keys
+        assert _string_attr(tool, GEN_AI_TOOL_NAME) == "search_docs"
+
     def test_tool_uses_call_arguments_and_result(self, tracer_with_spans: Tracer):
         tool = next(s for s in export_spans_flat(tracer_with_spans) if s["name"] == "tool.call")
         keys = set(_attr_map(tool))
