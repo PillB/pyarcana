@@ -114,6 +114,11 @@ class TestPageLevelSubstepController(unittest.TestCase):
         self.assertIn("lastNavKey", tour)
         self.assertIn("prefers-reduced-motion", tour)
         self.assertIn("addEventListener('scroll', update, true)", tour)
+        self.assertRegex(
+            tour,
+            r"legal-links[\s\S]{0,400}navigate:\s*'home'",
+            "legal-links step must remount Dashboard so the target exists",
+        )
 
 
 if __name__ == "__main__":

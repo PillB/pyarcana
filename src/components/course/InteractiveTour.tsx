@@ -188,6 +188,7 @@ const STEPS: TourStep[] = [
     titleKey: 'tour.legal.title',
     bodyKey: 'tour.legal.body',
     placement: 'top',
+    navigate: 'home',
   },
   {
     titleKey: 'tour.done.title',
