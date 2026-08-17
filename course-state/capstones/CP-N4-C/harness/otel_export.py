@@ -98,6 +98,7 @@ _SECRET_MARKERS = (
 _ATTR_MAP: Dict[str, str] = {
     "provider": GEN_AI_PROVIDER_NAME,
     "system": GEN_AI_PROVIDER_NAME,
+    "adapter": GEN_AI_PROVIDER_NAME,  # production Provider.complete span
     "model": GEN_AI_REQUEST_MODEL,
     "request_model": GEN_AI_REQUEST_MODEL,
     "max_tokens": GEN_AI_REQUEST_MAX_TOKENS,
@@ -228,6 +229,8 @@ def _infer_operation_name(span_name: str, mapped: Mapping[str, Any]) -> str:
         return "invoke_agent"
     if "llm" in lower or "generate" in lower or "chat" in lower:
         return "generate_content"
+    if "provider.call" in lower:
+        return "generate_content"
     return "invoke_workflow"
 
 
@@ -275,7 +278,35 @@ def _ms_to_unix_nano_str(ms: int) -> str:
     return str(int(ms) * 1_000_000)
 
 
-def _span_to_otlp(span: Span, trace_id: str) -> Dict[str, Any]:
+class _DictSpan:
+    """Adapter so persisted Tracer.to_dict() rows can be re-exported."""
+
+    def __init__(self, payload: Mapping[str, Any]) -> None:
+        self.span_id = payload.get("span_id")
+        self.parent_id = payload.get("parent_id")
+        self.name = str(payload.get("name") or "unknown")
+        self.start_ms = int(payload.get("start_ms") or 0)
+        self.end_ms = payload.get("end_ms")
+        self.attrs = dict(payload.get("attrs") or {})
+
+
+def _coerce_span(item: Any) -> Any:
+    if isinstance(item, Span):
+        return item
+    if isinstance(item, dict):
+        return _DictSpan(item)
+    return item
+
+
+def _span_status(span: Any) -> int:
+    name = str(getattr(span, "name", "")).lower()
+    if "error" in name or "fail" in name:
+        return STATUS_CODE_ERROR
+    return STATUS_CODE_OK
+
+
+def _span_to_otlp(span: Any, trace_id: str) -> Dict[str, Any]:
+    span = _coerce_span(span)
     start_ms = int(span.start_ms)
     end_ms = int(span.end_ms) if span.end_ms is not None else start_ms
     out: Dict[str, Any] = {
@@ -286,23 +317,23 @@ def _span_to_otlp(span: Span, trace_id: str) -> Dict[str, Any]:
         "startTimeUnixNano": _ms_to_unix_nano_str(start_ms),
         "endTimeUnixNano": _ms_to_unix_nano_str(end_ms),
         "attributes": _map_attrs(span.attrs, span.name),
-        "status": {"code": STATUS_CODE_OK},
+        "status": {"code": _span_status(span)},
     }
     if span.parent_id:
         out["parentSpanId"] = normalize_span_id(span.parent_id)
     return out
 
 
-def _collect_spans(source: Union[Tracer, Span, Sequence[Span], Any]) -> Tuple[List[Span], Optional[str]]:
+def _collect_spans(source: Union[Tracer, Span, Sequence[Any], Any]) -> Tuple[List[Any], Optional[str]]:
     if isinstance(source, Tracer):
         return list(source.spans), getattr(source, "trace_id", None)
     if isinstance(source, Span):
         return [source], None
     if isinstance(source, (list, tuple)):
-        return list(source), None
+        return [_coerce_span(s) for s in source], None
     spans_attr = getattr(source, "spans", None)
     if spans_attr is not None:
-        return list(spans_attr), getattr(source, "trace_id", None)
+        return [_coerce_span(s) for s in spans_attr], getattr(source, "trace_id", None)
     raise TypeError(f"cannot export OTLP from {type(source).__name__}")
 
 
@@ -488,6 +519,11 @@ def validate_otlp_export(exported: Mapping[str, Any]) -> List[str]:
                             errors.append(f"span '{name}' missing {GEN_AI_PROVIDER_NAME}")
                         if GEN_AI_REQUEST_MODEL not in keys:
                             errors.append(f"span '{name}' missing {GEN_AI_REQUEST_MODEL}")
+                        if GEN_AI_OPERATION_NAME not in keys:
+                            errors.append(f"span '{name}' missing {GEN_AI_OPERATION_NAME}")
+                    if "provider.call" in lower_name:
+                        if GEN_AI_PROVIDER_NAME not in keys:
+                            errors.append(f"span '{name}' missing {GEN_AI_PROVIDER_NAME}")
                         if GEN_AI_OPERATION_NAME not in keys:
                             errors.append(f"span '{name}' missing {GEN_AI_OPERATION_NAME}")
                     if "tool" in lower_name:

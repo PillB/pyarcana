@@ -266,6 +266,22 @@ class TestCurrentGenAIKeys:
         llm = next(s for s in export_spans_flat(tracer_with_spans) if s["name"] == "llm.generate")
         assert GEN_AI_INPUT_MESSAGES in _attr_map(llm)
 
+    def test_export_accepts_persisted_tracer_to_dict(self):
+        t = Tracer()
+        with t.span("provider.call", adapter="local", attempt=1):
+            pass
+        env = export_otlp_json(t.to_dict(), trace_id=t.trace_id)
+        assert validate_otlp_export(env) == []
+        span = env["resourceSpans"][0]["scopeSpans"][0]["spans"][0]
+        assert span["name"] == "provider.call"
+        assert GEN_AI_PROVIDER_NAME in _attr_map(span)
+
+    def test_provider_error_status_is_error(self):
+        t = Tracer()
+        t.event("provider.error", adapter="local", kind="timeout")
+        span = export_spans_flat(t)[0]
+        assert span["status"]["code"] == 2
+
     def test_production_tool_result_dict_maps_tool_key(self):
         t = Tracer()
         with t.span(
