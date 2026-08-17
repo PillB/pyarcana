@@ -19,6 +19,15 @@ from typing import Any, Dict, List, Optional
 PACKAGE_VERSION = "2.0.0"
 CONTRACT_REGISTRY_VERSION = "1.0.0"
 
+# Bounded synthetic/pedagogical contribution statement from BRIEF.md.
+# Serialized through backup/restore; not a production-impact claim.
+CONTRIBUTION_STATEMENT = (
+    "Este paquete es trabajo pedagógico individual. El estudiante integra, "
+    "documenta y prueba la plataforma; no reclama autoría sobre código de "
+    "terceros ni sobre los capstones previos más allá de su propia "
+    "implementación de los subsistemas acotados."
+)
+
 
 # --- helpers ---------------------------------------------------------------
 
@@ -247,6 +256,7 @@ class IntegrationBundle:
     no_go_reason: str = ""
     backup_path: Optional[str] = None
     reproducible: bool = True
+    contribution_statement: str = ""
 
 
 # --- registry --------------------------------------------------------------

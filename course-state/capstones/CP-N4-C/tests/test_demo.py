@@ -77,6 +77,15 @@ def test_metrics_status_pass_and_citations_present():
     )
 
 
+def test_metrics_includes_valid_otlp_export():
+    """Learner demo path must export a validator-clean OTLP envelope from the live Tracer."""
+    proc = _run_demo()
+    assert proc.returncode == 0, f"demo exited {proc.returncode}; stderr=\n{proc.stderr}"
+    metrics = _extract_metrics(proc.stdout)
+    assert metrics.get("otlp_valid") is True, metrics.get("otlp_errors")
+    assert int(metrics.get("otlp_spans") or 0) >= 1
+
+
 def test_metrics_holdout_and_trajectory_ok():
     """Sub-gate S50 evidence: holdout score >= 0.75 and trajectory ok."""
     proc = _run_demo()

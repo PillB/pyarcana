@@ -3,6 +3,7 @@
     "backup_path": null,
     "contract_id": "CP-FINAL",
     "contract_version": "2.0.0",
+    "contribution_statement": "Este paquete es trabajo pedagógico individual. El estudiante integra, documenta y prueba la plataforma; no reclama autoría sobre código de terceros ni sobre los capstones previos más allá de su propia implementación de los subsistemas acotados.",
     "dependency_graph": {
       "edges": [
         {

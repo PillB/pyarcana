@@ -111,6 +111,32 @@ jobs:
       - name: Exam pedagogy + v3 counts
         run: npm run test:exam-pedagogy && npm run test:v3-counts
 
+  capstone-pytest:
+    name: CP-N4-C + CP-FINAL pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pytest and pinned OTLP descriptors
+        run: python3 -m pip install pytest opentelemetry-proto==1.44.0 protobuf
+
+      - name: CP-N4-C OTLP export suite
+        run: python3 -m pytest tests/test_otel_export.py tests/test_demo.py -q
+        working-directory: course-state/capstones/CP-N4-C
+
+      - name: CP-FINAL integration deep suite
+        run: python3 -m pytest tests/test_integration_deep.py tests/test_demo.py -q
+        working-directory: course-state/capstones/CP-FINAL
+
+      - name: CP-FINAL contract and e2e suites
+        run: python3 -m pytest integration/contract_tests.py integration/e2e_test.py -q
+        working-directory: course-state/capstones/CP-FINAL
+
   platform-builds:
     name: Platform build (${{ matrix.mode }})
     runs-on: ubuntu-latest
