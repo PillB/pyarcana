@@ -66,6 +66,12 @@ interface TourStep {
   placement?: Placement
   /** When true, the step is skipped entirely if `target` is not present in the DOM. */
   conditional?: boolean
+  /** When set, the tour calls onNavigate() before showing this step. */
+  navigate?: 'home' | 'section' | 'capstones' | 'resources'
+  /** Curriculum code (e.g. S01) resolved by the page-level S## mapper. */
+  sectionId?: string
+  /** Lesson tab to select after navigation so the target is mounted. */
+  subStep?: 'theory' | 'ido' | 'wedo' | 'youdo' | 'quiz'
 }
 
 const STEPS: TourStep[] = [
@@ -85,12 +91,14 @@ const STEPS: TourStep[] = [
     titleKey: 'tour.capstones.title',
     bodyKey: 'tour.capstones.body',
     placement: 'bottom',
+    navigate: 'capstones',
   },
   {
     target: '[data-testid="nav-resources"]',
     titleKey: 'tour.resources.title',
     bodyKey: 'tour.resources.body',
     placement: 'bottom',
+    navigate: 'resources',
   },
   {
     target: '[data-testid="nav-admin"], [data-testid="nav-supervisor"]',
@@ -100,16 +108,68 @@ const STEPS: TourStep[] = [
     conditional: true,
   },
   {
+    target: '[data-testid="sidebar-sections"]',
+    titleKey: 'tour.openLesson.title',
+    bodyKey: 'tour.openLesson.body',
+    placement: 'right',
+    navigate: 'section',
+    sectionId: 'S01',
+    subStep: 'theory',
+  },
+  {
     target: '[data-testid="tab-ido"]',
     titleKey: 'tour.tabs.title',
     bodyKey: 'tour.tabs.body',
     placement: 'bottom',
+    navigate: 'section',
+    sectionId: 'S01',
+    subStep: 'ido',
+  },
+  {
+    target: '[data-testid="tab-wedo"]',
+    titleKey: 'tour.exercises.title',
+    bodyKey: 'tour.exercises.body',
+    placement: 'bottom',
+    navigate: 'section',
+    sectionId: 'S01',
+    subStep: 'wedo',
+  },
+  {
+    target: '[data-testid="tab-youdo"]',
+    titleKey: 'tour.youdo.title',
+    bodyKey: 'tour.youdo.body',
+    placement: 'bottom',
+    navigate: 'section',
+    sectionId: 'S01',
+    subStep: 'youdo',
   },
   {
     target: '[data-testid="sc-submit"]',
     titleKey: 'tour.autocheck.title',
     bodyKey: 'tour.autocheck.body',
     placement: 'bottom',
+    navigate: 'section',
+    sectionId: 'S01',
+    subStep: 'quiz',
+  },
+  {
+    target: '[data-testid="section-next"]',
+    titleKey: 'tour.sectionNav.title',
+    bodyKey: 'tour.sectionNav.body',
+    placement: 'top',
+  },
+  {
+    target: '[data-testid="nav-glossary"]',
+    titleKey: 'tour.glossary.title',
+    bodyKey: 'tour.glossary.body',
+    placement: 'bottom',
+  },
+  {
+    target: '[data-testid="nav-capstones"]',
+    titleKey: 'tour.capstonesDeep.title',
+    bodyKey: 'tour.capstonesDeep.body',
+    placement: 'bottom',
+    navigate: 'capstones',
   },
   {
     target: '[data-testid="theme-toggle"]',
@@ -128,6 +188,7 @@ const STEPS: TourStep[] = [
     titleKey: 'tour.legal.title',
     bodyKey: 'tour.legal.body',
     placement: 'top',
+    navigate: 'home',
   },
   {
     titleKey: 'tour.done.title',
@@ -156,17 +217,23 @@ interface Rect {
  * target changes so the consumer can fall back to dialog mode briefly between
  * steps.
  */
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 function useElementRect(target: string | undefined, enabled: boolean): Rect | null {
   const [rect, setRect] = useState<Rect | null>(null)
 
   // Reset on target change so we don't show a stale rect from the previous step.
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRect(null)
   }, [target])
 
   useLayoutEffect(() => {
     if (!enabled || !target) return
+    let cancelled = false
+    const ro = new ResizeObserver(() => update())
 
     const pickVisible = (): HTMLElement | null => {
       const els = document.querySelectorAll<HTMLElement>(target)
@@ -177,33 +244,53 @@ function useElementRect(target: string | undefined, enabled: boolean): Rect | nu
           return candidate
         }
       }
-      // Fallback: if none are visible (e.g. still mounting), return the first.
       return (els[0] as HTMLElement) || null
     }
 
-    const el = pickVisible()
-    if (!el) return
-
     const update = () => {
+      if (cancelled) return
       const visible = pickVisible()
-      const targetEl = visible || el
-      const r = targetEl.getBoundingClientRect()
-      // Guard against zero-size elements (e.g. display: none ancestors).
+      if (!visible) {
+        setRect(null)
+        return
+      }
+      const r = visible.getBoundingClientRect()
       if (r.width === 0 && r.height === 0) {
         setRect(null)
         return
       }
       setRect({ top: r.top, left: r.left, width: r.width, height: r.height })
     }
-    update()
-    const ro = new ResizeObserver(update)
-    // Observe all matching elements so a responsive swap (mobile ↔ desktop)
-    // triggers an update.
-    const allEls = document.querySelectorAll<HTMLElement>(target)
-    allEls.forEach((e) => ro.observe(e))
+
+    const attach = (): boolean => {
+      const el = pickVisible()
+      if (!el) return false
+      el.scrollIntoView({
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'center',
+        inline: 'center',
+      })
+      document.querySelectorAll<HTMLElement>(target).forEach((node) => ro.observe(node))
+      update()
+      window.requestAnimationFrame(update)
+      return true
+    }
+
+    let tries = 0
+    const poll = window.setInterval(() => {
+      if (attach() || ++tries > 40) window.clearInterval(poll)
+    }, 50)
+    attach()
+    const lateA = window.setTimeout(update, 80)
+    const lateB = window.setTimeout(update, 220)
+
     window.addEventListener('scroll', update, true)
     window.addEventListener('resize', update)
     return () => {
+      cancelled = true
+      window.clearInterval(poll)
+      window.clearTimeout(lateA)
+      window.clearTimeout(lateB)
       ro.disconnect()
       window.removeEventListener('scroll', update, true)
       window.removeEventListener('resize', update)
@@ -228,9 +315,15 @@ interface InteractiveTourProps {
   open: boolean
   /** Called when the tour finishes (either by completion or skip). */
   onClose: () => void
+  /** Called when a tour step needs to navigate (e.g. open a section, go to capstones). */
+  onNavigate?: (
+    target: 'home' | 'section' | 'capstones' | 'resources',
+    sectionId?: string,
+    subStep?: TourStep['subStep'],
+  ) => void
 }
 
-export function InteractiveTour({ open, onClose }: InteractiveTourProps) {
+export function InteractiveTour({ open, onClose, onNavigate }: InteractiveTourProps) {
   const lang = useI18n((s) => s.lang)
   const tr = useCallback((k: string) => t(k, lang), [lang])
   const isMobile = useIsMobile()
@@ -240,10 +333,24 @@ export function InteractiveTour({ open, onClose }: InteractiveTourProps) {
   const [effectiveSteps, setEffectiveSteps] = useState<TourStep[]>(STEPS)
   const nextRef = useRef<HTMLButtonElement>(null)
   const completedRef = useRef(false)
+  const lastNavKey = useRef('')
 
-  // Resolve conditional steps whenever the tour opens. Conditional steps whose
-  // target isn't currently in the DOM (e.g. Admin link when not signed in as
-  // admin) are filtered out so the user isn't shown a step pointing at nothing.
+  // Navigate when a step requests it. Guard on a content key so a new
+  // onNavigate identity (inline callback from page.tsx) does not retrigger.
+  useEffect(() => {
+    if (!open) {
+      lastNavKey.current = ''
+      return
+    }
+    if (!onNavigate) return
+    const step = effectiveSteps[stepIdx]
+    if (!step?.navigate) return
+    const key = `${step.navigate}:${step.sectionId ?? ''}:${step.subStep ?? ''}:${stepIdx}`
+    if (lastNavKey.current === key) return
+    lastNavKey.current = key
+    onNavigate(step.navigate, step.sectionId, step.subStep)
+  }, [stepIdx, open, effectiveSteps, onNavigate])
+
   useEffect(() => {
     if (!open) {
       // eslint-disable-next-line react-hooks/set-state-in-effect

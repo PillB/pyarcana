@@ -175,4 +175,57 @@ test.describe('Safe-Agent learner journeys', () => {
     expect(tag.length).toBeGreaterThan(0)
     await context.close()
   })
+
+  test('desktop sidebar subsection opens that tab without mutating progress', async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await page.addInitScript(() => {
+      localStorage.setItem('pyarcana:tourCompleted', '1')
+      localStorage.setItem(
+        'python-ds-progress',
+        JSON.stringify({
+          state: {
+            completedSections: [],
+            completedSubSteps: { setup: ['theory'] },
+            quizScores: {},
+            lastVisited: 'setup',
+            bookmarks: [],
+            startDate: '2025-01-01T00:00:00.000Z',
+            isHydratedFromServer: false,
+          },
+          version: 0,
+        }),
+      )
+    })
+    await page.goto(HOME)
+    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({
+      timeout: 20000,
+    })
+    await page.locator('aside [role="button"]').filter({ hasText: /S01|Entorno|setup/i }).first().click()
+    await expect(page.locator('[data-testid="section-root"]')).toBeVisible({ timeout: 20000 })
+    const before = await page.evaluate(() => localStorage.getItem('python-ds-progress'))
+    await page.locator('[data-testid="sidebar-substep-ido"]').first().click()
+    await expect(page.locator('[data-testid="tab-ido"][data-state="active"]')).toBeVisible({
+      timeout: 10000,
+    })
+    const after = await page.evaluate(() => localStorage.getItem('python-ds-progress'))
+    const beforeState = JSON.parse(before as string).state
+    const afterState = JSON.parse(after as string).state
+    expect(afterState.completedSubSteps).toEqual(beforeState.completedSubSteps)
+    expect(afterState.completedSections).toEqual(beforeState.completedSections)
+    expect(afterState.quizScores).toEqual(beforeState.quizScores)
+    await context.close()
+  })
+
+  test('capstones disclaimer is visible copy, not a translation key', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(`${HOME}#capstones`)
+    await expect(page.locator('body')).not.toContainText('capstones.disclaimer')
+    await expect(page.locator('body')).toContainText(/competenc|curricular/i)
+    await context.close()
+  })
 })
