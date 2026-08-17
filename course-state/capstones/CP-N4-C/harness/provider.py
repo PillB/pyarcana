@@ -102,8 +102,14 @@ class Provider:
                 if time.time() > deadline:
                     raise TimeoutError("provider deadline exceeded")
                 if self.tracer:
-                    with self.tracer.span("provider.call", adapter=label, attempt=attempt):
+                    with self.tracer.span("provider.call", adapter=label, attempt=attempt) as span:
                         resp = adapter.complete(prompt, system=system, max_tokens=max_tokens)
+                        span.set(
+                            model=getattr(resp, "model_id", None) or getattr(resp, "model", None),
+                            tokens_in=resp.tokens_in,
+                            tokens_out=resp.tokens_out,
+                            cost=resp.cost,
+                        )
                 else:
                     resp = adapter.complete(prompt, system=system, max_tokens=max_tokens)
                 # Charge the budget if we have one.

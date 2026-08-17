@@ -26,6 +26,7 @@ PKG = os.path.dirname(HERE)
 sys.path.insert(0, PKG)
 
 from harness.tracing import Span, Tracer, generate_span_id, generate_trace_id, redact
+from harness.provider import Provider, ProviderConfig
 from harness.otel_export import (
     GEN_AI_INPUT_MESSAGES,
     GEN_AI_OPERATION_NAME,
@@ -265,6 +266,22 @@ class TestCurrentGenAIKeys:
     def test_prompt_maps_to_input_messages(self, tracer_with_spans: Tracer):
         llm = next(s for s in export_spans_flat(tracer_with_spans) if s["name"] == "llm.generate")
         assert GEN_AI_INPUT_MESSAGES in _attr_map(llm)
+
+    def test_provider_complete_records_model_and_usage_on_span(self):
+        tracer = Tracer()
+        provider = Provider(ProviderConfig(mode="LOCAL"), tracer=tracer)
+        provider.complete("how to rollback a failed model gate", system="plan")
+        call = next(s for s in tracer.spans if s.name == "provider.call")
+        assert call.attrs.get("model") == "local-rules-v1"
+        assert int(call.attrs.get("tokens_in") or 0) >= 1
+        assert int(call.attrs.get("tokens_out") or 0) >= 1
+        env = export_otlp_json(tracer)
+        assert validate_otlp_export(env) == []
+        exported = next(s for s in export_spans_flat(tracer) if s["name"] == "provider.call")
+        keys = set(_attr_map(exported))
+        assert GEN_AI_PROVIDER_NAME in keys
+        assert GEN_AI_REQUEST_MODEL in keys
+        assert GEN_AI_USAGE_INPUT_TOKENS in keys
 
     def test_export_accepts_persisted_tracer_to_dict(self):
         t = Tracer()
