@@ -286,7 +286,7 @@ export function SectionView({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.15 }}
-            className="mt-3 max-sm:mr-12"
+            className="mt-3 mx-12 lg:ml-0 lg:mr-24"
           >
             <TabsContent value="theory" className="mt-0 focus-visible:outline-none">
               <TheoryTab section={section} onDone={() => toggleSubStep(section.id, 'theory')} done={subStepsDone.includes('theory')} />
