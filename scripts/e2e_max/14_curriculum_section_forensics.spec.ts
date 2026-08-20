@@ -44,14 +44,16 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
 
       const consoleErrors: string[] = []
       const pageErrors: string[] = []
+      let currentTab = 'initial-navigation'
       page.on('console', (message) => {
-        if (message.type() === 'error') consoleErrors.push(message.text())
+        if (message.type() === 'error') consoleErrors.push(`${currentTab}: ${message.text()}`)
       })
-      page.on('pageerror', (error) => pageErrors.push(error.message))
+      page.on('pageerror', (error) => pageErrors.push(`${currentTab}: ${error.stack || error.message}`))
 
       await gotoSection(page, sectionId)
       const records = []
       for (const tab of tabs) {
+        currentTab = tab
         await openTab(page, tab)
         const panel = page.locator('[role="tabpanel"][data-state="active"]')
         await expect(panel).toBeVisible()
@@ -104,6 +106,21 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
           }))
           const code = [...content.querySelectorAll('pre,code')].filter(visible).map(describe)
           const paragraphs = [...content.querySelectorAll('p,li')].filter(visible).map(describe)
+          const fixedControls = [...document.querySelectorAll(
+            '[data-testid="feedback-open"],[data-testid="section-next"],[data-testid="section-prev"]'
+          )].filter(visible)
+          const obstructionTargets = [...content.querySelectorAll('p,li,pre,table,h1,h2,h3,h4,h5,h6')].filter(visible)
+          const fixedObstructions = fixedControls.flatMap((control) => {
+            const controlRect = control.getBoundingClientRect()
+            return obstructionTargets
+              .filter((target) => {
+                const rect = target.getBoundingClientRect()
+                const overlapWidth = Math.min(controlRect.right, rect.right) - Math.max(controlRect.left, rect.left)
+                const overlapHeight = Math.min(controlRect.bottom, rect.bottom) - Math.max(controlRect.top, rect.top)
+                return overlapWidth > 2 && overlapHeight > 2
+              })
+              .map((target) => ({ control: describe(control), obscured: describe(target) }))
+          })
           return {
             document: {
               viewportWidth: document.documentElement.clientWidth,
@@ -118,6 +135,7 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
             code,
             paragraphs,
             horizontalOverflow: overflow,
+            fixedObstructions,
           }
         })
 
@@ -130,10 +148,9 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
         records.push(record)
         expect(forensic.document.scrollWidth).toBeLessThanOrEqual(forensic.document.viewportWidth + 1)
         expect(forensic.horizontalOverflow, 'visible elements must remain inside the viewport').toEqual([])
+        expect(forensic.fixedObstructions, 'fixed controls must not obscure learner content').toEqual([])
       }
 
-      expect(pageErrors, 'uncaught page errors').toEqual([])
-      expect(consoleErrors, 'browser console errors').toEqual([])
       const manifestPath = path.join(root, `${viewport.name}-manifest.json`)
       fs.writeFileSync(
         manifestPath,
@@ -152,6 +169,8 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
         }, null, 2)}\n`,
         { flag: 'wx' }
       )
+      expect(pageErrors, 'uncaught page errors').toEqual([])
+      expect(consoleErrors, 'browser console errors').toEqual([])
     })
   }
 })
