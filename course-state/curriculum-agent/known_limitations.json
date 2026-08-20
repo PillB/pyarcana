@@ -21,6 +21,11 @@
       "id": "LIMIT-HUMAN-CALIBRATION",
       "status": "KNOWN_LIMITATION",
       "detail": "No new real human-subject study is available in this automated run; the held-out human-reviewed calibration set remains the available calibration evidence."
+    },
+    {
+      "id": "LIMIT-EXTERNAL-LEARNER-AUTHORIZATION",
+      "status": "BLOCKING",
+      "detail": "The managed execution reviewer rejected sending staged curriculum packets to the external Codex model service. No semantic learner run is admissible until the user explicitly authorizes that data export or provides an approved local model runtime."
     }
   ]
 }
