@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "run_id": "curriculum-audit-2026-08-20",
+  "source_sha": "ec1f167d79075e624e2cc8cebad684bad7f91870",
+  "deployed_baseline_sha": "ec1f167d79075e624e2cc8cebad684bad7f91870",
+  "deployed_url": "https://pillb.github.io/pyarcana/",
+  "outer_pass_budget": 10,
+  "validation_round_budget": 5,
+  "quiet_validation_rounds_required": 2,
+  "learners": ["LEARNER_A", "LEARNER_B"],
+  "modes": ["EPISTEMIC", "REALISTIC_STUDENT"],
+  "sections": {"first": "S01", "last": "S52", "strictly_sequential": true},
+  "network_policy": {"learner": "deny", "reviewer_fixer": "authoritative_fact_check_only"},
+  "status": "BLOCKED_BY_INVALID_EVIDENCE",
+  "admissibility": {
+    "historical_runs_counted": 0,
+    "reason": "Current AGENT_STATE marks earlier evidence stale or tainted; available model runtimes do not enforce the physical learner filesystem boundary required by the active skill."
+  }
+}

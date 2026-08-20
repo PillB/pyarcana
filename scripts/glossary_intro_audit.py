@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
-"""Audit: glossary terms appearing before their firstSectionId in curriculum order."""
+"""Audit glossary first-use metadata and ordered learner-visible concept events.
+
+The source-level report remains for backwards compatibility.  The semantic
+``audit_concept_events`` gate is intentionally independent of TypeScript
+formatting: callers provide events extracted from the rendered learner packet
+in display order and explicitly identify which concept an event defines or
+requires.  Hidden solutions and code cannot satisfy a learner-visible
+definition.
+"""
 from __future__ import annotations
 
 import json
 import re
 from pathlib import Path
+
+from glossary_first_use import audit_concept_events  # re-export for existing callers
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = (ROOT / "src/lib/course/index.ts").read_text(encoding="utf-8")

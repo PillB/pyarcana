@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "source_sha": "ec1f167d79075e624e2cc8cebad684bad7f91870",
+  "preservation_manifest": "audit/safe-agent/preservation-manifest-curriculum-audit-2026-08-20.json",
+  "active_section_count": 52,
+  "exercise_id_count": 1248,
+  "tracked_test_count": 117,
+  "deployed_pages_run_id": 31989186154,
+  "deployed_pages_run_conclusion": "success",
+  "pre_edit_live_playwright": {"passed": 13, "failed": 0},
+  "baseline_findings": [
+    {"id": "BASE-ENV-PYTHON", "status": "BLOCKED_ENVIRONMENT", "observed": "Default python3 is 3.9; repository requires 3.12; python3.12 is installed and passes the adversarial suite."},
+    {"id": "BASE-GLOSSARY-FORWARD", "status": "OPEN", "observed": "glossary_intro_audit reports 3 forward references."},
+    {"id": "BASE-GLOSSARY-PROSE", "status": "OPEN", "observed": "glossary_coverage_audit reports 46 P1 missing prose hooks."},
+    {"id": "BASE-FIREWALL", "status": "OPEN", "observed": "Existing receipt-bound learner harness does not itself enforce filesystem or tool isolation."}
+  ]
+}

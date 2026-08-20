@@ -46,16 +46,20 @@ export const section07: CourseSection = {
         "Python 3 `str` es Unicode. Con `ord('ñ')` y `chr(241)` exploras **code points**. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) o **NFD** (base + marca combinante). Al comparar nombres latam sin unificar formas obtienes **falsos negativos** (“José” ≠ “José”), aunque se vean idénticos en pantalla.",
         "`unicodedata.normalize('NFC', s)` unifica formas **antes** de comparar o tokenizar. Sin eso, `'José' == 'Jose\\u0301'` puede ser `False`, y tu Jaccard o tu exact-match fallan en silencio. En el normalizador de registro documentas cada paso (NFC, colapso de espacios, `casefold`); si el schema no cuadra, dejas el caso en **review** en vez de inventar campos. Las herramientas de esta sección son stdlib `str`, `unicodedata` y `re`.",
         "`casefold()` es la **política canónica** de matching case-insensitive del normalizador: más robusta que `lower()` cuando hay *casing* especial (caso clásico: ß alemana → `ss`). En español, `lower` y `casefold` suelen coincidir en ñ; aun así escribes `casefold` por **contrato**, no porque `lower` “rompa” la ñ. El pipeline es: **NFC → strip/collapse → casefold (si la política lo pide) → comparar**. Trabajas solo con datos sintéticos: **nunca** PII real ni inferencia automática de parentesco.",
-        "**Predice los code points:** antes de ejecutar, dibuja dos casillas para `é` compuesta y tres para `e` + marca combinante. Después explica por qué NFC cambia la comparación pero no corrige un nombre mal escrito. Esa frontera —forma, no significado— evita prometer más de lo que la herramienta hace.",
+        "**Predice los code points:** antes de ejecutar, dibuja una casilla para `é` compuesta y dos para `e` + marca combinante. Cada casilla representa un code point. Después explica por qué NFC cambia la comparación pero no corrige un nombre mal escrito. Esa frontera —forma, no significado— evita prometer más de lo que la herramienta hace.",
       ],
       code: {
         language: 'python',
         title: "unicode_nfc.py",
         code: `def s07_th_1():
     import unicodedata
+    def code_points(text):
+        return [f"U+{ord(char):04X}" for char in text]
     a = "José"
     b = "Jose\\u0301"
     print("raw equal?", a == b)
+    print("NFC é:", code_points(a[-1]))
+    print("NFD é:", code_points(unicodedata.normalize("NFD", a[-1])))
     print("NFC equal?", unicodedata.normalize("NFC", a) == unicodedata.normalize("NFC", b))
     print("casefold ñ:", "MAÑANA".casefold())
     print("casefold ß:", "straße".casefold(), "vs lower:", "straße".lower())
@@ -63,6 +67,8 @@ export const section07: CourseSection = {
 
 s07_th_1()`,
         output: `raw equal? False
+NFC é: ['U+00E9']
+NFD é: ['U+0065', 'U+0301']
 NFC equal? True
 casefold ñ: mañana
 casefold ß: strasse vs lower: straße
@@ -1665,7 +1671,7 @@ Solo emitimos evidencia (raw, score, decision=review) para un humano.`,
     context:
       "Proyecto independiente (You Do): cierras el tramo textual de **CP-N1-B** con un pipeline que conserva **raw**, emite **normalized** y registra **transforms** por campo. Antes de programar, prepara una tabla con cinco columnas: `campo | raw | transformación prevista | normalized esperado | decisión/review`. Traza a mano un caso feliz y uno ambiguo; solo después implementa por etapas: nombre, email, teléfono e integración. Combinas Unicode NFC, nombres con dos apellidos y partículas, contacto modesto, `str` primero y regex justificada. Sin scraping, HTTP, SQL, PII real ni afirmaciones de identidad legal.",
     objectives: [
-      "normalize_record → {raw, normalized, transforms}",
+      "normalize_record → {raw, normalized, transforms, status, review_reasons}",
       "NFC + casefold donde corresponda en nombres",
       "Dos apellidos / status review si el parse es incompleto",
       "str primero; regex solo si aporta y se justifica en el README",
@@ -1679,6 +1685,7 @@ Solo emitimos evidencia (raw, score, decision=review) para un humano.`,
       "Email: un @, local/dominio no vacíos, cero espacios; plus permitido; inválido → review (no inventar local)",
       "Teléfono: solo dígitos; conserva dígitos del prefijo 51; no inferir operadora ni raise por longitud",
       "transforms es un dict por campo cuya lista sigue el orden de aplicación (nfc, collapse_spaces, casefold, digits_only, …)",
+      "status es ok o review; review_reasons conserva razones por campo y queda vacío en el caso feliz",
       "Si agregas matching, empaqueta evidencia sin afirmaciones de parentesco ni identidad legal",
     ],
     starterCode: `"""latam_normalize.py — Normalización latinoamericana (CP-N1-B / S07)
@@ -1713,8 +1720,9 @@ def normalize_phone(raw: str) -> tuple[str, list[str]]:
 
 
 def normalize_record(raw: dict[str, Any]) -> dict[str, Any]:
-    """→ {raw, normalized, transforms}."""
+    """→ {raw, normalized, transforms, status, review_reasons}."""
     # Contrato: transforms={"nombre": [...], "email": [...], "telefono": [...]}
+    # status es ok o review; review_reasons conserva razones por campo
     raise NotImplementedError
 
 

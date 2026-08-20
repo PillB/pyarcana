@@ -1,0 +1,89 @@
+{
+  "outer_pass": 1,
+  "section_id": "oop",
+  "source_sha_before": "35ee837f",
+  "source_sha_after": "3612a4ec",
+  "packet_sha": "38f17705dcf4b32c6fccf3d22d212567dd01ecbcef2d68808bc68b98d5853fe3",
+  "learner_summary": {
+    "epistemic": {
+      "identities": ["LEARNER_A", "LEARNER_B"],
+      "exercise_attempts_per_identity": 25,
+      "self_checks_per_identity": 8,
+      "blockers": 0,
+      "status": "ADMISSIBLE_FOR_INFORMATION_CONSTRAINED_REASONING"
+    },
+    "realistic_student": {
+      "identities": ["LEARNER_A", "LEARNER_B"],
+      "status": "BLOCKED_BY_INVALID_EVIDENCE",
+      "reason": "Both outputs labeled predicted values as observed_output although their manifests disabled execution and contained no execution receipts."
+    }
+  },
+  "issues": [
+    {
+      "issue_id": "S05-P01-PROV-001",
+      "fingerprint": "realistic-lanes-observed-output-with-execution-disabled",
+      "severity": "P0",
+      "category": "UNRESOLVED_PROVENANCE_FAILURE",
+      "section_id": "oop",
+      "location_ref": "scripts/curriculum_learner_firewall.py:seal_output",
+      "learner_evidence_refs": [
+        "pass1-s05-a-real-p01-LEARNER_A-realistic_student-s05",
+        "pass1-s05-b-real-p01-LEARNER_B-realistic_student-s05"
+      ],
+      "course_evidence_refs": [
+        "context manifests disable code_execution",
+        "sealed realistic outputs contain nonempty observed_output without commands or runtime receipts"
+      ],
+      "expected": "Observed output is admitted only when bound execution provenance exists.",
+      "observed": "Predictions were serialized as observations despite execution-disabled manifests.",
+      "causal_hypothesis": "The no-tool semantic runner reused the realistic label without a separate execution-capable harness.",
+      "confidence": 0.99,
+      "knowledge_boundary_violation": true,
+      "remediation_type": "HARNESS_FAIL_CLOSED",
+      "recommended_location": "learner output sealing gate",
+      "why_here": "Agent claims cannot override deterministic permissions.",
+      "regression_test_spec": "Reject nonempty realistic observed_output when code_execution is false."
+    },
+    {
+      "issue_id": "S05-P01-CAPTURE-001",
+      "fingerprint": "giant-jpeg-height-wrap-and-blank-desktop-quiz",
+      "severity": "P1",
+      "category": "AUDIT_EVIDENCE_DEFECT",
+      "section_id": "oop",
+      "location_ref": "scripts/e2e_max/14_curriculum_section_forensics.spec.ts",
+      "learner_evidence_refs": [],
+      "course_evidence_refs": [
+        "pre-fix mobile We Do bodyHeight 43458 but JPEG tooling reported a wrapped/corrupt height",
+        "pre-fix desktop quiz JPEG appeared blank while the forensic payload recorded eight questions"
+      ],
+      "expected": "Raster evidence covers every rendered pixel range without image-format height ambiguity.",
+      "observed": "Single giant JPEGs could not reliably substantiate tall-page or desktop-quiz claims.",
+      "causal_hypothesis": "Full-page JPEG dimensions exceeded reliable decoder/capture behavior.",
+      "confidence": 0.99,
+      "knowledge_boundary_violation": false,
+      "remediation_type": "TILED_SCREENSHOT_GATE",
+      "recommended_location": "existing forensic Playwright specification",
+      "why_here": "The established screenshot gate owns visual evidence production.",
+      "regression_test_spec": "Require nonempty active tab content and hashed PNG viewport tiles whose declared coverage sums to bodyHeight."
+    }
+  ],
+  "curriculum_diagnosis": {
+    "new_curriculum_gaps": 0,
+    "assessment_defects": 0,
+    "technical_content_errors": 0,
+    "ordinary_learner_errors": 0,
+    "status": "CANNOT_VERIFY_REALISTIC_JOURNEY",
+    "note": "The two epistemic identities independently solved all current exercises and self-checks. No curriculum rewrite is justified from the invalid realistic evidence."
+  },
+  "visual_aid_decision": {
+    "status": "VISUAL_AID_NOT_REQUIRED",
+    "reason": "Both epistemic learners formed usable caller/return, orchestration, LEGB and closure models from the existing prose, code, output traces and transfer exercises.",
+    "optional_p3": "A compact caller-to-return or normalizer-flow diagram could reduce scan cost, but current evidence does not justify making it a material repair."
+  },
+  "known_limitations": [
+    "Physical removal of the host Codex tool surface remains unavailable; instruction-constrained semantic runs are diagnostic.",
+    "A fresh isolated student-runtime rerun is required before either S05 realistic lane is admissible.",
+    "Keyboard order, touch glossary dismissal, screen-reader order, and complete solution-boundary behavior require their dedicated cross-course gates.",
+    "The 24-card guided-practice length merits later human/learner fatigue observation, but current evidence does not support shortening or restructuring it."
+  ]
+}

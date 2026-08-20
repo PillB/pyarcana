@@ -37,6 +37,7 @@ jobs:
         run: bun run build:static
         env:
           NEXT_PUBLIC_BASE_PATH: /pyarcana
+          PYARCANA_DEPLOY_SHA: ${{ github.sha }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

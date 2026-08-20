@@ -1,0 +1,28 @@
+{
+  "unit_id": "S01-T3-B",
+  "audience": "Capable zero-prerequisite learner with ordinary computer-use skills",
+  "purpose": "Bridge local Git work to the already-required public GitHub repository and Pull Request",
+  "starting_point": "Learner understands local repositories, commits, diffs, and branches but has not been taught remote creation or authentication",
+  "must_teach": [
+    "Why a remote is needed",
+    "How to create an empty GitHub repository for an existing local project",
+    "How browser-based GitHub CLI authentication works",
+    "How origin connects the local and hosted repositories",
+    "How to publish main and the feature branch",
+    "How to open and interpret a Pull Request"
+  ],
+  "must_not_assume": [
+    "Existing GitHub account",
+    "Existing remote repository",
+    "Authentication knowledge",
+    "Meaning of origin",
+    "Pull Request UI knowledge"
+  ],
+  "editorial_protocol": "Handcrafted Writing and Editorial Quality Protocol",
+  "technical_sources_checked_at": "2026-08-20",
+  "technical_sources": [
+    "https://cli.github.com/manual/gh_auth_login",
+    "https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github",
+    "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request"
+  ]
+}

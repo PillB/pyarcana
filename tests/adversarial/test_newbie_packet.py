@@ -38,6 +38,41 @@ class TestStringArrayParser(unittest.TestCase):
 
 
 class TestPacketIsolation(unittest.TestCase):
+    def test_long_exercise_metadata_does_not_drop_visible_starter_code(self) -> None:
+        packet = build_packet(2, attempt_id="starter-fidelity")
+        exercises = {
+            exercise["id"]: exercise
+            for exercise in packet["active"]["weDo"]["exercises"]
+        }
+        for exercise_id in ("S02-T1-B-E3", "S02-T4-B-E3"):
+            self.assertTrue(
+                exercises[exercise_id]["starterCode"],
+                f"{exercise_id} learner packet dropped rendered starterCode",
+            )
+
+    def test_exercise_packet_preserves_visible_preamble_and_newlines(self) -> None:
+        packet = build_packet(3, attempt_id="exercise-copy-fidelity")
+        exercises = {
+            exercise["id"]: exercise
+            for exercise in packet["active"]["weDo"]["exercises"]
+        }
+        exercise = exercises["S03-T4-A-E2"]
+        self.assertIn("ambos vacíos → reject", exercise["preamble"])
+        self.assertEqual(exercise["edgeCases"], ["uno vacío"])
+        self.assertIn("\n2. Escribe", exercise["instruction"])
+        self.assertNotIn("falta).n2.", exercise["instruction"])
+
+    def test_unicode_escape_in_visible_starter_preserves_combining_mark(self) -> None:
+        packet = build_packet(7, attempt_id="unicode-starter-fidelity")
+        exercises = {
+            exercise["id"]: exercise
+            for exercise in packet["active"]["weDo"]["exercises"]
+        }
+        for exercise_id in ("S07-T1-A-E1", "S07-T1-A-E3"):
+            starter = exercises[exercise_id]["starterCode"]
+            self.assertIn("Jose\u0301", starter)
+            self.assertNotIn("Joseu0301", starter)
+
     def test_section1_has_no_solution_keys(self):
         pkt = build_packet(1, attempt_id="adv")
         blob = str(pkt)
@@ -110,6 +145,15 @@ class TestPacketIsolation(unittest.TestCase):
         a = build_packet(2, attempt_id="x")
         b = build_packet(2, attempt_id="y")
         self.assertEqual(a["packet_sha"], b["packet_sha"])
+
+    def test_theory_code_with_template_braces_remains_learner_visible(self):
+        packet = build_packet(1, attempt_id="theory-code-fidelity")
+        theory = {
+            block["subtopicId"]: block for block in packet["active"]["theory"]
+        }
+        self.assertIn("requests==2.32.3", theory["S01-T2-B"]["code"])
+        self.assertIn("2.32.3", theory["S01-T2-B"]["code_output"])
+        self.assertIn("git remote add origin", theory["S01-T3-B"]["code"])
 
     def test_prior_sections_grow(self):
         p1 = build_packet(1)

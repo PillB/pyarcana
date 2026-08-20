@@ -1,0 +1,39 @@
+[
+  {
+    "name": "hidden-solution mention cannot teach",
+    "expected_codes": ["NO_VISIBLE_DEFINITION"],
+    "events": [
+      {"section_id": "s01", "display_order": 1, "kind": "exercise", "location": "exercise", "requires": ["terminal"]},
+      {"section_id": "s01", "display_order": 2, "kind": "solution", "location": "solution", "mentions": ["terminal"], "defines": ["terminal"]}
+    ]
+  },
+  {
+    "name": "mention without definition",
+    "expected_codes": ["NO_VISIBLE_DEFINITION"],
+    "events": [{"section_id": "s01", "display_order": 1, "kind": "prose", "location": "intro", "mentions": ["terminal"]}]
+  },
+  {
+    "name": "definition after exercise",
+    "expected_codes": ["USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT"],
+    "events": [
+      {"section_id": "s01", "display_order": 1, "kind": "exercise", "location": "exercise", "mentions": ["terminal"], "requires": ["terminal"]},
+      {"section_id": "s01", "display_order": 2, "kind": "prose", "location": "late-definition", "mentions": ["terminal"], "defines": ["terminal"]}
+    ]
+  },
+  {
+    "name": "unrelated definition cue cannot teach term",
+    "expected_codes": ["NO_VISIBLE_DEFINITION"],
+    "events": [{"section_id": "s01", "display_order": 1, "kind": "prose", "location": "intro", "text": "Python es un programa. Abre la terminal.", "mentions": ["terminal"], "defines": ["python"]}]
+  },
+  {
+    "name": "stale route id",
+    "firstSectionId": "legacy-route",
+    "expected_codes": ["STALE_ROUTE_ID"],
+    "events": []
+  },
+  {
+    "name": "valid inline definition",
+    "expected_codes": [],
+    "events": [{"section_id": "s01", "display_order": 1, "kind": "prose", "location": "intro", "text": "La terminal es una aplicación para escribir comandos.", "mentions": ["terminal"], "defines": ["terminal"]}]
+  }
+]

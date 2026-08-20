@@ -1,0 +1,16 @@
+{
+  "invalidation_id": "pass01-s01-theory-code-fidelity",
+  "created_at": "2026-08-20T20:05:00Z",
+  "earliest_impacted_section": 1,
+  "invalidated_through_section": 52,
+  "reason": "The learner packet lexer omitted learner-visible theory code objects containing template-literal braces. Repairing the exported context changed the S01 packet SHA and invalidates all cumulative downstream learner evidence.",
+  "stale_packet_sha": "d552ed4150e94e28b101f52e3b2044a4828fb660b0d7fe0a819ee6affdc4e608",
+  "replacement_packet_sha": "1ca860e7dd7df930ede53c47a13fab980572e04a410957d59d8f11f5f8f24483",
+  "stale_runs": [
+    "pass1-green1-a-ep-p01-LEARNER_A-epistemic-s01",
+    "pass1-green1-b-ep-p01-LEARNER_B-epistemic-s01",
+    "pass1-green1-a-real-p01-LEARNER_A-realistic_student-s01",
+    "pass1-green1-b-real-p01-LEARNER_B-realistic_student-s01"
+  ],
+  "counts_toward_convergence": false
+}

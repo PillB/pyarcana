@@ -1,0 +1,107 @@
+{
+  "outer_pass": 1,
+  "section_id": "numpy",
+  "source_sha_before": "6e6865bb",
+  "source_sha_after": "7f7c5b08",
+  "packet_sha": "9986249a18b2e2cd5b2f807bbfd59b841da928dcdfd8dc2739e8c874e16df26b",
+  "selected_runs": {
+    "epistemic": [
+      "pass1-s06-a-ep-p01-LEARNER_A-epistemic-s06",
+      "pass1-s06-b-ep-r3-p01-LEARNER_B-epistemic-s06"
+    ],
+    "realistic_student_blocked_environment": [
+      "pass1-s06-a-real-r3-p01-LEARNER_A-realistic_student-s06",
+      "pass1-s06-b-real-p01-LEARNER_B-realistic_student-s06"
+    ]
+  },
+  "superseded_or_rejected_runs": [
+    {
+      "run_id": "pass1-s06-a-real-p01-LEARNER_A-realistic_student-s06",
+      "reason": "sealed but missing the required S06-YOU-DO attempt"
+    },
+    {
+      "run_id": "pass1-s06-b-ep-p01-LEARNER_B-epistemic-s06",
+      "reason": "sealed with noncanonical S06-YOUDO identifier"
+    },
+    {
+      "run_id": "pass1-s06-a-real-r2-p01-LEARNER_A-realistic_student-s06",
+      "reason": "rejected before sealing by the new exercise-catalog gate"
+    },
+    {
+      "run_id": "pass1-s06-b-ep-r2-p01-LEARNER_B-epistemic-s06",
+      "reason": "rejected before sealing by the new exercise-catalog gate"
+    }
+  ],
+  "issues": [
+    {
+      "issue_id": "S06-P01-RUNTIME-001",
+      "fingerprint": "realistic-student-lane-denies-required-local-code-execution",
+      "severity": "P1",
+      "category": "BLOCKED_ENVIRONMENT",
+      "section_id": "numpy",
+      "location_ref": "realistic context manifests tool_permissions",
+      "learner_evidence_refs": [
+        "both selected realistic runs mark all 25 attempts CANNOT_VERIFY",
+        "both selected realistic runs keep observed_output empty"
+      ],
+      "course_evidence_refs": [
+        "S06 requires executable practice and a python memory_model.py project run",
+        "realistic manifests set code_execution=false"
+      ],
+      "expected": "The realistic lane exposes only the actual isolated student runtime and binds execution receipts.",
+      "observed": "The lane is truthfully fail-closed but cannot execute.",
+      "causal_hypothesis": "A safe isolated Pyodide/Python execution adapter has not been integrated with the learner provenance harness.",
+      "confidence": 0.99,
+      "knowledge_boundary_violation": false,
+      "remediation_type": "KNOWN_LIMITATION_RUNTIME_INTEGRATION",
+      "recommended_location": "learner runner and execution-receipt schema",
+      "why_here": "Curriculum prose cannot repair missing runtime authority.",
+      "regression_test_spec": "Allow only student-visible isolated execution; bind code/stdout/stderr/exit/runtime hashes; retain network and repository denial."
+    },
+    {
+      "issue_id": "S06-P01-SCHEMA-002",
+      "fingerprint": "required-youdo-attempt-missing-or-noncanonical",
+      "severity": "P1",
+      "category": "AUDIT_INFRASTRUCTURE_DEFECT",
+      "section_id": "numpy",
+      "location_ref": "scripts/curriculum_learner_firewall.py:seal_output",
+      "learner_evidence_refs": [
+        "initial realistic A omitted S06-YOU-DO",
+        "initial epistemic B and both first reruns used S06-YOUDO"
+      ],
+      "course_evidence_refs": ["24 We Do exercises plus one required You Do project"],
+      "expected": "Every output contains exactly the packet-derived canonical exercise catalog.",
+      "observed": "Incomplete and noncanonical catalogs could previously seal.",
+      "causal_hypothesis": "JSON shape validation did not compare semantic IDs with the authoritative packet.",
+      "confidence": 0.99,
+      "knowledge_boundary_violation": false,
+      "remediation_type": "PACKET_DERIVED_ADMISSION_GATE",
+      "recommended_location": "existing output sealer",
+      "why_here": "The deterministic harness, not a semantic learner, owns catalog completeness.",
+      "regression_test_spec": "Reject missing, duplicate, invented, or noncanonical IDs; expose the exact required catalog in the constrained prompt."
+    }
+  ],
+  "curriculum_diagnosis": {
+    "new_curriculum_gaps": 0,
+    "assessment_defects": 0,
+    "technical_content_errors": 0,
+    "ordinary_learner_errors": 0,
+    "epistemic_result": "Two selected independent identities solved 25/25 with no blockers or ambiguity.",
+    "realistic_result": "BLOCKED_ENVIRONMENT for both identities; not journey completion."
+  },
+  "deterministic_runtime": {
+    "command": "python3 scripts/python_content_runtime_audit.py --only s06-numpy --workers 1",
+    "result": "64 pass, 0 fail, 0 skip",
+    "scope": "embedded source artifacts only; not learner-written answers"
+  },
+  "visual_aid_decision": {
+    "status": "VISUAL_AID_NOT_REQUIRED",
+    "reason": "All four semantic identities accurately paraphrased alias, shallow-copy, deep-copy, and nested identity behavior from existing memory-arrow prompts, examples, and outputs.",
+    "optional_p3": "A compact accessible copy graph could be useful as reference, but there is no evidence-backed material need."
+  },
+  "known_limitations": [
+    "Physical learner tool-surface isolation remains unavailable.",
+    "A genuine isolated student runtime with per-attempt receipts is required for realistic completion.",
+    "Long-page orientation and fatigue, keyboard/touch behavior, screen-reader order, and solution-boundary behavior remain cross-course UX gates."
+  ]
+}

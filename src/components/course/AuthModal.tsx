@@ -618,9 +618,15 @@ export function UserMenu({ onOpenAuth }: { onOpenAuth: () => void }) {
 
   if (!signedIn) {
     return (
-      <Button variant="default" size="sm" onClick={onOpenAuth} className="gap-1.5">
+      <Button
+        variant="default"
+        size="sm"
+        onClick={onOpenAuth}
+        className="h-9 w-9 gap-1.5 p-0 sm:w-auto sm:px-3"
+        aria-label="Entrar"
+      >
         <Sparkles className="h-3.5 w-3.5" />
-        Entrar
+        <span className="hidden sm:inline">Entrar</span>
       </Button>
     )
   }

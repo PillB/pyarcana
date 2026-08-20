@@ -21,6 +21,27 @@ from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _decode_string_escape(char: str) -> str:
+    """Decode the small JS/TS escape set used by learner-visible course copy."""
+    return {"n": "\n", "r": "\r", "t": "\t", "b": "\b", "f": "\f"}.get(char, char)
+
+
+def _decode_escape_at(text: str, slash: int) -> tuple[str, int]:
+    """Decode one JS/TS escape and return (value, next unread index)."""
+    marker = text[slash + 1]
+    if marker == "u" and slash + 6 <= len(text):
+        digits = text[slash + 2 : slash + 6]
+        if re.fullmatch(r"[0-9A-Fa-f]{4}", digits):
+            return chr(int(digits, 16)), slash + 6
+    if marker == "x" and slash + 4 <= len(text):
+        digits = text[slash + 2 : slash + 4]
+        if re.fullmatch(r"[0-9A-Fa-f]{2}", digits):
+            return chr(int(digits, 16)), slash + 4
+    return _decode_string_escape(marker), slash + 2
+
+
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 INDEX_TS = ROOT / "src/lib/course/index.ts"
 PAGE_TSX = ROOT / "src/app/page.tsx"
@@ -36,8 +57,8 @@ def extract_balanced_template(text: str, start: int) -> str | None:
         ch = text[i]
         if ch == "\\":
             if i + 1 < len(text):
-                out.append(text[i + 1])
-                i += 2
+                value, i = _decode_escape_at(text, i)
+                out.append(value)
                 continue
         if ch == "`":
             return "".join(out)
@@ -62,8 +83,8 @@ def extract_string_field(obj: str, field: str) -> str | None:
         out = []
         while i < len(obj):
             if obj[i] == "\\" and i + 1 < len(obj):
-                out.append(obj[i + 1])
-                i += 2
+                value, i = _decode_escape_at(obj, i)
+                out.append(value)
                 continue
             if obj[i] == q:
                 return "".join(out)
@@ -130,8 +151,8 @@ def extract_string_array(obj: str, field: str) -> list[str]:
             out: list[str] = []
             while i < n:
                 if body[i] == "\\" and i + 1 < n:
-                    out.append(body[i + 1])
-                    i += 2
+                    value, i = _decode_escape_at(body, i)
+                    out.append(value)
                     continue
                 if body[i] == q:
                     i += 1
@@ -164,48 +185,13 @@ def extract_string_array(obj: str, field: str) -> list[str]:
 
 def find_object_after(text: str, key: str) -> list[str]:
     """Find `{...}` objects after `key:` (used for starterCode/solutionCode)."""
+    pairs, _ = _balanced_brace_pairs(text)
     objs: list[str] = []
     for m in re.finditer(rf"{re.escape(key)}\s*:\s*\{{", text):
         start = m.end() - 1
-        depth = 0
-        i = start
-        while i < len(text):
-            ch = text[i]
-            if ch == "{":
-                depth += 1
-            elif ch == "}":
-                depth -= 1
-                if depth == 0:
-                    objs.append(text[start : i + 1])
-                    break
-            elif ch in ("'", '"'):
-                q = ch
-                i += 1
-                while i < len(text):
-                    if text[i] == "\\" and i + 1 < len(text):
-                        i += 2
-                        continue
-                    if text[i] == q:
-                        break
-                    i += 1
-            elif ch == "`":
-                t = extract_balanced_template(text, i)
-                if t is not None:
-                    i = i + 1 + len(t)  # approximate; template may differ due to escapes
-                    # re-scan from start of template more carefully
-                    j = i
-                    # fall through — better: skip by finding closing backtick
-                # skip template properly
-                j = i + 1
-                while j < len(text):
-                    if text[j] == "\\" and j + 1 < len(text):
-                        j += 2
-                        continue
-                    if text[j] == "`":
-                        i = j
-                        break
-                    j += 1
-            i += 1
+        end = pairs.get(start)
+        if end is not None:
+            objs.append(text[start : end + 1])
     return objs
 
 
@@ -489,11 +475,17 @@ def parse_section_learner(path: Path) -> dict:
     # its id: field and ends at the next id: field (or end of region).
     ex_id_pattern = re.compile(r"\bid\s*:\s*['\"](S\d{2}-T\d-[AB]-E[1-3])['\"]")
     id_matches = list(ex_id_pattern.finditer(wedo_region))
-    for i, id_m in enumerate(id_matches):
+    exercise_pairs, exercise_containers = _balanced_brace_pairs(wedo_region)
+    for id_m in id_matches:
         eid = id_m.group(1)
-        block_start = id_m.start()
-        block_end = id_matches[i + 1].start() if i + 1 < len(id_matches) else len(wedo_region)
-        block = wedo_region[block_start:block_end]
+        containers = exercise_containers.get(id_m.start(), ())
+        if not containers:
+            continue
+        block_start = containers[-1]
+        block_end = exercise_pairs.get(block_start)
+        if block_end is None:
+            continue
+        block = wedo_region[block_start : block_end + 1]
         instruction = extract_string_field(block, "instruction")
         if not instruction:
             continue
@@ -503,7 +495,12 @@ def parse_section_learner(path: Path) -> dict:
             hints = [hint]
         kind = extract_string_field(block, "kind")
         tests = extract_string_field(block, "tests")
-        starter_objs = find_object_after(block[:3000], "starterCode")
+        preamble = extract_string_field(block, "preamble")
+        edge_cases = extract_string_array(block, "edgeCases")
+        # Exercise metadata can legitimately exceed 3,000 characters before
+        # starterCode (preamble, hints, feedback and retrospectives). Search the
+        # complete exercise object so learner packets match the rendered card.
+        starter_objs = find_object_after(block, "starterCode")
         starter_code = None
         if starter_objs:
             starter_code, _, _ = extract_code_from_obj(starter_objs[0])
@@ -511,7 +508,9 @@ def parse_section_learner(path: Path) -> dict:
             {
                 "id": eid,
                 "instruction": instruction,
+                "preamble": preamble,
                 "hints": hints,
+                "edgeCases": edge_cases,
                 "kind": kind,
                 "tests": tests,  # test description only, not keys
                 "starterCode": starter_code,
@@ -795,6 +794,22 @@ def gap_scan(packet: dict) -> list[dict]:
     return gaps
 
 
+def canonical_packet_sha(packet: dict) -> str:
+    """Hash the complete learner-visible packet, excluding only its digest field."""
+    hashable = {
+        key: value
+        for key, value in packet.items()
+        if key not in {"packet_sha", "attempt_id"}
+    }
+    serialized = json.dumps(
+        hashable,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
 def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
     parsed = list(parsed_active_sections())
     if section_index < 1 or section_index > len(parsed):
@@ -822,20 +837,7 @@ def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
         ),
         "packet_sha": None,
     }
-    # Hash only learner-visible content identities; validator diagnostics are
-    # deliberately excluded from this object and from its serialized form.
-    hashable = {
-        "section_index": section_index,
-        "landing": landing,
-        "prior_ids": [s["id"] for s in prior],
-        "active_id": active["id"],
-        "active_taught_sha": active.get("taught_text_sha"),
-        "exercise_ids": [e.get("id") for e in (active.get("weDo") or {}).get("exercises") or []],
-        "n_selfcheck": len(active.get("selfCheck_stems") or []),
-    }
-    packet["packet_sha"] = hashlib.sha256(
-        json.dumps(hashable, sort_keys=True).encode()
-    ).hexdigest()[:16]
+    packet["packet_sha"] = canonical_packet_sha(packet)
     return packet
 
 

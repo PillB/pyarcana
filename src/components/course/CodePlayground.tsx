@@ -340,6 +340,7 @@ export function CodePlayground({
         {/* Code textarea */}
         <textarea
           data-initial-code={initialCode}
+          aria-label="Editor de código Python"
           ref={textareaRef}
           value={code}
           onChange={(e) => setCode(e.target.value)}

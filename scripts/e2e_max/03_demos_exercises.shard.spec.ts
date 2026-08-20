@@ -8,6 +8,9 @@ test.describe('E2E max — demos + exercises (sharded)', () => {
   for (const section of sections) {
     test(`${section.id}: demos + every exercise show solution`, async ({ page }) => {
       test.setTimeout(180_000)
+      await page.addInitScript(() => {
+        localStorage.setItem('pyarcana:tourCompleted', '1')
+      })
       await gotoSection(page, section.id)
 
       // Theory playground if present
@@ -39,10 +42,16 @@ test.describe('E2E max — demos + exercises (sharded)', () => {
             await card.first().scrollIntoViewIfNeeded({ timeout: 10_000 })
             await expect(card.first()).toBeVisible()
             const check = page.getByTestId(`exercise-check-${ex.id}`)
+            const feedback = page.getByTestId(`exercise-feedback-${ex.id}`)
+            // A solution must not exist in the rendered DOM or accessibility tree
+            // before the learner explicitly requests it.
+            await expect(feedback).toHaveCount(0)
             await check.click()
-            await expect(page.getByTestId(`exercise-feedback-${ex.id}`)).toBeVisible({
-              timeout: 10_000,
-            })
+            await expect(feedback).toBeVisible({ timeout: 10_000 })
+            await expect(check).toHaveAccessibleName(/Ocultar solución/i)
+            await check.click()
+            await expect(feedback).toHaveCount(0)
+            await expect(check).toHaveAccessibleName(/Ver solución/i)
             continue
           }
         } catch {
@@ -55,10 +64,12 @@ test.describe('E2E max — demos + exercises (sharded)', () => {
             name: /Ver solución|Ocultar solución/i,
           })
           if ((await btn.count()) > 0) {
+            const feedback = byIndex.locator('[data-testid^="exercise-feedback-"]')
+            await expect(feedback).toHaveCount(0)
             await btn.first().click()
-            await expect(
-              byIndex.locator('[data-testid^="exercise-feedback-"]')
-            ).toBeVisible({ timeout: 10_000 })
+            await expect(feedback).toBeVisible({ timeout: 10_000 })
+            await btn.first().click()
+            await expect(feedback).toHaveCount(0)
           }
         }
       }

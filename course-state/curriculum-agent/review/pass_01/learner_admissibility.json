@@ -1,0 +1,14 @@
+{
+  "outer_pass": 1,
+  "status": "BLOCKED_BY_INVALID_EVIDENCE",
+  "admissible_runs": 0,
+  "sealed_but_inadmissible": [
+    "learner_runs/pass_01/LEARNER_A/epistemic/section_setup/output.json",
+    "learner_runs/pass_01/LEARNER_A/realistic_student/section_setup/output.json",
+    "learner_runs/pass_01/LEARNER_B/epistemic/section_setup/output.json"
+  ],
+  "rejected_run": "pass1-b-real-p01-LEARNER_B-realistic_student-s01",
+  "reason": "The learner runtime exposed and attempted a core apply_patch tool despite shell/web disablement. Read-only enforcement prevented mutation, but the semantic runtime was not tool-free and displayed skill-aware agent behavior. Earlier runs used the same runtime and therefore cannot establish the required novice boundary.",
+  "preservation": "Sealed outputs and receipts remain immutable historical diagnostics and are not counted toward convergence.",
+  "required_remediation": "Use an API/runtime that exposes no tools, skills, repository context, prior sessions or filesystem beyond the serialized packet; rerun both learners from S01."
+}
