@@ -503,7 +503,10 @@ def parse_section_learner(path: Path) -> dict:
             hints = [hint]
         kind = extract_string_field(block, "kind")
         tests = extract_string_field(block, "tests")
-        starter_objs = find_object_after(block[:3000], "starterCode")
+        # Exercise metadata can legitimately exceed 3,000 characters before
+        # starterCode (preamble, hints, feedback and retrospectives). Search the
+        # complete exercise object so learner packets match the rendered card.
+        starter_objs = find_object_after(block, "starterCode")
         starter_code = None
         if starter_objs:
             starter_code, _, _ = extract_code_from_obj(starter_objs[0])

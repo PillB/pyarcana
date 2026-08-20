@@ -1,0 +1,20 @@
+{
+  "invalidation_id": "INVALIDATE-P1-001",
+  "outer_pass": 1,
+  "cause_issue_id": "PACKET-P0-STARTER-TRUNCATION",
+  "earliest_impacted_section": "S01",
+  "affected_range": "S01-S52",
+  "reason": "The cumulative learner packet builder silently omitted starterCode when exercise metadata before that field exceeded 3,000 characters. Packet SHA changed for both evaluated sections after repair.",
+  "stale_evidence": [
+    "learner_runs/pass_01/LEARNER_A/epistemic/section_setup",
+    "learner_runs/pass_01/LEARNER_A/realistic_student/section_setup",
+    "learner_runs/pass_01/LEARNER_B/epistemic/section_setup",
+    "learner_runs/pass_01/LEARNER_B/realistic_student/section_setup",
+    "learner_runs/pass_01/LEARNER_A/epistemic/section_basics",
+    "learner_runs/pass_01/LEARNER_A/realistic_student/section_basics",
+    "learner_runs/pass_01/LEARNER_B/epistemic/section_basics",
+    "learner_runs/pass_01/LEARNER_B/realistic_student/section_basics"
+  ],
+  "status": "INVALIDATED_PRESERVED",
+  "rerun_required": true
+}

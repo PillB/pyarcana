@@ -29,8 +29,8 @@
     },
     {
       "id": "LIMIT-CODEX-CORE-TOOL-EXPOSURE",
-      "status": "BLOCKING",
-      "detail": "Codex exec still exposes a core apply_patch capability and skill-aware system behavior after user config, rules, shell and web are disabled. The read-only sandbox prevented mutation, but the runtime is not a tool-free novice and its semantic learner evidence is inadmissible."
+      "status": "ACCEPTED_DIAGNOSTIC_LIMITATION",
+      "detail": "Codex exec still exposes a core apply_patch capability and skill-aware system behavior after user config, rules, shell and web are disabled. The user directed the audit to continue with explicit no-tool learner instructions. Results are diagnostic evidence, not proof of a physical knowledge firewall."
     }
   ]
 }

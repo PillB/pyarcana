@@ -138,9 +138,21 @@ def learner_prompt(stage: Path, manifest_path: Path) -> str:
         ),
         "task": (
             "Evaluate the active section only from COURSE_DATA. Record concise observable "
-            "paraphrases and evidence references, not private reasoning. Block rather than guess."
+            "paraphrases and evidence references, not private reasoning. Block rather than guess. "
+            "Do not call, inspect, suggest, or use any tool, skill, shell, patch, filesystem, web, "
+            "repository, or external resource even if the runtime offers one. Return only the "
+            "requested JSON response."
         ),
         "context_manifest_id": manifest["context_manifest_id"],
+        "required_identity": {
+            "run_id": manifest["context_manifest_id"],
+            "outer_pass": manifest["outer_pass"],
+            "learner_id": manifest["learner_id"],
+            "mode": manifest["mode"],
+            "section_id": manifest["section_id"],
+            "packet_sha": manifest["packet_sha"],
+            "context_manifest_id": manifest["context_manifest_id"],
+        },
         "COURSE_DATA": visible,
     }
     return json.dumps(envelope, ensure_ascii=False, sort_keys=True)

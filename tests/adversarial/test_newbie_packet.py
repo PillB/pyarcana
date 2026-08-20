@@ -38,6 +38,18 @@ class TestStringArrayParser(unittest.TestCase):
 
 
 class TestPacketIsolation(unittest.TestCase):
+    def test_long_exercise_metadata_does_not_drop_visible_starter_code(self) -> None:
+        packet = build_packet(2, attempt_id="starter-fidelity")
+        exercises = {
+            exercise["id"]: exercise
+            for exercise in packet["active"]["weDo"]["exercises"]
+        }
+        for exercise_id in ("S02-T1-B-E3", "S02-T4-B-E3"):
+            self.assertTrue(
+                exercises[exercise_id]["starterCode"],
+                f"{exercise_id} learner packet dropped rendered starterCode",
+            )
+
     def test_section1_has_no_solution_keys(self):
         pkt = build_packet(1, attempt_id="adv")
         blob = str(pkt)
