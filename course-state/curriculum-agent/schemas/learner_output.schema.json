@@ -11,10 +11,58 @@
     "section_id": {"type": "string"},
     "packet_sha": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "context_manifest_id": {"type": "string"},
-    "first_use_observations": {"type": "array", "items": {"type": "object"}},
-    "exercise_attempts": {"type": "array", "items": {"type": "object"}},
-    "self_checks": {"type": "array", "items": {"type": "object"}},
-    "knowledge_state_delta": {"type": "array", "items": {"type": "object"}},
+    "first_use_observations": {"type": "array", "items": {"$ref": "#/$defs/firstUse"}},
+    "exercise_attempts": {"type": "array", "items": {"$ref": "#/$defs/exercise"}},
+    "self_checks": {"type": "array", "items": {"$ref": "#/$defs/selfCheck"}},
+    "knowledge_state_delta": {"type": "array", "items": {"$ref": "#/$defs/knowledgeDelta"}},
     "blockers": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "firstUse": {
+      "type": "object", "additionalProperties": false,
+      "required": ["term", "location_ref", "status", "learner_paraphrase", "evidence_refs", "blocking", "confidence"],
+      "properties": {
+        "term": {"type": "string"}, "location_ref": {"type": "string"},
+        "status": {"enum": ["UNDERSTOOD", "UNCLEAR", "MISUNDERSTOOD"]},
+        "learner_paraphrase": {"type": "string"},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "blocking": {"type": "boolean"}, "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "exercise": {
+      "type": "object", "additionalProperties": false,
+      "required": ["exercise_id", "status", "answer_or_code", "evidence_refs", "concepts_used", "assumptions", "confidence", "observed_output", "questions", "suspected_missing_prerequisites"],
+      "properties": {
+        "exercise_id": {"type": "string"},
+        "status": {"enum": ["SOLVED", "BLOCKED_NOT_TAUGHT", "BLOCKED_ENVIRONMENT", "AMBIGUOUS", "CONTRADICTORY", "CANNOT_VERIFY", "MISSING_ASSET", "PREMATURE_KNOWLEDGE"]},
+        "answer_or_code": {"type": "string"},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "concepts_used": {"type": "array", "items": {"type": "string"}},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "observed_output": {"type": "string"}, "questions": {"type": "array", "items": {"type": "string"}},
+        "suspected_missing_prerequisites": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "selfCheck": {
+      "type": "object", "additionalProperties": false,
+      "required": ["question_id", "chosen_answer", "evidence_refs", "concepts_used", "confidence", "ambiguity_detected"],
+      "properties": {
+        "question_id": {"type": "string"}, "chosen_answer": {"type": "string"},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "concepts_used": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}, "ambiguity_detected": {"type": "boolean"}
+      }
+    },
+    "knowledgeDelta": {
+      "type": "object", "additionalProperties": false,
+      "required": ["concept_id", "introduced_at", "learner_paraphrase", "example_seen", "guided_practice_completed", "independent_use_observed", "confidence", "evidence_refs"],
+      "properties": {
+        "concept_id": {"type": "string"}, "introduced_at": {"type": "string"}, "learner_paraphrase": {"type": "string"},
+        "example_seen": {"type": "boolean"}, "guided_practice_completed": {"type": "boolean"}, "independent_use_observed": {"type": "boolean"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}}
+      }
+    }
   }
 }

@@ -157,3 +157,39 @@ def verify_stage(stage: Path, manifest_path: Path) -> None:
         content = path.read_bytes()
         if len(content) != row["bytes"] or _sha_bytes(content) != row["sha256"]:
             raise RuntimeError(f"learner stage integrity failure: {row['path']}")
+
+
+def seal_output(output_path: Path, manifest_path: Path, *, state_root: Path = STATE) -> Path:
+    """Bind a schema-produced response to its manifest and store it exclusively."""
+    raw = output_path.read_bytes()
+    output = json.loads(raw)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    expected = {
+        "run_id": manifest["context_manifest_id"],
+        "outer_pass": manifest["outer_pass"],
+        "learner_id": manifest["learner_id"],
+        "mode": manifest["mode"],
+        "section_id": manifest["section_id"],
+        "packet_sha": manifest["packet_sha"],
+        "context_manifest_id": manifest["context_manifest_id"],
+    }
+    mismatches = {key: {"expected": value, "observed": output.get(key)}
+                  for key, value in expected.items() if output.get(key) != value}
+    if mismatches:
+        raise RuntimeError(f"learner response provenance mismatch: {mismatches}")
+
+    destination = (
+        state_root / "learner_runs" / f"pass_{manifest['outer_pass']:02d}"
+        / manifest["learner_id"] / manifest["mode"]
+        / f"section_{manifest['section_id']}"
+    )
+    sealed = destination / "output.json"
+    receipt = destination / "receipt.json"
+    _write_new(sealed, raw)
+    _write_new(receipt, _canonical_json({
+        "context_manifest_id": manifest["context_manifest_id"],
+        "manifest_sha256": _sha_bytes(manifest_path.read_bytes()),
+        "output_sha256": _sha_bytes(raw),
+        "sealed_at": datetime.now(timezone.utc).isoformat(),
+    }))
+    return sealed

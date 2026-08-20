@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -106,6 +107,24 @@ class PhysicalFirewallTests(unittest.TestCase):
             packet.write_text(payload, encoding="utf-8")
             with self.assertRaisesRegex(RuntimeError, "integrity failure"):
                 firewall.learner_prompt(stage, manifest)
+
+    def test_output_sealing_rejects_wrong_manifest_binding(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _, manifest = firewall.stage_turn(
+                run_id="fresh-e", outer_pass=1, learner_id="LEARNER_A",
+                mode="epistemic", section=1, state_root=root,
+            )
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            output = root / "response.json"
+            output.write_text(json.dumps({
+                "run_id": data["context_manifest_id"], "outer_pass": 1,
+                "learner_id": "LEARNER_B", "mode": "epistemic",
+                "section_id": data["section_id"], "packet_sha": data["packet_sha"],
+                "context_manifest_id": data["context_manifest_id"],
+            }), encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "provenance mismatch"):
+                firewall.seal_output(output, manifest, state_root=root)
 
 
 if __name__ == "__main__":
