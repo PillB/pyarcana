@@ -193,6 +193,7 @@ def seal_output(output_path: Path, manifest_path: Path, *, state_root: Path = ST
     destination = (
         state_root / "learner_runs" / f"pass_{manifest['outer_pass']:02d}"
         / manifest["learner_id"] / manifest["mode"]
+        / manifest["context_manifest_id"]
         / f"section_{manifest['section_id']}"
     )
     sealed = destination / "output.json"

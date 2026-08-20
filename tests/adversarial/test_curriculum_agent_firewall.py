@@ -126,6 +126,27 @@ class PhysicalFirewallTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "provenance mismatch"):
                 firewall.seal_output(output, manifest, state_root=root)
 
+    def test_fresh_run_ids_seal_without_overwriting_prior_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            sealed_paths = []
+            for run_id in ("fresh-f", "fresh-g"):
+                _, manifest = firewall.stage_turn(
+                    run_id=run_id, outer_pass=1, learner_id="LEARNER_A",
+                    mode="epistemic", section=1, state_root=root,
+                )
+                data = json.loads(manifest.read_text(encoding="utf-8"))
+                output = root / f"{run_id}.json"
+                output.write_text(json.dumps({
+                    "run_id": data["context_manifest_id"], "outer_pass": 1,
+                    "learner_id": "LEARNER_A", "mode": "epistemic",
+                    "section_id": data["section_id"], "packet_sha": data["packet_sha"],
+                    "context_manifest_id": data["context_manifest_id"],
+                }), encoding="utf-8")
+                sealed_paths.append(firewall.seal_output(output, manifest, state_root=root))
+            self.assertNotEqual(sealed_paths[0], sealed_paths[1])
+            self.assertTrue(all(path.exists() for path in sealed_paths))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -164,48 +164,13 @@ def extract_string_array(obj: str, field: str) -> list[str]:
 
 def find_object_after(text: str, key: str) -> list[str]:
     """Find `{...}` objects after `key:` (used for starterCode/solutionCode)."""
+    pairs, _ = _balanced_brace_pairs(text)
     objs: list[str] = []
     for m in re.finditer(rf"{re.escape(key)}\s*:\s*\{{", text):
         start = m.end() - 1
-        depth = 0
-        i = start
-        while i < len(text):
-            ch = text[i]
-            if ch == "{":
-                depth += 1
-            elif ch == "}":
-                depth -= 1
-                if depth == 0:
-                    objs.append(text[start : i + 1])
-                    break
-            elif ch in ("'", '"'):
-                q = ch
-                i += 1
-                while i < len(text):
-                    if text[i] == "\\" and i + 1 < len(text):
-                        i += 2
-                        continue
-                    if text[i] == q:
-                        break
-                    i += 1
-            elif ch == "`":
-                t = extract_balanced_template(text, i)
-                if t is not None:
-                    i = i + 1 + len(t)  # approximate; template may differ due to escapes
-                    # re-scan from start of template more carefully
-                    j = i
-                    # fall through — better: skip by finding closing backtick
-                # skip template properly
-                j = i + 1
-                while j < len(text):
-                    if text[j] == "\\" and j + 1 < len(text):
-                        j += 2
-                        continue
-                    if text[j] == "`":
-                        i = j
-                        break
-                    j += 1
-            i += 1
+        end = pairs.get(start)
+        if end is not None:
+            objs.append(text[start : end + 1])
     return objs
 
 

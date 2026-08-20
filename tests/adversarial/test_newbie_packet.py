@@ -123,6 +123,15 @@ class TestPacketIsolation(unittest.TestCase):
         b = build_packet(2, attempt_id="y")
         self.assertEqual(a["packet_sha"], b["packet_sha"])
 
+    def test_theory_code_with_template_braces_remains_learner_visible(self):
+        packet = build_packet(1, attempt_id="theory-code-fidelity")
+        theory = {
+            block["subtopicId"]: block for block in packet["active"]["theory"]
+        }
+        self.assertIn("requests==2.32.3", theory["S01-T2-B"]["code"])
+        self.assertIn("2.32.3", theory["S01-T2-B"]["code_output"])
+        self.assertIn("git remote add origin", theory["S01-T3-B"]["code"])
+
     def test_prior_sections_grow(self):
         p1 = build_packet(1)
         p5 = build_packet(5)

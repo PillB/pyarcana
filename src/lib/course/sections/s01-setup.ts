@@ -366,6 +366,9 @@ docs: agregar README inicial
       subtopicId: 'S01-T3-B',
       paragraphs: [
         'Un cirujano no ensaya una técnica nueva sobre la única copia del paciente; un equipo de software tampoco debería experimentar sobre `main`. Una **rama** crea una línea de trabajo separada y un **Pull Request (PR)** presenta su diff para revisión antes de integrarlo. El objetivo no es añadir ceremonia, sino crear un punto explícito donde otra persona pueda preguntar, comprobar y aprobar sin bloquear el historial estable.',
+        'Hasta aquí Git ha trabajado dentro de tu laptop. Para que otra persona pueda ver tu rama y revisar un PR necesitas además un **remoto**: una copia del repositorio alojada en GitHub. Si todavía no tienes una cuenta de GitHub, créala en el navegador. Luego usa el menú **+ → New repository**, llámalo `python-ds-journey` y, como tu proyecto local ya contiene archivos, déjalo sin README, `.gitignore` ni licencia iniciales. Así evitas dos historias que Git tendría que reconciliar.',
+        'Antes del primer `push`, autentica GitHub CLI con `gh auth login --web`: el comando abre un flujo seguro en el navegador, por lo que no debes pegar contraseñas ni tokens en archivos del proyecto. Después conecta la carpeta local con `git remote add origin URL`; **origin** es solo el apodo convencional de esa dirección. `git remote -v` permite comprobarla antes de publicar. Si ya existe un `origin`, no lo agregues de nuevo: verifica que apunta al repositorio correcto.',
+        'Publica primero `main` y después tu rama. Al abrir el repositorio en GitHub aparecerá **Compare & pull request** para la rama recién publicada: revisa el diff, explica qué cambiaste y crea el PR. El PR no es otro archivo ni otro commit; es la conversación de revisión alrededor de una comparación entre ramas.',
         'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, `git add` y un commit de fusión o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no entrar en pánico y no “arreglar” con historial destructivo. La regla de oro de este curso: **no hagas `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
         'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commit* en el working tree (vuelve a la última versión confirmada o staged, según el caso). `git stash` guarda cambios temporales y deja el árbol limpio; `git stash pop` los recupera. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo sin commit de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
       ],
@@ -377,9 +380,16 @@ git switch -c feat/hello-env
 # edita, add, commit…
 git branch --show-current
 
-# Si \`git remote -v\` muestra origin, publica y abre el PR:
-# git push -u origin feat/hello-env
-# gh pr create   # o abre el PR en la UI de GitHub
+# Una sola vez: autentica y conecta el repo local con GitHub.
+gh auth login --web
+git remote add origin https://github.com/TU-USUARIO/python-ds-journey.git
+git remote -v
+git switch main
+git push -u origin main
+
+# Publica la rama y abre el PR desde "Compare & pull request" en GitHub.
+git switch feat/hello-env
+git push -u origin feat/hello-env
 
 # Recuperación no destructiva (sin force-push a main):
 # git restore archivo.md
