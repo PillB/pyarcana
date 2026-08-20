@@ -129,21 +129,71 @@ class PhysicalFirewallTests(unittest.TestCase):
     def test_realistic_output_cannot_claim_observation_without_execution_receipt(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            _, manifest = firewall.stage_turn(
+            stage, manifest = firewall.stage_turn(
                 run_id="fresh-realistic-red", outer_pass=1, learner_id="LEARNER_A",
                 mode="realistic_student", section=1, state_root=root,
             )
             data = json.loads(manifest.read_text(encoding="utf-8"))
+            packet = json.loads((stage / "packet.json").read_text(encoding="utf-8"))
+            ids = [row["id"] for row in packet["active"]["weDo"]["exercises"]] + ["S01-YOU-DO"]
             output = root / "response.json"
             output.write_text(json.dumps({
                 "run_id": data["context_manifest_id"], "outer_pass": 1,
                 "learner_id": "LEARNER_A", "mode": "realistic_student",
                 "section_id": data["section_id"], "packet_sha": data["packet_sha"],
                 "context_manifest_id": data["context_manifest_id"],
-                "exercise_attempts": [{"observed_output": "predicted, not executed"}],
+                "exercise_attempts": [
+                    {"exercise_id": exercise_id, "observed_output": "predicted, not executed" if i == 0 else ""}
+                    for i, exercise_id in enumerate(ids)
+                ],
             }), encoding="utf-8")
             with self.assertRaisesRegex(RuntimeError, "execution provenance"):
                 firewall.seal_output(output, manifest, state_root=root)
+
+    def test_realistic_prompt_requires_truthful_unexecuted_output(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            stage, manifest = firewall.stage_turn(
+                run_id="fresh-realistic-prompt", outer_pass=1, learner_id="LEARNER_B",
+                mode="realistic_student", section=1, state_root=Path(tmp),
+            )
+            prompt = firewall.learner_prompt(stage, manifest)
+            self.assertIn("keep observed_output empty", prompt)
+            self.assertIn("use CANNOT_VERIFY", prompt)
+            self.assertIn('"S01-YOU-DO"', prompt)
+
+    def test_output_sealing_rejects_missing_or_noncanonical_exercise_ids(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            stage, manifest = firewall.stage_turn(
+                run_id="fresh-catalog-red", outer_pass=1, learner_id="LEARNER_A",
+                mode="epistemic", section=6, state_root=root,
+            )
+            packet = json.loads((stage / "packet.json").read_text(encoding="utf-8"))
+            expected = [
+                row["id"] for row in packet["active"]["weDo"]["exercises"]
+            ] + ["S06-YOU-DO"]
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            base = {
+                "run_id": data["context_manifest_id"], "outer_pass": 1,
+                "learner_id": "LEARNER_A", "mode": "epistemic",
+                "section_id": data["section_id"], "packet_sha": data["packet_sha"],
+                "context_manifest_id": data["context_manifest_id"],
+            }
+            for label, ids in (
+                ("missing", expected[:-1]),
+                ("noncanonical", expected[:-1] + ["S06-YOUDO"]),
+            ):
+                output = root / f"{label}.json"
+                output.write_text(json.dumps({
+                    **base,
+                    "exercise_attempts": [
+                        {"exercise_id": exercise_id, "observed_output": ""}
+                        for exercise_id in ids
+                    ],
+                }), encoding="utf-8")
+                with self.subTest(label=label):
+                    with self.assertRaisesRegex(RuntimeError, "exercise catalog"):
+                        firewall.seal_output(output, manifest, state_root=root)
 
     def test_fresh_run_ids_seal_without_overwriting_prior_evidence(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

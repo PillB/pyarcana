@@ -349,7 +349,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Dict',
     aliases: ["Dict"],
     category: 'Python',
-    definition: 'Pares clave-valor con búsqueda O(1). {"nombre": "Ana", "edad": 25}. Métodos: get, items, keys, values.',
+    definition: 'Colección de pares clave-valor: cada clave permite localizar su valor. Ejemplo: {"nombre": "Ana", "edad": 25}.',
     firstSectionId: 'setup',
   },
   {
@@ -357,7 +357,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Tuple',
     aliases: ["Tuple"],
     category: 'Python',
-    definition: 'Lista inmutable. (1, 2, 3). Más rápida y segura para datos que no cambian.',
+    definition: 'Secuencia ordenada que no se modifica después de crearla. Se escribe, por ejemplo, como (1, 2, 3).',
     firstSectionId: 'basics',
   },
   {
@@ -429,7 +429,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Shape',
     aliases: ["Shape"],
     category: 'NumPy',
-    definition: 'Dimensiones del array. (3, 4) = 3 filas, 4 columnas. arr.shape devuelve tupla.',
+    definition: 'Forma o estructura de los datos: qué campos, niveles o dimensiones tiene un registro o colección.',
     firstSectionId: 'numpy',
   },
   {
@@ -477,7 +477,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Merge',
     aliases: ["Merge"],
     category: 'Pandas',
-    definition: 'Combinar dos DataFrames por una columna común. how: inner, left, right, outer.',
+    definition: 'Combinar dos colecciones o registros siguiendo una clave o regla común.',
     firstSectionId: 'setup',
   },
   {
