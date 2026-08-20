@@ -470,6 +470,25 @@ Watch for:
 * redundant exposition;
 * examples requiring irrelevant complexity.
 
+### Visual-aid review
+
+During every Reviewer and Fixer round, explicitly consider whether a learner-visible screenshot, annotated screenshot, diagram, or other image would materially improve the novice's mental model or ability to follow a procedure.
+
+Recommend or add visual media only when it clarifies a spatial UI path, a multi-step relationship, a system boundary, a data flow, a comparison, or another idea that prose and a small code example do not communicate as effectively. Do not impose an image quota or add decorative media merely to vary the page.
+
+For every accepted visual-aid change:
+
+* identify the exact misconception or procedural obstacle it addresses;
+* place it before the first independent requirement that depends on it;
+* use current, learner-visible UI and redact secrets, accounts, notifications and personal data;
+* provide meaningful alternative text and, for complex diagrams, an equivalent nearby text explanation;
+* preserve readable labels, contrast and logical reading order at desktop and narrow/mobile widths;
+* record source, license/provenance, capture date and relevant product/version for external or version-sensitive visuals;
+* add rendered regression coverage for asset availability, responsive sizing and accessible naming;
+* revalidate screenshots when the represented UI or workflow changes.
+
+The Reviewer records `VISUAL_AID_NOT_NEEDED` when prose/code is already sufficient, or a normalized issue with the recommended medium and instructional purpose when it is not. The Fixer remains a serialized writer and must not generate or capture media until the learner attempt is sealed and the issue is accepted.
+
 ---
 
 # 10. Assessment and Exercise Gates
@@ -651,11 +670,11 @@ Each pass:
 2. Build fresh constrained packets.
 3. Run independent learners.
 4. Run deterministic grades and concept-boundary checks.
-5. Supervisor reviews all evidence.
+5. Supervisor reviews all evidence, including whether a purposeful screenshot, diagram or image would materially improve learning.
 6. Fan-in, normalize and deduplicate issues.
 7. Select accepted issues.
 8. RED: demonstrate failing behavior.
-9. Fixer performs serialized minimal repairs.
+9. Fixer performs serialized minimal repairs, including accepted accessible visual-aid work where justified.
 10. Run targeted GREEN/regression validation.
 11. Run skeptical validation.
 12. Update correction ledger and graph memory.
