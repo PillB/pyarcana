@@ -50,6 +50,18 @@ class TestPacketIsolation(unittest.TestCase):
                 f"{exercise_id} learner packet dropped rendered starterCode",
             )
 
+    def test_exercise_packet_preserves_visible_preamble_and_newlines(self) -> None:
+        packet = build_packet(3, attempt_id="exercise-copy-fidelity")
+        exercises = {
+            exercise["id"]: exercise
+            for exercise in packet["active"]["weDo"]["exercises"]
+        }
+        exercise = exercises["S03-T4-A-E2"]
+        self.assertIn("ambos vacíos → reject", exercise["preamble"])
+        self.assertEqual(exercise["edgeCases"], ["uno vacío"])
+        self.assertIn("\n2. Escribe", exercise["instruction"])
+        self.assertNotIn("falta).n2.", exercise["instruction"])
+
     def test_section1_has_no_solution_keys(self):
         pkt = build_packet(1, attempt_id="adv")
         blob = str(pkt)

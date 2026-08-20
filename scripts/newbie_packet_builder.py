@@ -21,6 +21,13 @@ from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _decode_string_escape(char: str) -> str:
+    """Decode the small JS/TS escape set used by learner-visible course copy."""
+    return {"n": "\n", "r": "\r", "t": "\t", "b": "\b", "f": "\f"}.get(char, char)
+
+
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 INDEX_TS = ROOT / "src/lib/course/index.ts"
 PAGE_TSX = ROOT / "src/app/page.tsx"
@@ -36,7 +43,7 @@ def extract_balanced_template(text: str, start: int) -> str | None:
         ch = text[i]
         if ch == "\\":
             if i + 1 < len(text):
-                out.append(text[i + 1])
+                out.append(_decode_string_escape(text[i + 1]))
                 i += 2
                 continue
         if ch == "`":
@@ -62,7 +69,7 @@ def extract_string_field(obj: str, field: str) -> str | None:
         out = []
         while i < len(obj):
             if obj[i] == "\\" and i + 1 < len(obj):
-                out.append(obj[i + 1])
+                out.append(_decode_string_escape(obj[i + 1]))
                 i += 2
                 continue
             if obj[i] == q:
@@ -130,7 +137,7 @@ def extract_string_array(obj: str, field: str) -> list[str]:
             out: list[str] = []
             while i < n:
                 if body[i] == "\\" and i + 1 < n:
-                    out.append(body[i + 1])
+                    out.append(_decode_string_escape(body[i + 1]))
                     i += 2
                     continue
                 if body[i] == q:
@@ -454,11 +461,17 @@ def parse_section_learner(path: Path) -> dict:
     # its id: field and ends at the next id: field (or end of region).
     ex_id_pattern = re.compile(r"\bid\s*:\s*['\"](S\d{2}-T\d-[AB]-E[1-3])['\"]")
     id_matches = list(ex_id_pattern.finditer(wedo_region))
-    for i, id_m in enumerate(id_matches):
+    exercise_pairs, exercise_containers = _balanced_brace_pairs(wedo_region)
+    for id_m in id_matches:
         eid = id_m.group(1)
-        block_start = id_m.start()
-        block_end = id_matches[i + 1].start() if i + 1 < len(id_matches) else len(wedo_region)
-        block = wedo_region[block_start:block_end]
+        containers = exercise_containers.get(id_m.start(), ())
+        if not containers:
+            continue
+        block_start = containers[-1]
+        block_end = exercise_pairs.get(block_start)
+        if block_end is None:
+            continue
+        block = wedo_region[block_start : block_end + 1]
         instruction = extract_string_field(block, "instruction")
         if not instruction:
             continue
@@ -468,6 +481,8 @@ def parse_section_learner(path: Path) -> dict:
             hints = [hint]
         kind = extract_string_field(block, "kind")
         tests = extract_string_field(block, "tests")
+        preamble = extract_string_field(block, "preamble")
+        edge_cases = extract_string_array(block, "edgeCases")
         # Exercise metadata can legitimately exceed 3,000 characters before
         # starterCode (preamble, hints, feedback and retrospectives). Search the
         # complete exercise object so learner packets match the rendered card.
@@ -479,7 +494,9 @@ def parse_section_learner(path: Path) -> dict:
             {
                 "id": eid,
                 "instruction": instruction,
+                "preamble": preamble,
                 "hints": hints,
+                "edgeCases": edge_cases,
                 "kind": kind,
                 "tests": tests,  # test description only, not keys
                 "starterCode": starter_code,

@@ -1,0 +1,16 @@
+{
+  "invalidation_id": "pass01-s03-exercise-copy-fidelity",
+  "created_at": "2026-08-20T21:20:00Z",
+  "earliest_impacted_section": 1,
+  "invalidated_through_section": 52,
+  "reason": "Learner packets omitted visible exercise preambles and edge cases and decoded newline escapes incorrectly. The repair changes cumulative learner-visible packets from S01 onward.",
+  "stale_s03_packet_sha": "79b4056b1dd6ce9e285ef45591fc0bc0854e1fb56967dd86e9ca66d48ceba3dc",
+  "replacement_s03_packet_sha": "0b2c6203ed666e4489873a5b7785fc9de4cde0a7917c9177d0171a207bfee2e4",
+  "stale_runs": [
+    "pass1-s03-a-ep-p01-LEARNER_A-epistemic-s03",
+    "pass1-s03-b-ep-p01-LEARNER_B-epistemic-s03",
+    "pass1-s03-a-real-p01-LEARNER_A-realistic_student-s03",
+    "pass1-s03-b-real-p01-LEARNER_B-realistic_student-s03"
+  ],
+  "counts_toward_convergence": false
+}
