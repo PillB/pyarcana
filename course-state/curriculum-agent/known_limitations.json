@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-20T18:00:00Z",
+  "limitations": [
+    {
+      "id": "LIMIT-PRETRAINED-KNOWLEDGE",
+      "status": "KNOWN_LIMITATION",
+      "detail": "A pretrained model's latent technical knowledge cannot be erased. Admissibility therefore requires packet evidence for every claimed concept and treats unsupported knowledge as PREMATURE_KNOWLEDGE."
+    },
+    {
+      "id": "LIMIT-STATIC-ANSWER-SECRECY",
+      "status": "KNOWN_LIMITATION",
+      "detail": "A client-only GitHub Pages application cannot cryptographically hide bundled local answer keys. Browser gates can prevent visible, DOM, and accessibility-tree leakage before an attempt; high-stakes secrecy requires a server-side assessment service."
+    },
+    {
+      "id": "LIMIT-EXTERNAL-RUNTIMES",
+      "status": "KNOWN_LIMITATION",
+      "detail": "Lessons needing credentials, paid services, unavailable hardware, or third-party state must use approved fixtures or report BLOCKED_ENVIRONMENT."
+    },
+    {
+      "id": "LIMIT-HUMAN-CALIBRATION",
+      "status": "KNOWN_LIMITATION",
+      "detail": "No new real human-subject study is available in this automated run; the held-out human-reviewed calibration set remains the available calibration evidence."
+    }
+  ]
+}

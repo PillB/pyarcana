@@ -73,6 +73,18 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     }
   })
 
+  test('publishes an exact immutable deployment SHA attestation', async ({ request }) => {
+    const response = await request.get('/pyarcana/deployment.json', {
+      headers: { 'cache-control': 'no-cache' },
+    })
+    expect(response.status()).toBe(200)
+    const deployment = await response.json()
+    expect(deployment).toMatchObject({ schema_version: 1, section_count: 52, base_path: '/pyarcana' })
+    expect(deployment.git_sha).toMatch(/^[a-f0-9]{40}$/)
+    const expectedSha = process.env.EXPECTED_DEPLOY_SHA
+    if (expectedSha) expect(deployment.git_sha).toBe(expectedSha)
+  })
+
   test('renders code blocks without corruption', async ({ page }) => {
     const sidebar = page.locator('[data-testid="sidebar-sections"]')
     await expect(sidebar).toBeVisible({ timeout: 15000 })

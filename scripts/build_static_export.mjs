@@ -1,13 +1,20 @@
-import { cpSync, existsSync, mkdtempSync, rmSync, symlinkSync } from 'node:fs'
+import { cpSync, existsSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { spawnSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(scriptDir, '..')
 const nodeModules = join(projectRoot, 'node_modules')
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '/pyarcana'
+const deploySha = process.env.PYARCANA_DEPLOY_SHA || execFileSync(
+  'git', ['rev-parse', 'HEAD'], { cwd: projectRoot, encoding: 'utf8' }
+).trim()
+
+if (!/^[a-f0-9]{40}$/.test(deploySha)) {
+  throw new Error('PYARCANA_DEPLOY_SHA debe ser un SHA Git completo de 40 caracteres')
+}
 
 if (!existsSync(nodeModules)) {
   throw new Error('node_modules no existe. Ejecuta el gestor de paquetes antes del build estático.')
@@ -65,6 +72,12 @@ try {
   const finalOutput = join(projectRoot, 'out')
   rmSync(finalOutput, { recursive: true, force: true })
   cpSync(builtOutput, finalOutput, { recursive: true })
+  writeFileSync(join(finalOutput, 'deployment.json'), JSON.stringify({
+    schema_version: 1,
+    git_sha: deploySha,
+    section_count: 52,
+    base_path: basePath,
+  }, null, 2) + '\n')
 } finally {
   rmSync(workspace, { recursive: true, force: true })
 }

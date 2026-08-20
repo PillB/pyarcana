@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "outer_pass", "learner_id", "mode", "section_id", "packet_sha", "context_manifest_id", "first_use_observations", "exercise_attempts", "self_checks", "knowledge_state_delta", "blockers"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "outer_pass": {"type": "integer", "minimum": 1, "maximum": 10},
+    "learner_id": {"enum": ["LEARNER_A", "LEARNER_B"]},
+    "mode": {"enum": ["epistemic", "realistic_student"]},
+    "section_id": {"type": "string"},
+    "packet_sha": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "context_manifest_id": {"type": "string"},
+    "first_use_observations": {"type": "array", "items": {"type": "object"}},
+    "exercise_attempts": {"type": "array", "items": {"type": "object"}},
+    "self_checks": {"type": "array", "items": {"type": "object"}},
+    "knowledge_state_delta": {"type": "array", "items": {"type": "object"}},
+    "blockers": {"type": "array", "items": {"type": "string"}}
+  }
+}
