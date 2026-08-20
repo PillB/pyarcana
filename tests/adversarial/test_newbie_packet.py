@@ -62,6 +62,17 @@ class TestPacketIsolation(unittest.TestCase):
         self.assertIn("\n2. Escribe", exercise["instruction"])
         self.assertNotIn("falta).n2.", exercise["instruction"])
 
+    def test_unicode_escape_in_visible_starter_preserves_combining_mark(self) -> None:
+        packet = build_packet(7, attempt_id="unicode-starter-fidelity")
+        exercises = {
+            exercise["id"]: exercise
+            for exercise in packet["active"]["weDo"]["exercises"]
+        }
+        for exercise_id in ("S07-T1-A-E1", "S07-T1-A-E3"):
+            starter = exercises[exercise_id]["starterCode"]
+            self.assertIn("Jose\u0301", starter)
+            self.assertNotIn("Joseu0301", starter)
+
     def test_section1_has_no_solution_keys(self):
         pkt = build_packet(1, attempt_id="adv")
         blob = str(pkt)

@@ -28,6 +28,20 @@ def _decode_string_escape(char: str) -> str:
     return {"n": "\n", "r": "\r", "t": "\t", "b": "\b", "f": "\f"}.get(char, char)
 
 
+def _decode_escape_at(text: str, slash: int) -> tuple[str, int]:
+    """Decode one JS/TS escape and return (value, next unread index)."""
+    marker = text[slash + 1]
+    if marker == "u" and slash + 6 <= len(text):
+        digits = text[slash + 2 : slash + 6]
+        if re.fullmatch(r"[0-9A-Fa-f]{4}", digits):
+            return chr(int(digits, 16)), slash + 6
+    if marker == "x" and slash + 4 <= len(text):
+        digits = text[slash + 2 : slash + 4]
+        if re.fullmatch(r"[0-9A-Fa-f]{2}", digits):
+            return chr(int(digits, 16)), slash + 4
+    return _decode_string_escape(marker), slash + 2
+
+
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 INDEX_TS = ROOT / "src/lib/course/index.ts"
 PAGE_TSX = ROOT / "src/app/page.tsx"
@@ -43,8 +57,8 @@ def extract_balanced_template(text: str, start: int) -> str | None:
         ch = text[i]
         if ch == "\\":
             if i + 1 < len(text):
-                out.append(_decode_string_escape(text[i + 1]))
-                i += 2
+                value, i = _decode_escape_at(text, i)
+                out.append(value)
                 continue
         if ch == "`":
             return "".join(out)
@@ -69,8 +83,8 @@ def extract_string_field(obj: str, field: str) -> str | None:
         out = []
         while i < len(obj):
             if obj[i] == "\\" and i + 1 < len(obj):
-                out.append(_decode_string_escape(obj[i + 1]))
-                i += 2
+                value, i = _decode_escape_at(obj, i)
+                out.append(value)
                 continue
             if obj[i] == q:
                 return "".join(out)
@@ -137,8 +151,8 @@ def extract_string_array(obj: str, field: str) -> list[str]:
             out: list[str] = []
             while i < n:
                 if body[i] == "\\" and i + 1 < n:
-                    out.append(_decode_string_escape(body[i + 1]))
-                    i += 2
+                    value, i = _decode_escape_at(body, i)
+                    out.append(value)
                     continue
                 if body[i] == q:
                     i += 1

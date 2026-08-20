@@ -56,6 +56,14 @@ class TestS07TextFirstQuality(unittest.TestCase):
         self.assertIn("**Chequeo de transferencia:**", self.theory)
         self.assertIn("NFC no puede repararlo", self.theory)
 
+    def test_unicode_prediction_uses_code_point_counts_and_prints_sequences(self) -> None:
+        self.assertIn("una casilla para `é` compuesta y dos", self.theory)
+        self.assertNotIn("dos casillas para `é` compuesta y tres", self.theory)
+        self.assertIn('print("NFC é:", code_points(a[-1]))', self.theory)
+        self.assertIn('print("NFD é:", code_points(unicodedata.normalize("NFD", a[-1])))', self.theory)
+        self.assertIn("NFC é: ['U+00E9']", self.theory)
+        self.assertIn("NFD é: ['U+0065', 'U+0301']", self.theory)
+
     def test_every_i_do_requires_a_concrete_pre_execution_prediction(self) -> None:
         self.assertEqual(self.i_do.count('demoId: "S07-'), 8)
         self.assertEqual(self.i_do.count("**Predicción:**"), 8)
@@ -93,6 +101,20 @@ class TestS07TextFirstQuality(unittest.TestCase):
         for phrase in required:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.you_do)
+
+    def test_you_do_places_review_state_in_the_return_contract(self) -> None:
+        self.assertIn(
+            "normalize_record → {raw, normalized, transforms, status, review_reasons}",
+            self.you_do,
+        )
+        self.assertIn(
+            '"""→ {raw, normalized, transforms, status, review_reasons}."""',
+            self.you_do,
+        )
+        self.assertIn(
+            'status es ok o review; review_reasons conserva razones por campo',
+            self.you_do,
+        )
 
     def test_public_self_checks_repair_distractors_not_only_name_answer(self) -> None:
         explanations = quoted_values(self.self_check, "explanation")
