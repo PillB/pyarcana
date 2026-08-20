@@ -94,6 +94,121 @@ class PhysicalFirewallTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "file set"):
                 firewall.verify_stage(stage, manifest)
 
+    def test_nested_or_symlinked_stage_content_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            stage, manifest = firewall.stage_turn(
+                run_id="fresh-nested", outer_pass=1, learner_id="LEARNER_A",
+                mode="epistemic", section=1, state_root=root,
+            )
+            nested = stage / "future"
+            nested.mkdir()
+            (nested / "answers.txt").write_text("S52 answer", encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "file set"):
+                firewall.verify_stage(stage, manifest)
+
+            (nested / "answers.txt").unlink()
+            nested.rmdir()
+            (stage / "answers-link").symlink_to(root / "outside")
+            with self.assertRaisesRegex(RuntimeError, "file set"):
+                firewall.verify_stage(stage, manifest)
+
+    def test_arbitrary_prior_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "sealed prior output"):
+                firewall.stage_turn(
+                    run_id="fresh-prior-red", outer_pass=1, learner_id="LEARNER_A",
+                    mode="epistemic", section=2,
+                    prior_state={"concepts": [{"concept_id": "future-answer"}]},
+                    state_root=Path(tmp),
+                )
+
+    def test_sealed_preceding_knowledge_state_is_bound_and_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _, prior_manifest = firewall.stage_turn(
+                run_id="prior-s01", outer_pass=1, learner_id="LEARNER_A",
+                mode="epistemic", section=1, state_root=root,
+            )
+            identity = json.loads(prior_manifest.read_text(encoding="utf-8"))
+            prior_output = root / "prior-output.json"
+            prior_output.write_text(json.dumps({
+                "run_id": identity["context_manifest_id"],
+                "outer_pass": 1,
+                "learner_id": "LEARNER_A",
+                "mode": "epistemic",
+                "section_id": identity["section_id"],
+                "packet_sha": identity["packet_sha"],
+                "context_manifest_id": identity["context_manifest_id"],
+                "knowledge_state_delta": [{
+                    "concept_id": "print",
+                    "introduced_at": "packet.json.active.theory[0]",
+                    "learner_paraphrase": "print muestra un valor",
+                    "example_seen": True,
+                    "guided_practice_completed": True,
+                    "independent_use_observed": True,
+                    "confidence": 0.9,
+                    "evidence_refs": ["packet.json.active.weDo.exercises[0]"],
+                }],
+            }), encoding="utf-8")
+            sealed = firewall.seal_output(prior_output, prior_manifest, state_root=root)
+
+            stage, _ = firewall.stage_turn(
+                run_id="current-s02", outer_pass=1, learner_id="LEARNER_A",
+                mode="epistemic", section=2, prior_output_path=sealed, state_root=root,
+            )
+            summary = json.loads(
+                (stage / "prior_knowledge_state.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(summary["concepts"][0]["concept_id"], "print")
+            self.assertEqual(
+                summary["source_context_manifest_id"], identity["context_manifest_id"]
+            )
+
+    def test_realistic_execution_requires_valid_external_capability(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            capability_root = root / "runtime_capabilities"
+            capability_root.mkdir()
+            invalid = capability_root / "invalid-capability.json"
+            invalid.write_text(json.dumps({
+                "schema_version": 1,
+                "runtime": "isolated_student_runtime",
+                "code_execution": True,
+                "network": True,
+                "repository": False,
+            }), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "execution capability"):
+                firewall.stage_turn(
+                    run_id="fresh-real-cap", outer_pass=1, learner_id="LEARNER_A",
+                    mode="realistic_student", section=1,
+                    execution_capability_path=invalid, state_root=root,
+                )
+
+            valid = capability_root / "valid-capability.json"
+            valid.write_text(json.dumps({
+                "schema_version": 1,
+                "runtime": "isolated_student_runtime",
+                "code_execution": True,
+                "network": False,
+                "repository": False,
+                "run_id": "fresh-real-cap-ok",
+                "learner_id": "LEARNER_A",
+                "mode": "realistic_student",
+                "issued_by": "deterministic_harness",
+            }), encoding="utf-8")
+            _, manifest = firewall.stage_turn(
+                run_id="fresh-real-cap-ok", outer_pass=1, learner_id="LEARNER_A",
+                mode="realistic_student", section=1,
+                execution_capability_path=valid, state_root=root,
+            )
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(data["tool_permissions"]["code_execution"])
+            self.assertEqual(
+                data["execution_capability"]["sha256"],
+                firewall._sha_bytes(valid.read_bytes()),
+            )
+
     def test_prompt_injection_remains_inside_untrusted_course_data(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             stage, manifest = firewall.stage_turn(
