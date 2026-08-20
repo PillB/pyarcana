@@ -533,7 +533,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Pipeline',
     aliases: ["Pipeline"],
     category: 'ML',
-    definition: 'Encadena transformaciones + modelo. Evita data leakage. sklearn.pipeline.Pipeline.',
+    definition: 'Serie ordenada de pasos: la salida de un paso pasa al siguiente hasta producir el resultado.',
     firstSectionId: 'setup',
   },
   {
@@ -781,4 +781,3 @@ export function findGlossaryTerm(query: string): GlossaryTerm | undefined {
     (t) => t.term.toLowerCase() === q || t.aliases.some((a) => a.toLowerCase() === q) || t.id === q
   )
 }
-

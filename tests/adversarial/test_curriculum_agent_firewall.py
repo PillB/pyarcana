@@ -126,6 +126,25 @@ class PhysicalFirewallTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "provenance mismatch"):
                 firewall.seal_output(output, manifest, state_root=root)
 
+    def test_realistic_output_cannot_claim_observation_without_execution_receipt(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _, manifest = firewall.stage_turn(
+                run_id="fresh-realistic-red", outer_pass=1, learner_id="LEARNER_A",
+                mode="realistic_student", section=1, state_root=root,
+            )
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            output = root / "response.json"
+            output.write_text(json.dumps({
+                "run_id": data["context_manifest_id"], "outer_pass": 1,
+                "learner_id": "LEARNER_A", "mode": "realistic_student",
+                "section_id": data["section_id"], "packet_sha": data["packet_sha"],
+                "context_manifest_id": data["context_manifest_id"],
+                "exercise_attempts": [{"observed_output": "predicted, not executed"}],
+            }), encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "execution provenance"):
+                firewall.seal_output(output, manifest, state_root=root)
+
     def test_fresh_run_ids_seal_without_overwriting_prior_evidence(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

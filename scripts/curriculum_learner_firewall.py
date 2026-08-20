@@ -190,6 +190,22 @@ def seal_output(output_path: Path, manifest_path: Path, *, state_root: Path = ST
     if mismatches:
         raise RuntimeError(f"learner response provenance mismatch: {mismatches}")
 
+    claimed_observations = [
+        row.get("observed_output", "").strip()
+        for row in output.get("exercise_attempts", [])
+        if isinstance(row, dict) and isinstance(row.get("observed_output", ""), str)
+    ]
+    permissions = manifest.get("tool_permissions", {})
+    if (
+        manifest["mode"] == "realistic_student"
+        and not permissions.get("code_execution", False)
+        and any(claimed_observations)
+    ):
+        raise RuntimeError(
+            "realistic learner output lacks execution provenance: observed_output "
+            "must be empty when the context manifest disables code execution"
+        )
+
     destination = (
         state_root / "learner_runs" / f"pass_{manifest['outer_pass']:02d}"
         / manifest["learner_id"] / manifest["mode"]

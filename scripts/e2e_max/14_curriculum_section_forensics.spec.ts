@@ -57,12 +57,8 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
         await openTab(page, tab)
         const panel = page.locator('[role="tabpanel"][data-state="active"]')
         await expect(panel).toBeVisible()
-        const screenshotPath = path.join(root, `${viewport.name}-${tab}.jpg`)
-        await page.screenshot({ path: screenshotPath, fullPage: true, type: 'jpeg', quality: 68 })
-        const screenshotSha256 = crypto
-          .createHash('sha256')
-          .update(fs.readFileSync(screenshotPath))
-          .digest('hex')
+        await expect(panel).not.toBeEmpty()
+        await expect(panel).toContainText(/\S/)
 
         const forensic = await page.evaluate(() => {
           const visible = (element: Element) => {
@@ -139,7 +135,31 @@ test.describe(`curriculum screenshot forensics — ${sectionId} — ${phase}`, (
           }
         })
 
-        const record = { tab, screenshotPath: path.relative(process.cwd(), screenshotPath), screenshotSha256, forensic }
+        const tileHeight = viewport.height
+        const screenshotTiles = []
+        for (let y = 0, index = 0; y < forensic.document.bodyHeight; y += tileHeight, index += 1) {
+          const coverageHeight = Math.min(tileHeight, forensic.document.bodyHeight - y)
+          const scrollY = Math.min(y, Math.max(0, forensic.document.bodyHeight - viewport.height))
+          const screenshotPath = path.join(root, `${viewport.name}-${tab}-tile-${String(index + 1).padStart(2, '0')}.png`)
+          await page.evaluate((top) => window.scrollTo(0, top), scrollY)
+          await page.screenshot({
+            path: screenshotPath,
+            type: 'png',
+          })
+          screenshotTiles.push({
+            coverageStart: y,
+            coverageHeight,
+            scrollY,
+            path: path.relative(process.cwd(), screenshotPath),
+            sha256: crypto.createHash('sha256').update(fs.readFileSync(screenshotPath)).digest('hex'),
+          })
+        }
+        expect(
+          screenshotTiles.reduce((covered, tile) => covered + tile.coverageHeight, 0),
+          'tiled screenshots must cover the complete rendered document'
+        ).toBe(forensic.document.bodyHeight)
+
+        const record = { tab, screenshotTiles, forensic }
         fs.writeFileSync(
           path.join(root, `${viewport.name}-${tab}-forensic.json`),
           `${JSON.stringify(record, null, 2)}\n`,
