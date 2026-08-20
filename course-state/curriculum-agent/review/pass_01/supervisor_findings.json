@@ -1,0 +1,14 @@
+{
+  "outer_pass": 1,
+  "issues": [
+    {"issue_id":"SUP-P1-GLOSSARY-001","severity":"P2","category":"PRODUCT_OR_UI_DEFECT","state":"ACCEPTED","summary":"Glossary firstSectionId metadata has drifted from the active semantic section graph."},
+    {"issue_id":"SUP-P1-GLOSSARY-002","severity":"P1","category":"UNRESOLVED","state":"ACCEPTED","summary":"Current first-use audits are advisory raw-source scans and cannot prove rendered define-before-use order."},
+    {"issue_id":"SUP-P1-UX-001","severity":"P0","category":"PRODUCT_OR_UI_DEFECT","state":"ACCEPTED","summary":"No exact deployed-SHA content attestation is exposed for binding live Playwright evidence."},
+    {"issue_id":"SUP-P1-UX-002","severity":"P1","category":"ASSESSMENT_DEFECT","state":"ACCEPTED","summary":"Existing Playwright suites do not test answer/solution leakage boundaries before a sealed attempt."},
+    {"issue_id":"SUP-P1-UX-003","severity":"P1","category":"PRODUCT_OR_UI_DEFECT","state":"ACCEPTED","summary":"Existing browser evidence lacks full sequential, mobile/touch, keyboard-only, glossary input-matrix, and starter-asset coverage across S01-S52."}
+  ],
+  "rejected_as_unproven": [
+    "The 46 glossary coverage rows are not 46 independent curriculum gaps; stale semantic IDs dominate the report.",
+    "Historical L1/L2 learner artifacts are not admissible under the active physical-firewall contract."
+  ]
+}

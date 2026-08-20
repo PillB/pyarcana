@@ -795,6 +795,22 @@ def gap_scan(packet: dict) -> list[dict]:
     return gaps
 
 
+def canonical_packet_sha(packet: dict) -> str:
+    """Hash the complete learner-visible packet, excluding only its digest field."""
+    hashable = {
+        key: value
+        for key, value in packet.items()
+        if key not in {"packet_sha", "attempt_id"}
+    }
+    serialized = json.dumps(
+        hashable,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
 def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
     parsed = list(parsed_active_sections())
     if section_index < 1 or section_index > len(parsed):
@@ -822,20 +838,7 @@ def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
         ),
         "packet_sha": None,
     }
-    # Hash only learner-visible content identities; validator diagnostics are
-    # deliberately excluded from this object and from its serialized form.
-    hashable = {
-        "section_index": section_index,
-        "landing": landing,
-        "prior_ids": [s["id"] for s in prior],
-        "active_id": active["id"],
-        "active_taught_sha": active.get("taught_text_sha"),
-        "exercise_ids": [e.get("id") for e in (active.get("weDo") or {}).get("exercises") or []],
-        "n_selfcheck": len(active.get("selfCheck_stems") or []),
-    }
-    packet["packet_sha"] = hashlib.sha256(
-        json.dumps(hashable, sort_keys=True).encode()
-    ).hexdigest()[:16]
+    packet["packet_sha"] = canonical_packet_sha(packet)
     return packet
 
 

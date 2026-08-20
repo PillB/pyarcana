@@ -1,0 +1,24 @@
+{
+  "outer_pass": 1,
+  "review_role": "SKEPTICAL_READ_ONLY_SUPERVISOR",
+  "status": "BLOCKED_BY_INVALID_EVIDENCE",
+  "admissible_existing_learner_runs": 0,
+  "issues": [
+    {"issue_id":"FW-P0-001","severity":"P0","category":"learner sandbox/provenance failure","state":"OPEN","observed":"No model execution boundary restricts reads to the staged learner packet or disables repository/Git access."},
+    {"issue_id":"FW-P0-002","severity":"P0","category":"future-section exposure","state":"OPEN","observed":"The legacy initializer colocates all 52 section packets under one attempt tree."},
+    {"issue_id":"FW-P0-003","severity":"P0","category":"missing context provenance","state":"OPEN","observed":"Legacy live artifacts self-assert the boundary instead of binding a harness-owned context manifest."},
+    {"issue_id":"FW-P0-004","severity":"P0","category":"stale/unbound evidence","state":"VERIFIED","observed":"Packet hash omitted prior prose, You Do, and self-check content; repaired with a canonical full learner-visible packet digest."},
+    {"issue_id":"FW-P0-005","severity":"P0","category":"untrusted-content handling","state":"OPEN","observed":"Course strings are not yet carried in a harness-enforced untrusted-data envelope."},
+    {"issue_id":"FW-P0-006","severity":"P0","category":"evidence mutability","state":"VERIFIED","observed":"Legacy init deleted an existing run directory; repaired to fail on any reused run ID."}
+  ],
+  "red_evidence": [
+    "python3.12 -m unittest tests.adversarial.test_curriculum_agent_firewall -v => 1 failure, 1 error",
+    "Existing attempt was deleted and recreated; canonical_packet_sha was absent"
+  ],
+  "green_evidence": [
+    "python3.12 -m unittest tests.adversarial.test_curriculum_agent_firewall tests.adversarial.test_newbie_packet tests.adversarial.test_agentic_hardened_gates -v => 14 passed",
+    "node scripts/preservation_sentinel.mjs => OK, zero unauthorized deletions"
+  ],
+  "gate": "FAIL_CLOSED",
+  "blocker": "Available learner model/subagent runtimes retain filesystem read access beyond the staged packet; no API-only no-tools learner execution capability is available to this harness."
+}

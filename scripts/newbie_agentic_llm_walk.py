@@ -61,10 +61,10 @@ def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
         )
     root = attempt_dir(attempt)
     if root.exists():
-        import shutil
-
-        shutil.rmtree(root)
-    root.mkdir(parents=True)
+        raise FileExistsError(
+            f"sealed learner evidence already exists at {root}; use a fresh attempt id"
+        )
+    root.mkdir(parents=True, exist_ok=False)
     (root / "fixes").mkdir()
     meta = {
         "attempt_id": attempt,
